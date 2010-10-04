@@ -156,10 +156,6 @@ namespace AcFunDowner
 		 #endregion
 		 
 		 /// <summary>
-		 /// Bing AppID
-		 /// </summary>
-		 //public const string APP_ID = "D22B69522DD2D748A06D4FC40E6B8DFF6FC20C5B";
-		 /// <summary>
 		 /// 委托的包装
 		 /// </summary>
 		 private DelegateContainer deles;

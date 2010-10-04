@@ -75,86 +75,86 @@
     <Compile Include="AcFunSettings.cs" />
     <Compile Include="DwmApi.cs" />
     <Compile Include="festival.cs" />
-    <Compile Include="FormAbout.cs">
+    <Compile Include="UI\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAbout.Designer.cs">
+    <Compile Include="UI\FormAbout.Designer.cs">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormConfig.cs">
+    <Compile Include="UI\FormConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormConfig.Designer.cs">
+    <Compile Include="UI\FormConfig.Designer.cs">
       <DependentUpon>FormConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Include="UI\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Include="UI\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormNew.cs">
+    <Compile Include="UI\FormNew.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormNew.Designer.cs">
+    <Compile Include="UI\FormNew.Designer.cs">
       <DependentUpon>FormNew.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSettings.cs">
+    <Compile Include="UI\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSettings.Designer.cs">
+    <Compile Include="UI\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormShutdown.cs">
+    <Compile Include="UI\FormShutdown.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormShutdown.Designer.cs">
+    <Compile Include="UI\FormShutdown.Designer.cs">
       <DependentUpon>FormShutdown.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSubConverter.cs">
+    <Compile Include="UI\FormSubConverter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSubConverter.Designer.cs">
+    <Compile Include="UI\FormSubConverter.Designer.cs">
       <DependentUpon>FormSubConverter.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormXml.cs">
+    <Compile Include="UI\FormXml.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormXml.Designer.cs">
+    <Compile Include="UI\FormXml.Designer.cs">
       <DependentUpon>FormXml.cs</DependentUpon>
     </Compile>
-    <Compile Include="IParser.cs" />
+    <Compile Include="Interface\IDownloader.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormAbout.resx">
+    <EmbeddedResource Include="UI\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormConfig.resx">
+    <EmbeddedResource Include="UI\FormConfig.resx">
       <DependentUpon>FormConfig.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Include="UI\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormNew.resx">
+    <EmbeddedResource Include="UI\FormNew.resx">
       <DependentUpon>FormNew.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSettings.resx">
+    <EmbeddedResource Include="UI\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormShutdown.resx">
+    <EmbeddedResource Include="UI\FormShutdown.resx">
       <DependentUpon>FormShutdown.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSubConverter.resx">
+    <EmbeddedResource Include="UI\FormSubConverter.resx">
       <DependentUpon>FormSubConverter.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormXml.resx">
+    <EmbeddedResource Include="UI\FormXml.resx">
       <DependentUpon>FormXml.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
