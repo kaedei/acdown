@@ -50,9 +50,9 @@ namespace AcFunDownerLibrary
 		  public Guid TaskId { set; get; }
 		  public bool Bili; //是否为BiliBili视频
 
-		  public AcDowner(DelegateContainer delegates,string url,string partName,Guid taskId)
+		  public AcDowner(DelegateContainer delegateContainer,string url,string partName,Guid taskId)
 		  {
-			  delegates = delegates;
+			  delegates = delegateContainer;
 			  PartName = partName;
 			  TaskId = taskId;
 			  Url = url;
