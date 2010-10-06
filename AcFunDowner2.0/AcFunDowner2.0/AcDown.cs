@@ -3,10 +3,6 @@
  * class AcDowner：
  * 分析/下载AcFun视频/弹幕的类
  * 
- * class DelegateContainer:
- * 包装主程序委托的类
- * 
- * 最后更新：2010-9-28
  * 
  * Copyright 2010 Kaedei Software
 
@@ -36,11 +32,11 @@ using Kaedei.AcFunDowner;
 using System.Text;
 using System.Threading;
 using System.IO.Compression;
-using Kaedei.Lavola;
+using Kaedei.AcDown.Interface;
 
 namespace AcFunDownerLibrary
 {
-	 public class AcDowner : Kaedei.Lavola.IDownloader
+	 public class AcDowner : IDownloader
 	 {
 		  /// <summary>
 		  /// 委托
@@ -74,7 +70,7 @@ namespace AcFunDownerLibrary
 		 /// <summary>
 		 /// 视频文件路径
 		 /// </summary>
-		  public string FilePathString { get; set; }
+		  public string FilePath { get; set; }
 		 /// <summary>
 		 /// 字幕文件路径
 		 /// </summary>
@@ -103,7 +99,7 @@ namespace AcFunDownerLibrary
 		 /// <summary>
 		 /// 停止下载
 		 /// </summary>
-		  public void StopDownload()
+		  public void StopDownloadVideo()
 		  {
 			  this.Status = DownloadStatus.已经停止;
 		  }
@@ -258,12 +254,12 @@ namespace AcFunDownerLibrary
 				using (st = myrp.GetResponseStream())
 				{
 					//文件保存路径
-					FilePathString = Path.Combine(
+					FilePath = Path.Combine(
 												 Config.setting.SavePath,
 												 fileName + ((fileName.EndsWith(".flv", StringComparison.CurrentCultureIgnoreCase) || fileName.EndsWith(".mp4", StringComparison.CurrentCultureIgnoreCase)) ? "" : ".flv"));
 
 					//打开文件流
-					using (fs = new FileStream(FilePathString, FileMode.Create, FileAccess.Write, FileShare.Read, 8))
+					using (fs = new FileStream(FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8))
 					{
 						//使用缓冲流
 						using (bs = new BufferedStream(fs, Config.setting.CacheSize * 1024))
@@ -283,7 +279,7 @@ namespace AcFunDownerLibrary
 									fs.Close();
 									//删除文件
 									if (!Config.setting.SaveWhenAbort)
-										System.IO.File.Delete(FilePathString);
+										System.IO.File.Delete(FilePath);
 									return false;
 								}
 								#endregion
