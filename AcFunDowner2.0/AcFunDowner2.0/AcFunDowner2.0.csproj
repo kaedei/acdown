@@ -72,9 +72,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcDown.cs" />
-    <Compile Include="AcFunSettings.cs" />
-    <Compile Include="DwmApi.cs" />
-    <Compile Include="festival.cs" />
+    <Compile Include="Component\AcFunSettings.cs" />
+    <Compile Include="Downloader\Acfun.cs" />
+    <Compile Include="Downloader\Bilibili.cs" />
+    <Compile Include="Component\DwmApi.cs" />
+    <Compile Include="Component\festival.cs" />
+    <Compile Include="Interface\GlobalSettings.cs" />
+    <Compile Include="Interface\IAcdownPluginInfo.cs" />
+    <Compile Include="Interface\Network.cs" />
     <Compile Include="UI\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,7 +129,7 @@
       <DependentUpon>FormXml.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface\IDownloader.cs" />
-    <Compile Include="Logging.cs" />
+    <Compile Include="Component\Logging.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UI\FormAbout.resx">
@@ -168,7 +173,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -178,9 +182,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Shutdown.cs" />
-    <Compile Include="SinaVideo.cs" />
-    <Compile Include="TaskManager.cs" />
+    <Compile Include="Component\Shutdown.cs" />
+    <Compile Include="Data\SinaVideo.cs" />
+    <Compile Include="Component\TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ac.ico" />
@@ -232,6 +236,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

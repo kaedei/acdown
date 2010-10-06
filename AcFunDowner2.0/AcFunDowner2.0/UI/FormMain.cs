@@ -8,7 +8,7 @@ using Kaedei.AcFunDowner;
 using Kaedei.AcFunDowner.Properties;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Kaedei.Lavola;
+using Kaedei.AcDown;
 
 
 namespace AcFunDowner
@@ -508,8 +508,8 @@ namespace AcFunDowner
 			  if (item != null)
 			  {
 				  AcDowner ac = GetTask(new Guid((string)item.Tag));
-				  if (!string.IsNullOrEmpty(ac.FilePathString))
-					  Process.Start(Path.GetDirectoryName(ac.FilePathString));
+				  if (!string.IsNullOrEmpty(ac.FilePath))
+					  Process.Start(Path.GetDirectoryName(ac.FilePath));
 				  else
 					  Process.Start(Config.setting.SavePath);
 			  }
@@ -682,7 +682,7 @@ namespace AcFunDowner
 					  case DownloadStatus.下载完成:
 						  try
 						  {
-							  Process.Start(ac.FilePathString);
+							  Process.Start(ac.FilePath);
 						  }
 						  catch
 						  {
@@ -1125,11 +1125,11 @@ namespace AcFunDowner
 				item.SubItems[4].Text = ""; //下载速度
 
 				//如果文件大小为0则删除文件
-				if (File.Exists(ac.FilePathString))
+				if (File.Exists(ac.FilePath))
 				{
-					FileInfo fi = new FileInfo(ac.FilePathString);
+					FileInfo fi = new FileInfo(ac.FilePath);
 					if (fi.Length == 0)
-						File.Delete(ac.FilePathString);
+						File.Delete(ac.FilePath);
 				}
 			}
 			taskmanager.ContinueNext();
@@ -1180,7 +1180,7 @@ namespace AcFunDowner
 					Guid g = new Guid((string)item.Tag);
 					AcDowner ac = GetTask(g);
 					//停止任务
-					ac.StopDownload();
+					ac.StopDownloadVideo();
 					//等待退出
 					while (ac.Status != DownloadStatus.已经停止)
 						Application.DoEvents();
@@ -1192,8 +1192,8 @@ namespace AcFunDowner
 						if (deleteFile)
 						{
 							//删除视频文件
-							if (File.Exists(ac.FilePathString))
-								File.Delete(ac.FilePathString);
+							if (File.Exists(ac.FilePath))
+								File.Delete(ac.FilePath);
 							//删除字幕文件
 							if (File.Exists(ac.SubfilePathString))
 								File.Delete(ac.SubfilePathString);

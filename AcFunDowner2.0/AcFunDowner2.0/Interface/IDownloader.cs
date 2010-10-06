@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Kaedei.Lavola
+namespace Kaedei.AcDown.Interface
 {
 
 	#region 委托参数
-	public delegate void LvlTaskDelegate(object para);
+	public delegate void AcTaskDelegate(object para);
 	public class ParaStart
 	{
 		public ParaStart(Guid task) { TaskId = task; }
@@ -50,12 +50,12 @@ namespace Kaedei.Lavola
 	public class DelegateContainer
 	{
 		public DelegateContainer() { }
-		public DelegateContainer(LvlTaskDelegate startDele,
-							 LvlTaskDelegate newPartDele,
-							 LvlTaskDelegate tipProcessDele,
-							 LvlTaskDelegate tipTextDele,
-							 LvlTaskDelegate finishDele,
-							 LvlTaskDelegate errorDele)
+		public DelegateContainer(AcTaskDelegate startDele,
+							 AcTaskDelegate newPartDele,
+							 AcTaskDelegate tipProcessDele,
+							 AcTaskDelegate tipTextDele,
+							 AcTaskDelegate finishDele,
+							 AcTaskDelegate errorDele)
 		{
 			Start += startDele;
 			NewPart += newPartDele;
@@ -64,14 +64,17 @@ namespace Kaedei.Lavola
 			Finish += finishDele;
 			Error += errorDele;
 		}
-		public LvlTaskDelegate Start { get; set; }
-		public LvlTaskDelegate NewPart { get; set; }
-		public LvlTaskDelegate TipProcess { get; set; }
-		public LvlTaskDelegate TipText { get; set; }
-		public LvlTaskDelegate Finish { get; set; }
-		public LvlTaskDelegate Error { get; set; }
+		public AcTaskDelegate Start { get; set; }
+		public AcTaskDelegate NewPart { get; set; }
+		public AcTaskDelegate TipProcess { get; set; }
+		public AcTaskDelegate TipText { get; set; }
+		public AcTaskDelegate Finish { get; set; }
+		public AcTaskDelegate Error { get; set; }
 	}
 
+	/// <summary>
+	/// 下载状态
+	/// </summary>
 	public enum DownloadStatus
 	{
 		等待开始 = 0,
@@ -82,37 +85,41 @@ namespace Kaedei.Lavola
 		//正在停止=5
 	}
 
-	interface IDownloader
+	/// <summary>
+	/// 下载适配器接口
+	/// </summary>
+	public interface IDownloader
 	{
-		DelegateContainer delegates { get; set; }
-		long DoneBytes { get; set; }
-		bool DownloadSub(string id, string title);
-		string FilePathString { get; set; }
-		string GetVideoId(string source);
-		video GetVideoInfo(string videoId);
-		string GetVideoTitle(string source);
-		video Info { get; set; }
-		long LastBytes { get; set; }
-		int PartCount { get; }
-		string PartName { get; set; }
-		void Run();
-		DownloadStatus Status { get; set; }
-		void StopDownload();
-		string SubfilePathString { get; set; }
 		Guid TaskId { get; set; }
-		long TotalBytes { get; set; }
-		string Url { get; set; }
-		string VideoTitle { get; }
+		DelegateContainer delegates{ get; set; }
+
+		long TotalLength{ get; }
+		long DoneBytes{ get; }
+		int LastTick { get; }
+		int PartCount { get; }
+
+		string Url{ get; set; }
+		string FilePath{ get; set; }
+
+		bool CheckUrl(string url);
+		void DownloadVideo();
+		bool DownloadSub();
+		void StopDownloadVideo();
+
+		Video Info{ get; set; }
+		DownloadStatus Status{ get; set; }
+		string VideoTitle{ get; set; }
 	}
 
 	[Serializable]
-	public abstract class video
+	public class Video
 	{
-		
+		[XmlIgnore()]
+		public string Identify;
 	}
 
 	[Serializable]
-	public class part
+	public class Part
 	{
 		public Int32 order = 0;
 		public Int32 length = 0;
