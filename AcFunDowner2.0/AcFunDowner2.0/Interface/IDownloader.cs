@@ -118,11 +118,5 @@ namespace Kaedei.AcDown.Interface
 		public string Identify;
 	}
 
-	[Serializable]
-	public class Part
-	{
-		public Int32 order = 0;
-		public Int32 length = 0;
-		public string url = "";
-	}
+
 }

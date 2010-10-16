@@ -6,9 +6,9 @@ namespace Kaedei.AcFunDowner.Interface
 {
 	interface IAcdownPluginInfo
 	{
-		public string Name;
-		public string Author;
-		public Version Version;
-		public string Describe;
+		public string Name{get;set;}
+		public string Author { get; set; }
+		public Version Version { get; set; }
+		public string Describe { get; set; }
 	}
 }

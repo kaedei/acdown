@@ -29,6 +29,7 @@ using System.Collections.ObjectModel;
 using AcFunDowner;
 using AcFunDownerLibrary;
 using Kaedei.AcDown;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcFunDowner
 {

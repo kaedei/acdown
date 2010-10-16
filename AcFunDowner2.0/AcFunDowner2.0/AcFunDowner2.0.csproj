@@ -80,6 +80,8 @@
     <Compile Include="Interface\GlobalSettings.cs" />
     <Compile Include="Interface\IAcdownPluginInfo.cs" />
     <Compile Include="Interface\Network.cs" />
+    <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\SinaVideoParser.cs" />
     <Compile Include="UI\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,7 +185,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Component\Shutdown.cs" />
-    <Compile Include="Data\SinaVideo.cs" />
     <Compile Include="Component\TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>

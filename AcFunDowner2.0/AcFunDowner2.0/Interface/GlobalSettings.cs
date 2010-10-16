@@ -22,16 +22,16 @@ namespace Kaedei.AcFunDowner.Interface
 		/// <summary>
 		/// 缓存
 		/// </summary>
-		public int CacheSizeMb;
+		public static int CacheSizeMb;
 
 		/// <summary>
 		/// 中止时保存已经下载的部分
 		/// </summary>
-		public bool SaveFileWhenAbort;
+		public static bool SaveFileWhenAbort;
 
 		/// <summary>
 		/// 速度限制
 		/// </summary>
-		public int SpeedLimit;
+		public static int SpeedLimit;
 	}
 }
