@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Net;
 
-namespace Kaedei.AcFunDowner.Parser
+namespace Kaedei.AcDown.Parser
 {
 	/// <summary>
 	/// 新浪视频分析器

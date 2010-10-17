@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using Kaedei.AcFunDowner.Properties;
+using Kaedei.AcDown.Properties;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
     public partial class FormConfig : Form
     {
@@ -114,7 +114,7 @@ namespace Kaedei.AcFunDowner
 			  System.Diagnostics.Process.Start("notepad.exe",
 				  System.IO.Path.Combine(
 				  Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				  @"Kaedei\AcFunDowner\config.xml"));
+				  @"Kaedei\AcDown\config.xml"));
 			  //System.Diagnostics.Process.Start(@"http://blog.sina.com.cn/s/blog_58c506600100h7p9.html");
 		  }
 

@@ -5,7 +5,7 @@ using System.Net;
 using System.IO;
 using System.Threading;
 using System.IO.Compression;
-using Kaedei.AcFunDowner.Interface;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Interface
 {

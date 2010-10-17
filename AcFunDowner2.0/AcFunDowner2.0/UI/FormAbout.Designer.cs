@@ -1,4 +1,4 @@
-﻿namespace Kaedei.AcFunDowner
+﻿namespace Kaedei.AcDown
 {
     partial class FormAbout
     {
@@ -53,7 +53,7 @@
 			  // pictureBox1
 			  // 
 			  this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			  this.pictureBox1.Image = global::Kaedei.AcFunDowner.Properties.Resources.Logo;
+			  this.pictureBox1.Image = global::Kaedei.AcDown.Properties.Resources.Logo;
 			  this.pictureBox1.Location = new System.Drawing.Point(180, 11);
 			  this.pictureBox1.Name = "pictureBox1";
 			  this.pictureBox1.Size = new System.Drawing.Size(250, 53);
@@ -115,7 +115,7 @@
 			  this.ShowIcon = false;
 			  this.ShowInTaskbar = false;
 			  this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			  this.Text = "关于AcFun视频下载器";
+			  this.Text = "关于AcDown动漫下载器";
 			  this.Load += new System.EventHandler(this.FormAbout_Load);
 			  ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			  this.ResumeLayout(false);

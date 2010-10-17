@@ -1,4 +1,4 @@
-﻿namespace AcFunDowner
+﻿namespace AcDown
 {
     partial class FormMain
     {
@@ -146,7 +146,7 @@
 			  // picLogo
 			  // 
 			  this.picLogo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			  this.picLogo.Image = global::Kaedei.AcFunDowner.Properties.Resources.Logo;
+			  this.picLogo.Image = global::Kaedei.AcDown.Properties.Resources.Logo;
 			  this.picLogo.Location = new System.Drawing.Point(185, 30);
 			  this.picLogo.Name = "picLogo";
 			  this.picLogo.Size = new System.Drawing.Size(250, 53);
@@ -188,7 +188,7 @@
             this.toolReportBug,
             this.toolDesign,
             this.toolReportUrl});
-			  this.toolStripDropDownButton1.Image = global::Kaedei.AcFunDowner.Properties.Resources._1;
+			  this.toolStripDropDownButton1.Image = global::Kaedei.AcDown.Properties.Resources._1;
 			  this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			  this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
 			  this.toolStripDropDownButton1.Size = new System.Drawing.Size(109, 21);
@@ -266,7 +266,7 @@
 			  // 
 			  // btnNew
 			  // 
-			  this.btnNew.Image = global::Kaedei.AcFunDowner.Properties.Resources.Add;
+			  this.btnNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
 			  this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
 			  this.btnNew.Name = "btnNew";
 			  this.btnNew.Size = new System.Drawing.Size(74, 24);
@@ -276,7 +276,7 @@
 			  // 
 			  // btnConfig
 			  // 
-			  this.btnConfig.Image = global::Kaedei.AcFunDowner.Properties.Resources.Settings;
+			  this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
 			  this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
 			  this.btnConfig.Name = "btnConfig";
 			  this.btnConfig.Size = new System.Drawing.Size(71, 24);
@@ -286,12 +286,12 @@
 			  // 
 			  // btnAbout
 			  // 
-			  this.btnAbout.Image = global::Kaedei.AcFunDowner.Properties.Resources.About;
+			  this.btnAbout.Image = global::Kaedei.AcDown.Properties.Resources.About;
 			  this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
 			  this.btnAbout.Name = "btnAbout";
 			  this.btnAbout.Size = new System.Drawing.Size(72, 24);
 			  this.btnAbout.Text = "关于(&A)";
-			  this.btnAbout.ToolTipText = "关于AcFun视频下载器";
+			  this.btnAbout.ToolTipText = "关于AcDown动漫下载器";
 			  this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
 			  // 
 			  // btnSearch
@@ -304,7 +304,7 @@
             this.searchBing,
             this.searchBaidu,
             this.searchCustom});
-			  this.btnSearch.Image = global::Kaedei.AcFunDowner.Properties.Resources.bing;
+			  this.btnSearch.Image = global::Kaedei.AcDown.Properties.Resources.bing;
 			  this.btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
 			  this.btnSearch.Name = "btnSearch";
 			  this.btnSearch.Size = new System.Drawing.Size(36, 24);
@@ -373,7 +373,7 @@
 			  // 
 			  // notifyIcon
 			  // 
-			  this.notifyIcon.Text = "AcFun视频下载器 v2.0";
+			  this.notifyIcon.Text = "AcDown动漫下载器 v2.0";
 			  this.notifyIcon.Visible = true;
 			  this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
 			  // 
@@ -409,7 +409,7 @@
 			  this.mnuConCancel.Enabled = false;
 			  this.mnuConCancel.Name = "mnuConCancel";
 			  this.mnuConCancel.Size = new System.Drawing.Size(184, 22);
-			  this.mnuConCancel.Text = "AcFun视频下载器";
+			  this.mnuConCancel.Text = "AcDown动漫下载器";
 			  // 
 			  // toolStripMenuItem2
 			  // 
@@ -570,7 +570,7 @@
 			  this.MinimumSize = new System.Drawing.Size(410, 425);
 			  this.Name = "FormMain";
 			  this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			  this.Text = "AcFun视频下载器 v2.0";
+			  this.Text = "AcDown动漫下载器 v2.0";
 			  this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
 			  this.Load += new System.EventHandler(this.FormMain_Load);
 			  this.Resize += new System.EventHandler(this.FormMain_Resize);

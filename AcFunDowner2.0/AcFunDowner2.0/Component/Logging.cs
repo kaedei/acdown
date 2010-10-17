@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
 	 public static class Logging 
 	 {
@@ -43,7 +43,7 @@ namespace Kaedei.AcFunDowner
 			  //日志文件路径
 				string path=Path.Combine(
 					 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-					 @"Kaedei\AcFunDowner\Log\");
+					 @"Kaedei\AcDown\Log\");
 				if (!Directory.Exists(path))
 					 Directory.CreateDirectory(path);
 				string t=string.Concat(time.Year.ToString(),time.Month.ToString(),time.Day.ToString(),
@@ -51,7 +51,7 @@ namespace Kaedei.AcFunDowner
 				path=Path.Combine(path,t);
 				LogFilePath = path;
 				writer = new StreamWriter (path ,true );
-				writer.WriteLine("AcFun视频下载器日志文件，生成于：");
+				writer.WriteLine("AcDown动漫下载器日志文件，生成于：");
 				writer.WriteLine (time.ToString());
 				writer.Flush();
 			}

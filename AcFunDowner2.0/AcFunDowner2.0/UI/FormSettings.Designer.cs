@@ -1,4 +1,4 @@
-﻿namespace Kaedei.AcFunDowner
+﻿namespace Kaedei.AcDown
 {
 	partial class FormSettings
 	{
@@ -39,7 +39,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(263, 36);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "注意:\r\n更改设置前请先关闭下载器\r\n所有设置都会在重启“Acfun视频下载器”后生效";
+			this.label1.Text = "注意:\r\n更改设置前请先关闭下载器\r\n所有设置都会在重启“AcDown动漫下载器”后生效";
 			// 
 			// FormSettings
 			// 

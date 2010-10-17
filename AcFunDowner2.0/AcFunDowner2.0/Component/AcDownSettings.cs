@@ -1,37 +1,17 @@
 ﻿/* AcFunSettings.cs
  * 
  * class AcFunSettings:
- * 定义AcFunDowner程序设置的类
+ * 定义AcDown程序设置的类
  * 
  * class Config:
- * 设置/保存AcFunDowner程序设置的静态类
- * 
- * Copyright 2010 Kaedei Software
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-		 http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
- * 
- * http://blog.sina.com.cn/kaedei
- * mailto:kaedei@foxmail.com
- * 
+ * 设置/保存AcDown程序设置的静态类
  */
-
-
 
 using System;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
 	 [Serializable]
 	 public class AcFunSettings
@@ -76,7 +56,7 @@ namespace Kaedei.AcFunDowner
 			  
 					 //取得APPDATA路径名称
 					 string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-					 path = Path.Combine(path, @"Kaedei\AcFunDowner\");
+					 path = Path.Combine(path, @"Kaedei\AcDown\");
 
 					 if (!Directory.Exists(path))
 					 {
@@ -103,7 +83,7 @@ namespace Kaedei.AcFunDowner
 				{
 					 AcFunSettings s;
 					 string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-					 path = Path.Combine(path, @"Kaedei\AcFunDowner\config.xml");
+					 path = Path.Combine(path, @"Kaedei\AcDown\config.xml");
 					 using (FileStream fs = new FileStream(path, FileMode.Open))
 					 {
 						  XmlSerializer formatter = new XmlSerializer(typeof(AcFunSettings));

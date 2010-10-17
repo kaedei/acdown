@@ -26,12 +26,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
-using AcFunDowner;
-using AcFunDownerLibrary;
+using AcDown;
+using AcDownLibrary;
 using Kaedei.AcDown;
 using Kaedei.AcDown.Interface;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
 	
 	public delegate void RefreshTaskListDelegate(AcDowner downer);

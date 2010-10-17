@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kaedei.AcFunDowner.Interface
+namespace Kaedei.AcDown.Interface
 {
 	/// <summary>
 	/// 提供给插件的全局设置
 	/// </summary>
-	public static class GlobalSettings
+	public class GlobalSettings
 	{
 		private static GlobalSettings _settings;
 		/// <summary>
@@ -22,16 +22,16 @@ namespace Kaedei.AcFunDowner.Interface
 		/// <summary>
 		/// 缓存
 		/// </summary>
-		public static int CacheSizeMb;
+		public int CacheSizeMb;
 
 		/// <summary>
 		/// 中止时保存已经下载的部分
 		/// </summary>
-		public static bool SaveFileWhenAbort;
+		public bool SaveFileWhenAbort;
 
 		/// <summary>
 		/// 速度限制
 		/// </summary>
-		public static int SpeedLimit;
+		public int SpeedLimit;
 	}
 }
