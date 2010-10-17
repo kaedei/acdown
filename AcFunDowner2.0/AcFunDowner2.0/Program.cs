@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace AcFunDowner
+namespace AcDown
 {
     static class Program
     {

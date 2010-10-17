@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Kaedei.AcDown.Interface;
 
-namespace Kaedei.AcFunDowner.Interface
+namespace Kaedei.AcDown.Interface
 {
 	interface IAcdownPluginInfo
 	{
-		public string Name{get;set;}
-		public string Author { get; set; }
-		public Version Version { get; set; }
-		public string Describe { get; set; }
+		string Name{get;set;}
+		string Author { get; set; }
+		Version Version { get; set; }
+		string Describe { get; set; }
+		string SupportUrl { get; set; }
+		IDownloader CreateDownloader(); 
 	}
 }

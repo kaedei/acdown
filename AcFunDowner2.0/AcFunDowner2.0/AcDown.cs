@@ -28,13 +28,13 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
-using Kaedei.AcFunDowner;
+using Kaedei.AcDown;
 using System.Text;
 using System.Threading;
 using System.IO.Compression;
 using Kaedei.AcDown.Interface;
 
-namespace AcFunDownerLibrary
+namespace AcDownLibrary
 {
 	 public class AcDowner : IDownloader
 	 {

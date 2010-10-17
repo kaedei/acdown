@@ -5,13 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Kaedei.AcFunDowner;
-using AcFunDownerLibrary;
+using Kaedei.AcDown;
+using AcDownLibrary;
 using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
 	public partial class FormXml : Form
 	{

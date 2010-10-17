@@ -1,4 +1,4 @@
-﻿namespace Kaedei.AcFunDowner
+﻿namespace Kaedei.AcDown
 {
     partial class FormNew
     {
@@ -78,7 +78,7 @@
 			  // 
 			  // pictureBox1
 			  // 
-			  this.pictureBox1.Image = global::Kaedei.AcFunDowner.Properties.Resources.Logo;
+			  this.pictureBox1.Image = global::Kaedei.AcDown.Properties.Resources.Logo;
 			  this.pictureBox1.Location = new System.Drawing.Point(207, 12);
 			  this.pictureBox1.Name = "pictureBox1";
 			  this.pictureBox1.Size = new System.Drawing.Size(250, 53);
@@ -113,7 +113,7 @@
 			  // 
 			  // picCheck
 			  // 
-			  this.picCheck.Image = global::Kaedei.AcFunDowner.Properties.Resources._1;
+			  this.picCheck.Image = global::Kaedei.AcDown.Properties.Resources._1;
 			  this.picCheck.Location = new System.Drawing.Point(116, 69);
 			  this.picCheck.Name = "picCheck";
 			  this.picCheck.Size = new System.Drawing.Size(19, 19);

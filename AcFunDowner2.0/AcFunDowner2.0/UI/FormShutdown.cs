@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
 	public partial class FormShutdown : Form
 	{

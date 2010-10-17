@@ -3,15 +3,16 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using AcFunDownerLibrary;
-using Kaedei.AcFunDowner;
-using Kaedei.AcFunDowner.Properties;
+using AcDownLibrary;
+using Kaedei.AcDown;
+using Kaedei.AcDown.Properties;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Kaedei.AcDown;
+using Kaedei.AcDown.Interface;
 
 
-namespace AcFunDowner
+namespace AcDown
 {
 
 	 public partial class FormMain : Form
@@ -190,7 +191,7 @@ namespace AcFunDowner
 					notifyIcon.Dispose();
 				}
 				//新建Container
-				deles = new AcFunDownerLibrary.DelegateContainer(
+				deles = new AcDownLibrary.DelegateContainer(
 					 new AcTaskDelegate(Start),
 					 new AcTaskDelegate(NewPart),
 					 new AcTaskDelegate(TipProcess),
@@ -434,7 +435,7 @@ namespace AcFunDowner
 			  Int32 c = taskmanager.GetRunningCount();
 			  if (c > 0)
 			  {
-				  DialogResult r = MessageBox.Show("有" + c.ToString() + "个任务正在运行，是否退出？", "AcFun视频下载器", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+				  DialogResult r = MessageBox.Show("有" + c.ToString() + "个任务正在运行，是否退出？", "AcDown动漫下载器", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 				  if (r == DialogResult.Yes) //确认关闭
 				  {
 					  this.Cursor = Cursors.WaitCursor;

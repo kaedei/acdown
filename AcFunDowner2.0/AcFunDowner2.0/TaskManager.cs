@@ -3,8 +3,6 @@
  * class TaskManager:
  * 管理任务的类
  * 
- * 最后更新：2010-1-10
- * 
  * Copyright 2010 Kaedei Software
 
 	Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,11 +26,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
-using AcFunDowner;
-using AcFunDownerLibrary;
-using Kaedei.Lavola;
+using AcDown;
+using AcDownLibrary;
+using Kaedei.AcDown;
+using Kaedei.AcDown.Interface;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
 	
 	public delegate void RefreshTaskListDelegate(AcDowner downer);

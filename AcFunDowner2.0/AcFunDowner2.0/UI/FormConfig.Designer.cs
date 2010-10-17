@@ -1,4 +1,4 @@
-﻿namespace Kaedei.AcFunDowner
+﻿namespace Kaedei.AcDown
 {
     partial class FormConfig
     {
@@ -348,7 +348,7 @@
 			  this.MaximizeBox = false;
 			  this.Name = "FormConfig";
 			  this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			  this.Text = "AcFun视频下载器 设置";
+			  this.Text = "AcDown动漫下载器 设置";
 			  this.Load += new System.EventHandler(this.FormConfig_Load);
 			  this.groupBox1.ResumeLayout(false);
 			  this.groupBox1.PerformLayout();

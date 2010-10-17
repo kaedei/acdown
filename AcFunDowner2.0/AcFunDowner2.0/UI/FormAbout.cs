@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
     partial class FormAbout : Form
     {
@@ -28,7 +28,7 @@ namespace Kaedei.AcFunDowner
 
 		  private void lblVersion_DoubleClick(object sender, EventArgs e)
 		  {
-			  pictureBox1.Image = AcFunDowner.Properties.Resources.ICONICON_1;
+			  pictureBox1.Image = AcDown.Properties.Resources.ICONICON_1;
 		  }
 
     }

@@ -7,10 +7,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Kaedei;
-using Kaedei.AcFunDowner;
-using AcFunDownerLibrary;
+using Kaedei.AcDown;
+using AcDownLibrary;
 
-namespace Kaedei.AcFunDowner
+namespace Kaedei.AcDown
 {
     public partial class FormNew : Form
     {
@@ -29,7 +29,7 @@ namespace Kaedei.AcFunDowner
        public FormNew()
        {
           InitializeComponent();
-			 this.Icon = Kaedei.AcFunDowner.Properties.Resources.ac;
+			 this.Icon = Kaedei.AcDown.Properties.Resources.ac;
        }
 
 		 private void FormNew_Load(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace Kaedei.AcFunDowner
 				 if (txtInput.Text.Length != 0)
 				 {
 					 picCheck.Visible = true;
-					 if (AcFunDownerLibrary.AcDowner.CheckUrl(txtInput.Text))
+					 if (AcDownLibrary.AcDowner.CheckUrl(txtInput.Text))
 						 picCheck.Image = Properties.Resources._1;
 					 else
 						 picCheck.Image = Properties.Resources._2;
