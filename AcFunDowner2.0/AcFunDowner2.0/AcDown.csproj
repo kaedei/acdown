@@ -72,26 +72,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcDown.cs" />
-    <Compile Include="AcFunSettings.cs" />
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Downloader\Acfun.cs" />
     <Compile Include="Downloader\Bilibili.cs" />
     <Compile Include="Component\DwmApi.cs" />
     <Compile Include="Component\festival.cs" />
-    <Compile Include="DwmApi.cs" />
-    <Compile Include="festival.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
     <Compile Include="Interface\IAcdownPluginInfo.cs" />
     <Compile Include="Interface\Network.cs" />
-    <Compile Include="Logging.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Parser\QQVideoParser.cs" />
     <Compile Include="Parser\SinaVideoParser.cs" />
     <Compile Include="Parser\TudouParser.cs" />
     <Compile Include="Parser\YoukuParser.cs" />
-    <Compile Include="Shutdown.cs" />
-    <Compile Include="SinaVideo.cs" />
-    <Compile Include="TaskManager.cs" />
     <Compile Include="UI\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
