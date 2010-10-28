@@ -3,110 +3,102 @@
  * class TaskManager:
  * 管理任务的类
  * 
- * Copyright 2010 Kaedei Software
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-		 http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
- * 
- * http://blog.sina.com.cn/kaedei
- * mailto:kaedei@foxmail.com
- * 
  */
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
-using AcDown;
-using AcDownLibrary;
 using Kaedei.AcDown;
 using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown
 {
 	
-	public delegate void RefreshTaskListDelegate(AcDowner downer);
 	/// <summary>
 	/// 任务管理
 	/// </summary>
 	public class TaskManager
 	{
 		/// <summary>
-		/// 实例TaskManager的引用
+		/// 新建TaskManager类的实例
 		/// </summary>
-		public static TaskManager ObjectReference { get; set; }
-		public Collection<AcDowner> Tasks { get; set; }
-		public Int32 LimitedSpeed { get; set; }
-
-		private DelegateContainer delegates;
-		private RefreshTaskListDelegate refresh;
-		public TaskManager(DelegateContainer delegatesCon,RefreshTaskListDelegate refreshDele)
+		/// <param name="delegatesCon"></param>
+		public TaskManager(DelegateContainer delegatesCon)
 		{
-			delegates = delegatesCon ;
-			refresh = refreshDele;
-			Tasks=new Collection<AcDowner>();
-		}//end TaskManager
+			delegates = delegatesCon;
+		}
+
+		//任务
+		public Collection<IDownloader> Tasks = new Collection<IDownloader>();
+
+		//全局速度限制
+		private int _speedLimitGlobal = 0;
+		public int SpeedLimitGlobal
+		{
+			get 
+			{ 
+				return _speedLimitGlobal; 
+			}
+			set
+			{
+				_speedLimitGlobal = value;
+				GlobalSettings.GetSettings().SpeedLimit = value / Tasks.Count;
+			}
+		}
+
+		//委托
+		private DelegateContainer delegates;
 
 		/// <summary>
 		/// 添加任务
 		/// </summary>
-		/// <param name="url"></param>
-		public void AddTask(string url,bool immediate)
+		public void AddTask(string url, IDownloader downloader)
 		{
-			AcDowner acd = null ;
-			if (Config.setting.AutoDownAllSection)
+			//设置下载器
+			downloader.delegates = delegates;
+			downloader.Url = url;
+			downloader.FolderPath = Config.setting.SavePath;
+			downloader.Status = DownloadStatus.等待开始;
+			downloader.TaskId = Guid.NewGuid();
+			//如果队列未满则开始下载
+			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 			{
-				//添加多段任务
-				Dictionary<string, string> dict = AcDowner.GetVideoSections(url);
-				if (dict.Count != 0)
-				{
-					foreach (string i in dict.Keys)
-					{
-						acd = new AcDowner(delegates, i, dict[i], Guid.NewGuid());
-						Tasks.Add(acd);
-						if (refresh != null)
-							refresh.Invoke(acd);
-					}
-				}
-				else
-				{
-					//取得当前URL的标题(和下面一段代码是一样的)
-					string sectionTitle = AcDowner.GetVideoSectionName(url);
-					acd = new AcDowner(delegates, url, sectionTitle, Guid.NewGuid());
-					Tasks.Add(acd);
-					if (refresh != null)
-						refresh.Invoke(acd);
-				}
+				downloader.DownloadVideo();	
 			}
-			else //如果不添加多段任务
-			{
-				//取得当前URL的标题
-				string sectionTitle = AcDowner.GetVideoSectionName(url);
-				acd = new AcDowner(delegates, url, sectionTitle, Guid.NewGuid());
-				Tasks.Add(acd);
-				if (refresh != null)
-					refresh.Invoke(acd);
-			}
-			//开始所有可能开始的任务
-			if (immediate)
-				ContinueNext();
-		}//end AddTask
+			//提示UI刷新信息
+			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
+		}
+
+		/// <summary>
+		/// 停止任务
+		/// </summary>
+		/// <param name="downloader"></param>
+		public void StopTask(IDownloader downloader)
+		{
+
+
+		}
+
+		/// <summary>
+		/// 删除任务(自动终止未停止的任务)
+		/// </summary>
+		/// <param name="downloader"></param>
+		public void DeleteTask(IDownloader downloader)
+		{
+
+
+		}
+
+
+		#region 参考
 
 		/// <summary>
 		/// 删除任务
 		/// </summary>
 		/// <param name="task">需要删除的任务</param>
 		/// <returns></returns>
-		public bool DeleteTask(AcDowner task)
+		public bool DeleteTask(IDownloader task)
 		{
 			try
 			{
@@ -174,20 +166,18 @@ namespace Kaedei.AcDown
 		/// </summary>
 		public void ContinueNext()
 		{
+			//如果当前正在进行的任务队列已满
+			if (GetRunningCount() >= Config.setting.MaxRunningTaskCount)
+			{
+				return;
+			}
 			//所有等待的任务尝试开始
-			foreach (AcDowner item in Tasks)
+			foreach (var item in Tasks)
 			{
 				if (item.Status == DownloadStatus.等待开始)
 					delegates.Start(new ParaStart(item.TaskId));
 			}
-
-			//所有开始的任务刷新速度限制
-			foreach (AcDowner item in Tasks)
-			{
-				if (item.Status == DownloadStatus.正在下载)
-					item.SpeedLimit = LimitedSpeed / GetRunningCount();
-			}
 		}
-
+		#endregion
 	}//end class
 }//end namespace

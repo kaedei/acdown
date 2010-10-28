@@ -191,10 +191,9 @@ namespace AcDown
 					notifyIcon.Dispose();
 				}
 				//新建Container
-				deles = new AcDownLibrary.DelegateContainer(
+				deles = new DelegateContainer(
 					 new AcTaskDelegate(Start),
 					 new AcTaskDelegate(NewPart),
-					 new AcTaskDelegate(TipProcess),
 					 new AcTaskDelegate(TipText),
 					 new AcTaskDelegate(Finish),
 					 new AcTaskDelegate(Error));

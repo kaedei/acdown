@@ -73,10 +73,12 @@
   <ItemGroup>
     <Compile Include="AcDown.cs" />
     <Compile Include="Component\AcDownSettings.cs" />
+    <Compile Include="Component\PluginManager.cs" />
+    <Compile Include="Component\TaskItem.cs" />
     <Compile Include="Downloader\Acfun.cs" />
     <Compile Include="Downloader\Bilibili.cs" />
-    <Compile Include="Component\DwmApi.cs" />
-    <Compile Include="Component\festival.cs" />
+    <Compile Include="Interface\Delegates.cs" />
+    <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
     <Compile Include="Interface\IAcdownPluginInfo.cs" />
     <Compile Include="Interface\Network.cs" />
@@ -188,7 +190,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Component\Shutdown.cs" />
+    <Compile Include="UI\Shutdown.cs" />
     <Compile Include="Component\TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>

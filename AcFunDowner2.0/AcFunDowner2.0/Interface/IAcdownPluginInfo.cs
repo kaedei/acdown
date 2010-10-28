@@ -7,11 +7,12 @@ namespace Kaedei.AcDown.Interface
 {
 	interface IAcdownPluginInfo
 	{
-		string Name{get;set;}
-		string Author { get; set; }
-		Version Version { get; set; }
-		string Describe { get; set; }
-		string SupportUrl { get; set; }
-		IDownloader CreateDownloader(); 
+		string Name{get;}
+		string Author { get; }
+		Version Version { get;}
+		string Describe { get;}
+		string SupportUrl { get;}
+		IDownloader CreateDownloader();
+		bool CheckUrl(string url);
 	}
 }

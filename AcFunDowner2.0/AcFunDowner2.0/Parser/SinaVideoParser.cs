@@ -52,7 +52,7 @@ namespace Kaedei.AcDown.Parser
 
 
 	[Serializable]
-	public class SinaVideo : Video
+	public class SinaVideo
 	{
 		public string result = "";
 		public Int32 timelength = 0;
