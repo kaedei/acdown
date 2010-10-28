@@ -2,15 +2,72 @@
 using System.Collections.Generic;
 using System.Text;
 using Kaedei.AcDown.Interface;
+using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Downloader
 {
+	/// <summary>
+	/// AcFun下载支持插件
+	/// </summary>
+	public class AcFunPlugin :IAcdownPluginInfo
+	{
+		#region IAcdownPluginInfo 成员
+
+		public string Name
+		{
+			get { return @"AcFunDownloader"; }
+		}
+
+		public string Author
+		{
+			get { return "Kaedei Software"; }
+		}
+
+		public Version Version
+		{
+			get { return new Version(1,0,0,0); }
+		}
+
+		public string Describe
+		{
+			get { return @"Acfun.cn下载插件"; }
+		}
+
+		public string SupportUrl
+		{
+			get { return @"http://blog.sina.com.cn/kaedei"; }
+		}
+
+		public IDownloader CreateDownloader()
+		{
+			return new Acfun();
+		}
+
+		public bool CheckUrl(string url)
+		{
+			Regex r = new Regex(@"http://(acfun\.cn|.*?)/html/(music|anime|game|ent|dy|zj)/\w+/\w+\.html");
+			if (r.Match(url).Success)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		#endregion
+	}
+
+	/// <summary>
+	/// Acfun下载器
+	/// </summary>
 	public class Acfun : IDownloader
 	{
 
 		#region IDownloader 成员
 
-		Guid IDownloader.TaskId
+		public Guid TaskId
 		{
 			get
 			{
@@ -22,7 +79,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		DelegateContainer IDownloader.delegates
+		public DelegateContainer delegates
 		{
 			get
 			{
@@ -34,27 +91,27 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		long IDownloader.TotalLength
+		public long TotalLength
 		{
 			get { throw new NotImplementedException(); }
 		}
 
-		long IDownloader.DoneBytes
+		public long DoneBytes
 		{
 			get { throw new NotImplementedException(); }
 		}
 
-		int IDownloader.LastTick
+		public long LastTick
 		{
 			get { throw new NotImplementedException(); }
 		}
 
-		int IDownloader.PartCount
+		public int PartCount
 		{
 			get { throw new NotImplementedException(); }
 		}
 
-		string IDownloader.Url
+		public string Url
 		{
 			get
 			{
@@ -66,7 +123,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		string IDownloader.FilePath
+		public string FilePath
 		{
 			get
 			{
@@ -78,27 +135,22 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		bool IDownloader.CheckUrl(string url)
+		public void DownloadVideo()
 		{
 			throw new NotImplementedException();
 		}
 
-		void IDownloader.DownloadVideo()
+		public bool DownloadSub()
 		{
 			throw new NotImplementedException();
 		}
 
-		bool IDownloader.DownloadSub()
+		public void StopDownloadVideo()
 		{
 			throw new NotImplementedException();
 		}
 
-		void IDownloader.StopDownloadVideo()
-		{
-			throw new NotImplementedException();
-		}
-
-		Video IDownloader.Info
+		public string Info
 		{
 			get
 			{
@@ -110,7 +162,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		DownloadStatus IDownloader.Status
+		public DownloadStatus Status
 		{
 			get
 			{
@@ -122,7 +174,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		string IDownloader.VideoTitle
+		public string VideoTitle
 		{
 			get
 			{

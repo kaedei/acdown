@@ -10,11 +10,12 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown
 {
 	 [Serializable]
-	 public class AcFunSettings
+	 public class AcDownSettings
 	 {
 		  //程序设置
 		 public bool WatchClipboardEnabled = true; //监视剪贴板
@@ -46,7 +47,7 @@ namespace Kaedei.AcDown
 
 	 public static class Config
 	 {
-		  public static AcFunSettings setting { get; set; }
+		  public static AcDownSettings setting { get; set; }
 		  
 		  /// <summary>
 		  /// 保存设置
@@ -67,7 +68,7 @@ namespace Kaedei.AcDown
 					 //序列化设置
 					 using (FileStream fs = new FileStream(path += @"config.xml", FileMode.Create))
 					 {
-						  XmlSerializer formatter = new XmlSerializer(typeof(AcFunSettings));
+						  XmlSerializer formatter = new XmlSerializer(typeof(AcDownSettings));
 						  formatter.Serialize(fs, setting);
 					 }
 				
@@ -77,29 +78,34 @@ namespace Kaedei.AcDown
 		  /// 读取设置
 		  /// </summary>
 		  /// <returns></returns>
-		  public static AcFunSettings LoadSettings()
+		  public static AcDownSettings LoadSettings()
 		  {
-				try
-				{
-					 AcFunSettings s;
-					 string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-					 path = Path.Combine(path, @"Kaedei\AcDown\config.xml");
-					 using (FileStream fs = new FileStream(path, FileMode.Open))
-					 {
-						  XmlSerializer formatter = new XmlSerializer(typeof(AcFunSettings));
-						  s = (AcFunSettings)formatter.Deserialize(fs);
-					 }
+			  try
+			  {
+				  AcDownSettings s;
+				  string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				  path = Path.Combine(path, @"Kaedei\AcDown\config.xml");
+				  using (FileStream fs = new FileStream(path, FileMode.Open))
+				  {
+					  XmlSerializer formatter = new XmlSerializer(typeof(AcDownSettings));
+					  s = (AcDownSettings)formatter.Deserialize(fs);
+				  }
 
-					 if (s != null)
-						  setting = s;
-					 else
-						  throw new Exception();
-				}
-				catch
-				{
-					 setting = new AcFunSettings();
-					 SaveSettings();
-				}
+				  if (s != null)
+					  setting = s;
+				  else
+					  throw new Exception();
+			  }
+			  catch
+			  {
+				  setting = new AcDownSettings();
+				  SaveSettings();
+			  }
+			  finally
+			  {
+				  GlobalSettings.GetSettings().CacheSizeMb = setting.CacheSize;
+				  GlobalSettings.GetSettings().SaveFileWhenAbort = setting.SaveWhenAbort;
+			  }
 				return setting; 
 		  }
 
