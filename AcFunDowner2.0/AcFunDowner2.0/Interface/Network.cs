@@ -12,7 +12,7 @@ namespace Kaedei.AcDown.Interface
 	/// <summary>
 	/// 网络相关的静态方法
 	/// </summary>
-	public static class Network
+	public class Network
 	{
 		/// <summary>
 		/// 下载视频文件
@@ -78,7 +78,7 @@ namespace Kaedei.AcDown.Interface
 								//累积到limit KB后
 								if (limitcount >= GlobalSettings.GetSettings().SpeedLimit)
 								{
-									t = System.Environment.TickCount - para.LastTick;
+									t = System.Environment.TickCount - (int)para.LastTick;
 									//检查是否大于一秒
 									if (t < 1000)		//如果小于一秒则等待至一秒
 										Thread.Sleep(1000 - t);
@@ -195,7 +195,7 @@ namespace Kaedei.AcDown.Interface
 		/// <summary>
 		/// 上次Tick的数值
 		/// </summary>
-		public int LastTick { get; set; }
+		public Int64 LastTick { get; set; }
 		/// <summary>
 		/// 是否停止下载(可以在下载过程中进行设置，用来控制下载过程的停止)
 		/// </summary>
@@ -204,5 +204,33 @@ namespace Kaedei.AcDown.Interface
 		/// 下载时是否使用Deflate解压缩
 		/// </summary>
 		public bool UseDeflate { get; set; }
+	}
+
+	/// <summary>
+	/// 其他工具
+	/// </summary>
+	public class Tools
+	{
+		/// <summary>
+		/// 无效字符过滤
+		/// </summary>
+		/// <param name="input">需要过滤的字符串</param>
+		/// <param name="replace">替换为的字符串</param>
+		/// <returns></returns>
+		public static string InvalidCharacterFilter(string input,string replace)
+		{
+			if (replace == null)
+				replace = "";
+			foreach (var item in System.IO.Path.GetInvalidFileNameChars())
+			{
+				input = input.Replace(item.ToString(), replace);
+			}
+			foreach (var item in System.IO.Path.GetInvalidPathChars())
+			{
+				input = input.Replace(item.ToString(), replace);
+			}
+			return input;
+		}
+
 	}
 }

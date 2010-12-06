@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
+using System.IO;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -27,20 +28,21 @@ namespace Kaedei.AcDown.Interface
 
 		long TotalLength{ get; }
 		long DoneBytes{ get; }
-		long LastTick { get; }
+		long LastTick { get; set; }
 		int PartCount { get; }
 
 		string Url{ get; set; }
 		string[] FilePath{ get; set; }
-		string FolderPath { get; set; }
+		string[] SubFilePath { get; set; }
+		DirectoryInfo SaveDirectory { get; set; }
 
 		void DownloadVideo();
-		bool DownloadSub();
+		void DownloadSub();
 		void StopDownloadVideo();
 
-		string Info{ get; set; }
-		DownloadStatus Status{ get; set; }
-		string VideoTitle{ get; set; }
+		string Info{ get; }
+		DownloadStatus Status{ get; }
+		string VideoTitle{ get; }
 	}
 
 

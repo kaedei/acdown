@@ -3,12 +3,10 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using AcDownLibrary;
 using Kaedei.AcDown;
 using Kaedei.AcDown.Properties;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Kaedei.AcDown;
 using Kaedei.AcDown.Interface;
 
 
@@ -176,7 +174,7 @@ namespace AcDown
 				InitializeComponent();
 			  //设置窗体标题和文字
 				this.Icon = Resources.ac;
-				this.Text = Application.ProductName + " " + festival.GetString();
+				this.Text = Application.ProductName;
 				  //取消显示大按钮
 				if(Config.setting.ShowBigStartButton==false)
 				  if (btnClickNew != null)
@@ -1181,9 +1179,7 @@ namespace AcDown
 					AcDowner ac = GetTask(g);
 					//停止任务
 					ac.StopDownloadVideo();
-					//等待退出
-					while (ac.Status != DownloadStatus.已经停止)
-						Application.DoEvents();
+					
 					//删除lsv列表项
 					lsv.Items.Remove(item);
 					//删除文件

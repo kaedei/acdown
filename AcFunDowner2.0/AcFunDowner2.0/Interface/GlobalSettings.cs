@@ -9,7 +9,7 @@ namespace Kaedei.AcDown.Interface
 	/// </summary>
 	public class GlobalSettings
 	{
-		public static GlobalSettings()
+		static GlobalSettings()
 		{
 			_settings = new GlobalSettings();
 		}
