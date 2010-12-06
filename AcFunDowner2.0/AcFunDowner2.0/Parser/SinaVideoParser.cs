@@ -20,7 +20,7 @@ namespace Kaedei.AcDown.Parser
 		/// </summary>
 		/// <param name="parameters">单视频的ID</param>
 		/// <returns>所有分段视频地址的数组</returns>
-		string[] IParser.Parse(string[] parameters)
+		public string[] Parse(string[] parameters)
 		{
 			//合并完整url
 			string url = @"http://v.iask.com/v_play.php?vid=" + parameters[0];

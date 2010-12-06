@@ -8,9 +8,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using System.Collections.ObjectModel;
 using Kaedei.AcDown;
 using Kaedei.AcDown.Interface;
+using System.Threading;
 
 namespace Kaedei.AcDown
 {
@@ -53,18 +55,29 @@ namespace Kaedei.AcDown
 		/// <summary>
 		/// 添加任务
 		/// </summary>
-		public void AddTask(string url, IDownloader downloader)
+		public Guid AddTask(string url, IDownloader downloader)
 		{
 			//设置下载器
 			downloader.delegates = delegates;
 			downloader.Url = url;
-			downloader.FolderPath = Config.setting.SavePath;
-			downloader.Status = DownloadStatus.等待开始;
+			downloader.Directory = Config.setting.SavePath;
 			downloader.TaskId = Guid.NewGuid();
+			//向集合中添加任务
+			Tasks.Add(downloader);
+			//返回新建的任务
+			return downloader.TaskId;
+		}
+
+		/// <summary>
+		/// 开始任务
+		/// </summary>
+		/// <param name="downloader"></param>
+		public void StartTask(IDownloader downloader)
+		{
 			//如果队列未满则开始下载
 			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 			{
-				downloader.DownloadVideo();	
+				downloader.DownloadVideo();
 			}
 			//提示UI刷新信息
 			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
@@ -76,46 +89,60 @@ namespace Kaedei.AcDown
 		/// <param name="downloader"></param>
 		public void StopTask(IDownloader downloader)
 		{
-
-
+			//启动新线程停止任务
+			Thread t = new Thread(() =>
+				{
+					downloader.StopDownloadVideo();
+					//刷新信息
+					delegates.Refresh(new ParaRefresh(downloader.TaskId));
+				});
 		}
 
 		/// <summary>
 		/// 删除任务(自动终止未停止的任务)
 		/// </summary>
 		/// <param name="downloader"></param>
-		public void DeleteTask(IDownloader downloader)
+		public void DeleteTask(IDownloader downloader, bool deleteFile)
 		{
 
-
+			//启动新线程结束任务，防止下载器阻止UI响应
+			Thread t = new Thread(() =>
+				{
+					//UI中任务应被首先删除，所以不必有刷新UI的代码
+					//先停止任务（线程阻塞的）
+					downloader.StopDownloadVideo();
+					//然后从任务列表中删除任务
+					if (Tasks.Contains(downloader))
+					{
+						Tasks.Remove(downloader);
+					}
+					//是否删除文件
+					if (deleteFile)
+					{
+						//删除所有视频文件
+						foreach (var f in downloader.FilePath)
+						{
+							if (File.Exists(f))
+							{
+								File.Delete(f);
+							}
+						}
+						//删除所有字幕文件
+						foreach (var item in downloader.SubFilePath)
+						{
+							if (File.Exists(item))
+							{
+								File.Delete(item);
+							}
+						}
+					}
+					
+				});
 		}
 
 
 		#region 参考
 
-		/// <summary>
-		/// 删除任务
-		/// </summary>
-		/// <param name="task">需要删除的任务</param>
-		/// <returns></returns>
-		public bool DeleteTask(IDownloader task)
-		{
-			try
-			{
-				if (Tasks.IndexOf(task) >= 0)
-				{
-					Tasks.Remove(task);
-					return true;
-				}
-			}
-			catch (Exception ex)
-			{
-				//记录日志
-				Logging.Add(ex);
-			}
-			return false;
-		
-		}
 
 		/// <summary>
 		/// 取得下一个正在等待的任务

@@ -14,5 +14,6 @@ namespace Kaedei.AcDown.Interface
 		string SupportUrl { get;}
 		IDownloader CreateDownloader();
 		bool CheckUrl(string url);
+		string GetHash(string url);
 	}
 }
