@@ -81,9 +81,9 @@ namespace Kaedei.AcDown.Properties {
             }
         }
         
-        internal static System.Drawing.Icon ac {
+        internal static System.Drawing.Icon Ac {
             get {
-                object obj = ResourceManager.GetObject("ac", resourceCulture);
+                object obj = ResourceManager.GetObject("Ac", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -98,13 +98,6 @@ namespace Kaedei.AcDown.Properties {
         internal static System.Drawing.Bitmap bing {
             get {
                 object obj = ResourceManager.GetObject("bing", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap conv {
-            get {
-                object obj = ResourceManager.GetObject("conv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

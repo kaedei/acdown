@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -32,17 +33,17 @@ namespace Kaedei.AcDown.Interface
 		int PartCount { get; }
 
 		string Url{ get; set; }
-		string[] FilePath{ get; set; }
-		string[] SubFilePath { get; set; }
 		DirectoryInfo SaveDirectory { get; set; }
-
-		void DownloadVideo();
-		void DownloadSub();
-		void StopDownloadVideo();
+		List<string> FilePath { get; }
+		List<string> SubFilePath { get; }
 
 		string Info{ get; }
 		DownloadStatus Status{ get; }
 		string VideoTitle{ get; }
+
+		void DownloadVideo();
+		void DownloadSub();
+		void StopDownloadVideo();
 	}
 
 

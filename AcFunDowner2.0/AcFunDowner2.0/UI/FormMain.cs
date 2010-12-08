@@ -630,20 +630,6 @@ namespace AcDown
 				  btnSearch_ButtonClick(this, EventArgs.Empty);
 		  }
 
-		 //转换器
-		  private void lnkSubconverter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		  {
-			  string path = Path.Combine(Application.StartupPath, "AcFunSubTransDLoader.exe");
-			  if (File.Exists(path))
-			  {
-				  Process.Start(path);
-			  }
-			  else
-			  {
-				  FormSubConverter frmConverter = new FormSubConverter();
-				  frmConverter.ShowDialog();
-			  }
-		  }
 
 			//FLV合并器
 		  private void lnkFLVConvert_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
