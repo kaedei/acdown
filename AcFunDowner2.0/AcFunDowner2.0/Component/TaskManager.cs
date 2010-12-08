@@ -60,7 +60,7 @@ namespace Kaedei.AcDown
 			//设置下载器
 			downloader.delegates = delegates;
 			downloader.Url = url;
-			downloader.Directory = Config.setting.SavePath;
+			downloader.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
 			downloader.TaskId = Guid.NewGuid();
 			//向集合中添加任务
 			Tasks.Add(downloader);

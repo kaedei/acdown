@@ -150,15 +150,61 @@ namespace Kaedei.AcDown.Downloader
 			get { return _partCount; }
 		}
 
+		//下载地址
 		public string Url { get; set; }
+
+
+		//下载状态
+		private DownloadStatus _status;
+		public DownloadStatus Status
+		{
+			get
+			{
+				return _status;
+			}
+		}
+
+		//视频标题
+		private string _title;
+		public string VideoTitle
+		{
+			get
+			{
+				return _title;
+			}
+		}
+
+		//保存到的文件夹
+		public DirectoryInfo SaveDirectory { get; set; }
+
+		//下载文件地址
+		private List<string> _filePath = new List<string>();
+		public List<string> FilePath
+		{
+			get
+			{
+				return _filePath;
+			}
+		}
+
+		//字幕文件地址
+		private List<string> _subFilePath = new List<string>();
+		public List<string> SubFilePath
+		{
+			get
+			{
+				return _subFilePath;
+			}
+		}
 
 		//下载视频
 		public void DownloadVideo()
 		{
-			//TODO:各Delegates的调用
+			//TODO:Status设置
 			//开始下载
 			delegates.Start(new ParaStart(this.TaskId));
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
+			_status = DownloadStatus.正在下载;
 
 			//要分析的地址
 			string url = Url;
@@ -182,6 +228,9 @@ namespace Kaedei.AcDown.Downloader
 
 			//视频地址数组
 			string[] videos = null;
+			//清空地址
+			_filePath.Clear();
+
 			//检查type值
 			switch (type)
 			{
@@ -216,9 +265,29 @@ namespace Kaedei.AcDown.Downloader
 					//文件URL
 					Url = url,				
 				};
+				//添加文件路径到List<>中
+				_filePath.Add(currentParameter.FilePath);
 				//下载文件
-				Network.DownloadFile(currentParameter);
+				bool success;
+				try
+				{
+					 success = Network.DownloadFile(currentParameter);
+				}
+				catch(Exception ex) //出现错误即下载失败
+				{
+					_status = DownloadStatus.出现错误;
+					delegates.Error(new ParaError(this.TaskId, ex));
+					return;
+				}
+				if (!success) //未出现错误即用户手动停止
+				{
+					_status = DownloadStatus.已经停止;
+					delegates.Finish(new ParaFinish(this.TaskId, false));
+					return;
+				}
 			}
+			//下载成功完成
+			_status = DownloadStatus.下载完成;
 			delegates.Finish(new ParaFinish(this.TaskId, true));
 		}
 
@@ -248,12 +317,17 @@ namespace Kaedei.AcDown.Downloader
 
 			//取得字幕文件地址
 			string subUrl = @"http://acfun.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.5446887564165".Replace(@"%VideoId%", id);
+			
+			//添加文件地址
+			string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
+			_subFilePath.Add(subfile);
 			//下载字幕文件
 			Network.DownloadSub(new DownloadParameter()
 			{
 				Url = subUrl,
-				FilePath = Path.Combine(SaveDirectory.ToString(), title + ".xml")
+				FilePath = subfile
 			});
+			
 			delegates.Finish(new ParaFinish(this.TaskId, true));
 		}
 
@@ -267,6 +341,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
+		//下载信息（显示到UI上）
 		public string Info
 		{
 			get
@@ -278,62 +353,6 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		//下载状态
-		private DownloadStatus _status;
-		public DownloadStatus Status
-		{
-			get
-			{
-				return _status;
-			}
-		}
-
-		//视频标题
-		private string _title;
-		public string VideoTitle
-		{
-			get
-			{
-				return _title;
-			}
-		}
-
-
-		string[] IDownloader.FilePath
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public string[] SubFilePath
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public DirectoryInfo SaveDirectory
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
 
 		#endregion
 	}
