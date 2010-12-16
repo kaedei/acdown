@@ -5,7 +5,7 @@ using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Interface
 {
-	interface IAcdownPluginInfo
+	public interface IAcdownPluginInfo
 	{
 		string Name{get;}
 		string Author { get; }

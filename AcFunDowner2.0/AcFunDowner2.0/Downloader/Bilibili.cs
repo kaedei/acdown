@@ -5,7 +5,7 @@ using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Downloader
 {
-	public class BilibiliPlugin : IDownloader
+	public class BilibiliPlugin //: IDownloader
 	{
 
 	}

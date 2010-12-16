@@ -150,6 +150,13 @@ namespace Kaedei.AcDown.Downloader
 			get { return _partCount; }
 		}
 
+		//当前分段
+		private int _currentPart;
+		public int CurrentPart
+		{
+			get { return _currentPart; }
+		}
+
 		//下载地址
 		public string Url { get; set; }
 
@@ -253,6 +260,7 @@ namespace Kaedei.AcDown.Downloader
 			//分段落下载
 			for (int i = 0; i < _partCount; i++)
 			{
+				_currentPart = i + 1;
 				//提示更换新Part
 				delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
 				//设置当前DownloadParameter

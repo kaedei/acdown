@@ -8,40 +8,54 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Kaedei;
 using Kaedei.AcDown;
-using AcDownLibrary;
+using Kaedei.AcDown.Interface;
+using System.Collections.ObjectModel;
+using Kaedei.AcDown.Component;
 
 namespace Kaedei.AcDown
 {
-    public partial class FormNew : Form
-    {
+	 public partial class FormNew : Form
+	 {
+
+		 private static FormNew instance;
 		 //外部Url
 		 private string u;
+		 //插件
+		 private PluginManager _pluginMgr;
+		 //任务
+		 private TaskManager _taskMgr;
 
 		 [DllImport("user32.dll", EntryPoint = "SendMessageA")]
 		 public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, Byte[] lParam);
 
-		 public FormNew(string url)
-			 : this()
+		 public FormNew(string url, PluginManager pluginMgr, TaskManager taskMgr)
 		 {
-			 u = url;
+			 InitializeComponent();
+			 this.Icon = Kaedei.AcDown.Properties.Resources.Ac;
+
+			 if (instance != null)
+			 {
+				 //将窗体置顶一次
+				 instance.TopMost = true;
+				 instance.TopMost = false;
+				 this.Dispose();
+			 }
+			 else
+			 {
+				 _pluginMgr = pluginMgr;
+				 _taskMgr = taskMgr;
+				 u = url;
+				 instance = this;
+			 }
 		 }
-
-       public FormNew()
-       {
-          InitializeComponent();
-			 this.Icon = Kaedei.AcDown.Properties.Resources.ac;
-       }
-
+		 
 		 private void FormNew_Load(object sender, EventArgs e)
 		 {
 			 if (Config.IsWindowsVistaOr7())
 				 SendMessage(txtInput.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"请输入或粘贴入网络地址"));
-			 if (Config.setting.AutoDownAllSection)
-				 chkDownAllSection.Checked = true;
-			 if (Config.setting.DownSub)
-				 chkDownSub.Checked = true;
 			 if (!string.IsNullOrEmpty(u))
 				 txtInput.Text = u;
+			 lblPath.Text = Config.setting.SavePath;
 			 this.Show();
 			 this.TopMost = true;
 			 this.TopMost = false;
@@ -50,15 +64,23 @@ namespace Kaedei.AcDown
 		 
 		 private void txtInput_TextChanged(object sender, EventArgs e)
 		 {
+			 string t = txtInput.Text;
 			 if (Config.setting.AutoCheckUrl)
 			 {
-				 if (txtInput.Text.Length != 0)
+				 if (t.Length != 0)
 				 {
 					 picCheck.Visible = true;
-					 if (AcDownLibrary.AcDowner.CheckUrl(txtInput.Text))
-						 picCheck.Image = Properties.Resources._1;
-					 else
-						 picCheck.Image = Properties.Resources._2;
+					 foreach (var item in _pluginMgr.Plugins)
+					 {
+						 if (item.CheckUrl(t))
+						 {
+							 picCheck.Image = Properties.Resources._1;
+						 }
+						 else
+						 {
+							 picCheck.Image = Properties.Resources._2;
+						 }
+					 }
 				 }
 				 else
 				 {
@@ -68,50 +90,57 @@ namespace Kaedei.AcDown
 		 }
 
 		 /// <summary>
-		 /// 添加任务
+		 /// TODO:添加任务
 		 /// </summary>
 		 /// <param name="sender"></param>
 		 /// <param name="e"></param>
 		 private void btnAdd_Click(object sender, EventArgs e)
 		 {
-			 string url = AcDowner.CombineUrl(txtInput.Text);
+			 string url = txtInput.Text;
 			 this.Cursor = Cursors.WaitCursor;
-			 //检查是否有已经在进行的任务
-			 foreach (AcDowner ac in TaskManager.ObjectReference.Tasks)
+			 ////检查是否有已经在进行的任务
+			 //foreach (AcDowner ac in TaskManager.ObjectReference.Tasks)
+			 //{
+			 //   if (AcDowner.DepartUrl(url) == AcDowner.DepartUrl(ac.Url))
+			 //   {
+			 //      toolTip.Show("此任务已经存在", txtInput, 3000);
+			 //      this.Cursor = Cursors.Default;
+			 //      return;
+			 //   }
+			 //}
+			 //取得可以下载的插件
+			 IAcdownPluginInfo p = null;
+			 foreach (var item in _pluginMgr.Plugins)
 			 {
-				 if (AcDowner.DepartUrl(url) == AcDowner.DepartUrl(ac.Url))
+				 if (item.CheckUrl(url))
 				 {
-					 toolTip.Show("此任务已经存在", txtInput, 3000);
-					 this.Cursor = Cursors.Default;
-					 return;
+					 p = item;
+					 break;
 				 }
 			 }
-			 //检查URL
-			 if (Config.setting.AutoCheckUrl)
+			 //如果有可用插件
+			 if (p != null)
 			 {
-				 if (!AcDowner.CheckUrl(url))
+				 try
 				 {
-					 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入", txtInput, 120 ,-60, 3000);
-					 txtInput.SelectAll();
+					 _taskMgr.AddTask(url, p.CreateDownloader());
 					 this.Cursor = Cursors.Default;
-					 return;
+					 this.Close();
+				 }
+				 catch (Exception ex)
+				 {
+					 Logging.Add(ex);
+					 toolTip.Show("新建任务出现错误，请检查相关设置或查看日志文件", btnAdd, 4000);
 				 }
 			 }
-			 //保存设置
-			Config.setting.AutoDownAllSection = chkDownAllSection.Checked;
-			Config.setting.DownSub = chkDownSub.Checked;
-			Config.SaveSettings();
-			try
-			{
-				TaskManager.ObjectReference.AddTask(url,chkImmediate.Checked);
-			}
-			catch (Exception ex)
-			{
-				Logging.Add(ex);
-				toolTip.Show("网络连接出现错误，请检查相关设置或查看日志文件\n启用日志的方法请查看官方文档", btnAdd, 4000);
-			}
-			this.Cursor = Cursors.Default;
-			this.Close();
+			 else
+			 {
+				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入", txtInput, 120, -60, 3000);
+				 txtInput.SelectAll();
+				 this.Cursor = Cursors.Default;
+			 }
+			
+			
 		 }
 
 		 //回车键的默认行为

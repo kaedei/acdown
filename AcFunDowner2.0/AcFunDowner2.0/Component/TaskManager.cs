@@ -71,14 +71,17 @@ namespace Kaedei.AcDown
 		/// <summary>
 		/// 开始任务
 		/// </summary>
-		/// <param name="downloader"></param>
 		public void StartTask(IDownloader downloader)
 		{
-			//如果队列未满则开始下载
-			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
-			{
-				downloader.DownloadVideo();
-			}
+			//启动新线程下载文件
+			Thread t = new Thread(() =>
+				{
+					//如果队列未满则开始下载
+					if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
+					{
+						downloader.DownloadVideo();
+					}
+				});
 			//提示UI刷新信息
 			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
 		}
@@ -141,16 +144,14 @@ namespace Kaedei.AcDown
 		}
 
 
-		#region 参考
-
 
 		/// <summary>
 		/// 取得下一个正在等待的任务
 		/// </summary>
 		/// <returns></returns>
-		public AcDowner GetNextWaiting()
+		public IDownloader GetNextWaiting()
 		{
-			foreach (AcDowner item in Tasks)
+			foreach (var item in Tasks)
 			{
 				if (item.Status == DownloadStatus.等待开始)
 					return item;
@@ -162,9 +163,9 @@ namespace Kaedei.AcDown
 		/// 取得第一个正在下载的任务
 		/// </summary>
 		/// <returns></returns>
-		public AcDowner GetFirstRunning()
+		public IDownloader GetFirstRunning()
 		{
-			foreach (AcDowner item in Tasks)
+			foreach (var item in Tasks)
 			{
 				if (item.Status == DownloadStatus.正在下载)
 					return item;
@@ -178,8 +179,8 @@ namespace Kaedei.AcDown
 		/// <returns></returns>
 		public Int32 GetRunningCount()
 		{
-			int count=0;
-			foreach (AcDowner i in this.Tasks)
+			int count = 0;
+			foreach (var i in this.Tasks)
 			{
 				if (i.Status == DownloadStatus.正在下载)
 					count++;
@@ -187,6 +188,7 @@ namespace Kaedei.AcDown
 			return count;
 		}
 
+		#region 参考
 
 		/// <summary>
 		/// 执行下一个任务
@@ -202,7 +204,7 @@ namespace Kaedei.AcDown
 			foreach (var item in Tasks)
 			{
 				if (item.Status == DownloadStatus.等待开始)
-					delegates.Start(new ParaStart(item.TaskId));
+					StartTask(item);
 			}
 		}
 		#endregion

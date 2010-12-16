@@ -118,33 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="txtAbout.Text" xml:space="preserve">
-    <value>AcDown动漫下载器 2.X
-制作: Kaedei Software
+    <value>AcDown动漫下载器
+作者: Kaedei
 
+项目主页：http://acdown.codeplex.com/
 声明:
-本软件为个人出于爱好所作，并非Acfun.cn及Bilibili.us官方行为
 本软件源代码使用 Apache License, Version 2.0 许可证发布，源代码可以在 http://blog.sina.com.cn/kaedei 中下载到
 
-如有任何疑问或是建议，请发送邮件至：
+如有任何疑问或是建议，
+强烈建议您提交到项目主页的讨论区(Discussion)，通常可以比其他提交渠道获得更快速的回复与解决
+或在主界面右下方的菜单中点击相应的项目以提交您的意见
+
+如Internet连接出现问题，也可发送邮件至
 kaedei@foxmail.com
-或是访问我的博客：
-http://blog.sina.com.cn/kaedei 
-或是在主界面右下方的菜单中点击相应的项目以提交您的意见
-
-   
-Copyright 2010 Kaedei Software
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
 
 再次感谢您的支持</value>
   </data>

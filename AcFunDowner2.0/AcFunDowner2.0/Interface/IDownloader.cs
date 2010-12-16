@@ -29,8 +29,9 @@ namespace Kaedei.AcDown.Interface
 
 		long TotalLength{ get; }
 		long DoneBytes{ get; }
-		long LastTick { get; set; }
+		long LastTick { get; }
 		int PartCount { get; }
+		int CurrentPart { get; }
 
 		string Url{ get; set; }
 		DirectoryInfo SaveDirectory { get; set; }

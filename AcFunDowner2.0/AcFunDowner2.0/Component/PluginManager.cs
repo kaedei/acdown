@@ -10,8 +10,14 @@ namespace Kaedei.AcDown.Component
 	public class PluginManager
 	{
 		private Collection<IAcdownPluginInfo> _plugins = new Collection<IAcdownPluginInfo>();
-		public Collection<IAcdownPluginInfo> Plugins { get { return _plugins; } }
 
+		public Collection<IAcdownPluginInfo > Plugins
+		{
+			get
+			{
+				return _plugins;
+			}
+		}
 		/// <summary>
 		/// 读取插件
 		/// </summary>
