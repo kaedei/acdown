@@ -66,7 +66,7 @@ namespace Kaedei.AcDown
 					 }
 
 					 //序列化设置
-					 using (FileStream fs = new FileStream(path += @"config.xml", FileMode.Create))
+					 using (FileStream fs = new FileStream(path + @"config.xml", FileMode.Create))
 					 {
 						  XmlSerializer formatter = new XmlSerializer(typeof(AcDownSettings));
 						  formatter.Serialize(fs, setting);
