@@ -5,6 +5,7 @@ using Kaedei.AcDown.Interface;
 using System.Xml.Serialization;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Parser
 {
@@ -22,27 +23,40 @@ namespace Kaedei.AcDown.Parser
 		/// <returns>所有分段视频地址的数组</returns>
 		public string[] Parse(string[] parameters)
 		{
+			//返回的数组
+			List<string> address = new List<string>();
 			//合并完整url
 			string url = @"http://v.iask.com/v_play.php?vid=" + parameters[0];
-			//取得xml配置
-			WebRequest wr = WebRequest.Create(url);
-			var response = wr.GetResponse();
-			SinaVideo v;
-			using (var sr = new StreamReader(response.GetResponseStream()))
-			{
-				XmlSerializer s = new XmlSerializer(typeof(SinaVideo));
-				//反序列化对象
-				v = (SinaVideo)s.Deserialize(sr);
-			}
+#region XML神马的太讨厌啦
 
-			//将URL复制制List<string>中
-			List<string> r = new List<string>(v.durl.Length);
-			for (int i = 0; i < v.durl.Length; i++)
+			////取得xml配置
+			//WebRequest wr = WebRequest.Create(url);
+			//var response = wr.GetResponse();
+			//SinaVideo v;
+			//using (var sr = new StreamReader(response.GetResponseStream(),Encoding.UTF8))
+			//{
+			//   XmlSerializer s = new XmlSerializer(typeof(SinaVideo));
+			//   //反序列化对象
+			//   v = (SinaVideo)s.Deserialize(sr);
+			//}
+
+			////将URL复制制List<string>中
+			//List<string> r = new List<string>(v.durl.Length);
+			//for (int i = 0; i < v.durl.Length; i++)
+			//{
+			//   r[i] = v.durl[i].url;
+			//}
+#endregion
+			string source = Network.GetHtmlSource(url, Encoding.UTF8);
+			Regex r = new Regex(@"http://.*(.flv|.f4v|.mp4|.hlv)");
+			MatchCollection matches = r.Matches(source);
+			foreach (var item in matches)
 			{
-				r[i] = v.durl[i].url;
+				address.Add(item.ToString());
 			}
+			
 			//返回数组
-			return r.ToArray();
+			return address.ToArray();
 
 		}
 
@@ -64,6 +78,7 @@ namespace Kaedei.AcDown.Parser
 		public string vtags = "";
 		public string ad = "";
 		public string vstr = "";
+		public string vip = "";
 		public string vround = "";
 		public Int32 type = 0;
 		public string message = "";

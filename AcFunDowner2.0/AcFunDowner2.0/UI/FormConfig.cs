@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Kaedei.AcDown.Properties;
 using System.IO;
 
-namespace Kaedei.AcDown
+namespace Kaedei.AcDown.UI
 {
 	 public partial class FormConfig : Form
 	 {

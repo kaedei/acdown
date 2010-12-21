@@ -6,12 +6,12 @@ using System.Windows.Forms;
 using Kaedei.AcDown;
 using Kaedei.AcDown.Properties;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
+using Kaedei.AcDown.UI;
 
 
-namespace AcDown
+namespace AcDown.UI
 {
 
 	public partial class FormMain : Form
@@ -189,6 +189,8 @@ namespace AcDown
 				new AcTaskDelegate(Error));
 			//任务管理器
 			taskMgr = new TaskManager(deles);
+			//新建窗体
+			FormNew.Initialize(pluginMgr, taskMgr);
 		}
 
 		#endregion //初始化
@@ -197,32 +199,32 @@ namespace AcDown
 
 
 		public FormMain()
-		  {
+		{
 			//初始化数据
-			  Initialize();
-			  //初始化窗体
-				InitializeComponent();
-			  //设置窗体标题和文字
-				this.Icon = Resources.Ac;
-				this.Text = Application.ProductName;
-				  //取消显示大按钮
-				if(Config.setting.ShowBigStartButton==false)
-				  if (btnClickNew != null)
-						btnClickNew.Dispose();
-				//显示托盘图标
-				if (Config.setting.ShowTrayIcon)
-				{
-					notifyIcon.Icon = Resources.Ac;
-				}
-				else
-				{
-					notifyIcon.Dispose();
-				}
+			Initialize();
+			//初始化窗体
+			InitializeComponent();
+			//设置窗体标题和文字
+			this.Icon = Resources.Ac;
+			this.Text = Application.ProductName;
+			//取消显示大按钮
+			if (Config.setting.ShowBigStartButton == false)
+				if (btnClickNew != null)
+					btnClickNew.Dispose();
+			//显示托盘图标
+			if (Config.setting.ShowTrayIcon)
+			{
+				notifyIcon.Icon = Resources.Ac;
+			}
+			else
+			{
+				notifyIcon.Dispose();
+			}
 
-			  //设置是否监视剪贴板
-				watchClipboard = Config.setting.WatchClipboardEnabled;
-			  
-		  }
+			//设置是否监视剪贴板
+			watchClipboard = Config.setting.WatchClipboardEnabled;
+
+		}
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
@@ -299,7 +301,6 @@ namespace AcDown
 			{
 				btnClickNew.Dispose();
 			}
-			FormNew n = new FormNew("", pluginMgr, taskMgr);
 			//禁用Win7缩略图按钮
 			if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
 			{
@@ -308,8 +309,7 @@ namespace AcDown
 			}
 			watchClipboard = false;
 			//显示“新建”
-			if (!n.IsDisposed)
-				n.ShowDialog();
+			FormNew.ShowForm("");
 			watchClipboard = true;
 			//启用Win7缩略图按钮
 			if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
@@ -344,9 +344,8 @@ namespace AcDown
 			}
 			btnClickNew.Dispose();
 			watchClipboard = false;
-			FormNew n = new FormNew("", pluginMgr, taskMgr);
-			if (!n.IsDisposed)
-				n.ShowDialog();
+			//显示新建窗体
+			FormNew.ShowForm("");
 			watchClipboard = true;
 		}
 
@@ -356,6 +355,7 @@ namespace AcDown
 		private bool watchClipboard;
 
 		//显示进度以及速度 & 监视剪贴板
+		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			//if (Config.setting.WatchClipboardEnabled)
@@ -394,6 +394,17 @@ namespace AcDown
 			//      }
 			//   }
 			//}
+			//设置限速
+			int sl = Convert.ToInt32(udSpeedLimit.Value);
+			if (sl != 0)
+			{
+				GlobalSettings.GetSettings().SpeedLimit = sl / taskMgr.GetRunningCount();
+			}
+			else
+			{
+				GlobalSettings.GetSettings().SpeedLimit = 0;
+			}
+			//全局速度
 			long speed = 0;
 			//取得所有正在进行中的任务
 			foreach (IDownloader downloader in taskMgr.Tasks)
@@ -403,10 +414,17 @@ namespace AcDown
 				{
 					//显示进度
 					ListViewItem item = GetLsvItem(downloader.TaskId);
-					item.SubItems[3].Text = string.Format(@"{0:P}", downloader.DoneBytes/ downloader.TotalLength);
+					if (downloader.TotalLength != 0)
+					{
+						item.SubItems[3].Text = string.Format(@"{0:P}", (double)downloader.DoneBytes / (double)downloader.TotalLength);
+					}
+					else
+					{
+						item.SubItems[3].Text = "0.0%";
+					}
 					//显示速度
 					long currentSpeed = 0;
-					currentSpeed = (downloader.DoneBytes - downloader.LastTick) / 1000;
+					currentSpeed = (downloader.DoneBytes - downloader.LastTick) / 1024;
 					speed += currentSpeed;
 					//downloader.LastTick = downloader.DoneBytes;
 					item.SubItems[4].Text = currentSpeed.ToString() + "KB/s";
@@ -452,7 +470,7 @@ namespace AcDown
 			}
 		}
 
-		//TODO:程序正在退出
+		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			//正在进行的任务数量
@@ -483,6 +501,8 @@ namespace AcDown
 			}
 			//关闭日志文件
 			Logging.Exit();
+			//退出程序
+			Application.Exit();
 		}
 
 		//单击弹出菜单
@@ -556,9 +576,12 @@ namespace AcDown
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				
+				if (!string.IsNullOrEmpty(item.Tag.ToString()))
+				{
+					FormInfo fi = new FormInfo(GetTask(new Guid(item.Tag.ToString())));
+					fi.ShowDialog();
+				}
 			}
-
 		}
 
 		//链接到acfun
@@ -666,7 +689,7 @@ namespace AcDown
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				IDownloader  downloader = GetTask(new Guid((string)item.Tag));
+				IDownloader downloader = GetTask(new Guid((string)item.Tag));
 				//根据状态执行不同的操作
 				switch (downloader.Status)
 				{
@@ -718,13 +741,13 @@ namespace AcDown
 		//检查新版本
 		private void toolCheckNew_Click(object sender, EventArgs e)
 		{
-			Process.Start(@"http://blog.sina.com.cn/s/blog_58c506600100h7np.html");
+			Process.Start(@"http://acdown.codeplex.com/releases");
 		}
 
 		//使用交流
 		private void toolTieba_Click(object sender, EventArgs e)
 		{
-			Process.Start(@"http://tieba.baidu.com/f?kw=lavola");
+			Process.Start(@"http://blog.sina.com.cn/kaedei");
 		}
 
 		//新功能建议
@@ -766,6 +789,8 @@ namespace AcDown
 			{
 				IDownloader downloader = GetTask(new Guid((string)item.Tag));
 				taskMgr.DeleteTask(downloader, !Config.setting.DeleteTaskAndFile);
+				//删除UI
+				lsv.Items.Remove(item);
 			}
 		}
 
@@ -795,16 +820,8 @@ namespace AcDown
 			}
 		}
 
-		//限速生效
-		private void btnLimitApply_Click(object sender, EventArgs e)
-		{
-			//每个任务的限速
-			GlobalSettings.GetSettings().SpeedLimit = Convert.ToInt32(udSpeedLimit.Value);
-			//刷新限速
-			taskMgr.ContinueNext();
-		}
-
 		//获得win消息
+		[DebuggerNonUserCode()]
 		protected override void WndProc(ref Message m)
 		{
 			base.WndProc(ref m);
@@ -851,6 +868,7 @@ namespace AcDown
 		/// </summary>
 		/// <param name="guid"></param>
 		/// <returns></returns>
+		[DebuggerNonUserCode()]
 		public IDownloader GetTask(Guid guid)
 		{
 			foreach (var i in taskMgr.Tasks)
@@ -866,6 +884,7 @@ namespace AcDown
 		/// </summary>
 		/// <param name="guid"></param>
 		/// <returns></returns>
+		[DebuggerNonUserCode()]
 		public ListViewItem GetLsvItem(Guid guid)
 		{
 			for (int i = 0; i < lsv.Items.Count; i++)
@@ -912,7 +931,7 @@ namespace AcDown
 					item.SubItems[3].Text = "";
 					//下载速度
 					item.SubItems[4].Text = "";
-					//源地址(无需改变)
+					//源地址
 					item.SubItems[5].Text = downloader.Url;
 				}
 				else //UI存在但是任务不存在
@@ -921,6 +940,20 @@ namespace AcDown
 					lsv.Items.Remove(item);
 				}
 			}
+			else  //如果UI不存在此任务
+			{
+				//新建ListViewItem
+				ListViewItem lvi = new ListViewItem();
+				//lvi.SubItems.Add(downloader.Status.ToString()); //状态
+				lvi.SubItems.Add("正在获取"); //视频名称
+				lvi.SubItems.Add("0/0"); //分段
+				lvi.SubItems.Add("0.0%"); //下载进度
+				lvi.SubItems.Add("0"); //下载速度
+				lvi.SubItems.Add(downloader.Url); //源地址
+				lvi.Tag = downloader.TaskId.ToString(); //设置TAG
+				lsv.Items.Add(lvi);
+			}
+
 		}
 
 		//任务开始
@@ -1042,9 +1075,12 @@ namespace AcDown
 			}
 			else //如果用户取消下载
 			{
-				//更新item
-				item.SubItems[0].Text = downloader.Status.ToString();
-				item.SubItems[4].Text = ""; //下载速度
+				if (item != null)
+				{
+					//更新item
+					item.SubItems[0].Text = downloader.Status.ToString();
+					item.SubItems[4].Text = ""; //下载速度
+				}
 			}
 
 			//执行下一个可能开始的任务

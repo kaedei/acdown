@@ -26,6 +26,7 @@ namespace Kaedei.AcDown.Interface
 	{
 		Guid TaskId { get; set; }
 		DelegateContainer delegates{ get; set; }
+		IAcdownPluginInfo GetBasePlugin();
 
 		long TotalLength{ get; }
 		long DoneBytes{ get; }
