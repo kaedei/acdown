@@ -1,4 +1,4 @@
-﻿namespace Kaedei.AcDown
+﻿namespace Kaedei.AcDown.UI
 {
     partial class FormAbout
     {
@@ -33,6 +33,7 @@
            this.lblVersion = new System.Windows.Forms.Label();
            this.btnOK = new System.Windows.Forms.Button();
            this.lnkSupport = new System.Windows.Forms.LinkLabel();
+           this.lnkProject = new System.Windows.Forms.LinkLabel();
            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
            this.SuspendLayout();
            // 
@@ -41,12 +42,12 @@
            this.txtAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                        | System.Windows.Forms.AnchorStyles.Left)
                        | System.Windows.Forms.AnchorStyles.Right)));
-           this.txtAbout.Location = new System.Drawing.Point(12, 140);
+           this.txtAbout.Location = new System.Drawing.Point(12, 170);
            this.txtAbout.Multiline = true;
            this.txtAbout.Name = "txtAbout";
            this.txtAbout.ReadOnly = true;
            this.txtAbout.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-           this.txtAbout.Size = new System.Drawing.Size(418, 241);
+           this.txtAbout.Size = new System.Drawing.Size(418, 211);
            this.txtAbout.TabIndex = 6;
            this.txtAbout.Text = resources.GetString("txtAbout.Text");
            // 
@@ -95,6 +96,17 @@
            this.lnkSupport.Text = "制作：Kaedei Software";
            this.lnkSupport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSupport_LinkClicked);
            // 
+           // lnkProject
+           // 
+           this.lnkProject.AutoSize = true;
+           this.lnkProject.Location = new System.Drawing.Point(10, 146);
+           this.lnkProject.Name = "lnkProject";
+           this.lnkProject.Size = new System.Drawing.Size(227, 12);
+           this.lnkProject.TabIndex = 11;
+           this.lnkProject.TabStop = true;
+           this.lnkProject.Text = "项目主页：http://AcDown.codeplex.com/";
+           this.lnkProject.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkProject_LinkClicked);
+           // 
            // FormAbout
            // 
            this.AcceptButton = this.btnOK;
@@ -102,6 +114,7 @@
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.CancelButton = this.btnOK;
            this.ClientSize = new System.Drawing.Size(442, 425);
+           this.Controls.Add(this.lnkProject);
            this.Controls.Add(this.pictureBox1);
            this.Controls.Add(this.btnOK);
            this.Controls.Add(this.lblVersion);
@@ -130,6 +143,7 @@
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.LinkLabel lnkSupport;
+        private System.Windows.Forms.LinkLabel lnkProject;
 
     }
 }

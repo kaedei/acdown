@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.UI;
 
-namespace Kaedei.AcDown
+namespace Kaedei.AcDown.UI
 {
 	public partial class FormShutdown : Form
 	{

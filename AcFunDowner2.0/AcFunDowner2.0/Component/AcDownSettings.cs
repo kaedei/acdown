@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using Kaedei.AcDown.Interface;
+using System.Diagnostics;
 
 namespace Kaedei.AcDown
 {
@@ -104,7 +105,7 @@ namespace Kaedei.AcDown
 			  finally
 			  {
 				  GlobalSettings.GetSettings().CacheSizeMb = setting.CacheSize;
-				  GlobalSettings.GetSettings().SaveFileWhenAbort = setting.SaveWhenAbort;
+				  //GlobalSettings.GetSettings().SaveFileWhenAbort = setting.SaveWhenAbort;
 			  }
 				return setting; 
 		  }
@@ -116,14 +117,15 @@ namespace Kaedei.AcDown
 		  /// 判断当前系统是否为Windows7
 		  /// </summary>
 		  /// <returns></returns>
-		  public static bool IsWindows7()
+		 [DebuggerNonUserCode()]
+		 public static bool IsWindows7()
 		  {
 				if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
 					 return true;
 				else
 					 return false;
 		  }
-
+				[DebuggerNonUserCode()]
 		  public static bool IsWindowsVista()
 		  {
 				if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0)
@@ -131,7 +133,7 @@ namespace Kaedei.AcDown
 				else
 					 return false;
 		  }
-
+				[DebuggerNonUserCode()]
 		  public static bool IsWindowsVistaOr7()
 		  {
 				if (Environment.OSVersion.Version.Major == 6 )

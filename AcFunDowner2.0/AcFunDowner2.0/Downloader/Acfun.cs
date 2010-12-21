@@ -41,7 +41,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new Acfun();
+			return new Acfun(this);
 		}
 
 		public bool CheckUrl(string url)
@@ -84,6 +84,17 @@ namespace Kaedei.AcDown.Downloader
 	/// </summary>
 	public class Acfun : IDownloader
 	{
+
+		public Acfun(AcFunPlugin p)
+		{
+			_basePlugin = p;
+		}
+		//插件
+		AcFunPlugin _basePlugin;
+		public IAcdownPluginInfo GetBasePlugin() { return _basePlugin; }
+		//服务器IP地址
+		private const string ServerIP = "124.228.254.229";
+		//下载参数
 		DownloadParameter currentParameter;
 		#region IDownloader 成员
 
@@ -104,7 +115,6 @@ namespace Kaedei.AcDown.Downloader
 				{
 					return 0;
 				}
-				
 			}
 		}
 
@@ -207,14 +217,14 @@ namespace Kaedei.AcDown.Downloader
 		//下载视频
 		public void DownloadVideo()
 		{
-			//TODO:Status设置
 			//开始下载
 			delegates.Start(new ParaStart(this.TaskId));
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
 			_status = DownloadStatus.正在下载;
 
 			//要分析的地址
-			string url = Url;
+			string url = Url.Replace("www.acfun.cn", ServerIP);
+			url = url.Replace("acfun.cn", ServerIP);
 
 			//取得网页源文件
 			string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
@@ -232,6 +242,7 @@ namespace Kaedei.AcDown.Downloader
 			string title = mTitle.Groups["title"].Value;
 			//过滤非法字符
 			title = Tools.InvalidCharacterFilter(title, "");
+			_title = title;
 
 			//视频地址数组
 			string[] videos = null;
@@ -268,10 +279,10 @@ namespace Kaedei.AcDown.Downloader
 				{
 					//文件名 例: c:\123(1).flv
 					FilePath = Path.Combine(SaveDirectory.ToString(),
-												  title + "(" + (i + 1).ToString() + ")" +
+												  _title + "(" + (i + 1).ToString() + ")" +
 												  Path.GetExtension(videos[i])),
 					//文件URL
-					Url = url,				
+					Url = videos[i]
 				};
 				//添加文件路径到List<>中
 				_filePath.Add(currentParameter.FilePath);
@@ -360,7 +371,6 @@ namespace Kaedei.AcDown.Downloader
 				return sb.ToString();
 			}
 		}
-
 
 		#endregion
 	}

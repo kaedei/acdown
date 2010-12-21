@@ -31,11 +31,6 @@ namespace Kaedei.AcDown.Interface
 		public int CacheSizeMb { get; set; }
 
 		/// <summary>
-		/// 中止时保存已经下载的部分
-		/// </summary>
-		public bool SaveFileWhenAbort { get; set; }
-
-		/// <summary>
 		/// 速度限制
 		/// </summary>
 		public int SpeedLimit { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Kaedei.AcDown
+﻿namespace Kaedei.AcDown.UI
 {
 	partial class FormShutdown
 	{

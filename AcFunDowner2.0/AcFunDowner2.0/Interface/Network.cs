@@ -19,6 +19,8 @@ namespace Kaedei.AcDown.Interface
 		/// </summary>
 		public static bool DownloadFile(DownloadParameter para)
 		{
+			//用于限速的Tick
+			Int32 privateTick = 0;
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
 			WebRequest Myrq = HttpWebRequest.Create(para.Url);
@@ -54,9 +56,6 @@ namespace Kaedei.AcDown.Interface
 								bs.Close();
 								st.Close();
 								fs.Close();
-								//删除文件
-								if (!GlobalSettings.GetSettings().SaveFileWhenAbort)
-									System.IO.File.Delete(para.FilePath);
 								return false;
 							}
 							#endregion
@@ -78,13 +77,13 @@ namespace Kaedei.AcDown.Interface
 								//累积到limit KB后
 								if (limitcount >= GlobalSettings.GetSettings().SpeedLimit)
 								{
-									t = System.Environment.TickCount - (int)para.LastTick;
+									t = System.Environment.TickCount - privateTick;
 									//检查是否大于一秒
 									if (t < 1000)		//如果小于一秒则等待至一秒
 										Thread.Sleep(1000 - t);
 									//重置count和计时器，继续下载
 									limitcount = 0;
-									para.LastTick = System.Environment.TickCount;
+									privateTick = System.Environment.TickCount;
 								}
 							}
 							else //如果不限速
@@ -158,15 +157,21 @@ namespace Kaedei.AcDown.Interface
 		/// <param name="url"></param>
 		/// <param name="encode"></param>
 		/// <returns></returns>
-		public static string GetHtmlSource(string url, System.Text.Encoding encode)
+		public static string GetHtmlSource2(string url, System.Text.Encoding encode)
 		{
 			string sline = "";
-			var req = WebRequest.Create(url);
+			var req = HttpWebRequest.Create(url);
 			var res = req.GetResponse();
 			StreamReader strm = new StreamReader(res.GetResponseStream(), encode);
 			sline = strm.ReadToEnd();
 			strm.Close();
 			return sline;
+		}
+		public static string GetHtmlSource(string url,System.Text.Encoding encode)
+		{
+			WebClient wc = new WebClient();
+			byte[] data = wc.DownloadData(url);
+			return encode.GetString(data);
 		}
 
 	}
