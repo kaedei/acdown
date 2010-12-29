@@ -38,6 +38,8 @@ namespace Kaedei.AcDown.UI
 				 instance.txtInput.Text = u;
 			 }
 			 instance.Show();
+			 instance.TopMost = true;
+			 instance.TopMost = false;
 		 }
 
 		 private FormNew()
@@ -111,9 +113,10 @@ namespace Kaedei.AcDown.UI
 				 //检查是否有已经在进行的相同任务
 				 foreach (IDownloader downloader in _taskMgr.Tasks)
 				 {
-					 if (downloader.GetBasePlugin().GetHash(url) == hash)
+					 if (downloader.GetBasePlugin().GetHash(downloader.Url) == hash)
 					 {
 						 toolTip.Show("当前任务已经存在", txtInput, 4000);
+						 this.Cursor = Cursors.Default;
 						 return;
 					 }
 				 }
@@ -161,6 +164,7 @@ namespace Kaedei.AcDown.UI
 		 {
 			 FormConfig fc = new FormConfig();
 			 fc.ShowDialog();
+			 this.lblPath.Text = Config.setting.SavePath;
 		 }
 
 

@@ -26,6 +26,22 @@ namespace Kaedei.AcDown.Interface
 			WebRequest Myrq = HttpWebRequest.Create(para.Url);
 			WebResponse myrp = Myrq.GetResponse();
 			para.TotalLength = myrp.ContentLength; //文件长度
+
+			#region 检查文件是否被下载过
+
+			//如果要下载的文件存在
+			if (File.Exists(para.FilePath))
+			{
+				long filelength = new FileInfo(para.FilePath).Length;
+				//如果文件长度相同
+				if (filelength == para.TotalLength)
+				{
+					//返回下载成功
+					return true;
+				}
+			}
+			#endregion
+
 			para.DoneBytes = 0; //完成字节数
 			para.LastTick = System.Environment.TickCount; //系统计数
 			Stream st, fs; //网络流和文件流
