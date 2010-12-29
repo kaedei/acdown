@@ -398,7 +398,11 @@ namespace AcDown.UI
 			int sl = Convert.ToInt32(udSpeedLimit.Value);
 			if (sl != 0)
 			{
-				GlobalSettings.GetSettings().SpeedLimit = sl / taskMgr.GetRunningCount();
+				int r = taskMgr.GetRunningCount();
+				if (r != 0 )
+				{
+					GlobalSettings.GetSettings().SpeedLimit = sl / r;
+				}
 			}
 			else
 			{
@@ -442,7 +446,13 @@ namespace AcDown.UI
 			}
 			//显示全局速度
 			if (speed != 0)
+			{
 				lblSpeed.Text = speed.ToString() + "KB/s";
+			}
+			else
+			{
+				lblSpeed.Text = "";
+			}
 			//显示Win7任务栏
 			if (Config.setting.EnableWindows7Feature)
 			{
@@ -486,9 +496,6 @@ namespace AcDown.UI
 						//所有设置为停止，等待其自动退出
 						taskMgr.StopTask(item);
 					}
-					//执行十五次DoEvents，尽量使所有任务自动退出
-					for (int i = 0; i < 15; i++)
-						Application.DoEvents();
 					this.Cursor = Cursors.Default;
 					//释放托盘图标
 					notifyIcon.Dispose();
@@ -750,28 +757,10 @@ namespace AcDown.UI
 			Process.Start(@"http://blog.sina.com.cn/kaedei");
 		}
 
-		//新功能建议
+		//功能建议
 		private void toolAdvise_Click(object sender, EventArgs e)
 		{
-			Process.Start(@"http://tieba.baidu.com/f?kz=690678202");
-		}
-
-		//错误提交
-		private void toolReportBug_Click(object sender, EventArgs e)
-		{
-			Process.Start(@"http://tieba.baidu.com/f?kz=690682848");
-		}
-
-		//设计错误
-		private void toolDesign_Click(object sender, EventArgs e)
-		{
-			Process.Start(@"http://tieba.baidu.com/f?kz=690684234");
-		}
-
-		//提交网址
-		private void toolReportUrl_Click(object sender, EventArgs e)
-		{
-			Process.Start(@"http://tieba.baidu.com/f?kz=690685789");
+			Process.Start(@"http://acdown.codeplex.com/Thread/View.aspx?ThreadId=229795");
 		}
 
 		//xp下搜索框失去焦点
@@ -1146,6 +1135,7 @@ namespace AcDown.UI
 		}
 
 #endregion
+
 
 	}
 

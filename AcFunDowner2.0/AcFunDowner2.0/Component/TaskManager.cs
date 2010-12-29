@@ -81,7 +81,13 @@ namespace Kaedei.AcDown
 						//如果队列未满则开始下载
 						if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 						{
+							//下载视频
 							downloader.DownloadVideo();
+							if (Config.setting.DownSub)
+							{
+								//下载字幕文件
+								downloader.DownloadSub();
+							}
 						}
 					}
 					catch (Exception ex) //如果出现错误

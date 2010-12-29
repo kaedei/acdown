@@ -53,12 +53,12 @@
            // 
            // pictureBox1
            // 
-           this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                       | System.Windows.Forms.AnchorStyles.Right)));
+           this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
            this.pictureBox1.Image = global::Kaedei.AcDown.Properties.Resources.Logo;
            this.pictureBox1.Location = new System.Drawing.Point(12, 11);
            this.pictureBox1.Name = "pictureBox1";
-           this.pictureBox1.Size = new System.Drawing.Size(418, 82);
+           this.pictureBox1.Size = new System.Drawing.Size(403, 82);
+           this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
            this.pictureBox1.TabIndex = 7;
            this.pictureBox1.TabStop = false;
            // 
@@ -114,8 +114,8 @@
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.CancelButton = this.btnOK;
            this.ClientSize = new System.Drawing.Size(442, 425);
-           this.Controls.Add(this.lnkProject);
            this.Controls.Add(this.pictureBox1);
+           this.Controls.Add(this.lnkProject);
            this.Controls.Add(this.btnOK);
            this.Controls.Add(this.lblVersion);
            this.Controls.Add(this.txtAbout);

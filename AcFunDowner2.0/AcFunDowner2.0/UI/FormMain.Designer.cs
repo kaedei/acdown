@@ -45,9 +45,6 @@
 			  this.toolTieba = new System.Windows.Forms.ToolStripMenuItem();
 			  this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			  this.toolAdvise = new System.Windows.Forms.ToolStripMenuItem();
-			  this.toolReportBug = new System.Windows.Forms.ToolStripMenuItem();
-			  this.toolDesign = new System.Windows.Forms.ToolStripMenuItem();
-			  this.toolReportUrl = new System.Windows.Forms.ToolStripMenuItem();
 			  this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			  this.toolStrip = new System.Windows.Forms.ToolStrip();
 			  this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -176,7 +173,7 @@
 			  // lblBlank
 			  // 
 			  this.lblBlank.Name = "lblBlank";
-			  this.lblBlank.Size = new System.Drawing.Size(262, 18);
+			  this.lblBlank.Size = new System.Drawing.Size(266, 18);
 			  this.lblBlank.Spring = true;
 			  // 
 			  // toolStripDropDownButton1
@@ -186,15 +183,12 @@
 				this.toolCheckNew,
 				this.toolTieba,
 				this.toolStripMenuItem1,
-				this.toolAdvise,
-				this.toolReportBug,
-				this.toolDesign,
-				this.toolReportUrl});
+				this.toolAdvise});
 			  this.toolStripDropDownButton1.Image = global::Kaedei.AcDown.Properties.Resources._1;
 			  this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			  this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-			  this.toolStripDropDownButton1.Size = new System.Drawing.Size(109, 21);
-			  this.toolStripDropDownButton1.Text = "反馈您的意见";
+			  this.toolStripDropDownButton1.Size = new System.Drawing.Size(136, 21);
+			  this.toolStripDropDownButton1.Text = "有问题?点这里-ω-";
 			  // 
 			  // toolCheckNew
 			  // 
@@ -219,29 +213,8 @@
 			  // 
 			  this.toolAdvise.Name = "toolAdvise";
 			  this.toolAdvise.Size = new System.Drawing.Size(248, 22);
-			  this.toolAdvise.Text = "建议添加新功能";
+			  this.toolAdvise.Text = "程序错误/建议/地址解析错误";
 			  this.toolAdvise.Click += new System.EventHandler(this.toolAdvise_Click);
-			  // 
-			  // toolReportBug
-			  // 
-			  this.toolReportBug.Name = "toolReportBug";
-			  this.toolReportBug.Size = new System.Drawing.Size(248, 22);
-			  this.toolReportBug.Text = "程序出现错误";
-			  this.toolReportBug.Click += new System.EventHandler(this.toolReportBug_Click);
-			  // 
-			  // toolDesign
-			  // 
-			  this.toolDesign.Name = "toolDesign";
-			  this.toolDesign.Size = new System.Drawing.Size(248, 22);
-			  this.toolDesign.Text = "功能设计不完善";
-			  this.toolDesign.Click += new System.EventHandler(this.toolDesign_Click);
-			  // 
-			  // toolReportUrl
-			  // 
-			  this.toolReportUrl.Name = "toolReportUrl";
-			  this.toolReportUrl.Size = new System.Drawing.Size(248, 22);
-			  this.toolReportUrl.Text = "报告无法下载的地址";
-			  this.toolReportUrl.Click += new System.EventHandler(this.toolReportUrl_Click);
 			  // 
 			  // toolStripStatusLabel1
 			  // 
@@ -261,7 +234,6 @@
 				this.txtSearch});
 			  this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			  this.toolStrip.Name = "toolStrip";
-			  this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			  this.toolStrip.Size = new System.Drawing.Size(459, 27);
 			  this.toolStrip.TabIndex = 7;
 			  this.toolStrip.Text = "toolStrip1";
@@ -404,7 +376,6 @@
 				this.mnuConOpenUrl,
 				this.mnuConInfo});
 			  this.mnuContext.Name = "mnuContext";
-			  this.mnuContext.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			  this.mnuContext.Size = new System.Drawing.Size(185, 170);
 			  // 
 			  // mnuConCancel
@@ -608,9 +579,6 @@
 		  private System.Windows.Forms.Button btnClickNew;
 		  private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
 		  private System.Windows.Forms.ToolStripMenuItem toolAdvise;
-		  private System.Windows.Forms.ToolStripMenuItem toolReportBug;
-		  private System.Windows.Forms.ToolStripMenuItem toolDesign;
-		  private System.Windows.Forms.ToolStripMenuItem toolReportUrl;
 		  private System.Windows.Forms.ToolStripMenuItem toolCheckNew;
 		  private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		  private System.Windows.Forms.ContextMenuStrip mnuContext;
