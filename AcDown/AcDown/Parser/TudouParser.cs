@@ -20,13 +20,24 @@ namespace Kaedei.AcDown.Parser
 			string iid = parameters[0];
 			string xmlurl = @"http://v2.tudou.com/v?it=" + iid;
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8);
-			Regex r = new Regex(@"\>(?<url>http://.*?)\</f\>");
+			Regex r = new Regex(@"brt=""(?<brt>\d)""\>(?<url>http://.*?)\</f\>");
 			MatchCollection mc = r.Matches(xmldoc);
-			foreach (Match item in mc)
+			for (int i = 4; i > 0; i--)
 			{
-				returnarray.Add(item.Groups["url"].Value);
+				foreach (Match item in mc)
+				{
+					if (item.Groups["brt"].ToString() == i.ToString())
+					{
+						return new string[] { item.Groups["url"].ToString() };
+					}
+				}
 			}
-			return returnarray.ToArray();
+			return null;
+			//foreach (Match item in mc)
+			//{
+			//   returnarray.Add(item.Groups["url"].Value);
+			//}
+			//return returnarray.ToArray();
 		}
 
 		#endregion

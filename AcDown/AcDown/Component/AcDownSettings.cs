@@ -29,7 +29,7 @@ namespace Kaedei.AcDown
 		  public string SoundFile = ""; //声音文件路径 (wav格式)
 		  public bool EnableLog = false; //运行记录日志
 		  public bool AutoCheckUrl = true; //自动检查URL
-		  public bool ShowTrayIcon = true; //显示托盘图标
+		  //public bool ShowTrayIcon = true; //显示托盘图标
 		  public bool ShowBigStartButton = true; //显示大按钮
 		  public Int32 MaxRunningTaskCount = 2; //最多同时运行任务数量
 		  public bool SaveWhenAbort = true; //任务停止或错误退出时保存已经下载的部分

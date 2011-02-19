@@ -24,6 +24,7 @@ namespace Kaedei.AcDown.Component
 		public void LoadPlugins()
 		{
 			_plugins.Add(new AcFunPlugin());
+			_plugins.Add(new TudouPlugin());
 			//_plugins.Add(new BilibiliPlugin());
 		}
 

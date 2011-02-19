@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
-using Kaedei.AcDown.Parser;
 using System.IO;
+using Kaedei.AcDown.Parser;
 
 namespace Kaedei.AcDown.Downloader
 {
-	/// <summary>
-	/// AcFun下载支持插件
-	/// </summary>
-	public class AcFunPlugin :IAcdownPluginInfo
+	public class TudouPlugin : IAcdownPluginInfo
 	{
+		#region IAcdownPluginInfo 成员
 
 		public string Name
 		{
-			get { return @"AcFunDownloader"; }
+			get { return "TudouDownloader"; }
 		}
 
 		public string Author
@@ -26,12 +24,12 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1,0,0,0); }
+			get { return new Version(1, 0, 0, 0); }
 		}
 
 		public string Describe
 		{
-			get { return @"Acfun.cn下载插件"; }
+			get { return "土豆网下载插件"; }
 		}
 
 		public string SupportUrl
@@ -41,13 +39,14 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new Acfun(this);
+			return new Tudou(this);
 		}
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://(acfun\.cn|.*?)/html/(music|anime|game|ent|dy|zj)/\w+/\w+\.html");
-			if (r.Match(url).Success)
+			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
+			Match m = r.Match(url);
+			if (m.Success)
 			{
 				return true;
 			}
@@ -58,18 +57,19 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 		/// <summary>
-		/// 规则为 acfun + 视频ID
-		/// 如 "acfun158539"
+		/// 规则为 tudou + 视频ID（或视频lid）
+		/// 如 "tudouYDn_zTq_8gI"或"tudou608662"
 		/// </summary>
-		/// <param name="url"></param>
-		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://(acfun\.cn|.*?)/html/(music|anime|game|ent|dy|zj)/\w+/(?<hash>\w+)\.html");
+			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
-				return "acfun" + m.Groups["hash"].Value;
+				if (!string.IsNullOrEmpty(m.Groups["id1"].ToString()))
+					return "tudou" + m.Groups["id1"].ToString();
+				else
+					return "tudou" + m.Groups["id2"].ToString();
 			}
 			else
 			{
@@ -77,25 +77,23 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
+		#endregion
 	}
 
-	/// <summary>
-	/// Acfun下载器
-	/// </summary>
-	public class Acfun : IDownloader
+	public class Tudou : IDownloader
 	{
 
-		public Acfun(AcFunPlugin p)
+		public Tudou(TudouPlugin p)
 		{
 			_basePlugin = p;
 		}
 		//插件
-		AcFunPlugin _basePlugin;
+		TudouPlugin _basePlugin;
 		public IAcdownPluginInfo GetBasePlugin() { return _basePlugin; }
-		//服务器IP地址
-		private const string ServerIP = "124.228.254.229";
+
 		//下载参数
 		DownloadParameter currentParameter;
+
 		#region IDownloader 成员
 
 		public Guid TaskId { get; set; }
@@ -121,7 +119,7 @@ namespace Kaedei.AcDown.Downloader
 		//已完成的长度
 		public long DoneBytes
 		{
-			get 
+			get
 			{
 				if (currentParameter != null)
 				{
@@ -137,14 +135,14 @@ namespace Kaedei.AcDown.Downloader
 		//最后一次Tick时的值
 		public long LastTick
 		{
-			get 
+			get
 			{
 				if (currentParameter != null)
 				{
 					//将tick值更新为当前值
 					long tmp = currentParameter.LastTick;
 					currentParameter.LastTick = currentParameter.DoneBytes;
-					return tmp;	
+					return tmp;
 				}
 				else
 				{
@@ -214,6 +212,18 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
+		//下载信息（显示到UI上）
+		public string Info
+		{
+			get
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.AppendLine("TaskId: " + this.TaskId.ToString());
+				sb.AppendLine("Url: " + this.Url);
+				return sb.ToString();
+			}
+		}
+
 		//下载视频
 		public void DownloadVideo()
 		{
@@ -222,22 +232,22 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
 			_status = DownloadStatus.正在下载;
 
-			//要分析的地址
-			string url = Url.Replace("www.acfun.cn", ServerIP);
-			url = url.Replace("acfun.cn", ServerIP);
-
 			//取得网页源文件
-			string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
+			string src = Network.GetHtmlSource(Url, Encoding.GetEncoding("GBK"));
 
-			//分析id和视频存放站点(type)
-			Regex rId = new Regex(@"id=(?<id>\w*)&amp;type(|\w)=(?<type>\w*)");
-			Match mId = rId.Match(src);
-			//取得id和type值
-			string id = mId.Groups["id"].Value;
-			string type = mId.Groups["type"].Value;
+			//分析视频iid
+			string iid = "";
+			//确定URL类型
+			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
+			Match m = r.Match(Url);
+
+			//取得iid
+			Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
+			Match m1 = r1.Match(src);
+			iid = m1.Groups["iid"].ToString();
 
 			//取得视频标题
-			Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
+			Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
 			Match mTitle = rTitle.Match(src);
 			string title = mTitle.Groups["title"].Value;
 			//过滤非法字符
@@ -249,20 +259,9 @@ namespace Kaedei.AcDown.Downloader
 			//清空地址
 			_filePath.Clear();
 
-			//检查type值
-			switch (type)
-			{
-				case "video": //新浪视频
-					//解析视频
-					SinaVideoParser parserSina = new SinaVideoParser();
-					videos = parserSina.Parse(new string[] { id });
-					break;
-				case "qq": //QQ视频
-					//解析视频
-					QQVideoParser parserQQ = new QQVideoParser();
-					videos = parserQQ.Parse(new string[] { id });
-					break;
-			}
+			//调用内建的土豆视频解析器
+			TudouParser parserTudou = new TudouParser();
+			videos = parserTudou.Parse(new string[] { iid });
 
 			//下载视频
 			//确定视频共有几个段落
@@ -274,39 +273,41 @@ namespace Kaedei.AcDown.Downloader
 				_currentPart = i + 1;
 				//提示更换新Part
 				delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+				//取得文件后缀名
+				string ext = new Regex(@"\.(?<ext>\w{3})\?").Match(videos[i]).Groups["ext"].ToString();
 				//设置当前DownloadParameter
-				if (_partCount == 1)
+				if (_partCount == 1) //如果只有一段
 				{
 					currentParameter = new DownloadParameter()
 					{
 						//文件名 例: c:\123(1).flv
 						FilePath = Path.Combine(SaveDirectory.ToString(),
-									_title +	Path.GetExtension(videos[i])),
+													  _title + "." + ext),
 						//文件URL
 						Url = videos[i]
 					};
 				}
-				else
+				else //如果分段有多段
 				{
 					currentParameter = new DownloadParameter()
 					{
 						//文件名 例: c:\123(1).flv
 						FilePath = Path.Combine(SaveDirectory.ToString(),
-									_title + "(" + (i + 1).ToString() + ")" +
-									Path.GetExtension(videos[i])),
+													  _title + "(" + (i + 1).ToString() + ")" + "." + ext),
 						//文件URL
 						Url = videos[i]
 					};
 				}
+				
 				//添加文件路径到List<>中
 				_filePath.Add(currentParameter.FilePath);
 				//下载文件
 				bool success;
 				try
 				{
-					 success = Network.DownloadFile(currentParameter);
+					success = Network.DownloadFile(currentParameter);
 				}
-				catch(Exception ex) //出现错误即下载失败
+				catch (Exception ex) //出现错误即下载失败
 				{
 					_status = DownloadStatus.出现错误;
 					delegates.Error(new ParaError(this.TaskId, ex));
@@ -322,46 +323,13 @@ namespace Kaedei.AcDown.Downloader
 			//下载成功完成
 			_status = DownloadStatus.下载完成;
 			delegates.Finish(new ParaFinish(this.TaskId, true));
+
 		}
 
-		//下载弹幕文件
+		//下载字幕文件（暂不支持）
 		public void DownloadSub()
 		{
-			delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
-			//要分析的地址
-			string url = Url;
-
-			//取得网页源文件
-			string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
-
-			//分析id和视频存放站点(type)
-			Regex rId = new Regex(@"id=(?<id>\w*)&amp;type(|\w)=(?<type>\w*)");
-			Match mId = rId.Match(src);
-			//取得id和type值
-			string id = mId.Groups["id"].Value;
-			string type = mId.Groups["type"].Value;
-
-			//取得视频标题
-			Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
-			Match mTitle = rTitle.Match(src);
-			string title = mTitle.Groups["title"].Value;
-			//过滤非法字符
-			title = Tools.InvalidCharacterFilter(title, "");
-
-			//取得字幕文件地址
-			string subUrl = @"http://acfun.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.5446887564165".Replace(@"%VideoId%", id);
 			
-			//添加文件地址
-			string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
-			_subFilePath.Add(subfile);
-			//下载字幕文件
-			Network.DownloadSub(new DownloadParameter()
-			{
-				Url = subUrl,
-				FilePath = subfile
-			});
-			
-			delegates.Finish(new ParaFinish(this.TaskId, true));
 		}
 
 		//停止下载
@@ -371,18 +339,6 @@ namespace Kaedei.AcDown.Downloader
 			{
 				//将停止flag设置为true
 				currentParameter.IsStop = true;
-			}
-		}
-
-		//下载信息（显示到UI上）
-		public string Info
-		{
-			get
-			{
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("TaskId: " + this.TaskId.ToString());
-				sb.AppendLine("Url: " + this.Url);
-				return sb.ToString();
 			}
 		}
 

@@ -212,14 +212,15 @@ namespace AcDown.UI
 				if (btnClickNew != null)
 					btnClickNew.Dispose();
 			//显示托盘图标
-			if (Config.setting.ShowTrayIcon)
-			{
-				notifyIcon.Icon = Resources.Ac;
-			}
-			else
-			{
-				notifyIcon.Dispose();
-			}
+			notifyIcon.Icon = Resources.Ac;
+			//if (Config.setting.ShowTrayIcon)
+			//{
+			//   
+			//}
+			//else
+			//{
+			//   notifyIcon.Dispose();
+			//}
 
 			//设置是否监视剪贴板
 			watchClipboard = Config.setting.WatchClipboardEnabled;
@@ -466,7 +467,7 @@ namespace AcDown.UI
 					}
 					else
 					{
-						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_INDETERMINATE);
+						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
 					}
 					//设置win7任务栏小图标
 					//taskbarList.SetOverlayIcon(this.Handle,this.Icon.Handle, "w");
@@ -483,33 +484,8 @@ namespace AcDown.UI
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			//正在进行的任务数量
-			Int32 c = taskMgr.GetRunningCount();
-			if (c > 0)
-			{
-				DialogResult r = MessageBox.Show("有" + c.ToString() + "个任务正在运行，是否退出？", "AcDown动漫下载器", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-				if (r == DialogResult.Yes) //确认关闭
-				{
-					this.Cursor = Cursors.WaitCursor;
-					foreach (var item in taskMgr.Tasks)
-					{
-						//所有设置为停止，等待其自动退出
-						taskMgr.StopTask(item);
-					}
-					this.Cursor = Cursors.Default;
-					//释放托盘图标
-					notifyIcon.Dispose();
-				}
-				else //取消关闭
-				{
-					e.Cancel = true;
-				}
-
-			}
-			//关闭日志文件
-			Logging.Exit();
-			//退出程序
-			Application.Exit();
+			e.Cancel = e.Cancel;
+			this.Hide();
 		}
 
 		//单击弹出菜单
@@ -676,20 +652,6 @@ namespace AcDown.UI
 		}
 
 
-		//FLV合并器
-		private void lnkFLVConvert_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			string path = Path.Combine(Application.StartupPath, "flvcomb.exe");
-			if (File.Exists(path))
-			{
-				Process.Start(path);
-			}
-			else
-			{
-				Process.Start(@"http://soft.pt42.com/flvcomb_index.htm");
-			}
-		}
-
 		//双击某一项目
 		private void lsv_DoubleClick(object sender, EventArgs e)
 		{
@@ -727,22 +689,44 @@ namespace AcDown.UI
 		//双击托盘图标
 		private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			if (this.WindowState == FormWindowState.Minimized)
-			{
-				this.Visible = true;
-				this.WindowState = FormWindowState.Normal;
-			}
-			else
-				this.WindowState = FormWindowState.Minimized;
+			mnuTrayShowHide_Click(sender, EventArgs.Empty);
 		}
 
-		//最小化
-		private void FormMain_Resize(object sender, EventArgs e)
+		//显示/隐藏
+		private void mnuTrayShowHide_Click(object sender, EventArgs e)
 		{
-			if (this.WindowState == FormWindowState.Minimized)
-				if (Config.setting.ShowTrayIcon)
-					if (!Config.IsWindowsVistaOr7() || !Config.setting.EnableWindows7Feature)
-						this.Visible = false;
+			this.Visible = !this.Visible;
+		}
+
+		//退出程序
+		private void mnuTrayExit_Click(object sender, EventArgs e)
+		{
+			//正在进行的任务数量
+			Int32 c = taskMgr.GetRunningCount();
+			if (c > 0)
+			{
+				DialogResult r = MessageBox.Show("有" + c.ToString() + "个任务正在运行，是否退出？", "AcDown动漫下载器", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+				if (r == DialogResult.Yes) //确认关闭
+				{
+					this.Cursor = Cursors.WaitCursor;
+					foreach (var item in taskMgr.Tasks)
+					{
+						//所有设置为停止，等待其自动退出
+						taskMgr.StopTask(item);
+					}
+					this.Cursor = Cursors.Default;
+					//释放托盘图标
+					notifyIcon.Dispose();
+				}
+				else //取消关闭
+				{
+					return;
+				}
+			}
+			//关闭日志文件
+			Logging.Exit();
+			//退出程序
+			Application.Exit(new System.ComponentModel.CancelEventArgs(false));
 		}
 
 		//检查新版本
@@ -766,8 +750,8 @@ namespace AcDown.UI
 		//xp下搜索框失去焦点
 		private void txtSearch_Leave(object sender, EventArgs e)
 		{
-			if (!Config.IsWindowsVistaOr7())
-				txtSearch.Text = "搜索AcFun视频";
+			if (!Config.IsWindowsVistaOr7() && txtSearch.Text == "")
+				txtSearch.Text = "搜索视频";
 		}
 
 		//删除任务
@@ -1135,6 +1119,12 @@ namespace AcDown.UI
 		}
 
 #endregion
+
+
+
+
+
+
 
 
 	}
