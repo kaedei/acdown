@@ -13,7 +13,8 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>AcDown.Program</StartupObject>
-    <ApplicationIcon>Resources\Ac.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -76,6 +77,7 @@
     <Compile Include="Component\TaskItem.cs" />
     <Compile Include="Downloader\Acfun.cs" />
     <Compile Include="Downloader\Bilibili.cs" />
+    <Compile Include="Downloader\Tudou.cs" />
     <Compile Include="Interface\Delegates.cs" />
     <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />

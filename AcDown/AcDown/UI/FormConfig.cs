@@ -29,7 +29,7 @@ namespace Kaedei.AcDown.UI
 				chkCheckUrl.Checked = Config.setting.AutoCheckUrl;
 				chkWatch.Checked = Config.setting.WatchClipboardEnabled;
 				chkDeleteFile.Checked = Config.setting.DeleteTaskAndFile;
-				chkShowTrayIcon.Checked = Config.setting.ShowTrayIcon;
+				//chkShowTrayIcon.Checked = Config.setting.ShowTrayIcon;
 				chkEnableWin7.Checked = Config.setting.EnableWindows7Feature;
 				chkShowBigButton.Checked = Config.setting.ShowBigStartButton;
 				switch (Config.setting.SearchEngine)
@@ -66,7 +66,7 @@ namespace Kaedei.AcDown.UI
 				Config.setting.AutoCheckUrl = chkCheckUrl.Checked;
 				Config.setting.WatchClipboardEnabled = chkWatch.Checked;
 				Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
-				Config.setting.ShowTrayIcon = chkShowTrayIcon.Checked;
+				//Config.setting.ShowTrayIcon = chkShowTrayIcon.Checked;
 				Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
 				Config.setting.ShowBigStartButton = chkShowBigButton.Checked;
 				string tmp = txtSearchText.Text;
