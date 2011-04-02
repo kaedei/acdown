@@ -158,7 +158,7 @@ namespace AcDown.UI
 		#endregion
 
 		#region ——————管理器——————
-
+		
 		//任务管理器
 		private TaskManager taskMgr;
 		//插件管理器
@@ -166,6 +166,8 @@ namespace AcDown.UI
 		//包装委托的类
 		private DelegateContainer deles;
 
+		//是否退出程序
+		private bool exitapp = false;
 		#endregion
 
 		#region ——————初始化——————
@@ -484,7 +486,7 @@ namespace AcDown.UI
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			e.Cancel = e.Cancel;
+			e.Cancel = !exitapp;
 			this.Hide();
 		}
 
@@ -510,7 +512,10 @@ namespace AcDown.UI
 			{
 				IDownloader downloader = GetTask(new Guid((string)item.Tag));
 				if (downloader.Status == DownloadStatus.出现错误 || downloader.Status == DownloadStatus.已经停止)
+				{
+					taskMgr.StartTask(downloader);
 					Start(new ParaStart(downloader.TaskId));
+				}
 			}
 		}
 
@@ -573,10 +578,10 @@ namespace AcDown.UI
 			Process.Start("http://acfun.cn/");
 		}
 
-		//链接到BiliBili
-		private void lnkBilibili_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		//链接到土豆网
+		private void lnkTudou_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Process.Start("http://bilibili.us");
+			Process.Start("http://www.tudou.com");
 		}
 
 
@@ -709,11 +714,8 @@ namespace AcDown.UI
 				if (r == DialogResult.Yes) //确认关闭
 				{
 					this.Cursor = Cursors.WaitCursor;
-					foreach (var item in taskMgr.Tasks)
-					{
-						//所有设置为停止，等待其自动退出
-						taskMgr.StopTask(item);
-					}
+					//结束所有任务
+					taskMgr.StopAllTasks();
 					this.Cursor = Cursors.Default;
 					//释放托盘图标
 					notifyIcon.Dispose();
@@ -726,7 +728,9 @@ namespace AcDown.UI
 			//关闭日志文件
 			Logging.Exit();
 			//退出程序
-			Application.Exit(new System.ComponentModel.CancelEventArgs(false));
+			exitapp = true;
+			this.Dispose();
+			Application.Exit();
 		}
 
 		//检查新版本
@@ -741,10 +745,16 @@ namespace AcDown.UI
 			Process.Start(@"http://blog.sina.com.cn/kaedei");
 		}
 
-		//功能建议
+		//汇报错误
+		private void toolReportbug_Click(object sender, EventArgs e)
+		{
+			Process.Start(@"http://tieba.baidu.com/f?kz=1025414691");
+		}
+
+		//提出建议
 		private void toolAdvise_Click(object sender, EventArgs e)
 		{
-			Process.Start(@"http://acdown.codeplex.com/Thread/View.aspx?ThreadId=229795");
+			Process.Start(@"http://tieba.baidu.com/f?kz=1025431451");
 		}
 
 		//xp下搜索框失去焦点
@@ -1119,9 +1129,6 @@ namespace AcDown.UI
 		}
 
 #endregion
-
-
-
 
 
 

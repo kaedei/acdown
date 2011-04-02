@@ -71,6 +71,7 @@ namespace Kaedei.AcDown.UI
 						 if (item.CheckUrl(t))
 						 {
 							 picCheck.Image = Properties.Resources._1;
+							 return;
 						 }
 						 else
 						 {

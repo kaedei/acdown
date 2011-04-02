@@ -43,7 +43,7 @@
          this.txtInfo.Name = "txtInfo";
          this.txtInfo.ReadOnly = true;
          this.txtInfo.Size = new System.Drawing.Size(393, 380);
-         this.txtInfo.TabIndex = 0;
+         this.txtInfo.TabIndex = 1;
          // 
          // btnClose
          // 
@@ -52,7 +52,7 @@
          this.btnClose.Location = new System.Drawing.Point(315, 398);
          this.btnClose.Name = "btnClose";
          this.btnClose.Size = new System.Drawing.Size(90, 38);
-         this.btnClose.TabIndex = 1;
+         this.btnClose.TabIndex = 0;
          this.btnClose.Text = "关闭(&C)";
          this.btnClose.UseVisualStyleBackColor = true;
          this.btnClose.Click += new System.EventHandler(this.btnClose_Click);

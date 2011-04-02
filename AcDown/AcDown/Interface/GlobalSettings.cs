@@ -35,5 +35,10 @@ namespace Kaedei.AcDown.Interface
 		/// </summary>
 		public int SpeedLimit { get; set; }
 
+		/// <summary>
+		/// 下载字幕
+		/// </summary>
+		public bool DownSub { get; set; }
+
 	}
 }
