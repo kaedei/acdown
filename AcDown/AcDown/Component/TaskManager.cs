@@ -31,6 +31,9 @@ namespace Kaedei.AcDown
 			delegates = delegatesCon;
 		}
 
+		//保存工作进程的弱引用,用于结束程序时强制结束下载线程
+		private Collection<WeakReference> taskThreadReferenceCollection = new Collection<WeakReference>();
+
 		//任务
 		public Collection<IDownloader> Tasks = new Collection<IDownloader>();
 
@@ -83,11 +86,6 @@ namespace Kaedei.AcDown
 						{
 							//下载视频
 							downloader.DownloadVideo();
-							if (Config.setting.DownSub)
-							{
-								//下载字幕文件
-								downloader.DownloadSub();
-							}
 						}
 					}
 					catch (Exception ex) //如果出现错误
@@ -98,6 +96,9 @@ namespace Kaedei.AcDown
 				});
 			//开始下载
 			t.Start();
+			//添加到弱引用集合中
+			WeakReference wr = new WeakReference(t);
+			taskThreadReferenceCollection.Add(wr);
 			//提示UI刷新信息
 			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
 		}
@@ -200,6 +201,19 @@ namespace Kaedei.AcDown
 					count++;
 			}
 			return count;
+		}
+
+		public void StopAllTasks()
+		{
+			foreach (var item in taskThreadReferenceCollection)
+			{
+				if (item.IsAlive)
+				{
+					Thread t = (Thread)item.Target;
+					t.Abort();
+				}
+			}
+
 		}
 
 		#region 参考

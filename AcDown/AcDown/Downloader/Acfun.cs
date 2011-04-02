@@ -268,7 +268,7 @@ namespace Kaedei.AcDown.Downloader
 			//确定视频共有几个段落
 			_partCount = videos.Length;
 
-			//分段落下载
+			//------------分段落下载------------
 			for (int i = 0; i < _partCount; i++)
 			{
 				_currentPart = i + 1;
@@ -281,7 +281,7 @@ namespace Kaedei.AcDown.Downloader
 					{
 						//文件名 例: c:\123(1).flv
 						FilePath = Path.Combine(SaveDirectory.ToString(),
-									_title +	Path.GetExtension(videos[i])),
+									_title + Path.GetExtension(videos[i])),
 						//文件URL
 						Url = videos[i]
 					};
@@ -304,9 +304,10 @@ namespace Kaedei.AcDown.Downloader
 				bool success;
 				try
 				{
-					 success = Network.DownloadFile(currentParameter);
+					//下载视频
+					success = Network.DownloadFile(currentParameter);
 				}
-				catch(Exception ex) //出现错误即下载失败
+				catch (Exception ex) //出现错误即下载失败
 				{
 					_status = DownloadStatus.出现错误;
 					delegates.Error(new ParaError(this.TaskId, ex));
@@ -318,7 +319,28 @@ namespace Kaedei.AcDown.Downloader
 					delegates.Finish(new ParaFinish(this.TaskId, false));
 					return;
 				}
+			} //end for
+
+			if (GlobalSettings.GetSettings().DownSub)
+			{
+				//----------下载字幕-----------
+				delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
+				//字幕文件地址
+				string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
+				//取得字幕文件地址
+				string subUrl = @"http://acfun.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.5446887564175".Replace(@"%VideoId%", id);
+				//下载字幕文件
+				try
+				{
+					Network.DownloadSub(new DownloadParameter()
+						{
+							Url = subUrl,
+							FilePath = subfile
+						});
+				}
+				catch { }
 			}
+
 			//下载成功完成
 			_status = DownloadStatus.下载完成;
 			delegates.Finish(new ParaFinish(this.TaskId, true));
@@ -327,41 +349,7 @@ namespace Kaedei.AcDown.Downloader
 		//下载弹幕文件
 		public void DownloadSub()
 		{
-			delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
-			//要分析的地址
-			string url = Url;
-
-			//取得网页源文件
-			string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
-
-			//分析id和视频存放站点(type)
-			Regex rId = new Regex(@"id=(?<id>\w*)&amp;type(|\w)=(?<type>\w*)");
-			Match mId = rId.Match(src);
-			//取得id和type值
-			string id = mId.Groups["id"].Value;
-			string type = mId.Groups["type"].Value;
-
-			//取得视频标题
-			Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
-			Match mTitle = rTitle.Match(src);
-			string title = mTitle.Groups["title"].Value;
-			//过滤非法字符
-			title = Tools.InvalidCharacterFilter(title, "");
-
-			//取得字幕文件地址
-			string subUrl = @"http://acfun.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.5446887564165".Replace(@"%VideoId%", id);
 			
-			//添加文件地址
-			string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
-			_subFilePath.Add(subfile);
-			//下载字幕文件
-			Network.DownloadSub(new DownloadParameter()
-			{
-				Url = subUrl,
-				FilePath = subfile
-			});
-			
-			delegates.Finish(new ParaFinish(this.TaskId, true));
 		}
 
 		//停止下载

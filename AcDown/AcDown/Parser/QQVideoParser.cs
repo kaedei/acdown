@@ -19,7 +19,7 @@ namespace Kaedei.AcDown.Parser
 		{
 			List<string> returnarray = new List<string>();		
 			//完整url
-			string url = @"http://video.qq.com/v1/vstatus/geturl?ran=0.32149567320163522&vid=%ID%&platform=1&otype=xml".Replace(@"%ID%", parameters[0]);
+			string url = @"http://vv.video.qq.com/geturl?vid=%ID%&otype=xml&platform=1&ran=0478561105213882048".Replace(@"%ID%", parameters[0]);
 			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8);
 			Regex r = new Regex(@"\<url\>(?<url>.*?)\</url\>");
 			MatchCollection mc = r.Matches(xmldoc);

@@ -37,11 +37,6 @@ namespace Kaedei.AcDown
 		  public string SearchQuery = @""; //搜索url
 		  public bool EnableWindows7Feature = true; //允许使用Windows7特性
 		  public bool DeleteTaskAndFile = false; //删除任务的同时删除文件
-		 
-
-		  //全局设置
-		  public string ServerIP = @"220.170.79.105|220.170.79.109"; //服务器IP
-		  public string CheckNewXmlUri="http://blog.sina.com.cn/kaedei"; //检查新版本URL
 		  
 
 	  }
@@ -105,6 +100,7 @@ namespace Kaedei.AcDown
 			  finally
 			  {
 				  GlobalSettings.GetSettings().CacheSizeMb = setting.CacheSize;
+				  GlobalSettings.GetSettings().DownSub = setting.DownSub;
 				  //GlobalSettings.GetSettings().SaveFileWhenAbort = setting.SaveWhenAbort;
 			  }
 				return setting; 
