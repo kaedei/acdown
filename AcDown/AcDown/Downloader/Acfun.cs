@@ -216,7 +216,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//下载视频
 		public void DownloadVideo()
-		{
+		{ 
 			//开始下载
 			delegates.Start(new ParaStart(this.TaskId));
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
@@ -226,121 +226,121 @@ namespace Kaedei.AcDown.Downloader
 			string url = Url.Replace("www.acfun.cn", ServerIP);
 			url = url.Replace("acfun.cn", ServerIP);
 
-			//取得网页源文件
-			string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
-
-			//分析id和视频存放站点(type)
-			Regex rId = new Regex(@"id=(?<id>\w*)&amp;type(|\w)=(?<type>\w*)");
-			Match mId = rId.Match(src);
-			//取得id和type值
-			string id = mId.Groups["id"].Value;
-			string type = mId.Groups["type"].Value;
-
-			//取得视频标题
-			Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
-			Match mTitle = rTitle.Match(src);
-			string title = mTitle.Groups["title"].Value;
-			//过滤非法字符
-			title = Tools.InvalidCharacterFilter(title, "");
-			_title = title;
-
-			//视频地址数组
-			string[] videos = null;
-			//清空地址
-			_filePath.Clear();
-
-			//检查type值
-			switch (type)
+			try
 			{
-				case "video": //新浪视频
-					//解析视频
-					SinaVideoParser parserSina = new SinaVideoParser();
-					videos = parserSina.Parse(new string[] { id });
-					break;
-				case "qq": //QQ视频
-					//解析视频
-					QQVideoParser parserQQ = new QQVideoParser();
-					videos = parserQQ.Parse(new string[] { id });
-					break;
-			}
+				//取得网页源文件
+				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
 
-			//下载视频
-			//确定视频共有几个段落
-			_partCount = videos.Length;
+				//分析id和视频存放站点(type)
+				Regex rId = new Regex(@"(type(|\w)=(?<type>\w*)&amp;id=(?<id>\w*)|id=(?<id>\w*)&amp;type(|\w)=(?<type>\w*))");
+				Match mId = rId.Match(src);
+				//取得id和type值
+				string id = mId.Groups["id"].Value;
+				string type = mId.Groups["type"].Value;
 
-			//------------分段落下载------------
-			for (int i = 0; i < _partCount; i++)
-			{
-				_currentPart = i + 1;
-				//提示更换新Part
-				delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
-				//设置当前DownloadParameter
-				if (_partCount == 1)
+				//取得视频标题
+				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
+				Match mTitle = rTitle.Match(src);
+				string title = mTitle.Groups["title"].Value;
+				//过滤非法字符
+				title = Tools.InvalidCharacterFilter(title, "");
+				_title = title;
+
+				//视频地址数组
+				string[] videos = null;
+				//清空地址
+				_filePath.Clear();
+
+				//检查type值
+				switch (type)
 				{
-					currentParameter = new DownloadParameter()
-					{
-						//文件名 例: c:\123(1).flv
-						FilePath = Path.Combine(SaveDirectory.ToString(),
-									_title + Path.GetExtension(videos[i])),
-						//文件URL
-						Url = videos[i]
-					};
+					case "video": //新浪视频
+						//解析视频
+						SinaVideoParser parserSina = new SinaVideoParser();
+						videos = parserSina.Parse(new string[] { id });
+						break;
+					case "qq": //QQ视频
+						//解析视频
+						QQVideoParser parserQQ = new QQVideoParser();
+						videos = parserQQ.Parse(new string[] { id });
+						break;
 				}
-				else
+
+				//下载视频
+				//确定视频共有几个段落
+				_partCount = videos.Length;
+
+				//------------分段落下载------------
+				for (int i = 0; i < _partCount; i++)
 				{
-					currentParameter = new DownloadParameter()
+					_currentPart = i + 1;
+					//提示更换新Part
+					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+					//设置当前DownloadParameter
+					if (_partCount == 1)
 					{
-						//文件名 例: c:\123(1).flv
-						FilePath = Path.Combine(SaveDirectory.ToString(),
-									_title + "(" + (i + 1).ToString() + ")" +
-									Path.GetExtension(videos[i])),
-						//文件URL
-						Url = videos[i]
-					};
-				}
-				//添加文件路径到List<>中
-				_filePath.Add(currentParameter.FilePath);
-				//下载文件
-				bool success;
-				try
-				{
+						currentParameter = new DownloadParameter()
+						{
+							//文件名 例: c:\123(1).flv
+							FilePath = Path.Combine(SaveDirectory.ToString(),
+										_title + Path.GetExtension(videos[i])),
+							//文件URL
+							Url = videos[i]
+						};
+					}
+					else
+					{
+						currentParameter = new DownloadParameter()
+						{
+							//文件名 例: c:\123(1).flv
+							FilePath = Path.Combine(SaveDirectory.ToString(),
+										_title + "(" + (i + 1).ToString() + ")" +
+										Path.GetExtension(videos[i])),
+							//文件URL
+							Url = videos[i]
+						};
+					}
+					//添加文件路径到List<>中
+					_filePath.Add(currentParameter.FilePath);
+					//下载文件
+					bool success;
 					//下载视频
 					success = Network.DownloadFile(currentParameter);
-				}
-				catch (Exception ex) //出现错误即下载失败
-				{
-					_status = DownloadStatus.出现错误;
-					delegates.Error(new ParaError(this.TaskId, ex));
-					return;
-				}
-				if (!success) //未出现错误即用户手动停止
-				{
-					_status = DownloadStatus.已经停止;
-					delegates.Finish(new ParaFinish(this.TaskId, false));
-					return;
-				}
-			} //end for
 
-			if (GlobalSettings.GetSettings().DownSub)
-			{
-				//----------下载字幕-----------
-				delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
-				//字幕文件地址
-				string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
-				//取得字幕文件地址
-				string subUrl = @"http://acfun.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.5446887564175".Replace(@"%VideoId%", id);
-				//下载字幕文件
-				try
+					if (!success) //未出现错误即用户手动停止
+					{
+						_status = DownloadStatus.已经停止;
+						delegates.Finish(new ParaFinish(this.TaskId, false));
+						return;
+					}
+				} //end for
+
+				if (GlobalSettings.GetSettings().DownSub)
 				{
-					Network.DownloadSub(new DownloadParameter()
-						{
-							Url = subUrl,
-							FilePath = subfile
-						});
+					//----------下载字幕-----------
+					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
+					//字幕文件地址
+					string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
+					//取得字幕文件地址
+					string subUrl = @"http://acfun.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.5446887564175".Replace(@"%VideoId%", id);
+					//下载字幕文件
+					try
+					{
+						Network.DownloadSub(new DownloadParameter()
+							{
+								Url = subUrl,
+								FilePath = subfile
+							});
+					}
+					catch { }
 				}
-				catch { }
 			}
-
+			catch(Exception ex)
+			{
+				_status = DownloadStatus.出现错误;
+				delegates.Error(new ParaError(this.TaskId, ex));
+				return;
+			}
 			//下载成功完成
 			_status = DownloadStatus.下载完成;
 			delegates.Finish(new ParaFinish(this.TaskId, true));

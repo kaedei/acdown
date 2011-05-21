@@ -124,10 +124,11 @@ namespace Kaedei.AcDown
 			//先停止任务
 			downloader.StopDownloadVideo();
 
-			while (downloader.Status != DownloadStatus.已经停止)
+			while (downloader.Status == DownloadStatus.正在下载)
 			{
 				Thread.Sleep(50);
 			}
+			
 			
 			//是否删除文件
 			if (deleteFile)

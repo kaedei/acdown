@@ -231,94 +231,95 @@ namespace Kaedei.AcDown.Downloader
 			delegates.Start(new ParaStart(this.TaskId));
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
 			_status = DownloadStatus.正在下载;
-
-			//取得网页源文件
-			string src = Network.GetHtmlSource(Url, Encoding.GetEncoding("GBK"));
-
-			//分析视频iid
-			string iid = "";
-			//确定URL类型
-			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
-			Match m = r.Match(Url);
-
-			//取得iid
-			Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
-			Match m1 = r1.Match(src);
-			iid = m1.Groups["iid"].ToString();
-
-			//取得视频标题
-			Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
-			Match mTitle = rTitle.Match(src);
-			string title = mTitle.Groups["title"].Value;
-			//过滤非法字符
-			title = Tools.InvalidCharacterFilter(title, "");
-			_title = title;
-
-			//视频地址数组
-			string[] videos = null;
-			//清空地址
-			_filePath.Clear();
-
-			//调用内建的土豆视频解析器
-			TudouParser parserTudou = new TudouParser();
-			videos = parserTudou.Parse(new string[] { iid });
-
-			//下载视频
-			//确定视频共有几个段落
-			_partCount = videos.Length;
-
-			//分段落下载
-			for (int i = 0; i < _partCount; i++)
+			try
 			{
-				_currentPart = i + 1;
-				//提示更换新Part
-				delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
-				//取得文件后缀名
-				string ext = new Regex(@"\.(?<ext>\w{3})\?").Match(videos[i]).Groups["ext"].ToString();
-				//设置当前DownloadParameter
-				if (_partCount == 1) //如果只有一段
+				//取得网页源文件
+				string src = Network.GetHtmlSource(Url, Encoding.GetEncoding("GBK"));
+
+				//分析视频iid
+				string iid = "";
+				//确定URL类型
+				Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
+				Match m = r.Match(Url);
+
+				//取得iid
+				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
+				Match m1 = r1.Match(src);
+				iid = m1.Groups["iid"].ToString();
+
+				//取得视频标题
+				Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
+				Match mTitle = rTitle.Match(src);
+				string title = mTitle.Groups["title"].Value;
+				//过滤非法字符
+				title = Tools.InvalidCharacterFilter(title, "");
+				_title = title;
+
+				//视频地址数组
+				string[] videos = null;
+				//清空地址
+				_filePath.Clear();
+
+				//调用内建的土豆视频解析器
+				TudouParser parserTudou = new TudouParser();
+				videos = parserTudou.Parse(new string[] { iid });
+
+				//下载视频
+				//确定视频共有几个段落
+				_partCount = videos.Length;
+
+				//分段落下载
+				for (int i = 0; i < _partCount; i++)
 				{
-					currentParameter = new DownloadParameter()
+					_currentPart = i + 1;
+					//提示更换新Part
+					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+					//取得文件后缀名
+					string ext = new Regex(@"\.(?<ext>\w{3})\?").Match(videos[i]).Groups["ext"].ToString();
+					//设置当前DownloadParameter
+					if (_partCount == 1) //如果只有一段
 					{
-						//文件名 例: c:\123(1).flv
-						FilePath = Path.Combine(SaveDirectory.ToString(),
-													  _title + "." + ext),
-						//文件URL
-						Url = videos[i]
-					};
-				}
-				else //如果分段有多段
-				{
-					currentParameter = new DownloadParameter()
+						currentParameter = new DownloadParameter()
+						{
+							//文件名 例: c:\123(1).flv
+							FilePath = Path.Combine(SaveDirectory.ToString(),
+														  _title + "." + ext),
+							//文件URL
+							Url = videos[i]
+						};
+					}
+					else //如果分段有多段
 					{
-						//文件名 例: c:\123(1).flv
-						FilePath = Path.Combine(SaveDirectory.ToString(),
-													  _title + "(" + (i + 1).ToString() + ")" + "." + ext),
-						//文件URL
-						Url = videos[i]
-					};
-				}
-				
-				//添加文件路径到List<>中
-				_filePath.Add(currentParameter.FilePath);
-				//下载文件
-				bool success;
-				try
-				{
+						currentParameter = new DownloadParameter()
+						{
+							//文件名 例: c:\123(1).flv
+							FilePath = Path.Combine(SaveDirectory.ToString(),
+														  _title + "(" + (i + 1).ToString() + ")" + "." + ext),
+							//文件URL
+							Url = videos[i]
+						};
+					}
+
+					//添加文件路径到List<>中
+					_filePath.Add(currentParameter.FilePath);
+					//下载文件
+					bool success;
+					//下载视频文件
 					success = Network.DownloadFile(currentParameter);
+					//未出现错误即用户手动停止
+					if (!success) 
+					{
+						_status = DownloadStatus.已经停止;
+						delegates.Finish(new ParaFinish(this.TaskId, false));
+						return;
+					}
 				}
-				catch (Exception ex) //出现错误即下载失败
-				{
-					_status = DownloadStatus.出现错误;
-					delegates.Error(new ParaError(this.TaskId, ex));
-					return;
-				}
-				if (!success) //未出现错误即用户手动停止
-				{
-					_status = DownloadStatus.已经停止;
-					delegates.Finish(new ParaFinish(this.TaskId, false));
-					return;
-				}
+			}
+			catch (Exception ex) //出现错误即下载失败
+			{
+				_status = DownloadStatus.出现错误;
+				delegates.Error(new ParaError(this.TaskId, ex));
+				return;
 			}
 			//下载成功完成
 			_status = DownloadStatus.下载完成;

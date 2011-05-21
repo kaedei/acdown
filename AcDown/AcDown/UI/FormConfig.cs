@@ -14,7 +14,6 @@ namespace Kaedei.AcDown.UI
 
 		  private void FormConfig_Load(object sender, EventArgs e)
 		  {
-				this.Icon = Resources.Ac;
 				if (Config.setting.AutoDownAllSection) 
 					 chkDownAllParts.Checked = true;
 				if (Config.setting.DownSub) 
@@ -117,15 +116,6 @@ namespace Kaedei.AcDown.UI
 			  {
 				  MessageBox.Show("当前禁止记录日志文件,请查看应用程序设置", "日志文件被禁止", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			  }
-		  }
-
-		  private void lnkMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		  {
-			  System.Diagnostics.Process.Start("notepad.exe",
-				  System.IO.Path.Combine(
-				  Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				  @"Kaedei\AcDown\config.xml"));
-			  //System.Diagnostics.Process.Start(@"http://blog.sina.com.cn/s/blog_58c506600100h7p9.html");
 		  }
 
 
