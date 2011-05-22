@@ -232,18 +232,26 @@ namespace Kaedei.AcDown.Downloader
 				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
 
 				//分析id和视频存放站点(type)
-				Regex rId = new Regex(@"(type(|\w)=(?<type>\w*)&amp;id=(?<id>\w*)(?<ot>(-\w*|))|id=(?<id>\w*)(?<ot>(-\w*|))&amp;type(|\w)=(?<type>\w*\W\w*))");
-				Match mId = rId.Match(src);
-
-				//取得id和type值
+				//先取得embed块的源代码
+				Regex rEmbed = new Regex(@"<embed (?<content>.*)</embed>");
+				Match mEmbed = rEmbed.Match(src);
+				string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"","");
+				
+				//取得id值
+				Regex rId = new Regex(@"id=(?<id>\w*)(?<ot>(-\w*|))");
+				Match mId = rId.Match(embedSrc);
 				string id = mId.Groups["id"].Value;
-				string type = mId.Groups["type"].Value;
 				string ot = mId.Groups["ot"].Value;
+
+				//取得type值
+				Regex rType = new Regex(@"type(|\w)=(?<type>\w*)");
+				Match mType = rType.Match(embedSrc);
+				string type = mType.Groups["type"].Value;
 
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace(" - Acfun.cn","");
+				string title = mTitle.Groups["title"].Value.Replace(" - AcFun.cn","");
 
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+)</option>");
