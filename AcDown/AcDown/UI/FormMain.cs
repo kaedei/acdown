@@ -215,15 +215,6 @@ namespace AcDown.UI
 					btnClickNew.Dispose();
 			//显示托盘图标
 			notifyIcon.Icon = Resources.Ac;
-			//if (Config.setting.ShowTrayIcon)
-			//{
-			//   
-			//}
-			//else
-			//{
-			//   notifyIcon.Dispose();
-			//}
-
 			//设置是否监视剪贴板
 			watchClipboard = Config.setting.WatchClipboardEnabled;
 
@@ -244,28 +235,6 @@ namespace AcDown.UI
 				//设置listview效果
 				SetWindowTheme(this.lsv.Handle, "explorer", null); //Explorer style 
 				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
-			}
-			//设置搜索框
-			switch (Config.setting.SearchEngine)
-			{
-				case "Google":
-					searchGoogle_Click(this, EventArgs.Empty);
-					break;
-				case "BiliBili":
-					searchBilibili_Click(this, EventArgs.Empty);
-					break;
-				case "Bing":
-					searchBing_Click(this, EventArgs.Empty);
-					break;
-				case "Baidu":
-					searchBaidu_Click(this, EventArgs.Empty);
-					break;
-				default:
-					searchGoogle.Checked = true;
-					searchBing.Checked = false;
-					searchBaidu.Checked = false;
-					searchCustom.Checked = true;
-					break;
 			}
 			//选中下拉列表框
 			cboAfterComplete.SelectedIndex = 0;
@@ -464,12 +433,13 @@ namespace AcDown.UI
 					IDownloader a = taskMgr.GetFirstRunning();
 					if (a != null) //如果有任务正在运行
 					{
+						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
 						//显示此任务的进度
 						taskbarList.SetProgressValue(this.Handle, (ulong)(((double)a.DoneBytes / (double)a.TotalLength) * 10000), 10000);
 					}
 					else
 					{
-						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
+						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
 					}
 					//设置win7任务栏小图标
 					//taskbarList.SetOverlayIcon(this.Handle,this.Icon.Handle, "w");
@@ -488,6 +458,15 @@ namespace AcDown.UI
 		{
 			e.Cancel = !exitapp;
 			this.Hide();
+		}
+
+		//程序隐藏后提示
+		private void FormMain_VisibleChanged(object sender, EventArgs e)
+		{
+			if (!this.Visible)
+			{
+				notifyIcon.ShowBalloonTip(1500, "AcDown动漫下载器已经最小化到系统托盘", "您可以双击此图标以重新显示下载器", ToolTipIcon.Info);
+			}
 		}
 
 		//单击弹出菜单
@@ -558,7 +537,7 @@ namespace AcDown.UI
 			}
 		}
 
-		//TODO:查看视频信息
+		//查看视频信息
 		private void mnuConInfo_Click(object sender, EventArgs e)
 		{
 			ListViewItem item = lsv.SelectedItems[0];
@@ -584,56 +563,7 @@ namespace AcDown.UI
 			Process.Start("http://www.tudou.com");
 		}
 
-
-		//使用Google搜索站内视频
-		private void searchGoogle_Click(object sender, EventArgs e)
-		{
-			searchGoogle.Checked = true;
-			Config.setting.SearchEngine = "Google";
-			Config.setting.SearchQuery = @"http://www.google.com/custom?domains=acfun.cn&q=%TEST%&sa=Google+%CB%D1%CB%F7&sitesearch=acfun.cn&client=pub-1186646738938701&forid=1&ie=GB2312&oe=GB2312&cof=GALT%3A%23008000%3BGL%3A1%3BDIV%3A%23336699%3BVLC%3A663399%3BAH%3Acenter%3BBGC%3AFFFFFF%3BLBGC%3A336699%3BALC%3A0000FF%3BLC%3A0000FF%3BT%3A000000%3BGFNT%3A0000FF%3BGIMP%3A0000FF%3BFORID%3A1&hl=zh-CN&ie=UTF-8";
-			Config.SaveSettings();
-			searchBing.Checked = false;
-			searchBaidu.Checked = false;
-			searchCustom.Checked = false;
-			searchBilibili.Checked = false;
-		}
-
-		private void searchBilibili_Click(object sender, EventArgs e)
-		{
-			searchBilibili.Checked = true;
-			Config.setting.SearchEngine = "BiliBili";
-			Config.setting.SearchQuery = @"http://bilibili.us/plus/search.php?keyword=%TEST%";
-			Config.SaveSettings();
-			searchBing.Checked = false;
-			searchBaidu.Checked = false;
-			searchCustom.Checked = false;
-			searchGoogle.Checked = false;
-		}
-
-		private void searchBing_Click(object sender, EventArgs e)
-		{
-			searchGoogle.Checked = false;
-			searchBing.Checked = true;
-			Config.setting.SearchEngine = "Bing";
-			Config.setting.SearchQuery = @"http://cn.bing.com/search?q=%TEST%+site%3Aacfun.cn";
-			Config.SaveSettings();
-			searchBaidu.Checked = false;
-			searchCustom.Checked = false;
-			searchBilibili.Checked = false;
-		}
-
-		private void searchBaidu_Click(object sender, EventArgs e)
-		{
-			searchBaidu.Checked = true;
-			Config.setting.SearchEngine = "Baidu";
-			Config.setting.SearchQuery = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.cn%29";
-			Config.SaveSettings();
-			searchGoogle.Checked = false;
-			searchBilibili.Checked = false;
-			searchBing.Checked = false;
-			searchCustom.Checked = false;
-		}
-
+		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
 			btnConfig_Click(this, EventArgs.Empty);
@@ -644,7 +574,22 @@ namespace AcDown.UI
 		{
 			if (txtSearch.Text.Length != 0)
 			{
-				string q = Config.setting.SearchQuery.Replace(@"%TEST%", txtSearch.Text);
+				string q;
+				switch (Config.setting.SearchQuery)
+				{
+					case "Acfun站内搜索 - Google":
+						q = @"http://www.google.com/custom?domains=acfun.cn&q=%TEST%&sa=Google+%CB%D1%CB%F7&sitesearch=acfun.cn&client=pub-1186646738938701&forid=1&ie=GB2312&oe=GB2312&cof=GALT%3A%23008000%3BGL%3A1%3BDIV%3A%23336699%3BVLC%3A663399%3BAH%3Acenter%3BBGC%3AFFFFFF%3BLBGC%3A336699%3BALC%3A0000FF%3BLC%3A0000FF%3BT%3A000000%3BGFNT%3A0000FF%3BGIMP%3A0000FF%3BFORID%3A1&hl=zh-CN&ie=UTF-8".Replace("%TEST%", txtSearch.Text);
+						break;
+					case "土豆网":
+						q = "";
+						break;
+					case "Acfun站内搜索 - 百度":
+						q = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.cn%29".Replace("%TEST%", txtSearch.Text);
+						break;
+					default:
+						q = Config.setting.SearchQuery.Replace(@"%TEST%", txtSearch.Text);
+						break;
+				}
 				Process.Start(q);
 			}
 		}
@@ -771,7 +716,7 @@ namespace AcDown.UI
 			if (item != null)
 			{
 				IDownloader downloader = GetTask(new Guid((string)item.Tag));
-				taskMgr.DeleteTask(downloader, !Config.setting.DeleteTaskAndFile);
+				taskMgr.DeleteTask(downloader, Config.setting.DeleteTaskAndFile);
 				//删除UI
 				lsv.Items.Remove(item);
 			}
@@ -1129,10 +1074,6 @@ namespace AcDown.UI
 		}
 
 #endregion
-
-
-
-
 
 	}
 

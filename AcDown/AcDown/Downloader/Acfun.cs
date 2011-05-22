@@ -232,16 +232,39 @@ namespace Kaedei.AcDown.Downloader
 				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
 
 				//分析id和视频存放站点(type)
-				Regex rId = new Regex(@"(type(|\w)=(?<type>\w*)&amp;id=(?<id>\w*)|id=(?<id>\w*)&amp;type(|\w)=(?<type>\w*))");
+				Regex rId = new Regex(@"(type(|\w)=(?<type>\w*)&amp;id=(?<id>\w*)(?<ot>(-\w*|))|id=(?<id>\w*)(?<ot>(-\w*|))&amp;type(|\w)=(?<type>\w*\W\w*))");
 				Match mId = rId.Match(src);
+
 				//取得id和type值
 				string id = mId.Groups["id"].Value;
 				string type = mId.Groups["type"].Value;
+				string ot = mId.Groups["ot"].Value;
 
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value;
+				string title = mTitle.Groups["title"].Value.Replace(" - Acfun.cn","");
+
+				//取得子标题
+				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+)</option>");
+				MatchCollection mSubTitles = rSubTitle.Matches(src);
+				 //如果存在下拉列表框
+				if (mSubTitles.Count > 0)
+				{
+					bool findSelected = false;
+					foreach (Match item in mSubTitles)
+					{
+						if (!string.IsNullOrEmpty(item.Groups["isselected"].Value))
+						{
+							title = title + " - " + item.Groups["content"].Value;
+							findSelected = true;
+						}
+					}
+					if (!findSelected)
+					{
+						title = title + " - " + mSubTitles[0].Groups["content"].Value;
+					}
+				}
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
 				_title = title;
@@ -263,6 +286,11 @@ namespace Kaedei.AcDown.Downloader
 						//解析视频
 						QQVideoParser parserQQ = new QQVideoParser();
 						videos = parserQQ.Parse(new string[] { id });
+						break;
+					case "youku": //优酷视频
+						//解析视频
+						YoukuParser parserYouKu = new YoukuParser();
+						videos = parserYouKu.Parse(new string[] { id });
 						break;
 				}
 
@@ -319,10 +347,10 @@ namespace Kaedei.AcDown.Downloader
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
-					//字幕文件地址
-					string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
-					//取得字幕文件地址
-					string subUrl = @"http://acfun.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.5446887564175".Replace(@"%VideoId%", id);
+					//字幕文件(on)地址
+					string subfile = Path.Combine(SaveDirectory.ToString(), title + "[未锁定].xml");
+					//取得字幕文件(on)地址
+					string subUrl = @"http://www.sjfan.com.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.4203103971667588".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
 					//下载字幕文件
 					try
 					{
@@ -331,6 +359,20 @@ namespace Kaedei.AcDown.Downloader
 								Url = subUrl,
 								FilePath = subfile
 							});
+					}
+					catch { }
+					//字幕文件(lock)地址
+					subfile = Path.Combine(SaveDirectory.ToString(), title + "[锁定].xml");
+					//取得字幕文件(lock)地址
+					subUrl = @"http://www.sjfan.com.cn/newflvplayer/xmldata/%VideoId%/comment_lock.xml?r=0.4203103971667588".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
+					//下载字幕文件
+					try
+					{
+						Network.DownloadSub(new DownloadParameter()
+						{
+							Url = subUrl,
+							FilePath = subfile
+						});
 					}
 					catch { }
 				}

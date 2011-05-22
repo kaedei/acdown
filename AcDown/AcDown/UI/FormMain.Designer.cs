@@ -52,10 +52,6 @@
            this.btnConfig = new System.Windows.Forms.ToolStripButton();
            this.btnAbout = new System.Windows.Forms.ToolStripButton();
            this.btnSearch = new System.Windows.Forms.ToolStripSplitButton();
-           this.searchGoogle = new System.Windows.Forms.ToolStripMenuItem();
-           this.searchBilibili = new System.Windows.Forms.ToolStripMenuItem();
-           this.searchBing = new System.Windows.Forms.ToolStripMenuItem();
-           this.searchBaidu = new System.Windows.Forms.ToolStripMenuItem();
            this.searchCustom = new System.Windows.Forms.ToolStripMenuItem();
            this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
            this.lnkAcfun = new System.Windows.Forms.LinkLabel();
@@ -194,8 +190,8 @@
            this.toolStripDropDownButton1.Image = global::Kaedei.AcDown.Properties.Resources._1;
            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-           this.toolStripDropDownButton1.Size = new System.Drawing.Size(115, 21);
-           this.toolStripDropDownButton1.Text = "有问题?点这里";
+           this.toolStripDropDownButton1.Size = new System.Drawing.Size(163, 21);
+           this.toolStripDropDownButton1.Text = "下载时遇到问题?点这里";
            // 
            // toolCheckNew
            // 
@@ -248,6 +244,7 @@
             this.txtSearch});
            this.toolStrip.Location = new System.Drawing.Point(0, 0);
            this.toolStrip.Name = "toolStrip";
+           this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
            this.toolStrip.Size = new System.Drawing.Size(459, 31);
            this.toolStrip.TabIndex = 7;
            this.toolStrip.Text = "toolStrip1";
@@ -287,10 +284,6 @@
            this.btnSearch.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
            this.btnSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
            this.btnSearch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.searchGoogle,
-            this.searchBilibili,
-            this.searchBing,
-            this.searchBaidu,
             this.searchCustom});
            this.btnSearch.Image = global::Kaedei.AcDown.Properties.Resources.bing;
            this.btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -298,34 +291,6 @@
            this.btnSearch.Size = new System.Drawing.Size(40, 28);
            this.btnSearch.Text = "搜索AcFun.cn站内视频";
            this.btnSearch.ButtonClick += new System.EventHandler(this.btnSearch_ButtonClick);
-           // 
-           // searchGoogle
-           // 
-           this.searchGoogle.Name = "searchGoogle";
-           this.searchGoogle.Size = new System.Drawing.Size(209, 22);
-           this.searchGoogle.Text = "AcFun站内搜索(Google)";
-           this.searchGoogle.Click += new System.EventHandler(this.searchGoogle_Click);
-           // 
-           // searchBilibili
-           // 
-           this.searchBilibili.Name = "searchBilibili";
-           this.searchBilibili.Size = new System.Drawing.Size(209, 22);
-           this.searchBilibili.Text = "BiliBili站内搜索";
-           this.searchBilibili.Click += new System.EventHandler(this.searchBilibili_Click);
-           // 
-           // searchBing
-           // 
-           this.searchBing.Name = "searchBing";
-           this.searchBing.Size = new System.Drawing.Size(209, 22);
-           this.searchBing.Text = "AcFun视频 - 必应(Bing)";
-           this.searchBing.Click += new System.EventHandler(this.searchBing_Click);
-           // 
-           // searchBaidu
-           // 
-           this.searchBaidu.Name = "searchBaidu";
-           this.searchBaidu.Size = new System.Drawing.Size(209, 22);
-           this.searchBaidu.Text = "AcFun视频 - 百度";
-           this.searchBaidu.Click += new System.EventHandler(this.searchBaidu_Click);
            // 
            // searchCustom
            // 
@@ -373,25 +338,25 @@
             this.mnuTrayLine1,
             this.mnuTrayExit});
            this.mnuTray.Name = "mnuTray";
-           this.mnuTray.Size = new System.Drawing.Size(172, 54);
+           this.mnuTray.Size = new System.Drawing.Size(173, 54);
            // 
            // mnuTrayShowHide
            // 
            this.mnuTrayShowHide.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
            this.mnuTrayShowHide.Name = "mnuTrayShowHide";
-           this.mnuTrayShowHide.Size = new System.Drawing.Size(171, 22);
+           this.mnuTrayShowHide.Size = new System.Drawing.Size(172, 22);
            this.mnuTrayShowHide.Text = "显示/隐藏主窗口";
            this.mnuTrayShowHide.Click += new System.EventHandler(this.mnuTrayShowHide_Click);
            // 
            // mnuTrayLine1
            // 
            this.mnuTrayLine1.Name = "mnuTrayLine1";
-           this.mnuTrayLine1.Size = new System.Drawing.Size(168, 6);
+           this.mnuTrayLine1.Size = new System.Drawing.Size(169, 6);
            // 
            // mnuTrayExit
            // 
            this.mnuTrayExit.Name = "mnuTrayExit";
-           this.mnuTrayExit.Size = new System.Drawing.Size(171, 22);
+           this.mnuTrayExit.Size = new System.Drawing.Size(172, 22);
            this.mnuTrayExit.Text = "退出";
            this.mnuTrayExit.Click += new System.EventHandler(this.mnuTrayExit_Click);
            // 
@@ -423,64 +388,64 @@
             this.mnuConOpenUrl,
             this.mnuConInfo});
            this.mnuContext.Name = "mnuContext";
-           this.mnuContext.Size = new System.Drawing.Size(183, 170);
+           this.mnuContext.Size = new System.Drawing.Size(185, 170);
            // 
            // mnuConCancel
            // 
            this.mnuConCancel.Enabled = false;
            this.mnuConCancel.Name = "mnuConCancel";
-           this.mnuConCancel.Size = new System.Drawing.Size(182, 22);
+           this.mnuConCancel.Size = new System.Drawing.Size(184, 22);
            this.mnuConCancel.Text = "AcDown动漫下载器";
            // 
            // toolStripMenuItem2
            // 
            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-           this.toolStripMenuItem2.Size = new System.Drawing.Size(179, 6);
+           this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 6);
            // 
            // mnuConStart
            // 
            this.mnuConStart.Name = "mnuConStart";
-           this.mnuConStart.Size = new System.Drawing.Size(182, 22);
+           this.mnuConStart.Size = new System.Drawing.Size(184, 22);
            this.mnuConStart.Text = "开始(&S)";
            this.mnuConStart.Click += new System.EventHandler(this.mnuConStart_Click);
            // 
            // mnuConStop
            // 
            this.mnuConStop.Name = "mnuConStop";
-           this.mnuConStop.Size = new System.Drawing.Size(182, 22);
+           this.mnuConStop.Size = new System.Drawing.Size(184, 22);
            this.mnuConStop.Text = "停止";
            this.mnuConStop.Click += new System.EventHandler(this.mnuConStop_Click);
            // 
            // mnuConDelete
            // 
            this.mnuConDelete.Name = "mnuConDelete";
-           this.mnuConDelete.Size = new System.Drawing.Size(182, 22);
+           this.mnuConDelete.Size = new System.Drawing.Size(184, 22);
            this.mnuConDelete.Text = "删除任务";
            this.mnuConDelete.Click += new System.EventHandler(this.mnuConDelete_Click);
            // 
            // toolStripMenuItem3
            // 
            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-           this.toolStripMenuItem3.Size = new System.Drawing.Size(179, 6);
+           this.toolStripMenuItem3.Size = new System.Drawing.Size(181, 6);
            // 
            // mnuConOpenFolder
            // 
            this.mnuConOpenFolder.Name = "mnuConOpenFolder";
-           this.mnuConOpenFolder.Size = new System.Drawing.Size(182, 22);
+           this.mnuConOpenFolder.Size = new System.Drawing.Size(184, 22);
            this.mnuConOpenFolder.Text = "打开视频所在文件夹";
            this.mnuConOpenFolder.Click += new System.EventHandler(this.mnuConOpenFolder_Click);
            // 
            // mnuConOpenUrl
            // 
            this.mnuConOpenUrl.Name = "mnuConOpenUrl";
-           this.mnuConOpenUrl.Size = new System.Drawing.Size(182, 22);
+           this.mnuConOpenUrl.Size = new System.Drawing.Size(184, 22);
            this.mnuConOpenUrl.Text = "打开视频页面";
            this.mnuConOpenUrl.Click += new System.EventHandler(this.mnuConOpenUrl_Click);
            // 
            // mnuConInfo
            // 
            this.mnuConInfo.Name = "mnuConInfo";
-           this.mnuConInfo.Size = new System.Drawing.Size(182, 22);
+           this.mnuConInfo.Size = new System.Drawing.Size(184, 22);
            this.mnuConInfo.Text = "查看视频信息";
            this.mnuConInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
            // 
@@ -590,6 +555,7 @@
            this.Text = "AcDown动漫下载器";
            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
            this.Load += new System.EventHandler(this.FormMain_Load);
+           this.VisibleChanged += new System.EventHandler(this.FormMain_VisibleChanged);
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
            this.statusStrip.ResumeLayout(false);
            this.statusStrip.PerformLayout();
@@ -639,18 +605,14 @@
 		  private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConOpenFolder;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConOpenUrl;
-		  private System.Windows.Forms.ToolStripSplitButton btnSearch;
-		  private System.Windows.Forms.ToolStripMenuItem searchGoogle;
-		  private System.Windows.Forms.ToolStripMenuItem searchBing;
-		  private System.Windows.Forms.ToolStripMenuItem searchBaidu;
+        private System.Windows.Forms.ToolStripSplitButton btnSearch;
 		  private System.Windows.Forms.ToolStripMenuItem searchCustom;
 		  private System.Windows.Forms.ToolStripMenuItem toolTieba;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConDelete;
 		  private System.Windows.Forms.ComboBox cboAfterComplete;
 		  private System.Windows.Forms.Label label1;
 		  private System.Windows.Forms.NumericUpDown udSpeedLimit;
-		  private System.Windows.Forms.Label label2;
-		  private System.Windows.Forms.ToolStripMenuItem searchBilibili;
+        private System.Windows.Forms.Label label2;
 		  private System.Windows.Forms.ToolStripButton toolStripButton1;
 		  private System.Windows.Forms.ContextMenuStrip mnuTray;
 		  private System.Windows.Forms.ToolStripMenuItem mnuTrayShowHide;
