@@ -45,13 +45,13 @@
            this.chkDownAllParts = new System.Windows.Forms.CheckBox();
            this.chkDownSub = new System.Windows.Forms.CheckBox();
            this.pageUI = new System.Windows.Forms.TabPage();
-           this.txtSearchText = new System.Windows.Forms.TextBox();
            this.label4 = new System.Windows.Forms.Label();
            this.chkShowBigButton = new System.Windows.Forms.CheckBox();
            this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
            this.chkCheckUrl = new System.Windows.Forms.CheckBox();
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
+           this.txtSearchText = new System.Windows.Forms.ComboBox();
            this.tab.SuspendLayout();
            this.pageGeneral.SuspendLayout();
            this.pageDownload.SuspendLayout();
@@ -276,13 +276,6 @@
            this.pageUI.Text = "界面";
            this.pageUI.UseVisualStyleBackColor = true;
            // 
-           // txtSearchText
-           // 
-           this.txtSearchText.Location = new System.Drawing.Point(26, 172);
-           this.txtSearchText.Name = "txtSearchText";
-           this.txtSearchText.Size = new System.Drawing.Size(325, 21);
-           this.txtSearchText.TabIndex = 20;
-           // 
            // label4
            // 
            this.label4.AutoSize = true;
@@ -347,6 +340,19 @@
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
            // 
+           // txtSearchText
+           // 
+           this.txtSearchText.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.txtSearchText.FormattingEnabled = true;
+           this.txtSearchText.Items.AddRange(new object[] {
+            "Acfun站内搜索 - Google",
+            "土豆网",
+            "Acfun站内搜索 - 百度"});
+           this.txtSearchText.Location = new System.Drawing.Point(26, 174);
+           this.txtSearchText.Name = "txtSearchText";
+           this.txtSearchText.Size = new System.Drawing.Size(327, 20);
+           this.txtSearchText.TabIndex = 21;
+           // 
            // FormConfig
            // 
            this.AcceptButton = this.btnOK;
@@ -398,11 +404,11 @@
         private System.Windows.Forms.CheckBox chkEnableLog;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numCacheSize;
-        private System.Windows.Forms.TextBox txtSearchText;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkShowBigButton;
         private System.Windows.Forms.CheckBox chkEnableWin7;
         private System.Windows.Forms.CheckBox chkCheckUrl;
         private System.Windows.Forms.CheckBox chkWatch;
+        private System.Windows.Forms.ComboBox txtSearchText;
 	 }
 }

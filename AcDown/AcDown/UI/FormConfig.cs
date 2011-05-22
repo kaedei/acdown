@@ -31,25 +31,7 @@ namespace Kaedei.AcDown.UI
 				//chkShowTrayIcon.Checked = Config.setting.ShowTrayIcon;
 				chkEnableWin7.Checked = Config.setting.EnableWindows7Feature;
 				chkShowBigButton.Checked = Config.setting.ShowBigStartButton;
-				switch (Config.setting.SearchEngine)
-				{
-					case "Google":
-						txtSearchText.Text = "AcFun站内搜索";
-						break;
-					case "BiliBili":
-						txtSearchText.Text = "BiliBili站内搜索";
-						break;
-					case "Bing":
-						txtSearchText.Text = "AcFun视频搜索 - Bing";
-						break;
-					case "Baidu":
-						txtSearchText.Text = "AcFun视频搜索 - 百度";
-						break;
-					default:
-						txtSearchText.Text = Config.setting.SearchQuery;
-						break;
-				}
-				
+				txtSearchText.Text = Config.setting.SearchQuery;
 		  }
 
 		  private void btnOK_Click(object sender, EventArgs e)
@@ -69,11 +51,7 @@ namespace Kaedei.AcDown.UI
 				Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
 				Config.setting.ShowBigStartButton = chkShowBigButton.Checked;
 				string tmp = txtSearchText.Text;
-				if (tmp != "AcFun站内搜索" && tmp != "BiliBili站内搜索" && tmp != "AcFun视频搜索 - Bing" && tmp != "AcFun视频搜索 - 百度")
-				{
-					Config.setting.SearchEngine = "Custom";
-					Config.setting.SearchQuery = txtSearchText.Text;
-				}
+				Config.setting.SearchQuery = txtSearchText.Text;
 				Config.SaveSettings();
 				this.Close();
 		  }
