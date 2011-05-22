@@ -581,7 +581,7 @@ namespace AcDown.UI
 						q = @"http://www.google.com/custom?domains=acfun.cn&q=%TEST%&sa=Google+%CB%D1%CB%F7&sitesearch=acfun.cn&client=pub-1186646738938701&forid=1&ie=GB2312&oe=GB2312&cof=GALT%3A%23008000%3BGL%3A1%3BDIV%3A%23336699%3BVLC%3A663399%3BAH%3Acenter%3BBGC%3AFFFFFF%3BLBGC%3A336699%3BALC%3A0000FF%3BLC%3A0000FF%3BT%3A000000%3BGFNT%3A0000FF%3BGIMP%3A0000FF%3BFORID%3A1&hl=zh-CN&ie=UTF-8".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "土豆网":
-						q = "";
+						q = @"http://so.tudou.com/nisearch/%TEST%/".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "Acfun站内搜索 - 百度":
 						q = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.cn%29".Replace("%TEST%", txtSearch.Text);
@@ -600,7 +600,6 @@ namespace AcDown.UI
 			if (e.KeyData == Keys.Enter)
 				btnSearch_ButtonClick(this, EventArgs.Empty);
 		}
-
 
 		//双击某一项目
 		private void lsv_DoubleClick(object sender, EventArgs e)
