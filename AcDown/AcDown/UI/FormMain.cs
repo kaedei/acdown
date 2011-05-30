@@ -563,6 +563,12 @@ namespace AcDown.UI
 			Process.Start("http://www.tudou.com");
 		}
 
+      //链接到Bilibili
+      private void lnkBilibili_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+      {
+         Process.Start("http://www.bilibili.us/");
+      }
+
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
@@ -572,6 +578,8 @@ namespace AcDown.UI
 		//搜索视频
 		private void btnSearch_ButtonClick(object sender, EventArgs e)
 		{
+			if (txtSearch.Text == "搜索视频")
+				return;
 			if (txtSearch.Text.Length != 0)
 			{
 				string q;

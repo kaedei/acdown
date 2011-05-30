@@ -78,6 +78,7 @@
     <Compile Include="Downloader\Bilibili.cs" />
     <Compile Include="Downloader\Tudou.cs" />
     <Compile Include="Interface\Delegates.cs" />
+    <Compile Include="Parser\SixcnParser.cs" />
     <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
     <Compile Include="Interface\IAcdownPluginInfo.cs" />

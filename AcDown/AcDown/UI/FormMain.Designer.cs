@@ -78,6 +78,7 @@
            this.label2 = new System.Windows.Forms.Label();
            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
            this.lnkTudou = new System.Windows.Forms.LinkLabel();
+           this.lnkBilibili = new System.Windows.Forms.LinkLabel();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -175,7 +176,7 @@
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(287, 18);
+           this.lblBlank.Size = new System.Drawing.Size(239, 18);
            this.lblBlank.Spring = true;
            // 
            // toolStripDropDownButton1
@@ -289,13 +290,13 @@
            this.btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.btnSearch.Name = "btnSearch";
            this.btnSearch.Size = new System.Drawing.Size(40, 28);
-           this.btnSearch.Text = "搜索AcFun.cn站内视频";
+           this.btnSearch.Text = "点击搜索";
            this.btnSearch.ButtonClick += new System.EventHandler(this.btnSearch_ButtonClick);
            // 
            // searchCustom
            // 
            this.searchCustom.Name = "searchCustom";
-           this.searchCustom.Size = new System.Drawing.Size(209, 22);
+           this.searchCustom.Size = new System.Drawing.Size(121, 22);
            this.searchCustom.Text = "自定义...";
            this.searchCustom.Click += new System.EventHandler(this.searchCustom_Click);
            // 
@@ -388,7 +389,8 @@
             this.mnuConOpenUrl,
             this.mnuConInfo});
            this.mnuContext.Name = "mnuContext";
-           this.mnuContext.Size = new System.Drawing.Size(185, 170);
+           this.mnuContext.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+           this.mnuContext.Size = new System.Drawing.Size(185, 192);
            // 
            // mnuConCancel
            // 
@@ -533,11 +535,24 @@
            this.lnkTudou.Text = "土豆网";
            this.lnkTudou.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTudou_LinkClicked);
            // 
+           // lnkBilibili
+           // 
+           this.lnkBilibili.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+           this.lnkBilibili.AutoSize = true;
+           this.lnkBilibili.Location = new System.Drawing.Point(119, 421);
+           this.lnkBilibili.Name = "lnkBilibili";
+           this.lnkBilibili.Size = new System.Drawing.Size(71, 12);
+           this.lnkBilibili.TabIndex = 19;
+           this.lnkBilibili.TabStop = true;
+           this.lnkBilibili.Text = "Bilibili.us";
+           this.lnkBilibili.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBilibili_LinkClicked);
+           // 
            // FormMain
            // 
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.ClientSize = new System.Drawing.Size(459, 464);
+           this.Controls.Add(this.lnkBilibili);
            this.Controls.Add(this.lnkTudou);
            this.Controls.Add(this.label2);
            this.Controls.Add(this.udSpeedLimit);
@@ -620,6 +635,7 @@
 		  private System.Windows.Forms.ToolStripMenuItem mnuTrayExit;
 		  private System.Windows.Forms.ToolStripMenuItem toolAdvise;
 		  private System.Windows.Forms.LinkLabel lnkTudou;
+        private System.Windows.Forms.LinkLabel lnkBilibili;
 
 	 }
 }
