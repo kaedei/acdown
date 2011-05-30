@@ -183,6 +183,13 @@ namespace Kaedei.AcDown.Interface
 			strm.Close();
 			return sline;
 		}
+
+		/// <summary>
+		/// 获取网页源代码(推荐使用的版本)
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="encode"></param>
+		/// <returns></returns>
 		public static string GetHtmlSource(string url,System.Text.Encoding encode)
 		{
 			WebClient wc = new WebClient();

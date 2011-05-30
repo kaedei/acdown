@@ -233,7 +233,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//分析id和视频存放站点(type)
 				//先取得embed块的源代码
-				Regex rEmbed = new Regex(@"<embed (?<content>.*)</embed>");
+				Regex rEmbed = new Regex(@"<embed (?<content>.*)>");
 				Match mEmbed = rEmbed.Match(src);
 				string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"","");
 				
@@ -312,6 +312,8 @@ namespace Kaedei.AcDown.Downloader
 					_currentPart = i + 1;
 					//提示更换新Part
 					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+					//取得文件后缀名
+					string ext = new Regex(@"\.(?<ext>\w{3})\?").Match(videos[i]).Groups["ext"].ToString();
 					//设置当前DownloadParameter
 					if (_partCount == 1)
 					{
@@ -319,7 +321,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + Path.GetExtension(videos[i])),
+										_title + (string.IsNullOrEmpty(ext) ? Path.GetExtension(videos[i]) : ext)),
 							//文件URL
 							Url = videos[i]
 						};
@@ -331,7 +333,7 @@ namespace Kaedei.AcDown.Downloader
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
 										_title + "(" + (i + 1).ToString() + ")" +
-										Path.GetExtension(videos[i])),
+										(string.IsNullOrEmpty(ext) ? Path.GetExtension(videos[i]) : ext)),
 							//文件URL
 							Url = videos[i]
 						};

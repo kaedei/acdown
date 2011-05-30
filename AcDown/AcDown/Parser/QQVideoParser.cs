@@ -19,15 +19,24 @@ namespace Kaedei.AcDown.Parser
 		{
 			List<string> returnarray = new List<string>();		
 			//完整url
-			string url = @"http://vv.video.qq.com/geturl?vid=%ID%&otype=xml&platform=1&ran=0478561105213882048".Replace(@"%ID%", parameters[0]);
+			string url = @"http://vv.video.qq.com/geturl?ran=0.16436194255948067&otype=xml&vid=%ID%&platform=1&format=2".Replace(@"%ID%", parameters[0]);
 			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8);
 			Regex r = new Regex(@"\<url\>(?<url>.*?)\</url\>");
 			MatchCollection mc = r.Matches(xmldoc);
-			foreach (Match item in mc)
+			if (mc.Count != 0)
 			{
-				returnarray.Add(item.Groups[@"url"].Value);
+				foreach (Match item in mc)
+				{
+					returnarray.Add(item.Groups[@"url"].Value);
+				}
+				return returnarray.ToArray();
 			}
-			return returnarray.ToArray();
+			else
+			{
+				returnarray.Add(@"http://web.qqvideo.tc.qq.com/" + parameters[0] + ".flv");
+				return returnarray.ToArray();
+			}
+			
 
 		}
 
