@@ -237,9 +237,7 @@ namespace AcDown.UI
 				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
 			}
 			//选中下拉列表框
-			cboAfterComplete.SelectedIndex = 0;
-			//设置更新文字
-			toolCheckNew.Text = "检查是否有新版本(当前版本:" + Application.ProductVersion.ToString() + ")";
+			cboAfterComplete.SelectedIndex = 0;			
 		}
 
 		private void btnAbout_Click(object sender, EventArgs e)
@@ -563,11 +561,11 @@ namespace AcDown.UI
 			Process.Start("http://www.tudou.com");
 		}
 
-      //链接到Bilibili
-      private void lnkBilibili_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-      {
-         Process.Start("http://www.bilibili.us/");
-      }
+		//链接到Bilibili
+		private void lnkBilibili_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start("http://www.bilibili.us/");
+		}
 
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
@@ -643,6 +641,13 @@ namespace AcDown.UI
 			}
 		}
 
+		//点击"下载中心"链接
+		private void toolHelpCenter_Click(object sender, EventArgs e)
+		{
+			FormHelp frmHelp = new FormHelp();
+			frmHelp.ShowDialog();
+		}
+
 		//双击托盘图标
 		private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
@@ -684,31 +689,7 @@ namespace AcDown.UI
 			this.Dispose();
 			Application.Exit();
 		}
-
-		//检查新版本
-		private void toolCheckNew_Click(object sender, EventArgs e)
-		{
-			Process.Start(@"http://acdown.codeplex.com/releases");
-		}
-
-		//使用交流
-		private void toolTieba_Click(object sender, EventArgs e)
-		{
-			Process.Start(@"http://blog.sina.com.cn/kaedei");
-		}
-
-		//汇报错误
-		private void toolReportbug_Click(object sender, EventArgs e)
-		{
-			Process.Start(@"http://tieba.baidu.com/f?kz=1025414691");
-		}
-
-		//提出建议
-		private void toolAdvise_Click(object sender, EventArgs e)
-		{
-			Process.Start(@"http://tieba.baidu.com/f?kz=1025431451");
-		}
-
+		
 		//xp下搜索框失去焦点
 		private void txtSearch_Leave(object sender, EventArgs e)
 		{
@@ -1081,6 +1062,8 @@ namespace AcDown.UI
 		}
 
 #endregion
+
+
 
 	}
 

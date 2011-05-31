@@ -377,24 +377,11 @@ namespace Kaedei.AcDown.Downloader
 						Network.DownloadSub(new DownloadParameter()
 							{
 								Url = subUrl,
-								FilePath = subfile
+								FilePath = subfile,
+								UseDeflate = true
 							});
 					}
 					catch { }
-					////字幕文件(lock)地址
-					//subfile = Path.Combine(SaveDirectory.ToString(), title + "[锁定].xml");
-					////取得字幕文件(lock)地址
-					//subUrl = @"http://www.sjfan.com.cn/newflvplayer/xmldata/%VideoId%/comment_lock.xml?r=0.4203103971667588".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
-					////下载字幕文件
-					//try
-					//{
-					//   Network.DownloadSub(new DownloadParameter()
-					//   {
-					//      Url = subUrl,
-					//      FilePath = subfile
-					//   });
-					//}
-					//catch { }
 				}
 			}
 			catch(Exception ex)

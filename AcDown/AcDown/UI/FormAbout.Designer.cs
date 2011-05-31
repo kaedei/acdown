@@ -104,7 +104,7 @@
            this.lnkProject.Size = new System.Drawing.Size(227, 12);
            this.lnkProject.TabIndex = 11;
            this.lnkProject.TabStop = true;
-           this.lnkProject.Text = "项目主页：http://AcDown.codeplex.com/";
+           this.lnkProject.Text = "项目主页：http://acdown.codeplex.com/";
            this.lnkProject.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkProject_LinkClicked);
            // 
            // FormAbout
