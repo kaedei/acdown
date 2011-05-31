@@ -40,12 +40,7 @@
            this.statusStrip = new System.Windows.Forms.StatusStrip();
            this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
            this.lblBlank = new System.Windows.Forms.ToolStripStatusLabel();
-           this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-           this.toolCheckNew = new System.Windows.Forms.ToolStripMenuItem();
-           this.toolTieba = new System.Windows.Forms.ToolStripMenuItem();
-           this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-           this.toolReportbug = new System.Windows.Forms.ToolStripMenuItem();
-           this.toolAdvise = new System.Windows.Forms.ToolStripMenuItem();
+           this.toolHelpCenter = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStrip = new System.Windows.Forms.ToolStrip();
            this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -79,6 +74,7 @@
            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
            this.lnkTudou = new System.Windows.Forms.LinkLabel();
            this.lnkBilibili = new System.Windows.Forms.LinkLabel();
+           this.toolTip = new System.Windows.Forms.ToolTip(this.components);
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -161,71 +157,33 @@
            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSpeed,
             this.lblBlank,
-            this.toolStripDropDownButton1});
-           this.statusStrip.Location = new System.Drawing.Point(0, 441);
+            this.toolHelpCenter});
+           this.statusStrip.Location = new System.Drawing.Point(0, 442);
            this.statusStrip.Name = "statusStrip";
-           this.statusStrip.Size = new System.Drawing.Size(459, 23);
+           this.statusStrip.Size = new System.Drawing.Size(459, 22);
            this.statusStrip.TabIndex = 6;
            // 
            // lblSpeed
            // 
            this.lblSpeed.Name = "lblSpeed";
-           this.lblSpeed.Size = new System.Drawing.Size(42, 18);
+           this.lblSpeed.Size = new System.Drawing.Size(42, 17);
            this.lblSpeed.Text = "0KB/s";
            // 
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(239, 18);
+           this.lblBlank.Size = new System.Drawing.Size(215, 17);
            this.lblBlank.Spring = true;
            // 
-           // toolStripDropDownButton1
+           // toolHelpCenter
            // 
-           this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-           this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolCheckNew,
-            this.toolTieba,
-            this.toolStripMenuItem1,
-            this.toolReportbug,
-            this.toolAdvise});
-           this.toolStripDropDownButton1.Image = global::Kaedei.AcDown.Properties.Resources._1;
-           this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-           this.toolStripDropDownButton1.Size = new System.Drawing.Size(163, 21);
-           this.toolStripDropDownButton1.Text = "下载时遇到问题?点这里";
-           // 
-           // toolCheckNew
-           // 
-           this.toolCheckNew.Name = "toolCheckNew";
-           this.toolCheckNew.Size = new System.Drawing.Size(248, 22);
-           this.toolCheckNew.Text = "检查是否有新版本(当前版本:2.0)";
-           this.toolCheckNew.Click += new System.EventHandler(this.toolCheckNew_Click);
-           // 
-           // toolTieba
-           // 
-           this.toolTieba.Name = "toolTieba";
-           this.toolTieba.Size = new System.Drawing.Size(248, 22);
-           this.toolTieba.Text = "作者博客";
-           this.toolTieba.Click += new System.EventHandler(this.toolTieba_Click);
-           // 
-           // toolStripMenuItem1
-           // 
-           this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-           this.toolStripMenuItem1.Size = new System.Drawing.Size(245, 6);
-           // 
-           // toolReportbug
-           // 
-           this.toolReportbug.Name = "toolReportbug";
-           this.toolReportbug.Size = new System.Drawing.Size(248, 22);
-           this.toolReportbug.Text = "程序错误/地址解析错误";
-           this.toolReportbug.Click += new System.EventHandler(this.toolReportbug_Click);
-           // 
-           // toolAdvise
-           // 
-           this.toolAdvise.Name = "toolAdvise";
-           this.toolAdvise.Size = new System.Drawing.Size(248, 22);
-           this.toolAdvise.Text = "新功能建议/需要修改";
-           this.toolAdvise.Click += new System.EventHandler(this.toolAdvise_Click);
+           this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources._1;
+           this.toolHelpCenter.IsLink = true;
+           this.toolHelpCenter.Name = "toolHelpCenter";
+           this.toolHelpCenter.Size = new System.Drawing.Size(156, 17);
+           this.toolHelpCenter.Text = "下载时遇到问题？点这里";
+           this.toolHelpCenter.ToolTipText = "打开帮助中心";
+           this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
            // 
            // toolStripStatusLabel1
            // 
@@ -323,6 +281,7 @@
            this.lnkAcfun.TabIndex = 9;
            this.lnkAcfun.TabStop = true;
            this.lnkAcfun.Text = "AcFun.cn";
+           this.toolTip.SetToolTip(this.lnkAcfun, "链接到Acfun.cn");
            this.lnkAcfun.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAcfun_LinkClicked);
            // 
            // notifyIcon
@@ -373,6 +332,7 @@
            this.btnClickNew.Text = "新建下载任务";
            this.btnClickNew.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
            this.btnClickNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+           this.toolTip.SetToolTip(this.btnClickNew, "新建一个下载任务");
            this.btnClickNew.UseVisualStyleBackColor = true;
            this.btnClickNew.Click += new System.EventHandler(this.btnClickNew_Click);
            // 
@@ -474,6 +434,7 @@
            this.cboAfterComplete.Name = "cboAfterComplete";
            this.cboAfterComplete.Size = new System.Drawing.Size(75, 20);
            this.cboAfterComplete.TabIndex = 13;
+           this.toolTip.SetToolTip(this.cboAfterComplete, "全部下载完成后执行的动作");
            // 
            // label1
            // 
@@ -504,6 +465,7 @@
            this.udSpeedLimit.Size = new System.Drawing.Size(49, 21);
            this.udSpeedLimit.TabIndex = 16;
            this.udSpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+           this.toolTip.SetToolTip(this.udSpeedLimit, "限速设置即时生效。设置为0可以取消限速");
            // 
            // label2
            // 
@@ -533,6 +495,7 @@
            this.lnkTudou.TabIndex = 18;
            this.lnkTudou.TabStop = true;
            this.lnkTudou.Text = "土豆网";
+           this.toolTip.SetToolTip(this.lnkTudou, "链接到土豆网(Tudou.com)");
            this.lnkTudou.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTudou_LinkClicked);
            // 
            // lnkBilibili
@@ -545,7 +508,14 @@
            this.lnkBilibili.TabIndex = 19;
            this.lnkBilibili.TabStop = true;
            this.lnkBilibili.Text = "Bilibili.us";
+           this.toolTip.SetToolTip(this.lnkBilibili, "链接到Bilibili.us");
            this.lnkBilibili.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBilibili_LinkClicked);
+           // 
+           // toolTip
+           // 
+           this.toolTip.IsBalloon = true;
+           this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+           this.toolTip.ToolTipTitle = "提示";
            // 
            // FormMain
            // 
@@ -604,11 +574,7 @@
 		  private System.Windows.Forms.ColumnHeader headerProcess;
 		  private System.Windows.Forms.ColumnHeader headerSpeed;
 		  private System.Windows.Forms.ColumnHeader headerSource;
-		  private System.Windows.Forms.Button btnClickNew;
-		  private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-		  private System.Windows.Forms.ToolStripMenuItem toolReportbug;
-		  private System.Windows.Forms.ToolStripMenuItem toolCheckNew;
-		  private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.Button btnClickNew;
 		  private System.Windows.Forms.ContextMenuStrip mnuContext;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConCancel;
 		  private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
@@ -621,8 +587,7 @@
 		  private System.Windows.Forms.ToolStripMenuItem mnuConOpenFolder;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConOpenUrl;
         private System.Windows.Forms.ToolStripSplitButton btnSearch;
-		  private System.Windows.Forms.ToolStripMenuItem searchCustom;
-		  private System.Windows.Forms.ToolStripMenuItem toolTieba;
+        private System.Windows.Forms.ToolStripMenuItem searchCustom;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConDelete;
 		  private System.Windows.Forms.ComboBox cboAfterComplete;
 		  private System.Windows.Forms.Label label1;
@@ -632,10 +597,11 @@
 		  private System.Windows.Forms.ContextMenuStrip mnuTray;
 		  private System.Windows.Forms.ToolStripMenuItem mnuTrayShowHide;
 		  private System.Windows.Forms.ToolStripSeparator mnuTrayLine1;
-		  private System.Windows.Forms.ToolStripMenuItem mnuTrayExit;
-		  private System.Windows.Forms.ToolStripMenuItem toolAdvise;
+        private System.Windows.Forms.ToolStripMenuItem mnuTrayExit;
 		  private System.Windows.Forms.LinkLabel lnkTudou;
         private System.Windows.Forms.LinkLabel lnkBilibili;
+        private System.Windows.Forms.ToolStripStatusLabel toolHelpCenter;
+        private System.Windows.Forms.ToolTip toolTip;
 
 	 }
 }

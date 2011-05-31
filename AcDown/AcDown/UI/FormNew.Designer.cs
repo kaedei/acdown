@@ -62,17 +62,17 @@
            // 
            this.label1.AutoSize = true;
            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.label1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.label1.Location = new System.Drawing.Point(14, 29);
+           this.label1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+           this.label1.Location = new System.Drawing.Point(11, 29);
            this.label1.Name = "label1";
-           this.label1.Size = new System.Drawing.Size(123, 19);
+           this.label1.Size = new System.Drawing.Size(106, 21);
            this.label1.TabIndex = 1;
            this.label1.Text = "请输入网址：";
            // 
            // btnAdd
            // 
            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnAdd.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+           this.btnAdd.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.btnAdd.Location = new System.Drawing.Point(341, 161);
            this.btnAdd.Name = "btnAdd";
            this.btnAdd.Size = new System.Drawing.Size(98, 37);
@@ -116,6 +116,7 @@
            this.chkImmediate.Text = "立即开始";
            this.toolTip.SetToolTip(this.chkImmediate, "添加任务后是否立即开始任务\r\n(如果未选中则请手动开始下载任务)");
            this.chkImmediate.UseVisualStyleBackColor = true;
+           this.chkImmediate.Visible = false;
            // 
            // label2
            // 

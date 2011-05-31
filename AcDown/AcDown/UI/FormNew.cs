@@ -40,6 +40,7 @@ namespace Kaedei.AcDown.UI
 			 instance.Show();
 			 instance.TopMost = true;
 			 instance.TopMost = false;
+			 instance.txtInput.Focus();
 		 }
 
 		 private FormNew()
@@ -50,8 +51,6 @@ namespace Kaedei.AcDown.UI
 		 
 		 private void FormNew_Load(object sender, EventArgs e)
 		 {
-			 if (Config.IsWindowsVistaOr7())
-				 SendMessage(txtInput.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"请输入或粘贴入网络地址"));
 			 if (!string.IsNullOrEmpty(u))
 				 txtInput.Text = u;
 			 lblPath.Text = Config.setting.SavePath;
