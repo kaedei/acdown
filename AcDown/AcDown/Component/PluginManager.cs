@@ -26,6 +26,7 @@ namespace Kaedei.AcDown.Component
 			_plugins.Add(new AcFunPlugin());
 			_plugins.Add(new TudouPlugin());
 			_plugins.Add(new BilibiliPlugin());
+			_plugins.Add(new YoukuPlugin());
 		}
 
 	}

@@ -715,23 +715,11 @@ namespace AcDown.UI
 		{
 			if (e.KeyCode == Keys.Delete)
 			{
-				if (e.Shift == true)
+				ListViewItem item = lsv.SelectedItems[0];
+				if (item != null)
 				{
-					ListViewItem item = lsv.SelectedItems[0];
-					if (item != null)
-					{
-						IDownloader downloader = GetTask(new Guid((string)item.Tag));
-						taskMgr.DeleteTask(downloader, Config.setting.DeleteTaskAndFile);
-					}
-				}
-				else
-				{
-					ListViewItem item = lsv.SelectedItems[0];
-					if (item != null)
-					{
-						IDownloader downloader = GetTask(new Guid((string)item.Tag));
-						taskMgr.DeleteTask(downloader, !Config.setting.DeleteTaskAndFile);
-					}
+					IDownloader downloader = GetTask(new Guid((string)item.Tag));
+					taskMgr.DeleteTask(downloader, e.Shift | Config.setting.DeleteTaskAndFile);
 				}
 			}
 		}

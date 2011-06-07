@@ -172,7 +172,7 @@
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(215, 17);
+           this.lblBlank.Size = new System.Drawing.Size(246, 17);
            this.lblBlank.Spring = true;
            // 
            // toolHelpCenter
@@ -298,7 +298,8 @@
             this.mnuTrayLine1,
             this.mnuTrayExit});
            this.mnuTray.Name = "mnuTray";
-           this.mnuTray.Size = new System.Drawing.Size(173, 54);
+           this.mnuTray.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+           this.mnuTray.Size = new System.Drawing.Size(173, 76);
            // 
            // mnuTrayShowHide
            // 
@@ -350,7 +351,7 @@
             this.mnuConInfo});
            this.mnuContext.Name = "mnuContext";
            this.mnuContext.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.mnuContext.Size = new System.Drawing.Size(185, 192);
+           this.mnuContext.Size = new System.Drawing.Size(185, 170);
            // 
            // mnuConCancel
            // 
