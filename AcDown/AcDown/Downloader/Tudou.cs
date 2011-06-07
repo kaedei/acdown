@@ -44,7 +44,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
+			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*)|playlist/p/(?<id3>\w+)\.html)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -62,19 +62,23 @@ namespace Kaedei.AcDown.Downloader
 		/// </summary>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
+			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*)|playlist/p/(?<id3>\w+)\.html)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
 				if (!string.IsNullOrEmpty(m.Groups["id1"].ToString()))
 					return "tudou" + m.Groups["id1"].ToString();
-				else
+				else if (!string.IsNullOrEmpty(m.Groups["id2"].ToString()))
+				{
 					return "tudou" + m.Groups["id2"].ToString();
+				}
+				else if (!string.IsNullOrEmpty(m.Groups["id3"].ToString()))
+				{
+					return "tudou" + m.Groups["id3"].ToString();
+				}
 			}
-			else
-			{
-				return null;
-			}
+			return null;
+
 		}
 
 		#endregion
@@ -238,9 +242,9 @@ namespace Kaedei.AcDown.Downloader
 
 				//分析视频iid
 				string iid = "";
-				//确定URL类型
-				Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
-				Match m = r.Match(Url);
+				////确定URL类型
+				//Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
+				//Match m = r.Match(Url);
 
 				//取得iid
 				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");

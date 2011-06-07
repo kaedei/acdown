@@ -63,7 +63,7 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://www\.bilibili\.us/video/av(?<av>\w+)");
+			Regex r = new Regex(@"http://(www\.|)bilibili\.us/video/av(?<av>\w+)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -229,7 +229,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace("_嗶哩嗶哩", "");
+				string title = mTitle.Groups["title"].Value.Replace(" _嗶哩嗶哩", "").Replace(" - 嗶哩嗶哩", "");
 
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+)</option>");

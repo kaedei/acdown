@@ -18,6 +18,19 @@ namespace Kaedei.AcDown.Parser
 		{
 			List<string> returnarray = new List<string>();
 			string iid = parameters[0];
+			try //测试iid是否是真实的(应该为数字)
+			{
+				int t = int.Parse(iid);
+			}
+			catch
+			{
+				//取得土豆网页面源代码
+				string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GBK"));
+				//取得iid
+				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
+				Match m1 = r1.Match(tudousource);
+				iid = m1.Groups["iid"].ToString();
+			}
 			string xmlurl = @"http://v2.tudou.com/v?it=" + iid;
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8);
 			Regex r = new Regex(@"brt=""(?<brt>\d)""\>(?<url>http://.*?)\</f\>");
