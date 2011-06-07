@@ -313,7 +313,7 @@ namespace Kaedei.AcDown.Downloader
 					//提示更换新Part
 					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
 					//取得文件后缀名
-					string ext = new Regex(@"\.(?<ext>\w{3})\?").Match(videos[i]).Groups["ext"].ToString();
+					string ext = Tools.GetExtension(videos[i]);
 					//设置当前DownloadParameter
 					if (_partCount == 1)
 					{

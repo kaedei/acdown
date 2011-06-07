@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using System.IO.Compression;
 using Kaedei.AcDown.Interface;
+using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -258,6 +259,16 @@ namespace Kaedei.AcDown.Interface
 				input = input.Replace(item.ToString(), replace);
 			}
 			return input;
+		}
+
+		/// <summary>
+		/// 取得网络文件的后缀名
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		public static string GetExtension(string url)
+		{
+			return new Regex(@"\.(?<ext>\w{3})\?").Match(url).Groups["ext"].ToString();
 		}
 
 	}

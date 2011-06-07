@@ -100,7 +100,7 @@
            this.toolTip.IsBalloon = true;
            this.toolTip.ReshowDelay = 100;
            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-           this.toolTip.ToolTipTitle = "小提示:";
+           this.toolTip.ToolTipTitle = "提示:";
            // 
            // chkImmediate
            // 
