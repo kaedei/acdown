@@ -14,8 +14,6 @@ namespace Kaedei.AcDown.UI
 
 		  private void FormConfig_Load(object sender, EventArgs e)
 		  {
-				if (Config.setting.AutoDownAllSection) 
-					 chkDownAllParts.Checked = true;
 				if (Config.setting.DownSub) 
 					 chkDownSub.Checked = true;
 				if (Config.setting.OpenFolderAfterComplete) 
@@ -37,7 +35,6 @@ namespace Kaedei.AcDown.UI
 		  private void btnOK_Click(object sender, EventArgs e)
 		  {
 			  //保存设置
-				Config.setting.AutoDownAllSection = chkDownAllParts.Checked;
 				Config.setting.DownSub = chkDownSub.Checked;
 				Config.setting.OpenFolderAfterComplete = chkOpenFolder.Checked;
 				Config.setting.PlaySound = chkPlaySound.Checked;

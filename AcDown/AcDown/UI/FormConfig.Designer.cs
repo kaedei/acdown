@@ -42,16 +42,15 @@
            this.chkDeleteFile = new System.Windows.Forms.CheckBox();
            this.chkPlaySound = new System.Windows.Forms.CheckBox();
            this.chkOpenFolder = new System.Windows.Forms.CheckBox();
-           this.chkDownAllParts = new System.Windows.Forms.CheckBox();
            this.chkDownSub = new System.Windows.Forms.CheckBox();
            this.pageUI = new System.Windows.Forms.TabPage();
+           this.txtSearchText = new System.Windows.Forms.ComboBox();
            this.label4 = new System.Windows.Forms.Label();
            this.chkShowBigButton = new System.Windows.Forms.CheckBox();
            this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
            this.chkCheckUrl = new System.Windows.Forms.CheckBox();
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
-           this.txtSearchText = new System.Windows.Forms.ComboBox();
            this.tab.SuspendLayout();
            this.pageGeneral.SuspendLayout();
            this.pageDownload.SuspendLayout();
@@ -163,7 +162,6 @@
            this.pageDownload.Controls.Add(this.chkDeleteFile);
            this.pageDownload.Controls.Add(this.chkPlaySound);
            this.pageDownload.Controls.Add(this.chkOpenFolder);
-           this.pageDownload.Controls.Add(this.chkDownAllParts);
            this.pageDownload.Controls.Add(this.chkDownSub);
            this.pageDownload.Location = new System.Drawing.Point(4, 22);
            this.pageDownload.Name = "pageDownload";
@@ -176,7 +174,7 @@
            // label1
            // 
            this.label1.AutoSize = true;
-           this.label1.Location = new System.Drawing.Point(25, 151);
+           this.label1.Location = new System.Drawing.Point(25, 129);
            this.label1.Name = "label1";
            this.label1.Size = new System.Drawing.Size(113, 12);
            this.label1.TabIndex = 16;
@@ -184,7 +182,7 @@
            // 
            // numCacheSize
            // 
-           this.numCacheSize.Location = new System.Drawing.Point(144, 149);
+           this.numCacheSize.Location = new System.Drawing.Point(144, 127);
            this.numCacheSize.Maximum = new decimal(new int[] {
             16,
             0,
@@ -208,7 +206,7 @@
            // 
            this.chkDeleteFile.AutoSize = true;
            this.chkDeleteFile.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkDeleteFile.Location = new System.Drawing.Point(27, 112);
+           this.chkDeleteFile.Location = new System.Drawing.Point(27, 90);
            this.chkDeleteFile.Name = "chkDeleteFile";
            this.chkDeleteFile.Size = new System.Drawing.Size(186, 17);
            this.chkDeleteFile.TabIndex = 14;
@@ -219,7 +217,7 @@
            // 
            this.chkPlaySound.AutoSize = true;
            this.chkPlaySound.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkPlaySound.Location = new System.Drawing.Point(27, 89);
+           this.chkPlaySound.Location = new System.Drawing.Point(27, 67);
            this.chkPlaySound.Name = "chkPlaySound";
            this.chkPlaySound.Size = new System.Drawing.Size(150, 17);
            this.chkPlaySound.TabIndex = 13;
@@ -230,24 +228,12 @@
            // 
            this.chkOpenFolder.AutoSize = true;
            this.chkOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkOpenFolder.Location = new System.Drawing.Point(27, 67);
+           this.chkOpenFolder.Location = new System.Drawing.Point(27, 45);
            this.chkOpenFolder.Name = "chkOpenFolder";
            this.chkOpenFolder.Size = new System.Drawing.Size(150, 17);
            this.chkOpenFolder.TabIndex = 12;
            this.chkOpenFolder.Text = "下载完成后打开文件夹";
            this.chkOpenFolder.UseVisualStyleBackColor = true;
-           // 
-           // chkDownAllParts
-           // 
-           this.chkDownAllParts.AutoSize = true;
-           this.chkDownAllParts.Enabled = false;
-           this.chkDownAllParts.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkDownAllParts.Location = new System.Drawing.Point(27, 45);
-           this.chkDownAllParts.Name = "chkDownAllParts";
-           this.chkDownAllParts.Size = new System.Drawing.Size(174, 17);
-           this.chkDownAllParts.TabIndex = 11;
-           this.chkDownAllParts.Text = "自动下载所有相关联的章节";
-           this.chkDownAllParts.UseVisualStyleBackColor = true;
            // 
            // chkDownSub
            // 
@@ -275,6 +261,19 @@
            this.pageUI.TabIndex = 3;
            this.pageUI.Text = "界面";
            this.pageUI.UseVisualStyleBackColor = true;
+           // 
+           // txtSearchText
+           // 
+           this.txtSearchText.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.txtSearchText.FormattingEnabled = true;
+           this.txtSearchText.Items.AddRange(new object[] {
+            "Acfun站内搜索 - Google",
+            "土豆网",
+            "Acfun站内搜索 - 百度"});
+           this.txtSearchText.Location = new System.Drawing.Point(26, 174);
+           this.txtSearchText.Name = "txtSearchText";
+           this.txtSearchText.Size = new System.Drawing.Size(327, 20);
+           this.txtSearchText.TabIndex = 21;
            // 
            // label4
            // 
@@ -340,19 +339,6 @@
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
            // 
-           // txtSearchText
-           // 
-           this.txtSearchText.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.txtSearchText.FormattingEnabled = true;
-           this.txtSearchText.Items.AddRange(new object[] {
-            "Acfun站内搜索 - Google",
-            "土豆网",
-            "Acfun站内搜索 - 百度"});
-           this.txtSearchText.Location = new System.Drawing.Point(26, 174);
-           this.txtSearchText.Name = "txtSearchText";
-           this.txtSearchText.Size = new System.Drawing.Size(327, 20);
-           this.txtSearchText.TabIndex = 21;
-           // 
            // FormConfig
            // 
            this.AcceptButton = this.btnOK;
@@ -394,7 +380,6 @@
         private System.Windows.Forms.CheckBox chkDeleteFile;
         private System.Windows.Forms.CheckBox chkPlaySound;
         private System.Windows.Forms.CheckBox chkOpenFolder;
-        private System.Windows.Forms.CheckBox chkDownAllParts;
         private System.Windows.Forms.CheckBox chkDownSub;
         private System.Windows.Forms.TabPage pageUI;
         private System.Windows.Forms.TabPage pagePlugin;
