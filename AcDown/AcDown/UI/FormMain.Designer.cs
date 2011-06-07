@@ -75,6 +75,7 @@
            this.lnkTudou = new System.Windows.Forms.LinkLabel();
            this.lnkBilibili = new System.Windows.Forms.LinkLabel();
            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+           this.lnkYouku = new System.Windows.Forms.LinkLabel();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -277,10 +278,10 @@
            this.lnkAcfun.AutoSize = true;
            this.lnkAcfun.Location = new System.Drawing.Point(12, 421);
            this.lnkAcfun.Name = "lnkAcfun";
-           this.lnkAcfun.Size = new System.Drawing.Size(53, 12);
+           this.lnkAcfun.Size = new System.Drawing.Size(35, 12);
            this.lnkAcfun.TabIndex = 9;
            this.lnkAcfun.TabStop = true;
-           this.lnkAcfun.Text = "AcFun.cn";
+           this.lnkAcfun.Text = "AcFun";
            this.toolTip.SetToolTip(this.lnkAcfun, "链接到Acfun.cn");
            this.lnkAcfun.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAcfun_LinkClicked);
            // 
@@ -490,7 +491,7 @@
            // 
            this.lnkTudou.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
            this.lnkTudou.AutoSize = true;
-           this.lnkTudou.Location = new System.Drawing.Point(72, 421);
+           this.lnkTudou.Location = new System.Drawing.Point(53, 421);
            this.lnkTudou.Name = "lnkTudou";
            this.lnkTudou.Size = new System.Drawing.Size(41, 12);
            this.lnkTudou.TabIndex = 18;
@@ -503,12 +504,12 @@
            // 
            this.lnkBilibili.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
            this.lnkBilibili.AutoSize = true;
-           this.lnkBilibili.Location = new System.Drawing.Point(119, 421);
+           this.lnkBilibili.Location = new System.Drawing.Point(100, 421);
            this.lnkBilibili.Name = "lnkBilibili";
-           this.lnkBilibili.Size = new System.Drawing.Size(71, 12);
+           this.lnkBilibili.Size = new System.Drawing.Size(53, 12);
            this.lnkBilibili.TabIndex = 19;
            this.lnkBilibili.TabStop = true;
-           this.lnkBilibili.Text = "Bilibili.us";
+           this.lnkBilibili.Text = "Bilibili";
            this.toolTip.SetToolTip(this.lnkBilibili, "链接到Bilibili.us");
            this.lnkBilibili.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBilibili_LinkClicked);
            // 
@@ -518,11 +519,25 @@
            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
            this.toolTip.ToolTipTitle = "提示";
            // 
+           // lnkYouku
+           // 
+           this.lnkYouku.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+           this.lnkYouku.AutoSize = true;
+           this.lnkYouku.Location = new System.Drawing.Point(159, 421);
+           this.lnkYouku.Name = "lnkYouku";
+           this.lnkYouku.Size = new System.Drawing.Size(41, 12);
+           this.lnkYouku.TabIndex = 20;
+           this.lnkYouku.TabStop = true;
+           this.lnkYouku.Text = "优酷网";
+           this.toolTip.SetToolTip(this.lnkYouku, "链接到Bilibili.us");
+           this.lnkYouku.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkYouku_LinkClicked);
+           // 
            // FormMain
            // 
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.ClientSize = new System.Drawing.Size(459, 464);
+           this.Controls.Add(this.lnkYouku);
            this.Controls.Add(this.lnkBilibili);
            this.Controls.Add(this.lnkTudou);
            this.Controls.Add(this.label2);
@@ -603,6 +618,7 @@
         private System.Windows.Forms.LinkLabel lnkBilibili;
         private System.Windows.Forms.ToolStripStatusLabel toolHelpCenter;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.LinkLabel lnkYouku;
 
 	 }
 }

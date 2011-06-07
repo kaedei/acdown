@@ -567,6 +567,12 @@ namespace AcDown.UI
 			Process.Start("http://www.bilibili.us/");
 		}
 
+		//链接到优酷
+		private void lnkYouku_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start("http://www.youku.com/");
+		}
+
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
@@ -591,6 +597,9 @@ namespace AcDown.UI
 						break;
 					case "Acfun站内搜索 - 百度":
 						q = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.cn%29".Replace("%TEST%", txtSearch.Text);
+						break;
+					case "优酷搜索(搜酷)":
+						q = @"http://www.soku.com/search_video/q_%TEST%";
 						break;
 					default:
 						q = Config.setting.SearchQuery.Replace(@"%TEST%", txtSearch.Text);

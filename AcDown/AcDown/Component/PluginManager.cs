@@ -23,10 +23,14 @@ namespace Kaedei.AcDown.Component
 		/// </summary>
 		public void LoadPlugins()
 		{
-			_plugins.Add(new AcFunPlugin());
-			_plugins.Add(new TudouPlugin());
-			_plugins.Add(new BilibiliPlugin());
-			_plugins.Add(new YoukuPlugin());
+			if (Config.setting.Plugin_Enable_Acfun)
+				_plugins.Add(new AcFunPlugin());
+			if (Config.setting.Plugin_Enable_Tudou)
+				_plugins.Add(new TudouPlugin());
+			if (Config.setting.Plugin_Enable_Bilibili)
+				_plugins.Add(new BilibiliPlugin());
+			if (Config.setting.Plugin_Enable_Youku)
+				_plugins.Add(new YoukuPlugin());
 		}
 
 	}
