@@ -74,10 +74,36 @@
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />
     <Compile Include="Component\TaskItem.cs" />
-    <Compile Include="Downloader\Acfun.cs" />
-    <Compile Include="Downloader\Bilibili.cs" />
-    <Compile Include="Downloader\Tudou.cs" />
-    <Compile Include="Downloader\Youku.cs" />
+    <Compile Include="Downloader\AcFun\Acfun.cs" />
+    <Compile Include="Downloader\Bilibili\Bilibili.cs" />
+    <Compile Include="Interface\Forms\FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\FormPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\FormPassword.Designer.cs">
+      <DependentUpon>FormPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\ToolForm.cs" />
+    <Compile Include="Interface\Forms\FormSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\FormSelect.Designer.cs">
+      <DependentUpon>FormSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\FormServer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\FormServer.Designer.cs">
+      <DependentUpon>FormServer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Downloader\Imanhua\Imanhua.cs" />
+    <Compile Include="Downloader\Tudou\Tudou.cs" />
+    <Compile Include="Downloader\Youku\Youku.cs" />
     <Compile Include="Interface\Delegates.cs" />
     <Compile Include="Parser\SixcnParser.cs" />
     <Compile Include="UI\DwmApi.cs" />
@@ -135,6 +161,18 @@
     <Compile Include="Component\Logging.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Interface\Forms\FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\FormPassword.resx">
+      <DependentUpon>FormPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\FormServer.resx">
+      <DependentUpon>FormServer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\FormSelect.resx">
+      <DependentUpon>FormSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -230,6 +268,7 @@
   <ItemGroup>
     <None Include="Resources\About.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

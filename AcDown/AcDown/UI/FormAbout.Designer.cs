@@ -42,12 +42,12 @@
            this.txtAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                        | System.Windows.Forms.AnchorStyles.Left)
                        | System.Windows.Forms.AnchorStyles.Right)));
-           this.txtAbout.Location = new System.Drawing.Point(12, 170);
+           this.txtAbout.Location = new System.Drawing.Point(12, 158);
            this.txtAbout.Multiline = true;
            this.txtAbout.Name = "txtAbout";
            this.txtAbout.ReadOnly = true;
            this.txtAbout.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-           this.txtAbout.Size = new System.Drawing.Size(418, 211);
+           this.txtAbout.Size = new System.Drawing.Size(426, 219);
            this.txtAbout.TabIndex = 6;
            this.txtAbout.Text = resources.GetString("txtAbout.Text");
            // 
@@ -55,7 +55,7 @@
            // 
            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
            this.pictureBox1.Image = global::Kaedei.AcDown.Properties.Resources.Logo;
-           this.pictureBox1.Location = new System.Drawing.Point(12, 11);
+           this.pictureBox1.Location = new System.Drawing.Point(20, 11);
            this.pictureBox1.Name = "pictureBox1";
            this.pictureBox1.Size = new System.Drawing.Size(403, 82);
            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -66,7 +66,7 @@
            // 
            this.lblVersion.AutoSize = true;
            this.lblVersion.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.lblVersion.Location = new System.Drawing.Point(10, 102);
+           this.lblVersion.Location = new System.Drawing.Point(12, 96);
            this.lblVersion.Name = "lblVersion";
            this.lblVersion.Size = new System.Drawing.Size(41, 12);
            this.lblVersion.TabIndex = 8;
@@ -78,33 +78,37 @@
            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnOK.Location = new System.Drawing.Point(355, 387);
+           this.btnOK.Location = new System.Drawing.Point(352, 383);
            this.btnOK.Name = "btnOK";
-           this.btnOK.Size = new System.Drawing.Size(75, 27);
+           this.btnOK.Size = new System.Drawing.Size(86, 27);
            this.btnOK.TabIndex = 1;
-           this.btnOK.Text = "知道了";
+           this.btnOK.Text = "确定";
            this.btnOK.UseVisualStyleBackColor = true;
            // 
            // lnkSupport
            // 
            this.lnkSupport.AutoSize = true;
-           this.lnkSupport.Location = new System.Drawing.Point(10, 125);
+           this.lnkSupport.LinkArea = new System.Windows.Forms.LinkArea(3, 18);
+           this.lnkSupport.Location = new System.Drawing.Point(12, 117);
            this.lnkSupport.Name = "lnkSupport";
-           this.lnkSupport.Size = new System.Drawing.Size(131, 12);
+           this.lnkSupport.Size = new System.Drawing.Size(134, 19);
            this.lnkSupport.TabIndex = 10;
            this.lnkSupport.TabStop = true;
            this.lnkSupport.Text = "制作：Kaedei Software";
+           this.lnkSupport.UseCompatibleTextRendering = true;
            this.lnkSupport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSupport_LinkClicked);
            // 
            // lnkProject
            // 
            this.lnkProject.AutoSize = true;
-           this.lnkProject.Location = new System.Drawing.Point(10, 146);
+           this.lnkProject.LinkArea = new System.Windows.Forms.LinkArea(5, 32);
+           this.lnkProject.Location = new System.Drawing.Point(12, 136);
            this.lnkProject.Name = "lnkProject";
-           this.lnkProject.Size = new System.Drawing.Size(227, 12);
+           this.lnkProject.Size = new System.Drawing.Size(233, 19);
            this.lnkProject.TabIndex = 11;
            this.lnkProject.TabStop = true;
            this.lnkProject.Text = "项目主页：http://acdown.codeplex.com/";
+           this.lnkProject.UseCompatibleTextRendering = true;
            this.lnkProject.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkProject_LinkClicked);
            // 
            // FormAbout
@@ -113,7 +117,7 @@
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.CancelButton = this.btnOK;
-           this.ClientSize = new System.Drawing.Size(442, 425);
+           this.ClientSize = new System.Drawing.Size(450, 421);
            this.Controls.Add(this.pictureBox1);
            this.Controls.Add(this.lnkProject);
            this.Controls.Add(this.btnOK);

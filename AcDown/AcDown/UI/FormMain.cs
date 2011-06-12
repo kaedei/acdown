@@ -328,42 +328,6 @@ namespace AcDown.UI
 		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			//if (Config.setting.WatchClipboardEnabled)
-			//{
-			//   if (watchClipboard)
-			//   {
-			//      if (Clipboard.ContainsText())
-			//      {
-			//         if (AcDowner.CheckUrl(Clipboard.GetText()) && Clipboard.GetText() != lastUrl)
-			//         {
-			//            watchClipboard = false;
-			//            lastUrl = Clipboard.GetText();
-			//            //去除显示大按钮
-			//            if (btnClickNew != null)
-			//            {
-			//               btnClickNew.Dispose();
-			//            }
-			//            FormNew n = new FormNew(Clipboard.GetText(), this.taskMgr);
-			//            //禁用Win7缩略图按钮
-			//            if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
-			//            {
-			//               newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
-			//               taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
-			//            }
-			//             if(n!=null)
-			//            n.ShowDialog();
-			//            //启用Win7缩略图按钮
-			//            if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
-			//            {
-			//               newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
-			//               taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
-			//            }
-			//            watchClipboard = true;
-
-			//         }
-			//      }
-			//   }
-			//}
 			//设置限速
 			int sl = Convert.ToInt32(udSpeedLimit.Value);
 			if (sl != 0)
@@ -400,7 +364,6 @@ namespace AcDown.UI
 					long currentSpeed = 0;
 					currentSpeed = (downloader.DoneBytes - downloader.LastTick) / 1024;
 					speed += currentSpeed;
-					//downloader.LastTick = downloader.DoneBytes;
 					item.SubItems[4].Text = currentSpeed.ToString() + "KB/s";
 				}
 				//如果正在等待开始

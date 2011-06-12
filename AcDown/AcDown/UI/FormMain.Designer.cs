@@ -128,8 +128,8 @@
            // 
            // headerProcess
            // 
-           this.headerProcess.Text = "下载进度";
-           this.headerProcess.Width = 80;
+           this.headerProcess.Text = "当前分段下载进度";
+           this.headerProcess.Width = 140;
            // 
            // headerSpeed
            // 
@@ -300,7 +300,7 @@
             this.mnuTrayExit});
            this.mnuTray.Name = "mnuTray";
            this.mnuTray.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.mnuTray.Size = new System.Drawing.Size(173, 76);
+           this.mnuTray.Size = new System.Drawing.Size(173, 54);
            // 
            // mnuTrayShowHide
            // 
@@ -324,10 +324,13 @@
            // 
            // btnClickNew
            // 
+           this.btnClickNew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                       | System.Windows.Forms.AnchorStyles.Left)
+                       | System.Windows.Forms.AnchorStyles.Right)));
            this.btnClickNew.Cursor = System.Windows.Forms.Cursors.Hand;
            this.btnClickNew.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.btnClickNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnClickNew.Location = new System.Drawing.Point(117, 160);
+           this.btnClickNew.Location = new System.Drawing.Point(117, 158);
            this.btnClickNew.Name = "btnClickNew";
            this.btnClickNew.Size = new System.Drawing.Size(224, 138);
            this.btnClickNew.TabIndex = 0;
@@ -529,7 +532,7 @@
            this.lnkYouku.TabIndex = 20;
            this.lnkYouku.TabStop = true;
            this.lnkYouku.Text = "优酷网";
-           this.toolTip.SetToolTip(this.lnkYouku, "链接到Bilibili.us");
+           this.toolTip.SetToolTip(this.lnkYouku, "链接到优酷网");
            this.lnkYouku.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkYouku_LinkClicked);
            // 
            // FormMain
@@ -537,6 +540,7 @@
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.ClientSize = new System.Drawing.Size(459, 464);
+           this.Controls.Add(this.btnClickNew);
            this.Controls.Add(this.lnkYouku);
            this.Controls.Add(this.lnkBilibili);
            this.Controls.Add(this.lnkTudou);
@@ -544,7 +548,6 @@
            this.Controls.Add(this.udSpeedLimit);
            this.Controls.Add(this.lnkAcfun);
            this.Controls.Add(this.toolStrip);
-           this.Controls.Add(this.btnClickNew);
            this.Controls.Add(this.label1);
            this.Controls.Add(this.statusStrip);
            this.Controls.Add(this.cboAfterComplete);
