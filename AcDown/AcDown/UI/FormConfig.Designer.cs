@@ -44,6 +44,7 @@
            this.chkOpenFolder = new System.Windows.Forms.CheckBox();
            this.chkDownSub = new System.Windows.Forms.CheckBox();
            this.pageUI = new System.Windows.Forms.TabPage();
+           this.lnkCustomSearchExample = new System.Windows.Forms.LinkLabel();
            this.txtSearchText = new System.Windows.Forms.ComboBox();
            this.label4 = new System.Windows.Forms.Label();
            this.chkShowBigButton = new System.Windows.Forms.CheckBox();
@@ -56,7 +57,6 @@
            this.chkPluginBilibili = new System.Windows.Forms.CheckBox();
            this.chkPluginTudou = new System.Windows.Forms.CheckBox();
            this.chkPluginAcfun = new System.Windows.Forms.CheckBox();
-           this.lnkCustomSearchExample = new System.Windows.Forms.LinkLabel();
            this.tab.SuspendLayout();
            this.pageGeneral.SuspendLayout();
            this.pageDownload.SuspendLayout();
@@ -70,7 +70,7 @@
            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnCancel.Location = new System.Drawing.Point(325, 352);
+           this.btnCancel.Location = new System.Drawing.Point(327, 352);
            this.btnCancel.Name = "btnCancel";
            this.btnCancel.Size = new System.Drawing.Size(75, 23);
            this.btnCancel.TabIndex = 2;
@@ -82,7 +82,7 @@
            // 
            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnOK.Location = new System.Drawing.Point(244, 352);
+           this.btnOK.Location = new System.Drawing.Point(246, 352);
            this.btnOK.Name = "btnOK";
            this.btnOK.Size = new System.Drawing.Size(75, 23);
            this.btnOK.TabIndex = 3;
@@ -96,13 +96,11 @@
            this.tab.Controls.Add(this.pageDownload);
            this.tab.Controls.Add(this.pageUI);
            this.tab.Controls.Add(this.pagePlugin);
-           this.tab.Dock = System.Windows.Forms.DockStyle.Top;
-           this.tab.Location = new System.Drawing.Point(0, 0);
+           this.tab.Location = new System.Drawing.Point(8, 8);
            this.tab.Name = "tab";
            this.tab.SelectedIndex = 0;
            this.tab.ShowToolTips = true;
-           this.tab.Size = new System.Drawing.Size(406, 344);
-           this.tab.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+           this.tab.Size = new System.Drawing.Size(394, 338);
            this.tab.TabIndex = 4;
            this.tab.TabStop = false;
            // 
@@ -115,7 +113,7 @@
            this.pageGeneral.Location = new System.Drawing.Point(4, 22);
            this.pageGeneral.Name = "pageGeneral";
            this.pageGeneral.Padding = new System.Windows.Forms.Padding(3);
-           this.pageGeneral.Size = new System.Drawing.Size(398, 318);
+           this.pageGeneral.Size = new System.Drawing.Size(386, 312);
            this.pageGeneral.TabIndex = 1;
            this.pageGeneral.Text = "常规";
            this.pageGeneral.UseVisualStyleBackColor = true;
@@ -173,7 +171,7 @@
            this.pageDownload.Location = new System.Drawing.Point(4, 22);
            this.pageDownload.Name = "pageDownload";
            this.pageDownload.Padding = new System.Windows.Forms.Padding(3);
-           this.pageDownload.Size = new System.Drawing.Size(398, 318);
+           this.pageDownload.Size = new System.Drawing.Size(386, 312);
            this.pageDownload.TabIndex = 2;
            this.pageDownload.Text = "下载";
            this.pageDownload.UseVisualStyleBackColor = true;
@@ -265,10 +263,21 @@
            this.pageUI.Location = new System.Drawing.Point(4, 22);
            this.pageUI.Name = "pageUI";
            this.pageUI.Padding = new System.Windows.Forms.Padding(3);
-           this.pageUI.Size = new System.Drawing.Size(398, 318);
+           this.pageUI.Size = new System.Drawing.Size(386, 312);
            this.pageUI.TabIndex = 3;
            this.pageUI.Text = "界面";
            this.pageUI.UseVisualStyleBackColor = true;
+           // 
+           // lnkCustomSearchExample
+           // 
+           this.lnkCustomSearchExample.AutoSize = true;
+           this.lnkCustomSearchExample.Location = new System.Drawing.Point(279, 145);
+           this.lnkCustomSearchExample.Name = "lnkCustomSearchExample";
+           this.lnkCustomSearchExample.Size = new System.Drawing.Size(77, 12);
+           this.lnkCustomSearchExample.TabIndex = 22;
+           this.lnkCustomSearchExample.TabStop = true;
+           this.lnkCustomSearchExample.Text = "查看更多示例";
+           this.lnkCustomSearchExample.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCustomSearchExample_LinkClicked);
            // 
            // txtSearchText
            // 
@@ -279,7 +288,7 @@
             "土豆网",
             "Acfun站内搜索 - 百度",
             "优酷搜索(搜酷)"});
-           this.txtSearchText.Location = new System.Drawing.Point(40, 181);
+           this.txtSearchText.Location = new System.Drawing.Point(29, 173);
            this.txtSearchText.Name = "txtSearchText";
            this.txtSearchText.Size = new System.Drawing.Size(327, 20);
            this.txtSearchText.TabIndex = 21;
@@ -287,7 +296,7 @@
            // label4
            // 
            this.label4.AutoSize = true;
-           this.label4.Location = new System.Drawing.Point(38, 141);
+           this.label4.Location = new System.Drawing.Point(27, 133);
            this.label4.Name = "label4";
            this.label4.Size = new System.Drawing.Size(185, 24);
            this.label4.TabIndex = 19;
@@ -297,7 +306,7 @@
            // 
            this.chkShowBigButton.AutoSize = true;
            this.chkShowBigButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkShowBigButton.Location = new System.Drawing.Point(40, 59);
+           this.chkShowBigButton.Location = new System.Drawing.Point(29, 51);
            this.chkShowBigButton.Name = "chkShowBigButton";
            this.chkShowBigButton.Size = new System.Drawing.Size(138, 17);
            this.chkShowBigButton.TabIndex = 18;
@@ -308,7 +317,7 @@
            // 
            this.chkEnableWin7.AutoSize = true;
            this.chkEnableWin7.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkEnableWin7.Location = new System.Drawing.Point(40, 36);
+           this.chkEnableWin7.Location = new System.Drawing.Point(29, 28);
            this.chkEnableWin7.Name = "chkEnableWin7";
            this.chkEnableWin7.Size = new System.Drawing.Size(132, 17);
            this.chkEnableWin7.TabIndex = 17;
@@ -319,7 +328,7 @@
            // 
            this.chkCheckUrl.AutoSize = true;
            this.chkCheckUrl.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkCheckUrl.Location = new System.Drawing.Point(40, 82);
+           this.chkCheckUrl.Location = new System.Drawing.Point(29, 74);
            this.chkCheckUrl.Name = "chkCheckUrl";
            this.chkCheckUrl.Size = new System.Drawing.Size(108, 17);
            this.chkCheckUrl.TabIndex = 16;
@@ -331,7 +340,7 @@
            this.chkWatch.AutoSize = true;
            this.chkWatch.Enabled = false;
            this.chkWatch.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkWatch.Location = new System.Drawing.Point(40, 105);
+           this.chkWatch.Location = new System.Drawing.Point(29, 97);
            this.chkWatch.Name = "chkWatch";
            this.chkWatch.Size = new System.Drawing.Size(90, 17);
            this.chkWatch.TabIndex = 15;
@@ -348,7 +357,7 @@
            this.pagePlugin.Location = new System.Drawing.Point(4, 22);
            this.pagePlugin.Name = "pagePlugin";
            this.pagePlugin.Padding = new System.Windows.Forms.Padding(3);
-           this.pagePlugin.Size = new System.Drawing.Size(398, 318);
+           this.pagePlugin.Size = new System.Drawing.Size(386, 312);
            this.pagePlugin.TabIndex = 4;
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
@@ -401,17 +410,6 @@
            this.chkPluginAcfun.TabIndex = 0;
            this.chkPluginAcfun.Text = "启用Acfun.cn下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
-           // 
-           // lnkCustomSearchExample
-           // 
-           this.lnkCustomSearchExample.AutoSize = true;
-           this.lnkCustomSearchExample.Location = new System.Drawing.Point(290, 153);
-           this.lnkCustomSearchExample.Name = "lnkCustomSearchExample";
-           this.lnkCustomSearchExample.Size = new System.Drawing.Size(77, 12);
-           this.lnkCustomSearchExample.TabIndex = 22;
-           this.lnkCustomSearchExample.TabStop = true;
-           this.lnkCustomSearchExample.Text = "查看更多示例";
-           this.lnkCustomSearchExample.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCustomSearchExample_LinkClicked);
            // 
            // FormConfig
            // 

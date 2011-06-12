@@ -48,7 +48,7 @@
            // txtInput
            // 
            this.txtInput.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-           this.txtInput.Location = new System.Drawing.Point(8, 54);
+           this.txtInput.Location = new System.Drawing.Point(8, 47);
            this.txtInput.Multiline = true;
            this.txtInput.Name = "txtInput";
            this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -63,7 +63,7 @@
            this.label1.AutoSize = true;
            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.label1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.label1.Location = new System.Drawing.Point(11, 29);
+           this.label1.Location = new System.Drawing.Point(11, 22);
            this.label1.Name = "label1";
            this.label1.Size = new System.Drawing.Size(106, 21);
            this.label1.TabIndex = 1;
@@ -73,7 +73,7 @@
            // 
            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.btnAdd.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.btnAdd.Location = new System.Drawing.Point(341, 161);
+           this.btnAdd.Location = new System.Drawing.Point(341, 154);
            this.btnAdd.Name = "btnAdd";
            this.btnAdd.Size = new System.Drawing.Size(98, 37);
            this.btnAdd.TabIndex = 0;
@@ -85,7 +85,7 @@
            // picCheck
            // 
            this.picCheck.Image = global::Kaedei.AcDown.Properties.Resources._1;
-           this.picCheck.Location = new System.Drawing.Point(420, 29);
+           this.picCheck.Location = new System.Drawing.Point(123, 24);
            this.picCheck.Name = "picCheck";
            this.picCheck.Size = new System.Drawing.Size(19, 19);
            this.picCheck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -109,7 +109,7 @@
            this.chkImmediate.CheckState = System.Windows.Forms.CheckState.Checked;
            this.chkImmediate.Enabled = false;
            this.chkImmediate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkImmediate.Location = new System.Drawing.Point(257, 175);
+           this.chkImmediate.Location = new System.Drawing.Point(257, 168);
            this.chkImmediate.Name = "chkImmediate";
            this.chkImmediate.Size = new System.Drawing.Size(78, 17);
            this.chkImmediate.TabIndex = 7;
@@ -152,9 +152,9 @@
            this.groupBox1.Controls.Add(this.label2);
            this.groupBox1.Controls.Add(this.lblShowConfig);
            this.groupBox1.Controls.Add(this.lblPath);
-           this.groupBox1.Location = new System.Drawing.Point(12, 231);
+           this.groupBox1.Location = new System.Drawing.Point(12, 222);
            this.groupBox1.Name = "groupBox1";
-           this.groupBox1.Size = new System.Drawing.Size(445, 85);
+           this.groupBox1.Size = new System.Drawing.Size(447, 85);
            this.groupBox1.TabIndex = 11;
            this.groupBox1.TabStop = false;
            this.groupBox1.Text = "设置";
@@ -168,7 +168,7 @@
            this.groupBox2.Controls.Add(this.chkImmediate);
            this.groupBox2.Location = new System.Drawing.Point(12, 12);
            this.groupBox2.Name = "groupBox2";
-           this.groupBox2.Size = new System.Drawing.Size(445, 213);
+           this.groupBox2.Size = new System.Drawing.Size(447, 204);
            this.groupBox2.TabIndex = 12;
            this.groupBox2.TabStop = false;
            this.groupBox2.Text = "开始";
@@ -178,7 +178,7 @@
            this.AcceptButton = this.btnAdd;
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-           this.ClientSize = new System.Drawing.Size(469, 328);
+           this.ClientSize = new System.Drawing.Size(471, 324);
            this.Controls.Add(this.groupBox2);
            this.Controls.Add(this.groupBox1);
            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
