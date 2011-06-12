@@ -355,65 +355,65 @@
             this.mnuConInfo});
            this.mnuContext.Name = "mnuContext";
            this.mnuContext.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.mnuContext.Size = new System.Drawing.Size(185, 170);
+           this.mnuContext.Size = new System.Drawing.Size(197, 170);
            // 
            // mnuConCancel
            // 
            this.mnuConCancel.Enabled = false;
            this.mnuConCancel.Name = "mnuConCancel";
-           this.mnuConCancel.Size = new System.Drawing.Size(184, 22);
+           this.mnuConCancel.Size = new System.Drawing.Size(196, 22);
            this.mnuConCancel.Text = "AcDown动漫下载器";
            // 
            // toolStripMenuItem2
            // 
            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-           this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 6);
+           this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
            // 
            // mnuConStart
            // 
            this.mnuConStart.Name = "mnuConStart";
-           this.mnuConStart.Size = new System.Drawing.Size(184, 22);
+           this.mnuConStart.Size = new System.Drawing.Size(196, 22);
            this.mnuConStart.Text = "开始(&S)";
            this.mnuConStart.Click += new System.EventHandler(this.mnuConStart_Click);
            // 
            // mnuConStop
            // 
            this.mnuConStop.Name = "mnuConStop";
-           this.mnuConStop.Size = new System.Drawing.Size(184, 22);
+           this.mnuConStop.Size = new System.Drawing.Size(196, 22);
            this.mnuConStop.Text = "停止";
            this.mnuConStop.Click += new System.EventHandler(this.mnuConStop_Click);
            // 
            // mnuConDelete
            // 
            this.mnuConDelete.Name = "mnuConDelete";
-           this.mnuConDelete.Size = new System.Drawing.Size(184, 22);
+           this.mnuConDelete.Size = new System.Drawing.Size(196, 22);
            this.mnuConDelete.Text = "删除任务";
            this.mnuConDelete.Click += new System.EventHandler(this.mnuConDelete_Click);
            // 
            // toolStripMenuItem3
            // 
            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-           this.toolStripMenuItem3.Size = new System.Drawing.Size(181, 6);
+           this.toolStripMenuItem3.Size = new System.Drawing.Size(193, 6);
            // 
            // mnuConOpenFolder
            // 
            this.mnuConOpenFolder.Name = "mnuConOpenFolder";
-           this.mnuConOpenFolder.Size = new System.Drawing.Size(184, 22);
-           this.mnuConOpenFolder.Text = "打开视频所在文件夹";
+           this.mnuConOpenFolder.Size = new System.Drawing.Size(196, 22);
+           this.mnuConOpenFolder.Text = "打开文件所在的文件夹";
            this.mnuConOpenFolder.Click += new System.EventHandler(this.mnuConOpenFolder_Click);
            // 
            // mnuConOpenUrl
            // 
            this.mnuConOpenUrl.Name = "mnuConOpenUrl";
-           this.mnuConOpenUrl.Size = new System.Drawing.Size(184, 22);
-           this.mnuConOpenUrl.Text = "打开视频页面";
+           this.mnuConOpenUrl.Size = new System.Drawing.Size(196, 22);
+           this.mnuConOpenUrl.Text = "打开页面";
            this.mnuConOpenUrl.Click += new System.EventHandler(this.mnuConOpenUrl_Click);
            // 
            // mnuConInfo
            // 
            this.mnuConInfo.Name = "mnuConInfo";
-           this.mnuConInfo.Size = new System.Drawing.Size(184, 22);
-           this.mnuConInfo.Text = "查看视频信息";
+           this.mnuConInfo.Size = new System.Drawing.Size(196, 22);
+           this.mnuConInfo.Text = "查看任务信息";
            this.mnuConInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
            // 
            // timer
