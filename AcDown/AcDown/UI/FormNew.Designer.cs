@@ -40,6 +40,8 @@
            this.lblShowConfig = new System.Windows.Forms.LinkLabel();
            this.groupBox1 = new System.Windows.Forms.GroupBox();
            this.groupBox2 = new System.Windows.Forms.GroupBox();
+           this.txtExample = new System.Windows.Forms.TextBox();
+           this.btnExample = new System.Windows.Forms.Button();
            ((System.ComponentModel.ISupportInitialize)(this.picCheck)).BeginInit();
            this.groupBox1.SuspendLayout();
            this.groupBox2.SuspendLayout();
@@ -161,6 +163,7 @@
            // 
            // groupBox2
            // 
+           this.groupBox2.Controls.Add(this.btnExample);
            this.groupBox2.Controls.Add(this.label1);
            this.groupBox2.Controls.Add(this.txtInput);
            this.groupBox2.Controls.Add(this.btnAdd);
@@ -173,12 +176,33 @@
            this.groupBox2.TabStop = false;
            this.groupBox2.Text = "开始";
            // 
+           // txtExample
+           // 
+           this.txtExample.Location = new System.Drawing.Point(477, 22);
+           this.txtExample.Multiline = true;
+           this.txtExample.Name = "txtExample";
+           this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+           this.txtExample.Size = new System.Drawing.Size(326, 285);
+           this.txtExample.TabIndex = 13;
+           // 
+           // btnExample
+           // 
+           this.btnExample.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+           this.btnExample.Location = new System.Drawing.Point(257, 20);
+           this.btnExample.Name = "btnExample";
+           this.btnExample.Size = new System.Drawing.Size(182, 21);
+           this.btnExample.TabIndex = 8;
+           this.btnExample.Text = "查看当前支持哪些网站 >>";
+           this.btnExample.UseVisualStyleBackColor = true;
+           this.btnExample.Click += new System.EventHandler(this.btnExample_Click);
+           // 
            // FormNew
            // 
            this.AcceptButton = this.btnAdd;
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-           this.ClientSize = new System.Drawing.Size(471, 324);
+           this.ClientSize = new System.Drawing.Size(466, 324);
+           this.Controls.Add(this.txtExample);
            this.Controls.Add(this.groupBox2);
            this.Controls.Add(this.groupBox1);
            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -195,6 +219,7 @@
            this.groupBox2.ResumeLayout(false);
            this.groupBox2.PerformLayout();
            this.ResumeLayout(false);
+           this.PerformLayout();
 
 		  }
 
@@ -211,5 +236,7 @@
 		  private System.Windows.Forms.LinkLabel lblShowConfig;
 		  private System.Windows.Forms.GroupBox groupBox1;
 		  private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnExample;
+        private System.Windows.Forms.TextBox txtExample;
 	 }
 }

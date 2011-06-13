@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
+using System.Text;
 
 namespace Kaedei.AcDown.UI
 {
@@ -54,6 +55,18 @@ namespace Kaedei.AcDown.UI
 			 if (!string.IsNullOrEmpty(u))
 				 txtInput.Text = u;
 			 lblPath.Text = Config.setting.SavePath;
+			 StringBuilder sb = new StringBuilder();
+			 sb.AppendLine("当前支持的网站:(网址举例)");
+			 foreach (var item in _pluginMgr.Plugins)
+			 {
+				 sb.AppendLine();
+				 foreach (var i in item.GetUrlExample())
+				 {
+					 sb.AppendLine(i);
+				 }
+				 sb.AppendLine();
+			 }
+			 txtExample.Text = sb.ToString();
 		 }
 
 		 
@@ -165,6 +178,20 @@ namespace Kaedei.AcDown.UI
 			 FormConfig fc = new FormConfig();
 			 fc.ShowDialog();
 			 this.lblPath.Text = Config.setting.SavePath;
+		 }
+
+		 private void btnExample_Click(object sender, EventArgs e)
+		 {
+			 if (this.Width == 820)
+			 {
+				 this.Width = 476;
+				 btnExample.Text = "查看当前支持哪些网站 >>";
+			 }
+			 else
+			 {
+				 this.Width = 820;
+				 btnExample.Text = "查看当前支持哪些网站 <<";
+			 }
 		 }
 
 

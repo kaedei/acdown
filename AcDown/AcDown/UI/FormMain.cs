@@ -407,7 +407,8 @@ namespace AcDown.UI
 					//设置缩略图
 					if (this.WindowState != FormWindowState.Minimized)
 					{
-						RECT rect = new RECT(lsv.Left, lsv.Top, lsv.Right, lsv.Bottom);
+						RECT rect = new RECT(picLogo.Left, picLogo.Top, picLogo.Right, picLogo.Bottom);
+						//RECT rect = new RECT(lsv.Left, lsv.Top, lsv.Right, lsv.Bottom);
 						taskbarList.SetThumbnailClip(this.Handle, ref rect);
 					}
 				}
