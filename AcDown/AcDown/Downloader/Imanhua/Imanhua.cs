@@ -342,7 +342,7 @@ namespace Kaedei.AcDown.Downloader
             List<string> servers = new List<string>();
             foreach (Match item in mServers)
             {
-               if (servers.Count < 6)
+               if (servers.Count < 5)
                   servers.Add(item.Groups["sname"].Value);
             }
 
@@ -404,16 +404,20 @@ namespace Kaedei.AcDown.Downloader
                   Regex rNewId = new Regex(@"'(?<id1>\d+)\|");
                   Match mNewId = rNewId.Match(source);
                   string id1 = mNewId.Groups["id1"].Value;
-                  Regex rNewFile = new Regex(@"imanhua\w+");
-                  MatchCollection mNewFiles = rNewFile.Matches(source);
-                  //Regex rExt = new Regex(@"Files\|(?<ext>\w+)\|var");
-                  //Match mExt = rExt.Match(source);
-                  //string ext = mExt.Groups["ext"].Value;
+                  //取得var段
+                  Regex rSubSource = new Regex(@"var.*split");
+                  Match mSubSource = rSubSource.Match(source);
+                  string subsource = mSubSource.ToString();
+                  Regex rNewFile = new Regex(@"\|(?<file>\w+[^pic,sid,var,len,\|,'])");
+                  MatchCollection mNewFiles = rNewFile.Matches(subsource);
+                  
                   //添加url到数组
                   foreach (Match item in mNewFiles)
                   {
-                     fileUrls.Add(serverName + "/Files/Images/" + id + "/" + id1 + "/" + item.ToString() + ".jpg");
-                     fileUrls.Add(serverName + "/Files/Images/" + id + "/" + id1 + "/" + item.ToString() + ".png");
+                     fileUrls.Add(serverName + "/Pictures/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".jpg");
+                     fileUrls.Add(serverName + "/Pictures/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".png");
+                     fileUrls.Add(serverName + "/Files/Images/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".jpg");
+                     fileUrls.Add(serverName + "/Files/Images/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".png");
                   }
                }
 
@@ -435,8 +439,8 @@ namespace Kaedei.AcDown.Downloader
                      wc.Headers.Add("Referer", subUrls[i]);
                      wc.Headers.Add("Cookie", cookie);
                      byte[] content = wc.DownloadData(fileUrls[j]);
-                     string ext = Path.GetExtension(fileUrls[j]);
-                     File.WriteAllBytes(Path.Combine(subDir, string.Format("{0:D3}", j + 1) + ext), content);
+                     string fn = Path.GetFileName(fileUrls[j]);
+                     File.WriteAllBytes(Path.Combine(subDir, fn), content);
                   }
                   catch(Exception ex) { } //end try
                   currentParameter.DoneBytes = j;

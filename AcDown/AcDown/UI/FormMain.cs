@@ -536,6 +536,12 @@ namespace AcDown.UI
 			Process.Start("http://www.youku.com/");
 		}
 
+		//链接到爱漫画
+		private void lnkImanhua_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start("http://www.imanhua.com/");
+		}
+
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
@@ -562,7 +568,10 @@ namespace AcDown.UI
 						q = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.cn%29".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "优酷搜索(搜酷)":
-						q = @"http://www.soku.com/search_video/q_%TEST%";
+						q = @"http://www.soku.com/search_video/q_%TEST%".Replace("%TEST%", txtSearch.Text);
+						break;
+					case "漫画搜索(爱漫画)":
+						q = @"http://www.imanhua.com/v2/user/search.aspx?key=%TEST%".Replace("%TEST%", txtSearch.Text);
 						break;
 					default:
 						q = Config.setting.SearchQuery.Replace(@"%TEST%", txtSearch.Text);
