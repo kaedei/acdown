@@ -74,7 +74,7 @@ namespace Kaedei.AcDown.UI
          //选择文件夹
          FolderBrowserDialog fbd = new FolderBrowserDialog();
          fbd.ShowNewFolderButton = true;
-         fbd.Description = "请设置视频默认保存的文件夹：";
+         fbd.Description = "请设置默认保存的文件夹：";
          fbd.SelectedPath = lnkSavePath.Text;
          if (fbd.ShowDialog() == DialogResult.OK)
             lnkSavePath.Text = fbd.SelectedPath;

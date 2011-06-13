@@ -74,6 +74,17 @@ namespace Kaedei.AcDown.Downloader
 				return null;
 			}
 		}
+
+		public string[] GetUrlExample()
+		{
+			return new string[] { 
+				"Bilibili.us下载插件:",
+				"支持识别各Part名称",
+				"http://www.bilibili.us/video/av97834/",
+				"http://www.bilibili.us/video/av70229/index_20.html",
+			};
+		}
+
 	} //end class
 
 	/// <summary>

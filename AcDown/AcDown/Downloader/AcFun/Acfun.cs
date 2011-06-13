@@ -77,6 +77,17 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
+		public string[] GetUrlExample()
+		{
+			return new string[] { 
+				"AcFun.cn下载插件:",
+				"支持识别各Part名称",
+				"http://acfun.cn/html/ent/20110606/206020.html",
+				"http://www.acfun.cn/html/ent/20110606/206020.html",
+				"http://124.228.254.229/html/ent/20110606/206020.html (IP地址形式)"
+			};
+		}
+
 
 
 	}

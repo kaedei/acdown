@@ -81,6 +81,16 @@ namespace Kaedei.AcDown.Downloader
 
 		}
 
+
+		public string[] GetUrlExample()
+		{
+			return new string[] { 
+				"土豆网(Tudou.com)下载插件:",
+				"http://www.tudou.com/playlist/p/l12302995.html",
+				"http://www.tudou.com/programs/view/scMdGug3bgY/",
+			};
+		}
+
 		#endregion
 	}
 
