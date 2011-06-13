@@ -76,6 +76,7 @@
            this.lnkBilibili = new System.Windows.Forms.LinkLabel();
            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
            this.lnkYouku = new System.Windows.Forms.LinkLabel();
+           this.lnkImanhua = new System.Windows.Forms.LinkLabel();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -155,25 +156,26 @@
            // 
            // statusStrip
            // 
+           this.statusStrip.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSpeed,
             this.lblBlank,
             this.toolHelpCenter});
-           this.statusStrip.Location = new System.Drawing.Point(0, 442);
+           this.statusStrip.Location = new System.Drawing.Point(0, 438);
            this.statusStrip.Name = "statusStrip";
-           this.statusStrip.Size = new System.Drawing.Size(459, 22);
+           this.statusStrip.Size = new System.Drawing.Size(459, 26);
            this.statusStrip.TabIndex = 6;
            // 
            // lblSpeed
            // 
            this.lblSpeed.Name = "lblSpeed";
-           this.lblSpeed.Size = new System.Drawing.Size(42, 17);
+           this.lblSpeed.Size = new System.Drawing.Size(53, 21);
            this.lblSpeed.Text = "0KB/s";
            // 
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(246, 17);
+           this.lblBlank.Size = new System.Drawing.Size(189, 21);
            this.lblBlank.Spring = true;
            // 
            // toolHelpCenter
@@ -181,7 +183,7 @@
            this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources._1;
            this.toolHelpCenter.IsLink = true;
            this.toolHelpCenter.Name = "toolHelpCenter";
-           this.toolHelpCenter.Size = new System.Drawing.Size(156, 17);
+           this.toolHelpCenter.Size = new System.Drawing.Size(202, 21);
            this.toolHelpCenter.Text = "下载时遇到问题？点这里";
            this.toolHelpCenter.ToolTipText = "打开帮助中心";
            this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
@@ -255,7 +257,7 @@
            // searchCustom
            // 
            this.searchCustom.Name = "searchCustom";
-           this.searchCustom.Size = new System.Drawing.Size(121, 22);
+           this.searchCustom.Size = new System.Drawing.Size(152, 22);
            this.searchCustom.Text = "自定义...";
            this.searchCustom.Click += new System.EventHandler(this.searchCustom_Click);
            // 
@@ -532,14 +534,28 @@
            this.lnkYouku.TabIndex = 20;
            this.lnkYouku.TabStop = true;
            this.lnkYouku.Text = "优酷网";
-           this.toolTip.SetToolTip(this.lnkYouku, "链接到优酷网");
+           this.toolTip.SetToolTip(this.lnkYouku, "链接到优酷网(Youku.com)");
            this.lnkYouku.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkYouku_LinkClicked);
+           // 
+           // lnkImanhua
+           // 
+           this.lnkImanhua.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+           this.lnkImanhua.AutoSize = true;
+           this.lnkImanhua.Location = new System.Drawing.Point(206, 421);
+           this.lnkImanhua.Name = "lnkImanhua";
+           this.lnkImanhua.Size = new System.Drawing.Size(41, 12);
+           this.lnkImanhua.TabIndex = 21;
+           this.lnkImanhua.TabStop = true;
+           this.lnkImanhua.Text = "爱漫画";
+           this.toolTip.SetToolTip(this.lnkImanhua, "链接到爱漫画(imanhua.com)");
+           this.lnkImanhua.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkImanhua_LinkClicked);
            // 
            // FormMain
            // 
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.ClientSize = new System.Drawing.Size(459, 464);
+           this.Controls.Add(this.lnkImanhua);
            this.Controls.Add(this.btnClickNew);
            this.Controls.Add(this.lnkYouku);
            this.Controls.Add(this.lnkBilibili);
@@ -622,6 +638,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolHelpCenter;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.LinkLabel lnkYouku;
+        private System.Windows.Forms.LinkLabel lnkImanhua;
 
 	 }
 }

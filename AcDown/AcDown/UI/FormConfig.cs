@@ -35,6 +35,7 @@ namespace Kaedei.AcDown.UI
          chkPluginTudou.Checked = Config.setting.Plugin_Enable_Tudou;
          chkPluginBilibili.Checked = Config.setting.Plugin_Enable_Bilibili;
          chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
+         chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
 
       }
 
@@ -50,11 +51,15 @@ namespace Kaedei.AcDown.UI
          Config.setting.AutoCheckUrl = chkCheckUrl.Checked;
          Config.setting.WatchClipboardEnabled = chkWatch.Checked;
          Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
-         //Config.setting.ShowTrayIcon = chkShowTrayIcon.Checked;
          Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
          Config.setting.ShowBigStartButton = chkShowBigButton.Checked;
-         string tmp = txtSearchText.Text;
          Config.setting.SearchQuery = txtSearchText.Text;
+         //插件设置
+         Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
+         Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;
+         Config.setting.Plugin_Enable_Bilibili = chkPluginBilibili.Checked;
+         Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
+         Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
          Config.SaveSettings();
          this.Close();
       }

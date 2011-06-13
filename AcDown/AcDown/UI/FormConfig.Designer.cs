@@ -57,6 +57,7 @@
            this.chkPluginBilibili = new System.Windows.Forms.CheckBox();
            this.chkPluginTudou = new System.Windows.Forms.CheckBox();
            this.chkPluginAcfun = new System.Windows.Forms.CheckBox();
+           this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageGeneral.SuspendLayout();
            this.pageDownload.SuspendLayout();
@@ -286,8 +287,8 @@
            this.txtSearchText.Items.AddRange(new object[] {
             "Acfun站内搜索 - Google",
             "土豆网",
-            "Acfun站内搜索 - 百度",
-            "优酷搜索(搜酷)"});
+            "优酷搜索(搜酷)",
+            "漫画搜索(爱漫画)"});
            this.txtSearchText.Location = new System.Drawing.Point(29, 173);
            this.txtSearchText.Name = "txtSearchText";
            this.txtSearchText.Size = new System.Drawing.Size(327, 20);
@@ -349,6 +350,7 @@
            // 
            // pagePlugin
            // 
+           this.pagePlugin.Controls.Add(this.chkPluginImanhua);
            this.pagePlugin.Controls.Add(this.label3);
            this.pagePlugin.Controls.Add(this.chkPluginYouku);
            this.pagePlugin.Controls.Add(this.chkPluginBilibili);
@@ -374,9 +376,10 @@
            // chkPluginYouku
            // 
            this.chkPluginYouku.AutoSize = true;
+           this.chkPluginYouku.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginYouku.Location = new System.Drawing.Point(41, 121);
            this.chkPluginYouku.Name = "chkPluginYouku";
-           this.chkPluginYouku.Size = new System.Drawing.Size(132, 16);
+           this.chkPluginYouku.Size = new System.Drawing.Size(138, 17);
            this.chkPluginYouku.TabIndex = 3;
            this.chkPluginYouku.Text = "启用优酷网下载插件";
            this.chkPluginYouku.UseVisualStyleBackColor = true;
@@ -384,9 +387,10 @@
            // chkPluginBilibili
            // 
            this.chkPluginBilibili.AutoSize = true;
+           this.chkPluginBilibili.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginBilibili.Location = new System.Drawing.Point(41, 99);
            this.chkPluginBilibili.Name = "chkPluginBilibili";
-           this.chkPluginBilibili.Size = new System.Drawing.Size(162, 16);
+           this.chkPluginBilibili.Size = new System.Drawing.Size(168, 17);
            this.chkPluginBilibili.TabIndex = 2;
            this.chkPluginBilibili.Text = "启用Bilibili.us下载插件";
            this.chkPluginBilibili.UseVisualStyleBackColor = true;
@@ -394,9 +398,10 @@
            // chkPluginTudou
            // 
            this.chkPluginTudou.AutoSize = true;
+           this.chkPluginTudou.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginTudou.Location = new System.Drawing.Point(41, 77);
            this.chkPluginTudou.Name = "chkPluginTudou";
-           this.chkPluginTudou.Size = new System.Drawing.Size(132, 16);
+           this.chkPluginTudou.Size = new System.Drawing.Size(138, 17);
            this.chkPluginTudou.TabIndex = 1;
            this.chkPluginTudou.Text = "启用土豆网下载插件";
            this.chkPluginTudou.UseVisualStyleBackColor = true;
@@ -404,12 +409,24 @@
            // chkPluginAcfun
            // 
            this.chkPluginAcfun.AutoSize = true;
+           this.chkPluginAcfun.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginAcfun.Location = new System.Drawing.Point(41, 55);
            this.chkPluginAcfun.Name = "chkPluginAcfun";
-           this.chkPluginAcfun.Size = new System.Drawing.Size(144, 16);
+           this.chkPluginAcfun.Size = new System.Drawing.Size(150, 17);
            this.chkPluginAcfun.TabIndex = 0;
            this.chkPluginAcfun.Text = "启用Acfun.cn下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
+           // 
+           // chkPluginImanhua
+           // 
+           this.chkPluginImanhua.AutoSize = true;
+           this.chkPluginImanhua.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkPluginImanhua.Location = new System.Drawing.Point(41, 143);
+           this.chkPluginImanhua.Name = "chkPluginImanhua";
+           this.chkPluginImanhua.Size = new System.Drawing.Size(150, 17);
+           this.chkPluginImanhua.TabIndex = 5;
+           this.chkPluginImanhua.Text = "启用爱漫画网下载插件";
+           this.chkPluginImanhua.UseVisualStyleBackColor = true;
            // 
            // FormConfig
            // 
@@ -475,5 +492,6 @@
         private System.Windows.Forms.CheckBox chkPluginAcfun;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
+        private System.Windows.Forms.CheckBox chkPluginImanhua;
 	 }
 }
