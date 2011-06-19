@@ -33,6 +33,8 @@ namespace Kaedei.AcDown.Component
 				_plugins.Add(new YoukuPlugin());
 			if (Config.setting.Plugin_Enable_Imanhua)
 				_plugins.Add(new ImanhuaPlugin());
+			//if (Config.setting.Plugin_Enable_TiebaAlbum)
+				_plugins.Add(new TiebaAlbumPlugin());
 		}
 
 	}

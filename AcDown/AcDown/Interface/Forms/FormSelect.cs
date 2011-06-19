@@ -59,7 +59,7 @@ namespace Kaedei.AcDown.Interface.Forms
       {
          for (int i = 0; i < s.Length; i++)
          {
-            s[i] = lst.GetItemChecked(i);
+            s[i] = !lst.GetItemChecked(i);
          }
          //关闭窗口
          this.Close();

@@ -40,8 +40,8 @@
            this.lblShowConfig = new System.Windows.Forms.LinkLabel();
            this.groupBox1 = new System.Windows.Forms.GroupBox();
            this.groupBox2 = new System.Windows.Forms.GroupBox();
-           this.txtExample = new System.Windows.Forms.TextBox();
            this.btnExample = new System.Windows.Forms.Button();
+           this.txtExample = new System.Windows.Forms.TextBox();
            ((System.ComponentModel.ISupportInitialize)(this.picCheck)).BeginInit();
            this.groupBox1.SuspendLayout();
            this.groupBox2.SuspendLayout();
@@ -111,7 +111,7 @@
            this.chkImmediate.CheckState = System.Windows.Forms.CheckState.Checked;
            this.chkImmediate.Enabled = false;
            this.chkImmediate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkImmediate.Location = new System.Drawing.Point(257, 168);
+           this.chkImmediate.Location = new System.Drawing.Point(15, 169);
            this.chkImmediate.Name = "chkImmediate";
            this.chkImmediate.Size = new System.Drawing.Size(78, 17);
            this.chkImmediate.TabIndex = 7;
@@ -176,15 +176,6 @@
            this.groupBox2.TabStop = false;
            this.groupBox2.Text = "开始";
            // 
-           // txtExample
-           // 
-           this.txtExample.Location = new System.Drawing.Point(477, 22);
-           this.txtExample.Multiline = true;
-           this.txtExample.Name = "txtExample";
-           this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-           this.txtExample.Size = new System.Drawing.Size(326, 285);
-           this.txtExample.TabIndex = 13;
-           // 
            // btnExample
            // 
            this.btnExample.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -195,6 +186,15 @@
            this.btnExample.Text = "查看当前支持哪些网站 >>";
            this.btnExample.UseVisualStyleBackColor = true;
            this.btnExample.Click += new System.EventHandler(this.btnExample_Click);
+           // 
+           // txtExample
+           // 
+           this.txtExample.Location = new System.Drawing.Point(477, 22);
+           this.txtExample.Multiline = true;
+           this.txtExample.Name = "txtExample";
+           this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+           this.txtExample.Size = new System.Drawing.Size(326, 285);
+           this.txtExample.TabIndex = 13;
            // 
            // FormNew
            // 
