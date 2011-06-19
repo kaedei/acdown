@@ -76,6 +76,7 @@
     <Compile Include="Component\TaskItem.cs" />
     <Compile Include="Downloader\AcFun\Acfun.cs" />
     <Compile Include="Downloader\Bilibili\Bilibili.cs" />
+    <Compile Include="Downloader\Tieba\TiebaAlbum.cs" />
     <Compile Include="Interface\Forms\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>

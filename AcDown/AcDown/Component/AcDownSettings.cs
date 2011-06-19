@@ -22,7 +22,7 @@ namespace Kaedei.AcDown
       public bool WatchClipboardEnabled = true; //监视剪贴板
       public bool DownSub = true; //下载字幕
       public string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); //保存文件夹
-      public bool AutoDownAllSection; //自动下载所有分段
+      public bool DownAllSection; //自动下载所有分段
       public Int32 CacheSize = 1; //缓存文件
       public bool OpenFolderAfterComplete; //完成后打开文件夹
       public bool PlaySound = true; //播放声音

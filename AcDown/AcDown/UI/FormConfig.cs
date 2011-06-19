@@ -21,6 +21,7 @@ namespace Kaedei.AcDown.UI
             chkOpenFolder.Checked = true;
          if (Config.setting.PlaySound)
             chkPlaySound.Checked = true;
+         chkDownAllSection.Checked = Config.setting.DownAllSection;
          numCacheSize.Value = Config.setting.CacheSize;
          lnkSavePath.Text = Config.setting.SavePath;
          chkEnableLog.Checked = Config.setting.EnableLog;
@@ -45,6 +46,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.DownSub = chkDownSub.Checked;
          Config.setting.OpenFolderAfterComplete = chkOpenFolder.Checked;
          Config.setting.PlaySound = chkPlaySound.Checked;
+         Config.setting.DownAllSection = chkDownAllSection.Checked;
          Config.setting.CacheSize = (Int32)numCacheSize.Value;
          Config.setting.SavePath = lnkSavePath.Text;
          Config.setting.EnableLog = chkEnableLog.Checked;

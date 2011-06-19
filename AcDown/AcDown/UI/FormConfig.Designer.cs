@@ -52,12 +52,13 @@
            this.chkCheckUrl = new System.Windows.Forms.CheckBox();
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
+           this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
            this.label3 = new System.Windows.Forms.Label();
            this.chkPluginYouku = new System.Windows.Forms.CheckBox();
            this.chkPluginBilibili = new System.Windows.Forms.CheckBox();
            this.chkPluginTudou = new System.Windows.Forms.CheckBox();
            this.chkPluginAcfun = new System.Windows.Forms.CheckBox();
-           this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
+           this.chkDownAllSection = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageGeneral.SuspendLayout();
            this.pageDownload.SuspendLayout();
@@ -122,16 +123,16 @@
            // label2
            // 
            this.label2.AutoSize = true;
-           this.label2.Location = new System.Drawing.Point(38, 104);
+           this.label2.Location = new System.Drawing.Point(38, 46);
            this.label2.Name = "label2";
-           this.label2.Size = new System.Drawing.Size(161, 12);
+           this.label2.Size = new System.Drawing.Size(101, 12);
            this.label2.TabIndex = 8;
-           this.label2.Text = "默认保存文件夹：(点击更改)";
+           this.label2.Text = "默认保存文件夹：";
            // 
            // lnkSavePath
            // 
            this.lnkSavePath.AutoSize = true;
-           this.lnkSavePath.Location = new System.Drawing.Point(38, 128);
+           this.lnkSavePath.Location = new System.Drawing.Point(38, 70);
            this.lnkSavePath.Name = "lnkSavePath";
            this.lnkSavePath.Size = new System.Drawing.Size(95, 12);
            this.lnkSavePath.TabIndex = 7;
@@ -142,7 +143,7 @@
            // lnkLog
            // 
            this.lnkLog.AutoSize = true;
-           this.lnkLog.Location = new System.Drawing.Point(51, 63);
+           this.lnkLog.Location = new System.Drawing.Point(51, 143);
            this.lnkLog.Name = "lnkLog";
            this.lnkLog.Size = new System.Drawing.Size(77, 12);
            this.lnkLog.TabIndex = 5;
@@ -154,7 +155,7 @@
            // 
            this.chkEnableLog.AutoSize = true;
            this.chkEnableLog.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkEnableLog.Location = new System.Drawing.Point(40, 39);
+           this.chkEnableLog.Location = new System.Drawing.Point(40, 119);
            this.chkEnableLog.Name = "chkEnableLog";
            this.chkEnableLog.Size = new System.Drawing.Size(222, 17);
            this.chkEnableLog.TabIndex = 6;
@@ -163,6 +164,7 @@
            // 
            // pageDownload
            // 
+           this.pageDownload.Controls.Add(this.chkDownAllSection);
            this.pageDownload.Controls.Add(this.label1);
            this.pageDownload.Controls.Add(this.numCacheSize);
            this.pageDownload.Controls.Add(this.chkDeleteFile);
@@ -180,7 +182,7 @@
            // label1
            // 
            this.label1.AutoSize = true;
-           this.label1.Location = new System.Drawing.Point(37, 146);
+           this.label1.Location = new System.Drawing.Point(37, 176);
            this.label1.Name = "label1";
            this.label1.Size = new System.Drawing.Size(113, 12);
            this.label1.TabIndex = 16;
@@ -188,7 +190,7 @@
            // 
            // numCacheSize
            // 
-           this.numCacheSize.Location = new System.Drawing.Point(156, 144);
+           this.numCacheSize.Location = new System.Drawing.Point(156, 174);
            this.numCacheSize.Maximum = new decimal(new int[] {
             16,
             0,
@@ -364,6 +366,17 @@
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
            // 
+           // chkPluginImanhua
+           // 
+           this.chkPluginImanhua.AutoSize = true;
+           this.chkPluginImanhua.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkPluginImanhua.Location = new System.Drawing.Point(41, 143);
+           this.chkPluginImanhua.Name = "chkPluginImanhua";
+           this.chkPluginImanhua.Size = new System.Drawing.Size(150, 17);
+           this.chkPluginImanhua.TabIndex = 5;
+           this.chkPluginImanhua.Text = "启用爱漫画网下载插件";
+           this.chkPluginImanhua.UseVisualStyleBackColor = true;
+           // 
            // label3
            // 
            this.label3.AutoSize = true;
@@ -417,16 +430,16 @@
            this.chkPluginAcfun.Text = "启用Acfun.cn下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
            // 
-           // chkPluginImanhua
+           // chkDownAllSection
            // 
-           this.chkPluginImanhua.AutoSize = true;
-           this.chkPluginImanhua.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkPluginImanhua.Location = new System.Drawing.Point(41, 143);
-           this.chkPluginImanhua.Name = "chkPluginImanhua";
-           this.chkPluginImanhua.Size = new System.Drawing.Size(150, 17);
-           this.chkPluginImanhua.TabIndex = 5;
-           this.chkPluginImanhua.Text = "启用爱漫画网下载插件";
-           this.chkPluginImanhua.UseVisualStyleBackColor = true;
+           this.chkDownAllSection.AutoSize = true;
+           this.chkDownAllSection.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkDownAllSection.Location = new System.Drawing.Point(39, 130);
+           this.chkDownAllSection.Name = "chkDownAllSection";
+           this.chkDownAllSection.Size = new System.Drawing.Size(150, 17);
+           this.chkDownAllSection.TabIndex = 17;
+           this.chkDownAllSection.Text = "解析所有关联的下载项";
+           this.chkDownAllSection.UseVisualStyleBackColor = true;
            // 
            // FormConfig
            // 
@@ -493,5 +506,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
         private System.Windows.Forms.CheckBox chkPluginImanhua;
+        private System.Windows.Forms.CheckBox chkDownAllSection;
 	 }
 }

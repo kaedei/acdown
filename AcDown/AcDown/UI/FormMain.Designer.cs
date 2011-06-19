@@ -156,26 +156,26 @@
            // 
            // statusStrip
            // 
-           this.statusStrip.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+           this.statusStrip.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSpeed,
             this.lblBlank,
             this.toolHelpCenter});
-           this.statusStrip.Location = new System.Drawing.Point(0, 438);
+           this.statusStrip.Location = new System.Drawing.Point(0, 439);
            this.statusStrip.Name = "statusStrip";
-           this.statusStrip.Size = new System.Drawing.Size(459, 26);
+           this.statusStrip.Size = new System.Drawing.Size(459, 25);
            this.statusStrip.TabIndex = 6;
            // 
            // lblSpeed
            // 
            this.lblSpeed.Name = "lblSpeed";
-           this.lblSpeed.Size = new System.Drawing.Size(53, 21);
+           this.lblSpeed.Size = new System.Drawing.Size(47, 20);
            this.lblSpeed.Text = "0KB/s";
            // 
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(189, 21);
+           this.lblBlank.Size = new System.Drawing.Size(187, 20);
            this.lblBlank.Spring = true;
            // 
            // toolHelpCenter
@@ -183,7 +183,7 @@
            this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources._1;
            this.toolHelpCenter.IsLink = true;
            this.toolHelpCenter.Name = "toolHelpCenter";
-           this.toolHelpCenter.Size = new System.Drawing.Size(202, 21);
+           this.toolHelpCenter.Size = new System.Drawing.Size(179, 20);
            this.toolHelpCenter.Text = "下载时遇到问题？点这里";
            this.toolHelpCenter.ToolTipText = "打开帮助中心";
            this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
@@ -257,7 +257,7 @@
            // searchCustom
            // 
            this.searchCustom.Name = "searchCustom";
-           this.searchCustom.Size = new System.Drawing.Size(152, 22);
+           this.searchCustom.Size = new System.Drawing.Size(121, 22);
            this.searchCustom.Text = "自定义...";
            this.searchCustom.Click += new System.EventHandler(this.searchCustom_Click);
            // 
@@ -332,7 +332,7 @@
            this.btnClickNew.Cursor = System.Windows.Forms.Cursors.Hand;
            this.btnClickNew.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.btnClickNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnClickNew.Location = new System.Drawing.Point(117, 158);
+           this.btnClickNew.Location = new System.Drawing.Point(118, 164);
            this.btnClickNew.Name = "btnClickNew";
            this.btnClickNew.Size = new System.Drawing.Size(224, 138);
            this.btnClickNew.TabIndex = 0;
@@ -556,9 +556,9 @@
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.ClientSize = new System.Drawing.Size(459, 464);
            this.Controls.Add(this.lnkImanhua);
-           this.Controls.Add(this.btnClickNew);
            this.Controls.Add(this.lnkYouku);
            this.Controls.Add(this.lnkBilibili);
+           this.Controls.Add(this.btnClickNew);
            this.Controls.Add(this.lnkTudou);
            this.Controls.Add(this.label2);
            this.Controls.Add(this.udSpeedLimit);
