@@ -243,7 +243,7 @@ namespace Kaedei.AcDown.Downloader
 				string title = mTitle.Groups["title"].Value.Replace(" _嗶哩嗶哩", "").Replace(" - 嗶哩嗶哩", "");
 
 				//取得子标题
-				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+)</option>");
+				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+?)</option>");
 				MatchCollection mSubTitles = rSubTitle.Matches(src);
 
 				 //如果存在下拉列表框

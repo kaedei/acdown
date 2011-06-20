@@ -42,6 +42,7 @@
            this.groupBox2 = new System.Windows.Forms.GroupBox();
            this.btnExample = new System.Windows.Forms.Button();
            this.txtExample = new System.Windows.Forms.TextBox();
+           this.lnkPaste = new System.Windows.Forms.LinkLabel();
            ((System.ComponentModel.ISupportInitialize)(this.picCheck)).BeginInit();
            this.groupBox1.SuspendLayout();
            this.groupBox2.SuspendLayout();
@@ -111,7 +112,7 @@
            this.chkImmediate.CheckState = System.Windows.Forms.CheckState.Checked;
            this.chkImmediate.Enabled = false;
            this.chkImmediate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkImmediate.Location = new System.Drawing.Point(15, 169);
+           this.chkImmediate.Location = new System.Drawing.Point(257, 168);
            this.chkImmediate.Name = "chkImmediate";
            this.chkImmediate.Size = new System.Drawing.Size(78, 17);
            this.chkImmediate.TabIndex = 7;
@@ -163,6 +164,7 @@
            // 
            // groupBox2
            // 
+           this.groupBox2.Controls.Add(this.lnkPaste);
            this.groupBox2.Controls.Add(this.btnExample);
            this.groupBox2.Controls.Add(this.label1);
            this.groupBox2.Controls.Add(this.txtInput);
@@ -195,6 +197,19 @@
            this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
            this.txtExample.Size = new System.Drawing.Size(326, 285);
            this.txtExample.TabIndex = 13;
+           // 
+           // lnkPaste
+           // 
+           this.lnkPaste.AutoSize = true;
+           this.lnkPaste.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+           this.lnkPaste.Location = new System.Drawing.Point(11, 162);
+           this.lnkPaste.Name = "lnkPaste";
+           this.lnkPaste.Size = new System.Drawing.Size(42, 21);
+           this.lnkPaste.TabIndex = 9;
+           this.lnkPaste.TabStop = true;
+           this.lnkPaste.Text = "粘贴";
+           this.toolTip.SetToolTip(this.lnkPaste, "如果系统剪贴板中有文字,\r\n则将剪贴板中文字粘贴入文本框");
+           this.lnkPaste.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPaste_LinkClicked);
            // 
            // FormNew
            // 
@@ -238,5 +253,6 @@
 		  private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnExample;
         private System.Windows.Forms.TextBox txtExample;
+        private System.Windows.Forms.LinkLabel lnkPaste;
 	 }
 }

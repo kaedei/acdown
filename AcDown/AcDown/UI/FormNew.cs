@@ -194,6 +194,14 @@ namespace Kaedei.AcDown.UI
 			 }
 		 }
 
+		 private void lnkPaste_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		 {
+			 if (Clipboard.ContainsText())
+			 {
+				 txtInput.Text = Clipboard.GetText();
+			 }
+		 }
+
 
 	}
 }

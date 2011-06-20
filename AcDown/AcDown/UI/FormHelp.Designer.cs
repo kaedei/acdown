@@ -37,14 +37,14 @@
          this.groupBox2 = new System.Windows.Forms.GroupBox();
          this.lnkFAQ = new System.Windows.Forms.LinkLabel();
          this.groupBox3 = new System.Windows.Forms.GroupBox();
+         this.lnkAdvise = new System.Windows.Forms.LinkLabel();
          this.lnkReportBug = new System.Windows.Forms.LinkLabel();
          this.groupBox4 = new System.Windows.Forms.GroupBox();
-         this.lnkAdvise = new System.Windows.Forms.LinkLabel();
+         this.lnkFeed = new System.Windows.Forms.LinkLabel();
          this.btnClose = new System.Windows.Forms.Button();
          this.panel1 = new System.Windows.Forms.Panel();
          this.lnkBlog = new System.Windows.Forms.LinkLabel();
          this.lnkProject = new System.Windows.Forms.LinkLabel();
-         this.lnkFeed = new System.Windows.Forms.LinkLabel();
          this.tableLayoutPanel1.SuspendLayout();
          this.groupBox1.SuspendLayout();
          this.groupBox2.SuspendLayout();
@@ -169,6 +169,17 @@
          this.groupBox3.TabStop = false;
          this.groupBox3.Text = "程序反馈";
          // 
+         // lnkAdvise
+         // 
+         this.lnkAdvise.AutoSize = true;
+         this.lnkAdvise.Location = new System.Drawing.Point(70, 93);
+         this.lnkAdvise.Name = "lnkAdvise";
+         this.lnkAdvise.Size = new System.Drawing.Size(122, 21);
+         this.lnkAdvise.TabIndex = 0;
+         this.lnkAdvise.TabStop = true;
+         this.lnkAdvise.Text = "提交新功能建议";
+         this.lnkAdvise.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdvise_LinkClicked);
+         // 
          // lnkReportBug
          // 
          this.lnkReportBug.AutoSize = true;
@@ -193,19 +204,20 @@
          this.groupBox4.TabStop = false;
          this.groupBox4.Text = "订阅邮件";
          // 
-         // lnkAdvise
+         // lnkFeed
          // 
-         this.lnkAdvise.AutoSize = true;
-         this.lnkAdvise.Location = new System.Drawing.Point(70, 93);
-         this.lnkAdvise.Name = "lnkAdvise";
-         this.lnkAdvise.Size = new System.Drawing.Size(122, 21);
-         this.lnkAdvise.TabIndex = 0;
-         this.lnkAdvise.TabStop = true;
-         this.lnkAdvise.Text = "提交新功能建议";
-         this.lnkAdvise.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdvise_LinkClicked);
+         this.lnkFeed.AutoSize = true;
+         this.lnkFeed.Location = new System.Drawing.Point(61, 74);
+         this.lnkFeed.Name = "lnkFeed";
+         this.lnkFeed.Size = new System.Drawing.Size(186, 21);
+         this.lnkFeed.TabIndex = 0;
+         this.lnkFeed.TabStop = true;
+         this.lnkFeed.Text = "第一时间获得新版本信息";
+         this.lnkFeed.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFeed_LinkClicked);
          // 
          // btnClose
          // 
+         this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
          this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
          this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
          this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -251,17 +263,6 @@
          this.lnkProject.TabStop = true;
          this.lnkProject.Text = "项目主页";
          this.lnkProject.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkProject_LinkClicked);
-         // 
-         // lnkFeed
-         // 
-         this.lnkFeed.AutoSize = true;
-         this.lnkFeed.Location = new System.Drawing.Point(61, 74);
-         this.lnkFeed.Name = "lnkFeed";
-         this.lnkFeed.Size = new System.Drawing.Size(186, 21);
-         this.lnkFeed.TabIndex = 0;
-         this.lnkFeed.TabStop = true;
-         this.lnkFeed.Text = "第一时间获得新版本信息";
-         this.lnkFeed.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFeed_LinkClicked);
          // 
          // FormHelp
          // 

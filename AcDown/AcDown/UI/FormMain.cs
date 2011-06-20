@@ -231,7 +231,7 @@ namespace AcDown.UI
 					taskbarList.HrInit();
 				}
 				//设置提示文字
-				SendMessage(txtSearch.TextBox.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"搜索视频"));
+				SendMessage(txtSearch.TextBox.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"快捷搜索"));
 				//设置listview效果
 				SetWindowTheme(this.lsv.Handle, "explorer", null); //Explorer style 
 				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
@@ -291,7 +291,7 @@ namespace AcDown.UI
 
 		private void txtSearch_Click(object sender, EventArgs e)
 		{
-			if (txtSearch.Text == "搜索视频")
+			if (txtSearch.Text == "快捷搜索")
 				txtSearch.Text = "";
 			else
 				txtSearch.SelectAll();
@@ -422,12 +422,17 @@ namespace AcDown.UI
 			this.Hide();
 		}
 
+		private bool alreayTipMinimize = false;
 		//程序隐藏后提示
 		private void FormMain_VisibleChanged(object sender, EventArgs e)
 		{
-			if (!this.Visible)
+			if (!alreayTipMinimize)
 			{
-				notifyIcon.ShowBalloonTip(1500, "AcDown动漫下载器已经最小化到系统托盘", "您可以双击此图标以重新显示下载器", ToolTipIcon.Info);
+				if (!this.Visible)
+				{
+					notifyIcon.ShowBalloonTip(1500, "AcDown动漫下载器已经最小化到系统托盘", "您可以双击此图标以重新显示下载器", ToolTipIcon.Info);
+					alreayTipMinimize = true;
+				}
 			}
 		}
 
@@ -437,12 +442,27 @@ namespace AcDown.UI
 			//如果按下右键
 			if (e.Button == MouseButtons.Right)
 			{
-				//如果选择的项目大于0个
-				if (lsv.SelectedItems.Count > 0)
-				{
-					mnuContext.Show(lsv, e.Location);
-				}
+				////如果选择的项目大于0个
+				//if (lsv.SelectedItems.Count > 0)
+				//{
+				//   mnuContext.Show(lsv, e.Location);
+				//}
 			}
+		}
+
+		//显示工具栏
+		private void lsv_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (lsv.SelectedItems.Count > 0)
+			{
+				//取得最后一项的索引值
+				int i = lsv.SelectedIndices[lsv.SelectedIndices.Count - 1];
+				//计算最后一项+1项的高度
+				contextTool.Top = lsv.Top + lsv.Font.Height * (i + 3 + 1 / 2);
+				contextTool.Visible = true;
+			}
+			else
+				contextTool.Visible = false;
 		}
 
 		//菜单中的开始
@@ -463,6 +483,12 @@ namespace AcDown.UI
 		//菜单中的停止
 		private void mnuConStop_Click(object sender, EventArgs e)
 		{
+			if (MessageBox.Show("是否要停止选定的下载任务?","停止下载", 
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question , 
+				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+			{
+				return;
+			}
 			//停止所有可能停止的任务
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
@@ -512,33 +538,33 @@ namespace AcDown.UI
 				}
 			}
 		}
-
-		//链接到acfun
-		private void lnkAcfun_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		
+		private void acFuncnToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("http://acfun.cn/");
 		}
 
-		//链接到土豆网
-		private void lnkTudou_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Process.Start("http://www.tudou.com");
-		}
-
-		//链接到Bilibili
-		private void lnkBilibili_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void bilibiliToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("http://www.bilibili.us/");
 		}
 
-		//链接到优酷
-		private void lnkYouku_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void 土豆网ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://www.tudou.com");
+		}
+
+		private void 优酷网ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("http://www.youku.com/");
 		}
 
-		//链接到爱漫画
-		private void lnkImanhua_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void 贴吧相册ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://tieba.baidu.com/");
+		}
+
+		private void 爱漫画ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("http://www.imanhua.com/");
 		}
@@ -549,10 +575,10 @@ namespace AcDown.UI
 			btnConfig_Click(this, EventArgs.Empty);
 		}
 
-		//搜索视频
+		//搜索
 		private void btnSearch_ButtonClick(object sender, EventArgs e)
 		{
-			if (txtSearch.Text == "搜索视频")
+			if (txtSearch.Text == "快捷搜索")
 				return;
 			if (txtSearch.Text.Length != 0)
 			{
@@ -582,7 +608,7 @@ namespace AcDown.UI
 			}
 		}
 
-		//按下回车搜索视频
+		//按下回车搜索
 		private void txtSearch_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (e.KeyData == Keys.Enter)
@@ -592,35 +618,35 @@ namespace AcDown.UI
 		//双击某一项目
 		private void lsv_DoubleClick(object sender, EventArgs e)
 		{
-			ListViewItem item = lsv.SelectedItems[0];
-			if (item != null)
-			{
-				IDownloader downloader = GetTask(new Guid((string)item.Tag));
-				//根据状态执行不同的操作
-				switch (downloader.Status)
-				{
-						//开始状态则停止
-					case DownloadStatus.正在下载:
-					case DownloadStatus.等待开始:
-						taskMgr.StopTask(downloader);
-						break;
-						//停止状态则开始
-					case DownloadStatus.已经停止:
-					case DownloadStatus.出现错误:
-						taskMgr.StartTask(downloader);
-						break;
-					case DownloadStatus.下载完成:
-						try
-						{
-							Process.Start(downloader.SaveDirectory.ToString());
-						}
-						catch
-						{
-							MessageBox.Show("文件已删除或不存在", "打开文件", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-						}
-						break;
-				}
-			}
+		//   ListViewItem item = lsv.SelectedItems[0];
+		//   if (item != null)
+		//   {
+		//      IDownloader downloader = GetTask(new Guid((string)item.Tag));
+		//      //根据状态执行不同的操作
+		//      switch (downloader.Status)
+		//      {
+		//            //开始状态则停止
+		//         case DownloadStatus.正在下载:
+		//         case DownloadStatus.等待开始:
+		//            taskMgr.StopTask(downloader);
+		//            break;
+		//            //停止状态则开始
+		//         case DownloadStatus.已经停止:
+		//         case DownloadStatus.出现错误:
+		//            taskMgr.StartTask(downloader);
+		//            break;
+		//         case DownloadStatus.下载完成:
+		//            try
+		//            {
+		//               Process.Start(downloader.SaveDirectory.ToString());
+		//            }
+		//            catch
+		//            {
+		//               MessageBox.Show("文件已删除或不存在", "打开文件", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		//            }
+		//            break;
+		//      }
+		//   }
 		}
 
 		//点击"下载中心"链接
@@ -640,6 +666,8 @@ namespace AcDown.UI
 		private void mnuTrayShowHide_Click(object sender, EventArgs e)
 		{
 			this.Visible = !this.Visible;
+			this.TopMost = true;
+			this.TopMost = false;
 		}
 
 		//退出程序
@@ -676,12 +704,18 @@ namespace AcDown.UI
 		private void txtSearch_Leave(object sender, EventArgs e)
 		{
 			if (!Config.IsWindowsVistaOr7() && txtSearch.Text == "")
-				txtSearch.Text = "搜索视频";
+				txtSearch.Text = "快捷搜索";
 		}
 
 		//删除任务
 		private void mnuConDelete_Click(object sender, EventArgs e)
 		{
+			if (MessageBox.Show("是否要删除选定的下载任务?", "删除下载任务",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+			{
+				return;
+			}
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
@@ -1034,8 +1068,7 @@ namespace AcDown.UI
 #endregion
 
 
+	}//end class
 
-	}
 
-
-}
+}//end namespace
