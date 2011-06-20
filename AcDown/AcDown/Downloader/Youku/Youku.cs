@@ -275,7 +275,7 @@ namespace Kaedei.AcDown.Downloader
 					//提示更换新Part
 					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
 					//取得文件后缀名
-					string ext = Tools.GetExtension(videos[i]);
+					//string ext = Tools.GetExtension(videos[i]);
 					//设置当前DownloadParameter
 					if (_partCount == 1) //如果只有一段
 					{
@@ -283,7 +283,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-														  _title + "." + ext),
+														  _title + ".flv"),
 							//文件URL
 							Url = videos[i]
 						};
@@ -294,7 +294,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-														  _title + "(" + (i + 1).ToString() + ")" + "." + ext),
+														  _title + "(" + (i + 1).ToString() + ")" + ".flv"),
 							//文件URL
 							Url = videos[i]
 						};

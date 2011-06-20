@@ -37,6 +37,7 @@ namespace Kaedei.AcDown.UI
          chkPluginBilibili.Checked = Config.setting.Plugin_Enable_Bilibili;
          chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
          chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
+         chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
 
       }
 
@@ -62,6 +63,8 @@ namespace Kaedei.AcDown.UI
          Config.setting.Plugin_Enable_Bilibili = chkPluginBilibili.Checked;
          Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
          Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
+         Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
+         //保存设置
          Config.SaveSettings();
          this.Close();
       }

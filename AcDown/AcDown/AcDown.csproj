@@ -269,7 +269,27 @@
   <ItemGroup>
     <None Include="Resources\About.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolstripDelete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolstripInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolstripOpenFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolstripOpenWebpage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolstripStart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolstripStop.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

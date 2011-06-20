@@ -37,6 +37,7 @@
            this.lnkLog = new System.Windows.Forms.LinkLabel();
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
            this.pageDownload = new System.Windows.Forms.TabPage();
+           this.chkDownAllSection = new System.Windows.Forms.CheckBox();
            this.label1 = new System.Windows.Forms.Label();
            this.numCacheSize = new System.Windows.Forms.NumericUpDown();
            this.chkDeleteFile = new System.Windows.Forms.CheckBox();
@@ -52,13 +53,13 @@
            this.chkCheckUrl = new System.Windows.Forms.CheckBox();
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
+           this.chkPluginTiebaAlbum = new System.Windows.Forms.CheckBox();
            this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
            this.label3 = new System.Windows.Forms.Label();
            this.chkPluginYouku = new System.Windows.Forms.CheckBox();
            this.chkPluginBilibili = new System.Windows.Forms.CheckBox();
            this.chkPluginTudou = new System.Windows.Forms.CheckBox();
            this.chkPluginAcfun = new System.Windows.Forms.CheckBox();
-           this.chkDownAllSection = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageGeneral.SuspendLayout();
            this.pageDownload.SuspendLayout();
@@ -178,6 +179,18 @@
            this.pageDownload.TabIndex = 2;
            this.pageDownload.Text = "下载";
            this.pageDownload.UseVisualStyleBackColor = true;
+           // 
+           // chkDownAllSection
+           // 
+           this.chkDownAllSection.AutoSize = true;
+           this.chkDownAllSection.Enabled = false;
+           this.chkDownAllSection.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkDownAllSection.Location = new System.Drawing.Point(39, 130);
+           this.chkDownAllSection.Name = "chkDownAllSection";
+           this.chkDownAllSection.Size = new System.Drawing.Size(150, 17);
+           this.chkDownAllSection.TabIndex = 17;
+           this.chkDownAllSection.Text = "解析所有关联的下载项";
+           this.chkDownAllSection.UseVisualStyleBackColor = true;
            // 
            // label1
            // 
@@ -352,6 +365,7 @@
            // 
            // pagePlugin
            // 
+           this.pagePlugin.Controls.Add(this.chkPluginTiebaAlbum);
            this.pagePlugin.Controls.Add(this.chkPluginImanhua);
            this.pagePlugin.Controls.Add(this.label3);
            this.pagePlugin.Controls.Add(this.chkPluginYouku);
@@ -365,6 +379,17 @@
            this.pagePlugin.TabIndex = 4;
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
+           // 
+           // chkPluginTiebaAlbum
+           // 
+           this.chkPluginTiebaAlbum.AutoSize = true;
+           this.chkPluginTiebaAlbum.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkPluginTiebaAlbum.Location = new System.Drawing.Point(41, 166);
+           this.chkPluginTiebaAlbum.Name = "chkPluginTiebaAlbum";
+           this.chkPluginTiebaAlbum.Size = new System.Drawing.Size(174, 17);
+           this.chkPluginTiebaAlbum.TabIndex = 6;
+           this.chkPluginTiebaAlbum.Text = "启用百度贴吧相册下载插件";
+           this.chkPluginTiebaAlbum.UseVisualStyleBackColor = true;
            // 
            // chkPluginImanhua
            // 
@@ -429,17 +454,6 @@
            this.chkPluginAcfun.TabIndex = 0;
            this.chkPluginAcfun.Text = "启用Acfun.cn下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
-           // 
-           // chkDownAllSection
-           // 
-           this.chkDownAllSection.AutoSize = true;
-           this.chkDownAllSection.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkDownAllSection.Location = new System.Drawing.Point(39, 130);
-           this.chkDownAllSection.Name = "chkDownAllSection";
-           this.chkDownAllSection.Size = new System.Drawing.Size(150, 17);
-           this.chkDownAllSection.TabIndex = 17;
-           this.chkDownAllSection.Text = "解析所有关联的下载项";
-           this.chkDownAllSection.UseVisualStyleBackColor = true;
            // 
            // FormConfig
            // 
@@ -507,5 +521,6 @@
         private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
         private System.Windows.Forms.CheckBox chkPluginImanhua;
         private System.Windows.Forms.CheckBox chkDownAllSection;
+        private System.Windows.Forms.CheckBox chkPluginTiebaAlbum;
 	 }
 }
