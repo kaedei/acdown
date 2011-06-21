@@ -459,6 +459,11 @@ namespace AcDown.UI
 				int i = lsv.SelectedIndices[lsv.SelectedIndices.Count - 1];
 				//计算最后一项+1项的高度
 				contextTool.Top = lsv.Top + lsv.Font.Height * (i + 3 + 1 / 2);
+				//如果高度超过listview的范围
+				if (contextTool.Top > lsv.Top + lsv.Height)
+				{
+					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 2;
+				}
 				contextTool.Visible = true;
 			}
 			else

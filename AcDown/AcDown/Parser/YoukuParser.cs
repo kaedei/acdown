@@ -31,7 +31,7 @@ namespace Kaedei.AcDown.Parser
 			string fileposfix = m.Groups["fileposfix"].Value;
 			string fileID = m.Groups["fileID"].Value;
 			//提取视频个数
-			string regexFlvNo = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$*#d+$,$seconds$:$*#d+$#}#])".Replace("#", @"\").Replace("$", "\"");
+			string regexFlvNo = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$(,$#w+$:$#w+$|)#}#])".Replace("#", @"\").Replace("$", "\"");
 			Regex rn = new Regex(regexFlvNo);
 			Match mn = rn.Match(xmldoc);
 			int flv_no = Int32.Parse(mn.Groups["flvno"].Value);
@@ -46,7 +46,7 @@ namespace Kaedei.AcDown.Parser
 			for (int i = 0; i < flv_no + 1; i++)
 			{
 				lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", flv_no) +
-				"/st/flv/fileid/" + fileid + "?K=" + key);
+				"/st/" + fileposfix + "/fileid/" + fileid + "?K=" + key);
 			}
 			return lst.ToArray();
 		}
