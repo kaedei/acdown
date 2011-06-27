@@ -245,7 +245,7 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 		//下载视频
-		public void DownloadVideo()
+		public void Download()
 		{
 			//开始下载
 			delegates.Start(new ParaStart(this.TaskId));
@@ -472,14 +472,9 @@ namespace Kaedei.AcDown.Downloader
 
 		}//end DownloadVideo
 
-		//下载字幕文件（暂不支持）
-		public void DownloadSub()
-		{
-
-		}
 
 		//停止下载
-		public void StopDownloadVideo()
+		public void StopDownload()
 		{
 			if (currentParameter != null)
 			{

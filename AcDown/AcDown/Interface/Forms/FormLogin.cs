@@ -13,10 +13,10 @@ namespace Kaedei.AcDown.Interface.Forms
    {
       UserLoginInfo info;
       string url;
-      public FormLogin(ref UserLoginInfo userLoginInfo, string regUrl)
+      public FormLogin(UserLoginInfo userLoginInfo, string regUrl)
       {
          InitializeComponent();
-         userLoginInfo = info;
+         info = userLoginInfo;
          url = regUrl;
       }
 

@@ -37,19 +37,13 @@ namespace Kaedei.AcDown.Component
 		//开始任务
 		public void Start()
 		{
-			Downloader.DownloadVideo();
+			Downloader.Download();
 		}
 
 		//停止任务
 		public void Stop()
 		{
-			Downloader.StopDownloadVideo();
-		}
-
-		//下载字幕&弹幕
-		public void DownloadSub()
-		{
-			Downloader.DownloadSub();
+			Downloader.StopDownload();
 		}
 
 		//任务下载进度

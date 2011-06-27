@@ -54,7 +54,7 @@ namespace Kaedei.AcDown.Interface.Forms
       public static UserLoginInfo CreateLoginForm(string registerUrl)
       {
          UserLoginInfo info = new UserLoginInfo();
-         FormLogin frm = new FormLogin(ref info, registerUrl);
+         FormLogin frm = new FormLogin(info, registerUrl);
          frm.ShowDialog();
          return info;
       }

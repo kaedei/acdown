@@ -85,7 +85,7 @@ namespace Kaedei.AcDown
 						if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 						{
 							//下载视频
-							downloader.DownloadVideo();
+							downloader.Download();
 						}
 					}
 					catch (Exception ex) //如果出现错误
@@ -109,7 +109,7 @@ namespace Kaedei.AcDown
 		/// <param name="downloader"></param>
 		public void StopTask(IDownloader downloader)
 		{
-			downloader.StopDownloadVideo();
+			downloader.StopDownload();
 			//刷新信息
 			delegates.Refresh(new ParaRefresh(downloader.TaskId));
 		}
@@ -122,7 +122,7 @@ namespace Kaedei.AcDown
 		{
 
 			//先停止任务
-			downloader.StopDownloadVideo();
+			downloader.StopDownload();
 
 			while (downloader.Status == DownloadStatus.正在下载)
 			{

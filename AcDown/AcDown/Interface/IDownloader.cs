@@ -43,9 +43,8 @@ namespace Kaedei.AcDown.Interface
 		DownloadStatus Status{ get; }
 		string VideoTitle{ get; }
 
-		void DownloadVideo();
-		void DownloadSub();
-		void StopDownloadVideo();
+		void Download();
+		void StopDownload();
 	}
 
 
