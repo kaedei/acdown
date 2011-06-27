@@ -221,7 +221,7 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 		//下载视频
-		public void DownloadVideo()
+		public void Download()
 		{ 
 			//开始下载
 			delegates.Start(new ParaStart(this.TaskId));
@@ -335,6 +335,13 @@ namespace Kaedei.AcDown.Downloader
 					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
 					//取得文件后缀名
 					string ext = Tools.GetExtension(videos[i]);
+					if (string.IsNullOrEmpty(ext))
+					{
+						if (string.IsNullOrEmpty(Path.GetExtension(videos[i])))
+							ext = ".flv";
+						else
+							ext = Path.GetExtension(videos[i]);
+					}
 					//设置当前DownloadParameter
 					if (_partCount == 1)
 					{
@@ -342,7 +349,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + (string.IsNullOrEmpty(ext) ? Path.GetExtension(videos[i]) : ext)),
+										_title + ext),
 							//文件URL
 							Url = videos[i]
 						};
@@ -353,8 +360,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + "(" + (i + 1).ToString() + ")" +
-										(string.IsNullOrEmpty(ext) ? Path.GetExtension(videos[i]) : ext)),
+										_title + "(" + (i + 1).ToString() + ")" +	ext),
 							//文件URL
 							Url = videos[i]
 						};
@@ -406,14 +412,8 @@ namespace Kaedei.AcDown.Downloader
 			delegates.Finish(new ParaFinish(this.TaskId, true));
 		}
 
-		//下载弹幕文件
-		public void DownloadSub()
-		{
-			
-		}
-
 		//停止下载
-		public void StopDownloadVideo()
+		public void StopDownload()
 		{
 			if (currentParameter != null)
 			{
