@@ -422,9 +422,9 @@ namespace AcDown.UI
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			e.Cancel = !exitapp;
 			if (Config.setting.HideWhenClose)
-			{
-				e.Cancel = !exitapp;
+			{		
 				this.Hide();
 			}
 			else
