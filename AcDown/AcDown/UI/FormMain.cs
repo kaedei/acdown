@@ -679,6 +679,20 @@ namespace AcDown.UI
 			mnuTrayShowHide_Click(sender, EventArgs.Empty);
 		}
 
+		//将程序显示到前台
+		public void ShowFormToFront()
+		{
+			if (this.Visible == false)
+			{
+				mnuTrayShowHide_Click(this, EventArgs.Empty);
+			}
+			else
+			{
+				this.TopMost = true;
+				this.TopMost = false;
+			}
+		}
+
 		//显示/隐藏
 		private void mnuTrayShowHide_Click(object sender, EventArgs e)
 		{

@@ -172,12 +172,12 @@
          // lnkAdvise
          // 
          this.lnkAdvise.AutoSize = true;
-         this.lnkAdvise.Location = new System.Drawing.Point(70, 93);
+         this.lnkAdvise.Location = new System.Drawing.Point(31, 93);
          this.lnkAdvise.Name = "lnkAdvise";
-         this.lnkAdvise.Size = new System.Drawing.Size(122, 21);
+         this.lnkAdvise.Size = new System.Drawing.Size(235, 21);
          this.lnkAdvise.TabIndex = 0;
          this.lnkAdvise.TabStop = true;
-         this.lnkAdvise.Text = "提交新功能建议";
+         this.lnkAdvise.Text = "提交新功能建议 / 解析更多网站";
          this.lnkAdvise.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdvise_LinkClicked);
          // 
          // lnkReportBug

@@ -5,6 +5,7 @@ using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 using System.IO;
 using Kaedei.AcDown.Parser;
+using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -87,7 +88,10 @@ namespace Kaedei.AcDown.Downloader
 			return new string[] { 
 				"土豆网(Tudou.com)下载插件:",
 				"http://www.tudou.com/playlist/p/l12302995.html",
-				"http://www.tudou.com/programs/view/scMdGug3bgY/",
+				"http://www.tudou.com/programs/view/scMdGug3bgY/","",
+				"土豆网加密视频:(在地址后加“密码”字样)",
+				"http://www.tudou.com/playlist/p/l12302995.html密码",
+				"http://www.tudou.com/programs/view/scMdGug3bgY/密码",
 			};
 		}
 
@@ -247,8 +251,13 @@ namespace Kaedei.AcDown.Downloader
 			_status = DownloadStatus.正在下载;
 			try
 			{
+				//获取密码
+				string password = "";
+				if (Url.EndsWith("密码"))
+					password = ToolForm.CreatePasswordForm();
+
 				//取得网页源文件
-				string src = Network.GetHtmlSource(Url, Encoding.GetEncoding("GBK"));
+				string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"));
 
 				//分析视频iid
 				string iid = "";
@@ -276,7 +285,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//调用内建的土豆视频解析器
 				TudouParser parserTudou = new TudouParser();
-				videos = parserTudou.Parse(new string[] { iid });
+				videos = parserTudou.Parse(new string[] { iid, password });
 
 				//下载视频
 				//确定视频共有几个段落
@@ -359,4 +368,5 @@ namespace Kaedei.AcDown.Downloader
 
 		#endregion
 	}
-}
+
+}//end namespace

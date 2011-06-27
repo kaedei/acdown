@@ -31,6 +31,7 @@ namespace Kaedei.AcDown.Parser
 			string key1 = m.Groups["key1"].Value;
 			string key2 = m.Groups["key2"].Value;
 			string fileposfix = m.Groups["fileposfix"].Value;
+			if (fileposfix == "hd2") fileposfix = "flv";
 			string fileID = m.Groups["fileID"].Value;
 			//提取视频个数
 			string regexFlvNo = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$(,$#w+$:$#w+$|)#}#])".Replace("#", @"\").Replace("$", "\"");
