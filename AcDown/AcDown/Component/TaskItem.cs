@@ -32,7 +32,7 @@ namespace Kaedei.AcDown.Component
 		}
 
 		//视频标题
-		public string VideoTitle { get; set; }
+		public string Title { get; set; }
 
 		//开始任务
 		public void Start()

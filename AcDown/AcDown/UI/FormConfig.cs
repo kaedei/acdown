@@ -30,6 +30,8 @@ namespace Kaedei.AcDown.UI
          chkDeleteFile.Checked = Config.setting.DeleteTaskAndFile;
          chkEnableWin7.Checked = Config.setting.EnableWindows7Feature;
          chkShowBigButton.Checked = Config.setting.ShowBigStartButton;
+         chkHideWhenClose.Checked = Config.setting.HideWhenClose;
+         cboMaxRunningCount.SelectedIndex = Config.setting.MaxRunningTaskCount - 1;
          txtSearchText.Text = Config.setting.SearchQuery;
          //插件设置
          chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
@@ -56,6 +58,8 @@ namespace Kaedei.AcDown.UI
          Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
          Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
          Config.setting.ShowBigStartButton = chkShowBigButton.Checked;
+         Config.setting.HideWhenClose = chkHideWhenClose.Checked;
+         Config.setting.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
          Config.setting.SearchQuery = txtSearchText.Text;
          //插件设置
          Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;

@@ -5,6 +5,7 @@ using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 using System.IO;
 using Kaedei.AcDown.Parser;
+using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -79,7 +80,10 @@ namespace Kaedei.AcDown.Downloader
 			return new string[] { 
 				"优酷网(Youku.com)下载插件:",
 				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html",
-				"http://v.youku.com/v_playlist/f5656465o1p0.html",
+				"http://v.youku.com/v_playlist/f5656465o1p0.html","",
+				"优酷加密视频:(在地址后加“密码”字样)",
+				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html密码",
+				"http://v.youku.com/v_playlist/f5656465o1p0.html密码",
 			};
 		}
 
@@ -239,8 +243,13 @@ namespace Kaedei.AcDown.Downloader
 			_status = DownloadStatus.正在下载;
 			try
 			{
+				//获取密码
+				string password = "";
+				if (Url.EndsWith("密码"))
+					password = ToolForm.CreatePasswordForm();
+
 				//取得网页源文件
-				string src = Network.GetHtmlSource(Url, Encoding.UTF8);
+				string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.UTF8);
 
 				//分析视频id
 				Regex r1 = new Regex(@"videoId = '(?<vid>\w+)'");
@@ -262,7 +271,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//调用内建的优酷视频解析器
 				YoukuParser parserYouku = new YoukuParser();
-				videos = parserYouku.Parse(new string[] { vid });
+				videos = parserYouku.Parse(new string[] { vid, password });
 
 				//下载视频
 				//确定视频共有几个段落

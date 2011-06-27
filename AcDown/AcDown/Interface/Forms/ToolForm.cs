@@ -40,10 +40,10 @@ namespace Kaedei.AcDown.Interface.Forms
       /// <returns>返回字符串值，内容为用户输入的密码</returns>
       public static string CreatePasswordForm()
       {
-         string pw = "";
-         FormPassword frm = new FormPassword(ref pw);
+         StringBuilder pw = new StringBuilder();
+         FormPassword frm = new FormPassword(pw);
          frm.ShowDialog();
-         return pw;
+         return pw.ToString();
       }
 
       /// <summary>

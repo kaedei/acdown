@@ -38,12 +38,12 @@ namespace Kaedei.AcDown.UI
 
       private void lnkReportBug_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
       {
-         Process.Start("http://tieba.baidu.com/f?kz=1025414691");
+         Process.Start("http://blog.sina.com.cn/s/blog_58c506600100t7w4.html");
       }
 
       private void lnkAdvise_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
       {
-         Process.Start("http://tieba.baidu.com/f?kz=1025431451");
+         Process.Start("http://blog.sina.com.cn/s/blog_58c506600100t7w5.html");
       }
 
       private void lnkProject_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

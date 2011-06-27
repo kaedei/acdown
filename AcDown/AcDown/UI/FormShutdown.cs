@@ -94,6 +94,7 @@ namespace Kaedei.AcDown.UI
 		Logoff,
 		Reboot,
 		Hibernate,
-		Suspend
+		Suspend,
+      ExitProgram
 	}
 }

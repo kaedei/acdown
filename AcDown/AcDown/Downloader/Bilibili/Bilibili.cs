@@ -29,7 +29,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public string Describe
 		{
-			get { return @"Bilibili.us下载插件"; }
+			get { return @"Bilibili下载插件"; }
 		}
 
 		public string SupportUrl
@@ -44,7 +44,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://www\.bilibili\.us/video/av(?<av>\w+)");
+			Regex r = new Regex(@"http://www\.bilibili\.(us|tv)/video/av(?<av>\w+)");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -63,7 +63,7 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://(www\.|)bilibili\.us/video/av(?<av>\w+)");
+			Regex r = new Regex(@"http://(www\.|)bilibili\.(us|tv)/video/av(?<av>\w+)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -78,10 +78,10 @@ namespace Kaedei.AcDown.Downloader
 		public string[] GetUrlExample()
 		{
 			return new string[] { 
-				"Bilibili.us下载插件:",
+				"Bilibili下载插件:",
 				"支持识别各Part名称",
-				"http://www.bilibili.us/video/av97834/",
-				"http://www.bilibili.us/video/av70229/index_20.html",
+				"http://www.bilibili.tv/video/av97834/",
+				"http://www.bilibili.tv/video/av70229/index_20.html",
 			};
 		}
 
@@ -381,7 +381,7 @@ namespace Kaedei.AcDown.Downloader
 					//字幕文件(on)地址
 					string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
 					//取得字幕文件(on)地址
-					string subUrl = "http://www.bilibili.us/dm," + id + "?r=155";
+					string subUrl = "http://www.bilibili.tv/dm," + id + "?r=155";
 					//下载字幕文件
 					try
 					{

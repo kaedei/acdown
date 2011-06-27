@@ -35,6 +35,7 @@ namespace Kaedei.AcDown
       public string SearchQuery = @""; //搜索url
       public bool EnableWindows7Feature = true; //允许使用Windows7特性
       public bool DeleteTaskAndFile = false; //删除任务的同时删除文件
+      public bool HideWhenClose = true; //点击关闭按钮时最小化
 
       //启用插件
       public bool Plugin_Enable_Acfun = true;
