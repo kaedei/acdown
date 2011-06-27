@@ -47,7 +47,6 @@
          this.txtPassword.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.txtPassword.Location = new System.Drawing.Point(35, 62);
          this.txtPassword.Name = "txtPassword";
-         this.txtPassword.PasswordChar = '●';
          this.txtPassword.Size = new System.Drawing.Size(354, 34);
          this.txtPassword.TabIndex = 1;
          // 
