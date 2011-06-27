@@ -65,6 +65,11 @@ namespace Kaedei.AcDown.Interface.Forms
          this.Close();
       }
 
+      private void FormSelect_Load(object sender, EventArgs e)
+      {
+
+      }
+
 
    }//end class
 }

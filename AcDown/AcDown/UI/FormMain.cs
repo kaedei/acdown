@@ -320,7 +320,7 @@ namespace AcDown.UI
 		}
 
 		//上一次取得的URL
-		private string lastUrl;
+		//private string lastUrl;
 		//是否监视剪贴板
 		private bool watchClipboard;
 
@@ -386,10 +386,10 @@ namespace AcDown.UI
 			{
 				lblSpeed.Text = "";
 			}
-			//显示Win7任务栏
-			if (Config.setting.EnableWindows7Feature)
+			//显示Win7任务栏特性
+			if (Config.IsWindows7())
 			{
-				if (Config.IsWindows7())
+				if (Config.setting.EnableWindows7Feature)
 				{
 					IDownloader a = taskMgr.GetFirstRunning();
 					if (a != null) //如果有任务正在运行
@@ -412,14 +412,26 @@ namespace AcDown.UI
 						taskbarList.SetThumbnailClip(this.Handle, ref rect);
 					}
 				}
+				else  //如果禁止Win7特性
+				{
+					taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
+				}
 			}
 		}
 
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			e.Cancel = !exitapp;
-			this.Hide();
+			if (Config.setting.HideWhenClose)
+			{
+				e.Cancel = !exitapp;
+				this.Hide();
+			}
+			else
+			{
+				mnuTrayExit_Click(sender, EventArgs.Empty);
+			}
+			
 		}
 
 		private bool alreayTipMinimize = false;
@@ -551,7 +563,7 @@ namespace AcDown.UI
 
 		private void bilibiliToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Process.Start("http://www.bilibili.us/");
+			Process.Start("http://www.bilibili.tv/");
 		}
 
 		private void 土豆网ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1036,6 +1048,13 @@ namespace AcDown.UI
 					case 5: //重启
 						action = ShutdownType.Reboot;
 						break;
+					case 6: //退出程序
+						action = ShutdownType.ExitProgram;
+						break;
+				}
+				if (action == ShutdownType.ExitProgram)
+				{
+					mnuTrayExit_Click(this, EventArgs.Empty);
 				}
 				if (action != ShutdownType.None)
 				{
@@ -1046,6 +1065,7 @@ namespace AcDown.UI
 
 		}
 
+		bool errorTip = true;
 		//出现错误下载失败
 		public void Error(object e)
 		{
@@ -1067,6 +1087,12 @@ namespace AcDown.UI
 				item.SubItems[0].Text = downloader.Status.ToString();
 				item.SubItems[3].Text = @"下载出错"; //下载进度
 				item.SubItems[4].Text = ""; //下载速度
+			}
+			//显示ToolTip
+			if (errorTip)
+			{
+				toolTip.Show("下载出现问题了？点这里", this, cboAfterComplete.Left, cboAfterComplete.Top);
+				errorTip = false;
 			}
 		}
 

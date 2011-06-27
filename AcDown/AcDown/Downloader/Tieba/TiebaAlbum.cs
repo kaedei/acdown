@@ -83,7 +83,7 @@ namespace Kaedei.AcDown.Downloader
 		{
 			return new string[] { 
 				"百度贴吧相册下载插件:",
-				"http://tieba.baidu.com/f/tupian/album?kw=windows7&an=Win7自带壁纸",
+				"http://tieba.baidu.com/f/tupian/album?kw=windows7&an=win7%D7%D4%B4%F8%B1%DA%D6%BD",
 			};
 		}
 		#endregion

@@ -206,13 +206,15 @@
          // 
          // lnkFeed
          // 
-         this.lnkFeed.AutoSize = true;
-         this.lnkFeed.Location = new System.Drawing.Point(61, 74);
+         this.lnkFeed.Image = global::Kaedei.AcDown.Properties.Resources.UpdateNoti;
+         this.lnkFeed.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+         this.lnkFeed.Location = new System.Drawing.Point(65, 52);
          this.lnkFeed.Name = "lnkFeed";
-         this.lnkFeed.Size = new System.Drawing.Size(186, 21);
+         this.lnkFeed.Size = new System.Drawing.Size(186, 63);
          this.lnkFeed.TabIndex = 0;
          this.lnkFeed.TabStop = true;
          this.lnkFeed.Text = "第一时间获得新版本信息";
+         this.lnkFeed.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
          this.lnkFeed.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFeed_LinkClicked);
          // 
          // btnClose
@@ -287,7 +289,6 @@
          this.groupBox3.ResumeLayout(false);
          this.groupBox3.PerformLayout();
          this.groupBox4.ResumeLayout(false);
-         this.groupBox4.PerformLayout();
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
          this.ResumeLayout(false);

@@ -177,5 +177,12 @@ namespace Kaedei.AcDown.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap UpdateNoti {
+            get {
+                object obj = ResourceManager.GetObject("UpdateNoti", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

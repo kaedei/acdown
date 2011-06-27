@@ -10,16 +10,16 @@ namespace Kaedei.AcDown.Interface.Forms
 {
    public partial class FormPassword : Form
    {
-      string pw;
-      public FormPassword(ref string password)
+      StringBuilder pw;
+      public FormPassword(StringBuilder password)
       {
          InitializeComponent();
-         password = pw;
+         pw = password;
       }
 
       private void btnOK_Click(object sender, EventArgs e)
       {
-         pw = txtPassword.Text;
+         pw.Append(txtPassword.Text);
          this.Close();
       }
 

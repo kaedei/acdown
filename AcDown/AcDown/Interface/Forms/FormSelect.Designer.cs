@@ -135,6 +135,7 @@
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
          this.Text = "请选择要下载的章节";
          this.TopMost = true;
+         this.Load += new System.EventHandler(this.FormSelect_Load);
          this.ResumeLayout(false);
          this.PerformLayout();
 
