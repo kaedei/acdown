@@ -52,7 +52,8 @@
            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStrip = new System.Windows.Forms.ToolStrip();
            this.btnNew = new System.Windows.Forms.ToolStripButton();
-           this.btnConfig = new System.Windows.Forms.ToolStripButton();
+           this.btnConfig = new System.Windows.Forms.ToolStripDropDownButton();
+           this.toolSettingAdv = new System.Windows.Forms.ToolStripMenuItem();
            this.btnAbout = new System.Windows.Forms.ToolStripButton();
            this.btnSearch = new System.Windows.Forms.ToolStripSplitButton();
            this.searchCustom = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,28 +200,28 @@
            // acFuncnToolStripMenuItem
            // 
            this.acFuncnToolStripMenuItem.Name = "acFuncnToolStripMenuItem";
-           this.acFuncnToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
-           this.acFuncnToolStripMenuItem.Text = "AcFun.cn";
+           this.acFuncnToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.acFuncnToolStripMenuItem.Text = "AcFun";
            this.acFuncnToolStripMenuItem.Click += new System.EventHandler(this.acFuncnToolStripMenuItem_Click);
            // 
            // bilibiliToolStripMenuItem
            // 
            this.bilibiliToolStripMenuItem.Name = "bilibiliToolStripMenuItem";
-           this.bilibiliToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
+           this.bilibiliToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
            this.bilibiliToolStripMenuItem.Text = "Bilibili";
            this.bilibiliToolStripMenuItem.Click += new System.EventHandler(this.bilibiliToolStripMenuItem_Click);
            // 
            // 土豆网ToolStripMenuItem
            // 
            this.土豆网ToolStripMenuItem.Name = "土豆网ToolStripMenuItem";
-           this.土豆网ToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
+           this.土豆网ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
            this.土豆网ToolStripMenuItem.Text = "土豆网";
            this.土豆网ToolStripMenuItem.Click += new System.EventHandler(this.土豆网ToolStripMenuItem_Click);
            // 
            // 优酷网ToolStripMenuItem
            // 
            this.优酷网ToolStripMenuItem.Name = "优酷网ToolStripMenuItem";
-           this.优酷网ToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
+           this.优酷网ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
            this.优酷网ToolStripMenuItem.Text = "优酷网";
            this.优酷网ToolStripMenuItem.Click += new System.EventHandler(this.优酷网ToolStripMenuItem_Click);
            // 
@@ -229,7 +230,7 @@
            this.百度贴吧ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.贴吧相册ToolStripMenuItem});
            this.百度贴吧ToolStripMenuItem.Name = "百度贴吧ToolStripMenuItem";
-           this.百度贴吧ToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
+           this.百度贴吧ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
            this.百度贴吧ToolStripMenuItem.Text = "百度";
            // 
            // 贴吧相册ToolStripMenuItem
@@ -242,7 +243,7 @@
            // 爱漫画ToolStripMenuItem
            // 
            this.爱漫画ToolStripMenuItem.Name = "爱漫画ToolStripMenuItem";
-           this.爱漫画ToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
+           this.爱漫画ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
            this.爱漫画ToolStripMenuItem.Text = "爱漫画";
            this.爱漫画ToolStripMenuItem.Click += new System.EventHandler(this.爱漫画ToolStripMenuItem_Click);
            // 
@@ -255,7 +256,7 @@
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(186, 21);
+           this.lblBlank.Size = new System.Drawing.Size(155, 21);
            this.lblBlank.Spring = true;
            // 
            // toolHelpCenter
@@ -303,13 +304,20 @@
            // 
            // btnConfig
            // 
+           this.btnConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolSettingAdv});
            this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
            this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.btnConfig.Name = "btnConfig";
-           this.btnConfig.Size = new System.Drawing.Size(75, 28);
+           this.btnConfig.Size = new System.Drawing.Size(84, 28);
            this.btnConfig.Text = "设置(&T)";
-           this.btnConfig.ToolTipText = "下载设置";
-           this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+           // 
+           // toolSettingAdv
+           // 
+           this.toolSettingAdv.Name = "toolSettingAdv";
+           this.toolSettingAdv.Size = new System.Drawing.Size(113, 22);
+           this.toolSettingAdv.Text = "高级 ...";
+           this.toolSettingAdv.Click += new System.EventHandler(this.btnConfig_Click);
            // 
            // btnAbout
            // 
@@ -369,7 +377,7 @@
             this.mnuTrayExit});
            this.mnuTray.Name = "mnuTray";
            this.mnuTray.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.mnuTray.Size = new System.Drawing.Size(173, 76);
+           this.mnuTray.Size = new System.Drawing.Size(173, 54);
            // 
            // mnuTrayShowHide
            // 
@@ -709,8 +717,7 @@
 		  private System.Windows.Forms.ToolStripStatusLabel lblBlank;
 		  private System.Windows.Forms.ToolStrip toolStrip;
 		  private System.Windows.Forms.ToolStripButton btnNew;
-		  private System.Windows.Forms.ToolStripTextBox txtSearch;
-		  private System.Windows.Forms.ToolStripButton btnConfig;
+        private System.Windows.Forms.ToolStripTextBox txtSearch;
 		  private System.Windows.Forms.ToolStripButton btnAbout;
 		  private System.Windows.Forms.NotifyIcon notifyIcon;
 		  private System.Windows.Forms.ColumnHeader headerStatus;
@@ -761,6 +768,8 @@
 		  private System.Windows.Forms.ToolStripMenuItem 百度贴吧ToolStripMenuItem;
 		  private System.Windows.Forms.ToolStripMenuItem 贴吧相册ToolStripMenuItem;
 		  private System.Windows.Forms.ToolStripMenuItem 爱漫画ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton btnConfig;
+        private System.Windows.Forms.ToolStripMenuItem toolSettingAdv;
 
 	 }
 }

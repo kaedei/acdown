@@ -194,7 +194,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//视频标题
 		private string _title;
-		public string VideoTitle
+		public string Title
 		{
 			get
 			{
@@ -247,7 +247,7 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得首个Url源文件
-				string src1 = Network.GetHtmlSource(Url, Encoding.GetEncoding("GBK"));
+				string src1 = Network.GetHtmlSource(Url, Encoding.GetEncoding("GBK"),delegates.Proxy);
 				Collection<string> subUrls = new Collection<string>();
 				subUrls.Add(Url);
 				//要下载的源文件列表
@@ -275,7 +275,7 @@ namespace Kaedei.AcDown.Downloader
 				foreach (string item in subUrls)
 				{
 					//取得源代码
-					string src2 = Network.GetHtmlSource(item, Encoding.GetEncoding("GBK"));
+					string src2 = Network.GetHtmlSource(item, Encoding.GetEncoding("GBK"), delegates.Proxy);
 					//解析所有图片
 					Regex rAllPic = new Regex(@"<div class=$j_showtip pic_box$ id=$(?<id>\w+).+?<p class=$pic_des$>(?<des>.+?)</p>".Replace("$", "\""), RegexOptions.Singleline);
 					MatchCollection mAllPics = rAllPic.Matches(src2);
@@ -299,6 +299,8 @@ namespace Kaedei.AcDown.Downloader
 
 				//分析源代码,取得下载地址
 				WebClient wc = new WebClient();
+				if (delegates.Proxy != null)
+					wc.Proxy = delegates.Proxy;
 
 				//创建文件夹
 				Directory.CreateDirectory(mainDir);

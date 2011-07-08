@@ -242,11 +242,6 @@ namespace AcDown.UI
 
 		private void btnAbout_Click(object sender, EventArgs e)
 		{
-			//去除显示大按钮
-			if (btnClickNew != null)
-			{
-				btnClickNew.Dispose();
-			}
 			FormAbout about = new FormAbout();
 			about.ShowDialog();
 			about.Dispose();
@@ -254,11 +249,6 @@ namespace AcDown.UI
 
 		private void btnConfig_Click(object sender, EventArgs e)
 		{
-			//去除显示大按钮
-			if (btnClickNew != null)
-			{
-				btnClickNew.Dispose();
-			}
 			FormConfig config = new FormConfig();
 			config.ShowDialog();
 			config.Dispose();
@@ -875,7 +865,7 @@ namespace AcDown.UI
 					//状态
 					item.SubItems[0].Text = downloader.Status.ToString();
 					//视频名称
-					item.SubItems[1].Text = downloader.VideoTitle;
+					item.SubItems[1].Text = downloader.Title;
 					//分段
 					item.SubItems[2].Text = downloader.CurrentPart.ToString() + "/" + downloader.PartCount.ToString();
 					//下载进度
@@ -943,7 +933,7 @@ namespace AcDown.UI
 			//设置提示信息
 			//item.SubItems[0].Text = downloader.Status.ToString();
 			//视频标题
-			item.SubItems[1].Text = downloader.VideoTitle;
+			item.SubItems[1].Text = downloader.Title;
 			try
 			{
 				item.SubItems[2].Text = p.PartNumber.ToString() + @"/" + downloader.PartCount.ToString();
@@ -1111,6 +1101,12 @@ namespace AcDown.UI
 		}
 
 #endregion
+
+
+
+
+
+
 
 
 	}//end class

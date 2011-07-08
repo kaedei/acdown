@@ -32,8 +32,11 @@
            this.btnOK = new System.Windows.Forms.Button();
            this.tab = new System.Windows.Forms.TabControl();
            this.pageDownload = new System.Windows.Forms.TabPage();
+           this.txtSavePath = new System.Windows.Forms.TextBox();
+           this.btnSavePath = new System.Windows.Forms.Button();
+           this.cboMaxRunningCount = new System.Windows.Forms.ComboBox();
+           this.label5 = new System.Windows.Forms.Label();
            this.label2 = new System.Windows.Forms.Label();
-           this.lnkSavePath = new System.Windows.Forms.LinkLabel();
            this.chkDownAllSection = new System.Windows.Forms.CheckBox();
            this.label1 = new System.Windows.Forms.Label();
            this.numCacheSize = new System.Windows.Forms.NumericUpDown();
@@ -58,17 +61,27 @@
            this.chkPluginBilibili = new System.Windows.Forms.CheckBox();
            this.chkPluginTudou = new System.Windows.Forms.CheckBox();
            this.chkPluginAcfun = new System.Windows.Forms.CheckBox();
-           this.tabPage1 = new System.Windows.Forms.TabPage();
+           this.pageProxy = new System.Windows.Forms.TabPage();
+           this.btnProxyDelete = new System.Windows.Forms.Button();
+           this.btnProxyModify = new System.Windows.Forms.Button();
+           this.btnProxyAdd = new System.Windows.Forms.Button();
+           this.lsvProxy = new System.Windows.Forms.ListView();
+           this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.label6 = new System.Windows.Forms.Label();
+           this.pageDebug = new System.Windows.Forms.TabPage();
            this.lnkLog = new System.Windows.Forms.LinkLabel();
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
-           this.label5 = new System.Windows.Forms.Label();
-           this.cboMaxRunningCount = new System.Windows.Forms.ComboBox();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
            this.pageUI.SuspendLayout();
            this.pagePlugin.SuspendLayout();
-           this.tabPage1.SuspendLayout();
+           this.pageProxy.SuspendLayout();
+           this.pageDebug.SuspendLayout();
            this.SuspendLayout();
            // 
            // btnCancel
@@ -101,7 +114,8 @@
            this.tab.Controls.Add(this.pageDownload);
            this.tab.Controls.Add(this.pageUI);
            this.tab.Controls.Add(this.pagePlugin);
-           this.tab.Controls.Add(this.tabPage1);
+           this.tab.Controls.Add(this.pageProxy);
+           this.tab.Controls.Add(this.pageDebug);
            this.tab.Location = new System.Drawing.Point(8, 8);
            this.tab.Name = "tab";
            this.tab.SelectedIndex = 0;
@@ -112,10 +126,11 @@
            // 
            // pageDownload
            // 
+           this.pageDownload.Controls.Add(this.txtSavePath);
+           this.pageDownload.Controls.Add(this.btnSavePath);
            this.pageDownload.Controls.Add(this.cboMaxRunningCount);
            this.pageDownload.Controls.Add(this.label5);
            this.pageDownload.Controls.Add(this.label2);
-           this.pageDownload.Controls.Add(this.lnkSavePath);
            this.pageDownload.Controls.Add(this.chkDownAllSection);
            this.pageDownload.Controls.Add(this.label1);
            this.pageDownload.Controls.Add(this.numCacheSize);
@@ -131,6 +146,55 @@
            this.pageDownload.Text = "下载";
            this.pageDownload.UseVisualStyleBackColor = true;
            // 
+           // txtSavePath
+           // 
+           this.txtSavePath.Location = new System.Drawing.Point(34, 51);
+           this.txtSavePath.Name = "txtSavePath";
+           this.txtSavePath.ReadOnly = true;
+           this.txtSavePath.Size = new System.Drawing.Size(242, 21);
+           this.txtSavePath.TabIndex = 23;
+           // 
+           // btnSavePath
+           // 
+           this.btnSavePath.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.btnSavePath.Location = new System.Drawing.Point(282, 51);
+           this.btnSavePath.Name = "btnSavePath";
+           this.btnSavePath.Size = new System.Drawing.Size(68, 21);
+           this.btnSavePath.TabIndex = 22;
+           this.btnSavePath.Text = "更改";
+           this.btnSavePath.UseVisualStyleBackColor = true;
+           this.btnSavePath.Click += new System.EventHandler(this.btnSavePath_Click);
+           // 
+           // cboMaxRunningCount
+           // 
+           this.cboMaxRunningCount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+           this.cboMaxRunningCount.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.cboMaxRunningCount.FormattingEnabled = true;
+           this.cboMaxRunningCount.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+           this.cboMaxRunningCount.Location = new System.Drawing.Point(170, 247);
+           this.cboMaxRunningCount.Name = "cboMaxRunningCount";
+           this.cboMaxRunningCount.Size = new System.Drawing.Size(51, 20);
+           this.cboMaxRunningCount.TabIndex = 21;
+           // 
+           // label5
+           // 
+           this.label5.AutoSize = true;
+           this.label5.Location = new System.Drawing.Point(33, 250);
+           this.label5.Name = "label5";
+           this.label5.Size = new System.Drawing.Size(131, 12);
+           this.label5.TabIndex = 20;
+           this.label5.Text = "同时运行的最大任务数:";
+           // 
            // label2
            // 
            this.label2.AutoSize = true;
@@ -140,23 +204,12 @@
            this.label2.TabIndex = 19;
            this.label2.Text = "默认保存文件夹：";
            // 
-           // lnkSavePath
-           // 
-           this.lnkSavePath.AutoSize = true;
-           this.lnkSavePath.Location = new System.Drawing.Point(33, 53);
-           this.lnkSavePath.Name = "lnkSavePath";
-           this.lnkSavePath.Size = new System.Drawing.Size(95, 12);
-           this.lnkSavePath.TabIndex = 18;
-           this.lnkSavePath.TabStop = true;
-           this.lnkSavePath.Text = "D:\\My Documents";
-           this.lnkSavePath.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSavePath_LinkClicked);
-           // 
            // chkDownAllSection
            // 
            this.chkDownAllSection.AutoSize = true;
            this.chkDownAllSection.Enabled = false;
            this.chkDownAllSection.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkDownAllSection.Location = new System.Drawing.Point(35, 169);
+           this.chkDownAllSection.Location = new System.Drawing.Point(35, 182);
            this.chkDownAllSection.Name = "chkDownAllSection";
            this.chkDownAllSection.Size = new System.Drawing.Size(150, 17);
            this.chkDownAllSection.TabIndex = 17;
@@ -166,7 +219,7 @@
            // label1
            // 
            this.label1.AutoSize = true;
-           this.label1.Location = new System.Drawing.Point(33, 201);
+           this.label1.Location = new System.Drawing.Point(33, 214);
            this.label1.Name = "label1";
            this.label1.Size = new System.Drawing.Size(113, 12);
            this.label1.TabIndex = 16;
@@ -174,7 +227,7 @@
            // 
            // numCacheSize
            // 
-           this.numCacheSize.Location = new System.Drawing.Point(152, 199);
+           this.numCacheSize.Location = new System.Drawing.Point(152, 212);
            this.numCacheSize.Maximum = new decimal(new int[] {
             16,
             0,
@@ -198,7 +251,7 @@
            // 
            this.chkDeleteFile.AutoSize = true;
            this.chkDeleteFile.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkDeleteFile.Location = new System.Drawing.Point(35, 146);
+           this.chkDeleteFile.Location = new System.Drawing.Point(35, 159);
            this.chkDeleteFile.Name = "chkDeleteFile";
            this.chkDeleteFile.Size = new System.Drawing.Size(186, 17);
            this.chkDeleteFile.TabIndex = 14;
@@ -209,7 +262,7 @@
            // 
            this.chkPlaySound.AutoSize = true;
            this.chkPlaySound.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkPlaySound.Location = new System.Drawing.Point(35, 123);
+           this.chkPlaySound.Location = new System.Drawing.Point(35, 136);
            this.chkPlaySound.Name = "chkPlaySound";
            this.chkPlaySound.Size = new System.Drawing.Size(150, 17);
            this.chkPlaySound.TabIndex = 13;
@@ -220,7 +273,7 @@
            // 
            this.chkOpenFolder.AutoSize = true;
            this.chkOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkOpenFolder.Location = new System.Drawing.Point(35, 101);
+           this.chkOpenFolder.Location = new System.Drawing.Point(35, 114);
            this.chkOpenFolder.Name = "chkOpenFolder";
            this.chkOpenFolder.Size = new System.Drawing.Size(150, 17);
            this.chkOpenFolder.TabIndex = 12;
@@ -231,7 +284,7 @@
            // 
            this.chkDownSub.AutoSize = true;
            this.chkDownSub.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkDownSub.Location = new System.Drawing.Point(35, 78);
+           this.chkDownSub.Location = new System.Drawing.Point(35, 91);
            this.chkDownSub.Name = "chkDownSub";
            this.chkDownSub.Size = new System.Drawing.Size(102, 17);
            this.chkDownSub.TabIndex = 10;
@@ -438,17 +491,116 @@
            this.chkPluginAcfun.Text = "启用Acfun.cn下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
            // 
-           // tabPage1
+           // pageProxy
            // 
-           this.tabPage1.Controls.Add(this.lnkLog);
-           this.tabPage1.Controls.Add(this.chkEnableLog);
-           this.tabPage1.Location = new System.Drawing.Point(4, 22);
-           this.tabPage1.Name = "tabPage1";
-           this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-           this.tabPage1.Size = new System.Drawing.Size(386, 312);
-           this.tabPage1.TabIndex = 5;
-           this.tabPage1.Text = "下载器";
-           this.tabPage1.UseVisualStyleBackColor = true;
+           this.pageProxy.Controls.Add(this.btnProxyDelete);
+           this.pageProxy.Controls.Add(this.btnProxyModify);
+           this.pageProxy.Controls.Add(this.btnProxyAdd);
+           this.pageProxy.Controls.Add(this.lsvProxy);
+           this.pageProxy.Controls.Add(this.label6);
+           this.pageProxy.Location = new System.Drawing.Point(4, 22);
+           this.pageProxy.Name = "pageProxy";
+           this.pageProxy.Padding = new System.Windows.Forms.Padding(3);
+           this.pageProxy.Size = new System.Drawing.Size(386, 312);
+           this.pageProxy.TabIndex = 6;
+           this.pageProxy.Text = "代理服务器";
+           this.pageProxy.UseVisualStyleBackColor = true;
+           // 
+           // btnProxyDelete
+           // 
+           this.btnProxyDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.btnProxyDelete.Location = new System.Drawing.Point(183, 257);
+           this.btnProxyDelete.Name = "btnProxyDelete";
+           this.btnProxyDelete.Size = new System.Drawing.Size(75, 23);
+           this.btnProxyDelete.TabIndex = 4;
+           this.btnProxyDelete.Text = "删除";
+           this.btnProxyDelete.UseVisualStyleBackColor = true;
+           this.btnProxyDelete.Click += new System.EventHandler(this.btnProxyDelete_Click);
+           // 
+           // btnProxyModify
+           // 
+           this.btnProxyModify.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.btnProxyModify.Location = new System.Drawing.Point(102, 257);
+           this.btnProxyModify.Name = "btnProxyModify";
+           this.btnProxyModify.Size = new System.Drawing.Size(75, 23);
+           this.btnProxyModify.TabIndex = 3;
+           this.btnProxyModify.Text = "修改";
+           this.btnProxyModify.UseVisualStyleBackColor = true;
+           this.btnProxyModify.Click += new System.EventHandler(this.btnProxyModify_Click);
+           // 
+           // btnProxyAdd
+           // 
+           this.btnProxyAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.btnProxyAdd.Location = new System.Drawing.Point(21, 257);
+           this.btnProxyAdd.Name = "btnProxyAdd";
+           this.btnProxyAdd.Size = new System.Drawing.Size(75, 23);
+           this.btnProxyAdd.TabIndex = 2;
+           this.btnProxyAdd.Text = "添加";
+           this.btnProxyAdd.UseVisualStyleBackColor = true;
+           this.btnProxyAdd.Click += new System.EventHandler(this.btnProxyAdd_Click);
+           // 
+           // lsvProxy
+           // 
+           this.lsvProxy.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
+           this.lsvProxy.FullRowSelect = true;
+           this.lsvProxy.GridLines = true;
+           this.lsvProxy.Location = new System.Drawing.Point(21, 43);
+           this.lsvProxy.MultiSelect = false;
+           this.lsvProxy.Name = "lsvProxy";
+           this.lsvProxy.Size = new System.Drawing.Size(342, 208);
+           this.lsvProxy.TabIndex = 1;
+           this.lsvProxy.UseCompatibleStateImageBehavior = false;
+           this.lsvProxy.View = System.Windows.Forms.View.Details;
+           // 
+           // columnHeader1
+           // 
+           this.columnHeader1.Text = "名称";
+           this.columnHeader1.Width = 68;
+           // 
+           // columnHeader2
+           // 
+           this.columnHeader2.Text = "服务器";
+           this.columnHeader2.Width = 93;
+           // 
+           // columnHeader3
+           // 
+           this.columnHeader3.Text = "端口";
+           // 
+           // columnHeader4
+           // 
+           this.columnHeader4.Text = "用户名";
+           this.columnHeader4.Width = 75;
+           // 
+           // columnHeader5
+           // 
+           this.columnHeader5.Text = "密码";
+           this.columnHeader5.Width = 75;
+           // 
+           // label6
+           // 
+           this.label6.AutoSize = true;
+           this.label6.Location = new System.Drawing.Point(6, 15);
+           this.label6.Name = "label6";
+           this.label6.Size = new System.Drawing.Size(125, 12);
+           this.label6.TabIndex = 0;
+           this.label6.Text = "编辑代理服务器列表：";
+           // 
+           // pageDebug
+           // 
+           this.pageDebug.Controls.Add(this.lnkLog);
+           this.pageDebug.Controls.Add(this.chkEnableLog);
+           this.pageDebug.Location = new System.Drawing.Point(4, 22);
+           this.pageDebug.Name = "pageDebug";
+           this.pageDebug.Padding = new System.Windows.Forms.Padding(3);
+           this.pageDebug.Size = new System.Drawing.Size(386, 312);
+           this.pageDebug.TabIndex = 5;
+           this.pageDebug.Text = "调试";
+           this.pageDebug.UseVisualStyleBackColor = true;
            // 
            // lnkLog
            // 
@@ -471,36 +623,6 @@
            this.chkEnableLog.TabIndex = 8;
            this.chkEnableLog.Text = "启用错误日志（重启下载器后生效）";
            this.chkEnableLog.UseVisualStyleBackColor = true;
-           // 
-           // label5
-           // 
-           this.label5.AutoSize = true;
-           this.label5.Location = new System.Drawing.Point(33, 237);
-           this.label5.Name = "label5";
-           this.label5.Size = new System.Drawing.Size(131, 12);
-           this.label5.TabIndex = 20;
-           this.label5.Text = "同时运行的最大任务数:";
-           // 
-           // cboMaxRunningCount
-           // 
-           this.cboMaxRunningCount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-           this.cboMaxRunningCount.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.cboMaxRunningCount.FormattingEnabled = true;
-           this.cboMaxRunningCount.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"});
-           this.cboMaxRunningCount.Location = new System.Drawing.Point(170, 234);
-           this.cboMaxRunningCount.Name = "cboMaxRunningCount";
-           this.cboMaxRunningCount.Size = new System.Drawing.Size(51, 20);
-           this.cboMaxRunningCount.TabIndex = 21;
            // 
            // FormConfig
            // 
@@ -529,8 +651,10 @@
            this.pageUI.PerformLayout();
            this.pagePlugin.ResumeLayout(false);
            this.pagePlugin.PerformLayout();
-           this.tabPage1.ResumeLayout(false);
-           this.tabPage1.PerformLayout();
+           this.pageProxy.ResumeLayout(false);
+           this.pageProxy.PerformLayout();
+           this.pageDebug.ResumeLayout(false);
+           this.pageDebug.PerformLayout();
            this.ResumeLayout(false);
 
 		  }
@@ -565,12 +689,24 @@
         private System.Windows.Forms.CheckBox chkDownAllSection;
         private System.Windows.Forms.CheckBox chkPluginTiebaAlbum;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel lnkSavePath;
         private System.Windows.Forms.CheckBox chkHideWhenClose;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage pageDebug;
         private System.Windows.Forms.LinkLabel lnkLog;
         private System.Windows.Forms.CheckBox chkEnableLog;
         private System.Windows.Forms.ComboBox cboMaxRunningCount;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TabPage pageProxy;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnProxyDelete;
+        private System.Windows.Forms.Button btnProxyModify;
+        private System.Windows.Forms.Button btnProxyAdd;
+        private System.Windows.Forms.ListView lsvProxy;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.TextBox txtSavePath;
+        private System.Windows.Forms.Button btnSavePath;
 	 }
 }

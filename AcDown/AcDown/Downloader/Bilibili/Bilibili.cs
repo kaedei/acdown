@@ -189,7 +189,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//视频标题
 		private string _title;
-		public string VideoTitle
+		public string Title
 		{
 			get
 			{
@@ -235,7 +235,7 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得网页源文件
-				string src = Network.GetHtmlSource(url, Encoding.UTF8);
+				string src = Network.GetHtmlSource(url, Encoding.UTF8, delegates.Proxy);
 
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
@@ -299,25 +299,25 @@ namespace Kaedei.AcDown.Downloader
 						case "qid": //QQ视频
 							//解析视频
 							QQVideoParser parserQQ = new QQVideoParser();
-							videos = parserQQ.Parse(new string[] { id });
+							videos = parserQQ.Parse(new string[] { id }, delegates.Proxy);
 							break;
 						case "ykid": //优酷视频
 							//解析视频
 							YoukuParser parserYouKu = new YoukuParser();
-							videos = parserYouKu.Parse(new string[] { id });
+							videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
 							break;
 						case "uid": //土豆视频
 							//解析视频
 							TudouParser parserTudou = new TudouParser();
-							videos = parserTudou.Parse(new string[] { id });
+							videos = parserTudou.Parse(new string[] { id }, delegates.Proxy);
 							break;
 						case "rid": //6.cn视频
 							SixcnParser parserSixcn = new SixcnParser();
-							videos = parserSixcn.Parse(new string[] { id });
+							videos = parserSixcn.Parse(new string[] { id }, delegates.Proxy);
 							break;
 						default: //新浪视频
 							SinaVideoParser parserSina = new SinaVideoParser();
-							videos = parserSina.Parse(new string[] { id });
+							videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
 							break;
 					}
 				}
@@ -351,7 +351,8 @@ namespace Kaedei.AcDown.Downloader
 							FilePath = Path.Combine(SaveDirectory.ToString(),
 										_title + ext),
 							//文件URL
-							Url = videos[i]
+							Url = videos[i],
+							Proxy = delegates.Proxy
 						};
 					}
 					else
@@ -362,7 +363,9 @@ namespace Kaedei.AcDown.Downloader
 							FilePath = Path.Combine(SaveDirectory.ToString(),
 										_title + "(" + (i + 1).ToString() + ")" +	ext),
 							//文件URL
-							Url = videos[i]
+							Url = videos[i],
+							//代理服务器
+							Proxy = delegates.Proxy
 						};
 					}
 					//添加文件路径到List<>中
@@ -395,7 +398,8 @@ namespace Kaedei.AcDown.Downloader
 							{
 								Url = subUrl,
 								FilePath = subfile,
-								UseDeflate = true
+								UseDeflate = true,
+								Proxy = delegates.Proxy
 							});
 					}
 					catch { }

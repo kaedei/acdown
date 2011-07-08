@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
 
 namespace Kaedei.AcDown.Interface
 {
 
 	/// <summary>
-	/// 包装委托类
+	/// 包装委托类,包括传递到下载插件的部分参数
 	/// </summary>
 	public class DelegateContainer
 	{
@@ -31,6 +32,8 @@ namespace Kaedei.AcDown.Interface
 		public AcTaskDelegate TipText { get; set; }
 		public AcTaskDelegate Finish { get; set; }
 		public AcTaskDelegate Error { get; set; }
+
+      public WebProxy Proxy { get; set; }
 	}
  
 

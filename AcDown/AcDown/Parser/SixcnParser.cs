@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace Kaedei.AcDown.Parser
 {
@@ -17,10 +18,10 @@ namespace Kaedei.AcDown.Parser
       /// </summary>
       /// <param name="parameters">维度为1、长度为1的字符串数组，内容为待分析的视频ID（evid）</param>
       /// <returns>各备用视频的真实地址数组</returns>
-      public string[] Parse(string[] parameters)
+      public string[] Parse(string[] parameters, WebProxy proxy)
       {
          string url = "http://6.cn/v72.php?vid=" + parameters[0];
-         string source = Network.GetHtmlSource(url, Encoding.UTF8);
+         string source = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
          Regex rFlv = new Regex(@"<file>(?<flv>.*)</file>");
          Match mFlv = rFlv.Match(source);
          string flv = mFlv.Groups["flv"].Value;

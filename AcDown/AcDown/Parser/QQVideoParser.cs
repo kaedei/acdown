@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace Kaedei.AcDown.Parser
 {
@@ -15,12 +16,12 @@ namespace Kaedei.AcDown.Parser
 		/// </summary>
 		/// <param name="parameters">维度为1、长度为1的字符串数组，内容为待分析的视频ID（v=?）</param>
 		/// <returns>各分段视频的真实地址数组</returns>
-		public string[] Parse(string[] parameters)
+      public string[] Parse(string[] parameters, WebProxy proxy)
 		{
 			List<string> returnarray = new List<string>();		
 			//完整url
 			string url = @"http://vv.video.qq.com/geturl?ran=0.16436194255948067&otype=xml&vid=%ID%&platform=1&format=2".Replace(@"%ID%", parameters[0]);
-			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8);
+         string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
 			Regex r = new Regex(@"\<url\>(?<url>.*?)\</url\>");
 			MatchCollection mc = r.Matches(xmldoc);
 			if (mc.Count != 0)

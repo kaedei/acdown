@@ -12,6 +12,8 @@ using System.IO;
 using System.Xml.Serialization;
 using Kaedei.AcDown.Interface;
 using System.Diagnostics;
+using System.Net;
+using System.Collections.Generic;
 
 namespace Kaedei.AcDown
 {
@@ -37,6 +39,11 @@ namespace Kaedei.AcDown
       public bool DeleteTaskAndFile = false; //删除任务的同时删除文件
       public bool HideWhenClose = true; //点击关闭按钮时最小化
 
+      //代理设置
+      public bool Proxy_Enabled = false;
+      [XmlElement(IsNullable = true)]
+      public AcDownProxy[] Proxy_Settings;
+
       //启用插件
       public bool Plugin_Enable_Acfun = true;
       public bool Plugin_Enable_Bilibili = true;
@@ -44,6 +51,25 @@ namespace Kaedei.AcDown
       public bool Plugin_Enable_Youku = true;
       public bool Plugin_Enable_Imanhua = true;
       public bool Plugin_Enable_TiebaAlbum = true;
+   }
+
+   /// <summary>
+   /// 代理服务器设置
+   /// </summary>
+   [Serializable()]
+   public class AcDownProxy
+   {
+      public string Name = "";
+      public string Adress = "";
+      public int Port;
+      public string Username = "";
+      public string Password = "";
+      public WebProxy ToWebProxy()
+      {
+         WebProxy p = new WebProxy(Adress, Port);
+         p.Credentials = new NetworkCredential(Username, Password);
+         return p;
+      }
    }
 
    public static class Config
@@ -106,10 +132,10 @@ namespace Kaedei.AcDown
          {
             GlobalSettings.GetSettings().CacheSizeMb = setting.CacheSize;
             GlobalSettings.GetSettings().DownSub = setting.DownSub;
-            //GlobalSettings.GetSettings().SaveFileWhenAbort = setting.SaveWhenAbort;
          }
          return setting;
       }
+
 
 
 

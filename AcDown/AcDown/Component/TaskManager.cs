@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using Kaedei.AcDown;
 using Kaedei.AcDown.Interface;
 using System.Threading;
+using System.Net;
 
 namespace Kaedei.AcDown
 {
@@ -58,10 +59,12 @@ namespace Kaedei.AcDown
 		/// <summary>
 		/// 添加任务
 		/// </summary>
-		public IDownloader AddTask(string url, IDownloader downloader)
+		public IDownloader AddTask(IDownloader downloader, string url, WebProxy proxySetting)
 		{
 			//设置下载器
 			downloader.delegates = delegates;
+			//设置代理服务器
+			downloader.delegates.Proxy = proxySetting;
 			downloader.Url = url;
 			downloader.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
 			downloader.TaskId = Guid.NewGuid();
