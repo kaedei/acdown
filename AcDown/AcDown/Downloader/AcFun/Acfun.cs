@@ -26,12 +26,12 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1,0,0,0); }
+			get { return new Version(1,1,0,0); }
 		}
 
 		public string Describe
 		{
-			get { return @"Acfun.cn下载插件"; }
+			get { return @"Acfun.tv下载插件"; }
 		}
 
 		public string SupportUrl
@@ -46,7 +46,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://(acfun\.cn|.*?)/html/(music|anime|game|ent|dy|zj)/\w+/\w+\.html");
+			Regex r = new Regex(@"http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -65,11 +65,11 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://(acfun\.cn|.*?)/html/(music|anime|game|ent|dy|zj)/\w+/(?<hash>\w+)\.html");
+			Regex r = new Regex(@"http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
-				return "acfun" + m.Groups["hash"].Value;
+				return "acfun" + m.Groups["id"].Value;
 			}
 			else
 			{
@@ -80,11 +80,11 @@ namespace Kaedei.AcDown.Downloader
 		public string[] GetUrlExample()
 		{
 			return new string[] { 
-				"AcFun.cn下载插件:",
+				"AcFun.tv下载插件:",
 				"支持识别各Part名称",
-				"http://acfun.cn/html/ent/20110606/206020.html",
-				"http://www.acfun.cn/html/ent/20110606/206020.html",
-				"http://124.228.254.229/html/ent/20110606/206020.html (IP地址形式)"
+				"http://acfun.tv/html/v/ac06020",
+				"http://www.acfun.tv/v/ac206020",
+				"http://124.228.254.229/v/ac206020 (IP地址形式)"
 			};
 		}
 
@@ -196,7 +196,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//视频标题
 		private string _title;
-		public string VideoTitle
+		public string Title
 		{
 			get
 			{
@@ -235,14 +235,14 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
 			_status = DownloadStatus.正在下载;
 
-			//要分析的地址
-			string url = Url.Replace("www.acfun.cn", ServerIP);
-			url = url.Replace("acfun.cn", ServerIP);
+			////要分析的地址
+			string url = Url.Replace("www.acfun.tv", ServerIP);
+			url = url.Replace("acfun.tv", ServerIP);
 
 			try
 			{
 				//取得网页源文件
-				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"));
+				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), delegates.Proxy);
 
 				//分析id和视频存放站点(type)
 				//先取得embed块的源代码
@@ -264,7 +264,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace(" - AcFun.cn","");
+				string title = mTitle.Groups["title"].Value.Replace(" - AcFun.tv","");
 
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+)</option>");
@@ -301,17 +301,17 @@ namespace Kaedei.AcDown.Downloader
 					case "video": //新浪视频
 						//解析视频
 						SinaVideoParser parserSina = new SinaVideoParser();
-						videos = parserSina.Parse(new string[] { id });
+						videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
 						break;
 					case "qq": //QQ视频
 						//解析视频
 						QQVideoParser parserQQ = new QQVideoParser();
-						videos = parserQQ.Parse(new string[] { id });
+						videos = parserQQ.Parse(new string[] { id }, delegates.Proxy);
 						break;
 					case "youku": //优酷视频
 						//解析视频
 						YoukuParser parserYouKu = new YoukuParser();
-						videos = parserYouKu.Parse(new string[] { id });
+						videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
 						break;
 				}
 
@@ -357,6 +357,8 @@ namespace Kaedei.AcDown.Downloader
 							Url = videos[i]
 						};
 					}
+					//设置代理服务器
+					currentParameter.Proxy = delegates.Proxy;
 					//添加文件路径到List<>中
 					_filePath.Add(currentParameter.FilePath);
 					//下载文件
@@ -386,7 +388,8 @@ namespace Kaedei.AcDown.Downloader
 						Network.DownloadSub(new DownloadParameter()
 							{
 								Url = subUrl,
-								FilePath = subfile
+								FilePath = subfile,
+								Proxy = delegates.Proxy
 							});
 					}
 					catch { }
@@ -400,7 +403,8 @@ namespace Kaedei.AcDown.Downloader
 						Network.DownloadSub(new DownloadParameter()
 						{
 							Url = subUrl,
-							FilePath = subfile
+							FilePath = subfile,
+							Proxy = delegates.Proxy
 						});
 					}
 					catch { }

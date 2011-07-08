@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace Kaedei.AcDown.Parser
 {
@@ -15,13 +16,13 @@ namespace Kaedei.AcDown.Parser
 		/// </summary>
 		/// <param name="parameters">维度为1、长度为2的字符串数组，1的内容为待分析的视频ID（v=?）,2的内容为视频密码(如果有的话)</param>
 		/// <returns>各分段视频的真实地址数组(如果存在MP4格式则优先返回)</returns>
-		public string[] Parse(string[] parameters)
+		public string[] Parse(string[] parameters, WebProxy proxy)
 		{
 			List<string> returnarray = new List<string>();
 			string pw = (parameters.Length > 1) ? parameters[1] : "";
 
 			string url = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/version/5/source/video?password=%PW%&ran=5505&n=3".Replace(@"%ID%", parameters[0]).Replace(@"%PW%", pw);
-			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8);
+			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
 			//正则表达式提取各个参数
 			string regexstring = "\"seed\":(?<seed>\\w+),.+\"key1\":\"(?<key1>\\w+)\",\"key2\":\"(?<key2>\\w+)\".+\"streamfileids\":{\"(?<fileposfix>\\w+)\":\"(?<fileID>[0-9\\*]+)";
 			Regex r = new Regex(regexstring);

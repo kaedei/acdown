@@ -41,7 +41,7 @@ namespace Kaedei.AcDown.Interface
 
 		string Info{ get; }
 		DownloadStatus Status{ get; }
-		string VideoTitle{ get; }
+		string Title{ get; }
 
 		void Download();
 		void StopDownload();

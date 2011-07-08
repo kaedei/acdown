@@ -191,7 +191,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//视频标题
 		private string _title;
-		public string VideoTitle
+		public string Title
 		{
 			get
 			{
@@ -249,7 +249,7 @@ namespace Kaedei.AcDown.Downloader
 					password = ToolForm.CreatePasswordForm();
 
 				//取得网页源文件
-				string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.UTF8);
+				string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.UTF8, delegates.Proxy);
 
 				//分析视频id
 				Regex r1 = new Regex(@"videoId = '(?<vid>\w+)'");
@@ -271,7 +271,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//调用内建的优酷视频解析器
 				YoukuParser parserYouku = new YoukuParser();
-				videos = parserYouku.Parse(new string[] { vid, password });
+				videos = parserYouku.Parse(new string[] { vid, password }, delegates.Proxy);
 
 				//下载视频
 				//确定视频共有几个段落

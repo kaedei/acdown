@@ -26,6 +26,8 @@ namespace Kaedei.AcDown.Interface
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
 			WebRequest Myrq = HttpWebRequest.Create(para.Url);
+			if (para.Proxy != null)
+				Myrq.Proxy = para.Proxy;
 			WebResponse myrp = Myrq.GetResponse();
 			para.TotalLength = myrp.ContentLength; //文件长度
 
@@ -47,6 +49,7 @@ namespace Kaedei.AcDown.Interface
 			para.DoneBytes = 0; //完成字节数
 			para.LastTick = System.Environment.TickCount; //系统计数
 			Stream st, fs; //网络流和文件流
+			DeflateStream deflate = null; //Deflate解压流
 			BufferedStream bs; //缓冲流
 			int t, limitcount = 0;
 			//确定缓冲长度
@@ -55,11 +58,19 @@ namespace Kaedei.AcDown.Interface
 			//获取下载流
 			using (st = myrp.GetResponseStream())
 			{
+				//deflate解压缩
+				if (para.UseDeflate)
+					deflate = new DeflateStream(st, CompressionMode.Decompress);
+
 				//打开文件流
 				using (fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8))
 				{
 					//使用缓冲流
-					using (bs = new BufferedStream(fs, GlobalSettings.GetSettings().CacheSizeMb * 1024))
+					if (deflate == null)
+						bs = new BufferedStream(fs, GlobalSettings.GetSettings().CacheSizeMb * 1024);
+					else
+						bs = new BufferedStream(deflate, GlobalSettings.GetSettings().CacheSizeMb * 1024);
+					try
 					{
 						//读取第一块数据
 						Int32 osize = st.Read(buffer, 0, buffer.Length);
@@ -80,7 +91,7 @@ namespace Kaedei.AcDown.Interface
 
 							//增加已完成字节数
 							para.DoneBytes += osize;
-							
+
 							//写文件(缓存)
 							bs.Write(buffer, 0, osize);
 
@@ -111,6 +122,14 @@ namespace Kaedei.AcDown.Interface
 
 						} //end while
 					} //end bufferedstream
+					catch (Exception ex)
+					{
+						throw ex;
+					}
+					finally
+					{
+						bs.Close();
+					}
 				}// end filestream
 			} //end netstream
 
@@ -128,6 +147,8 @@ namespace Kaedei.AcDown.Interface
 				//网络缓存(100KB)
 				byte[] buffer = new byte[102400];
 				WebRequest Myrq = HttpWebRequest.Create(para.Url);
+				if (para.Proxy != null)
+					Myrq.Proxy = para.Proxy;
 				WebResponse myrp = Myrq.GetResponse();
 
 				//获取下载流
@@ -169,22 +190,6 @@ namespace Kaedei.AcDown.Interface
 			}
 		}
 
-		/// <summary>
-		/// 取得网页源代码
-		/// </summary>
-		/// <param name="url"></param>
-		/// <param name="encode"></param>
-		/// <returns></returns>
-		public static string GetHtmlSource2(string url, System.Text.Encoding encode)
-		{
-			string sline = "";
-			var req = HttpWebRequest.Create(url);
-			var res = req.GetResponse();
-			StreamReader strm = new StreamReader(res.GetResponseStream(), encode);
-			sline = strm.ReadToEnd();
-			strm.Close();
-			return sline;
-		}
 
 		/// <summary>
 		/// 获取网页源代码(推荐使用的版本)
@@ -194,7 +199,22 @@ namespace Kaedei.AcDown.Interface
 		/// <returns></returns>
 		public static string GetHtmlSource(string url,System.Text.Encoding encode)
 		{
+			return GetHtmlSource(url, encode, null);
+		}
+
+		/// <summary>
+		/// 获取网页源代码(推荐使用的版本)
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="encode"></param>
+		/// <returns></returns>
+		public static string GetHtmlSource(string url, System.Text.Encoding encode, WebProxy proxy)
+		{
 			WebClient wc = new WebClient();
+			if (proxy != null)
+			{
+				wc.Proxy = proxy;
+			}
 			byte[] data = wc.DownloadData(url);
 			return encode.GetString(data);
 		}
@@ -234,98 +254,11 @@ namespace Kaedei.AcDown.Interface
 		/// 下载时是否使用Deflate解压缩
 		/// </summary>
 		public bool UseDeflate { get; set; }
+		/// <summary>
+		/// 读取或设置使用的代理服务器设置
+		/// </summary>
+		public WebProxy Proxy { get; set; }
 	}
 
-	/// <summary>
-	/// 其他工具
-	/// </summary>
-	public class Tools
-	{
-		/// <summary>
-		/// 无效字符过滤
-		/// </summary>
-		/// <param name="input">需要过滤的字符串</param>
-		/// <param name="replace">替换为的字符串</param>
-		/// <returns></returns>
-		public static string InvalidCharacterFilter(string input,string replace)
-		{
-			if (replace == null)
-				replace = "";
-			foreach (var item in System.IO.Path.GetInvalidFileNameChars())
-			{
-				input = input.Replace(item.ToString(), replace);
-			}
-			foreach (var item in System.IO.Path.GetInvalidPathChars())
-			{
-				input = input.Replace(item.ToString(), replace);
-			}
-			return input;
-		}
-
-		/// <summary>
-		/// 取得网络文件的后缀名
-		/// </summary>
-		/// <param name="url"></param>
-		/// <returns></returns>
-		public static string GetExtension(string url)
-		{
-			return new Regex(@"\.(?<ext>\w{3})\?").Match(url).Groups["ext"].ToString();
-		}
-
-		/// <summary>
-		/// 将Unicode字符转换为String
-		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
-		public static string ReplaceUnicode2Str(string input)
-		{
-			Regex regex = new Regex("(?i)\\\\u[0-9a-f]{4}");
-			MatchEvaluator matchAction = delegate(Match m)
-			{
-				string str = m.Groups[0].Value;
-				byte[] bytes = new byte[2];
-				bytes[1] = byte.Parse(int.Parse(str.Substring(2, 2), NumberStyles.HexNumber).ToString());
-				bytes[0] = byte.Parse(int.Parse(str.Substring(4, 2), NumberStyles.HexNumber).ToString());
-				return Encoding.Unicode.GetString(bytes);
-			};
-			return regex.Replace(input, matchAction);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
-		public static string DecodeString(string input)
-		{
-			string result = "";
-
-			for (int i = 0; i < input.Length; i++)
-			{
-				if (input.Substring(i, 1) == "%" && input.Substring((i + 3), 1) == "%")
-				{
-					string bstr1 = "0x" + input.Substring(i + 1, 1) + input.Substring(i + 2, 1);
-					string bstr2 = "0x" + input.Substring(i + 4, 1) + input.Substring(i + 5, 1);
-
-					result += encode(Convert.ToByte(bstr1, 16), Convert.ToByte(bstr2, 16));
-					i += 5;
-				}
-				else
-				{
-					result += input.Substring(i, 1);
-				}
-			}
-
-			return result;
-		}
-
-
-		private static string encode(byte b1, byte b2)
-		{
-			System.Text.Encoding ecode = System.Text.Encoding.GetEncoding("GB18030");
-			Byte[] codeBytes = { b1, b2 };
-			return ecode.GetChars(codeBytes)[0].ToString();
-		}
-
-	}
+	
 }

@@ -21,7 +21,7 @@ namespace Kaedei.AcDown.Parser
 		/// </summary>
 		/// <param name="parameters">单视频的ID</param>
 		/// <returns>所有分段视频地址的数组</returns>
-		public string[] Parse(string[] parameters)
+		public string[] Parse(string[] parameters, WebProxy proxy)
 		{
 			//返回的数组
 			List<string> address = new List<string>();
@@ -47,7 +47,7 @@ namespace Kaedei.AcDown.Parser
 			//   r[i] = v.durl[i].url;
 			//}
 #endregion
-			string source = Network.GetHtmlSource(url, Encoding.UTF8);
+			string source = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
 			Regex r = new Regex(@"http://.*(.flv|.f4v|.mp4|.hlv)");
 			MatchCollection matches = r.Matches(source);
 			foreach (var item in matches)

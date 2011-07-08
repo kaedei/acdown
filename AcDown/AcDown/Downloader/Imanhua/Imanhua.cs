@@ -201,7 +201,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//视频标题
 		private string _title;
-		public string VideoTitle
+		public string Title
 		{
 			get
 			{
@@ -254,7 +254,7 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得Url源文件
-				string src = Network.GetHtmlSource(Url, Encoding.GetEncoding("GB2312"));
+				string src = Network.GetHtmlSource(Url, Encoding.GetEncoding("GB2312"), delegates.Proxy);
 
 				//要下载的Url列表
 				List<string> subUrls = new List<string>();
@@ -328,7 +328,7 @@ namespace Kaedei.AcDown.Downloader
 					Match mGetParent = rGetParent.Match(Url);
 					string parentUrl = mGetParent.ToString();
 					//取得源代码并分析
-					string pSrc = Network.GetHtmlSource(parentUrl, Encoding.GetEncoding("GB2312"));
+					string pSrc = Network.GetHtmlSource(parentUrl, Encoding.GetEncoding("GB2312"), delegates.Proxy);
 					//取得漫画标题
 					Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
 					Match mTitle = rTitle.Match(pSrc);
@@ -344,7 +344,7 @@ namespace Kaedei.AcDown.Downloader
 				
 				string serverName;
 				//取得配置文件
-				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"));
+				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), delegates.Proxy);
 				Regex rServer = new Regex("\"(?<sname>.+?)\" , \"(?<surl>.+?)\"");
 				MatchCollection mServers = rServer.Matches(serverjs);
 
@@ -382,6 +382,8 @@ namespace Kaedei.AcDown.Downloader
 
 					//分析源代码,取得下载地址
 					WebClient wc = new WebClient();
+					if (delegates.Proxy != null)
+						wc.Proxy = delegates.Proxy;
 
 					//取得源代码
 					byte[] buff = wc.DownloadData(subUrls[i]);

@@ -199,7 +199,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//视频标题
 		private string _title;
-		public string VideoTitle
+		public string Title
 		{
 			get
 			{
@@ -257,7 +257,7 @@ namespace Kaedei.AcDown.Downloader
 					password = ToolForm.CreatePasswordForm();
 
 				//取得网页源文件
-				string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"));
+            string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"), delegates.Proxy);
 
 				//分析视频iid
 				string iid = "";
@@ -285,7 +285,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//调用内建的土豆视频解析器
 				TudouParser parserTudou = new TudouParser();
-				videos = parserTudou.Parse(new string[] { iid, password });
+				videos = parserTudou.Parse(new string[] { iid, password }, delegates.Proxy);
 
 				//下载视频
 				//确定视频共有几个段落

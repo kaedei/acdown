@@ -3,14 +3,21 @@ using System.Windows.Forms;
 using Kaedei.AcDown.Properties;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Kaedei.AcDown.UI
 {
    public partial class FormConfig : Form
    {
+
       public FormConfig()
       {
          InitializeComponent();
+      }
+      public FormConfig(string selectTabPage) : this()
+      {
+         try { tab.SelectTab(selectTabPage); }
+         catch { }
       }
 
       private void FormConfig_Load(object sender, EventArgs e)
@@ -23,7 +30,7 @@ namespace Kaedei.AcDown.UI
             chkPlaySound.Checked = true;
          chkDownAllSection.Checked = Config.setting.DownAllSection;
          numCacheSize.Value = Config.setting.CacheSize;
-         lnkSavePath.Text = Config.setting.SavePath;
+         txtSavePath.Text = Config.setting.SavePath;
          chkEnableLog.Checked = Config.setting.EnableLog;
          chkCheckUrl.Checked = Config.setting.AutoCheckUrl;
          chkWatch.Checked = Config.setting.WatchClipboardEnabled;
@@ -40,7 +47,21 @@ namespace Kaedei.AcDown.UI
          chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
          chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
          chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
-
+         //代理服务器设置
+         if (Config.setting.Proxy_Settings != null)
+         {
+            foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+            {
+               lsvProxy.Items.Add(new ListViewItem(new string[] 
+               {
+                  item.Name,
+                  item.Adress,
+                  item.Port.ToString() ,
+                  item.Username,
+                  item.Password
+               }));
+            }
+         }
       }
 
       private void btnOK_Click(object sender, EventArgs e)
@@ -51,7 +72,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.PlaySound = chkPlaySound.Checked;
          Config.setting.DownAllSection = chkDownAllSection.Checked;
          Config.setting.CacheSize = (Int32)numCacheSize.Value;
-         Config.setting.SavePath = lnkSavePath.Text;
+         Config.setting.SavePath = txtSavePath.Text;
          Config.setting.EnableLog = chkEnableLog.Checked;
          Config.setting.AutoCheckUrl = chkCheckUrl.Checked;
          Config.setting.WatchClipboardEnabled = chkWatch.Checked;
@@ -68,6 +89,19 @@ namespace Kaedei.AcDown.UI
          Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
          Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
          Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
+         //代理服务器设置
+         List<AcDownProxy> proxys = new List<AcDownProxy>();
+         foreach (ListViewItem item in lsvProxy.Items)
+         {
+            AcDownProxy proxy = new AcDownProxy();
+            proxy.Name = item.SubItems[0].Text;
+            proxy.Adress = item.SubItems[1].Text;
+            proxy.Port = int.Parse(item.SubItems[2].Text);
+            proxy.Username = item.SubItems[3].Text;
+            proxy.Password = item.SubItems[4].Text;
+            proxys.Add(proxy);
+         }
+         Config.setting.Proxy_Settings = proxys.ToArray();
          //保存设置
          Config.SaveSettings();
          this.Close();
@@ -80,13 +114,7 @@ namespace Kaedei.AcDown.UI
 
       private void lnkSavePath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
       {
-         //选择文件夹
-         FolderBrowserDialog fbd = new FolderBrowserDialog();
-         fbd.ShowNewFolderButton = true;
-         fbd.Description = "请设置默认保存的文件夹：";
-         fbd.SelectedPath = lnkSavePath.Text;
-         if (fbd.ShowDialog() == DialogResult.OK)
-            lnkSavePath.Text = fbd.SelectedPath;
+         
       }
 
       private void txtServerIP_KeyPress(object sender, KeyPressEventArgs e)
@@ -118,5 +146,64 @@ namespace Kaedei.AcDown.UI
       {
          Process.Start(@"http://acdown.codeplex.com/wikipage?title=UI%20-%20%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E");
       }
+
+      private void btnProxyAdd_Click(object sender, EventArgs e)
+      {
+         AcDownProxy proxy = new AcDownProxy();
+         FormAddProxy frm = new FormAddProxy(proxy);
+         frm.ShowDialog();
+         lsvProxy.Items.Add(new ListViewItem(new string[] 
+         {
+            proxy.Name,
+            proxy.Adress,
+            proxy.Port.ToString() ,
+            proxy.Username,
+            proxy.Password
+         }));
+      }
+
+      private void btnProxyModify_Click(object sender, EventArgs e)
+      {
+         if (lsvProxy.SelectedIndices.Count > 0)
+         {
+            int selected = lsvProxy.SelectedIndices[0];
+            AcDownProxy proxy = new AcDownProxy();
+            proxy.Name = lsvProxy.Items[selected].SubItems[0].Text;
+            proxy.Adress = lsvProxy.Items[selected].SubItems[1].Text;
+            proxy.Port = int.Parse(lsvProxy.Items[selected].SubItems[2].Text);
+            proxy.Username = lsvProxy.Items[selected].SubItems[3].Text;
+            proxy.Password = lsvProxy.Items[selected].SubItems[4].Text;
+            FormAddProxy frm = new FormAddProxy(proxy);
+            frm.ShowDialog();
+            lsvProxy.Items[selected] = new ListViewItem(new string[] 
+            {
+               proxy.Name,
+               proxy.Adress,
+               proxy.Port.ToString() ,
+               proxy.Username,
+               proxy.Password
+            });
+         }
+      }
+
+      private void btnProxyDelete_Click(object sender, EventArgs e)
+      {
+         if (lsvProxy.SelectedIndices.Count > 0)
+         {
+            lsvProxy.Items.RemoveAt(lsvProxy.SelectedIndices[0]);
+         }
+      }
+
+      private void btnSavePath_Click(object sender, EventArgs e)
+      {
+         //选择文件夹
+         FolderBrowserDialog fbd = new FolderBrowserDialog();
+         fbd.ShowNewFolderButton = true;
+         fbd.Description = "请设置默认保存的文件夹：";
+         fbd.SelectedPath = txtSavePath.Text;
+         if (fbd.ShowDialog() == DialogResult.OK)
+            txtSavePath.Text = fbd.SelectedPath;
+      }
+
    }
 }

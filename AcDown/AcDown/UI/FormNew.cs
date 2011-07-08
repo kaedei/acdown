@@ -54,7 +54,8 @@ namespace Kaedei.AcDown.UI
 		 {
 			 if (!string.IsNullOrEmpty(u))
 				 txtInput.Text = u;
-			 lblPath.Text = Config.setting.SavePath;
+			 txtPath.Text = Config.setting.SavePath;
+			 LoadProxys();
 			 StringBuilder sb = new StringBuilder();
 			 sb.AppendLine("当前支持的网站:(网址举例)");
 			 foreach (var item in _pluginMgr.Plugins)
@@ -69,6 +70,20 @@ namespace Kaedei.AcDown.UI
 			 txtExample.Text = sb.ToString();
 		 }
 
+		 //读取代理服务器设置
+		 private void LoadProxys()
+		 {
+			 cboProxy.Items.Clear();
+			 cboProxy.Items.Add("不使用");
+			 if (Config.setting.Proxy_Settings != null)
+			 {
+				 foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+				 {
+					 cboProxy.Items.Add(item.Name);
+				 }
+			 }
+			 cboProxy.SelectedIndex = 0;
+		 }
 		 
 		 private void txtInput_TextChanged(object sender, EventArgs e)
 		 {
@@ -135,8 +150,16 @@ namespace Kaedei.AcDown.UI
 				 }
 				 try
 				 {
+					 //取得代理设置
+					 AcDownProxy selectedProxy = null;
+					 foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+					 {
+						 if (item.Name == cboProxy.SelectedItem.ToString())
+							 selectedProxy = item;
+					 }
 					 //添加任务
-					 IDownloader downloader = _taskMgr.AddTask(url, p.CreateDownloader());
+					 IDownloader downloader = _taskMgr.AddTask(p.CreateDownloader(), url,
+						 (selectedProxy == null) ? null : selectedProxy.ToWebProxy());
 					 //开始下载
 					 _taskMgr.StartTask(downloader);
 					 this.Cursor = Cursors.Default;
@@ -177,19 +200,19 @@ namespace Kaedei.AcDown.UI
 		 {
 			 FormConfig fc = new FormConfig();
 			 fc.ShowDialog();
-			 this.lblPath.Text = Config.setting.SavePath;
+			 this.txtPath.Text = Config.setting.SavePath;
 		 }
 
 		 private void btnExample_Click(object sender, EventArgs e)
 		 {
-			 if (this.Width == 820)
+			 if (this.Width == 842)
 			 {
-				 this.Width = 476;
+				 this.Width = 487;
 				 btnExample.Text = "查看当前支持哪些网站 >>";
 			 }
 			 else
 			 {
-				 this.Width = 820;
+				 this.Width = 842;
 				 btnExample.Text = "查看当前支持哪些网站 <<";
 			 }
 		 }
@@ -200,6 +223,14 @@ namespace Kaedei.AcDown.UI
 			 {
 				 txtInput.Text = Clipboard.GetText();
 			 }
+		 }
+
+		 private void lnkSetProxy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		 {
+			 FormConfig frm = new FormConfig("pageProxy");
+			 frm.ShowDialog();
+			 frm.Dispose();
+			 LoadProxys();
 		 }
 
 
