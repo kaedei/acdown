@@ -32,7 +32,6 @@
          this.txtName = new System.Windows.Forms.TextBox();
          this.label2 = new System.Windows.Forms.Label();
          this.txtAddress = new System.Windows.Forms.TextBox();
-         this.txtPort = new System.Windows.Forms.MaskedTextBox();
          this.label3 = new System.Windows.Forms.Label();
          this.txtUsername = new System.Windows.Forms.TextBox();
          this.txtPassword = new System.Windows.Forms.TextBox();
@@ -40,6 +39,7 @@
          this.label5 = new System.Windows.Forms.Label();
          this.btnCancel = new System.Windows.Forms.Button();
          this.btnOK = new System.Windows.Forms.Button();
+         this.txtPort = new System.Windows.Forms.TextBox();
          this.SuspendLayout();
          // 
          // label1
@@ -73,17 +73,6 @@
          this.txtAddress.Name = "txtAddress";
          this.txtAddress.Size = new System.Drawing.Size(136, 26);
          this.txtAddress.TabIndex = 3;
-         // 
-         // txtPort
-         // 
-         this.txtPort.AsciiOnly = true;
-         this.txtPort.BeepOnError = true;
-         this.txtPort.Location = new System.Drawing.Point(268, 52);
-         this.txtPort.Mask = "99999";
-         this.txtPort.Name = "txtPort";
-         this.txtPort.Size = new System.Drawing.Size(46, 26);
-         this.txtPort.TabIndex = 4;
-         this.txtPort.ValidatingType = typeof(int);
          // 
          // label3
          // 
@@ -149,6 +138,15 @@
          this.btnOK.UseVisualStyleBackColor = true;
          this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
          // 
+         // txtPort
+         // 
+         this.txtPort.Location = new System.Drawing.Point(270, 52);
+         this.txtPort.MaxLength = 5;
+         this.txtPort.Name = "txtPort";
+         this.txtPort.Size = new System.Drawing.Size(46, 26);
+         this.txtPort.TabIndex = 12;
+         this.txtPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPort_KeyPress);
+         // 
          // FormAddProxy
          // 
          this.AcceptButton = this.btnOK;
@@ -156,6 +154,7 @@
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.CancelButton = this.btnCancel;
          this.ClientSize = new System.Drawing.Size(328, 212);
+         this.Controls.Add(this.txtPort);
          this.Controls.Add(this.btnOK);
          this.Controls.Add(this.btnCancel);
          this.Controls.Add(this.label5);
@@ -163,7 +162,6 @@
          this.Controls.Add(this.txtPassword);
          this.Controls.Add(this.txtUsername);
          this.Controls.Add(this.label3);
-         this.Controls.Add(this.txtPort);
          this.Controls.Add(this.txtAddress);
          this.Controls.Add(this.label2);
          this.Controls.Add(this.txtName);
@@ -190,7 +188,6 @@
       private System.Windows.Forms.TextBox txtName;
       private System.Windows.Forms.Label label2;
       private System.Windows.Forms.TextBox txtAddress;
-      private System.Windows.Forms.MaskedTextBox txtPort;
       private System.Windows.Forms.Label label3;
       private System.Windows.Forms.TextBox txtUsername;
       private System.Windows.Forms.TextBox txtPassword;
@@ -198,5 +195,6 @@
       private System.Windows.Forms.Label label5;
       private System.Windows.Forms.Button btnCancel;
       private System.Windows.Forms.Button btnOK;
+      private System.Windows.Forms.TextBox txtPort;
    }
 }

@@ -24,7 +24,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 0, 0, 0); }
+			get { return new Version(1, 2, 0, 0); }
 		}
 
 		public string Describe
@@ -44,7 +44,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://www\.bilibili\.(us|tv)/video/av(?<av>\w+)");
+			Regex r = new Regex(@"http://(www\.|)bilibili\.(us|tv)/video/av(?<av>\w+)");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -228,6 +228,8 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
 			_status = DownloadStatus.正在下载;
 
+			//修正URL
+			Url = Url.Replace("bilibili.us", "bilibili.tv");
 			string url = Url;
 			//视频地址数组
 			string[] videos;
@@ -280,7 +282,7 @@ namespace Kaedei.AcDown.Downloader
 				Regex rFile = new Regex("file=\"(?<file>.+?)\"");
 				Match mFile = rFile.Match(embedSrc);
 				//取得id值
-				Regex rId = new Regex(@"(?<idname>\w{0,2}id)=(?<id>\w+)");
+				Regex rId = new Regex(@"(?<idname>(\w{0,2}id|data))=(?<id>(\w+|$http://.+?$))".Replace("$", "\""));
 				Match mId = rId.Match(embedSrc);
 				string id = mId.Groups["id"].Value;
 				//取得type值
@@ -314,6 +316,10 @@ namespace Kaedei.AcDown.Downloader
 						case "rid": //6.cn视频
 							SixcnParser parserSixcn = new SixcnParser();
 							videos = parserSixcn.Parse(new string[] { id }, delegates.Proxy);
+							break;
+						case "data": //Flash游戏
+							id = id.Replace("\"", "");
+							videos = new string[] { id };
 							break;
 						default: //新浪视频
 							SinaVideoParser parserSina = new SinaVideoParser();
