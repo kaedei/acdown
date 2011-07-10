@@ -49,7 +49,7 @@ namespace Kaedei.AcDown.Parser
 			List<string> lst = new List<string>();
 			for (int i = 0; i < flv_no + 1; i++)
 			{
-				lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", flv_no) +
+				lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
 				"/st/" + fileposfix + "/fileid/" + fileid + "?K=" + key);
 			}
 			return lst.ToArray();

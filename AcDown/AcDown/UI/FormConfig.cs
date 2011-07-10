@@ -152,14 +152,17 @@ namespace Kaedei.AcDown.UI
          AcDownProxy proxy = new AcDownProxy();
          FormAddProxy frm = new FormAddProxy(proxy);
          frm.ShowDialog();
-         lsvProxy.Items.Add(new ListViewItem(new string[] 
+         if (!string.IsNullOrEmpty(proxy.Name))
          {
-            proxy.Name,
-            proxy.Adress,
-            proxy.Port.ToString() ,
-            proxy.Username,
-            proxy.Password
-         }));
+            lsvProxy.Items.Add(new ListViewItem(new string[] 
+            {
+               proxy.Name,
+               proxy.Adress,
+               proxy.Port.ToString() ,
+               proxy.Username,
+               proxy.Password
+            }));
+         }
       }
 
       private void btnProxyModify_Click(object sender, EventArgs e)
@@ -175,14 +178,17 @@ namespace Kaedei.AcDown.UI
             proxy.Password = lsvProxy.Items[selected].SubItems[4].Text;
             FormAddProxy frm = new FormAddProxy(proxy);
             frm.ShowDialog();
-            lsvProxy.Items[selected] = new ListViewItem(new string[] 
+            if (!string.IsNullOrEmpty(proxy.Name))
             {
-               proxy.Name,
-               proxy.Adress,
-               proxy.Port.ToString() ,
-               proxy.Username,
-               proxy.Password
-            });
+               lsvProxy.Items[selected] = new ListViewItem(new string[] 
+               {
+                  proxy.Name,
+                  proxy.Adress,
+                  proxy.Port.ToString() ,
+                  proxy.Username,
+                  proxy.Password
+               });
+            }
          }
       }
 

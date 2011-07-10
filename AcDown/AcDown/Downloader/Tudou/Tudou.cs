@@ -91,7 +91,7 @@ namespace Kaedei.AcDown.Downloader
 				"http://www.tudou.com/programs/view/scMdGug3bgY/","",
 				"土豆网加密视频:(在地址后加“密码”字样)",
 				"http://www.tudou.com/playlist/p/l12302995.html密码",
-				"http://www.tudou.com/programs/view/scMdGug3bgY/密码",
+				"http://www.tudou.com/programs/view/JiTcS97DBHo/密码",
 			};
 		}
 
@@ -257,7 +257,7 @@ namespace Kaedei.AcDown.Downloader
 					password = ToolForm.CreatePasswordForm();
 
 				//取得网页源文件
-            string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"), delegates.Proxy);
+				string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"), delegates.Proxy);
 
 				//分析视频iid
 				string iid = "";

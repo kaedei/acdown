@@ -82,7 +82,7 @@ namespace Kaedei.AcDown.Downloader
 			return new string[] { 
 				"AcFun.tv下载插件:",
 				"支持识别各Part名称",
-				"http://acfun.tv/html/v/ac06020",
+				"http://acfun.tv/v/ac06020",
 				"http://www.acfun.tv/v/ac206020",
 				"http://124.228.254.229/v/ac206020 (IP地址形式)"
 			};

@@ -34,7 +34,7 @@ namespace Kaedei.AcDown
       public bool ShowBigStartButton = true; //显示大按钮
       public Int32 MaxRunningTaskCount = 2; //最多同时运行任务数量
       public bool SaveWhenAbort = true; //任务停止或错误退出时保存已经下载的部分
-      public string SearchQuery = @""; //搜索url
+      public string SearchQuery = @"Acfun站内搜索 - Google"; //搜索url
       public bool EnableWindows7Feature = true; //允许使用Windows7特性
       public bool DeleteTaskAndFile = false; //删除任务的同时删除文件
       public bool HideWhenClose = true; //点击关闭按钮时最小化

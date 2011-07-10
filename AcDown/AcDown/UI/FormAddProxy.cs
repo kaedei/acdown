@@ -31,6 +31,16 @@ namespace Kaedei.AcDown.UI
 
       private void btnOK_Click(object sender, EventArgs e)
       {
+         if (txtName.Text.Trim() == "")
+         {
+            MessageBox.Show("代理服务器名称不能为空", "代理服务器", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            return;
+         }
+         if (txtAddress.Text.Trim() == "")
+         {
+            MessageBox.Show("代理服务器地址不能为空", "代理服务器", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            return;
+         }
          p.Name = txtName.Text;
          p.Adress = txtAddress.Text;
          p.Port = int.Parse(txtPort.Text);
@@ -41,7 +51,17 @@ namespace Kaedei.AcDown.UI
 
       private void btnCancel_Click(object sender, EventArgs e)
       {
+         p = null;
          this.Close();
+      }
+
+
+      private void txtPort_KeyPress(object sender, KeyPressEventArgs e)
+      {
+         if (!"0123456789".Contains(e.KeyChar.ToString()))
+         {
+            e.Handled = true;
+         }
       }
    }
 }
