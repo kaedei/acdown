@@ -52,8 +52,7 @@
            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStrip = new System.Windows.Forms.ToolStrip();
            this.btnNew = new System.Windows.Forms.ToolStripButton();
-           this.btnConfig = new System.Windows.Forms.ToolStripDropDownButton();
-           this.toolSettingAdv = new System.Windows.Forms.ToolStripMenuItem();
+           this.btnConfig = new System.Windows.Forms.ToolStripButton();
            this.btnAbout = new System.Windows.Forms.ToolStripButton();
            this.btnSearch = new System.Windows.Forms.ToolStripSplitButton();
            this.searchCustom = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,16 +63,6 @@
            this.mnuTrayLine1 = new System.Windows.Forms.ToolStripSeparator();
            this.mnuTrayExit = new System.Windows.Forms.ToolStripMenuItem();
            this.btnClickNew = new System.Windows.Forms.Button();
-           this.mnuContext = new System.Windows.Forms.ContextMenuStrip(this.components);
-           this.mnuConCancel = new System.Windows.Forms.ToolStripMenuItem();
-           this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-           this.mnuConStart = new System.Windows.Forms.ToolStripMenuItem();
-           this.mnuConStop = new System.Windows.Forms.ToolStripMenuItem();
-           this.mnuConDelete = new System.Windows.Forms.ToolStripMenuItem();
-           this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-           this.mnuConOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
-           this.mnuConOpenUrl = new System.Windows.Forms.ToolStripMenuItem();
-           this.mnuConInfo = new System.Windows.Forms.ToolStripMenuItem();
            this.timer = new System.Windows.Forms.Timer(this.components);
            this.cboAfterComplete = new System.Windows.Forms.ComboBox();
            this.label1 = new System.Windows.Forms.Label();
@@ -94,7 +83,6 @@
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
            this.mnuTray.SuspendLayout();
-           this.mnuContext.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).BeginInit();
            this.contextTool.SuspendLayout();
            this.SuspendLayout();
@@ -200,28 +188,28 @@
            // acFuncnToolStripMenuItem
            // 
            this.acFuncnToolStripMenuItem.Name = "acFuncnToolStripMenuItem";
-           this.acFuncnToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.acFuncnToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.acFuncnToolStripMenuItem.Text = "AcFun";
            this.acFuncnToolStripMenuItem.Click += new System.EventHandler(this.acFuncnToolStripMenuItem_Click);
            // 
            // bilibiliToolStripMenuItem
            // 
            this.bilibiliToolStripMenuItem.Name = "bilibiliToolStripMenuItem";
-           this.bilibiliToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.bilibiliToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.bilibiliToolStripMenuItem.Text = "Bilibili";
            this.bilibiliToolStripMenuItem.Click += new System.EventHandler(this.bilibiliToolStripMenuItem_Click);
            // 
            // 土豆网ToolStripMenuItem
            // 
            this.土豆网ToolStripMenuItem.Name = "土豆网ToolStripMenuItem";
-           this.土豆网ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.土豆网ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.土豆网ToolStripMenuItem.Text = "土豆网";
            this.土豆网ToolStripMenuItem.Click += new System.EventHandler(this.土豆网ToolStripMenuItem_Click);
            // 
            // 优酷网ToolStripMenuItem
            // 
            this.优酷网ToolStripMenuItem.Name = "优酷网ToolStripMenuItem";
-           this.优酷网ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.优酷网ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.优酷网ToolStripMenuItem.Text = "优酷网";
            this.优酷网ToolStripMenuItem.Click += new System.EventHandler(this.优酷网ToolStripMenuItem_Click);
            // 
@@ -230,7 +218,7 @@
            this.百度贴吧ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.贴吧相册ToolStripMenuItem});
            this.百度贴吧ToolStripMenuItem.Name = "百度贴吧ToolStripMenuItem";
-           this.百度贴吧ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.百度贴吧ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.百度贴吧ToolStripMenuItem.Text = "百度";
            // 
            // 贴吧相册ToolStripMenuItem
@@ -243,7 +231,7 @@
            // 爱漫画ToolStripMenuItem
            // 
            this.爱漫画ToolStripMenuItem.Name = "爱漫画ToolStripMenuItem";
-           this.爱漫画ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.爱漫画ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.爱漫画ToolStripMenuItem.Text = "爱漫画";
            this.爱漫画ToolStripMenuItem.Click += new System.EventHandler(this.爱漫画ToolStripMenuItem_Click);
            // 
@@ -256,7 +244,7 @@
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(155, 21);
+           this.lblBlank.Size = new System.Drawing.Size(186, 21);
            this.lblBlank.Spring = true;
            // 
            // toolHelpCenter
@@ -304,20 +292,12 @@
            // 
            // btnConfig
            // 
-           this.btnConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolSettingAdv});
            this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
            this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.btnConfig.Name = "btnConfig";
-           this.btnConfig.Size = new System.Drawing.Size(84, 28);
-           this.btnConfig.Text = "设置(&T)";
-           // 
-           // toolSettingAdv
-           // 
-           this.toolSettingAdv.Name = "toolSettingAdv";
-           this.toolSettingAdv.Size = new System.Drawing.Size(113, 22);
-           this.toolSettingAdv.Text = "高级 ...";
-           this.toolSettingAdv.Click += new System.EventHandler(this.btnConfig_Click);
+           this.btnConfig.Size = new System.Drawing.Size(76, 28);
+           this.btnConfig.Text = "设置(&C)";
+           this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
            // 
            // btnAbout
            // 
@@ -419,81 +399,6 @@
            this.btnClickNew.UseVisualStyleBackColor = true;
            this.btnClickNew.Click += new System.EventHandler(this.btnClickNew_Click);
            // 
-           // mnuContext
-           // 
-           this.mnuContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuConCancel,
-            this.toolStripMenuItem2,
-            this.mnuConStart,
-            this.mnuConStop,
-            this.mnuConDelete,
-            this.toolStripMenuItem3,
-            this.mnuConOpenFolder,
-            this.mnuConOpenUrl,
-            this.mnuConInfo});
-           this.mnuContext.Name = "mnuContext";
-           this.mnuContext.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.mnuContext.Size = new System.Drawing.Size(197, 170);
-           // 
-           // mnuConCancel
-           // 
-           this.mnuConCancel.Enabled = false;
-           this.mnuConCancel.Name = "mnuConCancel";
-           this.mnuConCancel.Size = new System.Drawing.Size(196, 22);
-           this.mnuConCancel.Text = "AcDown动漫下载器";
-           // 
-           // toolStripMenuItem2
-           // 
-           this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-           this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
-           // 
-           // mnuConStart
-           // 
-           this.mnuConStart.Name = "mnuConStart";
-           this.mnuConStart.Size = new System.Drawing.Size(196, 22);
-           this.mnuConStart.Text = "开始(&S)";
-           this.mnuConStart.Click += new System.EventHandler(this.mnuConStart_Click);
-           // 
-           // mnuConStop
-           // 
-           this.mnuConStop.Name = "mnuConStop";
-           this.mnuConStop.Size = new System.Drawing.Size(196, 22);
-           this.mnuConStop.Text = "停止";
-           this.mnuConStop.Click += new System.EventHandler(this.mnuConStop_Click);
-           // 
-           // mnuConDelete
-           // 
-           this.mnuConDelete.Name = "mnuConDelete";
-           this.mnuConDelete.Size = new System.Drawing.Size(196, 22);
-           this.mnuConDelete.Text = "删除任务";
-           this.mnuConDelete.Click += new System.EventHandler(this.mnuConDelete_Click);
-           // 
-           // toolStripMenuItem3
-           // 
-           this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-           this.toolStripMenuItem3.Size = new System.Drawing.Size(193, 6);
-           // 
-           // mnuConOpenFolder
-           // 
-           this.mnuConOpenFolder.Name = "mnuConOpenFolder";
-           this.mnuConOpenFolder.Size = new System.Drawing.Size(196, 22);
-           this.mnuConOpenFolder.Text = "打开文件所在的文件夹";
-           this.mnuConOpenFolder.Click += new System.EventHandler(this.mnuConOpenFolder_Click);
-           // 
-           // mnuConOpenUrl
-           // 
-           this.mnuConOpenUrl.Name = "mnuConOpenUrl";
-           this.mnuConOpenUrl.Size = new System.Drawing.Size(196, 22);
-           this.mnuConOpenUrl.Text = "打开页面";
-           this.mnuConOpenUrl.Click += new System.EventHandler(this.mnuConOpenUrl_Click);
-           // 
-           // mnuConInfo
-           // 
-           this.mnuConInfo.Name = "mnuConInfo";
-           this.mnuConInfo.Size = new System.Drawing.Size(196, 22);
-           this.mnuConInfo.Text = "查看任务信息";
-           this.mnuConInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
-           // 
            // timer
            // 
            this.timer.Enabled = true;
@@ -577,7 +482,7 @@
            // 
            // contextTool
            // 
-           this.contextTool.BackColor = System.Drawing.SystemColors.ControlLight;
+           this.contextTool.BackColor = System.Drawing.SystemColors.ButtonFace;
            this.contextTool.Dock = System.Windows.Forms.DockStyle.None;
            this.contextTool.GripMargin = new System.Windows.Forms.Padding(4, 2, 2, 2);
            this.contextTool.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -590,10 +495,9 @@
             this.toolOpenFolder,
             this.toolOpenWebpage,
             this.toolInfo});
-           this.contextTool.Location = new System.Drawing.Point(95, 215);
+           this.contextTool.Location = new System.Drawing.Point(106, 331);
            this.contextTool.Name = "contextTool";
-           this.contextTool.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.contextTool.Size = new System.Drawing.Size(386, 48);
+           this.contextTool.Size = new System.Drawing.Size(417, 48);
            this.contextTool.TabIndex = 22;
            this.contextTool.Visible = false;
            // 
@@ -676,8 +580,8 @@
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.ClientSize = new System.Drawing.Size(535, 464);
            this.Controls.Add(this.btnClickNew);
-           this.Controls.Add(this.contextTool);
            this.Controls.Add(this.label2);
+           this.Controls.Add(this.contextTool);
            this.Controls.Add(this.toolStrip);
            this.Controls.Add(this.udSpeedLimit);
            this.Controls.Add(this.statusStrip);
@@ -698,7 +602,6 @@
            this.toolStrip.ResumeLayout(false);
            this.toolStrip.PerformLayout();
            this.mnuTray.ResumeLayout(false);
-           this.mnuContext.ResumeLayout(false);
            ((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).EndInit();
            this.contextTool.ResumeLayout(false);
            this.contextTool.PerformLayout();
@@ -725,21 +628,11 @@
 		  private System.Windows.Forms.ColumnHeader headerProcess;
 		  private System.Windows.Forms.ColumnHeader headerSpeed;
 		  private System.Windows.Forms.ColumnHeader headerSource;
-		  private System.Windows.Forms.Button btnClickNew;
-		  private System.Windows.Forms.ContextMenuStrip mnuContext;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConCancel;
-		  private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConStart;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConStop;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConInfo;
+        private System.Windows.Forms.Button btnClickNew;
 		  private System.Windows.Forms.ColumnHeader headerPart;
-		  private System.Windows.Forms.Timer timer;
-		  private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConOpenFolder;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConOpenUrl;
+        private System.Windows.Forms.Timer timer;
 		  private System.Windows.Forms.ToolStripSplitButton btnSearch;
-		  private System.Windows.Forms.ToolStripMenuItem searchCustom;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConDelete;
+        private System.Windows.Forms.ToolStripMenuItem searchCustom;
 		  private System.Windows.Forms.ComboBox cboAfterComplete;
 		  private System.Windows.Forms.Label label1;
 		  private System.Windows.Forms.NumericUpDown udSpeedLimit;
@@ -767,9 +660,8 @@
 		  private System.Windows.Forms.ToolStripMenuItem 优酷网ToolStripMenuItem;
 		  private System.Windows.Forms.ToolStripMenuItem 百度贴吧ToolStripMenuItem;
 		  private System.Windows.Forms.ToolStripMenuItem 贴吧相册ToolStripMenuItem;
-		  private System.Windows.Forms.ToolStripMenuItem 爱漫画ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripDropDownButton btnConfig;
-        private System.Windows.Forms.ToolStripMenuItem toolSettingAdv;
+        private System.Windows.Forms.ToolStripMenuItem 爱漫画ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnConfig;
 
 	 }
 }

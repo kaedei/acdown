@@ -51,6 +51,7 @@ namespace Kaedei.AcDown
       public bool Plugin_Enable_Youku = true;
       public bool Plugin_Enable_Imanhua = true;
       public bool Plugin_Enable_TiebaAlbum = true;
+      public bool Plugin_Enable_Sixcn = true;
    }
 
    /// <summary>

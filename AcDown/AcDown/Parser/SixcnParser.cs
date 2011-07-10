@@ -21,21 +21,24 @@ namespace Kaedei.AcDown.Parser
       public string[] Parse(string[] parameters, WebProxy proxy)
       {
          string url = "http://6.cn/v72.php?vid=" + parameters[0];
-         string source = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
+         string source = Network.GetHtmlSource2(url, Encoding.UTF8, proxy);
          Regex rFlv = new Regex(@"<file>(?<flv>.*)</file>");
          Match mFlv = rFlv.Match(source);
          string flv = mFlv.Groups["flv"].Value;
+         //flv.Replace("barcelona", "nantes");
 
          //生成key
-         int loc1 = Environment.TickCount + 123456;
-         int key3 = 1000000000 + new Random(loc1).Next(1000000000);
-         int key4 = 1000000000 + new Random(loc1).Next(1000000000);
+         long loc1 = DateTime.Now.Ticks;
+         Random r = new Random();
+         loc1 += 123456;
+         int key3 = 1000000000 + r.Next(1000000000);
+         int key4 = 1000000000 + r.Next(1000000000);
          int key1, key2;
-         int loc2 = new Random().Next(100);
+         int loc2 = r.Next(100);
          if (loc2 > 50)
          {
             key1 = Math.Abs((int)Math.Floor((double)loc1 / 3) ^ key3);
-            key2 = Math.Abs((int)Math.Floor((double)loc1 * 2 / 3) ^ key4);
+            key2 = Math.Abs((int)Math.Floor((double)(loc1 * 2) / 3) ^ key4);
          }
          else
          {
@@ -43,7 +46,7 @@ namespace Kaedei.AcDown.Parser
             key2 = Math.Abs((int)Math.Floor((double)loc1 / 3) ^ key4);
          }
 
-         string realurl = flv + string.Format("?start=0&key1={0}&key2={1}&key3={2}&key4={3}", key1, key2, key3, key4);
+         string realurl = flv + string.Format("?key1={0}&key2={1}&key3={2}&key4={3}", key1, key2, key3, key4);
          return new string[] { realurl };
       }
 

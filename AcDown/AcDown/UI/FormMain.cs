@@ -333,7 +333,7 @@ namespace AcDown.UI
 				GlobalSettings.GetSettings().SpeedLimit = 0;
 			}
 			//全局速度
-			long speed = 0;
+			double speed = 0;
 			//取得所有正在进行中的任务
 			foreach (IDownloader downloader in taskMgr.Tasks)
 			{
@@ -351,10 +351,10 @@ namespace AcDown.UI
 						item.SubItems[3].Text = "0.0%";
 					}
 					//显示速度
-					long currentSpeed = 0;
-					currentSpeed = (downloader.DoneBytes - downloader.LastTick) / 1024;
+					double currentSpeed = 0;
+					currentSpeed = (double)(downloader.DoneBytes - downloader.LastTick) / 1024;
 					speed += currentSpeed;
-					item.SubItems[4].Text = currentSpeed.ToString() + "KB/s";
+					item.SubItems[4].Text = string.Format("{0:F1}",currentSpeed) + "KB/s";
 				}
 				//如果正在等待开始
 				if (downloader.Status == DownloadStatus.等待开始)
@@ -368,9 +368,9 @@ namespace AcDown.UI
 				}
 			}
 			//显示全局速度
-			if (speed != 0)
+			if (speed != 0.0)
 			{
-				lblSpeed.Text = speed.ToString() + "KB/s";
+				lblSpeed.Text = string.Format("{0:F1}", speed) + "KB/s";
 			}
 			else
 			{
@@ -737,8 +737,8 @@ namespace AcDown.UI
 			{
 				return;
 			}
-			ListViewItem item = lsv.SelectedItems[0];
-			if (item != null)
+
+			foreach (ListViewItem item in lsv.SelectedItems)
 			{
 				IDownloader downloader = GetTask(new Guid((string)item.Tag));
 				taskMgr.DeleteTask(downloader, Config.setting.DeleteTaskAndFile);

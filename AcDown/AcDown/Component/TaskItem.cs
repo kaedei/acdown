@@ -20,7 +20,7 @@ namespace Kaedei.AcDown.Component
 		private IDownloader Downloader { get; set; }
 
 		//任务Uri
-		public Uri Uri { get; set; }
+		public string Url { get; set; }
 
 		//下载状态
 		public DownloadStatus Status
@@ -56,6 +56,62 @@ namespace Kaedei.AcDown.Component
 		public long GetTickCount()
 		{
 			return Downloader.DoneBytes - Downloader.LastTick;
+		}
+
+		public DelegateContainer delegates
+		{
+			get
+			{
+				return Downloader.delegates;
+			}
+			set
+			{
+				Downloader.delegates = value;
+			}
+		}
+
+		public IAcdownPluginInfo GetBasePlugin()
+		{
+			return Downloader.GetBasePlugin();
+		}
+
+
+		public int PartCount
+		{
+			get { return Downloader.PartCount; }
+		}
+
+		public int CurrentPart
+		{
+			get { return Downloader.CurrentPart; }
+		}
+
+
+		public System.IO.DirectoryInfo SaveDirectory
+		{
+			get
+			{
+				return Downloader.SaveDirectory;
+			}
+			set
+			{
+				Downloader.SaveDirectory = value;
+			}
+		}
+
+		public List<string> FilePath
+		{
+			get { return Downloader.FilePath; }
+		}
+
+		public List<string> SubFilePath
+		{
+			get { return Downloader.SubFilePath; }
+		}
+
+		public string Info
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 	}

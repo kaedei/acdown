@@ -219,6 +219,25 @@ namespace Kaedei.AcDown.Interface
 			return encode.GetString(data);
 		}
 
+		/// <summary>
+		/// 取得网页源代码
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="encode"></param>
+		/// <returns></returns>
+		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy)
+		{
+			string sline = "";
+			var req = HttpWebRequest.Create(url);
+			if (proxy != null)
+				req.Proxy = proxy;
+			var res = req.GetResponse();
+			StreamReader strm = new StreamReader(res.GetResponseStream(), encode);
+			sline = strm.ReadToEnd();
+			strm.Close();
+			return sline;
+		}
+
 	}
 
 	/// <summary>

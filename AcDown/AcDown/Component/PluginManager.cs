@@ -35,6 +35,8 @@ namespace Kaedei.AcDown.Component
 				_plugins.Add(new ImanhuaPlugin());
 			if (Config.setting.Plugin_Enable_TiebaAlbum)
 				_plugins.Add(new TiebaAlbumPlugin());
+			if(Config.setting.Plugin_Enable_Sixcn)
+				_plugins.Add(new SixcnPlugin());
 		}
 
 	}
