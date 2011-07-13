@@ -381,7 +381,7 @@ namespace Kaedei.AcDown.Downloader
 					//字幕文件(on)地址
 					string subfile = Path.Combine(SaveDirectory.ToString(), title + "[未锁定].xml");
 					//取得字幕文件(on)地址
-					string subUrl = @"http://www.sjfan.com.cn/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.4203103971667588".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
+					string subUrl = @"http://124.228.254.234/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.9138414077460766".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
 					//下载字幕文件
 					try
 					{
@@ -396,7 +396,7 @@ namespace Kaedei.AcDown.Downloader
 					//字幕文件(lock)地址
 					subfile = Path.Combine(SaveDirectory.ToString(), title + "[锁定].xml");
 					//取得字幕文件(lock)地址
-					subUrl = @"http://www.sjfan.com.cn/newflvplayer/xmldata/%VideoId%/comment_lock.xml?r=0.4203103971667588".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
+					subUrl = @"http://124.228.254.234/newflvplayer/xmldata/%VideoId%/comment_lock.xml?r=0.5152998301200569".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
 					//下载字幕文件
 					try
 					{

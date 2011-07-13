@@ -45,7 +45,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://v\.youku\.com/v_\w+/(id_|)(?<id>\w+)\.html");
+			Regex r = new Regex(@"http://v\.youku\.com/\w+/(id_|id|)(?<id>\w+)\.html");
 			Match m = r.Match(url);
 			if (m.Success)
 			{

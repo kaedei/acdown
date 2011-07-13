@@ -402,7 +402,7 @@
            // timer
            // 
            this.timer.Enabled = true;
-           this.timer.Interval = 1000;
+           this.timer.Interval = 1500;
            this.timer.Tick += new System.EventHandler(this.timer_Tick);
            // 
            // cboAfterComplete
@@ -497,7 +497,7 @@
             this.toolInfo});
            this.contextTool.Location = new System.Drawing.Point(106, 331);
            this.contextTool.Name = "contextTool";
-           this.contextTool.Size = new System.Drawing.Size(417, 48);
+           this.contextTool.Size = new System.Drawing.Size(386, 48);
            this.contextTool.TabIndex = 22;
            this.contextTool.Visible = false;
            // 
