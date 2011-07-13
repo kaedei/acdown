@@ -77,6 +77,8 @@
     <Compile Include="Component\TaskItem.cs" />
     <Compile Include="Downloader\AcFun\Acfun.cs" />
     <Compile Include="Downloader\Bilibili\Bilibili.cs" />
+    <Compile Include="Downloader\Flvcd\FlvcdDownloader.cs" />
+    <Compile Include="Downloader\Flvcd\FlvcdPlugin.cs" />
     <Compile Include="Downloader\Sixcn\Sixcn.cs" />
     <Compile Include="Downloader\Tieba\TiebaAlbum.cs" />
     <Compile Include="Interface\Forms\FormLogin.cs">
@@ -304,6 +306,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\UpdateNoti.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weibo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

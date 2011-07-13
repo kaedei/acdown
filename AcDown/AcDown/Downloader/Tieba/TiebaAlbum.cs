@@ -50,7 +50,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://tieba\.baidu\.com/f/tupian/album\?kw=(?<kw>.+)&an=(?<an>.+)");
+			Regex r = new Regex(@"^http://tieba\.baidu\.com/f/tupian/album\?kw=(?<kw>.+)&an=(?<an>.+)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{

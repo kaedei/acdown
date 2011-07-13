@@ -38,6 +38,7 @@ namespace Kaedei.AcDown
       public bool EnableWindows7Feature = true; //允许使用Windows7特性
       public bool DeleteTaskAndFile = false; //删除任务的同时删除文件
       public bool HideWhenClose = true; //点击关闭按钮时最小化
+      public int RefreshInfoInterval = 2000; //下载信息刷新频率(毫秒)
 
       //代理设置
       public bool Proxy_Enabled = false;
@@ -52,6 +53,7 @@ namespace Kaedei.AcDown
       public bool Plugin_Enable_Imanhua = true;
       public bool Plugin_Enable_TiebaAlbum = true;
       public bool Plugin_Enable_Sixcn = true;
+      public bool Plugin_Enable_Flvcd = true;
    }
 
    /// <summary>

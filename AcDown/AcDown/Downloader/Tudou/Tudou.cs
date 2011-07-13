@@ -45,7 +45,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*)|playlist/p/(?<id3>\w+)\.html)");
+			Regex r = new Regex(@"^http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*)|playlist/p/(?<id3>\w+)\.html)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{

@@ -60,5 +60,10 @@ namespace Kaedei.AcDown.UI
       {
          Process.Start("http://list.qq.com/cgi-bin/qf_invite?id=5cab5a4e51e84cbb0f6ce0eaed69fb5fed194bc4e52ba3b9");
       }
+
+      private void lnkWeibo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+      {
+         Process.Start("http://weibo.com/kaedei");
+      }
    }
 }

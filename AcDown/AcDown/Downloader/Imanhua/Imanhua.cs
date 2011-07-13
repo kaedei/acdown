@@ -50,7 +50,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://www\.imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
+			Regex r = new Regex(@"^http://www\.imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{

@@ -184,5 +184,12 @@ namespace Kaedei.AcDown.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap Weibo {
+            get {
+                object obj = ResourceManager.GetObject("Weibo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

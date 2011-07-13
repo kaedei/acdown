@@ -215,6 +215,8 @@ namespace AcDown.UI
 					btnClickNew.Dispose();
 			//显示托盘图标
 			notifyIcon.Icon = Resources.Ac;
+			//设置刷新频率
+			timer.Interval = Config.setting.RefreshInfoInterval;
 			//设置是否监视剪贴板
 			watchClipboard = Config.setting.WatchClipboardEnabled;
 
@@ -318,6 +320,11 @@ namespace AcDown.UI
 		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
+			//设置刷新频率
+			if (Config.setting.RefreshInfoInterval != timer.Interval)
+			{
+				timer.Interval = Config.setting.RefreshInfoInterval;
+			}
 			//设置限速
 			int sl = Convert.ToInt32(udSpeedLimit.Value);
 			if (sl != 0)

@@ -123,12 +123,12 @@
            // headerName
            // 
            this.headerName.Text = "名称";
-           this.headerName.Width = 120;
+           this.headerName.Width = 144;
            // 
            // headerPart
            // 
            this.headerPart.Text = "分段";
-           this.headerPart.Width = 87;
+           this.headerPart.Width = 62;
            // 
            // headerProcess
            // 
@@ -402,7 +402,7 @@
            // timer
            // 
            this.timer.Enabled = true;
-           this.timer.Interval = 1500;
+           this.timer.Interval = 2000;
            this.timer.Tick += new System.EventHandler(this.timer_Tick);
            // 
            // cboAfterComplete

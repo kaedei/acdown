@@ -9,6 +9,7 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
+
 	public class YoukuPlugin : IAcdownPluginInfo
 	{
 		#region IAcdownPluginInfo 成员
@@ -45,7 +46,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://v\.youku\.com/\w+/(id_|id|)(?<id>\w+)\.html");
+			Regex r = new Regex(@"^http://v\.youku\.com/\w+/(id_|id|)(?<id>\w+)\.html");
 			Match m = r.Match(url);
 			if (m.Success)
 			{

@@ -43,6 +43,7 @@
          this.lnkFeed = new System.Windows.Forms.LinkLabel();
          this.btnClose = new System.Windows.Forms.Button();
          this.panel1 = new System.Windows.Forms.Panel();
+         this.lnkWeibo = new System.Windows.Forms.LinkLabel();
          this.lnkBlog = new System.Windows.Forms.LinkLabel();
          this.lnkProject = new System.Windows.Forms.LinkLabel();
          this.tableLayoutPanel1.SuspendLayout();
@@ -172,7 +173,7 @@
          // lnkAdvise
          // 
          this.lnkAdvise.AutoSize = true;
-         this.lnkAdvise.Location = new System.Drawing.Point(31, 93);
+         this.lnkAdvise.Location = new System.Drawing.Point(34, 94);
          this.lnkAdvise.Name = "lnkAdvise";
          this.lnkAdvise.Size = new System.Drawing.Size(235, 21);
          this.lnkAdvise.TabIndex = 0;
@@ -183,7 +184,7 @@
          // lnkReportBug
          // 
          this.lnkReportBug.AutoSize = true;
-         this.lnkReportBug.Location = new System.Drawing.Point(70, 57);
+         this.lnkReportBug.Location = new System.Drawing.Point(89, 53);
          this.lnkReportBug.Name = "lnkReportBug";
          this.lnkReportBug.Size = new System.Drawing.Size(122, 21);
          this.lnkReportBug.TabIndex = 0;
@@ -208,7 +209,7 @@
          // 
          this.lnkFeed.Image = global::Kaedei.AcDown.Properties.Resources.UpdateNoti;
          this.lnkFeed.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-         this.lnkFeed.Location = new System.Drawing.Point(65, 52);
+         this.lnkFeed.Location = new System.Drawing.Point(66, 53);
          this.lnkFeed.Name = "lnkFeed";
          this.lnkFeed.Size = new System.Drawing.Size(186, 63);
          this.lnkFeed.TabIndex = 0;
@@ -234,6 +235,7 @@
          // 
          // panel1
          // 
+         this.panel1.Controls.Add(this.lnkWeibo);
          this.panel1.Controls.Add(this.lnkBlog);
          this.panel1.Controls.Add(this.lnkProject);
          this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -241,6 +243,20 @@
          this.panel1.Name = "panel1";
          this.panel1.Size = new System.Drawing.Size(294, 42);
          this.panel1.TabIndex = 6;
+         // 
+         // lnkWeibo
+         // 
+         this.lnkWeibo.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.lnkWeibo.Image = global::Kaedei.AcDown.Properties.Resources.Weibo;
+         this.lnkWeibo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+         this.lnkWeibo.Location = new System.Drawing.Point(192, 0);
+         this.lnkWeibo.Name = "lnkWeibo";
+         this.lnkWeibo.Size = new System.Drawing.Size(77, 42);
+         this.lnkWeibo.TabIndex = 2;
+         this.lnkWeibo.TabStop = true;
+         this.lnkWeibo.Text = "微博";
+         this.lnkWeibo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+         this.lnkWeibo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWeibo_LinkClicked);
          // 
          // lnkBlog
          // 
@@ -314,5 +330,6 @@
       private System.Windows.Forms.LinkLabel lnkBlog;
       private System.Windows.Forms.LinkLabel lnkProject;
       private System.Windows.Forms.LinkLabel lnkFeed;
+      private System.Windows.Forms.LinkLabel lnkWeibo;
    }
 }
