@@ -352,7 +352,7 @@ namespace AcDown.UI
 					}
 					//显示速度
 					double currentSpeed = 0;
-					currentSpeed = (double)(downloader.DoneBytes - downloader.LastTick) / 1024;
+					currentSpeed = (double)(downloader.DoneBytes - downloader.LastTick) / (timer.Interval *1024 / 1000);
 					speed += currentSpeed;
 					item.SubItems[4].Text = string.Format("{0:F1}",currentSpeed) + "KB/s";
 				}
@@ -548,7 +548,7 @@ namespace AcDown.UI
 		
 		private void acFuncnToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Process.Start("http://acfun.cn/");
+			Process.Start("http://www.acfun.tv/");
 		}
 
 		private void bilibiliToolStripMenuItem_Click(object sender, EventArgs e)
@@ -593,13 +593,13 @@ namespace AcDown.UI
 				switch (Config.setting.SearchQuery)
 				{
 					case "Acfun站内搜索 - Google":
-						q = @"http://www.google.com/custom?domains=acfun.cn&q=%TEST%&sa=Google+%CB%D1%CB%F7&sitesearch=acfun.cn&client=pub-1186646738938701&forid=1&ie=GB2312&oe=GB2312&cof=GALT%3A%23008000%3BGL%3A1%3BDIV%3A%23336699%3BVLC%3A663399%3BAH%3Acenter%3BBGC%3AFFFFFF%3BLBGC%3A336699%3BALC%3A0000FF%3BLC%3A0000FF%3BT%3A000000%3BGFNT%3A0000FF%3BGIMP%3A0000FF%3BFORID%3A1&hl=zh-CN&ie=UTF-8".Replace("%TEST%", txtSearch.Text);
+						q = @"http://www.google.com.hk/cse?cx=partner-pub-9798548458573283%3Aq7uq7u33ezy&ie=GB2312&q=%TEST%&sa=%CB%D1%CB%F7&siteurl=www.acfun.tv%2F".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "土豆网":
 						q = @"http://so.tudou.com/nisearch/%TEST%/".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "Acfun站内搜索 - 百度":
-						q = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.cn%29".Replace("%TEST%", txtSearch.Text);
+						q = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.tv%29".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "优酷搜索(搜酷)":
 						q = @"http://www.soku.com/search_video/q_%TEST%".Replace("%TEST%", txtSearch.Text);

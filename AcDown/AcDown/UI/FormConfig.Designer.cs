@@ -488,7 +488,7 @@
            this.chkPluginAcfun.Name = "chkPluginAcfun";
            this.chkPluginAcfun.Size = new System.Drawing.Size(150, 17);
            this.chkPluginAcfun.TabIndex = 0;
-           this.chkPluginAcfun.Text = "启用Acfun.cn下载插件";
+           this.chkPluginAcfun.Text = "启用Acfun下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
            // 
            // pageProxy
