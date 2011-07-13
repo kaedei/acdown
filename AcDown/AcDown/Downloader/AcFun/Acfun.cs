@@ -46,7 +46,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)");
+			Regex r = new Regex(@"^http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)");
 			if (r.Match(url).Success)
 			{
 				return true;

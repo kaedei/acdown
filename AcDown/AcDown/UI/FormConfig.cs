@@ -40,6 +40,7 @@ namespace Kaedei.AcDown.UI
          chkHideWhenClose.Checked = Config.setting.HideWhenClose;
          cboMaxRunningCount.SelectedIndex = Config.setting.MaxRunningTaskCount - 1;
          txtSearchText.Text = Config.setting.SearchQuery;
+         udRefreshInfo.Value = Config.setting.RefreshInfoInterval;
          //插件设置
          chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
          chkPluginTudou.Checked = Config.setting.Plugin_Enable_Tudou;
@@ -47,6 +48,8 @@ namespace Kaedei.AcDown.UI
          chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
          chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
          chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
+         chkFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
+
          //代理服务器设置
          if (Config.setting.Proxy_Settings != null)
          {
@@ -82,6 +85,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.HideWhenClose = chkHideWhenClose.Checked;
          Config.setting.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
          Config.setting.SearchQuery = txtSearchText.Text;
+         Config.setting.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
          //插件设置
          Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
          Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;
@@ -89,6 +93,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
          Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
          Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
+         Config.setting.Plugin_Enable_Flvcd = chkFlvcd.Checked;
          //代理服务器设置
          List<AcDownProxy> proxys = new List<AcDownProxy>();
          foreach (ListViewItem item in lsvProxy.Items)

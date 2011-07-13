@@ -44,7 +44,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"http://(www\.|)bilibili\.(us|tv)/video/av(?<av>\w+)");
+			Regex r = new Regex(@"^http://(www\.|)bilibili\.(us|tv)/video/av(?<av>\w+)");
 			if (r.Match(url).Success)
 			{
 				return true;

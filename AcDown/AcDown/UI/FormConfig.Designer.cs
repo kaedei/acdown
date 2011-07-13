@@ -45,6 +45,8 @@
            this.chkOpenFolder = new System.Windows.Forms.CheckBox();
            this.chkDownSub = new System.Windows.Forms.CheckBox();
            this.pageUI = new System.Windows.Forms.TabPage();
+           this.udRefreshInfo = new System.Windows.Forms.NumericUpDown();
+           this.label7 = new System.Windows.Forms.Label();
            this.chkHideWhenClose = new System.Windows.Forms.CheckBox();
            this.lnkCustomSearchExample = new System.Windows.Forms.LinkLabel();
            this.txtSearchText = new System.Windows.Forms.ComboBox();
@@ -75,10 +77,12 @@
            this.pageDebug = new System.Windows.Forms.TabPage();
            this.lnkLog = new System.Windows.Forms.LinkLabel();
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
+           this.chkFlvcd = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
            this.pageUI.SuspendLayout();
+           ((System.ComponentModel.ISupportInitialize)(this.udRefreshInfo)).BeginInit();
            this.pagePlugin.SuspendLayout();
            this.pageProxy.SuspendLayout();
            this.pageDebug.SuspendLayout();
@@ -293,6 +297,8 @@
            // 
            // pageUI
            // 
+           this.pageUI.Controls.Add(this.udRefreshInfo);
+           this.pageUI.Controls.Add(this.label7);
            this.pageUI.Controls.Add(this.chkHideWhenClose);
            this.pageUI.Controls.Add(this.lnkCustomSearchExample);
            this.pageUI.Controls.Add(this.txtSearchText);
@@ -309,6 +315,37 @@
            this.pageUI.Text = "界面";
            this.pageUI.UseVisualStyleBackColor = true;
            // 
+           // udRefreshInfo
+           // 
+           this.udRefreshInfo.Location = new System.Drawing.Point(181, 147);
+           this.udRefreshInfo.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+           this.udRefreshInfo.Minimum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+           this.udRefreshInfo.Name = "udRefreshInfo";
+           this.udRefreshInfo.Size = new System.Drawing.Size(57, 21);
+           this.udRefreshInfo.TabIndex = 25;
+           this.udRefreshInfo.Value = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+           // 
+           // label7
+           // 
+           this.label7.AutoSize = true;
+           this.label7.Location = new System.Drawing.Point(26, 149);
+           this.label7.Name = "label7";
+           this.label7.Size = new System.Drawing.Size(149, 12);
+           this.label7.TabIndex = 24;
+           this.label7.Text = "下载信息刷新频率(毫秒)：";
+           // 
            // chkHideWhenClose
            // 
            this.chkHideWhenClose.AutoSize = true;
@@ -323,7 +360,7 @@
            // lnkCustomSearchExample
            // 
            this.lnkCustomSearchExample.AutoSize = true;
-           this.lnkCustomSearchExample.Location = new System.Drawing.Point(278, 175);
+           this.lnkCustomSearchExample.Location = new System.Drawing.Point(278, 195);
            this.lnkCustomSearchExample.Name = "lnkCustomSearchExample";
            this.lnkCustomSearchExample.Size = new System.Drawing.Size(77, 12);
            this.lnkCustomSearchExample.TabIndex = 22;
@@ -340,7 +377,7 @@
             "土豆网",
             "优酷搜索(搜酷)",
             "漫画搜索(爱漫画)"});
-           this.txtSearchText.Location = new System.Drawing.Point(28, 203);
+           this.txtSearchText.Location = new System.Drawing.Point(28, 223);
            this.txtSearchText.Name = "txtSearchText";
            this.txtSearchText.Size = new System.Drawing.Size(327, 20);
            this.txtSearchText.TabIndex = 21;
@@ -348,7 +385,7 @@
            // label4
            // 
            this.label4.AutoSize = true;
-           this.label4.Location = new System.Drawing.Point(26, 163);
+           this.label4.Location = new System.Drawing.Point(26, 183);
            this.label4.Name = "label4";
            this.label4.Size = new System.Drawing.Size(185, 24);
            this.label4.TabIndex = 19;
@@ -401,6 +438,7 @@
            // 
            // pagePlugin
            // 
+           this.pagePlugin.Controls.Add(this.chkFlvcd);
            this.pagePlugin.Controls.Add(this.chkPluginTiebaAlbum);
            this.pagePlugin.Controls.Add(this.chkPluginImanhua);
            this.pagePlugin.Controls.Add(this.label3);
@@ -486,7 +524,7 @@
            this.chkPluginAcfun.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginAcfun.Location = new System.Drawing.Point(41, 55);
            this.chkPluginAcfun.Name = "chkPluginAcfun";
-           this.chkPluginAcfun.Size = new System.Drawing.Size(150, 17);
+           this.chkPluginAcfun.Size = new System.Drawing.Size(132, 17);
            this.chkPluginAcfun.TabIndex = 0;
            this.chkPluginAcfun.Text = "启用Acfun下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
@@ -624,6 +662,17 @@
            this.chkEnableLog.Text = "启用错误日志（重启下载器后生效）";
            this.chkEnableLog.UseVisualStyleBackColor = true;
            // 
+           // chkFlvcd
+           // 
+           this.chkFlvcd.AutoSize = true;
+           this.chkFlvcd.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkFlvcd.Location = new System.Drawing.Point(41, 189);
+           this.chkFlvcd.Name = "chkFlvcd";
+           this.chkFlvcd.Size = new System.Drawing.Size(138, 17);
+           this.chkFlvcd.TabIndex = 7;
+           this.chkFlvcd.Text = "启用FLVCD解析插件*";
+           this.chkFlvcd.UseVisualStyleBackColor = true;
+           // 
            // FormConfig
            // 
            this.AcceptButton = this.btnOK;
@@ -649,6 +698,7 @@
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).EndInit();
            this.pageUI.ResumeLayout(false);
            this.pageUI.PerformLayout();
+           ((System.ComponentModel.ISupportInitialize)(this.udRefreshInfo)).EndInit();
            this.pagePlugin.ResumeLayout(false);
            this.pagePlugin.PerformLayout();
            this.pageProxy.ResumeLayout(false);
@@ -708,5 +758,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.TextBox txtSavePath;
         private System.Windows.Forms.Button btnSavePath;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown udRefreshInfo;
+        private System.Windows.Forms.CheckBox chkFlvcd;
 	 }
 }

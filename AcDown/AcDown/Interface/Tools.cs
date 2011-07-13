@@ -62,6 +62,22 @@ namespace Kaedei.AcDown.Interface
       }
 
       /// <summary>
+      /// Url编码
+      /// </summary>
+      /// <param name="str"></param>
+      /// <returns></returns>
+      public static string UrlEncode(string str)
+      {
+         StringBuilder sb = new StringBuilder();
+         byte[] byStr = System.Text.Encoding.UTF8.GetBytes(str);
+         for (int i = 0; i < byStr.Length; i++)
+         {
+            sb.Append(@"%" + Convert.ToString(byStr[i], 16));
+         }
+         return (sb.ToString());
+      }
+
+      /// <summary>
       /// 
       /// </summary>
       /// <param name="input"></param>
