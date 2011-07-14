@@ -216,5 +216,10 @@ namespace Kaedei.AcDown.UI
             txtSavePath.Text = fbd.SelectedPath;
       }
 
+      private void lnkFlvcdIntro_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+      {
+         Process.Start("http://acdown.codeplex.com/wikipage?title=%E5%85%B3%E4%BA%8EFLVCD%E6%8F%92%E4%BB%B6");
+      }
+
    }
 }

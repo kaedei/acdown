@@ -583,6 +583,12 @@ namespace AcDown.UI
 			Process.Start("http://www.imanhua.com/");
 		}
 
+		private void 更多ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("http://acdown.codeplex.com/wikipage?title=%E5%85%B3%E4%BA%8EFLVCD%E6%8F%92%E4%BB%B6");
+		}
+
+
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
@@ -893,7 +899,7 @@ namespace AcDown.UI
 				//新建ListViewItem
 				ListViewItem lvi = new ListViewItem();
 				//lvi.SubItems.Add(downloader.Status.ToString()); //状态
-				lvi.SubItems.Add("正在获取"); //视频名称
+				lvi.SubItems.Add("正在解析,请稍候"); //视频名称
 				lvi.SubItems.Add("0/0"); //分段
 				lvi.SubItems.Add("0.0%"); //下载进度
 				lvi.SubItems.Add("0"); //下载速度
@@ -1108,6 +1114,7 @@ namespace AcDown.UI
 		}
 
 #endregion
+
 
 
 

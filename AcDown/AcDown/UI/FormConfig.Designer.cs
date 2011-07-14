@@ -56,6 +56,8 @@
            this.chkCheckUrl = new System.Windows.Forms.CheckBox();
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
+           this.lnkFlvcdIntro = new System.Windows.Forms.LinkLabel();
+           this.chkFlvcd = new System.Windows.Forms.CheckBox();
            this.chkPluginTiebaAlbum = new System.Windows.Forms.CheckBox();
            this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
            this.label3 = new System.Windows.Forms.Label();
@@ -77,7 +79,6 @@
            this.pageDebug = new System.Windows.Forms.TabPage();
            this.lnkLog = new System.Windows.Forms.LinkLabel();
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
-           this.chkFlvcd = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -344,7 +345,7 @@
            this.label7.Name = "label7";
            this.label7.Size = new System.Drawing.Size(149, 12);
            this.label7.TabIndex = 24;
-           this.label7.Text = "下载信息刷新频率(毫秒)：";
+           this.label7.Text = "任务列表刷新频率(毫秒)：";
            // 
            // chkHideWhenClose
            // 
@@ -438,6 +439,7 @@
            // 
            // pagePlugin
            // 
+           this.pagePlugin.Controls.Add(this.lnkFlvcdIntro);
            this.pagePlugin.Controls.Add(this.chkFlvcd);
            this.pagePlugin.Controls.Add(this.chkPluginTiebaAlbum);
            this.pagePlugin.Controls.Add(this.chkPluginImanhua);
@@ -453,6 +455,28 @@
            this.pagePlugin.TabIndex = 4;
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
+           // 
+           // lnkFlvcdIntro
+           // 
+           this.lnkFlvcdIntro.AutoSize = true;
+           this.lnkFlvcdIntro.Location = new System.Drawing.Point(60, 209);
+           this.lnkFlvcdIntro.Name = "lnkFlvcdIntro";
+           this.lnkFlvcdIntro.Size = new System.Drawing.Size(83, 12);
+           this.lnkFlvcdIntro.TabIndex = 8;
+           this.lnkFlvcdIntro.TabStop = true;
+           this.lnkFlvcdIntro.Text = "FLVCD插件介绍";
+           this.lnkFlvcdIntro.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFlvcdIntro_LinkClicked);
+           // 
+           // chkFlvcd
+           // 
+           this.chkFlvcd.AutoSize = true;
+           this.chkFlvcd.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkFlvcd.Location = new System.Drawing.Point(41, 189);
+           this.chkFlvcd.Name = "chkFlvcd";
+           this.chkFlvcd.Size = new System.Drawing.Size(138, 17);
+           this.chkFlvcd.TabIndex = 7;
+           this.chkFlvcd.Text = "启用FLVCD解析插件*";
+           this.chkFlvcd.UseVisualStyleBackColor = true;
            // 
            // chkPluginTiebaAlbum
            // 
@@ -662,17 +686,6 @@
            this.chkEnableLog.Text = "启用错误日志（重启下载器后生效）";
            this.chkEnableLog.UseVisualStyleBackColor = true;
            // 
-           // chkFlvcd
-           // 
-           this.chkFlvcd.AutoSize = true;
-           this.chkFlvcd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkFlvcd.Location = new System.Drawing.Point(41, 189);
-           this.chkFlvcd.Name = "chkFlvcd";
-           this.chkFlvcd.Size = new System.Drawing.Size(138, 17);
-           this.chkFlvcd.TabIndex = 7;
-           this.chkFlvcd.Text = "启用FLVCD解析插件*";
-           this.chkFlvcd.UseVisualStyleBackColor = true;
-           // 
            // FormConfig
            // 
            this.AcceptButton = this.btnOK;
@@ -761,5 +774,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown udRefreshInfo;
         private System.Windows.Forms.CheckBox chkFlvcd;
+        private System.Windows.Forms.LinkLabel lnkFlvcdIntro;
 	 }
 }
