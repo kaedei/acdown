@@ -34,7 +34,6 @@
            this.btnAdd = new System.Windows.Forms.Button();
            this.picCheck = new System.Windows.Forms.PictureBox();
            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-           this.chkImmediate = new System.Windows.Forms.CheckBox();
            this.lnkPaste = new System.Windows.Forms.LinkLabel();
            this.label2 = new System.Windows.Forms.Label();
            this.lblShowConfig = new System.Windows.Forms.LinkLabel();
@@ -46,6 +45,7 @@
            this.groupBox2 = new System.Windows.Forms.GroupBox();
            this.btnExample = new System.Windows.Forms.Button();
            this.txtExample = new System.Windows.Forms.TextBox();
+           this.lblFlvcdTip = new System.Windows.Forms.Label();
            ((System.ComponentModel.ISupportInitialize)(this.picCheck)).BeginInit();
            this.groupBox1.SuspendLayout();
            this.groupBox2.SuspendLayout();
@@ -112,28 +112,11 @@
            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
            this.toolTip.ToolTipTitle = "提示:";
            // 
-           // chkImmediate
-           // 
-           this.chkImmediate.AutoSize = true;
-           this.chkImmediate.Checked = true;
-           this.chkImmediate.CheckState = System.Windows.Forms.CheckState.Checked;
-           this.chkImmediate.Enabled = false;
-           this.chkImmediate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkImmediate.Location = new System.Drawing.Point(227, 159);
-           this.chkImmediate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-           this.chkImmediate.Name = "chkImmediate";
-           this.chkImmediate.Size = new System.Drawing.Size(90, 25);
-           this.chkImmediate.TabIndex = 7;
-           this.chkImmediate.Text = "立即开始";
-           this.toolTip.SetToolTip(this.chkImmediate, "添加任务后是否立即开始任务\r\n(如果未选中则请手动开始下载任务)");
-           this.chkImmediate.UseVisualStyleBackColor = true;
-           this.chkImmediate.Visible = false;
-           // 
            // lnkPaste
            // 
            this.lnkPaste.AutoSize = true;
            this.lnkPaste.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.lnkPaste.Location = new System.Drawing.Point(15, 159);
+           this.lnkPaste.Location = new System.Drawing.Point(275, 159);
            this.lnkPaste.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
            this.lnkPaste.Name = "lnkPaste";
            this.lnkPaste.Size = new System.Drawing.Size(42, 21);
@@ -163,6 +146,7 @@
            this.lblShowConfig.TabIndex = 10;
            this.lblShowConfig.TabStop = true;
            this.lblShowConfig.Text = "更改保存位置";
+           this.toolTip.SetToolTip(this.lblShowConfig, "更改默认保存下载文件的位置");
            this.lblShowConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblShowConfig_LinkClicked);
            // 
            // groupBox1
@@ -191,6 +175,7 @@
            this.lnkSetProxy.TabIndex = 14;
            this.lnkSetProxy.TabStop = true;
            this.lnkSetProxy.Text = "设置代理服务器";
+           this.toolTip.SetToolTip(this.lnkSetProxy, "编辑代理服务器列表 ");
            this.lnkSetProxy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetProxy_LinkClicked);
            // 
            // txtPath
@@ -221,13 +206,13 @@
            // 
            // groupBox2
            // 
+           this.groupBox2.Controls.Add(this.lblFlvcdTip);
            this.groupBox2.Controls.Add(this.lnkPaste);
            this.groupBox2.Controls.Add(this.btnExample);
            this.groupBox2.Controls.Add(this.label1);
            this.groupBox2.Controls.Add(this.txtInput);
            this.groupBox2.Controls.Add(this.btnAdd);
            this.groupBox2.Controls.Add(this.picCheck);
-           this.groupBox2.Controls.Add(this.chkImmediate);
            this.groupBox2.Location = new System.Drawing.Point(12, 14);
            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
            this.groupBox2.Name = "groupBox2";
@@ -247,6 +232,7 @@
            this.btnExample.Size = new System.Drawing.Size(205, 21);
            this.btnExample.TabIndex = 8;
            this.btnExample.Text = "查看当前支持哪些网站 >>";
+           this.toolTip.SetToolTip(this.btnExample, "点击查看当前支持解析的网址示例");
            this.btnExample.UseVisualStyleBackColor = true;
            this.btnExample.Click += new System.EventHandler(this.btnExample_Click);
            // 
@@ -260,6 +246,19 @@
            this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
            this.txtExample.Size = new System.Drawing.Size(336, 378);
            this.txtExample.TabIndex = 13;
+           // 
+           // lblFlvcdTip
+           // 
+           this.lblFlvcdTip.AutoSize = true;
+           this.lblFlvcdTip.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+           this.lblFlvcdTip.Location = new System.Drawing.Point(15, 160);
+           this.lblFlvcdTip.Name = "lblFlvcdTip";
+           this.lblFlvcdTip.Size = new System.Drawing.Size(231, 22);
+           this.lblFlvcdTip.TabIndex = 10;
+           this.lblFlvcdTip.Text = "不支持解析?Url前面加个\"+\"再试试!";
+           this.toolTip.SetToolTip(this.lblFlvcdTip, "如果遇到不能解析的视频，请尝试在网址前面添加一个加号，例如：\r\n+http://v.youku.com/v_show/id_XMTc2MTUwNDY4.html\r" +
+                   "\n+http://v.163.com/movie/2010/6/7/S/M6GQE36A8_M6HSGF67S.html\r\n程序会调用FLVCD在线解析引擎解析" +
+                   "该视频");
            // 
            // FormNew
            // 
@@ -296,8 +295,7 @@
 		  private System.Windows.Forms.Label label1;
 		  private System.Windows.Forms.Button btnAdd;
 		  private System.Windows.Forms.PictureBox picCheck;
-		  private System.Windows.Forms.ToolTip toolTip;
-		  private System.Windows.Forms.CheckBox chkImmediate;
+        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Label label2;
 		  private System.Windows.Forms.LinkLabel lblShowConfig;
 		  private System.Windows.Forms.GroupBox groupBox1;
@@ -309,5 +307,6 @@
         private System.Windows.Forms.ComboBox cboProxy;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel lnkSetProxy;
+        private System.Windows.Forms.Label lblFlvcdTip;
 	 }
 }

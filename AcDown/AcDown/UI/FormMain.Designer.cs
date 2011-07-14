@@ -79,6 +79,7 @@
            this.toolOpenFolder = new System.Windows.Forms.ToolStripButton();
            this.toolOpenWebpage = new System.Windows.Forms.ToolStripButton();
            this.toolInfo = new System.Windows.Forms.ToolStripButton();
+           this.更多ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -178,7 +179,8 @@
             this.土豆网ToolStripMenuItem,
             this.优酷网ToolStripMenuItem,
             this.百度贴吧ToolStripMenuItem,
-            this.爱漫画ToolStripMenuItem});
+            this.爱漫画ToolStripMenuItem,
+            this.更多ToolStripMenuItem});
            this.toolStripDropDownButton1.Image = global::Kaedei.AcDown.Properties.Resources._1;
            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -244,7 +246,7 @@
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(186, 21);
+           this.lblBlank.Size = new System.Drawing.Size(155, 21);
            this.lblBlank.Spring = true;
            // 
            // toolHelpCenter
@@ -574,6 +576,13 @@
            this.toolInfo.ToolTipText = "查看任务信息";
            this.toolInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
            // 
+           // 更多ToolStripMenuItem
+           // 
+           this.更多ToolStripMenuItem.Name = "更多ToolStripMenuItem";
+           this.更多ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
+           this.更多ToolStripMenuItem.Text = "更多 ...";
+           this.更多ToolStripMenuItem.Click += new System.EventHandler(this.更多ToolStripMenuItem_Click);
+           // 
            // FormMain
            // 
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -662,6 +671,7 @@
 		  private System.Windows.Forms.ToolStripMenuItem 贴吧相册ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 爱漫画ToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton btnConfig;
+        private System.Windows.Forms.ToolStripMenuItem 更多ToolStripMenuItem;
 
 	 }
 }

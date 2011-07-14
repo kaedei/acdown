@@ -147,9 +147,10 @@ namespace Kaedei.AcDown.Downloader
 
 			//原始Url
 			string ourl = Url.Replace("+","");
+			Url = ourl;
 			//修正url
 			string url = "http://www.flvcd.com/parse.php?kw=" + ourl;
-			Url = url;
+			
 
 			try
 			{
@@ -169,16 +170,14 @@ namespace Kaedei.AcDown.Downloader
 				Regex rContent = new Regex("<input type=\"hidden\" name=\"inf\".+\">", RegexOptions.Singleline);
 				Match mContent = rContent.Match(src);
 				string content = mContent.Value;
+				if (string.IsNullOrEmpty(content))
+				{
+					throw new Exception("FLVCD插件暂时不支持此URL的解析\n" + Url);
+				}
 
 				//清空地址
 				_filePath.Clear();
 
-				//分析id和视频存放站点(type)
-				//取得"bofqi块的源代码
-				Regex rEmbed = new Regex("<div class=\"scontent\" id=\"bofqi\">(?<content>.*?)</div>", RegexOptions.Singleline);
-				Match mEmbed = rEmbed.Match(src);
-				string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
-				
 				//取得各个Part名称
 				List<string> partNames = new List<string>();
 				Regex rPartNames = new Regex(@"<N>(?<name>.+)");

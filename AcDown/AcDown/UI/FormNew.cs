@@ -68,6 +68,8 @@ namespace Kaedei.AcDown.UI
 				 sb.AppendLine();
 			 }
 			 txtExample.Text = sb.ToString();
+			 if (!Config.setting.Plugin_Enable_Flvcd)
+				 lblFlvcdTip.Visible = false;
 		 }
 
 		 //读取代理服务器设置
