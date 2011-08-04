@@ -149,7 +149,7 @@ namespace Kaedei.AcDown.Downloader
 			string ourl = Url.Replace("+","");
 			Url = ourl;
 			//修正url
-			string url = "http://www.flvcd.com/parse.php?kw=" + ourl;
+			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(ourl);
 			
 
 			try
@@ -222,7 +222,7 @@ namespace Kaedei.AcDown.Downloader
 					{
 						//文件名
 						FilePath = Path.Combine(SaveDirectory.ToString(),
-									partNames[i] + ext),
+									partNames[i] + "." + ext),
 						//文件URL
 						Url = partUrls[i],
 						Proxy = delegates.Proxy

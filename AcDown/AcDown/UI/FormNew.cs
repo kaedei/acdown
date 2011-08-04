@@ -154,10 +154,13 @@ namespace Kaedei.AcDown.UI
 				 {
 					 //取得代理设置
 					 AcDownProxy selectedProxy = null;
-					 foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+					 if (Config.setting.Proxy_Settings != null)
 					 {
-						 if (item.Name == cboProxy.SelectedItem.ToString())
-							 selectedProxy = item;
+						 foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+						 {
+							 if (item.Name == cboProxy.SelectedItem.ToString())
+								 selectedProxy = item;
+						 }
 					 }
 					 //添加任务
 					 IDownloader downloader = _taskMgr.AddTask(p.CreateDownloader(), url,
@@ -177,9 +180,8 @@ namespace Kaedei.AcDown.UI
 			 {
 				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入", txtInput, 3000);
 				 txtInput.SelectAll();
-				 this.Cursor = Cursors.Default;
 			 }
-			
+			 this.Cursor = Cursors.Default;
 			
 		 }
 

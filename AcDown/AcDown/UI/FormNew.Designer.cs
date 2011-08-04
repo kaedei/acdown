@@ -35,17 +35,17 @@
            this.picCheck = new System.Windows.Forms.PictureBox();
            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
            this.lnkPaste = new System.Windows.Forms.LinkLabel();
-           this.label2 = new System.Windows.Forms.Label();
            this.lblShowConfig = new System.Windows.Forms.LinkLabel();
-           this.groupBox1 = new System.Windows.Forms.GroupBox();
            this.lnkSetProxy = new System.Windows.Forms.LinkLabel();
+           this.btnExample = new System.Windows.Forms.Button();
+           this.lblFlvcdTip = new System.Windows.Forms.Label();
+           this.label2 = new System.Windows.Forms.Label();
+           this.groupBox1 = new System.Windows.Forms.GroupBox();
            this.txtPath = new System.Windows.Forms.TextBox();
            this.cboProxy = new System.Windows.Forms.ComboBox();
            this.label3 = new System.Windows.Forms.Label();
            this.groupBox2 = new System.Windows.Forms.GroupBox();
-           this.btnExample = new System.Windows.Forms.Button();
            this.txtExample = new System.Windows.Forms.TextBox();
-           this.lblFlvcdTip = new System.Windows.Forms.Label();
            ((System.ComponentModel.ISupportInitialize)(this.picCheck)).BeginInit();
            this.groupBox1.SuspendLayout();
            this.groupBox2.SuspendLayout();
@@ -107,7 +107,6 @@
            // 
            this.toolTip.AutoPopDelay = 8000;
            this.toolTip.InitialDelay = 500;
-           this.toolTip.IsBalloon = true;
            this.toolTip.ReshowDelay = 100;
            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
            this.toolTip.ToolTipTitle = "提示:";
@@ -126,16 +125,6 @@
            this.toolTip.SetToolTip(this.lnkPaste, "如果系统剪贴板中有文字,\r\n则将剪贴板中文字粘贴入文本框");
            this.lnkPaste.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPaste_LinkClicked);
            // 
-           // label2
-           // 
-           this.label2.AutoSize = true;
-           this.label2.Location = new System.Drawing.Point(10, 24);
-           this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-           this.label2.Name = "label2";
-           this.label2.Size = new System.Drawing.Size(121, 20);
-           this.label2.TabIndex = 8;
-           this.label2.Text = "文件将被保存到：";
-           // 
            // lblShowConfig
            // 
            this.lblShowConfig.AutoSize = true;
@@ -148,6 +137,55 @@
            this.lblShowConfig.Text = "更改保存位置";
            this.toolTip.SetToolTip(this.lblShowConfig, "更改默认保存下载文件的位置");
            this.lblShowConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblShowConfig_LinkClicked);
+           // 
+           // lnkSetProxy
+           // 
+           this.lnkSetProxy.AutoSize = true;
+           this.lnkSetProxy.Location = new System.Drawing.Point(343, 91);
+           this.lnkSetProxy.Name = "lnkSetProxy";
+           this.lnkSetProxy.Size = new System.Drawing.Size(107, 20);
+           this.lnkSetProxy.TabIndex = 14;
+           this.lnkSetProxy.TabStop = true;
+           this.lnkSetProxy.Text = "设置代理服务器";
+           this.toolTip.SetToolTip(this.lnkSetProxy, "编辑代理服务器列表 ");
+           this.lnkSetProxy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetProxy_LinkClicked);
+           // 
+           // btnExample
+           // 
+           this.btnExample.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+           this.btnExample.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+           this.btnExample.Location = new System.Drawing.Point(244, 22);
+           this.btnExample.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+           this.btnExample.Name = "btnExample";
+           this.btnExample.Size = new System.Drawing.Size(205, 21);
+           this.btnExample.TabIndex = 8;
+           this.btnExample.Text = "查看当前支持哪些网站 >>";
+           this.toolTip.SetToolTip(this.btnExample, "点击查看当前支持解析的网址示例");
+           this.btnExample.UseVisualStyleBackColor = true;
+           this.btnExample.Click += new System.EventHandler(this.btnExample_Click);
+           // 
+           // lblFlvcdTip
+           // 
+           this.lblFlvcdTip.AutoSize = true;
+           this.lblFlvcdTip.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+           this.lblFlvcdTip.Location = new System.Drawing.Point(15, 160);
+           this.lblFlvcdTip.Name = "lblFlvcdTip";
+           this.lblFlvcdTip.Size = new System.Drawing.Size(231, 22);
+           this.lblFlvcdTip.TabIndex = 10;
+           this.lblFlvcdTip.Text = "不支持解析?Url前面加个\"+\"再试试!";
+           this.toolTip.SetToolTip(this.lblFlvcdTip, "如果遇到不能解析的视频，请尝试在网址前面添加一个加号，例如：\r\n+http://v.youku.com/v_show/id_XMTc2MTUwNDY4.html\r" +
+                   "\n+http://v.163.com/movie/2010/6/7/S/M6GQE36A8_M6HSGF67S.html\r\n程序会调用FLVCD在线解析引擎解析" +
+                   "该视频");
+           // 
+           // label2
+           // 
+           this.label2.AutoSize = true;
+           this.label2.Location = new System.Drawing.Point(10, 24);
+           this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+           this.label2.Name = "label2";
+           this.label2.Size = new System.Drawing.Size(121, 20);
+           this.label2.TabIndex = 8;
+           this.label2.Text = "文件将被保存到：";
            // 
            // groupBox1
            // 
@@ -165,18 +203,6 @@
            this.groupBox1.TabIndex = 11;
            this.groupBox1.TabStop = false;
            this.groupBox1.Text = "设置";
-           // 
-           // lnkSetProxy
-           // 
-           this.lnkSetProxy.AutoSize = true;
-           this.lnkSetProxy.Location = new System.Drawing.Point(343, 91);
-           this.lnkSetProxy.Name = "lnkSetProxy";
-           this.lnkSetProxy.Size = new System.Drawing.Size(107, 20);
-           this.lnkSetProxy.TabIndex = 14;
-           this.lnkSetProxy.TabStop = true;
-           this.lnkSetProxy.Text = "设置代理服务器";
-           this.toolTip.SetToolTip(this.lnkSetProxy, "编辑代理服务器列表 ");
-           this.lnkSetProxy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetProxy_LinkClicked);
            // 
            // txtPath
            // 
@@ -222,20 +248,6 @@
            this.groupBox2.TabStop = false;
            this.groupBox2.Text = "开始";
            // 
-           // btnExample
-           // 
-           this.btnExample.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-           this.btnExample.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.btnExample.Location = new System.Drawing.Point(244, 22);
-           this.btnExample.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-           this.btnExample.Name = "btnExample";
-           this.btnExample.Size = new System.Drawing.Size(205, 21);
-           this.btnExample.TabIndex = 8;
-           this.btnExample.Text = "查看当前支持哪些网站 >>";
-           this.toolTip.SetToolTip(this.btnExample, "点击查看当前支持解析的网址示例");
-           this.btnExample.UseVisualStyleBackColor = true;
-           this.btnExample.Click += new System.EventHandler(this.btnExample_Click);
-           // 
            // txtExample
            // 
            this.txtExample.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -246,19 +258,6 @@
            this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
            this.txtExample.Size = new System.Drawing.Size(336, 378);
            this.txtExample.TabIndex = 13;
-           // 
-           // lblFlvcdTip
-           // 
-           this.lblFlvcdTip.AutoSize = true;
-           this.lblFlvcdTip.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-           this.lblFlvcdTip.Location = new System.Drawing.Point(15, 160);
-           this.lblFlvcdTip.Name = "lblFlvcdTip";
-           this.lblFlvcdTip.Size = new System.Drawing.Size(231, 22);
-           this.lblFlvcdTip.TabIndex = 10;
-           this.lblFlvcdTip.Text = "不支持解析?Url前面加个\"+\"再试试!";
-           this.toolTip.SetToolTip(this.lblFlvcdTip, "如果遇到不能解析的视频，请尝试在网址前面添加一个加号，例如：\r\n+http://v.youku.com/v_show/id_XMTc2MTUwNDY4.html\r" +
-                   "\n+http://v.163.com/movie/2010/6/7/S/M6GQE36A8_M6HSGF67S.html\r\n程序会调用FLVCD在线解析引擎解析" +
-                   "该视频");
            // 
            // FormNew
            // 
