@@ -9,6 +9,9 @@ using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
 using Kaedei.AcDown.UI;
+using Kaedei.AcDown.UI.Components.FlvCombine;
+using System.Threading;
+using System.Collections.Generic;
 
 
 namespace AcDown.UI
@@ -239,7 +242,9 @@ namespace AcDown.UI
 				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
 			}
 			//选中下拉列表框
-			cboAfterComplete.SelectedIndex = 0;			
+			cboAfterComplete.SelectedIndex = 0;	
+			//设置flv合并器
+			CheckFlvCombine();
 		}
 
 		private void btnAbout_Click(object sender, EventArgs e)
@@ -293,6 +298,7 @@ namespace AcDown.UI
 		private void btnClickNew_Click(object sender, EventArgs e)
 		{
 			//显示动画提示效果
+			
 			Int32 width = btnClickNew.Size.Width;
 			Int32 height = btnClickNew.Size.Height;
 			Int32 x = btnClickNew.Location.X;
@@ -360,6 +366,7 @@ namespace AcDown.UI
 					//显示速度
 					double currentSpeed = 0;
 					currentSpeed = (double)(downloader.DoneBytes - downloader.LastTick) / (timer.Interval *1024 / 1000);
+					if (currentSpeed < 0) currentSpeed = 0;
 					speed += currentSpeed;
 					item.SubItems[4].Text = string.Format("{0:F1}",currentSpeed) + "KB/s";
 				}
@@ -467,9 +474,9 @@ namespace AcDown.UI
 				//取得最后一项的索引值
 				int i = lsv.SelectedIndices[lsv.SelectedIndices.Count - 1];
 				//计算最后一项+1项的高度
-				contextTool.Top = lsv.Top + lsv.Font.Height * (i + 3 + 1 / 2);
+				contextTool.Top =  lsv.Top + lsv.Font.Height * (i + 3 + 1 / 2);
 				//如果高度超过listview的范围
-				if (contextTool.Top > lsv.Top + lsv.Height)
+				if (contextTool.Top >  lsv.Top + lsv.Height)
 				{
 					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 2;
 				}
@@ -605,14 +612,14 @@ namespace AcDown.UI
 				string q;
 				switch (Config.setting.SearchQuery)
 				{
-					case "Acfun站内搜索 - Google":
-						q = @"http://www.google.com.hk/cse?cx=partner-pub-9798548458573283%3Aq7uq7u33ezy&ie=GB2312&q=%TEST%&sa=%CB%D1%CB%F7&siteurl=www.acfun.tv%2F".Replace("%TEST%", txtSearch.Text);
+					case "Acfun站内搜索":
+						q = @"http://s.acfun.cn/Search.aspx?q=%TEST%&order=008d30f9-cdd4-440f-9149-85f5e3a75f42&group=-1".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+						break;
+					case "Bilibili站内搜索":
+						q = @"http://www.bilibili.tv/search?keyword=%TEST%".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "土豆网":
 						q = @"http://so.tudou.com/nisearch/%TEST%/".Replace("%TEST%", txtSearch.Text);
-						break;
-					case "Acfun站内搜索 - 百度":
-						q = @"http://www.baidu.com/s?wd=%TEST%+site%3A%28acfun.tv%29".Replace("%TEST%", txtSearch.Text);
 						break;
 					case "优酷搜索(搜酷)":
 						q = @"http://www.soku.com/search_video/q_%TEST%".Replace("%TEST%", txtSearch.Text);
@@ -1117,8 +1124,137 @@ namespace AcDown.UI
 
 
 
+		#region UI组件
+		/// <summary>
+		/// 检查FLV合并组件是否存在
+		/// </summary>
+		private void CheckFlvCombine()
+		{
+			if (FlvCombine.CheckExisted())
+			{
+				btnGetFlvCombine.Hide();
+				panelCombine.Show();
+			}
+		}
 
+		//下载FLV合并器
+		private void btnGetFlvCombine_Click(object sender, EventArgs e)
+		{
+			btnGetFlvCombine.Text = "正在下载FLV合并器...";
+			btnGetFlvCombine.Enabled = false;
+			//下载程序组件
+			Thread t = new Thread(() =>
+			{
+				bool s = FlvCombine.DownloadComponents();
+				//下载成功
+				if (s)
+				{
+					this.Invoke(new MethodInvoker(() =>
+						{
+							btnGetFlvCombine.Hide();
+							panelCombine.Show();
+						}));
+				}
+				else //下载失败
+				{
+					this.Invoke(new MethodInvoker(() =>
+						{
+							MessageBox.Show("下载FLV合并器失败，请检查网络设置", "FLV视频合并", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							btnGetFlvCombine.Text = "下载FLV合并器";
+							btnGetFlvCombine.Enabled = true;
+						}));
+				}
+			});
+			t.Start();
+		}
+		//添加文件
+		private void btnCombineAdd_Click(object sender, EventArgs e)
+		{
+			//显示Open对话框
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.AutoUpgradeEnabled = true;
+			ofd.DefaultExt = ".flv";
+			ofd.Filter = "Flv视频文件|*.flv";
+			ofd.Multiselect = true;
+			if (lstCombine.Items.Count == 0)
+				ofd.InitialDirectory = Config.setting.SavePath;
+			else
+			{
+				ofd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
+			}
+			if (ofd.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+			{
+				//去除重复文件
+				foreach (string item in ofd.FileNames)
+				{
+					if (!lstCombine.Items.Contains(item))
+						lstCombine.Items.Add(item);
+				}
+				//设置"保存到"文本框
+				txtCombineOutput.Text = Path.Combine(Path.GetDirectoryName(ofd.FileNames[0]), "合并.flv");
+			}
+			btnCombineStart.Enabled = (lstCombine.Items.Count > 1);
 
+		}
+
+		//删除项
+		private void btnCombineDelete_Click(object sender, EventArgs e)
+		{
+			while (lstCombine.SelectedIndices.Count != 0)
+			{
+				lstCombine.Items.RemoveAt(lstCombine.SelectedIndex);
+			}
+			btnCombineStart.Enabled = (lstCombine.Items.Count > 1);
+		}
+		#endregion
+
+		//选择输出文件
+		private void btnCombineChooseOutput_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog sfd = new SaveFileDialog();
+			sfd.AutoUpgradeEnabled = true;
+			sfd.DefaultExt = ".flv";
+			sfd.AddExtension = true;
+			sfd.Title = "保存合并文件";
+			sfd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
+			sfd.Filter = "Flv视频文件|*.flv";
+			DialogResult result = sfd.ShowDialog();
+			if (result != System.Windows.Forms.DialogResult.Cancel)
+			{
+				txtCombineOutput.Text = sfd.FileName;
+			}
+		}
+
+		private void btnCombineStart_Click(object sender, EventArgs e)
+		{
+			panelCombine.Enabled = false;
+			btnCombineStart.Text = "正在合并";
+			//数组参数
+			List<string> l = new List<string>();
+			foreach (string item in lstCombine.Items)
+			{
+				l.Add(item);
+			}
+			Thread t = new Thread(() =>
+			{
+				bool result = FlvCombine.CombineFlvFile(txtCombineOutput.Text, l.ToArray());
+				if (result) //合并成功
+				{
+					MessageBox.Show("视频合并成功", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+				}
+				else
+				{
+					MessageBox.Show("视频合并失败", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+				}
+				this.Invoke(new MethodInvoker(() =>
+					{
+						panelCombine.Enabled = true;
+						btnCombineStart.Text = "开始合并";
+
+					}));
+			});
+			t.Start();
+		}
 
 
 

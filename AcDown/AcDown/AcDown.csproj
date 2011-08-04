@@ -111,6 +111,7 @@
     <Compile Include="Interface\Delegates.cs" />
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Parser\SixcnParser.cs" />
+    <Compile Include="UI\Components\FlvCombine.cs" />
     <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
     <Compile Include="Interface\IAcdownPluginInfo.cs" />
@@ -309,6 +310,10 @@
   <ItemGroup>
     <None Include="Resources\Weibo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ChangeLog.txt" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

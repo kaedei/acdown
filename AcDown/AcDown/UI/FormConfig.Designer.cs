@@ -79,6 +79,7 @@
            this.pageDebug = new System.Windows.Forms.TabPage();
            this.lnkLog = new System.Windows.Forms.LinkLabel();
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
+           this.btnDefault = new System.Windows.Forms.Button();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -374,7 +375,8 @@
            this.txtSearchText.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.txtSearchText.FormattingEnabled = true;
            this.txtSearchText.Items.AddRange(new object[] {
-            "Acfun站内搜索 - Google",
+            "Acfun站内搜索",
+            "Bilibili站内搜索",
             "土豆网",
             "优酷搜索(搜酷)",
             "漫画搜索(爱漫画)"});
@@ -686,6 +688,17 @@
            this.chkEnableLog.Text = "启用错误日志（重启下载器后生效）";
            this.chkEnableLog.UseVisualStyleBackColor = true;
            // 
+           // btnDefault
+           // 
+           this.btnDefault.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.btnDefault.Location = new System.Drawing.Point(12, 352);
+           this.btnDefault.Name = "btnDefault";
+           this.btnDefault.Size = new System.Drawing.Size(110, 23);
+           this.btnDefault.TabIndex = 5;
+           this.btnDefault.Text = "恢复默认设置";
+           this.btnDefault.UseVisualStyleBackColor = true;
+           this.btnDefault.Click += new System.EventHandler(this.btnDefault_Click);
+           // 
            // FormConfig
            // 
            this.AcceptButton = this.btnOK;
@@ -693,6 +706,7 @@
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
            this.CancelButton = this.btnCancel;
            this.ClientSize = new System.Drawing.Size(406, 387);
+           this.Controls.Add(this.btnDefault);
            this.Controls.Add(this.tab);
            this.Controls.Add(this.btnOK);
            this.Controls.Add(this.btnCancel);
@@ -775,5 +789,6 @@
         private System.Windows.Forms.NumericUpDown udRefreshInfo;
         private System.Windows.Forms.CheckBox chkFlvcd;
         private System.Windows.Forms.LinkLabel lnkFlvcdIntro;
+        private System.Windows.Forms.Button btnDefault;
 	 }
 }

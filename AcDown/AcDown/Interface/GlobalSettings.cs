@@ -40,12 +40,12 @@ namespace Kaedei.AcDown.Interface
 		/// </summary>
 		public bool DownSub { get; set; }
 
-      //代理服务器设置
-      public bool Proxy_Enabled { get; set; }
-      public string Proxy_Address { get; set; }
-      public int Proxy_Port { get; set; }
-      public string Proxy_Username { get; set; }
-      public string Proxy_Password { get; set; }
+		//代理服务器设置
+		public bool Proxy_Enabled { get; set; }
+		public string Proxy_Address { get; set; }
+		public int Proxy_Port { get; set; }
+		public string Proxy_Username { get; set; }
+		public string Proxy_Password { get; set; }
 
 	}
 }

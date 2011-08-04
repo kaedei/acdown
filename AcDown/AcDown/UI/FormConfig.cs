@@ -221,5 +221,21 @@ namespace Kaedei.AcDown.UI
          Process.Start("http://acdown.codeplex.com/wikipage?title=%E5%85%B3%E4%BA%8EFLVCD%E6%8F%92%E4%BB%B6");
       }
 
+      //恢复默认设置
+      private void btnDefault_Click(object sender, EventArgs e)
+      {
+         //询问是否恢复默认设置
+         if (MessageBox.Show("恢复默认设置？当前未保存的设置将会丢失", "恢复默认设置", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Cancel)
+         {
+            return;
+         }
+         //保存新设置
+         AcDownSettings s = new AcDownSettings();
+         Config.setting = s;
+         Config.SaveSettings();
+         //关闭窗体
+         this.Close();
+      }
+
    }
 }
