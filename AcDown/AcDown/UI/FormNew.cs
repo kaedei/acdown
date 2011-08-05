@@ -13,9 +13,9 @@ namespace Kaedei.AcDown.UI
 		 private static FormNew instance;
 		 //外部Url
 		 private static string u;
-		 //插件
+		 //插件管理器
 		 private static PluginManager _pluginMgr;
-		 //任务
+		 //任务管理器
 		 private static TaskManager _taskMgr;
 
 		 [DllImport("user32.dll", EntryPoint = "SendMessageA")]
@@ -38,6 +38,7 @@ namespace Kaedei.AcDown.UI
 			 {
 				 instance.txtInput.Text = u;
 			 }
+			 instance.LoadProxys();
 			 instance.Show();
 			 instance.TopMost = true;
 			 instance.TopMost = false;
@@ -52,10 +53,13 @@ namespace Kaedei.AcDown.UI
 		 
 		 private void FormNew_Load(object sender, EventArgs e)
 		 {
+			 //显示默认文字
 			 if (!string.IsNullOrEmpty(u))
 				 txtInput.Text = u;
 			 txtPath.Text = Config.setting.SavePath;
+			 //填充代理服务器
 			 LoadProxys();
+
 			 StringBuilder sb = new StringBuilder();
 			 sb.AppendLine("当前支持的网站:(网址举例)");
 			 foreach (var item in _pluginMgr.Plugins)
@@ -68,8 +72,9 @@ namespace Kaedei.AcDown.UI
 				 sb.AppendLine();
 			 }
 			 txtExample.Text = sb.ToString();
+			 //显示在线解析引擎选项
 			 if (!Config.setting.Plugin_Enable_Flvcd)
-				 lblFlvcdTip.Visible = false;
+				 chkFlvcd.Visible = false;
 		 }
 
 		 //读取代理服务器设置
@@ -87,6 +92,7 @@ namespace Kaedei.AcDown.UI
 			 cboProxy.SelectedIndex = 0;
 		 }
 		 
+		 //检查Url
 		 private void txtInput_TextChanged(object sender, EventArgs e)
 		 {
 			 string t = txtInput.Text;
@@ -113,6 +119,12 @@ namespace Kaedei.AcDown.UI
 					 picCheck.Visible = false;
 				 }
 			 }
+			 //设置checkbox
+			 if (t.StartsWith("+"))
+				 chkFlvcd.Checked = true;
+			 else
+				 chkFlvcd.Checked = false;
+
 		 }
 
 		 /// <summary>
@@ -207,20 +219,6 @@ namespace Kaedei.AcDown.UI
 			 this.txtPath.Text = Config.setting.SavePath;
 		 }
 
-		 private void btnExample_Click(object sender, EventArgs e)
-		 {
-			 if (this.Width == 842)
-			 {
-				 this.Width = 487;
-				 btnExample.Text = "查看当前支持哪些网站 >>";
-			 }
-			 else
-			 {
-				 this.Width = 842;
-				 btnExample.Text = "查看当前支持哪些网站 <<";
-			 }
-		 }
-
 		 private void lnkPaste_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		 {
 			 if (Clipboard.ContainsText())
@@ -235,6 +233,20 @@ namespace Kaedei.AcDown.UI
 			 frm.ShowDialog();
 			 frm.Dispose();
 			 LoadProxys();
+		 }
+
+		 private void chkFlvcd_CheckedChanged(object sender, EventArgs e)
+		 {
+			 if (chkFlvcd.Checked)
+			 {
+				 if (!txtInput.Text.StartsWith("+"))
+					 txtInput.Text = "+" + txtInput.Text;
+			 }
+			 else
+			 {
+				 if (txtInput.Text.StartsWith("+"))
+					 txtInput.Text = txtInput.Text.TrimStart('+');
+			 }
 		 }
 
 
