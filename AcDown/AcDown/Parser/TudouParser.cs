@@ -15,7 +15,7 @@ namespace Kaedei.AcDown.Parser
 		/// </summary>
 		/// <param name="parameters">维度为1、长度为2的字符串数组，1内容为待分析的视频ID（iid）,2为视频密码</param>
 		/// <returns>各备用视频的真实地址数组</returns>
-      public string[] Parse(string[] parameters, WebProxy proxy)
+		public string[] Parse(string[] parameters, WebProxy proxy)
 		{
 			//密码
 			string pw = "";
@@ -30,14 +30,14 @@ namespace Kaedei.AcDown.Parser
 			catch
 			{
 				//取得土豆网页面源代码
-            string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GBK"), proxy);
+            string tudousource = Network.GetHtmlSource2("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GB2312"), proxy, false, true);
 				//取得iid
 				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
 				Match m1 = r1.Match(tudousource);
 				iid = m1.Groups["iid"].ToString();
 			}
 			string xmlurl = @"http://v2.tudou.com/v?it=" + iid + "&pw=" + pw;
-         string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, proxy);
+			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, proxy);
 			Regex r = new Regex(@"brt=""(?<brt>\d)""\>(?<url>http://.*?)\</f\>");
 			MatchCollection mc = r.Matches(xmldoc);
 			for (int i = 4; i > 0; i--)

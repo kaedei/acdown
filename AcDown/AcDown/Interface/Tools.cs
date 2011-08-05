@@ -39,7 +39,7 @@ namespace Kaedei.AcDown.Interface
       /// <returns></returns>
       public static string GetExtension(string url)
       {
-         return new Regex(@"\.(?<ext>\w{3})\?").Match(url).Groups["ext"].ToString();
+         return new Regex(@"(?<ext>\.\w{3})\?").Match(url).Groups["ext"].ToString();
       }
 
       /// <summary>

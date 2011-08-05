@@ -19,8 +19,8 @@ namespace Kaedei.AcDown.UI.Components.FlvCombine
       public static bool CheckExisted()
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-         string bind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\1\FlvBind.exe");
-         string dll = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\1\FLVLib.dll");
+         string bind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\1\FlvBind.exe");
+         string dll = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\1\FLVLib.dll");
          if (File.Exists(bind) && File.Exists(dll))
             return true;
          else
@@ -33,8 +33,8 @@ namespace Kaedei.AcDown.UI.Components.FlvCombine
       public static bool DownloadComponents()
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-         string file_flvbind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\1\FlvBind.exe");
-         string file_flvlib = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\1\FLVLib.dll");
+         string file_flvbind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\1\FlvBind.exe");
+         string file_flvlib = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\1\FLVLib.dll");
          //建立文件夹
          string dir = Path.GetDirectoryName(file_flvbind);
          if (!Directory.Exists(dir))
@@ -61,10 +61,16 @@ namespace Kaedei.AcDown.UI.Components.FlvCombine
          }
       }
 
+      /// <summary>
+      /// 合并Flv视频
+      /// </summary>
+      /// <param name="fileName"></param>
+      /// <param name="fileParts"></param>
+      /// <returns></returns>
       public static bool CombineFlvFile(string fileName,string[] fileParts)
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-         string file_flvbind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\1\FlvBind.exe");
+         string file_flvbind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\1\FlvBind.exe");
          //生成ProcessStartInfo
          ProcessStartInfo pinfo = new ProcessStartInfo(file_flvbind);
          //设置参数

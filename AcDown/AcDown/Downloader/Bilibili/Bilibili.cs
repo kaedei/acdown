@@ -243,12 +243,13 @@ namespace Kaedei.AcDown.Downloader
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
 				string title = mTitle.Groups["title"].Value.Replace(" _嗶哩嗶哩", "").Replace(" - 嗶哩嗶哩", "");
-
+				if (title.Contains("信息提示"))
+					throw new Exception("视频已被删除或需要登录才能查看");
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+?)</option>");
 				MatchCollection mSubTitles = rSubTitle.Matches(src);
 
-				 //如果存在下拉列表框
+				//如果存在下拉列表框
 				if (mSubTitles.Count > 0)
 				{
 					bool findSelected = false;
@@ -272,29 +273,36 @@ namespace Kaedei.AcDown.Downloader
 				//清空地址
 				_filePath.Clear();
 
+				//视频id
+				string id = "";
+
 				//分析id和视频存放站点(type)
 				//取得"bofqi块的源代码
 				Regex rEmbed = new Regex("<div class=\"scontent\" id=\"bofqi\">(?<content>.*?)</div>", RegexOptions.Singleline);
 				Match mEmbed = rEmbed.Match(src);
 				string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
-				
+
 				//检查"file"参数
 				Regex rFile = new Regex("file=\"(?<file>.+?)\"");
 				Match mFile = rFile.Match(embedSrc);
+				//取得Flash地址
+				Regex rFlash = new Regex("src=\"(?<flash>.*?\\.swf)\"");
+				Match mFlash = rFlash.Match(embedSrc);
 				//取得id值
 				Regex rId = new Regex(@"(?<idname>(\w{0,2}id|data))=(?<id>(\w+|$http://.+?$))".Replace("$", "\""));
 				Match mId = rId.Match(embedSrc);
-				string id = mId.Groups["id"].Value;
-				//取得type值
-				string type = mId.Groups["idname"].Value;
 
 				if (mFile.Success) //如果有file参数
 				{
 					string fileurl = mFile.Groups["file"].Value;
 					videos = new string[] { fileurl };
 				}
-				else //如果是普通的外链
+				else if (mId.Success)//如果是普通的外链
 				{
+					//取得ID
+					id = mId.Groups["id"].Value;
+					//取得type值
+					string type = mId.Groups["idname"].Value;
 					//检查外链
 					switch (type)
 					{
@@ -326,6 +334,11 @@ namespace Kaedei.AcDown.Downloader
 							videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
 							break;
 					}
+				}
+				else //如果是游戏
+				{
+					string flashurl = mFlash.Groups["flash"].Value;
+					videos = new string[] { flashurl };
 				}
 
 
@@ -367,7 +380,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + "(" + (i + 1).ToString() + ")" +	ext),
+										_title + "(" + (i + 1).ToString() + ")" + ext),
 							//文件URL
 							Url = videos[i],
 							//代理服务器
@@ -389,7 +402,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 				} //end for
 
-				if (GlobalSettings.GetSettings().DownSub)
+				if (GlobalSettings.GetSettings().DownSub && !string.IsNullOrEmpty(id))
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
@@ -411,12 +424,13 @@ namespace Kaedei.AcDown.Downloader
 					catch { }
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				_status = DownloadStatus.出现错误;
 				delegates.Error(new ParaError(this.TaskId, ex));
 				return;
 			}
+		
 			//下载成功完成
 			_status = DownloadStatus.下载完成;
 			delegates.Finish(new ParaFinish(this.TaskId, true));

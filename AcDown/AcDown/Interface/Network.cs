@@ -225,16 +225,43 @@ namespace Kaedei.AcDown.Interface
 		/// <param name="url"></param>
 		/// <param name="encode"></param>
 		/// <returns></returns>
-		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy)
+		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy, bool useDeflate, bool useGzip)
 		{
 			string sline = "";
 			var req = HttpWebRequest.Create(url);
 			if (proxy != null)
 				req.Proxy = proxy;
 			var res = req.GetResponse();
-			StreamReader strm = new StreamReader(res.GetResponseStream(), encode);
-			sline = strm.ReadToEnd();
-			strm.Close();
+			if (useDeflate) //优先使用Deflate解压缩
+			{
+				//deflate解压缩
+				using (DeflateStream deflate = new DeflateStream(res.GetResponseStream(), CompressionMode.Decompress))
+				{
+					using (StreamReader reader = new StreamReader(deflate, encode))
+					{
+						sline = reader.ReadToEnd();
+					}
+				}
+			}
+			else if (useGzip)
+			{
+				//Gzip解压缩
+				using (GZipStream gzip = new GZipStream(res.GetResponseStream(), CompressionMode.Decompress))
+				{
+					using (StreamReader reader = new StreamReader(gzip, encode))
+					{
+						sline = reader.ReadToEnd();
+					}
+				}
+			}
+			else
+			{
+				using (StreamReader reader = new StreamReader(res.GetResponseStream(), encode))
+				{
+					sline = reader.ReadToEnd();
+				}
+			}
+			
 			return sline;
 		}
 

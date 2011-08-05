@@ -599,7 +599,9 @@ namespace AcDown.UI
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
-			btnConfig_Click(this, EventArgs.Empty);
+			FormConfig frm = new FormConfig("pageUI");
+			frm.ShowDialog();
+			frm.Dispose();
 		}
 
 		//搜索
@@ -1115,16 +1117,16 @@ namespace AcDown.UI
 			//显示ToolTip
 			if (errorTip)
 			{
-				toolTip.Show("下载出现问题了？点这里", this, cboAfterComplete.Left, cboAfterComplete.Top);
+				toolTip.Show("下载出现问题了？点这里", this, this.Width - toolHelpCenter.Width + 10
+					, this.Height - toolHelpCenter.Height + 5);
 				errorTip = false;
 			}
 		}
 
 #endregion
 
+		#region ——————UI组件——————
 
-
-		#region UI组件
 		/// <summary>
 		/// 检查FLV合并组件是否存在
 		/// </summary>
@@ -1140,7 +1142,7 @@ namespace AcDown.UI
 		//下载FLV合并器
 		private void btnGetFlvCombine_Click(object sender, EventArgs e)
 		{
-			btnGetFlvCombine.Text = "正在下载FLV合并器...";
+			btnGetFlvCombine.Text = "正在下载FLV合并插件...";
 			btnGetFlvCombine.Enabled = false;
 			//下载程序组件
 			Thread t = new Thread(() =>
@@ -1159,8 +1161,8 @@ namespace AcDown.UI
 				{
 					this.Invoke(new MethodInvoker(() =>
 						{
-							MessageBox.Show("下载FLV合并器失败，请检查网络设置", "FLV视频合并", MessageBoxButtons.OK, MessageBoxIcon.Error);
-							btnGetFlvCombine.Text = "下载FLV合并器";
+							MessageBox.Show("下载FLV合并插件失败，请检查网络设置", "FLV视频合并", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							btnGetFlvCombine.Text = "下载FLV合并插件";
 							btnGetFlvCombine.Enabled = true;
 						}));
 				}
@@ -1174,14 +1176,16 @@ namespace AcDown.UI
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.AutoUpgradeEnabled = true;
 			ofd.DefaultExt = ".flv";
-			ofd.Filter = "Flv视频文件|*.flv";
+			ofd.Filter = "Flv视频文件(*.flv;*.hlv)|*.flv;*.hlv";
 			ofd.Multiselect = true;
+
 			if (lstCombine.Items.Count == 0)
 				ofd.InitialDirectory = Config.setting.SavePath;
 			else
 			{
 				ofd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
 			}
+			//选择文件
 			if (ofd.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
 				//去除重复文件
@@ -1193,11 +1197,12 @@ namespace AcDown.UI
 				//设置"保存到"文本框
 				txtCombineOutput.Text = Path.Combine(Path.GetDirectoryName(ofd.FileNames[0]), "合并.flv");
 			}
+			//如果视频多余一个才可以合并
 			btnCombineStart.Enabled = (lstCombine.Items.Count > 1);
 
 		}
 
-		//删除项
+		//删除选中的项
 		private void btnCombineDelete_Click(object sender, EventArgs e)
 		{
 			while (lstCombine.SelectedIndices.Count != 0)
@@ -1206,18 +1211,19 @@ namespace AcDown.UI
 			}
 			btnCombineStart.Enabled = (lstCombine.Items.Count > 1);
 		}
-		#endregion
+
 
 		//选择输出文件
 		private void btnCombineChooseOutput_Click(object sender, EventArgs e)
 		{
+			//选择保存文件
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.AutoUpgradeEnabled = true;
 			sfd.DefaultExt = ".flv";
 			sfd.AddExtension = true;
 			sfd.Title = "保存合并文件";
 			sfd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
-			sfd.Filter = "Flv视频文件|*.flv";
+			sfd.Filter = "Flv视频文件(*.flv)|*.flv";
 			DialogResult result = sfd.ShowDialog();
 			if (result != System.Windows.Forms.DialogResult.Cancel)
 			{
@@ -1225,6 +1231,7 @@ namespace AcDown.UI
 			}
 		}
 
+		//合并视频
 		private void btnCombineStart_Click(object sender, EventArgs e)
 		{
 			panelCombine.Enabled = false;
@@ -1235,6 +1242,7 @@ namespace AcDown.UI
 			{
 				l.Add(item);
 			}
+			//使用新线程合并视频
 			Thread t = new Thread(() =>
 			{
 				bool result = FlvCombine.CombineFlvFile(txtCombineOutput.Text, l.ToArray());
@@ -1242,10 +1250,11 @@ namespace AcDown.UI
 				{
 					MessageBox.Show("视频合并成功", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
 				}
-				else
+				else //合并失败
 				{
 					MessageBox.Show("视频合并失败", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
 				}
+				//恢复控件的状态
 				this.Invoke(new MethodInvoker(() =>
 					{
 						panelCombine.Enabled = true;
@@ -1253,10 +1262,11 @@ namespace AcDown.UI
 
 					}));
 			});
+			//启动线程
 			t.Start();
 		}
 
-
+		#endregion
 
 
 	}//end class
