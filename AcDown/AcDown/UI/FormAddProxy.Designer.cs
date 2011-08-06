@@ -56,7 +56,7 @@
          this.txtName.Location = new System.Drawing.Point(83, 20);
          this.txtName.Name = "txtName";
          this.txtName.Size = new System.Drawing.Size(231, 26);
-         this.txtName.TabIndex = 1;
+         this.txtName.TabIndex = 0;
          // 
          // label2
          // 
@@ -72,7 +72,7 @@
          this.txtAddress.Location = new System.Drawing.Point(83, 52);
          this.txtAddress.Name = "txtAddress";
          this.txtAddress.Size = new System.Drawing.Size(136, 26);
-         this.txtAddress.TabIndex = 3;
+         this.txtAddress.TabIndex = 1;
          // 
          // label3
          // 
@@ -88,14 +88,14 @@
          this.txtUsername.Location = new System.Drawing.Point(83, 96);
          this.txtUsername.Name = "txtUsername";
          this.txtUsername.Size = new System.Drawing.Size(136, 26);
-         this.txtUsername.TabIndex = 6;
+         this.txtUsername.TabIndex = 3;
          // 
          // txtPassword
          // 
          this.txtPassword.Location = new System.Drawing.Point(83, 128);
          this.txtPassword.Name = "txtPassword";
          this.txtPassword.Size = new System.Drawing.Size(136, 26);
-         this.txtPassword.TabIndex = 7;
+         this.txtPassword.TabIndex = 4;
          // 
          // label4
          // 
@@ -122,7 +122,7 @@
          this.btnCancel.Location = new System.Drawing.Point(241, 169);
          this.btnCancel.Name = "btnCancel";
          this.btnCancel.Size = new System.Drawing.Size(75, 31);
-         this.btnCancel.TabIndex = 11;
+         this.btnCancel.TabIndex = 6;
          this.btnCancel.Text = "取消";
          this.btnCancel.UseVisualStyleBackColor = true;
          this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -133,7 +133,7 @@
          this.btnOK.Location = new System.Drawing.Point(160, 169);
          this.btnOK.Name = "btnOK";
          this.btnOK.Size = new System.Drawing.Size(75, 31);
-         this.btnOK.TabIndex = 10;
+         this.btnOK.TabIndex = 5;
          this.btnOK.Text = "确定";
          this.btnOK.UseVisualStyleBackColor = true;
          this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -144,7 +144,7 @@
          this.txtPort.MaxLength = 5;
          this.txtPort.Name = "txtPort";
          this.txtPort.Size = new System.Drawing.Size(46, 26);
-         this.txtPort.TabIndex = 12;
+         this.txtPort.TabIndex = 2;
          this.txtPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPort_KeyPress);
          // 
          // FormAddProxy

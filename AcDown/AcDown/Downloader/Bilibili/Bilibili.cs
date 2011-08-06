@@ -56,18 +56,18 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 		/// <summary>
-		/// 规则为 bilibili + 视频ID
-		/// 如 "bilibili99999"
+		/// 规则为 bilibili + 视频ID + 下划线 + 子视频编号
+		/// 如 "bilibili99999_2"或"bilibili99999_"
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://(www\.|)bilibili\.(us|tv)/video/av(?<av>\w+)");
+			Regex r = new Regex(@"http://(www\.|)bilibili\.(us|tv)/video/av(?<av>.\w+)(/index_(?<subav>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
-				return "bilibili" + m.Groups["av"].Value;
+				return "bilibili" + m.Groups["av"].Value + "_" + m.Groups["subav"].Value;
 			}
 			else
 			{
