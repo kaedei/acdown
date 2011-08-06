@@ -46,6 +46,8 @@
          this.lnkWeibo = new System.Windows.Forms.LinkLabel();
          this.lnkBlog = new System.Windows.Forms.LinkLabel();
          this.lnkProject = new System.Windows.Forms.LinkLabel();
+         this.txtEmail = new System.Windows.Forms.TextBox();
+         this.btnCopyEmail = new System.Windows.Forms.Button();
          this.tableLayoutPanel1.SuspendLayout();
          this.groupBox1.SuspendLayout();
          this.groupBox2.SuspendLayout();
@@ -106,10 +108,10 @@
          // lnkCheckUpdate
          // 
          this.lnkCheckUpdate.AutoSize = true;
-         this.lnkCheckUpdate.Location = new System.Drawing.Point(50, 70);
+         this.lnkCheckUpdate.Location = new System.Drawing.Point(62, 68);
          this.lnkCheckUpdate.Name = "lnkCheckUpdate";
          this.lnkCheckUpdate.Size = new System.Drawing.Size(170, 21);
-         this.lnkCheckUpdate.TabIndex = 2;
+         this.lnkCheckUpdate.TabIndex = 0;
          this.lnkCheckUpdate.TabStop = true;
          this.lnkCheckUpdate.Text = "检查是否有更新的版本";
          this.lnkCheckUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCheckUpdate_LinkClicked);
@@ -117,7 +119,7 @@
          // lblVersion
          // 
          this.lblVersion.AutoSize = true;
-         this.lblVersion.Location = new System.Drawing.Point(105, 25);
+         this.lblVersion.Location = new System.Drawing.Point(105, 36);
          this.lblVersion.Name = "lblVersion";
          this.lblVersion.Size = new System.Drawing.Size(58, 21);
          this.lblVersion.TabIndex = 1;
@@ -126,7 +128,7 @@
          // label2
          // 
          this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(9, 25);
+         this.label2.Location = new System.Drawing.Point(9, 36);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(94, 21);
          this.label2.TabIndex = 0;
@@ -134,7 +136,8 @@
          // 
          // groupBox2
          // 
-         this.groupBox2.Controls.Add(this.lnkFAQ);
+         this.groupBox2.Controls.Add(this.btnCopyEmail);
+         this.groupBox2.Controls.Add(this.txtEmail);
          this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.System;
          this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -143,21 +146,22 @@
          this.groupBox2.Size = new System.Drawing.Size(294, 156);
          this.groupBox2.TabIndex = 2;
          this.groupBox2.TabStop = false;
-         this.groupBox2.Text = "常见问题";
+         this.groupBox2.Text = "联系作者";
          // 
          // lnkFAQ
          // 
          this.lnkFAQ.AutoSize = true;
-         this.lnkFAQ.Location = new System.Drawing.Point(75, 70);
+         this.lnkFAQ.Location = new System.Drawing.Point(78, 102);
          this.lnkFAQ.Name = "lnkFAQ";
          this.lnkFAQ.Size = new System.Drawing.Size(154, 21);
-         this.lnkFAQ.TabIndex = 0;
+         this.lnkFAQ.TabIndex = 5;
          this.lnkFAQ.TabStop = true;
          this.lnkFAQ.Text = "查看常见问题 (FAQ)";
          this.lnkFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFAQ_LinkClicked);
          // 
          // groupBox3
          // 
+         this.groupBox3.Controls.Add(this.lnkFAQ);
          this.groupBox3.Controls.Add(this.lnkAdvise);
          this.groupBox3.Controls.Add(this.lnkReportBug);
          this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -173,10 +177,10 @@
          // lnkAdvise
          // 
          this.lnkAdvise.AutoSize = true;
-         this.lnkAdvise.Location = new System.Drawing.Point(34, 94);
+         this.lnkAdvise.Location = new System.Drawing.Point(30, 67);
          this.lnkAdvise.Name = "lnkAdvise";
          this.lnkAdvise.Size = new System.Drawing.Size(235, 21);
-         this.lnkAdvise.TabIndex = 0;
+         this.lnkAdvise.TabIndex = 4;
          this.lnkAdvise.TabStop = true;
          this.lnkAdvise.Text = "提交新功能建议 / 解析更多网站";
          this.lnkAdvise.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdvise_LinkClicked);
@@ -184,10 +188,10 @@
          // lnkReportBug
          // 
          this.lnkReportBug.AutoSize = true;
-         this.lnkReportBug.Location = new System.Drawing.Point(89, 53);
+         this.lnkReportBug.Location = new System.Drawing.Point(89, 34);
          this.lnkReportBug.Name = "lnkReportBug";
          this.lnkReportBug.Size = new System.Drawing.Size(122, 21);
-         this.lnkReportBug.TabIndex = 0;
+         this.lnkReportBug.TabIndex = 3;
          this.lnkReportBug.TabStop = true;
          this.lnkReportBug.Text = "下载时出现错误";
          this.lnkReportBug.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkReportBug_LinkClicked);
@@ -209,10 +213,10 @@
          // 
          this.lnkFeed.Image = global::Kaedei.AcDown.Properties.Resources.UpdateNoti;
          this.lnkFeed.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-         this.lnkFeed.Location = new System.Drawing.Point(66, 53);
+         this.lnkFeed.Location = new System.Drawing.Point(54, 47);
          this.lnkFeed.Name = "lnkFeed";
          this.lnkFeed.Size = new System.Drawing.Size(186, 63);
-         this.lnkFeed.TabIndex = 0;
+         this.lnkFeed.TabIndex = 6;
          this.lnkFeed.TabStop = true;
          this.lnkFeed.Text = "第一时间获得新版本信息";
          this.lnkFeed.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -228,7 +232,7 @@
          this.btnClose.Location = new System.Drawing.Point(489, 368);
          this.btnClose.Name = "btnClose";
          this.btnClose.Size = new System.Drawing.Size(108, 42);
-         this.btnClose.TabIndex = 5;
+         this.btnClose.TabIndex = 10;
          this.btnClose.Text = "关闭";
          this.btnClose.UseVisualStyleBackColor = true;
          this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -252,7 +256,7 @@
          this.lnkWeibo.Location = new System.Drawing.Point(192, 0);
          this.lnkWeibo.Name = "lnkWeibo";
          this.lnkWeibo.Size = new System.Drawing.Size(77, 42);
-         this.lnkWeibo.TabIndex = 2;
+         this.lnkWeibo.TabIndex = 9;
          this.lnkWeibo.TabStop = true;
          this.lnkWeibo.Text = "微博";
          this.lnkWeibo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -265,7 +269,7 @@
          this.lnkBlog.Location = new System.Drawing.Point(89, 12);
          this.lnkBlog.Name = "lnkBlog";
          this.lnkBlog.Size = new System.Drawing.Size(74, 21);
-         this.lnkBlog.TabIndex = 1;
+         this.lnkBlog.TabIndex = 8;
          this.lnkBlog.TabStop = true;
          this.lnkBlog.Text = "作者博客";
          this.lnkBlog.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBlog_LinkClicked);
@@ -277,10 +281,30 @@
          this.lnkProject.Location = new System.Drawing.Point(9, 12);
          this.lnkProject.Name = "lnkProject";
          this.lnkProject.Size = new System.Drawing.Size(74, 21);
-         this.lnkProject.TabIndex = 1;
+         this.lnkProject.TabIndex = 7;
          this.lnkProject.TabStop = true;
          this.lnkProject.Text = "项目主页";
          this.lnkProject.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkProject_LinkClicked);
+         // 
+         // txtEmail
+         // 
+         this.txtEmail.Location = new System.Drawing.Point(56, 43);
+         this.txtEmail.Name = "txtEmail";
+         this.txtEmail.ReadOnly = true;
+         this.txtEmail.Size = new System.Drawing.Size(182, 29);
+         this.txtEmail.TabIndex = 1;
+         this.txtEmail.Text = "kaedei@foxmail.com";
+         // 
+         // btnCopyEmail
+         // 
+         this.btnCopyEmail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+         this.btnCopyEmail.Location = new System.Drawing.Point(56, 78);
+         this.btnCopyEmail.Name = "btnCopyEmail";
+         this.btnCopyEmail.Size = new System.Drawing.Size(182, 36);
+         this.btnCopyEmail.TabIndex = 2;
+         this.btnCopyEmail.Text = "复制邮件地址到剪贴板";
+         this.btnCopyEmail.UseVisualStyleBackColor = true;
+         this.btnCopyEmail.Click += new System.EventHandler(this.btnCopyEmail_Click);
          // 
          // FormHelp
          // 
@@ -331,5 +355,7 @@
       private System.Windows.Forms.LinkLabel lnkProject;
       private System.Windows.Forms.LinkLabel lnkFeed;
       private System.Windows.Forms.LinkLabel lnkWeibo;
+      private System.Windows.Forms.Button btnCopyEmail;
+      private System.Windows.Forms.TextBox txtEmail;
    }
 }

@@ -1222,7 +1222,14 @@ namespace AcDown.UI
 			sfd.DefaultExt = ".flv";
 			sfd.AddExtension = true;
 			sfd.Title = "保存合并文件";
-			sfd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
+			//设置保存文件（对话框的默认路径）
+			if (lstCombine.Items.Count > 0) //列表中最后一个视频所在的文件夹
+				sfd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
+			else if (!string.IsNullOrEmpty(txtCombineOutput.Text)) //以前设置的输出文件所在的文件夹
+				sfd.InitialDirectory = Path.GetDirectoryName(txtCombineOutput.Text);
+			else //默认保存的文件夹
+				sfd.InitialDirectory = Config.setting.SavePath;
+
 			sfd.Filter = "Flv视频文件(*.flv)|*.flv";
 			DialogResult result = sfd.ShowDialog();
 			if (result != System.Windows.Forms.DialogResult.Cancel)

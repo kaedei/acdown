@@ -37,13 +37,13 @@
            this.lnkPaste = new System.Windows.Forms.LinkLabel();
            this.lblShowConfig = new System.Windows.Forms.LinkLabel();
            this.lnkSetProxy = new System.Windows.Forms.LinkLabel();
+           this.chkFlvcd = new System.Windows.Forms.CheckBox();
            this.label2 = new System.Windows.Forms.Label();
            this.groupBox1 = new System.Windows.Forms.GroupBox();
            this.txtPath = new System.Windows.Forms.TextBox();
            this.cboProxy = new System.Windows.Forms.ComboBox();
            this.label3 = new System.Windows.Forms.Label();
            this.groupBox2 = new System.Windows.Forms.GroupBox();
-           this.chkFlvcd = new System.Windows.Forms.CheckBox();
            this.txtExample = new System.Windows.Forms.TextBox();
            this.tabNew = new System.Windows.Forms.TabControl();
            this.tabInput = new System.Windows.Forms.TabPage();
@@ -157,6 +157,18 @@
            this.toolTip.SetToolTip(this.lnkSetProxy, "编辑代理服务器列表 ");
            this.lnkSetProxy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetProxy_LinkClicked);
            // 
+           // chkFlvcd
+           // 
+           this.chkFlvcd.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.chkFlvcd.Location = new System.Drawing.Point(19, 170);
+           this.chkFlvcd.Name = "chkFlvcd";
+           this.chkFlvcd.Size = new System.Drawing.Size(219, 25);
+           this.chkFlvcd.TabIndex = 10;
+           this.chkFlvcd.Text = "使用在线引擎解析视频";
+           this.toolTip.SetToolTip(this.chkFlvcd, "遇到无法解析的网址，可以选择使用在线引擎来解析。\r\n目前在线解析引擎支持解析多达70多个网站，将近200多个网址示例");
+           this.chkFlvcd.UseVisualStyleBackColor = true;
+           this.chkFlvcd.CheckedChanged += new System.EventHandler(this.chkFlvcd_CheckedChanged);
+           // 
            // label2
            // 
            this.label2.AutoSize = true;
@@ -227,18 +239,6 @@
            this.groupBox2.TabIndex = 12;
            this.groupBox2.TabStop = false;
            this.groupBox2.Text = "下载";
-           // 
-           // chkFlvcd
-           // 
-           this.chkFlvcd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkFlvcd.Location = new System.Drawing.Point(19, 170);
-           this.chkFlvcd.Name = "chkFlvcd";
-           this.chkFlvcd.Size = new System.Drawing.Size(219, 25);
-           this.chkFlvcd.TabIndex = 10;
-           this.chkFlvcd.Text = "使用在线引擎解析视频";
-           this.toolTip.SetToolTip(this.chkFlvcd, "遇到无法解析的网址，可以选择使用在线引擎来解析。\r\n目前在线解析引擎支持解析多达70多个网站，将近200多个网址示例");
-           this.chkFlvcd.UseVisualStyleBackColor = true;
-           this.chkFlvcd.CheckedChanged += new System.EventHandler(this.chkFlvcd_CheckedChanged);
            // 
            // txtExample
            // 

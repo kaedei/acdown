@@ -58,18 +58,18 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 		/// <summary>
-		/// 规则为 acfun + 视频ID
-		/// 如 "acfun158539"
+		/// 规则为 acfun + 视频ID + 下划线 + 子视频编号
+		/// 如 "acfun158539_"或"acfun123456_2"
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)");
+			Regex r = new Regex(@"^http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)(/index_(?<subid>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
-				return "acfun" + m.Groups["id"].Value;
+				return "acfun" + m.Groups["id"].Value + "_" + m.Groups["subid"].Value;
 			}
 			else
 			{

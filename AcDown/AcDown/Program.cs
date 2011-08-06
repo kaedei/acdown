@@ -40,7 +40,6 @@ namespace AcDown
 
        protected override void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)
        {
-          // Subsequent launches
           base.OnStartupNextInstance(eventArgs);
           Program.frmMain.ShowFormToFront();
           //List<string> s = new List<string>(eventArgs.CommandLine);

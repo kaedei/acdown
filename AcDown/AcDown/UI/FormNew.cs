@@ -106,7 +106,7 @@ namespace Kaedei.AcDown.UI
 						 if (item.CheckUrl(t))
 						 {
 							 picCheck.Image = Properties.Resources._1;
-							 return;
+							 break;
 						 }
 						 else
 						 {
@@ -120,7 +120,7 @@ namespace Kaedei.AcDown.UI
 				 }
 			 }
 			 //设置checkbox
-			 if (t.StartsWith("+"))
+			 if (txtInput.Text.StartsWith("+"))
 				 chkFlvcd.Checked = true;
 			 else
 				 chkFlvcd.Checked = false;
@@ -157,6 +157,7 @@ namespace Kaedei.AcDown.UI
 				 {
 					 if (downloader.GetBasePlugin().GetHash(downloader.Url) == hash)
 					 {
+						 tabNew.SelectTab(tabInput);
 						 toolTip.Show("当前任务已经存在", txtInput, 4000);
 						 this.Cursor = Cursors.Default;
 						 return;
@@ -190,6 +191,7 @@ namespace Kaedei.AcDown.UI
 			 }
 			 else
 			 {
+				 tabNew.SelectTab(tabInput);
 				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入", txtInput, 3000);
 				 txtInput.SelectAll();
 			 }
