@@ -29,7 +29,7 @@ namespace Kaedei.AcDown.UI
 		 }
 
 		 /// <summary>
-		 /// 显示窗体
+		 /// 显示新建窗体
 		 /// </summary>
 		 public static void ShowForm(string url)
 		 {
@@ -44,6 +44,26 @@ namespace Kaedei.AcDown.UI
 			 instance.TopMost = false;
 			 instance.txtInput.Focus();
 		 }
+
+       /// <summary>
+       /// 检查是否支持解析指定的URL
+       /// </summary>
+       /// <param name="url">需要检查的Url</param>
+       /// <returns></returns>
+       public static bool CheckUrl(string url)
+       {
+          if (instance != null)
+          {
+             foreach (var item in _pluginMgr.Plugins)
+             {
+                if (item.CheckUrl(url)) //检查成功
+                {
+                   return true;
+                }
+             }
+          }
+          return false;
+       }
 
 		 private FormNew()
 		 {
@@ -74,7 +94,12 @@ namespace Kaedei.AcDown.UI
 			 txtExample.Text = sb.ToString();
 			 //显示在线解析引擎选项
 			 if (!Config.setting.Plugin_Enable_Flvcd)
+			 {
 				 chkFlvcd.Visible = false;
+				 lblVideoType.Visible = false;
+				 cboVideoType.Visible = false;
+			 }
+			 cboVideoType.SelectedIndex = 0;
 		 }
 
 		 //读取代理服务器设置
@@ -98,33 +123,24 @@ namespace Kaedei.AcDown.UI
 			 string t = txtInput.Text;
 			 if (Config.setting.AutoCheckUrl)
 			 {
-				 if (t.Length != 0)
-				 {
-					 picCheck.Visible = true;
-					 foreach (var item in _pluginMgr.Plugins)
-					 {
-						 if (item.CheckUrl(t))
-						 {
-							 picCheck.Image = Properties.Resources._1;
-							 break;
-						 }
-						 else
-						 {
-							 picCheck.Image = Properties.Resources._2;
-						 }
-					 }
-				 }
-				 else
-				 {
-					 picCheck.Visible = false;
-				 }
+             if (t.Length != 0)
+             {
+                picCheck.Visible = true;
+                if (CheckUrl(t)) //检查url 设置图片
+                   picCheck.Image = Properties.Resources._1;
+                else
+                   picCheck.Image = Properties.Resources._2;
+             }
+             else
+             {
+                picCheck.Visible = false;
+             }
 			 }
 			 //设置checkbox
 			 if (txtInput.Text.StartsWith("+"))
 				 chkFlvcd.Checked = true;
 			 else
 				 chkFlvcd.Checked = false;
-
 		 }
 
 		 /// <summary>
@@ -192,7 +208,7 @@ namespace Kaedei.AcDown.UI
 			 else
 			 {
 				 tabNew.SelectTab(tabInput);
-				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入", txtInput, 3000);
+				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入。\n您也可以选择使用在线解析引擎解析此地址", txtInput, 3000);
 				 txtInput.SelectAll();
 			 }
 			 this.Cursor = Cursors.Default;
@@ -216,16 +232,25 @@ namespace Kaedei.AcDown.UI
 
 		 private void lblShowConfig_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		 {
-			 FormConfig fc = new FormConfig();
-			 fc.ShowDialog();
+			 //选择文件夹
+			 FolderBrowserDialog fbd = new FolderBrowserDialog();
+			 fbd.ShowNewFolderButton = true;
+			 fbd.Description = "请设置默认保存的文件夹：";
+			 fbd.SelectedPath = Config.setting.SavePath;
+			 if (fbd.ShowDialog() == DialogResult.OK)
+				 Config.setting.SavePath = fbd.SelectedPath;
 			 this.txtPath.Text = Config.setting.SavePath;
+			 Config.SaveSettings();
 		 }
 
 		 private void lnkPaste_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		 {
 			 if (Clipboard.ContainsText())
 			 {
-				 txtInput.Text = Clipboard.GetText();
+				 if (txtInput.Text.StartsWith("+"))
+					 txtInput.Text = "+" + Clipboard.GetText();
+				 else
+					 txtInput.Text = Clipboard.GetText();
 			 }
 		 }
 
@@ -243,12 +268,51 @@ namespace Kaedei.AcDown.UI
 			 {
 				 if (!txtInput.Text.StartsWith("+"))
 					 txtInput.Text = "+" + txtInput.Text;
+				 if (Config.setting.Plugin_Enable_Flvcd)
+				 {
+					 lblVideoType.Visible = true;
+					 cboVideoType.Visible = true;
+				 }
 			 }
 			 else
 			 {
 				 if (txtInput.Text.StartsWith("+"))
 					 txtInput.Text = txtInput.Text.TrimStart('+');
+				 if (Config.setting.Plugin_Enable_Flvcd)
+				 {
+					 lblVideoType.Visible = false;
+					 cboVideoType.Visible = false;
+				 }
 			 }
+		 }
+
+		 private void cboVideoType_SelectedIndexChanged(object sender, EventArgs e)
+		 {
+			 string end  = "";
+			 switch(cboVideoType.SelectedIndex)
+			 {
+				 case 1: //高清(360P)
+					 end = @"&format=high";
+					 break;
+				 case 2: //超清
+					 end=@"&format=super";
+					 break;
+				 case 3: //原画
+					 end = @"&format=real";
+					 break;
+				 default: //默认
+					 end="";
+					 break;
+			 }
+			 //替换Url
+			 txtInput.Text = txtInput.Text.Replace(@"&format=high", "");
+			 txtInput.Text = txtInput.Text.Replace(@"&format=super", "");
+			 txtInput.Text = txtInput.Text.Replace(@"&format=real", "");
+			 txtInput.Text += end;
+			 //显示提示
+			 if (end != "")
+				 toolTip.Show("只有部分支持网站支持清晰度切换。\n选择视频未包含的清晰度可能会造成解析失败", this.cboVideoType, 2500);
+
 		 }
 
 

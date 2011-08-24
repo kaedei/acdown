@@ -257,7 +257,7 @@ namespace Kaedei.AcDown.Downloader
 					password = ToolForm.CreatePasswordForm();
 
 				//取得网页源文件
-            string src = Network.GetHtmlSource2(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"), delegates.Proxy, false, true);
+				string src = Network.GetHtmlSource2(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"), delegates.Proxy, false, true);
 
 				//分析视频iid
 				string iid = "";

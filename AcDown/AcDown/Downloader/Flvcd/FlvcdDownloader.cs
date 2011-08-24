@@ -4,6 +4,7 @@ using System.Text;
 using Kaedei.AcDown.Interface;
 using System.IO;
 using System.Text.RegularExpressions;
+using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -157,6 +158,14 @@ namespace Kaedei.AcDown.Downloader
 				//取得网页源文件
 				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), delegates.Proxy);
 
+				//检查是否需要密码
+				if (src.Contains("请输入密码"))
+				{
+					string pw = ToolForm.CreatePasswordForm();
+					url = url + "&passwd=" + pw;
+					src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), delegates.Proxy);
+				}
+
 				//取得视频标题
 				Regex rTitle = new Regex(@"<input type=$hidden$ name=$name$ value=$(?<title>.+?)$>".Replace("$", "\""));
 				Match mTitle = rTitle.Match(src);
@@ -222,7 +231,7 @@ namespace Kaedei.AcDown.Downloader
 					{
 						//文件名
 						FilePath = Path.Combine(SaveDirectory.ToString(),
-									partNames[i] + "." + ext),
+									partNames[i] + ext),
 						//文件URL
 						Url = partUrls[i],
 						Proxy = delegates.Proxy

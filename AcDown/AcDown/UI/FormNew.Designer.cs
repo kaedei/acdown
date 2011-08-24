@@ -44,6 +44,8 @@
            this.cboProxy = new System.Windows.Forms.ComboBox();
            this.label3 = new System.Windows.Forms.Label();
            this.groupBox2 = new System.Windows.Forms.GroupBox();
+           this.lblVideoType = new System.Windows.Forms.Label();
+           this.cboVideoType = new System.Windows.Forms.ComboBox();
            this.txtExample = new System.Windows.Forms.TextBox();
            this.tabNew = new System.Windows.Forms.TabControl();
            this.tabInput = new System.Windows.Forms.TabPage();
@@ -88,7 +90,7 @@
            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.btnAdd.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.btnAdd.Location = new System.Drawing.Point(344, 268);
+           this.btnAdd.Location = new System.Drawing.Point(344, 293);
            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
            this.btnAdd.Name = "btnAdd";
            this.btnAdd.Size = new System.Drawing.Size(124, 37);
@@ -122,7 +124,7 @@
            // 
            this.lnkPaste.AutoSize = true;
            this.lnkPaste.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.lnkPaste.Location = new System.Drawing.Point(321, 170);
+           this.lnkPaste.Location = new System.Drawing.Point(328, 174);
            this.lnkPaste.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
            this.lnkPaste.Name = "lnkPaste";
            this.lnkPaste.Size = new System.Drawing.Size(106, 21);
@@ -192,7 +194,7 @@
            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
            this.groupBox1.Name = "groupBox1";
            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-           this.groupBox1.Size = new System.Drawing.Size(442, 209);
+           this.groupBox1.Size = new System.Drawing.Size(442, 234);
            this.groupBox1.TabIndex = 11;
            this.groupBox1.TabStop = false;
            this.groupBox1.Text = "设置";
@@ -225,6 +227,8 @@
            // 
            // groupBox2
            // 
+           this.groupBox2.Controls.Add(this.lblVideoType);
+           this.groupBox2.Controls.Add(this.cboVideoType);
            this.groupBox2.Controls.Add(this.chkFlvcd);
            this.groupBox2.Controls.Add(this.lnkPaste);
            this.groupBox2.Controls.Add(this.label1);
@@ -235,10 +239,37 @@
            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
            this.groupBox2.Name = "groupBox2";
            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-           this.groupBox2.Size = new System.Drawing.Size(442, 209);
+           this.groupBox2.Size = new System.Drawing.Size(442, 234);
            this.groupBox2.TabIndex = 12;
            this.groupBox2.TabStop = false;
            this.groupBox2.Text = "下载";
+           // 
+           // lblVideoType
+           // 
+           this.lblVideoType.AutoSize = true;
+           this.lblVideoType.Location = new System.Drawing.Point(15, 201);
+           this.lblVideoType.Name = "lblVideoType";
+           this.lblVideoType.Size = new System.Drawing.Size(65, 20);
+           this.lblVideoType.TabIndex = 19;
+           this.lblVideoType.Text = "清晰度：";
+           this.lblVideoType.Visible = false;
+           // 
+           // cboVideoType
+           // 
+           this.cboVideoType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+           this.cboVideoType.FlatStyle = System.Windows.Forms.FlatStyle.System;
+           this.cboVideoType.FormattingEnabled = true;
+           this.cboVideoType.Items.AddRange(new object[] {
+            "普通",
+            "高清(360P)",
+            "超清(480P)",
+            "原画"});
+           this.cboVideoType.Location = new System.Drawing.Point(86, 198);
+           this.cboVideoType.Name = "cboVideoType";
+           this.cboVideoType.Size = new System.Drawing.Size(123, 28);
+           this.cboVideoType.TabIndex = 18;
+           this.cboVideoType.Visible = false;
+           this.cboVideoType.SelectedIndexChanged += new System.EventHandler(this.cboVideoType_SelectedIndexChanged);
            // 
            // txtExample
            // 
@@ -249,7 +280,7 @@
            this.txtExample.Multiline = true;
            this.txtExample.Name = "txtExample";
            this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-           this.txtExample.Size = new System.Drawing.Size(442, 209);
+           this.txtExample.Size = new System.Drawing.Size(442, 234);
            this.txtExample.TabIndex = 13;
            // 
            // tabNew
@@ -263,7 +294,7 @@
            this.tabNew.Location = new System.Drawing.Point(12, 12);
            this.tabNew.Name = "tabNew";
            this.tabNew.SelectedIndex = 0;
-           this.tabNew.Size = new System.Drawing.Size(456, 248);
+           this.tabNew.Size = new System.Drawing.Size(456, 273);
            this.tabNew.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
            this.tabNew.TabIndex = 14;
            // 
@@ -273,7 +304,7 @@
            this.tabInput.Location = new System.Drawing.Point(4, 29);
            this.tabInput.Name = "tabInput";
            this.tabInput.Padding = new System.Windows.Forms.Padding(3);
-           this.tabInput.Size = new System.Drawing.Size(448, 215);
+           this.tabInput.Size = new System.Drawing.Size(448, 240);
            this.tabInput.TabIndex = 0;
            this.tabInput.Text = "输入网址";
            this.tabInput.UseVisualStyleBackColor = true;
@@ -284,7 +315,7 @@
            this.tabConfig.Location = new System.Drawing.Point(4, 29);
            this.tabConfig.Name = "tabConfig";
            this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
-           this.tabConfig.Size = new System.Drawing.Size(448, 215);
+           this.tabConfig.Size = new System.Drawing.Size(448, 240);
            this.tabConfig.TabIndex = 1;
            this.tabConfig.Text = "下载设置";
            this.tabConfig.UseVisualStyleBackColor = true;
@@ -295,7 +326,7 @@
            this.tabExample.Location = new System.Drawing.Point(4, 29);
            this.tabExample.Name = "tabExample";
            this.tabExample.Padding = new System.Windows.Forms.Padding(3);
-           this.tabExample.Size = new System.Drawing.Size(448, 215);
+           this.tabExample.Size = new System.Drawing.Size(448, 240);
            this.tabExample.TabIndex = 2;
            this.tabExample.Text = "网址示例";
            this.tabExample.UseVisualStyleBackColor = true;
@@ -305,7 +336,7 @@
            this.AcceptButton = this.btnAdd;
            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-           this.ClientSize = new System.Drawing.Size(481, 319);
+           this.ClientSize = new System.Drawing.Size(481, 344);
            this.Controls.Add(this.tabNew);
            this.Controls.Add(this.btnAdd);
            this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -354,5 +385,7 @@
         private System.Windows.Forms.TabPage tabInput;
         private System.Windows.Forms.TabPage tabConfig;
         private System.Windows.Forms.TabPage tabExample;
+        private System.Windows.Forms.Label lblVideoType;
+        private System.Windows.Forms.ComboBox cboVideoType;
 	 }
 }
