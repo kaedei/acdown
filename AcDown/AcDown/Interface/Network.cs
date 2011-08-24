@@ -28,6 +28,7 @@ namespace Kaedei.AcDown.Interface
 			WebRequest Myrq = HttpWebRequest.Create(para.Url);
 			if (para.Proxy != null)
 				Myrq.Proxy = para.Proxy;
+			
 			WebResponse myrp = Myrq.GetResponse();
 			para.TotalLength = myrp.ContentLength; //文件长度
 
