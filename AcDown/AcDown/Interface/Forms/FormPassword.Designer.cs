@@ -38,22 +38,23 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(12, 9);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(266, 21);
+         this.label1.Size = new System.Drawing.Size(250, 21);
          this.label1.TabIndex = 0;
-         this.label1.Text = "当前下载需要您输入密码才能继续：";
+         this.label1.Text = "当前下载需要输入密码才能继续：";
          // 
          // txtPassword
          // 
          this.txtPassword.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.txtPassword.Location = new System.Drawing.Point(35, 62);
+         this.txtPassword.Location = new System.Drawing.Point(16, 46);
          this.txtPassword.Name = "txtPassword";
-         this.txtPassword.Size = new System.Drawing.Size(354, 34);
+         this.txtPassword.PasswordChar = '●';
+         this.txtPassword.Size = new System.Drawing.Size(322, 34);
          this.txtPassword.TabIndex = 1;
          // 
          // btnOK
          // 
          this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnOK.Location = new System.Drawing.Point(310, 127);
+         this.btnOK.Location = new System.Drawing.Point(242, 87);
          this.btnOK.Name = "btnOK";
          this.btnOK.Size = new System.Drawing.Size(96, 36);
          this.btnOK.TabIndex = 2;
@@ -66,7 +67,7 @@
          this.AcceptButton = this.btnOK;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(421, 175);
+         this.ClientSize = new System.Drawing.Size(350, 135);
          this.ControlBox = false;
          this.Controls.Add(this.btnOK);
          this.Controls.Add(this.txtPassword);

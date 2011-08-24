@@ -5,6 +5,8 @@ using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 using System.IO;
 using Kaedei.AcDown.Parser;
+using Kaedei.AcDown.Interface.Forms;
+using System.Net;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -24,7 +26,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 2, 0, 0); }
+			get { return new Version(1, 3, 0, 0); }
 		}
 
 		public string Describe
@@ -239,12 +241,56 @@ namespace Kaedei.AcDown.Downloader
 				//取得网页源文件
 				string src = Network.GetHtmlSource(url, Encoding.UTF8, delegates.Proxy);
 
-				//取得视频标题
+            #region 登录并重新获取网页源文件
+
+            //检查是否需要登录
+				if (src.Contains("你没有权限浏览")) //需要登录
+				{
+               CookieContainer cookies = new CookieContainer();
+					//登录Bilibili
+					var user = ToolForm.CreateLoginForm("https://secure.bilibili.tv/member/index_do.php?fmdo=user&dopost=regnew");
+               //Post的数据
+               string postdata = "fmdo=login&dopost=login&refurl=http%%3A%%2F%%2Fbilibili.tv%%2F&keeptime=604800&userid=" + user.Username + "&pwd=" + user.Password + "&keeptime=604800";
+               byte[] data = Encoding.UTF8.GetBytes(postdata);
+               //生成请求
+               HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://secure.bilibili.tv/member/index_do.php");
+               req.Method = "POST";
+               req.Referer = "https://secure.bilibili.tv/login.php";
+               req.ContentType = "application/x-www-form-urlencoded";
+               req.ContentLength = data.Length;
+               req.UserAgent= "Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20100101 Firefox/6.0";
+               req.CookieContainer = new CookieContainer();
+               //发送POST数据
+               using (var outstream = req.GetRequestStream())
+               {
+                  outstream.Write(data, 0, data.Length);
+                  outstream.Flush();
+               }
+               //关闭请求
+               req.GetResponse().Close();
+               cookies = req.CookieContainer; //保存cookies
+               string cookiesstr = req.CookieContainer.GetCookieHeader(req.RequestUri); //字符串形式的cookies
+
+               //重新请求网页
+               HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+               if (delegates.Proxy != null)
+                  request.Proxy = delegates.Proxy;
+               //设置cookies
+               request.CookieContainer = cookies;
+               HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+               using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+               {
+                  src = reader.ReadToEnd();
+               }
+            }
+
+            #endregion
+
+            //取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
 				string title = mTitle.Groups["title"].Value.Replace(" _嗶哩嗶哩", "").Replace(" - 嗶哩嗶哩", "");
-				if (title.Contains("信息提示"))
-					throw new Exception("视频已被删除或需要登录才能查看");
+
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+?)</option>");
 				MatchCollection mSubTitles = rSubTitle.Matches(src);

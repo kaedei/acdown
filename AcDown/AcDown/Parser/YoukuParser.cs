@@ -21,7 +21,7 @@ namespace Kaedei.AcDown.Parser
 			List<string> returnarray = new List<string>();
 			string pw = (parameters.Length > 1) ? parameters[1] : "";
 
-			string url = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/version/5/source/video?password=%PW%&ran=5505&n=3".Replace(@"%ID%", parameters[0]).Replace(@"%PW%", pw);
+			string url = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/timezone/+08/version/5/source/video?n=3&ran=4656&password=%PW%".Replace(@"%ID%", parameters[0]).Replace(@"%PW%", pw);
 			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
 			//正则表达式提取各个参数
 			string regexstring = "\"seed\":(?<seed>\\w+),.+\"key1\":\"(?<key1>\\w+)\",\"key2\":\"(?<key2>\\w+)\".+\"streamfileids\":{\"(?<fileposfix>\\w+)\":\"(?<fileID>[0-9\\*]+)";
@@ -34,6 +34,14 @@ namespace Kaedei.AcDown.Parser
 			string fileposfix = m.Groups["fileposfix"].Value;
 			if (fileposfix == "hd2") fileposfix = "flv";
 			string fileID = m.Groups["fileID"].Value;
+         //提取key
+         string regexKey = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$,$k$:$(?<key>#w+)$(,$#w+$:$#w+$|)*#})".Replace("#", @"\").Replace("$", "\"");
+         MatchCollection mcKey = Regex.Matches(xmldoc, regexKey);
+         List<string> keys = new List<string>();
+         foreach (Match mKey in mcKey)
+         {
+            keys.Add(mKey.Groups["key"].Value);
+         }
 			//提取视频个数
 			string regexFlvNo = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$(,$#w+$:$#w+$|)#}#])".Replace("#", @"\").Replace("$", "\"");
 			Regex rn = new Regex(regexFlvNo);
@@ -44,13 +52,14 @@ namespace Kaedei.AcDown.Parser
 			//生成fileid
 			string fileid = getFileID(fileID, seed);
 			//生成key
-			string key = genKey(key1, key2);
+			//string key = genKey(key1, key2);
 			//添加各个地址
 			List<string> lst = new List<string>();
 			for (int i = 0; i < flv_no + 1; i++)
 			{
-				lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
-				"/st/" + fileposfix + "/fileid/" + fileid + "?K=" + key);
+            lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
+               "/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
+               + fileid.Substring(10) + "?K=" + keys[i]);
 			}
 			return lst.ToArray();
 		}
