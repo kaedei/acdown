@@ -430,7 +430,6 @@
            // chkWatch
            // 
            this.chkWatch.AutoSize = true;
-           this.chkWatch.Enabled = false;
            this.chkWatch.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkWatch.Location = new System.Drawing.Point(29, 97);
            this.chkWatch.Name = "chkWatch";

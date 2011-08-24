@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -17,6 +18,7 @@ namespace Kaedei.AcDown.Interface
       /// <param name="input">需要过滤的字符串</param>
       /// <param name="replace">替换为的字符串</param>
       /// <returns></returns>
+      [DebuggerNonUserCode()]
       public static string InvalidCharacterFilter(string input, string replace)
       {
          if (replace == null)

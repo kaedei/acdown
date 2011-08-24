@@ -112,6 +112,12 @@
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Parser\SixcnParser.cs" />
     <Compile Include="UI\Components\FlvCombine.cs" />
+    <Compile Include="UI\Components\FlvCombineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\FlvCombineControl.Designer.cs">
+      <DependentUpon>FlvCombineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
     <Compile Include="Interface\IAcdownPluginInfo.cs" />
@@ -132,6 +138,12 @@
     </Compile>
     <Compile Include="UI\FormAddProxy.Designer.cs">
       <DependentUpon>FormAddProxy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FormSingle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormSingle.Designer.cs">
+      <DependentUpon>FormSingle.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FormConfig.cs">
       <SubType>Form</SubType>
@@ -185,6 +197,9 @@
     <EmbeddedResource Include="Interface\Forms\FormSelect.resx">
       <DependentUpon>FormSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\FlvCombineControl.resx">
+      <DependentUpon>FlvCombineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -224,6 +239,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\FormSingle.resx">
+      <DependentUpon>FormSingle.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

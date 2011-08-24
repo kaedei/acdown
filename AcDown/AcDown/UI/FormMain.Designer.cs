@@ -84,16 +84,7 @@
            this.tabDownload = new System.Windows.Forms.TabPage();
            this.tabConfig = new System.Windows.Forms.TabPage();
            this.tabFlvCombine = new System.Windows.Forms.TabPage();
-           this.btnGetFlvCombine = new System.Windows.Forms.Button();
-           this.panelCombine = new System.Windows.Forms.Panel();
-           this.lstCombine = new System.Windows.Forms.ListBox();
-           this.btnCombineDelete = new System.Windows.Forms.Button();
-           this.label4 = new System.Windows.Forms.Label();
-           this.txtCombineOutput = new System.Windows.Forms.TextBox();
-           this.btnCombineStart = new System.Windows.Forms.Button();
-           this.btnCombineChooseOutput = new System.Windows.Forms.Button();
-           this.btnCombineAdd = new System.Windows.Forms.Button();
-           this.label3 = new System.Windows.Forms.Label();
+           this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -104,7 +95,6 @@
            this.tabDownload.SuspendLayout();
            this.tabConfig.SuspendLayout();
            this.tabFlvCombine.SuspendLayout();
-           this.panelCombine.SuspendLayout();
            this.SuspendLayout();
            // 
            // lsv
@@ -219,28 +209,28 @@
            // acFuncnToolStripMenuItem
            // 
            this.acFuncnToolStripMenuItem.Name = "acFuncnToolStripMenuItem";
-           this.acFuncnToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.acFuncnToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.acFuncnToolStripMenuItem.Text = "AcFun";
            this.acFuncnToolStripMenuItem.Click += new System.EventHandler(this.acFuncnToolStripMenuItem_Click);
            // 
            // bilibiliToolStripMenuItem
            // 
            this.bilibiliToolStripMenuItem.Name = "bilibiliToolStripMenuItem";
-           this.bilibiliToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.bilibiliToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.bilibiliToolStripMenuItem.Text = "Bilibili";
            this.bilibiliToolStripMenuItem.Click += new System.EventHandler(this.bilibiliToolStripMenuItem_Click);
            // 
            // 土豆网ToolStripMenuItem
            // 
            this.土豆网ToolStripMenuItem.Name = "土豆网ToolStripMenuItem";
-           this.土豆网ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.土豆网ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.土豆网ToolStripMenuItem.Text = "土豆网";
            this.土豆网ToolStripMenuItem.Click += new System.EventHandler(this.土豆网ToolStripMenuItem_Click);
            // 
            // 优酷网ToolStripMenuItem
            // 
            this.优酷网ToolStripMenuItem.Name = "优酷网ToolStripMenuItem";
-           this.优酷网ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.优酷网ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.优酷网ToolStripMenuItem.Text = "优酷网";
            this.优酷网ToolStripMenuItem.Click += new System.EventHandler(this.优酷网ToolStripMenuItem_Click);
            // 
@@ -249,7 +239,7 @@
            this.百度贴吧ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.贴吧相册ToolStripMenuItem});
            this.百度贴吧ToolStripMenuItem.Name = "百度贴吧ToolStripMenuItem";
-           this.百度贴吧ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.百度贴吧ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.百度贴吧ToolStripMenuItem.Text = "百度";
            // 
            // 贴吧相册ToolStripMenuItem
@@ -262,14 +252,14 @@
            // 爱漫画ToolStripMenuItem
            // 
            this.爱漫画ToolStripMenuItem.Name = "爱漫画ToolStripMenuItem";
-           this.爱漫画ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.爱漫画ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.爱漫画ToolStripMenuItem.Text = "爱漫画";
            this.爱漫画ToolStripMenuItem.Click += new System.EventHandler(this.爱漫画ToolStripMenuItem_Click);
            // 
            // 更多ToolStripMenuItem
            // 
            this.更多ToolStripMenuItem.Name = "更多ToolStripMenuItem";
-           this.更多ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+           this.更多ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
            this.更多ToolStripMenuItem.Text = "更多 ...";
            this.更多ToolStripMenuItem.Click += new System.EventHandler(this.更多ToolStripMenuItem_Click);
            // 
@@ -382,7 +372,7 @@
             this.mnuTrayExit});
            this.mnuTray.Name = "mnuTray";
            this.mnuTray.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.mnuTray.Size = new System.Drawing.Size(173, 54);
+           this.mnuTray.Size = new System.Drawing.Size(173, 76);
            // 
            // mnuTrayShowHide
            // 
@@ -413,9 +403,11 @@
            this.btnClickNew.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
            this.btnClickNew.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.btnClickNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnClickNew.Location = new System.Drawing.Point(128, 62);
+           this.btnClickNew.Location = new System.Drawing.Point(132, 77);
+           this.btnClickNew.MaximumSize = new System.Drawing.Size(352, 244);
+           this.btnClickNew.MinimumSize = new System.Drawing.Size(180, 93);
            this.btnClickNew.Name = "btnClickNew";
-           this.btnClickNew.Size = new System.Drawing.Size(259, 184);
+           this.btnClickNew.Size = new System.Drawing.Size(251, 154);
            this.btnClickNew.TabIndex = 0;
            this.btnClickNew.Text = "新建下载任务";
            this.btnClickNew.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -638,145 +630,24 @@
            // 
            // tabFlvCombine
            // 
-           this.tabFlvCombine.Controls.Add(this.btnGetFlvCombine);
-           this.tabFlvCombine.Controls.Add(this.panelCombine);
+           this.tabFlvCombine.Controls.Add(this.flvCombineControl1);
            this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
            this.tabFlvCombine.Name = "tabFlvCombine";
            this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
            this.tabFlvCombine.Size = new System.Drawing.Size(514, 309);
            this.tabFlvCombine.TabIndex = 3;
-           this.tabFlvCombine.Text = "Flv合并";
+           this.tabFlvCombine.Text = "视频合并";
            this.tabFlvCombine.UseVisualStyleBackColor = true;
            // 
-           // btnGetFlvCombine
+           // flvCombineControl1
            // 
-           this.btnGetFlvCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                       | System.Windows.Forms.AnchorStyles.Left)
-                       | System.Windows.Forms.AnchorStyles.Right)));
-           this.btnGetFlvCombine.Cursor = System.Windows.Forms.Cursors.Hand;
-           this.btnGetFlvCombine.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnGetFlvCombine.Location = new System.Drawing.Point(150, 128);
-           this.btnGetFlvCombine.Name = "btnGetFlvCombine";
-           this.btnGetFlvCombine.Size = new System.Drawing.Size(215, 52);
-           this.btnGetFlvCombine.TabIndex = 1;
-           this.btnGetFlvCombine.Text = "下载FLV合并插件";
-           this.toolTip.SetToolTip(this.btnGetFlvCombine, "点击此按钮下载并安装Flv视频合并插件\r\n此操作不影响当前正在进行的下载任务，也不会重新启动下载器");
-           this.btnGetFlvCombine.UseVisualStyleBackColor = true;
-           this.btnGetFlvCombine.Click += new System.EventHandler(this.btnGetFlvCombine_Click);
-           // 
-           // panelCombine
-           // 
-           this.panelCombine.Controls.Add(this.lstCombine);
-           this.panelCombine.Controls.Add(this.btnCombineDelete);
-           this.panelCombine.Controls.Add(this.label4);
-           this.panelCombine.Controls.Add(this.txtCombineOutput);
-           this.panelCombine.Controls.Add(this.btnCombineStart);
-           this.panelCombine.Controls.Add(this.btnCombineChooseOutput);
-           this.panelCombine.Controls.Add(this.btnCombineAdd);
-           this.panelCombine.Controls.Add(this.label3);
-           this.panelCombine.Dock = System.Windows.Forms.DockStyle.Fill;
-           this.panelCombine.Location = new System.Drawing.Point(3, 3);
-           this.panelCombine.Name = "panelCombine";
-           this.panelCombine.Size = new System.Drawing.Size(508, 303);
-           this.panelCombine.TabIndex = 10;
-           this.panelCombine.Visible = false;
-           // 
-           // lstCombine
-           // 
-           this.lstCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                       | System.Windows.Forms.AnchorStyles.Left)
-                       | System.Windows.Forms.AnchorStyles.Right)));
-           this.lstCombine.FormattingEnabled = true;
-           this.lstCombine.ItemHeight = 20;
-           this.lstCombine.Location = new System.Drawing.Point(9, 41);
-           this.lstCombine.Name = "lstCombine";
-           this.lstCombine.ScrollAlwaysVisible = true;
-           this.lstCombine.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-           this.lstCombine.Size = new System.Drawing.Size(406, 164);
-           this.lstCombine.TabIndex = 2;
-           // 
-           // btnCombineDelete
-           // 
-           this.btnCombineDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-           this.btnCombineDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnCombineDelete.Location = new System.Drawing.Point(421, 77);
-           this.btnCombineDelete.Name = "btnCombineDelete";
-           this.btnCombineDelete.Size = new System.Drawing.Size(82, 29);
-           this.btnCombineDelete.TabIndex = 9;
-           this.btnCombineDelete.Text = "删除";
-           this.toolTip.SetToolTip(this.btnCombineDelete, "从列表中删除当前已选中的视频");
-           this.btnCombineDelete.UseVisualStyleBackColor = true;
-           this.btnCombineDelete.Click += new System.EventHandler(this.btnCombineDelete_Click);
-           // 
-           // label4
-           // 
-           this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-           this.label4.AutoSize = true;
-           this.label4.Location = new System.Drawing.Point(5, 210);
-           this.label4.Name = "label4";
-           this.label4.Size = new System.Drawing.Size(65, 20);
-           this.label4.TabIndex = 8;
-           this.label4.Text = "合并为：";
-           // 
-           // txtCombineOutput
-           // 
-           this.txtCombineOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                       | System.Windows.Forms.AnchorStyles.Right)));
-           this.txtCombineOutput.Location = new System.Drawing.Point(9, 233);
-           this.txtCombineOutput.Name = "txtCombineOutput";
-           this.txtCombineOutput.ReadOnly = true;
-           this.txtCombineOutput.Size = new System.Drawing.Size(408, 26);
-           this.txtCombineOutput.TabIndex = 3;
-           // 
-           // btnCombineStart
-           // 
-           this.btnCombineStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                       | System.Windows.Forms.AnchorStyles.Right)));
-           this.btnCombineStart.Enabled = false;
-           this.btnCombineStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnCombineStart.Location = new System.Drawing.Point(164, 265);
-           this.btnCombineStart.Name = "btnCombineStart";
-           this.btnCombineStart.Size = new System.Drawing.Size(181, 30);
-           this.btnCombineStart.TabIndex = 7;
-           this.btnCombineStart.Text = "开始合并";
-           this.toolTip.SetToolTip(this.btnCombineStart, "点击此按钮开始进行合并\r\n合并操作在执行中不会影响其他功能的正常使用");
-           this.btnCombineStart.UseVisualStyleBackColor = true;
-           this.btnCombineStart.Click += new System.EventHandler(this.btnCombineStart_Click);
-           // 
-           // btnCombineChooseOutput
-           // 
-           this.btnCombineChooseOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-           this.btnCombineChooseOutput.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnCombineChooseOutput.Location = new System.Drawing.Point(423, 231);
-           this.btnCombineChooseOutput.Name = "btnCombineChooseOutput";
-           this.btnCombineChooseOutput.Size = new System.Drawing.Size(82, 30);
-           this.btnCombineChooseOutput.TabIndex = 4;
-           this.btnCombineChooseOutput.Text = "选择...";
-           this.toolTip.SetToolTip(this.btnCombineChooseOutput, "选择要合并到的视频文件名\r\n列表中的视频将按照顺序进行合并");
-           this.btnCombineChooseOutput.UseVisualStyleBackColor = true;
-           this.btnCombineChooseOutput.Click += new System.EventHandler(this.btnCombineChooseOutput_Click);
-           // 
-           // btnCombineAdd
-           // 
-           this.btnCombineAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-           this.btnCombineAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.btnCombineAdd.Location = new System.Drawing.Point(421, 41);
-           this.btnCombineAdd.Name = "btnCombineAdd";
-           this.btnCombineAdd.Size = new System.Drawing.Size(82, 30);
-           this.btnCombineAdd.TabIndex = 6;
-           this.btnCombineAdd.Text = "添加";
-           this.toolTip.SetToolTip(this.btnCombineAdd, "添加已有视频到转换列表");
-           this.btnCombineAdd.UseVisualStyleBackColor = true;
-           this.btnCombineAdd.Click += new System.EventHandler(this.btnCombineAdd_Click);
-           // 
-           // label3
-           // 
-           this.label3.AutoSize = true;
-           this.label3.Location = new System.Drawing.Point(5, 9);
-           this.label3.Name = "label3";
-           this.label3.Size = new System.Drawing.Size(224, 20);
-           this.label3.TabIndex = 5;
-           this.label3.Text = "选取要合并的视频文件(FLV格式)：";
+           this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+           this.flvCombineControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+           this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
+           this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+           this.flvCombineControl1.Name = "flvCombineControl1";
+           this.flvCombineControl1.Size = new System.Drawing.Size(508, 303);
+           this.flvCombineControl1.TabIndex = 0;
            // 
            // FormMain
            // 
@@ -809,8 +680,6 @@
            this.tabConfig.ResumeLayout(false);
            this.tabConfig.PerformLayout();
            this.tabFlvCombine.ResumeLayout(false);
-           this.panelCombine.ResumeLayout(false);
-           this.panelCombine.PerformLayout();
            this.ResumeLayout(false);
            this.PerformLayout();
 
@@ -873,16 +742,7 @@
         private System.Windows.Forms.TabPage tabDownload;
         private System.Windows.Forms.TabPage tabConfig;
         private System.Windows.Forms.TabPage tabFlvCombine;
-        private System.Windows.Forms.Button btnCombineDelete;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnCombineStart;
-        private System.Windows.Forms.Button btnCombineAdd;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnCombineChooseOutput;
-        private System.Windows.Forms.Button btnGetFlvCombine;
-        private System.Windows.Forms.TextBox txtCombineOutput;
-        private System.Windows.Forms.ListBox lstCombine;
-        private System.Windows.Forms.Panel panelCombine;
+        private Kaedei.AcDown.UI.Components.FlvCombineControl flvCombineControl1;
 
 	 }
 }

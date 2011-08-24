@@ -30,21 +30,21 @@ namespace Kaedei.AcDown.Parser
 			catch
 			{
 				//取得土豆网页面源代码
-            string tudousource = Network.GetHtmlSource2("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GB2312"), proxy, false, true);
+				string tudousource = Network.GetHtmlSource2("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GB2312"), proxy, false, true);
 				//取得iid
 				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
 				Match m1 = r1.Match(tudousource);
 				iid = m1.Groups["iid"].ToString();
 			}
-			string xmlurl = @"http://v2.tudou.com/v?it=" + iid + "&pw=" + pw;
+			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + iid + "&pw=" + pw;
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, proxy);
-			Regex r = new Regex(@"brt=""(?<brt>\d)""\>(?<url>http://.*?)\</f\>");
-			MatchCollection mc = r.Matches(xmldoc);
+			Regex rVideo = new Regex("<f [^>]+brt=\"(?<brt>\\d)\">(?<url>[^<]+)</f>");
+			MatchCollection mcVideo = rVideo.Matches(xmldoc);
 			for (int i = 4; i > 0; i--)
 			{
-				foreach (Match item in mc)
+				foreach (Match item in mcVideo)
 				{
-					if (item.Groups["brt"].ToString() == i.ToString())
+					if (item.Groups["brt"].Value == i.ToString())
 					{
 						return new string[] { item.Groups["url"].ToString() };
 					}
