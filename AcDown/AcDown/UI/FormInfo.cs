@@ -6,13 +6,14 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface;
+using Kaedei.AcDown.Component;
 
 namespace Kaedei.AcDown.UI
 {
    public partial class FormInfo : Form
    {
-      IDownloader _downloader;
-      public FormInfo(IDownloader downloader)
+      TaskItem _downloader;
+      public FormInfo(TaskItem downloader)
       {
          InitializeComponent();
          _downloader = downloader;

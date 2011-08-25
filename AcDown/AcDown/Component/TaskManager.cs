@@ -14,6 +14,7 @@ using Kaedei.AcDown;
 using Kaedei.AcDown.Interface;
 using System.Threading;
 using System.Net;
+using Kaedei.AcDown.Component;
 
 namespace Kaedei.AcDown
 {
@@ -36,7 +37,7 @@ namespace Kaedei.AcDown
 		private Collection<WeakReference> taskThreadReferenceCollection = new Collection<WeakReference>();
 
 		//任务
-		public Collection<IDownloader> Tasks = new Collection<IDownloader>();
+      public Collection<TaskItem> Tasks = new Collection<TaskItem>();
 
 		//全局速度限制
 		private int _speedLimitGlobal = 0;
@@ -59,7 +60,7 @@ namespace Kaedei.AcDown
 		/// <summary>
 		/// 添加任务
 		/// </summary>
-		public IDownloader AddTask(IDownloader downloader, string url, WebProxy proxySetting)
+      public TaskItem AddTask(TaskItem downloader, string url, WebProxy proxySetting)
 		{
 			//设置下载器
 			downloader.delegates = delegates;
@@ -77,7 +78,7 @@ namespace Kaedei.AcDown
 		/// <summary>
 		/// 开始任务
 		/// </summary>
-		public void StartTask(IDownloader downloader)
+      public void StartTask(TaskItem downloader)
 		{
 			//启动新线程下载文件
 			Thread t = new Thread(() =>
@@ -88,7 +89,7 @@ namespace Kaedei.AcDown
 						if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 						{
 							//下载视频
-							downloader.Download();
+							downloader.Start();
 						}
 					}
 					catch (Exception ex) //如果出现错误
@@ -110,9 +111,9 @@ namespace Kaedei.AcDown
 		/// 停止任务
 		/// </summary>
 		/// <param name="downloader"></param>
-		public void StopTask(IDownloader downloader)
+      public void StopTask(TaskItem downloader)
 		{
-			downloader.StopDownload();
+			downloader.Stop();
 			//刷新信息
 			delegates.Refresh(new ParaRefresh(downloader.TaskId));
 		}
@@ -121,11 +122,11 @@ namespace Kaedei.AcDown
 		/// 删除任务(自动终止未停止的任务)
 		/// </summary>
 		/// <param name="downloader"></param>
-		public void DeleteTask(IDownloader downloader, bool deleteFile)
+      public void DeleteTask(TaskItem downloader, bool deleteFile)
 		{
 
 			//先停止任务
-			downloader.StopDownload();
+			downloader.Stop();
 
 			while (downloader.Status == DownloadStatus.正在下载)
 			{
@@ -168,7 +169,7 @@ namespace Kaedei.AcDown
 		/// 取得下一个正在等待的任务
 		/// </summary>
 		/// <returns></returns>
-		public IDownloader GetNextWaiting()
+      public TaskItem GetNextWaiting()
 		{
 			foreach (var item in Tasks)
 			{
@@ -182,7 +183,7 @@ namespace Kaedei.AcDown
 		/// 取得第一个正在下载的任务
 		/// </summary>
 		/// <returns></returns>
-		public IDownloader GetFirstRunning()
+      public TaskItem GetFirstRunning()
 		{
 			foreach (var item in Tasks)
 			{
