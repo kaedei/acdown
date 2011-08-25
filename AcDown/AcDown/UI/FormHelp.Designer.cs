@@ -35,8 +35,10 @@
          this.lblVersion = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
          this.groupBox2 = new System.Windows.Forms.GroupBox();
-         this.lnkFAQ = new System.Windows.Forms.LinkLabel();
+         this.btnCopyEmail = new System.Windows.Forms.Button();
+         this.txtEmail = new System.Windows.Forms.TextBox();
          this.groupBox3 = new System.Windows.Forms.GroupBox();
+         this.lnkFAQ = new System.Windows.Forms.LinkLabel();
          this.lnkAdvise = new System.Windows.Forms.LinkLabel();
          this.lnkReportBug = new System.Windows.Forms.LinkLabel();
          this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -46,8 +48,6 @@
          this.lnkWeibo = new System.Windows.Forms.LinkLabel();
          this.lnkBlog = new System.Windows.Forms.LinkLabel();
          this.lnkProject = new System.Windows.Forms.LinkLabel();
-         this.txtEmail = new System.Windows.Forms.TextBox();
-         this.btnCopyEmail = new System.Windows.Forms.Button();
          this.tableLayoutPanel1.SuspendLayout();
          this.groupBox1.SuspendLayout();
          this.groupBox2.SuspendLayout();
@@ -148,16 +148,25 @@
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "联系作者";
          // 
-         // lnkFAQ
+         // btnCopyEmail
          // 
-         this.lnkFAQ.AutoSize = true;
-         this.lnkFAQ.Location = new System.Drawing.Point(78, 102);
-         this.lnkFAQ.Name = "lnkFAQ";
-         this.lnkFAQ.Size = new System.Drawing.Size(154, 21);
-         this.lnkFAQ.TabIndex = 5;
-         this.lnkFAQ.TabStop = true;
-         this.lnkFAQ.Text = "查看常见问题 (FAQ)";
-         this.lnkFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFAQ_LinkClicked);
+         this.btnCopyEmail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+         this.btnCopyEmail.Location = new System.Drawing.Point(56, 78);
+         this.btnCopyEmail.Name = "btnCopyEmail";
+         this.btnCopyEmail.Size = new System.Drawing.Size(182, 36);
+         this.btnCopyEmail.TabIndex = 2;
+         this.btnCopyEmail.Text = "复制邮件地址到剪贴板";
+         this.btnCopyEmail.UseVisualStyleBackColor = true;
+         this.btnCopyEmail.Click += new System.EventHandler(this.btnCopyEmail_Click);
+         // 
+         // txtEmail
+         // 
+         this.txtEmail.Location = new System.Drawing.Point(56, 43);
+         this.txtEmail.Name = "txtEmail";
+         this.txtEmail.ReadOnly = true;
+         this.txtEmail.Size = new System.Drawing.Size(182, 29);
+         this.txtEmail.TabIndex = 1;
+         this.txtEmail.Text = "kaedei@foxmail.com";
          // 
          // groupBox3
          // 
@@ -173,6 +182,17 @@
          this.groupBox3.TabIndex = 3;
          this.groupBox3.TabStop = false;
          this.groupBox3.Text = "程序反馈";
+         // 
+         // lnkFAQ
+         // 
+         this.lnkFAQ.AutoSize = true;
+         this.lnkFAQ.Location = new System.Drawing.Point(110, 102);
+         this.lnkFAQ.Name = "lnkFAQ";
+         this.lnkFAQ.Size = new System.Drawing.Size(74, 21);
+         this.lnkFAQ.TabIndex = 5;
+         this.lnkFAQ.TabStop = true;
+         this.lnkFAQ.Text = "常见问题";
+         this.lnkFAQ.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFAQ_LinkClicked);
          // 
          // lnkAdvise
          // 
@@ -285,26 +305,6 @@
          this.lnkProject.TabStop = true;
          this.lnkProject.Text = "项目主页";
          this.lnkProject.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkProject_LinkClicked);
-         // 
-         // txtEmail
-         // 
-         this.txtEmail.Location = new System.Drawing.Point(56, 43);
-         this.txtEmail.Name = "txtEmail";
-         this.txtEmail.ReadOnly = true;
-         this.txtEmail.Size = new System.Drawing.Size(182, 29);
-         this.txtEmail.TabIndex = 1;
-         this.txtEmail.Text = "kaedei@foxmail.com";
-         // 
-         // btnCopyEmail
-         // 
-         this.btnCopyEmail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-         this.btnCopyEmail.Location = new System.Drawing.Point(56, 78);
-         this.btnCopyEmail.Name = "btnCopyEmail";
-         this.btnCopyEmail.Size = new System.Drawing.Size(182, 36);
-         this.btnCopyEmail.TabIndex = 2;
-         this.btnCopyEmail.Text = "复制邮件地址到剪贴板";
-         this.btnCopyEmail.UseVisualStyleBackColor = true;
-         this.btnCopyEmail.Click += new System.EventHandler(this.btnCopyEmail_Click);
          // 
          // FormHelp
          // 

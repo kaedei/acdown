@@ -9,81 +9,132 @@ namespace Kaedei.AcDown.Component
 	{
 		public TaskItem(IDownloader downloader,DelegateContainer delegates )
 		{
-
-
+			resourceDownloader = downloader;
+			downloader.delegates = delegates;
 		}
 
 		//任务Id
-		public Guid TaskId { get; set; }
+		public Guid TaskId {
+			get
+			{
+				return this.resourceDownloader.TaskId;
+			}
+			set
+			{
+				if (value != null)
+					this.resourceDownloader.TaskId = value;
+			}
+		}
 
 		//包装的IDownloader对象
-		private IDownloader Downloader { get; set; }
+		private IDownloader resourceDownloader { get; set; }
 
 		//任务Uri
-		public string Url { get; set; }
+		public string Url {
+			get
+			{
+				return resourceDownloader.Url;
+			}
+			set
+			{
+				resourceDownloader.Url = value;
+			}
+		}
 
 		//下载状态
 		public DownloadStatus Status
 		{
 			get
 			{
-				return Downloader.Status;
+				return resourceDownloader.Status;
 			}
 		}
 
 		//视频标题
-		public string Title { get; set; }
+		public string Title
+		{
+			get
+			{
+				return resourceDownloader.Title;
+			}
+		}
 
-		//开始任务
+		//创建时间
+		private DateTime createTime = DateTime.Now;
+		public DateTime CreateTime { get { return createTime; } }
+
+		/// <summary>
+		/// 开始任务
+		/// </summary>
 		public void Start()
 		{
-			Downloader.Download();
+			resourceDownloader.Download();
 		}
 
-		//停止任务
+		/// <summary>
+		/// 停止任务
+		/// </summary>
 		public void Stop()
 		{
-			Downloader.StopDownload();
+			resourceDownloader.StopDownload();
 		}
 
-		//任务下载进度
+		/// <summary>
+		/// 任务下载进度
+		/// </summary>
+		/// <returns></returns>
 		public double GetProcess()
 		{
-			return Downloader.DoneBytes / Downloader.TotalLength;
+			return (double)resourceDownloader.DoneBytes / (double)resourceDownloader.TotalLength;
 		}
 
-		//任务下载速度差
+		/// <summary>
+		/// 下载速度之差
+		/// </summary>
+		/// <returns></returns>
 		public long GetTickCount()
 		{
-			return Downloader.DoneBytes - Downloader.LastTick;
+			return resourceDownloader.DoneBytes - resourceDownloader.LastTick;
 		}
+
+		/// <summary>
+		/// 文件总长度
+		/// </summary>
+		public long TotalLength
+		{ get { return resourceDownloader.TotalLength; } }
+
+		/// <summary>
+		/// 已完成的长度
+		/// </summary>
+		public long DoneBytes
+		{ get { return resourceDownloader.DoneBytes; } }
 
 		public DelegateContainer delegates
 		{
 			get
 			{
-				return Downloader.delegates;
+				return resourceDownloader.delegates;
 			}
 			set
 			{
-				Downloader.delegates = value;
+				resourceDownloader.delegates = value;
 			}
 		}
 
 		public IAcdownPluginInfo GetBasePlugin()
 		{
-			return Downloader.GetBasePlugin();
+			return resourceDownloader.GetBasePlugin();
 		}
 
 
 		public int PartCount
 		{
-			get { return Downloader.PartCount; }
+			get { return resourceDownloader.PartCount; }
 		}
 
 		public int CurrentPart
 		{
-			get { return Downloader.CurrentPart; }
+			get { return resourceDownloader.CurrentPart; }
 		}
 
 
@@ -91,27 +142,27 @@ namespace Kaedei.AcDown.Component
 		{
 			get
 			{
-				return Downloader.SaveDirectory;
+				return resourceDownloader.SaveDirectory;
 			}
 			set
 			{
-				Downloader.SaveDirectory = value;
+				resourceDownloader.SaveDirectory = value;
 			}
 		}
 
 		public List<string> FilePath
 		{
-			get { return Downloader.FilePath; }
+			get { return resourceDownloader.FilePath; }
 		}
 
 		public List<string> SubFilePath
 		{
-			get { return Downloader.SubFilePath; }
+			get { return resourceDownloader.SubFilePath; }
 		}
 
 		public string Info
 		{
-			get { throw new NotImplementedException(); }
+			get { return resourceDownloader.Info; }
 		}
 
 	}

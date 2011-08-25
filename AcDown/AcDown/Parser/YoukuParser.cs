@@ -34,14 +34,14 @@ namespace Kaedei.AcDown.Parser
 			string fileposfix = m.Groups["fileposfix"].Value;
 			if (fileposfix == "hd2") fileposfix = "flv";
 			string fileID = m.Groups["fileID"].Value;
-         //提取key
-         string regexKey = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$,$k$:$(?<key>#w+)$(,$#w+$:$#w+$|)*#})".Replace("#", @"\").Replace("$", "\"");
-         MatchCollection mcKey = Regex.Matches(xmldoc, regexKey);
-         List<string> keys = new List<string>();
-         foreach (Match mKey in mcKey)
-         {
-            keys.Add(mKey.Groups["key"].Value);
-         }
+			//提取key
+			string regexKey = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$,$k$:$(?<key>#w+)$(,$#w+$:$#w+$|)*#})".Replace("#", @"\").Replace("$", "\"");
+			MatchCollection mcKey = Regex.Matches(xmldoc, regexKey);
+			List<string> keys = new List<string>();
+			foreach (Match mKey in mcKey)
+			{
+				keys.Add(mKey.Groups["key"].Value);
+			}
 			//提取视频个数
 			string regexFlvNo = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$(,$#w+$:$#w+$|)#}#])".Replace("#", @"\").Replace("$", "\"");
 			Regex rn = new Regex(regexFlvNo);
@@ -57,9 +57,9 @@ namespace Kaedei.AcDown.Parser
 			List<string> lst = new List<string>();
 			for (int i = 0; i < flv_no + 1; i++)
 			{
-            lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
-               "/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
-               + fileid.Substring(10) + "?K=" + keys[i]);
+				lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
+					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
+					+ fileid.Substring(10) + "?K=" + keys[i]);
 			}
 			return lst.ToArray();
 		}

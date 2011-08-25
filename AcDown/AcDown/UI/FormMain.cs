@@ -388,7 +388,7 @@ namespace AcDown.UI
 			//全局速度
 			double speed = 0;
 			//取得所有正在进行中的任务
-			foreach (IDownloader downloader in taskMgr.Tasks)
+			foreach (TaskItem downloader in taskMgr.Tasks)
 			{
 				//如果是正在下载的任务
 				if (downloader.Status == DownloadStatus.正在下载)
@@ -397,18 +397,36 @@ namespace AcDown.UI
 					ListViewItem item = GetLsvItem(downloader.TaskId);
 					if (downloader.TotalLength != 0)
 					{
-						item.SubItems[3].Text = string.Format(@"{0:P}", (double)downloader.DoneBytes / (double)downloader.TotalLength);
+						item.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", downloader.GetProcess());
 					}
 					else
 					{
-						item.SubItems[3].Text = "0.0%";
+						item.SubItems[GetColumn("Progress")].Text = "0.0%";
 					}
 					//显示速度
 					double currentSpeed = 0;
-					currentSpeed = (double)(downloader.DoneBytes - downloader.LastTick) / (timer.Interval *1024 / 1000);
+					currentSpeed = (double)downloader.GetTickCount() / (timer.Interval *1024 / 1000);
 					if (currentSpeed < 0) currentSpeed = 0;
 					speed += currentSpeed;
-					item.SubItems[4].Text = string.Format("{0:F1}",currentSpeed) + "KB/s";
+					item.SubItems[GetColumn("Speed")].Text = string.Format("{0:F1}", currentSpeed) + "KB/s";
+					//显示已用时间
+					DateTime now = DateTime.Now;
+					TimeSpan use = now - downloader.CreateTime;
+					item.SubItems[GetColumn("PastTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", use.Hours, use.Minutes, use.Seconds);
+					//显示剩余时间：剩余时间 = (总长度 - 已完成)/每秒速度
+					double remain = (downloader.TotalLength - downloader.DoneBytes) / currentSpeed / 1024;
+					if (remain > 0 && !double.IsInfinity(remain))
+					{
+						try
+						{
+							Debug.WriteLine("remain=" + remain.ToString());
+							int hour = (int)(remain / 3600);
+							int minute =(int)((remain % 3600) / 60);
+							int second = (int)(remain % 3600 % 60);
+							item.SubItems[GetColumn("RemainTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", hour, minute, second);
+						}
+						catch (Exception ex) { }
+					}
 				}
 				//如果正在等待开始
 				if (downloader.Status == DownloadStatus.等待开始)
@@ -416,7 +434,7 @@ namespace AcDown.UI
 					ListViewItem item = GetLsvItem(downloader.TaskId);
 					if (item != null)
 					{
-						item.SubItems[0].Text = "等待开始";
+						item.SubItems[GetColumn("Status")].Text = "等待开始";
 					}
 					
 				}
@@ -435,12 +453,12 @@ namespace AcDown.UI
 			{
 				if (Config.setting.EnableWindows7Feature)
 				{
-					IDownloader a = taskMgr.GetFirstRunning();
+					TaskItem a = taskMgr.GetFirstRunning();
 					if (a != null) //如果有任务正在运行
 					{
 						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
 						//显示此任务的进度
-						taskbarList.SetProgressValue(this.Handle, (ulong)(((double)a.DoneBytes / (double)a.TotalLength) * 10000), 10000);
+						taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProcess() * 10000), 10000);
 					}
 					else
 					{
@@ -461,7 +479,7 @@ namespace AcDown.UI
 					taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
 				}
 			}
-		}
+		} // end Timer_Tick
 
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -532,7 +550,7 @@ namespace AcDown.UI
 			//开始所有可能开始的任务
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				IDownloader downloader = GetTask(new Guid((string)item.Tag));
+				TaskItem downloader = GetTask(new Guid((string)item.Tag));
 				if (downloader.Status == DownloadStatus.出现错误 || downloader.Status == DownloadStatus.已经停止)
 				{
 					taskMgr.StartTask(downloader);
@@ -553,7 +571,7 @@ namespace AcDown.UI
 			//停止所有可能停止的任务
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				IDownloader downloader = GetTask(new Guid((string)item.Tag));
+				TaskItem downloader = GetTask(new Guid((string)item.Tag));
 				if (downloader.Status == DownloadStatus.正在下载 || downloader.Status == DownloadStatus.等待开始)
 				{
 					taskMgr.StopTask(downloader);
@@ -567,7 +585,7 @@ namespace AcDown.UI
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				IDownloader downloader = GetTask(new Guid((string)item.Tag));
+				TaskItem downloader = GetTask(new Guid((string)item.Tag));
 				if (!string.IsNullOrEmpty(downloader.SaveDirectory.ToString()))
 					Process.Start(downloader.SaveDirectory.ToString());
 				else
@@ -581,7 +599,7 @@ namespace AcDown.UI
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				IDownloader downloader = GetTask(new Guid((string)item.Tag));
+				TaskItem downloader = GetTask(new Guid((string)item.Tag));
 				Process.Start(downloader.Url);
 			}
 		}
@@ -818,7 +836,7 @@ namespace AcDown.UI
 
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				IDownloader downloader = GetTask(new Guid((string)item.Tag));
+				TaskItem downloader = GetTask(new Guid((string)item.Tag));
 				taskMgr.DeleteTask(downloader, Config.setting.DeleteTaskAndFile);
 				//删除UI
 				lsv.Items.Remove(item);
@@ -833,7 +851,7 @@ namespace AcDown.UI
 				ListViewItem item = lsv.SelectedItems[0];
 				if (item != null)
 				{
-					IDownloader downloader = GetTask(new Guid((string)item.Tag));
+					TaskItem downloader = GetTask(new Guid((string)item.Tag));
 					taskMgr.DeleteTask(downloader, e.Shift | Config.setting.DeleteTaskAndFile);
 				}
 			}
@@ -888,7 +906,7 @@ namespace AcDown.UI
 		/// <param name="guid"></param>
 		/// <returns></returns>
 		[DebuggerNonUserCode()]
-		public IDownloader GetTask(Guid guid)
+		public TaskItem GetTask(Guid guid)
 		{
 			foreach (var i in taskMgr.Tasks)
 			{
@@ -919,6 +937,20 @@ namespace AcDown.UI
 			return null;
 		}
 
+		/// <summary>
+		/// 取得列所在位置
+		/// </summary>
+		/// <param name="columnName"></param>
+		/// <returns></returns>
+		private int GetColumn(string columnName)
+		{
+			foreach (ColumnHeader item in lsv.Columns)
+			{
+				if (item.Tag.ToString() == columnName)
+					return item.Index;
+			}
+			return -1;
+		}
 		//刷新任务
 		private void RefreshTask(object e)
 		{
@@ -931,7 +963,7 @@ namespace AcDown.UI
 
 			ParaRefresh r = (ParaRefresh)e;
 			ListViewItem item = GetLsvItem(r.TaskId);
-			IDownloader downloader = GetTask(r.TaskId);
+			TaskItem downloader = GetTask(r.TaskId);
 
 			//如果UI存在此任务
 			if (item != null) 
@@ -941,17 +973,22 @@ namespace AcDown.UI
 				{
 					//刷新界面
 					//状态
-					item.SubItems[0].Text = downloader.Status.ToString();
+					item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
 					//视频名称
-					item.SubItems[1].Text = downloader.Title;
+					item.SubItems[GetColumn("Name")].Text = downloader.Title;
 					//分段
-					item.SubItems[2].Text = downloader.CurrentPart.ToString() + "/" + downloader.PartCount.ToString();
+					item.SubItems[GetColumn("Part")].Text = downloader.CurrentPart.ToString() + "/" + downloader.PartCount.ToString();
 					//下载进度
-					item.SubItems[3].Text = "";
+					item.SubItems[GetColumn("Progress")].Text = "";
 					//下载速度
-					item.SubItems[4].Text = "";
+					item.SubItems[GetColumn("Speed")].Text = "";
+					//剩余时间
+					item.SubItems[GetColumn("RemainTime")].Text = "00:00:00";
+					//已经过的时间
+					item.SubItems[GetColumn("PastTime")].Text = "00:00:00";
 					//源地址
-					item.SubItems[5].Text = downloader.Url;
+					item.SubItems[GetColumn("SourceUrl")].Text = downloader.Url; 
+
 				}
 				else //UI存在但是任务不存在
 				{
@@ -964,11 +1001,17 @@ namespace AcDown.UI
 				//新建ListViewItem
 				ListViewItem lvi = new ListViewItem();
 				//lvi.SubItems.Add(downloader.Status.ToString()); //状态
-				lvi.SubItems.Add("正在解析,请稍候"); //视频名称
-				lvi.SubItems.Add("0/0"); //分段
-				lvi.SubItems.Add("0.0%"); //下载进度
-				lvi.SubItems.Add("0"); //下载速度
-				lvi.SubItems.Add(downloader.Url); //源地址
+				for (int i = 0; i < 8; i++)
+				{
+					lvi.SubItems.Add("");
+				}
+				lvi.SubItems[GetColumn("Name")].Text = "正在解析,请稍候"; //视频名称
+				lvi.SubItems[GetColumn("Part")].Text = "0/0"; //分段
+				lvi.SubItems[GetColumn("Progress")].Text = "0.0%"; //下载进度
+				lvi.SubItems[GetColumn("Speed")].Text = "0"; //下载速度
+				lvi.SubItems[GetColumn("RemainTime")].Text = "00:00:00"; //剩余时间
+				lvi.SubItems[GetColumn("PastTime")].Text = "00:00:00"; //已经过的时间
+				lvi.SubItems[GetColumn("SourceUrl")].Text = downloader.Url; //源地址
 				lvi.Tag = downloader.TaskId.ToString(); //设置TAG
 				lsv.Items.Add(lvi);
 			}
@@ -987,13 +1030,13 @@ namespace AcDown.UI
 			//转换参数
 			ParaStart p = (ParaStart)e;
 			//取得指定任务
-			IDownloader downloader = GetTask(p.TaskId);
+			TaskItem downloader = GetTask(p.TaskId);
 			if (downloader == null)
 				return;
 
 			//设置TaskItem
 			ListViewItem item = GetLsvItem(p.TaskId);
-			item.SubItems[0].Text = "正在下载";
+			item.SubItems[GetColumn("Status")].Text = "正在下载";
 		} //end Start
 
 		// 进入到新的分段
@@ -1006,19 +1049,19 @@ namespace AcDown.UI
 				return;
 			}
 			ParaNewPart p = (ParaNewPart)e;
-			IDownloader downloader = GetTask(p.TaskId);
+			TaskItem downloader = GetTask(p.TaskId);
 			ListViewItem item = GetLsvItem(p.TaskId);
 			//设置提示信息
 			//item.SubItems[0].Text = downloader.Status.ToString();
 			//视频标题
-			item.SubItems[1].Text = downloader.Title;
+			item.SubItems[GetColumn("Name")].Text = downloader.Title;
 			try
 			{
-				item.SubItems[2].Text = p.PartNumber.ToString() + @"/" + downloader.PartCount.ToString();
+				item.SubItems[GetColumn("Part")].Text = p.PartNumber.ToString() + @"/" + downloader.PartCount.ToString();
 			}
 			catch
 			{
-				item.SubItems[2].Text = "1/1";
+				item.SubItems[GetColumn("Part")].Text = "1/1";
 			}
 		}//end NewPart
 
@@ -1036,10 +1079,10 @@ namespace AcDown.UI
 				return;
 			}
 			ParaTipText p = (ParaTipText)e;
-			IDownloader ac = GetTask(p.TaskId);
+			TaskItem ac = GetTask(p.TaskId);
 			ListViewItem item = GetLsvItem(p.TaskId);
 			//设置提示信息
-			item.SubItems[3].Text = p.TipText;
+			item.SubItems[GetColumn("Progress")].Text = p.TipText;
 		}//end TipText
 
 		//下载完成(需要判断下载完成还是用户手动停止)
@@ -1053,16 +1096,16 @@ namespace AcDown.UI
 			}
 
 			ParaFinish p = (ParaFinish)e;
-			IDownloader downloader = GetTask(p.TaskId);
+			TaskItem downloader = GetTask(p.TaskId);
 			ListViewItem item = GetLsvItem(p.TaskId);
 
 			//如果下载成功
 			if (p.Successed)
 			{
 				//更新item
-				item.SubItems[0].Text = downloader.Status.ToString();
-				item.SubItems[3].Text = @"100%"; //下载进度
-				item.SubItems[4].Text = ""; //下载速度
+				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
+				item.SubItems[GetColumn("Progress")].Text = @"100%"; //下载进度
+				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				//打开文件夹
 				if (Config.setting.OpenFolderAfterComplete)
 					Process.Start(Config.setting.SavePath);
@@ -1097,8 +1140,8 @@ namespace AcDown.UI
 				if (item != null)
 				{
 					//更新item
-					item.SubItems[0].Text = downloader.Status.ToString();
-					item.SubItems[4].Text = ""; //下载速度
+					item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
+					item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				}
 			}
 
@@ -1162,13 +1205,13 @@ namespace AcDown.UI
 			//添加到日志
 			Logging.Add(p.E);
 
-			IDownloader downloader = GetTask(p.TaskId);
+			TaskItem downloader = GetTask(p.TaskId);
 			if (downloader != null)
 			{
 				//更新item
-				item.SubItems[0].Text = downloader.Status.ToString();
-				item.SubItems[3].Text = @"下载出错"; //下载进度
-				item.SubItems[4].Text = ""; //下载速度
+				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
+				item.SubItems[GetColumn("Progress")].Text = @"下载出错"; //下载进度
+				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 			}
 			//显示ToolTip
 			if (errorTip)

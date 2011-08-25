@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Downloader
 {
+	/// <summary>
+	/// FLVCD解析插件
+	/// </summary>
 	public class FlvcdPlugin : IAcdownPluginInfo
 	{
 		public string Name
@@ -20,7 +23,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 0, 0, 0); }
+			get { return new Version(1, 1, 0, 0); }
 		}
 
 		public string Describe
@@ -40,7 +43,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			if (url.StartsWith("+", StringComparison.CurrentCultureIgnoreCase))
+			if (url.StartsWith("+http", StringComparison.CurrentCultureIgnoreCase))
 			{
 				return true;
 			}

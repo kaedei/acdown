@@ -260,13 +260,13 @@
            this.cboVideoType.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.cboVideoType.FormattingEnabled = true;
            this.cboVideoType.Items.AddRange(new object[] {
-            "普通",
-            "高清(360P)",
-            "超清(480P)",
+            "普通 / 标清",
+            "优酷高清 / 土豆360P",
+            "优酷超清 / 土豆480P",
             "原画"});
            this.cboVideoType.Location = new System.Drawing.Point(86, 198);
            this.cboVideoType.Name = "cboVideoType";
-           this.cboVideoType.Size = new System.Drawing.Size(123, 28);
+           this.cboVideoType.Size = new System.Drawing.Size(189, 28);
            this.cboVideoType.TabIndex = 18;
            this.cboVideoType.Visible = false;
            this.cboVideoType.SelectedIndexChanged += new System.EventHandler(this.cboVideoType_SelectedIndexChanged);
@@ -347,6 +347,7 @@
            this.Name = "FormNew";
            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
            this.Text = "新建下载任务";
+           this.TopMost = true;
            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormNew_FormClosing);
            this.Load += new System.EventHandler(this.FormNew_Load);
            ((System.ComponentModel.ISupportInitialize)(this.picCheck)).EndInit();

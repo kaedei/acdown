@@ -33,9 +33,11 @@
            this.headerStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
            this.headerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
            this.headerPart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-           this.headerProcess = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.headerProgress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
            this.headerSpeed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-           this.headerSource = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.headerRemainTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.headerPastTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+           this.headerSourceUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
            this.picLogo = new System.Windows.Forms.PictureBox();
            this.statusStrip = new System.Windows.Forms.StatusStrip();
            this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
@@ -99,18 +101,19 @@
            // 
            // lsv
            // 
-           this.lsv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+           this.lsv.AllowColumnReorder = true;
            this.lsv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.headerStatus,
             this.headerName,
             this.headerPart,
-            this.headerProcess,
+            this.headerProgress,
             this.headerSpeed,
-            this.headerSource});
+            this.headerRemainTime,
+            this.headerPastTime,
+            this.headerSourceUrl});
            this.lsv.Dock = System.Windows.Forms.DockStyle.Fill;
            this.lsv.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.lsv.FullRowSelect = true;
-           this.lsv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
            this.lsv.Location = new System.Drawing.Point(3, 3);
            this.lsv.Name = "lsv";
            this.lsv.ShowItemToolTips = true;
@@ -125,33 +128,51 @@
            // 
            // headerStatus
            // 
+           this.headerStatus.Tag = "Status";
            this.headerStatus.Text = "状态";
            this.headerStatus.Width = 80;
            // 
            // headerName
            // 
+           this.headerName.Tag = "Name";
            this.headerName.Text = "名称";
            this.headerName.Width = 144;
            // 
            // headerPart
            // 
+           this.headerPart.Tag = "Part";
            this.headerPart.Text = "分段";
-           this.headerPart.Width = 62;
+           this.headerPart.Width = 69;
            // 
-           // headerProcess
+           // headerProgress
            // 
-           this.headerProcess.Text = "当前分段下载进度";
-           this.headerProcess.Width = 140;
+           this.headerProgress.Tag = "Progress";
+           this.headerProgress.Text = "下载进度(当前分段)";
+           this.headerProgress.Width = 85;
            // 
            // headerSpeed
            // 
+           this.headerSpeed.Tag = "Speed";
            this.headerSpeed.Text = "下载速度";
            this.headerSpeed.Width = 80;
            // 
-           // headerSource
+           // headerRemainTime
            // 
-           this.headerSource.Text = "源地址";
-           this.headerSource.Width = 300;
+           this.headerRemainTime.Tag = "RemainTime";
+           this.headerRemainTime.Text = "剩余时间(当前分段)";
+           this.headerRemainTime.Width = 160;
+           // 
+           // headerPastTime
+           // 
+           this.headerPastTime.Tag = "PastTime";
+           this.headerPastTime.Text = "已用时间";
+           this.headerPastTime.Width = 160;
+           // 
+           // headerSourceUrl
+           // 
+           this.headerSourceUrl.Tag = "SourceUrl";
+           this.headerSourceUrl.Text = "源地址";
+           this.headerSourceUrl.Width = 500;
            // 
            // picLogo
            // 
@@ -372,7 +393,7 @@
             this.mnuTrayExit});
            this.mnuTray.Name = "mnuTray";
            this.mnuTray.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-           this.mnuTray.Size = new System.Drawing.Size(173, 76);
+           this.mnuTray.Size = new System.Drawing.Size(173, 54);
            // 
            // mnuTrayShowHide
            // 
@@ -403,11 +424,11 @@
            this.btnClickNew.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
            this.btnClickNew.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.btnClickNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnClickNew.Location = new System.Drawing.Point(132, 77);
-           this.btnClickNew.MaximumSize = new System.Drawing.Size(352, 244);
+           this.btnClickNew.Location = new System.Drawing.Point(81, 41);
+           this.btnClickNew.MaximumSize = new System.Drawing.Size(352, 227);
            this.btnClickNew.MinimumSize = new System.Drawing.Size(180, 93);
            this.btnClickNew.Name = "btnClickNew";
-           this.btnClickNew.Size = new System.Drawing.Size(251, 154);
+           this.btnClickNew.Size = new System.Drawing.Size(352, 227);
            this.btnClickNew.TabIndex = 0;
            this.btnClickNew.Text = "新建下载任务";
            this.btnClickNew.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -508,7 +529,7 @@
             this.toolInfo});
            this.contextTool.Location = new System.Drawing.Point(42, 113);
            this.contextTool.Name = "contextTool";
-           this.contextTool.Size = new System.Drawing.Size(386, 48);
+           this.contextTool.Size = new System.Drawing.Size(417, 48);
            this.contextTool.TabIndex = 22;
            this.contextTool.Visible = false;
            // 
@@ -580,7 +601,7 @@
            this.toolInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.toolInfo.Name = "toolInfo";
            this.toolInfo.Size = new System.Drawing.Size(60, 45);
-           this.toolInfo.Text = "查看信息";
+           this.toolInfo.Text = "扩展信息";
            this.toolInfo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
            this.toolInfo.ToolTipText = "查看任务信息";
            this.toolInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
@@ -700,9 +721,9 @@
 		  private System.Windows.Forms.NotifyIcon notifyIcon;
 		  private System.Windows.Forms.ColumnHeader headerStatus;
 		  private System.Windows.Forms.ColumnHeader headerName;
-		  private System.Windows.Forms.ColumnHeader headerProcess;
+		  private System.Windows.Forms.ColumnHeader headerProgress;
 		  private System.Windows.Forms.ColumnHeader headerSpeed;
-		  private System.Windows.Forms.ColumnHeader headerSource;
+		  private System.Windows.Forms.ColumnHeader headerSourceUrl;
         private System.Windows.Forms.Button btnClickNew;
 		  private System.Windows.Forms.ColumnHeader headerPart;
         private System.Windows.Forms.Timer timer;
@@ -743,6 +764,8 @@
         private System.Windows.Forms.TabPage tabConfig;
         private System.Windows.Forms.TabPage tabFlvCombine;
         private Kaedei.AcDown.UI.Components.FlvCombineControl flvCombineControl1;
+        private System.Windows.Forms.ColumnHeader headerRemainTime;
+        private System.Windows.Forms.ColumnHeader headerPastTime;
 
 	 }
 }

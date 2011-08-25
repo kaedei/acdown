@@ -40,30 +40,29 @@ namespace Kaedei.AcDown.UI
 			 }
 			 instance.LoadProxys();
 			 instance.Show();
-			 instance.TopMost = true;
-			 instance.TopMost = false;
 			 instance.txtInput.Focus();
+			 instance.Activate();
 		 }
 
-       /// <summary>
-       /// 检查是否支持解析指定的URL
-       /// </summary>
-       /// <param name="url">需要检查的Url</param>
-       /// <returns></returns>
-       public static bool CheckUrl(string url)
-       {
-          if (instance != null)
-          {
-             foreach (var item in _pluginMgr.Plugins)
-             {
-                if (item.CheckUrl(url)) //检查成功
-                {
-                   return true;
-                }
-             }
-          }
-          return false;
-       }
+		 /// <summary>
+		 /// 检查是否支持解析指定的URL
+		 /// </summary>
+		 /// <param name="url">需要检查的Url</param>
+		 /// <returns></returns>
+		 public static bool CheckUrl(string url)
+		 {
+			 if (instance != null)
+			 {
+				 foreach (var item in _pluginMgr.Plugins)
+				 {
+					 if (item.CheckUrl(url)) //检查成功
+					 {
+						 return true;
+					 }
+				 }
+			 }
+			 return false;
+		 }
 
 		 private FormNew()
 		 {
@@ -123,18 +122,18 @@ namespace Kaedei.AcDown.UI
 			 string t = txtInput.Text;
 			 if (Config.setting.AutoCheckUrl)
 			 {
-             if (t.Length != 0)
-             {
-                picCheck.Visible = true;
-                if (CheckUrl(t)) //检查url 设置图片
-                   picCheck.Image = Properties.Resources._1;
-                else
-                   picCheck.Image = Properties.Resources._2;
-             }
-             else
-             {
-                picCheck.Visible = false;
-             }
+				 if (t.Length != 0)
+				 {
+					 picCheck.Visible = true;
+					 if (CheckUrl(t)) //检查url 设置图片
+						 picCheck.Image = Properties.Resources._1;
+					 else
+						 picCheck.Image = Properties.Resources._2;
+				 }
+				 else
+				 {
+					 picCheck.Visible = false;
+				 }
 			 }
 			 //设置checkbox
 			 if (txtInput.Text.StartsWith("+"))
@@ -169,7 +168,7 @@ namespace Kaedei.AcDown.UI
 				 //取得此url的hash
 				 string hash = p.GetHash(url);
 				 //检查是否有已经在进行的相同任务
-				 foreach (IDownloader downloader in _taskMgr.Tasks)
+				 foreach (TaskItem downloader in _taskMgr.Tasks)
 				 {
 					 if (downloader.GetBasePlugin().GetHash(downloader.Url) == hash)
 					 {
@@ -192,7 +191,7 @@ namespace Kaedei.AcDown.UI
 						 }
 					 }
 					 //添加任务
-					 IDownloader downloader = _taskMgr.AddTask(p.CreateDownloader(), url,
+					 TaskItem downloader = _taskMgr.AddTask(new TaskItem(p.CreateDownloader(), null), url,
 						 (selectedProxy == null) ? null : selectedProxy.ToWebProxy());
 					 //开始下载
 					 _taskMgr.StartTask(downloader);

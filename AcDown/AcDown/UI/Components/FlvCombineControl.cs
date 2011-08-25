@@ -106,11 +106,11 @@ namespace Kaedei.AcDown.UI.Components
             bool result = FlvCombine.FlvCombine.CombineFlvFile(txtCombineOutput.Text, l.ToArray());
             if (result) //合并成功
             {
-               MessageBox.Show("视频合并成功", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+               MessageBox.Show("视频合并成功:\n" + txtCombineOutput.Text, "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
             }
             else //合并失败
             {
-               MessageBox.Show("视频合并失败", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+               MessageBox.Show("视频合并失败。\n视频合并器暂时不能正确读取您所选择的文件。\n\n此问题可能是由于视频并未使用Flv编码所致", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
             }
             //恢复控件的状态
             this.Invoke(new MethodInvoker(() =>

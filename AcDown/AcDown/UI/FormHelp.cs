@@ -70,7 +70,7 @@ namespace Kaedei.AcDown.UI
       {
          txtEmail.SelectAll();
          Clipboard.SetText(txtEmail.Text);
-         MessageBox.Show("邮件地址已经复制到系统剪贴板\n\n你现在可以发送邮件骚扰作者了", "帮助中心", MessageBoxButtons.OK, MessageBoxIcon.Information);
+         MessageBox.Show("邮件地址已经复制到系统剪贴板", "帮助中心", MessageBoxButtons.OK, MessageBoxIcon.Information);
       }
    }
 }
