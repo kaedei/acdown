@@ -227,9 +227,9 @@ namespace AcDown.UI
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			if (Config.IsWindowsVistaOr7())
+			if (Config.IsWindowsVistaOrHigher())
 			{
-				if (Config.IsWindows7())
+				if (Config.IsWindows7OrHigher())
 				{
 					//初始化Win7任务栏管理器
 					taskbarList = (ITaskbarList3)new CTaskbarList();
@@ -267,7 +267,7 @@ namespace AcDown.UI
 				btnClickNew.Dispose();
 			}
 			//禁用Win7缩略图按钮
-			if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
+			if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
 			{
 				newbtn.dwFlags = THBFLAGS.THBF_DISABLED;
 				taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
@@ -277,7 +277,7 @@ namespace AcDown.UI
 			FormNew.ShowForm("");
 			watchClipboard = true;
 			//启用Win7缩略图按钮
-			if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
+			if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
 			{
 				newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
 				taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
@@ -343,7 +343,7 @@ namespace AcDown.UI
 							}
 
 							//禁用Win7缩略图按钮
-							if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
+							if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
 							{
 								newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
 								taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
@@ -352,7 +352,7 @@ namespace AcDown.UI
 							FormNew.ShowForm(Clipboard.GetText());
 							
 							//启用Win7缩略图按钮
-							if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
+							if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
 							{
 								newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
 								taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
@@ -419,7 +419,6 @@ namespace AcDown.UI
 					{
 						try
 						{
-							Debug.WriteLine("remain=" + remain.ToString());
 							int hour = (int)(remain / 3600);
 							int minute =(int)((remain % 3600) / 60);
 							int second = (int)(remain % 3600 % 60);
@@ -449,7 +448,7 @@ namespace AcDown.UI
 				lblSpeed.Text = "";
 			}
 			//显示Win7任务栏特性
-			if (Config.IsWindows7())
+			if (Config.IsWindows7OrHigher())
 			{
 				if (Config.setting.EnableWindows7Feature)
 				{
@@ -813,14 +812,14 @@ namespace AcDown.UI
 			Logging.Exit();
 			//退出程序
 			exitapp = true;
-			this.Dispose();
 			Application.Exit();
+			this.Dispose();
 		}
 		
 		//xp下搜索框失去焦点
 		private void txtSearch_Leave(object sender, EventArgs e)
 		{
-			if (!Config.IsWindowsVistaOr7() && txtSearch.Text == "")
+			if (!Config.IsWindowsVistaOrHigher() && txtSearch.Text == "")
 				txtSearch.Text = "快捷搜索";
 		}
 
@@ -864,7 +863,7 @@ namespace AcDown.UI
 			base.WndProc(ref m);
 
 			if (m.Msg == (int)RegisterWindowMessage("TaskbarButtonCreated"))
-				if (Config.IsWindows7() && Config.setting.EnableWindows7Feature)
+				if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
 				{
 					newbtn = new THUMBBUTTON()
 						 {

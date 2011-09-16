@@ -245,21 +245,37 @@ namespace Kaedei.AcDown.Downloader
 				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), delegates.Proxy);
 
 				//分析id和视频存放站点(type)
-				//先取得embed块的源代码
-				Regex rEmbed = new Regex(@"<embed (?<content>.*)>");
-				Match mEmbed = rEmbed.Match(src);
-				string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"","");
-				
-				//取得id值
-				Regex rId = new Regex(@"id=(?<id>\w*)(?<ot>(-\w*|))");
-				Match mId = rId.Match(embedSrc);
-				string id = mId.Groups["id"].Value;
-				string ot = mId.Groups["ot"].Value;
+				string type;
+				string id = ""; //视频id
+				string ot = ""; //视频子id
 
-				//取得type值
-				Regex rType = new Regex(@"type(|\w)=(?<type>\w*)");
-				Match mType = rType.Match(embedSrc);
-				string type = mType.Groups["type"].Value;
+				//检查是否为Flash游戏
+				Regex rFlash = new Regex(@"data=""(?<flash>.+?\.swf)""");
+				Match mFlash = rFlash.Match(src);
+
+				//如果是Flash游戏
+				if (mFlash.Success)
+				{
+					type = "game";
+				}
+				else
+				{
+					//先取得embed块的源代码
+					Regex rEmbed = new Regex(@"<embed (?<content>.*)>");
+					Match mEmbed = rEmbed.Match(src);
+					string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
+
+					//取得id值
+					Regex rId = new Regex(@"id=(?<id>\w*)(?<ot>(-\w*|))");
+					Match mId = rId.Match(embedSrc);
+					id = mId.Groups["id"].Value;
+					ot = mId.Groups["ot"].Value;
+
+					//取得type值
+					Regex rType = new Regex(@"type(|\w)=(?<type>\w*)");
+					Match mType = rType.Match(embedSrc);
+					type = mType.Groups["type"].Value;
+				}
 
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
@@ -286,6 +302,7 @@ namespace Kaedei.AcDown.Downloader
 						title = title + " - " + mSubTitles[0].Groups["content"].Value;
 					}
 				}
+
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
 				_title = title;
@@ -312,6 +329,9 @@ namespace Kaedei.AcDown.Downloader
 						//解析视频
 						YoukuParser parserYouKu = new YoukuParser();
 						videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
+						break;
+					case "game": //flash游戏
+						videos = new string[] { mFlash.Groups["flash"].Value };
 						break;
 				}
 
@@ -363,6 +383,14 @@ namespace Kaedei.AcDown.Downloader
 					_filePath.Add(currentParameter.FilePath);
 					//下载文件
 					bool success;
+					//添加断点续传段
+					if (File.Exists(currentParameter.FilePath))
+					{
+						//取得文件长度
+						int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
+						//设置RangeStart属性
+						currentParameter.RangeStart = len;
+					}
 					//下载视频
 					success = Network.DownloadFile(currentParameter);
 

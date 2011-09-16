@@ -28,7 +28,14 @@
       /// </summary>
       private void InitializeComponent()
       {
+         this.components = new System.ComponentModel.Container();
+         this.noti = new System.Windows.Forms.NotifyIcon(this.components);
          this.SuspendLayout();
+         // 
+         // noti
+         // 
+         this.noti.Text = "AcDown动漫下载器 - 正在运行";
+         this.noti.Visible = true;
          // 
          // FormSingle
          // 
@@ -36,6 +43,7 @@
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(471, 189);
          this.Name = "FormSingle";
+         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
          this.Text = "FormCommandLine";
          this.Load += new System.EventHandler(this.FormSingle_Load);
          this.ResumeLayout(false);
@@ -43,5 +51,7 @@
       }
 
       #endregion
+
+      private System.Windows.Forms.NotifyIcon noti;
    }
 }

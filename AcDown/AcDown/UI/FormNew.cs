@@ -256,7 +256,9 @@ namespace Kaedei.AcDown.UI
 		 private void lnkSetProxy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		 {
 			 FormConfig frm = new FormConfig("pageProxy");
+			 this.TopMost = false;
 			 frm.ShowDialog();
+			 this.TopMost = true;
 			 frm.Dispose();
 			 LoadProxys();
 		 }

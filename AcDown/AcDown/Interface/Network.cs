@@ -25,14 +25,16 @@ namespace Kaedei.AcDown.Interface
 			Int32 privateTick = 0;
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
-			WebRequest Myrq = HttpWebRequest.Create(para.Url);
-			if (para.Proxy != null)
-				Myrq.Proxy = para.Proxy;
-			
-			WebResponse myrp = Myrq.GetResponse();
-			para.TotalLength = myrp.ContentLength; //文件长度
 
-			#region 检查文件是否被下载过
+         #region 检查文件是否被下载过&是否支持断点续传
+         //创建http请求
+			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+			//设置代理服务器
+			if (para.Proxy != null) 
+				request.Proxy = para.Proxy;
+			
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			para.TotalLength = response.ContentLength; //文件长度
 
 			//如果要下载的文件存在
 			if (File.Exists(para.FilePath))
@@ -45,7 +47,25 @@ namespace Kaedei.AcDown.Interface
 					return true;
 				}
 			}
-			#endregion
+         //检查服务器是否支持断点续传
+         bool supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
+
+         #endregion
+
+         //重新获取Response
+			request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+         //设置代理服务器
+         if (para.Proxy != null)
+            request.Proxy = para.Proxy;
+         //设置Range
+         if (para.RangeStart > 0 && supportrange)
+         {
+            if (para.RangeTo > para.RangeStart)
+               request.AddRange(para.RangeStart, para.RangeTo);
+            else
+               request.AddRange(para.RangeStart);
+         }
+			response = (HttpWebResponse)request.GetResponse();
 
 			para.DoneBytes = 0; //完成字节数
 			para.LastTick = System.Environment.TickCount; //系统计数
@@ -57,14 +77,24 @@ namespace Kaedei.AcDown.Interface
 			if (GlobalSettings.GetSettings().CacheSizeMb > 256 || GlobalSettings.GetSettings().CacheSizeMb < 1)
 				GlobalSettings.GetSettings().CacheSizeMb = 1;
 			//获取下载流
-			using (st = myrp.GetResponseStream())
+			using (st = response.GetResponseStream())
 			{
-				//deflate解压缩
+				//设置deflate解压缩
 				if (para.UseDeflate)
 					deflate = new DeflateStream(st, CompressionMode.Decompress);
-
+				//设置FileStream
+				if ((para.RangeStart == 0 && para.RangeTo == 0) || supportrange == false)
+				{
+					fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8);
+				}
+				else //使用断点续传
+				{
+					para.DoneBytes = para.RangeStart;
+					fs = File.OpenWrite(para.FilePath);
+					fs.Seek(para.RangeStart, SeekOrigin.Begin);
+				}
 				//打开文件流
-				using (fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8))
+				using (fs)
 				{
 					//使用缓冲流
 					if (deflate == null)
@@ -305,6 +335,14 @@ namespace Kaedei.AcDown.Interface
 		/// 读取或设置使用的代理服务器设置
 		/// </summary>
 		public WebProxy Proxy { get; set; }
+		/// <summary>
+		/// HTTP Range属性的起始值
+		/// </summary>
+		public int RangeStart { get; set; }
+		/// <summary>
+		/// HTTP Range属性的终止值，设置为0以单独使用RangeStart
+		/// </summary>
+		public int RangeTo { get; set; }
 	}
 
 	
