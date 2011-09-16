@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using AcDown.UI;
 using Microsoft.VisualBasic.ApplicationServices;
+using Kaedei.AcDown.UI;
 
 namespace AcDown
 {
@@ -33,9 +34,8 @@ namespace AcDown
 
        protected override bool OnStartup(Microsoft.VisualBasic.ApplicationServices.StartupEventArgs e)
        {
-          Program.frmMain = new FormMain();
-          Application.Run(Program.frmMain);
-          return false;
+          Application.Run(new FormStart());
+          return true;
        }
 
        protected override void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)

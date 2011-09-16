@@ -140,15 +140,12 @@ namespace Kaedei.AcDown
       }
 
 
-
-
-
       /// <summary>
       /// 判断当前系统是否为Windows7
       /// </summary>
       /// <returns></returns>
       [DebuggerNonUserCode()]
-      public static bool IsWindows7()
+      public static bool IsWindows7OrHigher()
       {
          if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
             return true;
@@ -164,9 +161,9 @@ namespace Kaedei.AcDown
             return false;
       }
       [DebuggerNonUserCode()]
-      public static bool IsWindowsVistaOr7()
+      public static bool IsWindowsVistaOrHigher()
       {
-         if (Environment.OSVersion.Version.Major == 6)
+         if (Environment.OSVersion.Version.Major >= 6)
             return true;
          else
             return false;

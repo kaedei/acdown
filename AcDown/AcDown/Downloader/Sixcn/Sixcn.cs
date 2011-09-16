@@ -314,6 +314,14 @@ namespace Kaedei.AcDown.Downloader
 					_filePath.Add(currentParameter.FilePath);
 					//下载文件
 					bool success;
+               //添加断点续传段
+               if (File.Exists(currentParameter.FilePath))
+               {
+                  //取得文件长度
+                  int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
+                  //设置RangeStart属性
+                  currentParameter.RangeStart = len;
+               }
 					//下载视频文件
 					success = Network.DownloadFile(currentParameter);
 					//未出现错误即用户手动停止
