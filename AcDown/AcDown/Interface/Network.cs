@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 using System.IO;
 using System.Threading;
 using System.IO.Compression;
-using Kaedei.AcDown.Interface;
-using System.Text.RegularExpressions;
-using System.Globalization;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -25,19 +20,44 @@ namespace Kaedei.AcDown.Interface
 			Int32 privateTick = 0;
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
+			//临时文件
+			//byte[] tempfile;
 
-         #region 检查文件是否被下载过&是否支持断点续传
-         //创建http请求
+			#region 检查文件是否被下载过&是否支持断点续传
+			//创建http请求
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+			
 			//设置代理服务器
 			if (para.Proxy != null) 
 				request.Proxy = para.Proxy;
-			
+			//设置Range
+			if (para.RangeStart > 0)
+			{
+				if (para.RangeTo > para.RangeStart)
+					request.AddRange(para.RangeStart, para.RangeTo);
+				else
+					request.AddRange(para.RangeStart);
+			}
+
+			//获取服务器回应
 			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			//检查服务器是否支持断点续传
+			bool supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
+			if ((para.RangeStart != 0 || para.RangeTo != 0) && supportrange==false) //若设置了范围而服务器却不支持断点续传
+			{
+				//重新获取服务器回应
+				response.Close();
+				//创建http请求
+				request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+				//设置代理服务器
+				if (para.Proxy != null)
+					request.Proxy = para.Proxy;
+				response = (HttpWebResponse)request.GetResponse();
+			}
 			para.TotalLength = response.ContentLength; //文件长度
 
 			//如果要下载的文件存在
-			if (File.Exists(para.FilePath))
+			if (File.Exists(para.FilePath) && para.RangeStart == 0)
 			{
 				long filelength = new FileInfo(para.FilePath).Length;
 				//如果文件长度相同
@@ -47,28 +67,11 @@ namespace Kaedei.AcDown.Interface
 					return true;
 				}
 			}
-         //检查服务器是否支持断点续传
-         bool supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
+			
 
-         #endregion
+			#endregion
 
-         //重新获取Response
-			request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-         //设置代理服务器
-         if (para.Proxy != null)
-            request.Proxy = para.Proxy;
-         //设置Range
-         if (para.RangeStart > 0 && supportrange)
-         {
-            if (para.RangeTo > para.RangeStart)
-               request.AddRange(para.RangeStart, para.RangeTo);
-            else
-               request.AddRange(para.RangeStart);
-         }
-			response = (HttpWebResponse)request.GetResponse();
-
-			para.DoneBytes = 0; //完成字节数
-			para.LastTick = System.Environment.TickCount; //系统计数
+			
 			Stream st, fs; //网络流和文件流
 			DeflateStream deflate = null; //Deflate解压流
 			BufferedStream bs; //缓冲流
@@ -76,6 +79,9 @@ namespace Kaedei.AcDown.Interface
 			//确定缓冲长度
 			if (GlobalSettings.GetSettings().CacheSizeMb > 256 || GlobalSettings.GetSettings().CacheSizeMb < 1)
 				GlobalSettings.GetSettings().CacheSizeMb = 1;
+			para.DoneBytes = 0; //完成字节数
+			para.LastTick = System.Environment.TickCount; //系统计数
+
 			//获取下载流
 			using (st = response.GetResponseStream())
 			{
@@ -83,15 +89,14 @@ namespace Kaedei.AcDown.Interface
 				if (para.UseDeflate)
 					deflate = new DeflateStream(st, CompressionMode.Decompress);
 				//设置FileStream
-				if ((para.RangeStart == 0 && para.RangeTo == 0) || supportrange == false)
+				if ((para.RangeStart != 0 || para.RangeTo != 0) && supportrange)//若设置了范围且服务器支持
+				{
+					fs = new FileStream(para.FilePath, FileMode.Open, FileAccess.Write, FileShare.Read, 8);
+					fs.Seek(para.RangeStart, SeekOrigin.Begin);
+				}
+				else //没有设置范围或服务器不支持（从头下载）
 				{
 					fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8);
-				}
-				else //使用断点续传
-				{
-					para.DoneBytes = para.RangeStart;
-					fs = File.OpenWrite(para.FilePath);
-					fs.Seek(para.RangeStart, SeekOrigin.Begin);
 				}
 				//打开文件流
 				using (fs)

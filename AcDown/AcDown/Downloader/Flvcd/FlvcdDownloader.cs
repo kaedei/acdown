@@ -214,8 +214,7 @@ namespace Kaedei.AcDown.Downloader
 				for (int i = 0; i < _partCount; i++)
 				{
 					_currentPart = i + 1;
-					//提示更换新Part
-					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+					
 					//取得文件后缀名
 					string ext = Tools.GetExtension(partUrls[i]);
 					if (string.IsNullOrEmpty(ext))
@@ -241,14 +240,23 @@ namespace Kaedei.AcDown.Downloader
 					_filePath.Add(currentParameter.FilePath);
 					//下载文件
 					bool success;
-               //添加断点续传段
+					//添加断点续传段
                if (File.Exists(currentParameter.FilePath))
                {
                   //取得文件长度
                   int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
                   //设置RangeStart属性
                   currentParameter.RangeStart = len;
+                  _title = "[续传]" + title;
                }
+               else
+               {
+                  _title = title;
+               }
+
+               //提示更换新Part
+               delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+
 					//下载视频
 					success = Network.DownloadFile(currentParameter);
 

@@ -33,7 +33,7 @@ namespace Kaedei.AcDown.Interface
 		public AcTaskDelegate Finish { get; set; }
 		public AcTaskDelegate Error { get; set; }
 
-      public WebProxy Proxy { get; set; }
+		public WebProxy Proxy { get; set; }
 	}
  
 
