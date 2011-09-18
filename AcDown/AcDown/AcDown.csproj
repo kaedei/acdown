@@ -118,6 +118,12 @@
     <Compile Include="UI\Components\FlvCombineControl.Designer.cs">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Components\WebsitesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\WebsitesControl.Designer.cs">
+      <DependentUpon>WebsitesControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
     <Compile Include="Interface\IAcdownPluginInfo.cs" />
@@ -199,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\FlvCombineControl.resx">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\WebsitesControl.resx">
+      <DependentUpon>WebsitesControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

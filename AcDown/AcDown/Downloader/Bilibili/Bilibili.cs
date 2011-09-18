@@ -240,7 +240,8 @@ namespace Kaedei.AcDown.Downloader
 			{
 				//取得网页源文件
 				string src = Network.GetHtmlSource(url, Encoding.UTF8, delegates.Proxy);
-
+				//type值
+				string type = "";
 				#region 登录并重新获取网页源文件
 
 				//检查是否需要登录
@@ -348,7 +349,7 @@ namespace Kaedei.AcDown.Downloader
 					//取得ID
 					id = mId.Groups["id"].Value;
 					//取得type值
-					string type = mId.Groups["idname"].Value;
+					type = mId.Groups["idname"].Value;
 					//检查外链
 					switch (type)
 					{
@@ -396,8 +397,7 @@ namespace Kaedei.AcDown.Downloader
 				for (int i = 0; i < _partCount; i++)
 				{
 					_currentPart = i + 1;
-					//提示更换新Part
-					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+					
 					//取得文件后缀名
 					string ext = Tools.GetExtension(videos[i]);
 					if (string.IsNullOrEmpty(ext))
@@ -444,7 +444,16 @@ namespace Kaedei.AcDown.Downloader
 						int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
 						//设置RangeStart属性
 						currentParameter.RangeStart = len;
+						_title = "[续传]" + title;
 					}
+					else
+					{
+						_title = title;
+					}
+
+					//提示更换新Part
+					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+
 					//下载视频
 					success = Network.DownloadFile(currentParameter);
 

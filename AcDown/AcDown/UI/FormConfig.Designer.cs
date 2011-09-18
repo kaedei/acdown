@@ -187,7 +187,7 @@
             "8",
             "9",
             "10"});
-           this.cboMaxRunningCount.Location = new System.Drawing.Point(170, 247);
+           this.cboMaxRunningCount.Location = new System.Drawing.Point(170, 249);
            this.cboMaxRunningCount.Name = "cboMaxRunningCount";
            this.cboMaxRunningCount.Size = new System.Drawing.Size(51, 20);
            this.cboMaxRunningCount.TabIndex = 21;
@@ -195,7 +195,7 @@
            // label5
            // 
            this.label5.AutoSize = true;
-           this.label5.Location = new System.Drawing.Point(33, 250);
+           this.label5.Location = new System.Drawing.Point(33, 252);
            this.label5.Name = "label5";
            this.label5.Size = new System.Drawing.Size(131, 12);
            this.label5.TabIndex = 20;
@@ -214,10 +214,9 @@
            // 
            this.chkDownAllSection.AutoSize = true;
            this.chkDownAllSection.Enabled = false;
-           this.chkDownAllSection.FlatStyle = System.Windows.Forms.FlatStyle.System;
-           this.chkDownAllSection.Location = new System.Drawing.Point(35, 182);
+           this.chkDownAllSection.Location = new System.Drawing.Point(34, 181);
            this.chkDownAllSection.Name = "chkDownAllSection";
-           this.chkDownAllSection.Size = new System.Drawing.Size(150, 17);
+           this.chkDownAllSection.Size = new System.Drawing.Size(144, 16);
            this.chkDownAllSection.TabIndex = 17;
            this.chkDownAllSection.Text = "解析所有关联的下载项";
            this.chkDownAllSection.UseVisualStyleBackColor = true;
@@ -225,7 +224,7 @@
            // label1
            // 
            this.label1.AutoSize = true;
-           this.label1.Location = new System.Drawing.Point(33, 214);
+           this.label1.Location = new System.Drawing.Point(33, 216);
            this.label1.Name = "label1";
            this.label1.Size = new System.Drawing.Size(113, 12);
            this.label1.TabIndex = 16;
@@ -233,7 +232,7 @@
            // 
            // numCacheSize
            // 
-           this.numCacheSize.Location = new System.Drawing.Point(152, 212);
+           this.numCacheSize.Location = new System.Drawing.Point(152, 214);
            this.numCacheSize.Maximum = new decimal(new int[] {
             16,
             0,
@@ -256,10 +255,9 @@
            // chkDeleteFile
            // 
            this.chkDeleteFile.AutoSize = true;
-           this.chkDeleteFile.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkDeleteFile.Location = new System.Drawing.Point(35, 159);
            this.chkDeleteFile.Name = "chkDeleteFile";
-           this.chkDeleteFile.Size = new System.Drawing.Size(186, 17);
+           this.chkDeleteFile.Size = new System.Drawing.Size(180, 16);
            this.chkDeleteFile.TabIndex = 14;
            this.chkDeleteFile.Text = "删除任务的同时删除相应文件";
            this.chkDeleteFile.UseVisualStyleBackColor = true;
@@ -267,10 +265,9 @@
            // chkPlaySound
            // 
            this.chkPlaySound.AutoSize = true;
-           this.chkPlaySound.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPlaySound.Location = new System.Drawing.Point(35, 136);
            this.chkPlaySound.Name = "chkPlaySound";
-           this.chkPlaySound.Size = new System.Drawing.Size(150, 17);
+           this.chkPlaySound.Size = new System.Drawing.Size(144, 16);
            this.chkPlaySound.TabIndex = 13;
            this.chkPlaySound.Text = "下载完成后播放提示音";
            this.chkPlaySound.UseVisualStyleBackColor = true;
@@ -278,10 +275,9 @@
            // chkOpenFolder
            // 
            this.chkOpenFolder.AutoSize = true;
-           this.chkOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkOpenFolder.Location = new System.Drawing.Point(35, 114);
            this.chkOpenFolder.Name = "chkOpenFolder";
-           this.chkOpenFolder.Size = new System.Drawing.Size(150, 17);
+           this.chkOpenFolder.Size = new System.Drawing.Size(144, 16);
            this.chkOpenFolder.TabIndex = 12;
            this.chkOpenFolder.Text = "下载完成后打开文件夹";
            this.chkOpenFolder.UseVisualStyleBackColor = true;
@@ -289,10 +285,9 @@
            // chkDownSub
            // 
            this.chkDownSub.AutoSize = true;
-           this.chkDownSub.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkDownSub.Location = new System.Drawing.Point(35, 91);
            this.chkDownSub.Name = "chkDownSub";
-           this.chkDownSub.Size = new System.Drawing.Size(102, 17);
+           this.chkDownSub.Size = new System.Drawing.Size(96, 16);
            this.chkDownSub.TabIndex = 10;
            this.chkDownSub.Text = "下载字幕文件";
            this.chkDownSub.UseVisualStyleBackColor = true;
@@ -351,10 +346,9 @@
            // chkHideWhenClose
            // 
            this.chkHideWhenClose.AutoSize = true;
-           this.chkHideWhenClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkHideWhenClose.Location = new System.Drawing.Point(28, 120);
            this.chkHideWhenClose.Name = "chkHideWhenClose";
-           this.chkHideWhenClose.Size = new System.Drawing.Size(210, 17);
+           this.chkHideWhenClose.Size = new System.Drawing.Size(204, 16);
            this.chkHideWhenClose.TabIndex = 23;
            this.chkHideWhenClose.Text = "点击\"关闭\"时隐藏程序到系统托盘";
            this.chkHideWhenClose.UseVisualStyleBackColor = true;
@@ -397,10 +391,9 @@
            // chkShowBigButton
            // 
            this.chkShowBigButton.AutoSize = true;
-           this.chkShowBigButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkShowBigButton.Location = new System.Drawing.Point(29, 51);
            this.chkShowBigButton.Name = "chkShowBigButton";
-           this.chkShowBigButton.Size = new System.Drawing.Size(138, 17);
+           this.chkShowBigButton.Size = new System.Drawing.Size(132, 16);
            this.chkShowBigButton.TabIndex = 18;
            this.chkShowBigButton.Text = "显示\"新建任务\"按钮";
            this.chkShowBigButton.UseVisualStyleBackColor = true;
@@ -408,10 +401,9 @@
            // chkEnableWin7
            // 
            this.chkEnableWin7.AutoSize = true;
-           this.chkEnableWin7.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkEnableWin7.Location = new System.Drawing.Point(29, 28);
            this.chkEnableWin7.Name = "chkEnableWin7";
-           this.chkEnableWin7.Size = new System.Drawing.Size(132, 17);
+           this.chkEnableWin7.Size = new System.Drawing.Size(126, 16);
            this.chkEnableWin7.TabIndex = 17;
            this.chkEnableWin7.Text = "启用Windows 7特性";
            this.chkEnableWin7.UseVisualStyleBackColor = true;
@@ -419,10 +411,9 @@
            // chkCheckUrl
            // 
            this.chkCheckUrl.AutoSize = true;
-           this.chkCheckUrl.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkCheckUrl.Location = new System.Drawing.Point(29, 74);
            this.chkCheckUrl.Name = "chkCheckUrl";
-           this.chkCheckUrl.Size = new System.Drawing.Size(108, 17);
+           this.chkCheckUrl.Size = new System.Drawing.Size(102, 16);
            this.chkCheckUrl.TabIndex = 16;
            this.chkCheckUrl.Text = "检查输入的Url";
            this.chkCheckUrl.UseVisualStyleBackColor = true;
@@ -430,10 +421,9 @@
            // chkWatch
            // 
            this.chkWatch.AutoSize = true;
-           this.chkWatch.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkWatch.Location = new System.Drawing.Point(29, 97);
            this.chkWatch.Name = "chkWatch";
-           this.chkWatch.Size = new System.Drawing.Size(90, 17);
+           this.chkWatch.Size = new System.Drawing.Size(84, 16);
            this.chkWatch.TabIndex = 15;
            this.chkWatch.Text = "监视剪贴板";
            this.chkWatch.UseVisualStyleBackColor = true;
@@ -471,10 +461,9 @@
            // chkFlvcd
            // 
            this.chkFlvcd.AutoSize = true;
-           this.chkFlvcd.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkFlvcd.Location = new System.Drawing.Point(41, 189);
            this.chkFlvcd.Name = "chkFlvcd";
-           this.chkFlvcd.Size = new System.Drawing.Size(138, 17);
+           this.chkFlvcd.Size = new System.Drawing.Size(132, 16);
            this.chkFlvcd.TabIndex = 7;
            this.chkFlvcd.Text = "启用FLVCD解析插件*";
            this.chkFlvcd.UseVisualStyleBackColor = true;
@@ -482,10 +471,9 @@
            // chkPluginTiebaAlbum
            // 
            this.chkPluginTiebaAlbum.AutoSize = true;
-           this.chkPluginTiebaAlbum.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginTiebaAlbum.Location = new System.Drawing.Point(41, 166);
            this.chkPluginTiebaAlbum.Name = "chkPluginTiebaAlbum";
-           this.chkPluginTiebaAlbum.Size = new System.Drawing.Size(174, 17);
+           this.chkPluginTiebaAlbum.Size = new System.Drawing.Size(168, 16);
            this.chkPluginTiebaAlbum.TabIndex = 6;
            this.chkPluginTiebaAlbum.Text = "启用百度贴吧相册下载插件";
            this.chkPluginTiebaAlbum.UseVisualStyleBackColor = true;
@@ -493,10 +481,9 @@
            // chkPluginImanhua
            // 
            this.chkPluginImanhua.AutoSize = true;
-           this.chkPluginImanhua.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginImanhua.Location = new System.Drawing.Point(41, 143);
            this.chkPluginImanhua.Name = "chkPluginImanhua";
-           this.chkPluginImanhua.Size = new System.Drawing.Size(150, 17);
+           this.chkPluginImanhua.Size = new System.Drawing.Size(144, 16);
            this.chkPluginImanhua.TabIndex = 5;
            this.chkPluginImanhua.Text = "启用爱漫画网下载插件";
            this.chkPluginImanhua.UseVisualStyleBackColor = true;
@@ -513,10 +500,9 @@
            // chkPluginYouku
            // 
            this.chkPluginYouku.AutoSize = true;
-           this.chkPluginYouku.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginYouku.Location = new System.Drawing.Point(41, 121);
            this.chkPluginYouku.Name = "chkPluginYouku";
-           this.chkPluginYouku.Size = new System.Drawing.Size(138, 17);
+           this.chkPluginYouku.Size = new System.Drawing.Size(132, 16);
            this.chkPluginYouku.TabIndex = 3;
            this.chkPluginYouku.Text = "启用优酷网下载插件";
            this.chkPluginYouku.UseVisualStyleBackColor = true;
@@ -524,10 +510,9 @@
            // chkPluginBilibili
            // 
            this.chkPluginBilibili.AutoSize = true;
-           this.chkPluginBilibili.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginBilibili.Location = new System.Drawing.Point(41, 99);
            this.chkPluginBilibili.Name = "chkPluginBilibili";
-           this.chkPluginBilibili.Size = new System.Drawing.Size(150, 17);
+           this.chkPluginBilibili.Size = new System.Drawing.Size(144, 16);
            this.chkPluginBilibili.TabIndex = 2;
            this.chkPluginBilibili.Text = "启用Bilibili下载插件";
            this.chkPluginBilibili.UseVisualStyleBackColor = true;
@@ -535,10 +520,9 @@
            // chkPluginTudou
            // 
            this.chkPluginTudou.AutoSize = true;
-           this.chkPluginTudou.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginTudou.Location = new System.Drawing.Point(41, 77);
            this.chkPluginTudou.Name = "chkPluginTudou";
-           this.chkPluginTudou.Size = new System.Drawing.Size(138, 17);
+           this.chkPluginTudou.Size = new System.Drawing.Size(132, 16);
            this.chkPluginTudou.TabIndex = 1;
            this.chkPluginTudou.Text = "启用土豆网下载插件";
            this.chkPluginTudou.UseVisualStyleBackColor = true;
@@ -546,10 +530,9 @@
            // chkPluginAcfun
            // 
            this.chkPluginAcfun.AutoSize = true;
-           this.chkPluginAcfun.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkPluginAcfun.Location = new System.Drawing.Point(41, 55);
            this.chkPluginAcfun.Name = "chkPluginAcfun";
-           this.chkPluginAcfun.Size = new System.Drawing.Size(132, 17);
+           this.chkPluginAcfun.Size = new System.Drawing.Size(126, 16);
            this.chkPluginAcfun.TabIndex = 0;
            this.chkPluginAcfun.Text = "启用Acfun下载插件";
            this.chkPluginAcfun.UseVisualStyleBackColor = true;
@@ -679,10 +662,9 @@
            // chkEnableLog
            // 
            this.chkEnableLog.AutoSize = true;
-           this.chkEnableLog.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkEnableLog.Location = new System.Drawing.Point(37, 33);
            this.chkEnableLog.Name = "chkEnableLog";
-           this.chkEnableLog.Size = new System.Drawing.Size(222, 17);
+           this.chkEnableLog.Size = new System.Drawing.Size(216, 16);
            this.chkEnableLog.TabIndex = 8;
            this.chkEnableLog.Text = "启用错误日志（重启下载器后生效）";
            this.chkEnableLog.UseVisualStyleBackColor = true;

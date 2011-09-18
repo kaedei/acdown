@@ -9,6 +9,7 @@ namespace AcDown
     static class Program
     {
        public static FormMain frmMain;
+       public static FormStart frmStart;
        private static string[] arguments;
         /// <summary>
         /// 应用程序的主入口点。
@@ -34,8 +35,9 @@ namespace AcDown
 
        protected override bool OnStartup(Microsoft.VisualBasic.ApplicationServices.StartupEventArgs e)
        {
-          Application.Run(new FormStart());
-          return true;
+          Program.frmStart = new FormStart();
+          Application.Run(Program.frmStart);
+          return false;
        }
 
        protected override void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)

@@ -57,9 +57,19 @@ namespace Kaedei.AcDown.Parser
 			List<string> lst = new List<string>();
 			for (int i = 0; i < flv_no + 1; i++)
 			{
-				lst.Add("http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
+				//得到地址
+				string u = "http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
 					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
-					+ fileid.Substring(10) + "?K=" + keys[i]);
+					+ fileid.Substring(10) + "?K=" + keys[i];
+				//获得跳转后地址
+				string redirectUrl = "";
+				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(u);
+				request.AllowAutoRedirect = false;
+				using (WebResponse response = request.GetResponse())
+				{
+					redirectUrl = response.Headers["Location"];      //这里就是跳转地址了
+				}
+				lst.Add(redirectUrl);
 			}
 			return lst.ToArray();
 		}

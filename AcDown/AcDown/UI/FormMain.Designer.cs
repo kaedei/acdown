@@ -42,33 +42,9 @@
            this.statusStrip = new System.Windows.Forms.StatusStrip();
            this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
            this.lblBlank = new System.Windows.Forms.ToolStripStatusLabel();
-           this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-           this.acFuncnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.bilibiliToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.土豆网ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.优酷网ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.百度贴吧ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.贴吧相册ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.爱漫画ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.更多ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
            this.toolHelpCenter = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStrip = new System.Windows.Forms.ToolStrip();
-           this.btnNew = new System.Windows.Forms.ToolStripSplitButton();
-           this.从剪贴板新建PToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-           this.查看支持的网址示例ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.btnConfig = new System.Windows.Forms.ToolStripSplitButton();
-           this.下载设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.界面设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.插件设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.代理服务器设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.调试设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.btnAbout = new System.Windows.Forms.ToolStripSplitButton();
-           this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.当前支持的网站ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-           this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-           this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
            this.btnSearch = new System.Windows.Forms.ToolStripSplitButton();
            this.searchCustom = new System.Windows.Forms.ToolStripMenuItem();
            this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
@@ -98,6 +74,9 @@
            this.tabDownload = new System.Windows.Forms.TabPage();
            this.tabConfig = new System.Windows.Forms.TabPage();
            this.tabFlvCombine = new System.Windows.Forms.TabPage();
+           this.btnNew = new System.Windows.Forms.ToolStripButton();
+           this.btnConfig = new System.Windows.Forms.ToolStripButton();
+           this.btnAbout = new System.Windows.Forms.ToolStripButton();
            this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
@@ -134,7 +113,6 @@
            this.lsv.UseCompatibleStateImageBehavior = false;
            this.lsv.View = System.Windows.Forms.View.Details;
            this.lsv.SelectedIndexChanged += new System.EventHandler(this.lsv_SelectedIndexChanged);
-           this.lsv.DoubleClick += new System.EventHandler(this.lsv_DoubleClick);
            this.lsv.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lsv_KeyUp);
            this.lsv.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lsv_MouseClick);
            // 
@@ -204,104 +182,33 @@
            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSpeed,
             this.lblBlank,
-            this.toolStripDropDownButton1,
             this.toolHelpCenter});
-           this.statusStrip.Location = new System.Drawing.Point(0, 464);
+           this.statusStrip.Location = new System.Drawing.Point(0, 465);
            this.statusStrip.Name = "statusStrip";
-           this.statusStrip.Size = new System.Drawing.Size(522, 26);
+           this.statusStrip.Size = new System.Drawing.Size(522, 25);
            this.statusStrip.TabIndex = 6;
            // 
            // lblSpeed
            // 
+           this.lblSpeed.IsLink = true;
+           this.lblSpeed.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
            this.lblSpeed.Name = "lblSpeed";
-           this.lblSpeed.Size = new System.Drawing.Size(47, 21);
+           this.lblSpeed.Size = new System.Drawing.Size(47, 20);
            this.lblSpeed.Text = "0KB/s";
+           this.lblSpeed.Click += new System.EventHandler(this.lblSpeed_Click);
            // 
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(215, 21);
+           this.lblBlank.Size = new System.Drawing.Size(379, 20);
            this.lblBlank.Spring = true;
-           // 
-           // toolStripDropDownButton1
-           // 
-           this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.acFuncnToolStripMenuItem,
-            this.bilibiliToolStripMenuItem,
-            this.土豆网ToolStripMenuItem,
-            this.优酷网ToolStripMenuItem,
-            this.百度贴吧ToolStripMenuItem,
-            this.爱漫画ToolStripMenuItem,
-            this.更多ToolStripMenuItem});
-           this.toolStripDropDownButton1.Image = global::Kaedei.AcDown.Properties.Resources._1;
-           this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-           this.toolStripDropDownButton1.Size = new System.Drawing.Size(164, 24);
-           this.toolStripDropDownButton1.Text = "当前能够下载的网站";
-           // 
-           // acFuncnToolStripMenuItem
-           // 
-           this.acFuncnToolStripMenuItem.Name = "acFuncnToolStripMenuItem";
-           this.acFuncnToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-           this.acFuncnToolStripMenuItem.Text = "AcFun";
-           this.acFuncnToolStripMenuItem.Click += new System.EventHandler(this.acFuncnToolStripMenuItem_Click);
-           // 
-           // bilibiliToolStripMenuItem
-           // 
-           this.bilibiliToolStripMenuItem.Name = "bilibiliToolStripMenuItem";
-           this.bilibiliToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-           this.bilibiliToolStripMenuItem.Text = "Bilibili";
-           this.bilibiliToolStripMenuItem.Click += new System.EventHandler(this.bilibiliToolStripMenuItem_Click);
-           // 
-           // 土豆网ToolStripMenuItem
-           // 
-           this.土豆网ToolStripMenuItem.Name = "土豆网ToolStripMenuItem";
-           this.土豆网ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-           this.土豆网ToolStripMenuItem.Text = "土豆网";
-           this.土豆网ToolStripMenuItem.Click += new System.EventHandler(this.土豆网ToolStripMenuItem_Click);
-           // 
-           // 优酷网ToolStripMenuItem
-           // 
-           this.优酷网ToolStripMenuItem.Name = "优酷网ToolStripMenuItem";
-           this.优酷网ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-           this.优酷网ToolStripMenuItem.Text = "优酷网";
-           this.优酷网ToolStripMenuItem.Click += new System.EventHandler(this.优酷网ToolStripMenuItem_Click);
-           // 
-           // 百度贴吧ToolStripMenuItem
-           // 
-           this.百度贴吧ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.贴吧相册ToolStripMenuItem});
-           this.百度贴吧ToolStripMenuItem.Name = "百度贴吧ToolStripMenuItem";
-           this.百度贴吧ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-           this.百度贴吧ToolStripMenuItem.Text = "百度";
-           // 
-           // 贴吧相册ToolStripMenuItem
-           // 
-           this.贴吧相册ToolStripMenuItem.Name = "贴吧相册ToolStripMenuItem";
-           this.贴吧相册ToolStripMenuItem.Size = new System.Drawing.Size(134, 24);
-           this.贴吧相册ToolStripMenuItem.Text = "贴吧相册";
-           this.贴吧相册ToolStripMenuItem.Click += new System.EventHandler(this.贴吧相册ToolStripMenuItem_Click);
-           // 
-           // 爱漫画ToolStripMenuItem
-           // 
-           this.爱漫画ToolStripMenuItem.Name = "爱漫画ToolStripMenuItem";
-           this.爱漫画ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-           this.爱漫画ToolStripMenuItem.Text = "爱漫画";
-           this.爱漫画ToolStripMenuItem.Click += new System.EventHandler(this.爱漫画ToolStripMenuItem_Click);
-           // 
-           // 更多ToolStripMenuItem
-           // 
-           this.更多ToolStripMenuItem.Name = "更多ToolStripMenuItem";
-           this.更多ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-           this.更多ToolStripMenuItem.Text = "更多 ...";
-           this.更多ToolStripMenuItem.Click += new System.EventHandler(this.更多ToolStripMenuItem_Click);
            // 
            // toolHelpCenter
            // 
            this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources.Help;
            this.toolHelpCenter.IsLink = true;
            this.toolHelpCenter.Name = "toolHelpCenter";
-           this.toolHelpCenter.Size = new System.Drawing.Size(81, 21);
+           this.toolHelpCenter.Size = new System.Drawing.Size(81, 20);
            this.toolHelpCenter.Text = "帮助中心";
            this.toolHelpCenter.ToolTipText = "打开帮助中心";
            this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
@@ -324,123 +231,8 @@
             this.txtSearch});
            this.toolStrip.Location = new System.Drawing.Point(0, 0);
            this.toolStrip.Name = "toolStrip";
-           this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
            this.toolStrip.Size = new System.Drawing.Size(522, 31);
            this.toolStrip.TabIndex = 7;
-           // 
-           // btnNew
-           // 
-           this.btnNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.从剪贴板新建PToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.查看支持的网址示例ToolStripMenuItem});
-           this.btnNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.btnNew.Name = "btnNew";
-           this.btnNew.Size = new System.Drawing.Size(90, 28);
-           this.btnNew.Text = "新建(&N)";
-           this.btnNew.ToolTipText = "新建下载任务";
-           this.btnNew.ButtonClick += new System.EventHandler(this.btnNew_Click);
-           // 
-           // 从剪贴板新建PToolStripMenuItem
-           // 
-           this.从剪贴板新建PToolStripMenuItem.Name = "从剪贴板新建PToolStripMenuItem";
-           this.从剪贴板新建PToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-           this.从剪贴板新建PToolStripMenuItem.Text = "从剪贴板新建(&P)";
-           // 
-           // toolStripMenuItem1
-           // 
-           this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-           this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
-           // 
-           // 查看支持的网址示例ToolStripMenuItem
-           // 
-           this.查看支持的网址示例ToolStripMenuItem.Name = "查看支持的网址示例ToolStripMenuItem";
-           this.查看支持的网址示例ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-           this.查看支持的网址示例ToolStripMenuItem.Text = "查看支持的网址示例";
-           // 
-           // btnConfig
-           // 
-           this.btnConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.下载设置ToolStripMenuItem,
-            this.界面设置ToolStripMenuItem,
-            this.插件设置ToolStripMenuItem,
-            this.代理服务器设置ToolStripMenuItem,
-            this.调试设置ToolStripMenuItem});
-           this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
-           this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.btnConfig.Name = "btnConfig";
-           this.btnConfig.Size = new System.Drawing.Size(88, 28);
-           this.btnConfig.Text = "设置(&C)";
-           this.btnConfig.ButtonClick += new System.EventHandler(this.btnConfig_Click);
-           // 
-           // 下载设置ToolStripMenuItem
-           // 
-           this.下载设置ToolStripMenuItem.Name = "下载设置ToolStripMenuItem";
-           this.下载设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-           this.下载设置ToolStripMenuItem.Text = "下载设置";
-           // 
-           // 界面设置ToolStripMenuItem
-           // 
-           this.界面设置ToolStripMenuItem.Name = "界面设置ToolStripMenuItem";
-           this.界面设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-           this.界面设置ToolStripMenuItem.Text = "界面设置";
-           // 
-           // 插件设置ToolStripMenuItem
-           // 
-           this.插件设置ToolStripMenuItem.Name = "插件设置ToolStripMenuItem";
-           this.插件设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-           this.插件设置ToolStripMenuItem.Text = "插件设置";
-           // 
-           // 代理服务器设置ToolStripMenuItem
-           // 
-           this.代理服务器设置ToolStripMenuItem.Name = "代理服务器设置ToolStripMenuItem";
-           this.代理服务器设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-           this.代理服务器设置ToolStripMenuItem.Text = "代理服务器设置";
-           // 
-           // 调试设置ToolStripMenuItem
-           // 
-           this.调试设置ToolStripMenuItem.Name = "调试设置ToolStripMenuItem";
-           this.调试设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-           this.调试设置ToolStripMenuItem.Text = "调试设置";
-           // 
-           // btnAbout
-           // 
-           this.btnAbout.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.帮助ToolStripMenuItem,
-            this.当前支持的网站ToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.关于ToolStripMenuItem});
-           this.btnAbout.Image = global::Kaedei.AcDown.Properties.Resources.About;
-           this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.btnAbout.Name = "btnAbout";
-           this.btnAbout.Size = new System.Drawing.Size(88, 28);
-           this.btnAbout.Text = "关于(&A)";
-           this.btnAbout.ToolTipText = "关于AcDown动漫下载器";
-           this.btnAbout.ButtonClick += new System.EventHandler(this.btnAbout_Click);
-           // 
-           // 帮助ToolStripMenuItem
-           // 
-           this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-           this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-           this.帮助ToolStripMenuItem.Text = "帮助中心(&H)";
-           // 
-           // 当前支持的网站ToolStripMenuItem
-           // 
-           this.当前支持的网站ToolStripMenuItem.Name = "当前支持的网站ToolStripMenuItem";
-           this.当前支持的网站ToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-           this.当前支持的网站ToolStripMenuItem.Text = "当前支持解析的网站 ...";
-           // 
-           // toolStripMenuItem2
-           // 
-           this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-           this.toolStripMenuItem2.Size = new System.Drawing.Size(194, 6);
-           // 
-           // 关于ToolStripMenuItem
-           // 
-           this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-           this.关于ToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-           this.关于ToolStripMenuItem.Text = "关于&AcDown";
            // 
            // btnSearch
            // 
@@ -466,7 +258,6 @@
            // 
            this.txtSearch.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
            this.txtSearch.AutoToolTip = true;
-           this.txtSearch.Font = new System.Drawing.Font("微软雅黑", 9F);
            this.txtSearch.MaxLength = 20;
            this.txtSearch.Name = "txtSearch";
            this.txtSearch.Size = new System.Drawing.Size(130, 31);
@@ -491,6 +282,7 @@
             this.mnuTrayExit});
            this.mnuTray.Name = "mnuTray";
            this.mnuTray.Size = new System.Drawing.Size(173, 54);
+           this.mnuTray.Opening += new System.ComponentModel.CancelEventHandler(this.mnuTray_Opening);
            // 
            // mnuTrayShowHide
            // 
@@ -514,17 +306,14 @@
            // 
            // btnClickNew
            // 
-           this.btnClickNew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                       | System.Windows.Forms.AnchorStyles.Left)
-                       | System.Windows.Forms.AnchorStyles.Right)));
            this.btnClickNew.Cursor = System.Windows.Forms.Cursors.Hand;
            this.btnClickNew.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
            this.btnClickNew.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.btnClickNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnClickNew.Location = new System.Drawing.Point(81, 41);
-           this.btnClickNew.MaximumSize = new System.Drawing.Size(352, 227);
+           this.btnClickNew.Location = new System.Drawing.Point(130, 80);
+           this.btnClickNew.MaximumSize = new System.Drawing.Size(254, 148);
            this.btnClickNew.Name = "btnClickNew";
-           this.btnClickNew.Size = new System.Drawing.Size(352, 227);
+           this.btnClickNew.Size = new System.Drawing.Size(254, 148);
            this.btnClickNew.TabIndex = 0;
            this.btnClickNew.Text = "新建下载任务";
            this.btnClickNew.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -728,7 +517,7 @@
            this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
            this.tabDownload.Size = new System.Drawing.Size(514, 309);
            this.tabDownload.TabIndex = 0;
-           this.tabDownload.Text = "下载任务";
+           this.tabDownload.Text = "任务";
            this.tabDownload.UseVisualStyleBackColor = true;
            // 
            // tabConfig
@@ -742,7 +531,7 @@
            this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
            this.tabConfig.Size = new System.Drawing.Size(514, 309);
            this.tabConfig.TabIndex = 1;
-           this.tabConfig.Text = "下载选项";
+           this.tabConfig.Text = "选项";
            this.tabConfig.UseVisualStyleBackColor = true;
            // 
            // tabFlvCombine
@@ -755,6 +544,35 @@
            this.tabFlvCombine.TabIndex = 3;
            this.tabFlvCombine.Text = "视频合并";
            this.tabFlvCombine.UseVisualStyleBackColor = true;
+           // 
+           // btnNew
+           // 
+           this.btnNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
+           this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+           this.btnNew.Name = "btnNew";
+           this.btnNew.Size = new System.Drawing.Size(78, 28);
+           this.btnNew.Text = "新建(&N)";
+           this.btnNew.ToolTipText = "新建下载任务";
+           this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+           // 
+           // btnConfig
+           // 
+           this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
+           this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
+           this.btnConfig.Name = "btnConfig";
+           this.btnConfig.Size = new System.Drawing.Size(76, 28);
+           this.btnConfig.Text = "设置(&C)";
+           this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+           // 
+           // btnAbout
+           // 
+           this.btnAbout.Image = global::Kaedei.AcDown.Properties.Resources.About;
+           this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+           this.btnAbout.Name = "btnAbout";
+           this.btnAbout.Size = new System.Drawing.Size(76, 28);
+           this.btnAbout.Text = "关于(&A)";
+           this.btnAbout.ToolTipText = "关于AcDown动漫下载器";
+           this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
            // 
            // flvCombineControl1
            // 
@@ -842,16 +660,7 @@
 		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		  private System.Windows.Forms.ToolStripButton toolOpenFolder;
 		  private System.Windows.Forms.ToolStripButton toolOpenWebpage;
-		  private System.Windows.Forms.ToolStripButton toolInfo;
-		  private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-		  private System.Windows.Forms.ToolStripMenuItem acFuncnToolStripMenuItem;
-		  private System.Windows.Forms.ToolStripMenuItem bilibiliToolStripMenuItem;
-		  private System.Windows.Forms.ToolStripMenuItem 土豆网ToolStripMenuItem;
-		  private System.Windows.Forms.ToolStripMenuItem 优酷网ToolStripMenuItem;
-		  private System.Windows.Forms.ToolStripMenuItem 百度贴吧ToolStripMenuItem;
-		  private System.Windows.Forms.ToolStripMenuItem 贴吧相册ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 爱漫画ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 更多ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolInfo;
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.TabPage tabDownload;
         private System.Windows.Forms.TabPage tabConfig;
@@ -859,21 +668,9 @@
         private Kaedei.AcDown.UI.Components.FlvCombineControl flvCombineControl1;
         private System.Windows.Forms.ColumnHeader headerRemainTime;
         private System.Windows.Forms.ColumnHeader headerPastTime;
-        private System.Windows.Forms.ToolStripSplitButton btnConfig;
-        private System.Windows.Forms.ToolStripMenuItem 下载设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 界面设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 插件设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 代理服务器设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 调试设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSplitButton btnNew;
-        private System.Windows.Forms.ToolStripMenuItem 从剪贴板新建PToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem 查看支持的网址示例ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSplitButton btnAbout;
-        private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 当前支持的网站ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnNew;
+        private System.Windows.Forms.ToolStripButton btnConfig;
+        private System.Windows.Forms.ToolStripButton btnAbout;
 
 	 }
 }

@@ -441,7 +441,7 @@ namespace AcDown.UI
 			//显示全局速度
 			if (speed != 0.0)
 			{
-				lblSpeed.Text = string.Format("{0:F1}", speed) + "KB/s";
+				lblSpeed.Text = string.Format("当前速度: {0:F1}", speed) + "KB/s";
 			}
 			else
 			{
@@ -484,7 +484,7 @@ namespace AcDown.UI
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			e.Cancel = !exitapp;
-			if (Config.setting.HideWhenClose)
+			if (!exitapp && Config.setting.HideWhenClose)
 			{		
 				this.Hide();
 			}
@@ -617,42 +617,6 @@ namespace AcDown.UI
 			}
 		}
 		
-		private void acFuncnToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://www.acfun.tv/");
-		}
-
-		private void bilibiliToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://www.bilibili.tv/");
-		}
-
-		private void 土豆网ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://www.tudou.com");
-		}
-
-		private void 优酷网ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://www.youku.com/");
-		}
-
-		private void 贴吧相册ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://tieba.baidu.com/");
-		}
-
-		private void 爱漫画ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://www.imanhua.com/");
-		}
-
-		private void 更多ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("http://acdown.codeplex.com/wikipage?title=%E5%85%B3%E4%BA%8EFLVCD%E6%8F%92%E4%BB%B6");
-		}
-
-
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
@@ -675,19 +639,19 @@ namespace AcDown.UI
 						q = @"http://s.acfun.cn/Search.aspx?q=%TEST%&order=008d30f9-cdd4-440f-9149-85f5e3a75f42&group=-1".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "Bilibili站内搜索":
-						q = @"http://www.bilibili.tv/search?keyword=%TEST%".Replace("%TEST%", txtSearch.Text);
+						q = @"http://www.bilibili.tv/search?keyword=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "土豆网":
-						q = @"http://so.tudou.com/nisearch/%TEST%/".Replace("%TEST%", txtSearch.Text);
+						q = @"http://so.tudou.com/nisearch/%TEST%/".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "优酷搜索(搜酷)":
-						q = @"http://www.soku.com/search_video/q_%TEST%".Replace("%TEST%", txtSearch.Text);
+						q = @"http://www.soku.com/search_video/q_%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "漫画搜索(爱漫画)":
-						q = @"http://www.imanhua.com/v2/user/search.aspx?key=%TEST%".Replace("%TEST%", txtSearch.Text);
+						q = @"http://www.imanhua.com/v2/user/search.aspx?key=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					default:
-						q = Config.setting.SearchQuery.Replace(@"%TEST%", txtSearch.Text);
+						q = Config.setting.SearchQuery.Replace(@"%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 				}
 				Process.Start(q);
@@ -701,41 +665,13 @@ namespace AcDown.UI
 				btnSearch_ButtonClick(this, EventArgs.Empty);
 		}
 
-		//双击某一项目
-		private void lsv_DoubleClick(object sender, EventArgs e)
+		private void lblSpeed_Click(object sender, EventArgs e)
 		{
-		//   ListViewItem item = lsv.SelectedItems[0];
-		//   if (item != null)
-		//   {
-		//      IDownloader downloader = GetTask(new Guid((string)item.Tag));
-		//      //根据状态执行不同的操作
-		//      switch (downloader.Status)
-		//      {
-		//            //开始状态则停止
-		//         case DownloadStatus.正在下载:
-		//         case DownloadStatus.等待开始:
-		//            taskMgr.StopTask(downloader);
-		//            break;
-		//            //停止状态则开始
-		//         case DownloadStatus.已经停止:
-		//         case DownloadStatus.出现错误:
-		//            taskMgr.StartTask(downloader);
-		//            break;
-		//         case DownloadStatus.下载完成:
-		//            try
-		//            {
-		//               Process.Start(downloader.SaveDirectory.ToString());
-		//            }
-		//            catch
-		//            {
-		//               MessageBox.Show("文件已删除或不存在", "打开文件", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		//            }
-		//            break;
-		//      }
-		//   }
+			tabMain.SelectTab("tabConfig");
+			udSpeedLimit.Select();
 		}
 
-		//点击"下载中心"链接
+		//点击"帮助中心"链接
 		private void toolHelpCenter_Click(object sender, EventArgs e)
 		{
 			FormHelp frmHelp = new FormHelp();
@@ -786,6 +722,22 @@ namespace AcDown.UI
 			this.TopMost = false;
 		}
 
+		//打开托盘菜单
+		private void mnuTray_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (this.Visible)
+			{
+				if (this.WindowState == FormWindowState.Minimized) //如果最小化则恢复Normal
+					mnuTrayShowHide.Text = "恢复AcDown动漫下载器";
+				else
+					mnuTrayShowHide.Text = "隐藏AcDown动漫下载器";
+			}
+			else
+			{
+				mnuTrayShowHide.Text = "显示AcDown动漫下载器";
+			}
+		}
+
 		//退出程序
 		private void mnuTrayExit_Click(object sender, EventArgs e)
 		{
@@ -794,26 +746,22 @@ namespace AcDown.UI
 			if (c > 0)
 			{
 				DialogResult r = MessageBox.Show("有" + c.ToString() + "个任务正在运行，是否退出？", "AcDown动漫下载器", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-				if (r == DialogResult.Yes) //确认关闭
-				{
-					this.Cursor = Cursors.WaitCursor;
-					//结束所有任务
-					taskMgr.StopAllTasks();
-					this.Cursor = Cursors.Default;
-					//释放托盘图标
-					notifyIcon.Dispose();
-				}
-				else //取消关闭
+				if (r != DialogResult.Yes) //取消关闭
 				{
 					return;
 				}
 			}
+			this.Cursor = Cursors.WaitCursor;
+			//结束所有任务
+			taskMgr.StopAllTasks();
+			this.Cursor = Cursors.Default;
+			//释放托盘图标
+			notifyIcon.Dispose();
 			//关闭日志文件
 			Logging.Exit();
 			//退出程序
 			exitapp = true;
-			Application.Exit();
-			this.Dispose();
+			Program.frmStart.Close();
 		}
 		
 		//xp下搜索框失去焦点
@@ -1222,6 +1170,10 @@ namespace AcDown.UI
 		}
 
 #endregion
+
+
+
+
 
 	}//end class
 

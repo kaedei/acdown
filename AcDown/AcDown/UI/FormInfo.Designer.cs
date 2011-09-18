@@ -48,8 +48,9 @@
          // btnClose
          // 
          this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+         this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
          this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-         this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
          this.btnClose.Location = new System.Drawing.Point(315, 398);
          this.btnClose.Name = "btnClose";
          this.btnClose.Size = new System.Drawing.Size(90, 38);
@@ -61,7 +62,8 @@
          // btnCopy
          // 
          this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-         this.btnCopy.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnCopy.Cursor = System.Windows.Forms.Cursors.Hand;
+         this.btnCopy.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
          this.btnCopy.Location = new System.Drawing.Point(12, 398);
          this.btnCopy.Name = "btnCopy";
          this.btnCopy.Size = new System.Drawing.Size(113, 38);
