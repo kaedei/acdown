@@ -10,18 +10,21 @@ namespace Kaedei.AcDown.Interface.Forms
 {
    public partial class FormServer : System.Windows.Forms.Form
    {
-      int s;
-      public FormServer(string[] serverNames,int defaultSelect,ref int selected)
+      int[] s;
+
+      public FormServer(string tipText, string[] serverNames, int defaultSelect, ref int[] selected)
       {
          InitializeComponent();
          combo.Items.AddRange(serverNames);
          combo.SelectedIndex = defaultSelect;
-         selected = s;
+         s = selected;
+         if (!string.IsNullOrEmpty(tipText))
+            lblTip.Text = tipText;
       }
 
       private void btnOK_Click(object sender, EventArgs e)
       {
-         s = combo.SelectedIndex;
+         s[0] = combo.SelectedIndex;
          this.Close();
       }
 

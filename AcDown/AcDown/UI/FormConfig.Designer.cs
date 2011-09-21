@@ -57,7 +57,7 @@
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
            this.lnkFlvcdIntro = new System.Windows.Forms.LinkLabel();
-           this.chkFlvcd = new System.Windows.Forms.CheckBox();
+           this.chkPluginFlvcd = new System.Windows.Forms.CheckBox();
            this.chkPluginTiebaAlbum = new System.Windows.Forms.CheckBox();
            this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
            this.label3 = new System.Windows.Forms.Label();
@@ -80,6 +80,7 @@
            this.lnkLog = new System.Windows.Forms.LinkLabel();
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
            this.btnDefault = new System.Windows.Forms.Button();
+           this.chkPluginTucao = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -430,8 +431,9 @@
            // 
            // pagePlugin
            // 
+           this.pagePlugin.Controls.Add(this.chkPluginTucao);
            this.pagePlugin.Controls.Add(this.lnkFlvcdIntro);
-           this.pagePlugin.Controls.Add(this.chkFlvcd);
+           this.pagePlugin.Controls.Add(this.chkPluginFlvcd);
            this.pagePlugin.Controls.Add(this.chkPluginTiebaAlbum);
            this.pagePlugin.Controls.Add(this.chkPluginImanhua);
            this.pagePlugin.Controls.Add(this.label3);
@@ -450,7 +452,7 @@
            // lnkFlvcdIntro
            // 
            this.lnkFlvcdIntro.AutoSize = true;
-           this.lnkFlvcdIntro.Location = new System.Drawing.Point(60, 209);
+           this.lnkFlvcdIntro.Location = new System.Drawing.Point(60, 230);
            this.lnkFlvcdIntro.Name = "lnkFlvcdIntro";
            this.lnkFlvcdIntro.Size = new System.Drawing.Size(83, 12);
            this.lnkFlvcdIntro.TabIndex = 8;
@@ -458,15 +460,15 @@
            this.lnkFlvcdIntro.Text = "FLVCD插件介绍";
            this.lnkFlvcdIntro.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFlvcdIntro_LinkClicked);
            // 
-           // chkFlvcd
+           // chkPluginFlvcd
            // 
-           this.chkFlvcd.AutoSize = true;
-           this.chkFlvcd.Location = new System.Drawing.Point(41, 189);
-           this.chkFlvcd.Name = "chkFlvcd";
-           this.chkFlvcd.Size = new System.Drawing.Size(132, 16);
-           this.chkFlvcd.TabIndex = 7;
-           this.chkFlvcd.Text = "启用FLVCD解析插件*";
-           this.chkFlvcd.UseVisualStyleBackColor = true;
+           this.chkPluginFlvcd.AutoSize = true;
+           this.chkPluginFlvcd.Location = new System.Drawing.Point(41, 210);
+           this.chkPluginFlvcd.Name = "chkPluginFlvcd";
+           this.chkPluginFlvcd.Size = new System.Drawing.Size(132, 16);
+           this.chkPluginFlvcd.TabIndex = 7;
+           this.chkPluginFlvcd.Text = "启用FLVCD解析插件*";
+           this.chkPluginFlvcd.UseVisualStyleBackColor = true;
            // 
            // chkPluginTiebaAlbum
            // 
@@ -680,6 +682,16 @@
            this.btnDefault.UseVisualStyleBackColor = true;
            this.btnDefault.Click += new System.EventHandler(this.btnDefault_Click);
            // 
+           // chkPluginTucao
+           // 
+           this.chkPluginTucao.AutoSize = true;
+           this.chkPluginTucao.Location = new System.Drawing.Point(41, 188);
+           this.chkPluginTucao.Name = "chkPluginTucao";
+           this.chkPluginTucao.Size = new System.Drawing.Size(174, 16);
+           this.chkPluginTucao.TabIndex = 9;
+           this.chkPluginTucao.Text = "启用Tucao(吐槽网)下载插件";
+           this.chkPluginTucao.UseVisualStyleBackColor = true;
+           // 
            // FormConfig
            // 
            this.AcceptButton = this.btnOK;
@@ -768,8 +780,9 @@
         private System.Windows.Forms.Button btnSavePath;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown udRefreshInfo;
-        private System.Windows.Forms.CheckBox chkFlvcd;
+        private System.Windows.Forms.CheckBox chkPluginFlvcd;
         private System.Windows.Forms.LinkLabel lnkFlvcdIntro;
         private System.Windows.Forms.Button btnDefault;
+        private System.Windows.Forms.CheckBox chkPluginTucao;
 	 }
 }

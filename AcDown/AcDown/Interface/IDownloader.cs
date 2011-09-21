@@ -15,8 +15,8 @@ namespace Kaedei.AcDown.Interface
 		正在下载 = 1,
 		已经停止 = 2,
 		下载完成 = 3,
-		出现错误 = 4
-		//正在停止=5
+		出现错误 = 4,
+		正在停止 = 5
 	}
 
 	/// <summary>

@@ -45,6 +45,9 @@
            this.toolHelpCenter = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStrip = new System.Windows.Forms.ToolStrip();
+           this.btnNew = new System.Windows.Forms.ToolStripButton();
+           this.btnConfig = new System.Windows.Forms.ToolStripButton();
+           this.btnAbout = new System.Windows.Forms.ToolStripButton();
            this.btnSearch = new System.Windows.Forms.ToolStripSplitButton();
            this.searchCustom = new System.Windows.Forms.ToolStripMenuItem();
            this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
@@ -65,7 +68,6 @@
            this.toolStart = new System.Windows.Forms.ToolStripButton();
            this.toolStop = new System.Windows.Forms.ToolStripButton();
            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-           this.toolDelete = new System.Windows.Forms.ToolStripButton();
            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
            this.toolOpenFolder = new System.Windows.Forms.ToolStripButton();
            this.toolOpenWebpage = new System.Windows.Forms.ToolStripButton();
@@ -74,10 +76,9 @@
            this.tabDownload = new System.Windows.Forms.TabPage();
            this.tabConfig = new System.Windows.Forms.TabPage();
            this.tabFlvCombine = new System.Windows.Forms.TabPage();
-           this.btnNew = new System.Windows.Forms.ToolStripButton();
-           this.btnConfig = new System.Windows.Forms.ToolStripButton();
-           this.btnAbout = new System.Windows.Forms.ToolStripButton();
            this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+           this.toolDelete = new System.Windows.Forms.ToolStripSplitButton();
+           this.删除任务并删除文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -233,6 +234,35 @@
            this.toolStrip.Name = "toolStrip";
            this.toolStrip.Size = new System.Drawing.Size(522, 31);
            this.toolStrip.TabIndex = 7;
+           // 
+           // btnNew
+           // 
+           this.btnNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
+           this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+           this.btnNew.Name = "btnNew";
+           this.btnNew.Size = new System.Drawing.Size(78, 28);
+           this.btnNew.Text = "新建(&N)";
+           this.btnNew.ToolTipText = "新建下载任务";
+           this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+           // 
+           // btnConfig
+           // 
+           this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
+           this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
+           this.btnConfig.Name = "btnConfig";
+           this.btnConfig.Size = new System.Drawing.Size(76, 28);
+           this.btnConfig.Text = "设置(&C)";
+           this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+           // 
+           // btnAbout
+           // 
+           this.btnAbout.Image = global::Kaedei.AcDown.Properties.Resources.About;
+           this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+           this.btnAbout.Name = "btnAbout";
+           this.btnAbout.Size = new System.Drawing.Size(76, 28);
+           this.btnAbout.Text = "关于(&A)";
+           this.btnAbout.ToolTipText = "关于AcDown动漫下载器";
+           this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
            // 
            // btnSearch
            // 
@@ -414,7 +444,7 @@
             this.toolInfo});
            this.contextTool.Location = new System.Drawing.Point(42, 113);
            this.contextTool.Name = "contextTool";
-           this.contextTool.Size = new System.Drawing.Size(386, 48);
+           this.contextTool.Size = new System.Drawing.Size(429, 48);
            this.contextTool.TabIndex = 22;
            this.contextTool.Visible = false;
            // 
@@ -442,16 +472,6 @@
            // 
            this.toolStripSeparator1.Name = "toolStripSeparator1";
            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 48);
-           // 
-           // toolDelete
-           // 
-           this.toolDelete.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripDelete;
-           this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.toolDelete.Name = "toolDelete";
-           this.toolDelete.Size = new System.Drawing.Size(60, 45);
-           this.toolDelete.Text = "删除任务";
-           this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-           this.toolDelete.Click += new System.EventHandler(this.mnuConDelete_Click);
            // 
            // toolStripSeparator2
            // 
@@ -545,35 +565,6 @@
            this.tabFlvCombine.Text = "视频合并";
            this.tabFlvCombine.UseVisualStyleBackColor = true;
            // 
-           // btnNew
-           // 
-           this.btnNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.btnNew.Name = "btnNew";
-           this.btnNew.Size = new System.Drawing.Size(78, 28);
-           this.btnNew.Text = "新建(&N)";
-           this.btnNew.ToolTipText = "新建下载任务";
-           this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-           // 
-           // btnConfig
-           // 
-           this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
-           this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.btnConfig.Name = "btnConfig";
-           this.btnConfig.Size = new System.Drawing.Size(76, 28);
-           this.btnConfig.Text = "设置(&C)";
-           this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
-           // 
-           // btnAbout
-           // 
-           this.btnAbout.Image = global::Kaedei.AcDown.Properties.Resources.About;
-           this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.btnAbout.Name = "btnAbout";
-           this.btnAbout.Size = new System.Drawing.Size(76, 28);
-           this.btnAbout.Text = "关于(&A)";
-           this.btnAbout.ToolTipText = "关于AcDown动漫下载器";
-           this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
-           // 
            // flvCombineControl1
            // 
            this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -583,6 +574,25 @@
            this.flvCombineControl1.Name = "flvCombineControl1";
            this.flvCombineControl1.Size = new System.Drawing.Size(508, 303);
            this.flvCombineControl1.TabIndex = 0;
+           // 
+           // toolDelete
+           // 
+           this.toolDelete.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除任务并删除文件ToolStripMenuItem});
+           this.toolDelete.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripDelete;
+           this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+           this.toolDelete.Name = "toolDelete";
+           this.toolDelete.Size = new System.Drawing.Size(72, 45);
+           this.toolDelete.Text = "删除任务";
+           this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+           this.toolDelete.ButtonClick += new System.EventHandler(this.mnuConDelete_Click);
+           // 
+           // 删除任务并删除文件ToolStripMenuItem
+           // 
+           this.删除任务并删除文件ToolStripMenuItem.Name = "删除任务并删除文件ToolStripMenuItem";
+           this.删除任务并删除文件ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+           this.删除任务并删除文件ToolStripMenuItem.Text = "删除任务并删除文件";
+           this.删除任务并删除文件ToolStripMenuItem.Click += new System.EventHandler(this.mnuConDeleteAndFile_Click);
            // 
            // FormMain
            // 
@@ -655,8 +665,7 @@
 		  private System.Windows.Forms.ToolStrip contextTool;
 		  private System.Windows.Forms.ToolStripButton toolStart;
 		  private System.Windows.Forms.ToolStripButton toolStop;
-		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		  private System.Windows.Forms.ToolStripButton toolDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		  private System.Windows.Forms.ToolStripButton toolOpenFolder;
 		  private System.Windows.Forms.ToolStripButton toolOpenWebpage;
@@ -671,6 +680,8 @@
         private System.Windows.Forms.ToolStripButton btnNew;
         private System.Windows.Forms.ToolStripButton btnConfig;
         private System.Windows.Forms.ToolStripButton btnAbout;
+        private System.Windows.Forms.ToolStripSplitButton toolDelete;
+        private System.Windows.Forms.ToolStripMenuItem 删除任务并删除文件ToolStripMenuItem;
 
 	 }
 }
