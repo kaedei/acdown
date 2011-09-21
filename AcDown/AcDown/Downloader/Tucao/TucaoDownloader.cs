@@ -193,7 +193,7 @@ namespace Kaedei.AcDown.Downloader
 				Match mPlayerid = rPlayerid.Match(embedSrc);
 				playerId = mPlayerid.Groups["playerid"].Value;
 				//取得所有子标题
-				Regex rSubTitle = new Regex(@"\|(?<subtitle>.+?)(\*\*|</li>)");
+				Regex rSubTitle = new Regex(@"\|(?<subtitle>.*?)(\*\*|</li>)");
 				MatchCollection mSubTitles = rSubTitle.Matches(embedSrc);
 
 
