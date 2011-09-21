@@ -43,9 +43,9 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(12, 9);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(154, 21);
+         this.label1.Size = new System.Drawing.Size(330, 21);
          this.label1.TabIndex = 0;
-         this.label1.Text = "请输入用户名密码：";
+         this.label1.Text = "当前下载需要您输入用户名和密码才能继续：";
          // 
          // label2
          // 

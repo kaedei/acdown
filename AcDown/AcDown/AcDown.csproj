@@ -80,6 +80,8 @@
     <Compile Include="Downloader\Flvcd\FlvcdPlugin.cs" />
     <Compile Include="Downloader\Sixcn\Sixcn.cs" />
     <Compile Include="Downloader\Tieba\TiebaAlbum.cs" />
+    <Compile Include="Downloader\Tucao\TucaoDownloader.cs" />
+    <Compile Include="Downloader\Tucao\TucaoPlugin.cs" />
     <Compile Include="Interface\Forms\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>

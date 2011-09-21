@@ -790,6 +790,25 @@ namespace AcDown.UI
 			}
 		}
 
+		//删除任务及文件
+		private void mnuConDeleteAndFile_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("是否要删除选定的下载任务及已下载的文件?", "删除选定任务和文件",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+			{
+				return;
+			}
+
+			foreach (ListViewItem item in lsv.SelectedItems)
+			{
+				TaskItem downloader = GetTask(new Guid((string)item.Tag));
+				taskMgr.DeleteTask(downloader, true);
+				//删除UI
+				lsv.Items.Remove(item);
+			}
+		}
+
 		//按下delete键删除任务
 		private void lsv_KeyUp(object sender, KeyEventArgs e)
 		{

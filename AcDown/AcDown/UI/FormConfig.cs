@@ -48,7 +48,8 @@ namespace Kaedei.AcDown.UI
          chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
          chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
          chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
-         chkFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
+         chkPluginTucao.Checked = Config.setting.Plugin_Enable_Tucao;
+         chkPluginFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
 
          //代理服务器设置
          if (Config.setting.Proxy_Settings != null)
@@ -93,7 +94,8 @@ namespace Kaedei.AcDown.UI
          Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
          Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
          Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
-         Config.setting.Plugin_Enable_Flvcd = chkFlvcd.Checked;
+         Config.setting.Plugin_Enable_Tucao = chkPluginTucao.Checked;
+         Config.setting.Plugin_Enable_Flvcd = chkPluginFlvcd.Checked;
          //代理服务器设置
          List<AcDownProxy> proxys = new List<AcDownProxy>();
          foreach (ListViewItem item in lsvProxy.Items)

@@ -26,12 +26,12 @@ namespace Kaedei.AcDown.Interface.Forms
       /// <param name="serverNames">一个字符串数组，包括对每一个服务器的描述</param>
       /// <param name="defaultIndex">默认选中的列表项</param>
       /// <returns>返回Int32值，指示用户选择的服务器</returns>
-      public static int CreateSelectServerForm(string[] serverNames, int defaultIndex)
+      public static int CreateSelectServerForm(string tip, string[] serverNames, int defaultIndex)
       {
-         int index = 0;
-         FormServer frm = new FormServer(serverNames, defaultIndex, ref index);
+         int[] index = new int[1];
+         FormServer frm = new FormServer(tip, serverNames, defaultIndex, ref index);
          frm.ShowDialog();
-         return index;
+         return index[0];
       }
 
       /// <summary>

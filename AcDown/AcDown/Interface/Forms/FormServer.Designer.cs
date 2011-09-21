@@ -29,7 +29,7 @@
       private void InitializeComponent()
       {
          this.combo = new System.Windows.Forms.ComboBox();
-         this.label1 = new System.Windows.Forms.Label();
+         this.lblTip = new System.Windows.Forms.Label();
          this.btnOK = new System.Windows.Forms.Button();
          this.SuspendLayout();
          // 
@@ -39,21 +39,21 @@
          this.combo.FlatStyle = System.Windows.Forms.FlatStyle.System;
          this.combo.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.combo.FormattingEnabled = true;
-         this.combo.Location = new System.Drawing.Point(87, 62);
+         this.combo.Location = new System.Drawing.Point(62, 62);
          this.combo.Name = "combo";
-         this.combo.Size = new System.Drawing.Size(250, 29);
+         this.combo.Size = new System.Drawing.Size(296, 29);
          this.combo.TabIndex = 0;
          // 
-         // label1
+         // lblTip
          // 
-         this.label1.AutoSize = true;
-         this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.label1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.label1.Location = new System.Drawing.Point(12, 9);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(206, 21);
-         this.label1.TabIndex = 1;
-         this.label1.Text = "下载时优先使用以下服务器:";
+         this.lblTip.AutoSize = true;
+         this.lblTip.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.lblTip.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.lblTip.Location = new System.Drawing.Point(12, 9);
+         this.lblTip.Name = "lblTip";
+         this.lblTip.Size = new System.Drawing.Size(206, 21);
+         this.lblTip.TabIndex = 1;
+         this.lblTip.Text = "下载时优先使用以下服务器:";
          // 
          // btnOK
          // 
@@ -75,13 +75,13 @@
          this.ClientSize = new System.Drawing.Size(421, 175);
          this.ControlBox = false;
          this.Controls.Add(this.btnOK);
-         this.Controls.Add(this.label1);
+         this.Controls.Add(this.lblTip);
          this.Controls.Add(this.combo);
          this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
          this.Name = "FormServer";
          this.ShowInTaskbar = false;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-         this.Text = "请选择服务器";
+         this.Text = "请选择";
          this.TopMost = true;
          this.Load += new System.EventHandler(this.FormServer_Load);
          this.ResumeLayout(false);
@@ -92,7 +92,7 @@
       #endregion
 
       private System.Windows.Forms.ComboBox combo;
-      private System.Windows.Forms.Label label1;
+      private System.Windows.Forms.Label lblTip;
       private System.Windows.Forms.Button btnOK;
    }
 }

@@ -357,7 +357,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				//选择服务器
-				int svr = ToolForm.CreateSelectServerForm(servers.ToArray(), 0);
+				int svr = ToolForm.CreateSelectServerForm("", servers.ToArray(), 0);
 				serverName = mServers[svr].Groups["surl"].Value;
 
 
