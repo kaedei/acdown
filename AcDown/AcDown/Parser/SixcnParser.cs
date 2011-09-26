@@ -21,7 +21,7 @@ namespace Kaedei.AcDown.Parser
       public string[] Parse(string[] parameters, WebProxy proxy)
       {
          string url = "http://6.cn/v72.php?vid=" + parameters[0];
-         string source = Network.GetHtmlSource2(url, Encoding.UTF8, proxy, false, false);
+         string source = Network.GetHtmlSource2(url, Encoding.UTF8, proxy);
          Regex rFlv = new Regex(@"<file>(?<flv>.*)</file>");
          Match mFlv = rFlv.Match(source);
          string flv = mFlv.Groups["flv"].Value;

@@ -74,6 +74,7 @@
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />
     <Compile Include="Component\TaskItem.cs" />
+    <Compile Include="Component\Updater.cs" />
     <Compile Include="Downloader\AcFun\Acfun.cs" />
     <Compile Include="Downloader\Bilibili\Bilibili.cs" />
     <Compile Include="Downloader\Flvcd\FlvcdDownloader.cs" />
@@ -350,6 +351,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangeLog.txt" />
+    <None Include="Resources\Update.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -243,6 +243,8 @@ namespace AcDown.UI
 			}
 			//选中下拉列表框
 			cboAfterComplete.SelectedIndex = 0;	
+			//检查更新
+			CheckUpdate();
 		}
 
 		private void btnAbout_Click(object sender, EventArgs e)
@@ -1190,8 +1192,50 @@ namespace AcDown.UI
 
 #endregion
 
+		#region ——————自动更新——————
 
+		string haveupdate = "";
 
+		/// <summary>
+		/// 检查是否有软件更新
+		/// </summary>
+		private void CheckUpdate()
+		{
+			toolUpdate.Visible = false;
+			Thread t = new Thread(new ThreadStart(() =>
+			{
+				Updater upd = new Updater();
+				haveupdate = upd.CheckUpdate(new Version(Application.ProductVersion));
+				if (!string.IsNullOrEmpty(haveupdate))
+				{
+					this.Invoke(new MethodInvoker(() => { toolUpdate.Visible = true; }));
+				}
+			}));
+			t.Start();
+
+		}
+
+		//下载更新
+		private void toolUpdate_Click(object sender, EventArgs e)
+		{
+			DialogResult r = MessageBox.Show("AcDown将在后台下载软件更新。\n下载成功后AcDown会自动关闭并重新启动，现有下载任务将被中断。\n\n是否继续？", "自动更新", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (r == System.Windows.Forms.DialogResult.Yes)
+			{
+				toolUpdate.Text = "正在下载";
+				toolUpdate.Enabled = false;
+				Thread t = new Thread(new ThreadStart(new MethodInvoker(() =>
+				{
+					Updater upd = new Updater();
+					upd.DownloadUpdate(haveupdate);
+					Application.DoEvents();
+					Process.Start(upd.TempFile, "\"" + Application.ExecutablePath + "\"");
+					this.Invoke(new MethodInvoker(() => { Program.frmStart.Close(); }));
+				})));
+				t.Start();
+			}
+		}
+
+		#endregion
 
 
 	}//end class
