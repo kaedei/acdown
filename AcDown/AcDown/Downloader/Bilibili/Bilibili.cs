@@ -239,7 +239,7 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得网页源文件
-				string src = Network.GetHtmlSource(url, Encoding.UTF8, delegates.Proxy);
+				string src = Network.GetHtmlSource2(url, Encoding.UTF8, delegates.Proxy);
 				//type值
 				string type = "";
 				#region 登录并重新获取网页源文件
@@ -336,7 +336,7 @@ namespace Kaedei.AcDown.Downloader
 				Regex rFlash = new Regex("src=\"(?<flash>.*?\\.swf)\"");
 				Match mFlash = rFlash.Match(embedSrc);
 				//取得id值
-				Regex rId = new Regex(@"(?<idname>(\w{0,2}id|data))=(?<id>(\w+|$http://.+?$))".Replace("$", "\""));
+				Regex rId = new Regex(@"(?<idname>(\w{0,2}id|data))=(?<id>([\w\-]+|$http://.+?$))".Replace("$", "\""));
 				Match mId = rId.Match(embedSrc);
 
 				if (mFile.Success) //如果有file参数

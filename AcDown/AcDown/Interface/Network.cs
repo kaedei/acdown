@@ -67,7 +67,12 @@ namespace Kaedei.AcDown.Interface
 					return true;
 				}
 			}
-			
+			else //如果不存在则建立文件夹
+			{
+				string dir = Directory.GetParent(para.FilePath).ToString();
+				if (!Directory.Exists(dir))
+					Directory.CreateDirectory(dir);
+			}
 
 			#endregion
 
@@ -261,30 +266,30 @@ namespace Kaedei.AcDown.Interface
 		/// <param name="url"></param>
 		/// <param name="encode"></param>
 		/// <returns></returns>
-		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy, bool useDeflate, bool useGzip)
+		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy)
 		{
 			string sline = "";
 			var req = HttpWebRequest.Create(url);
 			if (proxy != null)
 				req.Proxy = proxy;
-			var res = req.GetResponse();
-			if (useDeflate) //优先使用Deflate解压缩
-			{
-				//deflate解压缩
-				using (DeflateStream deflate = new DeflateStream(res.GetResponseStream(), CompressionMode.Decompress))
-				{
-					using (StreamReader reader = new StreamReader(deflate, encode))
-					{
-						sline = reader.ReadToEnd();
-					}
-				}
-			}
-			else if (useGzip)
+			HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+			if (res.ContentEncoding == "gzip")
 			{
 				//Gzip解压缩
 				using (GZipStream gzip = new GZipStream(res.GetResponseStream(), CompressionMode.Decompress))
 				{
 					using (StreamReader reader = new StreamReader(gzip, encode))
+					{
+						sline = reader.ReadToEnd();
+					}
+				}
+			}
+			else if (res.ContentEncoding == "deflate")
+			{
+				//deflate解压缩
+				using (DeflateStream deflate = new DeflateStream(res.GetResponseStream(), CompressionMode.Decompress))
+				{
+					using (StreamReader reader = new StreamReader(deflate, encode))
 					{
 						sline = reader.ReadToEnd();
 					}
