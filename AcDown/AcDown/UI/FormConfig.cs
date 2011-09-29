@@ -22,12 +22,14 @@ namespace Kaedei.AcDown.UI
 
       private void FormConfig_Load(object sender, EventArgs e)
       {
-         if (Config.setting.DownSub)
-            chkDownSub.Checked = true;
-         if (Config.setting.OpenFolderAfterComplete)
-            chkOpenFolder.Checked = true;
-         if (Config.setting.PlaySound)
-            chkPlaySound.Checked = true;
+         chkDownSub.Checked = Config.setting.DownSub;
+         chkOpenFolder.Checked = Config.setting.OpenFolderAfterComplete;
+         chkPlaySound.Checked = Config.setting.PlaySound;
+         if (!string.IsNullOrEmpty(Config.setting.SoundFile))
+         {
+            chkCustomSound.Checked = true;
+            txtCustomSound.Text = Config.setting.SoundFile;
+         }
          chkDownAllSection.Checked = Config.setting.DownAllSection;
          numCacheSize.Value = Config.setting.CacheSize;
          txtSavePath.Text = Config.setting.SavePath;
@@ -75,6 +77,14 @@ namespace Kaedei.AcDown.UI
          Config.setting.DownSub = chkDownSub.Checked;
          Config.setting.OpenFolderAfterComplete = chkOpenFolder.Checked;
          Config.setting.PlaySound = chkPlaySound.Checked;
+         if (chkCustomSound.Checked)
+         {
+            Config.setting.SoundFile = txtCustomSound.Text;
+         }
+         else
+         {
+            Config.setting.SoundFile = "";
+         }
          Config.setting.DownAllSection = chkDownAllSection.Checked;
          Config.setting.CacheSize = (Int32)numCacheSize.Value;
          Config.setting.SavePath = txtSavePath.Text;
@@ -119,6 +129,12 @@ namespace Kaedei.AcDown.UI
       private void btnCancel_Click(object sender, EventArgs e)
       {
          this.Close();
+      }
+
+      private void chkPlaySound_CheckedChanged(object sender, EventArgs e)
+      {
+         chkCustomSound.Enabled = chkPlaySound.Checked;
+         txtCustomSound.Enabled = chkCustomSound.Checked;
       }
 
       private void lnkSavePath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -174,19 +190,24 @@ namespace Kaedei.AcDown.UI
          }
       }
 
+      //修改代理服务器
       private void btnProxyModify_Click(object sender, EventArgs e)
       {
          if (lsvProxy.SelectedIndices.Count > 0)
          {
+            //选择的代理服务器
             int selected = lsvProxy.SelectedIndices[0];
+            //生成新的AcDownProxy对象
             AcDownProxy proxy = new AcDownProxy();
             proxy.Name = lsvProxy.Items[selected].SubItems[0].Text;
             proxy.Adress = lsvProxy.Items[selected].SubItems[1].Text;
             proxy.Port = int.Parse(lsvProxy.Items[selected].SubItems[2].Text);
             proxy.Username = lsvProxy.Items[selected].SubItems[3].Text;
             proxy.Password = lsvProxy.Items[selected].SubItems[4].Text;
+            //显示修改窗体
             FormAddProxy frm = new FormAddProxy(proxy);
             frm.ShowDialog();
+            //重新加载
             if (!string.IsNullOrEmpty(proxy.Name))
             {
                lsvProxy.Items[selected] = new ListViewItem(new string[] 
@@ -240,6 +261,28 @@ namespace Kaedei.AcDown.UI
          //关闭窗体
          this.Close();
       }
+
+      private void chkCustomSound_CheckedChanged(object sender, EventArgs e)
+      {
+         txtCustomSound.Enabled = chkCustomSound.Checked;
+      }
+
+      private void txtCustomSound_Click(object sender, EventArgs e)
+      {
+         //用户选择声音文件
+         OpenFileDialog ofd = new OpenFileDialog();
+         ofd.Title = "选择声音文件";
+         ofd.Filter = "声音文件(*.wav)|*.wav";
+         DialogResult r = ofd.ShowDialog();
+         if (r != System.Windows.Forms.DialogResult.Cancel)
+         {
+            txtCustomSound.Text = ofd.FileName;
+         }
+      }
+
+
+
+
 
    }
 }

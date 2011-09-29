@@ -211,7 +211,9 @@ namespace AcDown.UI
 			InitializeComponent();
 			//设置窗体标题和文字
 			this.Icon = Resources.Ac;
-			this.Text = Application.ProductName;
+			this.Text = Application.ProductName +
+							" v" + new Version(Application.ProductVersion).Major + "." +
+							new Version(Application.ProductVersion).Minor;
 			//取消显示大按钮
 			if (Config.setting.ShowBigStartButton == false)
 				if (btnClickNew != null)
@@ -530,14 +532,16 @@ namespace AcDown.UI
 		{
 			if (lsv.SelectedItems.Count > 0)
 			{
-				//取得最后一项的索引值
-				int i = lsv.SelectedIndices[lsv.SelectedIndices.Count - 1];
+				//取得最后一项
+				ListViewItem sItem = lsv.SelectedItems[lsv.SelectedIndices.Count - 1];
+				Point pos = sItem.Position;
+
 				//计算最后一项+1项的高度
-				contextTool.Top =  lsv.Top + lsv.Font.Height * (i + 3 + 1 / 2);
+				contextTool.Top = lsv.Top + pos.Y + 45;
 				//如果高度超过listview的范围
 				if (contextTool.Top + contextTool.Height > lsv.Top + lsv.Height)
 				{
-					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 2;
+					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 3;
 				}
 				contextTool.Visible = true;
 			}
@@ -1079,27 +1083,31 @@ namespace AcDown.UI
 				//播放声音
 				if (Config.setting.PlaySound)
 				{
-					System.Media.SoundPlayer player = new System.Media.SoundPlayer();
-					//优先播放设置文件中的声音(必须是wav格式&忽略大小写)
-					if (File.Exists(Config.setting.SoundFile) && Config.setting.SoundFile.EndsWith(".wav", StringComparison.CurrentCultureIgnoreCase))
+					try
 					{
-						player.SoundLocation = Config.setting.SoundFile;
-					}
-					else
-					{
-						//然后播放程序目录下的msg.wav文件
-						if (File.Exists(Path.Combine(Application.StartupPath, "msg.wav")))
+						System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+						//优先播放设置文件中的声音(必须是wav格式&忽略大小写)
+						if (File.Exists(Config.setting.SoundFile) && Config.setting.SoundFile.EndsWith(".wav", StringComparison.CurrentCultureIgnoreCase))
 						{
-							player.SoundLocation = Path.Combine(Application.StartupPath, "msg.wav");
+							player.SoundLocation = Config.setting.SoundFile;
 						}
-						else //如果都没有则播放资源文件中的声音文件
+						else
 						{
-							player.Stream = Resources.finish;
+							//然后播放程序目录下的msg.wav文件
+							if (File.Exists(Path.Combine(Application.StartupPath, "msg.wav")))
+							{
+								player.SoundLocation = Path.Combine(Application.StartupPath, "msg.wav");
+							}
+							else //如果都没有则播放资源文件中的声音文件
+							{
+								player.Stream = Resources.finish;
+							}
 						}
+						player.Load();
+						player.Play();
+						player.Dispose();
 					}
-					player.Load();
-					player.Play();
-					player.Dispose();
+					catch { }
 				}
 			}
 			else //如果用户取消下载
