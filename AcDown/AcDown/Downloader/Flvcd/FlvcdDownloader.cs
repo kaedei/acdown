@@ -171,9 +171,9 @@ namespace Kaedei.AcDown.Downloader
 				Match mTitle = rTitle.Match(src);
 				string title = mTitle.Groups["title"].Value;
 
+				_title = title;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
-				_title = title;
 
 				//取得内容
 				Regex rContent = new Regex("<input type=\"hidden\" name=\"inf\".+\">", RegexOptions.Singleline);
@@ -247,11 +247,11 @@ namespace Kaedei.AcDown.Downloader
 						int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
 						//设置RangeStart属性
 						currentParameter.RangeStart = len;
-						_title = "[续传]" + title;
+						_title = "[续传]" + _title;
 					}
 					else
 					{
-						_title = title;
+						_title = _title.Replace("[续传]", "");
 					}
 
 					//提示更换新Part

@@ -7,7 +7,7 @@ using System.Net;
 
 namespace Kaedei.AcDown.Parser
 {
-	class TudouParser:IParser
+	public class TudouParser:IParser
 	{
 		#region IParser 成员
 		/// <summary>

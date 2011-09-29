@@ -56,6 +56,7 @@
            this.chkCheckUrl = new System.Windows.Forms.CheckBox();
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
+           this.chkPluginTucao = new System.Windows.Forms.CheckBox();
            this.lnkFlvcdIntro = new System.Windows.Forms.LinkLabel();
            this.chkPluginFlvcd = new System.Windows.Forms.CheckBox();
            this.chkPluginTiebaAlbum = new System.Windows.Forms.CheckBox();
@@ -77,10 +78,11 @@
            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
            this.label6 = new System.Windows.Forms.Label();
            this.pageDebug = new System.Windows.Forms.TabPage();
+           this.label8 = new System.Windows.Forms.Label();
+           this.udNetworkTimeout = new System.Windows.Forms.NumericUpDown();
            this.lnkLog = new System.Windows.Forms.LinkLabel();
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
            this.btnDefault = new System.Windows.Forms.Button();
-           this.chkPluginTucao = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -89,6 +91,7 @@
            this.pagePlugin.SuspendLayout();
            this.pageProxy.SuspendLayout();
            this.pageDebug.SuspendLayout();
+           ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).BeginInit();
            this.SuspendLayout();
            // 
            // btnCancel
@@ -315,6 +318,11 @@
            // 
            // udRefreshInfo
            // 
+           this.udRefreshInfo.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
            this.udRefreshInfo.Location = new System.Drawing.Point(181, 147);
            this.udRefreshInfo.Maximum = new decimal(new int[] {
             5000,
@@ -448,6 +456,16 @@
            this.pagePlugin.TabIndex = 4;
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
+           // 
+           // chkPluginTucao
+           // 
+           this.chkPluginTucao.AutoSize = true;
+           this.chkPluginTucao.Location = new System.Drawing.Point(41, 188);
+           this.chkPluginTucao.Name = "chkPluginTucao";
+           this.chkPluginTucao.Size = new System.Drawing.Size(174, 16);
+           this.chkPluginTucao.TabIndex = 9;
+           this.chkPluginTucao.Text = "启用Tucao(吐槽网)下载插件";
+           this.chkPluginTucao.UseVisualStyleBackColor = true;
            // 
            // lnkFlvcdIntro
            // 
@@ -640,6 +658,8 @@
            // 
            // pageDebug
            // 
+           this.pageDebug.Controls.Add(this.label8);
+           this.pageDebug.Controls.Add(this.udNetworkTimeout);
            this.pageDebug.Controls.Add(this.lnkLog);
            this.pageDebug.Controls.Add(this.chkEnableLog);
            this.pageDebug.Location = new System.Drawing.Point(4, 22);
@@ -649,6 +669,44 @@
            this.pageDebug.TabIndex = 5;
            this.pageDebug.Text = "调试";
            this.pageDebug.UseVisualStyleBackColor = true;
+           // 
+           // label8
+           // 
+           this.label8.AutoSize = true;
+           this.label8.Location = new System.Drawing.Point(35, 95);
+           this.label8.Name = "label8";
+           this.label8.Size = new System.Drawing.Size(137, 12);
+           this.label8.TabIndex = 10;
+           this.label8.Text = "网络超时时间（毫秒）：";
+           // 
+           // udNetworkTimeout
+           // 
+           this.udNetworkTimeout.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+           this.udNetworkTimeout.Location = new System.Drawing.Point(178, 93);
+           this.udNetworkTimeout.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+           this.udNetworkTimeout.Minimum = new decimal(new int[] {
+            15000,
+            0,
+            0,
+            0});
+           this.udNetworkTimeout.Name = "udNetworkTimeout";
+           this.udNetworkTimeout.Size = new System.Drawing.Size(75, 21);
+           this.udNetworkTimeout.TabIndex = 9;
+           this.udNetworkTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+           this.udNetworkTimeout.ThousandsSeparator = true;
+           this.udNetworkTimeout.Value = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
            // 
            // lnkLog
            // 
@@ -681,16 +739,6 @@
            this.btnDefault.Text = "恢复默认设置";
            this.btnDefault.UseVisualStyleBackColor = true;
            this.btnDefault.Click += new System.EventHandler(this.btnDefault_Click);
-           // 
-           // chkPluginTucao
-           // 
-           this.chkPluginTucao.AutoSize = true;
-           this.chkPluginTucao.Location = new System.Drawing.Point(41, 188);
-           this.chkPluginTucao.Name = "chkPluginTucao";
-           this.chkPluginTucao.Size = new System.Drawing.Size(174, 16);
-           this.chkPluginTucao.TabIndex = 9;
-           this.chkPluginTucao.Text = "启用Tucao(吐槽网)下载插件";
-           this.chkPluginTucao.UseVisualStyleBackColor = true;
            // 
            // FormConfig
            // 
@@ -725,6 +773,7 @@
            this.pageProxy.PerformLayout();
            this.pageDebug.ResumeLayout(false);
            this.pageDebug.PerformLayout();
+           ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).EndInit();
            this.ResumeLayout(false);
 
 		  }
@@ -784,5 +833,7 @@
         private System.Windows.Forms.LinkLabel lnkFlvcdIntro;
         private System.Windows.Forms.Button btnDefault;
         private System.Windows.Forms.CheckBox chkPluginTucao;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown udNetworkTimeout;
 	 }
 }

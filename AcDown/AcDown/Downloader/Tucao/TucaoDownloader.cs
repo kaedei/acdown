@@ -232,8 +232,8 @@ namespace Kaedei.AcDown.Downloader
 
 				}
 				//过滤非法字符
-				title = Tools.InvalidCharacterFilter(title, "");
 				_title = title;
+				title = Tools.InvalidCharacterFilter(title, "");
 
 				//取得ID
 				id = mId.Groups["id"].Value;
@@ -288,7 +288,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + ext),
+										title + ext),
 							//文件URL
 							Url = videos[i],
 							Proxy = delegates.Proxy
@@ -300,7 +300,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + "(" + (i + 1).ToString() + ")" + ext),
+										title + "(" + (i + 1).ToString() + ")" + ext),
 							//文件URL
 							Url = videos[i],
 							//代理服务器
@@ -318,11 +318,11 @@ namespace Kaedei.AcDown.Downloader
 						int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
 						//设置RangeStart属性
 						currentParameter.RangeStart = len;
-						_title = "[续传]" + title;
+						_title = "[续传]" + _title;
 					}
 					else
 					{
-						_title = title;
+						_title = _title.Replace("[续传]", "");
 					}
 
 					//提示更换新Part
