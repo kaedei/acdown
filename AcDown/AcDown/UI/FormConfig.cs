@@ -41,6 +41,7 @@ namespace Kaedei.AcDown.UI
          cboMaxRunningCount.SelectedIndex = Config.setting.MaxRunningTaskCount - 1;
          txtSearchText.Text = Config.setting.SearchQuery;
          udRefreshInfo.Value = Config.setting.RefreshInfoInterval;
+         udNetworkTimeout.Value = Config.setting.NetworkTimeout;
          //插件设置
          chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
          chkPluginTudou.Checked = Config.setting.Plugin_Enable_Tudou;
@@ -87,6 +88,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
          Config.setting.SearchQuery = txtSearchText.Text;
          Config.setting.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
+         Config.setting.NetworkTimeout = (Int32)udNetworkTimeout.Value;
          //插件设置
          Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
          Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;

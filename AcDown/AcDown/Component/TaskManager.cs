@@ -71,6 +71,8 @@ namespace Kaedei.AcDown
 			downloader.TaskId = Guid.NewGuid();
 			//向集合中添加任务
 			Tasks.Add(downloader);
+			//提示UI刷新信息
+			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
 			//返回新建的任务
 			return downloader;
 		}
@@ -80,31 +82,29 @@ namespace Kaedei.AcDown
 		/// </summary>
 		public void StartTask(TaskItem downloader)
 		{
-			//启动新线程下载文件
-			Thread t = new Thread(() =>
-				{
-					try
+			//如果队列未满则开始下载
+			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
+			{
+				//启动新线程下载文件
+				Thread t = new Thread(() =>
 					{
-						//如果队列未满则开始下载
-						if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
+						try
 						{
 							//下载视频
 							downloader.Start();
 						}
-					}
-					catch (Exception ex) //如果出现错误
-					{
-						delegates.Error.Invoke(new ParaError(downloader.TaskId, ex));
-					}
-					
-				});
-			//开始下载
-			t.Start();
-			//添加到弱引用集合中
-			WeakReference wr = new WeakReference(t);
-			taskThreadReferenceCollection.Add(wr);
-			//提示UI刷新信息
-			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
+						catch (Exception ex) //如果出现错误
+						{
+							delegates.Error.Invoke(new ParaError(downloader.TaskId, ex));
+						}
+
+					});
+				//开始下载
+				t.Start();
+				//添加到弱引用集合中
+				WeakReference wr = new WeakReference(t);
+				taskThreadReferenceCollection.Add(wr);
+			}
 		}
 
 		/// <summary>
@@ -208,12 +208,18 @@ namespace Kaedei.AcDown
 			return count;
 		}
 
+		/// <summary>
+		/// 停止所有任务
+		/// </summary>
 		public void StopAllTasks()
 		{
+			//在正在进行的任务的弱引用集合中
 			foreach (var item in taskThreadReferenceCollection)
 			{
+				//如果该任务对象仍然存活（未被销毁）
 				if (item.IsAlive)
 				{
+					//强制终止线程
 					Thread t = (Thread)item.Target;
 					t.Abort();
 				}
@@ -228,18 +234,25 @@ namespace Kaedei.AcDown
 		/// </summary>
 		public void ContinueNext()
 		{
-			//如果当前正在进行的任务队列已满
-			if (GetRunningCount() >= Config.setting.MaxRunningTaskCount)
+			//计算可以开始的任务数量
+			int canStart = Config.setting.MaxRunningTaskCount - GetRunningCount();
+			if (canStart > 0)
 			{
-				return;
-			}
-			//所有等待的任务尝试开始
-			foreach (var item in Tasks)
-			{
-				if (item.Status == DownloadStatus.等待开始)
-					StartTask(item);
+				//所有等待的任务尝试开始
+				foreach (var item in Tasks)
+				{
+					if (item.Status == DownloadStatus.等待开始)
+					{
+						if (canStart > 0)
+						{
+							StartTask(item);
+							canStart--;
+						}
+					}
+				}
 			}
 		}
 		#endregion
+
 	}//end class
 }//end namespace

@@ -20,13 +20,12 @@ namespace Kaedei.AcDown.Interface
 			Int32 privateTick = 0;
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
-			//临时文件
-			//byte[] tempfile;
 
 			#region 检查文件是否被下载过&是否支持断点续传
 			//创建http请求
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-			
+			//设置超时
+			request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
 			//设置代理服务器
 			if (para.Proxy != null) 
 				request.Proxy = para.Proxy;
@@ -49,6 +48,8 @@ namespace Kaedei.AcDown.Interface
 				response.Close();
 				//创建http请求
 				request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+				//设置超时
+				request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
 				//设置代理服务器
 				if (para.Proxy != null)
 					request.Proxy = para.Proxy;

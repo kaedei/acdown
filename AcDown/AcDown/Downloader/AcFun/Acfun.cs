@@ -303,9 +303,9 @@ namespace Kaedei.AcDown.Downloader
 					}
 				}
 
+				_title = title;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
-				_title = title;
 
 				//视频地址数组
 				string[] videos = null;
@@ -360,7 +360,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + ext),
+										title + ext),
 							//文件URL
 							Url = videos[i]
 						};
@@ -371,7 +371,7 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(SaveDirectory.ToString(),
-										_title + "(" + (i + 1).ToString() + ")" + ext),
+										title + "(" + (i + 1).ToString() + ")" + ext),
 							//文件URL
 							Url = videos[i]
 						};
@@ -388,7 +388,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 					else
 					{
-						_title = title;
+						_title = _title.Replace("[续传]", "");
 					}
 
 					//设置代理服务器

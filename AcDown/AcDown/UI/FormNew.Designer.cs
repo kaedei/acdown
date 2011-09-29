@@ -161,7 +161,6 @@
            // 
            // chkFlvcd
            // 
-           this.chkFlvcd.FlatStyle = System.Windows.Forms.FlatStyle.System;
            this.chkFlvcd.Location = new System.Drawing.Point(19, 170);
            this.chkFlvcd.Name = "chkFlvcd";
            this.chkFlvcd.Size = new System.Drawing.Size(219, 25);

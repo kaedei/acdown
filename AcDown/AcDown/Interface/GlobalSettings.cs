@@ -40,6 +40,28 @@ namespace Kaedei.AcDown.Interface
 		/// </summary>
 		public bool DownSub { get; set; }
 
+		private int _networkTimeout = 100000; //100秒
+		/// <summary>
+		/// 网络请求的超时值（以毫秒为单位）
+		/// </summary>
+		public int NetworkTimeout
+		{
+			get
+			{
+				return _networkTimeout;
+			}
+			set
+			{
+				if (value > 100000)
+					_networkTimeout = 100000;
+				else
+					if (value < 15000)
+						_networkTimeout = 15000;
+					else
+						_networkTimeout = value;
+			}
+		}
+
 		//代理服务器设置
 		public bool Proxy_Enabled { get; set; }
 		public string Proxy_Address { get; set; }

@@ -34,7 +34,6 @@
          // 
          // picIcon
          // 
-         this.picIcon.BackColor = System.Drawing.Color.Black;
          this.picIcon.Image = global::Kaedei.AcDown.Properties.Resources.Logo;
          this.picIcon.Location = new System.Drawing.Point(13, 14);
          this.picIcon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -48,13 +47,13 @@
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.BackColor = System.Drawing.Color.Black;
-         this.ClientSize = new System.Drawing.Size(424, 103);
+         this.ClientSize = new System.Drawing.Size(430, 109);
          this.ControlBox = false;
          this.Controls.Add(this.picIcon);
          this.Cursor = System.Windows.Forms.Cursors.AppStarting;
          this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+         this.ForeColor = System.Drawing.SystemColors.ControlText;
+         this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
          this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.Name = "FormStart";
          this.ShowIcon = false;

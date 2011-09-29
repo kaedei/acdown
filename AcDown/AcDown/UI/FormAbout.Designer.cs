@@ -88,13 +88,13 @@
            // lnkSupport
            // 
            this.lnkSupport.AutoSize = true;
-           this.lnkSupport.LinkArea = new System.Windows.Forms.LinkArea(3, 18);
+           this.lnkSupport.LinkArea = new System.Windows.Forms.LinkArea(3, 6);
            this.lnkSupport.Location = new System.Drawing.Point(12, 95);
            this.lnkSupport.Name = "lnkSupport";
-           this.lnkSupport.Size = new System.Drawing.Size(134, 19);
+           this.lnkSupport.Size = new System.Drawing.Size(79, 19);
            this.lnkSupport.TabIndex = 10;
            this.lnkSupport.TabStop = true;
-           this.lnkSupport.Text = "制作：Kaedei Software";
+           this.lnkSupport.Text = "制作：Kaedei";
            this.lnkSupport.UseCompatibleTextRendering = true;
            this.lnkSupport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSupport_LinkClicked);
            // 

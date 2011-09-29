@@ -535,7 +535,7 @@ namespace AcDown.UI
 				//计算最后一项+1项的高度
 				contextTool.Top =  lsv.Top + lsv.Font.Height * (i + 3 + 1 / 2);
 				//如果高度超过listview的范围
-				if (contextTool.Top >  lsv.Top + lsv.Height)
+				if (contextTool.Top + contextTool.Height > lsv.Top + lsv.Height)
 				{
 					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 2;
 				}
@@ -555,7 +555,6 @@ namespace AcDown.UI
 				if (downloader.Status == DownloadStatus.出现错误 || downloader.Status == DownloadStatus.已经停止)
 				{
 					taskMgr.StartTask(downloader);
-					Start(new ParaStart(downloader.TaskId));
 				}
 			}
 		}
@@ -1226,10 +1225,23 @@ namespace AcDown.UI
 				Thread t = new Thread(new ThreadStart(new MethodInvoker(() =>
 				{
 					Updater upd = new Updater();
-					upd.DownloadUpdate(haveupdate);
-					Application.DoEvents();
-					Process.Start(upd.TempFile, "\"" + Application.ExecutablePath + "\"");
-					this.Invoke(new MethodInvoker(() => { Program.frmStart.Close(); }));
+					bool success = upd.DownloadUpdate(haveupdate);
+					if (success) //下载更新成功
+					{
+						Application.DoEvents();
+						Process.Start(upd.TempFile, "\"" + Application.ExecutablePath + "\"");
+						this.Invoke(new MethodInvoker(() => { 
+							Program.frmStart.Close(); 
+						}));
+					}
+					else//下载失败
+					{
+						this.Invoke(new MethodInvoker(() => {
+							MessageBox.Show("因为网络原因下载更新失败，请稍候重试", "更新AcDown", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							toolUpdate.Text = "更新AcDown";
+							toolUpdate.Enabled = true;
+						}));
+					}
 				})));
 				t.Start();
 			}

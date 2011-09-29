@@ -43,7 +43,7 @@
          // 
          // btnGetFlvCombine
          // 
-         this.btnGetFlvCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+         this.btnGetFlvCombine.Anchor = System.Windows.Forms.AnchorStyles.None;
          this.btnGetFlvCombine.Cursor = System.Windows.Forms.Cursors.Hand;
          this.btnGetFlvCombine.FlatStyle = System.Windows.Forms.FlatStyle.System;
          this.btnGetFlvCombine.Location = new System.Drawing.Point(123, 138);
