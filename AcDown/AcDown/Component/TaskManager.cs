@@ -225,9 +225,7 @@ namespace Kaedei.AcDown
 				}
 			}
 
-		}
-
-		#region 参考
+		}//end StopAllTasks()
 
 		/// <summary>
 		/// 执行下一个任务
@@ -251,8 +249,7 @@ namespace Kaedei.AcDown
 					}
 				}
 			}
-		}
-		#endregion
+		}//end ContinueNext
 
 	}//end class
 }//end namespace
