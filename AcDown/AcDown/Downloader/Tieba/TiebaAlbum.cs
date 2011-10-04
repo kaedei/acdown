@@ -256,7 +256,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得标题(文件夹名称)
 				Regex r = new Regex(@"http://tieba\.baidu\.com/f/tupian/album\?kw=(?<kw>.+)&an=(?<an>.+)");
 				Match m = r.Match(Url);
-				string title = Tools.DecodeString(m.Groups["kw"].Value) + "吧 - " + Tools.DecodeString(m.Groups["an"].Value);
+				string title = Tools.UrlDecode(m.Groups["kw"].Value) + "吧 - " + Tools.UrlDecode(m.Groups["an"].Value);
 				//过滤无效字符
 				_title = Tools.InvalidCharacterFilter(title, "");
 

@@ -32,14 +32,6 @@ namespace Kaedei.AcDown.Parser
 			MatchCollection matches = r.Matches(source);
 			foreach (var item in matches)
 			{
-				////获得跳转后地址
-				//string redirectUrl = "";
-				//HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(item.ToString());
-				//request.AllowAutoRedirect = false;
-				//using (WebResponse response = request.GetResponse())
-				//{
-				//   redirectUrl = response.Headers["Location"];      //这里就是跳转地址了
-				//}
 				address.Add(item.ToString());
 			}
 			
