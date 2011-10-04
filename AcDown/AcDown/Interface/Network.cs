@@ -39,13 +39,27 @@ namespace Kaedei.AcDown.Interface
 			}
 
 			//获取服务器回应
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = null;
+			try
+			{
+				response = (HttpWebResponse)request.GetResponse();
+			}
+			catch(WebException ex)
+			{
+				//如果Range超出范围
+				if(((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.RequestedRangeNotSatisfiable)
+					throw ex;
+			}
 			//检查服务器是否支持断点续传
-			bool supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
-			if ((para.RangeStart != 0 || para.RangeTo != 0) && supportrange==false) //若设置了范围而服务器却不支持断点续传
+			bool supportrange = false;
+			if (response != null)
+				supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
+			//若设置了范围 而服务器却不支持断点续传
+			if ((para.RangeStart != 0 || para.RangeTo != 0) && supportrange==false) 
 			{
 				//重新获取服务器回应
-				response.Close();
+				if (response != null)
+					response.Close();
 				//创建http请求
 				request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
 				//设置超时
@@ -55,10 +69,11 @@ namespace Kaedei.AcDown.Interface
 					request.Proxy = para.Proxy;
 				response = (HttpWebResponse)request.GetResponse();
 			}
-			para.TotalLength = response.ContentLength; //文件长度
+			//文件长度
+			para.TotalLength = response.ContentLength; 
 
 			//如果要下载的文件存在
-			if (File.Exists(para.FilePath) && para.RangeStart == 0)
+			if (File.Exists(para.FilePath) && supportrange == false)
 			{
 				long filelength = new FileInfo(para.FilePath).Length;
 				//如果文件长度相同

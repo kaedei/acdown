@@ -84,7 +84,7 @@ namespace Kaedei.AcDown.Interface
       /// </summary>
       /// <param name="input"></param>
       /// <returns></returns>
-      public static string DecodeString(string input)
+      public static string UrlDecode(string input)
       {
          string result = "";
 
