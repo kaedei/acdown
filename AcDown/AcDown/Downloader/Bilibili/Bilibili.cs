@@ -472,6 +472,7 @@ namespace Kaedei.AcDown.Downloader
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
 					//字幕文件(on)地址
 					string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
+               _subFilePath.Add(subfile);
 					//取得字幕文件(on)地址
 					string subUrl = "http://www.bilibili.tv/dm," + id + "?r=155";
 					//下载字幕文件
