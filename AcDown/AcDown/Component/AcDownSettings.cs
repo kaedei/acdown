@@ -39,7 +39,7 @@ namespace Kaedei.AcDown
       public bool DeleteTaskAndFile = false; //删除任务的同时删除文件
       public bool HideWhenClose = true; //点击关闭按钮时最小化
       public int RefreshInfoInterval = 2000; //下载信息刷新频率(毫秒)
-      public int NetworkTimeout = 100000; //发送请求的默认超时时间（毫秒）
+      public int NetworkTimeout = 25000; //发送请求的默认超时时间（毫秒）
 
       //代理设置
       public bool Proxy_Enabled = false;

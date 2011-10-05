@@ -328,47 +328,7 @@ namespace AcDown.UI
 		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			#region 监视剪贴板
 			
-			if (Config.setting.WatchClipboardEnabled)
-			{
-				if (watchClipboard)
-				{
-					if (Clipboard.ContainsText())
-					{
-						if (Clipboard.GetText() != lastUrl && FormNew.CheckUrl(Clipboard.GetText()))
-						{
-							watchClipboard = false;
-							lastUrl = Clipboard.GetText();
-							//去除显示大按钮
-							if (btnClickNew != null)
-							{
-								btnClickNew.Dispose();
-							}
-
-							//禁用Win7缩略图按钮
-							if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
-							{
-								newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
-								taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
-							}
-							//显示“新建”窗口
-							FormNew.ShowForm(Clipboard.GetText());
-							
-							//启用Win7缩略图按钮
-							if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
-							{
-								newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
-								taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
-							}
-							watchClipboard = true;
-
-						}
-					}
-				}
-			}
-
-			#endregion
 
 			//设置刷新频率
 			if (Config.setting.RefreshInfoInterval != timer.Interval)
@@ -483,6 +443,47 @@ namespace AcDown.UI
 				}
 			}
 		} // end Timer_Tick
+
+		//监视剪贴板
+		[DebuggerNonUserCode()]
+		private void timerClipboard_Tick(object sender, EventArgs e)
+		{
+			//如果允许监视剪贴板
+			if (Config.setting.WatchClipboardEnabled && watchClipboard)
+			{
+				if (Clipboard.ContainsText())
+				{
+					if (Clipboard.GetText() != lastUrl && FormNew.CheckUrl(Clipboard.GetText()))
+					{
+						watchClipboard = false;
+						lastUrl = Clipboard.GetText();
+						//去除显示大按钮
+						if (btnClickNew != null)
+						{
+							btnClickNew.Dispose();
+						}
+
+						//禁用Win7缩略图按钮
+						if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
+						{
+							newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
+							taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
+						}
+						//显示“新建”窗口
+						FormNew.ShowForm(Clipboard.GetText());
+
+						//启用Win7缩略图按钮
+						if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
+						{
+							newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
+							taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
+						}
+						watchClipboard = true;
+
+					}
+				}
+			}
+		}// end timerClipboard_Tick
 
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -1056,7 +1057,9 @@ namespace AcDown.UI
 			item.SubItems[GetColumn("Progress")].Text = p.TipText;
 		}//end TipText
 
-		//下载完成(需要判断下载完成还是用户手动停止)
+		/// <summary>
+		/// 下载完成(需要判断下载完成还是用户手动停止)
+		/// </summary>
 		public void Finish(object e)
 		{
 			//如果需要在安全的线程上下文中执行
@@ -1119,7 +1122,52 @@ namespace AcDown.UI
 					item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				}
 			}
+			//继续下一任务或关机
+			ProcessNext();
+		}
 
+		bool errorTip = true;
+		/// <summary>
+		/// 出现错误下载失败
+		/// </summary>
+		public void Error(object e)
+		{
+			if (this.InvokeRequired)
+			{
+				this.Invoke(new AcTaskDelegate(Error), e);
+				return;
+			}
+			ParaError p = (ParaError)e;
+
+			ListViewItem item = GetLsvItem(p.TaskId);
+			//添加到日志
+			Logging.Add(p.E);
+
+			TaskItem downloader = GetTask(p.TaskId);
+			if (downloader != null)
+			{
+				//更新item
+				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
+				item.SubItems[GetColumn("Progress")].Text = @"下载出错"; //下载进度
+				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
+			}
+			//显示ToolTip
+			if (errorTip)
+			{
+				toolTip.Show("下载出现问题了？点这里", this, this.Width - toolHelpCenter.Width + 10
+					, this.Height - toolHelpCenter.Height + 5);
+				errorTip = false;
+			}
+			//继续下一任务或关机
+			ProcessNext();
+		}
+
+
+		/// <summary>
+		/// 执行下一个任务，如果所有任务执行完毕则执行关机任务
+		/// </summary>
+		public void ProcessNext()
+		{
 			//执行下一个可能开始的任务
 			taskMgr.ContinueNext();
 
@@ -1163,38 +1211,7 @@ namespace AcDown.UI
 				}
 			}
 
-		}
 
-		bool errorTip = true;
-		//出现错误下载失败
-		public void Error(object e)
-		{
-			if (this.InvokeRequired)
-			{
-				this.Invoke(new AcTaskDelegate(Error), e);
-				return;
-			}
-			ParaError p = (ParaError)e;
-
-			ListViewItem item = GetLsvItem(p.TaskId);
-			//添加到日志
-			Logging.Add(p.E);
-
-			TaskItem downloader = GetTask(p.TaskId);
-			if (downloader != null)
-			{
-				//更新item
-				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
-				item.SubItems[GetColumn("Progress")].Text = @"下载出错"; //下载进度
-				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
-			}
-			//显示ToolTip
-			if (errorTip)
-			{
-				toolTip.Show("下载出现问题了？点这里", this, this.Width - toolHelpCenter.Width + 10
-					, this.Height - toolHelpCenter.Height + 5);
-				errorTip = false;
-			}
 		}
 
 #endregion
@@ -1256,6 +1273,8 @@ namespace AcDown.UI
 		}
 
 		#endregion
+
+
 
 
 	}//end class

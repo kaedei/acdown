@@ -37,6 +37,7 @@ namespace Kaedei.AcDown.UI
          chkCheckUrl.Checked = Config.setting.AutoCheckUrl;
          chkWatch.Checked = Config.setting.WatchClipboardEnabled;
          chkDeleteFile.Checked = Config.setting.DeleteTaskAndFile;
+         if (!Config.IsWindows7OrHigher()) chkEnableWin7.Enabled = false;
          chkEnableWin7.Checked = Config.setting.EnableWindows7Feature;
          chkShowBigButton.Checked = Config.setting.ShowBigStartButton;
          chkHideWhenClose.Checked = Config.setting.HideWhenClose;
