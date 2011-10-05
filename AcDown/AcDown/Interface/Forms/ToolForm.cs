@@ -25,7 +25,7 @@ namespace Kaedei.AcDown.Interface.Forms
       /// </summary>
       /// <param name="serverNames">一个字符串数组，包括对每一个服务器的描述</param>
       /// <param name="defaultIndex">默认选中的列表项</param>
-      /// <returns>返回Int32值，指示用户选择的服务器</returns>
+      /// <returns>返回Int32值，指示用户选择的服务器在数组中的索引</returns>
       public static int CreateSelectServerForm(string tip, string[] serverNames, int defaultIndex)
       {
          int[] index = new int[1];

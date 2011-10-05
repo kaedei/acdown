@@ -419,6 +419,7 @@ namespace Kaedei.AcDown.Downloader
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
 					//字幕文件(on)地址
 					string subfile = Path.Combine(SaveDirectory.ToString(), title + "[未锁定].xml");
+					_subFilePath.Add(subfile);
 					//取得字幕文件(on)地址
 					string subUrl = @"http://124.228.254.234/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.9138414077460766".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
 					//下载字幕文件
@@ -434,6 +435,7 @@ namespace Kaedei.AcDown.Downloader
 					catch { }
 					//字幕文件(lock)地址
 					subfile = Path.Combine(SaveDirectory.ToString(), title + "[锁定].xml");
+					_subFilePath.Add(subfile);
 					//取得字幕文件(lock)地址
 					subUrl = @"http://124.228.254.234/newflvplayer/xmldata/%VideoId%/comment_lock.xml?r=0.5152998301200569".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
 					//下载字幕文件

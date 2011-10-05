@@ -345,6 +345,7 @@ namespace Kaedei.AcDown.Downloader
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
 					//字幕文件(on)地址
 					string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
+					_subFilePath.Add(subfile);
 					//取得字幕文件(on)地址
 					string subUrl = "http://www.tucao.cc/index.php?m=comment&c=mukio&a=init&type=" + type + "&playerID=" + playerId + "~" + selectedvideo.ToString() + "&r=0.09502756828442216";
 					//下载字幕文件

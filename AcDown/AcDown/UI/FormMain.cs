@@ -763,6 +763,10 @@ namespace AcDown.UI
 			this.Cursor = Cursors.Default;
 			//释放托盘图标
 			notifyIcon.Dispose();
+			//结束自动更新
+			if (wrUpdate != null)
+				if (wrUpdate.IsAlive)
+					((Thread)wrUpdate.Target).Abort();
 			//关闭日志文件
 			Logging.Exit();
 			//退出程序
@@ -1239,6 +1243,7 @@ namespace AcDown.UI
 
 		}
 
+		WeakReference wrUpdate;
 		//下载更新
 		private void toolUpdate_Click(object sender, EventArgs e)
 		{
@@ -1249,26 +1254,34 @@ namespace AcDown.UI
 				toolUpdate.Enabled = false;
 				Thread t = new Thread(new ThreadStart(new MethodInvoker(() =>
 				{
-					Updater upd = new Updater();
-					bool success = upd.DownloadUpdate(haveupdate);
-					if (success) //下载更新成功
+					//忽略任何未知的错误（如线程强制停止）
+					try
 					{
-						Application.DoEvents();
-						Process.Start(upd.TempFile, "\"" + Application.ExecutablePath + "\"");
-						this.Invoke(new MethodInvoker(() => { 
-							Program.frmStart.Close(); 
-						}));
+						Updater upd = new Updater();
+						bool success = upd.DownloadUpdate(haveupdate);
+						if (success) //下载更新成功
+						{
+							Application.DoEvents();
+							Process.Start(upd.TempFile, "\"" + Application.ExecutablePath + "\"");
+							this.Invoke(new MethodInvoker(() =>
+							{
+								Program.frmStart.Close();
+							}));
+						}
+						else//下载失败
+						{
+							this.Invoke(new MethodInvoker(() =>
+							{
+								MessageBox.Show("因为网络原因下载更新失败，请稍候重试", "更新AcDown", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								toolUpdate.Text = "更新AcDown";
+								toolUpdate.Enabled = true;
+							}));
+						}
 					}
-					else//下载失败
-					{
-						this.Invoke(new MethodInvoker(() => {
-							MessageBox.Show("因为网络原因下载更新失败，请稍候重试", "更新AcDown", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-							toolUpdate.Text = "更新AcDown";
-							toolUpdate.Enabled = true;
-						}));
-					}
+					catch { }
 				})));
 				t.Start();
+				wrUpdate = new WeakReference(t);
 			}
 		}
 
