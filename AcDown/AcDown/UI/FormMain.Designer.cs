@@ -80,6 +80,7 @@
            this.tabConfig = new System.Windows.Forms.TabPage();
            this.tabFlvCombine = new System.Windows.Forms.TabPage();
            this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+           this.timerClipboard = new System.Windows.Forms.Timer(this.components);
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -607,6 +608,12 @@
            this.flvCombineControl1.Size = new System.Drawing.Size(531, 303);
            this.flvCombineControl1.TabIndex = 0;
            // 
+           // timerClipboard
+           // 
+           this.timerClipboard.Enabled = true;
+           this.timerClipboard.Interval = 500;
+           this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
+           // 
            // FormMain
            // 
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -696,6 +703,7 @@
 		  private System.Windows.Forms.ToolStripSplitButton toolDelete;
 		  private System.Windows.Forms.ToolStripMenuItem 删除任务并删除文件ToolStripMenuItem;
 		  private System.Windows.Forms.ToolStripButton toolUpdate;
+        private System.Windows.Forms.Timer timerClipboard;
 
 	 }
 }

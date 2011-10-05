@@ -53,6 +53,8 @@ namespace Kaedei.AcDown.UI
 			if (time == 30)
 			{
 				timer.Enabled = false;
+				//防止AcDown阻止系统关机
+				Config.setting.HideWhenClose = false;
 				switch (action)
 				{
 					case ShutdownType.Shutdown:
@@ -95,6 +97,6 @@ namespace Kaedei.AcDown.UI
 		Reboot,
 		Hibernate,
 		Suspend,
-      ExitProgram
+		ExitProgram
 	}
 }
