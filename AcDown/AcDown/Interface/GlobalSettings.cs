@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Kaedei.AcDown.Component;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -40,7 +41,7 @@ namespace Kaedei.AcDown.Interface
 		/// </summary>
 		public bool DownSub { get; set; }
 
-		private int _networkTimeout = 100000; //100秒
+		private int _networkTimeout = 25000; //25秒
 		/// <summary>
 		/// 网络请求的超时值（以毫秒为单位）
 		/// </summary>
@@ -62,6 +63,11 @@ namespace Kaedei.AcDown.Interface
 			}
 		}
 
+		/// <summary>
+		/// 任务的相关信息
+		/// </summary>
+		public Dictionary<Guid, TaskInfo> TasksInfomation = new Dictionary<Guid, TaskInfo>();
+
 		//代理服务器设置
 		public bool Proxy_Enabled { get; set; }
 		public string Proxy_Address { get; set; }
@@ -70,4 +76,12 @@ namespace Kaedei.AcDown.Interface
 		public string Proxy_Password { get; set; }
 
 	}
+
+	public enum DownloadSubtitleType
+	{
+		DownloadSubtitle,
+		DontDownloadSubtitle,
+		DownloadSubtitleOnly
+	}
+
 }

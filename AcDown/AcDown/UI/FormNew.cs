@@ -99,6 +99,11 @@ namespace Kaedei.AcDown.UI
 				 cboVideoType.Visible = false;
 			 }
 			 cboVideoType.SelectedIndex = 0;
+			 //显示下载弹幕/字幕选项
+			 if (Config.setting.DownSub)
+				 rdoDownSub.Checked = true;
+			 else
+				 rdoNotDownSub.Checked = true;
 		 }
 
 		 //读取代理服务器设置
@@ -172,7 +177,6 @@ namespace Kaedei.AcDown.UI
 				 {
 					 if (downloader.GetBasePlugin().GetHash(downloader.Url) == hash)
 					 {
-						 tabNew.SelectTab(tabInput);
 						 toolTip.Show("当前任务已经存在", txtInput, 4000);
 						 this.Cursor = Cursors.Default;
 						 return;
@@ -190,9 +194,18 @@ namespace Kaedei.AcDown.UI
 								 selectedProxy = item;
 						 }
 					 }
+					 //取得下载字幕设置
+					 DownloadSubtitleType ds  = DownloadSubtitleType.DownloadSubtitle;
+					 if (rdoNotDownSub.Checked) ds = DownloadSubtitleType.DontDownloadSubtitle;
+					 if (rdoDownSubOnly.Checked) ds = DownloadSubtitleType.DownloadSubtitleOnly;
 					 //添加任务
-					 TaskItem downloader = _taskMgr.AddTask(new TaskItem(p.CreateDownloader(), null), url,
-						 (selectedProxy == null) ? null : selectedProxy.ToWebProxy());
+					 TaskItem downloader = _taskMgr.AddTask(new TaskItem(p.CreateDownloader(), null),
+								new TaskInfo()
+								{
+									Url = url,
+									Proxy = (selectedProxy == null) ? null : selectedProxy.ToWebProxy(),
+									DownSub = ds
+								});
 					 //开始下载
 					 _taskMgr.StartTask(downloader);
 					 this.Cursor = Cursors.Default;
@@ -206,7 +219,7 @@ namespace Kaedei.AcDown.UI
 			 }
 			 else
 			 {
-				 tabNew.SelectTab(tabInput);
+				 tabNew.SelectTab(tabOnline);
 				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入。\n您也可以选择使用在线解析引擎解析此地址", txtInput, 3000);
 				 txtInput.SelectAll();
 			 }
@@ -271,9 +284,9 @@ namespace Kaedei.AcDown.UI
 					 txtInput.Text = "+" + txtInput.Text;
 				 if (Config.setting.Plugin_Enable_Flvcd)
 				 {
-					 lblVideoType.Visible = true;
-					 cboVideoType.Visible = true;
+					 cboVideoType.Enabled = true;
 				 }
+				 tabNew.SelectTab(tabOnline);
 			 }
 			 else
 			 {
@@ -281,8 +294,8 @@ namespace Kaedei.AcDown.UI
 					 txtInput.Text = txtInput.Text.TrimStart('+');
 				 if (Config.setting.Plugin_Enable_Flvcd)
 				 {
-					 lblVideoType.Visible = false;
-					 cboVideoType.Visible = false;
+					 cboVideoType.SelectedIndex = 0;
+					 cboVideoType.Enabled = false;
 				 }
 			 }
 		 }

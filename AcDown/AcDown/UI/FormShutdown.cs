@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.UI;
+using AcDown;
 
 namespace Kaedei.AcDown.UI
 {
@@ -53,8 +54,6 @@ namespace Kaedei.AcDown.UI
 			if (time == 30)
 			{
 				timer.Enabled = false;
-				//防止AcDown阻止系统关机
-				Config.setting.HideWhenClose = false;
 				switch (action)
 				{
 					case ShutdownType.Shutdown:
@@ -85,7 +84,8 @@ namespace Kaedei.AcDown.UI
 
 		private void FormShutdown_Load(object sender, EventArgs e)
 		{
-
+			//防止AcDown阻止系统关机
+			Program.frmMain.Hide();
 		}
 	}
 

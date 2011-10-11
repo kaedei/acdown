@@ -312,108 +312,112 @@ namespace Kaedei.AcDown.Downloader
 				//清空地址
 				_filePath.Clear();
 
-				//检查type值
-				switch (type)
+				if (GlobalSettings.GetSettings().TasksInfomation[this.TaskId].DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
-					case "video": //新浪视频
-						//解析视频
-						SinaVideoParser parserSina = new SinaVideoParser();
-						videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
-						break;
-					case "qq": //QQ视频
-						//解析视频
-						QQVideoParser parserQQ = new QQVideoParser();
-						videos = parserQQ.Parse(new string[] { id }, delegates.Proxy);
-						break;
-					case "youku": //优酷视频
-						//解析视频
-						YoukuParser parserYouKu = new YoukuParser();
-						videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
-						break;
-					case "game": //flash游戏
-						videos = new string[] { mFlash.Groups["flash"].Value };
-						break;
-				}
-
-				//下载视频
-				//确定视频共有几个段落
-				_partCount = videos.Length;
-
-				//------------分段落下载------------
-				for (int i = 0; i < _partCount; i++)
-				{
-					_currentPart = i + 1;
-					
-					//取得文件后缀名
-					string ext = Tools.GetExtension(videos[i]);
-					if (string.IsNullOrEmpty(ext))
+					//检查type值
+					switch (type)
 					{
-						if (string.IsNullOrEmpty(Path.GetExtension(videos[i])))
-							ext = ".flv";
-						else
-							ext = Path.GetExtension(videos[i]);
+						case "video": //新浪视频
+							//解析视频
+							SinaVideoParser parserSina = new SinaVideoParser();
+							videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
+							break;
+						case "qq": //QQ视频
+							//解析视频
+							QQVideoParser parserQQ = new QQVideoParser();
+							videos = parserQQ.Parse(new string[] { id }, delegates.Proxy);
+							break;
+						case "youku": //优酷视频
+							//解析视频
+							YoukuParser parserYouKu = new YoukuParser();
+							videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
+							break;
+						case "game": //flash游戏
+							videos = new string[] { mFlash.Groups["flash"].Value };
+							break;
 					}
-					//设置当前DownloadParameter
-					if (_partCount == 1)
-					{
-						currentParameter = new DownloadParameter()
-						{
-							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(SaveDirectory.ToString(),
-										title + ext),
-							//文件URL
-							Url = videos[i]
-						};
-					}
-					else
-					{
-						currentParameter = new DownloadParameter()
-						{
-							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(SaveDirectory.ToString(),
-										title + "(" + (i + 1).ToString() + ")" + ext),
-							//文件URL
-							Url = videos[i]
-						};
-					}
-
-					//添加断点续传段
-					if (File.Exists(currentParameter.FilePath))
-					{
-						//取得文件长度
-						int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
-						//设置RangeStart属性
-						currentParameter.RangeStart = len;
-						_title = "[续传]" + title;
-					}
-					else
-					{
-						_title = _title.Replace("[续传]", "");
-					}
-
-					//设置代理服务器
-					currentParameter.Proxy = delegates.Proxy;
-					//添加文件路径到List<>中
-					_filePath.Add(currentParameter.FilePath);
-					//下载文件
-					bool success;
-					
-
-					//提示更换新Part
-					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
 
 					//下载视频
-					success = Network.DownloadFile(currentParameter);
+					//确定视频共有几个段落
+					_partCount = videos.Length;
 
-					if (!success) //未出现错误即用户手动停止
+					//------------分段落下载------------
+					for (int i = 0; i < _partCount; i++)
 					{
-						_status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.TaskId, false));
-						return;
-					}
-				} //end for
+						_currentPart = i + 1;
 
-				if (GlobalSettings.GetSettings().DownSub)
+						//取得文件后缀名
+						string ext = Tools.GetExtension(videos[i]);
+						if (string.IsNullOrEmpty(ext))
+						{
+							if (string.IsNullOrEmpty(Path.GetExtension(videos[i])))
+								ext = ".flv";
+							else
+								ext = Path.GetExtension(videos[i]);
+						}
+						//设置当前DownloadParameter
+						if (_partCount == 1)
+						{
+							currentParameter = new DownloadParameter()
+							{
+								//文件名 例: c:\123(1).flv
+								FilePath = Path.Combine(SaveDirectory.ToString(),
+											title + ext),
+								//文件URL
+								Url = videos[i]
+							};
+						}
+						else
+						{
+							currentParameter = new DownloadParameter()
+							{
+								//文件名 例: c:\123(1).flv
+								FilePath = Path.Combine(SaveDirectory.ToString(),
+											title + "(" + (i + 1).ToString() + ")" + ext),
+								//文件URL
+								Url = videos[i]
+							};
+						}
+
+						//添加断点续传段
+						if (File.Exists(currentParameter.FilePath))
+						{
+							//取得文件长度
+							int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
+							//设置RangeStart属性
+							currentParameter.RangeStart = len;
+							_title = "[续传]" + title;
+						}
+						else
+						{
+							_title = _title.Replace("[续传]", "");
+						}
+
+						//设置代理服务器
+						currentParameter.Proxy = delegates.Proxy;
+						//添加文件路径到List<>中
+						_filePath.Add(currentParameter.FilePath);
+						//下载文件
+						bool success;
+
+
+						//提示更换新Part
+						delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+
+						//下载视频
+						success = Network.DownloadFile(currentParameter);
+
+						if (!success) //未出现错误即用户手动停止
+						{
+							_status = DownloadStatus.已经停止;
+							delegates.Finish(new ParaFinish(this.TaskId, false));
+							return;
+						}
+					} //end for
+
+				}
+
+				if (GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub == DownloadSubtitleType.DownloadSubtitle)
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
@@ -450,6 +454,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 					catch { }
 				}
+			
 			}
 			catch(Exception ex)
 			{

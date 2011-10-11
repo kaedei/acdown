@@ -85,7 +85,6 @@ namespace Kaedei.AcDown
       /// </summary>
       public static void SaveSettings()
       {
-
          //取得APPDATA路径名称
          string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
          path = Path.Combine(path, @"Kaedei\AcDown\");

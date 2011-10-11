@@ -763,10 +763,6 @@ namespace AcDown.UI
 			this.Cursor = Cursors.Default;
 			//释放托盘图标
 			notifyIcon.Dispose();
-			//结束自动更新
-			if (wrUpdate != null)
-				if (wrUpdate.IsAlive)
-					((Thread)wrUpdate.Target).Abort();
 			//关闭日志文件
 			Logging.Exit();
 			//退出程序
@@ -1239,11 +1235,12 @@ namespace AcDown.UI
 					this.Invoke(new MethodInvoker(() => { toolUpdate.Visible = true; }));
 				}
 			}));
+			t.IsBackground = true;
 			t.Start();
 
 		}
 
-		WeakReference wrUpdate;
+
 		//下载更新
 		private void toolUpdate_Click(object sender, EventArgs e)
 		{
@@ -1278,10 +1275,18 @@ namespace AcDown.UI
 							}));
 						}
 					}
-					catch { }
+					catch 
+					{
+						this.Invoke(new MethodInvoker(() =>
+						{
+							MessageBox.Show("因为网络原因下载更新失败，请稍候重试", "更新AcDown", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							toolUpdate.Text = "更新AcDown";
+							toolUpdate.Enabled = true;
+						}));
+					}
 				})));
+				t.IsBackground = true;
 				t.Start();
-				wrUpdate = new WeakReference(t);
 			}
 		}
 

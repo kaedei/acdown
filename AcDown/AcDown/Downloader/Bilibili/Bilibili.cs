@@ -340,139 +340,143 @@ namespace Kaedei.AcDown.Downloader
 				Regex rId = new Regex(@"(?<idname>(\w{0,2}id|data))=(?<id>([\w\-]+|$http://.+?$))".Replace("$", "\""));
 				Match mId = rId.Match(embedSrc);
 
-				if (mFile.Success) //如果有file参数
+				//如果不是“仅下载字幕”
+				if (GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
-					string fileurl = mFile.Groups["file"].Value;
-					videos = new string[] { fileurl };
-				}
-				else if (mId.Success)//如果是普通的外链
-				{
-					//取得ID
-					id = mId.Groups["id"].Value;
-					//取得type值
-					type = mId.Groups["idname"].Value;
-					//检查外链
-					switch (type)
+					if (mFile.Success) //如果有file参数
 					{
-						case "qid": //QQ视频
-							//解析视频
-							QQVideoParser parserQQ = new QQVideoParser();
-							videos = parserQQ.Parse(new string[] { id }, delegates.Proxy);
-							break;
-						case "ykid": //优酷视频
-							//解析视频
-							YoukuParser parserYouKu = new YoukuParser();
-							videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
-							break;
-						case "uid": //土豆视频
-							//解析视频
-							TudouParser parserTudou = new TudouParser();
-							videos = parserTudou.Parse(new string[] { id }, delegates.Proxy);
-							break;
-						case "rid": //6.cn视频
-							SixcnParser parserSixcn = new SixcnParser();
-							videos = parserSixcn.Parse(new string[] { id }, delegates.Proxy);
-							break;
-						case "data": //Flash游戏
-							id = id.Replace("\"", "");
-							videos = new string[] { id };
-							break;
-						default: //新浪视频
-							SinaVideoParser parserSina = new SinaVideoParser();
-							videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
-							break;
+						string fileurl = mFile.Groups["file"].Value;
+						videos = new string[] { fileurl };
 					}
-				}
-				else //如果是游戏
-				{
-					string flashurl = mFlash.Groups["flash"].Value;
-					videos = new string[] { flashurl };
-				}
-
-
-				//下载视频
-				//确定视频共有几个段落
-				_partCount = videos.Length;
-
-				//------------分段落下载------------
-				for (int i = 0; i < _partCount; i++)
-				{
-					_currentPart = i + 1;
-					
-					//取得文件后缀名
-					string ext = Tools.GetExtension(videos[i]);
-					if (string.IsNullOrEmpty(ext))
+					else if (mId.Success)//如果是普通的外链
 					{
-						if (string.IsNullOrEmpty(Path.GetExtension(videos[i])))
-							ext = ".flv";
-						else
-							ext = Path.GetExtension(videos[i]);
-					}
-					//设置当前DownloadParameter
-					if (_partCount == 1)
-					{
-						currentParameter = new DownloadParameter()
+						//取得ID
+						id = mId.Groups["id"].Value;
+						//取得type值
+						type = mId.Groups["idname"].Value;
+						//检查外链
+						switch (type)
 						{
-							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(SaveDirectory.ToString(),
-										title + ext),
-							//文件URL
-							Url = videos[i],
-							Proxy = delegates.Proxy
-						};
+							case "qid": //QQ视频
+								//解析视频
+								QQVideoParser parserQQ = new QQVideoParser();
+								videos = parserQQ.Parse(new string[] { id }, delegates.Proxy);
+								break;
+							case "ykid": //优酷视频
+								//解析视频
+								YoukuParser parserYouKu = new YoukuParser();
+								videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
+								break;
+							case "uid": //土豆视频
+								//解析视频
+								TudouParser parserTudou = new TudouParser();
+								videos = parserTudou.Parse(new string[] { id }, delegates.Proxy);
+								break;
+							case "rid": //6.cn视频
+								SixcnParser parserSixcn = new SixcnParser();
+								videos = parserSixcn.Parse(new string[] { id }, delegates.Proxy);
+								break;
+							case "data": //Flash游戏
+								id = id.Replace("\"", "");
+								videos = new string[] { id };
+								break;
+							default: //新浪视频
+								SinaVideoParser parserSina = new SinaVideoParser();
+								videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
+								break;
+						}
 					}
-					else
+					else //如果是游戏
 					{
-						currentParameter = new DownloadParameter()
-						{
-							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(SaveDirectory.ToString(),
-										title + "(" + (i + 1).ToString() + ")" + ext),
-							//文件URL
-							Url = videos[i],
-							//代理服务器
-							Proxy = delegates.Proxy
-						};
-					}
-					//添加文件路径到List<>中
-					_filePath.Add(currentParameter.FilePath);
-					//下载文件
-					bool success;
-					//添加断点续传段
-					if (File.Exists(currentParameter.FilePath))
-					{
-						//取得文件长度
-						int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
-						//设置RangeStart属性
-						currentParameter.RangeStart = len;
-						_title = "[续传]" + _title;
-					}
-					else
-					{
-						_title = _title.Replace("[续传]", "");
+						string flashurl = mFlash.Groups["flash"].Value;
+						videos = new string[] { flashurl };
 					}
 
-					//提示更换新Part
-					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
 
 					//下载视频
-					success = Network.DownloadFile(currentParameter);
+					//确定视频共有几个段落
+					_partCount = videos.Length;
 
-					if (!success) //未出现错误即用户手动停止
+					//------------分段落下载------------
+					for (int i = 0; i < _partCount; i++)
 					{
-						_status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.TaskId, false));
-						return;
-					}
-				} //end for
+						_currentPart = i + 1;
 
-				if (GlobalSettings.GetSettings().DownSub && !string.IsNullOrEmpty(id))
+						//取得文件后缀名
+						string ext = Tools.GetExtension(videos[i]);
+						if (string.IsNullOrEmpty(ext))
+						{
+							if (string.IsNullOrEmpty(Path.GetExtension(videos[i])))
+								ext = ".flv";
+							else
+								ext = Path.GetExtension(videos[i]);
+						}
+						//设置当前DownloadParameter
+						if (_partCount == 1)
+						{
+							currentParameter = new DownloadParameter()
+							{
+								//文件名 例: c:\123(1).flv
+								FilePath = Path.Combine(SaveDirectory.ToString(),
+											title + ext),
+								//文件URL
+								Url = videos[i],
+								Proxy = delegates.Proxy
+							};
+						}
+						else
+						{
+							currentParameter = new DownloadParameter()
+							{
+								//文件名 例: c:\123(1).flv
+								FilePath = Path.Combine(SaveDirectory.ToString(),
+											title + "(" + (i + 1).ToString() + ")" + ext),
+								//文件URL
+								Url = videos[i],
+								//代理服务器
+								Proxy = delegates.Proxy
+							};
+						}
+						//添加文件路径到List<>中
+						_filePath.Add(currentParameter.FilePath);
+						//下载文件
+						bool success;
+						//添加断点续传段
+						if (File.Exists(currentParameter.FilePath))
+						{
+							//取得文件长度
+							int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
+							//设置RangeStart属性
+							currentParameter.RangeStart = len;
+							_title = "[续传]" + _title;
+						}
+						else
+						{
+							_title = _title.Replace("[续传]", "");
+						}
+
+						//提示更换新Part
+						delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+
+						//下载视频
+						success = Network.DownloadFile(currentParameter);
+
+						if (!success) //未出现错误即用户手动停止
+						{
+							_status = DownloadStatus.已经停止;
+							delegates.Finish(new ParaFinish(this.TaskId, false));
+							return;
+						}
+					} //end for
+				}//end 判断是否下载视频
+
+				if ((GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub == DownloadSubtitleType.DownloadSubtitle) && !string.IsNullOrEmpty(id))
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
 					//字幕文件(on)地址
 					string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
-               _subFilePath.Add(subfile);
+					_subFilePath.Add(subfile);
 					//取得字幕文件(on)地址
 					string subUrl = "http://www.bilibili.tv/dm," + id + "?r=155";
 					//下载字幕文件
