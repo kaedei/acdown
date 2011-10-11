@@ -99,6 +99,7 @@
          this.MinimizeBox = false;
          this.Name = "FormShutdown";
          this.Opacity = 0.9D;
+         this.ShowIcon = false;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
          this.TopMost = true;
          this.Load += new System.EventHandler(this.FormShutdown_Load);

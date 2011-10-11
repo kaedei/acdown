@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />
+    <Compile Include="Component\TaskInfo.cs" />
     <Compile Include="Component\TaskItem.cs" />
     <Compile Include="Component\Updater.cs" />
     <Compile Include="Downloader\AcFun\Acfun.cs" />
@@ -114,6 +115,12 @@
     <Compile Include="Interface\Delegates.cs" />
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Parser\SixcnParser.cs" />
+    <Compile Include="UI\Components\AcPlay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\AcPlay.Designer.cs">
+      <DependentUpon>AcPlay.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Components\FlvCombine.cs" />
     <Compile Include="UI\Components\FlvCombineControl.cs">
       <SubType>UserControl</SubType>
@@ -199,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interface\Forms\FormSelect.resx">
       <DependentUpon>FormSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\AcPlay.resx">
+      <DependentUpon>AcPlay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\FlvCombineControl.resx">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>

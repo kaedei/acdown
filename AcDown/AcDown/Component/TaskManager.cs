@@ -57,6 +57,31 @@ namespace Kaedei.AcDown
 		//委托
 		private DelegateContainer delegates;
 
+		
+		/// <summary>
+		/// 添加任务
+		/// </summary>
+		public TaskItem AddTask(TaskItem downloader, TaskInfo newTaskInfo)
+		{
+			//设置下载器
+			downloader.delegates = delegates;
+			//设置代理服务器
+			downloader.delegates.Proxy = newTaskInfo.Proxy;
+			downloader.Url = newTaskInfo.Url;
+			downloader.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
+			newTaskInfo.SaveDirectory = downloader.SaveDirectory;
+			downloader.TaskId = Guid.NewGuid();
+			newTaskInfo.TaskId = downloader.TaskId;
+			//向集合中添加任务
+			Tasks.Add(downloader);
+			//向字典中添加信息
+			GlobalSettings.GetSettings().TasksInfomation.Add(newTaskInfo.TaskId, newTaskInfo);
+			//提示UI刷新信息
+			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
+			//返回新建的任务
+			return downloader;
+		}
+
 		/// <summary>
 		/// 添加任务
 		/// </summary>

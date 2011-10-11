@@ -78,8 +78,8 @@ namespace Kaedei.AcDown.Downloader
 			return new string[] { 
 				"Tucao下载插件:",
 				"支持识别各Part名称",
-				"http://www.Tucao.tv/video/av97834/",
-				"http://www.Tucao.tv/video/av70229/index_20.html",
+				"http://www.tucao.cc/play/114530/",
+				"http://www.tucao.cc/play/811894/",
 			};
 		}
 
