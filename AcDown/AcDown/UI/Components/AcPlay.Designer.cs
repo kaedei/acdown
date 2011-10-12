@@ -31,6 +31,7 @@
          this.btnStart = new System.Windows.Forms.Button();
          this.pgb = new System.Windows.Forms.ProgressBar();
          this.lblTip = new System.Windows.Forms.Label();
+         this.linkLabel1 = new System.Windows.Forms.LinkLabel();
          this.SuspendLayout();
          // 
          // btnStart
@@ -43,6 +44,7 @@
          this.btnStart.TabIndex = 0;
          this.btnStart.Text = "下载AcPlay";
          this.btnStart.UseVisualStyleBackColor = true;
+         this.btnStart.Visible = false;
          // 
          // pgb
          // 
@@ -50,6 +52,7 @@
          this.pgb.Name = "pgb";
          this.pgb.Size = new System.Drawing.Size(452, 30);
          this.pgb.TabIndex = 1;
+         this.pgb.Visible = false;
          // 
          // lblTip
          // 
@@ -59,18 +62,35 @@
          this.lblTip.Size = new System.Drawing.Size(204, 20);
          this.lblTip.TabIndex = 2;
          this.lblTip.Text = "正在下载弹幕播放插件... 请稍候";
+         this.lblTip.Visible = false;
+         // 
+         // linkLabel1
+         // 
+         this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                     | System.Windows.Forms.AnchorStyles.Left)
+                     | System.Windows.Forms.AnchorStyles.Right)));
+         this.linkLabel1.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.linkLabel1.Location = new System.Drawing.Point(187, 121);
+         this.linkLabel1.Name = "linkLabel1";
+         this.linkLabel1.Size = new System.Drawing.Size(151, 44);
+         this.linkLabel1.TabIndex = 3;
+         this.linkLabel1.TabStop = true;
+         this.linkLabel1.Text = "即将到来";
+         this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+         this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
          // 
          // AcPlay
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+         this.Controls.Add(this.linkLabel1);
          this.Controls.Add(this.lblTip);
          this.Controls.Add(this.pgb);
          this.Controls.Add(this.btnStart);
          this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.Name = "AcPlay";
-         this.Size = new System.Drawing.Size(531, 303);
+         this.Size = new System.Drawing.Size(524, 287);
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -81,5 +101,6 @@
       private System.Windows.Forms.Button btnStart;
       private System.Windows.Forms.ProgressBar pgb;
       private System.Windows.Forms.Label lblTip;
+      private System.Windows.Forms.LinkLabel linkLabel1;
    }
 }

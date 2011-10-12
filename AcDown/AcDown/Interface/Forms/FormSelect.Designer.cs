@@ -28,12 +28,21 @@
       /// </summary>
       private void InitializeComponent()
       {
+         this.components = new System.ComponentModel.Container();
          this.lst = new System.Windows.Forms.CheckedListBox();
          this.btnOK = new System.Windows.Forms.Button();
          this.lnkSelectAll = new System.Windows.Forms.LinkLabel();
          this.lnkSelectNone = new System.Windows.Forms.LinkLabel();
          this.lnkSelectInvert = new System.Windows.Forms.LinkLabel();
          this.label1 = new System.Windows.Forms.Label();
+         this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
+         this.mnuSelectUp = new System.Windows.Forms.ToolStripMenuItem();
+         this.mnuDeselectUp = new System.Windows.Forms.ToolStripMenuItem();
+         this.mnuSelectDown = new System.Windows.Forms.ToolStripMenuItem();
+         this.mnuDeselectDown = new System.Windows.Forms.ToolStripMenuItem();
+         this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+         this.请选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.mnu.SuspendLayout();
          this.SuspendLayout();
          // 
          // lst
@@ -43,20 +52,23 @@
                      | System.Windows.Forms.AnchorStyles.Right)));
          this.lst.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
          this.lst.CheckOnClick = true;
+         this.lst.ContextMenuStrip = this.mnu;
          this.lst.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.lst.FormattingEnabled = true;
          this.lst.Location = new System.Drawing.Point(14, 42);
          this.lst.Margin = new System.Windows.Forms.Padding(5);
          this.lst.Name = "lst";
-         this.lst.Size = new System.Drawing.Size(324, 314);
+         this.lst.Size = new System.Drawing.Size(316, 338);
          this.lst.TabIndex = 0;
+         this.lst.SelectedIndexChanged += new System.EventHandler(this.lst_SelectedIndexChanged);
+         this.lst.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lst_MouseUp);
          // 
          // btnOK
          // 
          this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
          this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
          this.btnOK.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.btnOK.Location = new System.Drawing.Point(242, 379);
+         this.btnOK.Location = new System.Drawing.Point(234, 391);
          this.btnOK.Margin = new System.Windows.Forms.Padding(5);
          this.btnOK.Name = "btnOK";
          this.btnOK.Size = new System.Drawing.Size(96, 36);
@@ -69,7 +81,7 @@
          // 
          this.lnkSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.lnkSelectAll.AutoSize = true;
-         this.lnkSelectAll.Location = new System.Drawing.Point(10, 387);
+         this.lnkSelectAll.Location = new System.Drawing.Point(10, 399);
          this.lnkSelectAll.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
          this.lnkSelectAll.Name = "lnkSelectAll";
          this.lnkSelectAll.Size = new System.Drawing.Size(42, 21);
@@ -82,7 +94,7 @@
          // 
          this.lnkSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.lnkSelectNone.AutoSize = true;
-         this.lnkSelectNone.Location = new System.Drawing.Point(62, 387);
+         this.lnkSelectNone.Location = new System.Drawing.Point(62, 399);
          this.lnkSelectNone.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
          this.lnkSelectNone.Name = "lnkSelectNone";
          this.lnkSelectNone.Size = new System.Drawing.Size(58, 21);
@@ -95,7 +107,7 @@
          // 
          this.lnkSelectInvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.lnkSelectInvert.AutoSize = true;
-         this.lnkSelectInvert.Location = new System.Drawing.Point(130, 387);
+         this.lnkSelectInvert.Location = new System.Drawing.Point(130, 399);
          this.lnkSelectInvert.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
          this.lnkSelectInvert.Name = "lnkSelectInvert";
          this.lnkSelectInvert.Size = new System.Drawing.Size(74, 21);
@@ -114,12 +126,64 @@
          this.label1.TabIndex = 6;
          this.label1.Text = "请确认要下载的章节：";
          // 
+         // mnu
+         // 
+         this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.请选择ToolStripMenuItem,
+            this.mnuSelectUp,
+            this.mnuDeselectUp,
+            this.toolStripMenuItem1,
+            this.mnuSelectDown,
+            this.mnuDeselectDown});
+         this.mnu.Name = "mnu";
+         this.mnu.Size = new System.Drawing.Size(185, 142);
+         // 
+         // mnuSelectUp
+         // 
+         this.mnuSelectUp.Name = "mnuSelectUp";
+         this.mnuSelectUp.Size = new System.Drawing.Size(184, 22);
+         this.mnuSelectUp.Text = "选中上方所有";
+         this.mnuSelectUp.Click += new System.EventHandler(this.mnuSelectUp_Click);
+         // 
+         // mnuDeselectUp
+         // 
+         this.mnuDeselectUp.Name = "mnuDeselectUp";
+         this.mnuDeselectUp.Size = new System.Drawing.Size(184, 22);
+         this.mnuDeselectUp.Text = "取消选中上方所有项";
+         this.mnuDeselectUp.Click += new System.EventHandler(this.mnuDeselectUp_Click);
+         // 
+         // mnuSelectDown
+         // 
+         this.mnuSelectDown.Name = "mnuSelectDown";
+         this.mnuSelectDown.Size = new System.Drawing.Size(184, 22);
+         this.mnuSelectDown.Text = "选中下方所有";
+         this.mnuSelectDown.Click += new System.EventHandler(this.mnuSelectDown_Click);
+         // 
+         // mnuDeselectDown
+         // 
+         this.mnuDeselectDown.Name = "mnuDeselectDown";
+         this.mnuDeselectDown.Size = new System.Drawing.Size(184, 22);
+         this.mnuDeselectDown.Text = "取消选中下方所有项";
+         this.mnuDeselectDown.Click += new System.EventHandler(this.mnuDeselectDown_Click);
+         // 
+         // toolStripMenuItem1
+         // 
+         this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+         this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
+         // 
+         // 请选择ToolStripMenuItem
+         // 
+         this.请选择ToolStripMenuItem.Enabled = false;
+         this.请选择ToolStripMenuItem.Name = "请选择ToolStripMenuItem";
+         this.请选择ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+         this.请选择ToolStripMenuItem.Text = "请选择:";
+         // 
          // FormSelect
          // 
          this.AcceptButton = this.btnOK;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(352, 429);
+         this.ClientSize = new System.Drawing.Size(344, 433);
          this.ControlBox = false;
          this.Controls.Add(this.label1);
          this.Controls.Add(this.lnkSelectInvert);
@@ -136,6 +200,7 @@
          this.Text = "请选择要下载的章节";
          this.TopMost = true;
          this.Load += new System.EventHandler(this.FormSelect_Load);
+         this.mnu.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -149,5 +214,12 @@
       private System.Windows.Forms.LinkLabel lnkSelectNone;
       private System.Windows.Forms.LinkLabel lnkSelectInvert;
       private System.Windows.Forms.Label label1;
+      private System.Windows.Forms.ContextMenuStrip mnu;
+      private System.Windows.Forms.ToolStripMenuItem 请选择ToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem mnuSelectUp;
+      private System.Windows.Forms.ToolStripMenuItem mnuDeselectUp;
+      private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+      private System.Windows.Forms.ToolStripMenuItem mnuSelectDown;
+      private System.Windows.Forms.ToolStripMenuItem mnuDeselectDown;
    }
 }
