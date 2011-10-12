@@ -55,6 +55,7 @@ namespace Kaedei.AcDown
       public bool Plugin_Enable_TiebaAlbum = true;
       public bool Plugin_Enable_Tucao = true;
       public bool Plugin_Enable_Flvcd = true;
+      public bool Plugin_Enable_SfAcg = true;
    }
 
    /// <summary>

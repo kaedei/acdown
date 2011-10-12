@@ -39,6 +39,8 @@ namespace Kaedei.AcDown.Component
             _plugins.Add(new TucaoPlugin());
 			if (Config.setting.Plugin_Enable_Flvcd)
 				_plugins.Add(new FlvcdPlugin());
+         if (Config.setting.Plugin_Enable_SfAcg)
+            _plugins.Add(new SfAcgPlugin());
 		}
 
 	}

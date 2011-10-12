@@ -219,7 +219,6 @@ namespace Kaedei.AcDown.UI
 			 }
 			 else
 			 {
-				 tabNew.SelectTab(tabOnline);
 				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入。\n您也可以选择使用在线解析引擎解析此地址", txtInput, 3000);
 				 txtInput.SelectAll();
 			 }

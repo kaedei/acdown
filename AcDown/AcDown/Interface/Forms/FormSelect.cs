@@ -70,6 +70,54 @@ namespace Kaedei.AcDown.Interface.Forms
 
       }
 
+      private void lst_SelectedIndexChanged(object sender, EventArgs e)
+      {
+
+      }
+
+      private void lst_MouseUp(object sender, MouseEventArgs e)
+      {
+         if (e.Button == System.Windows.Forms.MouseButtons.Right)
+         {
+            if (lst.SelectedIndex > 0)
+            {
+               mnu.Show();
+            }
+         }
+      }
+
+      private void mnuSelectUp_Click(object sender, EventArgs e)
+      {
+         for (int i = 0; i < lst.SelectedIndex +1; i++)
+         {
+            lst.SetItemChecked(i, true);
+         }
+      }
+
+      private void mnuDeselectUp_Click(object sender, EventArgs e)
+      {
+         for (int i = 0; i < lst.SelectedIndex + 1; i++)
+         {
+            lst.SetItemChecked(i, false);
+         }
+      }
+
+      private void mnuSelectDown_Click(object sender, EventArgs e)
+      {
+         for (int i = lst.SelectedIndex; i < lst.Items.Count; i++)
+         {
+            lst.SetItemChecked(i, true);
+         }
+      }
+
+      private void mnuDeselectDown_Click(object sender, EventArgs e)
+      {
+         for (int i = lst.SelectedIndex; i < lst.Items.Count; i++)
+         {
+            lst.SetItemChecked(i, false);
+         }
+      }
+
 
    }//end class
 }

@@ -80,6 +80,8 @@
     <Compile Include="Downloader\Bilibili\Bilibili.cs" />
     <Compile Include="Downloader\Flvcd\FlvcdDownloader.cs" />
     <Compile Include="Downloader\Flvcd\FlvcdPlugin.cs" />
+    <Compile Include="Downloader\SfAcg\SfAcgComicDownloader.cs" />
+    <Compile Include="Downloader\SfAcg\SfAcgPlugin.cs" />
     <Compile Include="Downloader\Sixcn\Sixcn.cs" />
     <Compile Include="Downloader\Tieba\TiebaAlbum.cs" />
     <Compile Include="Downloader\Tucao\TucaoDownloader.cs" />
@@ -354,7 +356,9 @@
     <Content Include="ChangeLog.txt" />
     <None Include="Resources\Update.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Downloader\AcDown\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
