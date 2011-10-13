@@ -240,8 +240,9 @@ namespace Kaedei.AcDown.Downloader
 				//取得type值
 				type = mType.Groups["type"].Value;
 
+				DownloadSubtitleType downsub = GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub;
 				//如果不是“仅下载字幕”
-				if (GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
+				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
 					//检查外链
 					switch (type)
@@ -344,7 +345,7 @@ namespace Kaedei.AcDown.Downloader
 					} //end for
 				}
 				//下载弹幕
-				if ((GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub == DownloadSubtitleType.DownloadSubtitle) && !string.IsNullOrEmpty(playerId))
+				if ((downsub != DownloadSubtitleType.DownloadSubtitleOnly) && !string.IsNullOrEmpty(playerId))
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));

@@ -81,8 +81,6 @@
            this.tabFlvCombine = new System.Windows.Forms.TabPage();
            this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
            this.timerClipboard = new System.Windows.Forms.Timer(this.components);
-           this.tabPage1 = new System.Windows.Forms.TabPage();
-           this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlay();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -93,7 +91,6 @@
            this.tabDownload.SuspendLayout();
            this.tabConfig.SuspendLayout();
            this.tabFlvCombine.SuspendLayout();
-           this.tabPage1.SuspendLayout();
            this.SuspendLayout();
            // 
            // lsv
@@ -555,7 +552,6 @@
            this.tabMain.Controls.Add(this.tabDownload);
            this.tabMain.Controls.Add(this.tabConfig);
            this.tabMain.Controls.Add(this.tabFlvCombine);
-           this.tabMain.Controls.Add(this.tabPage1);
            this.tabMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.tabMain.Location = new System.Drawing.Point(0, 122);
            this.tabMain.Name = "tabMain";
@@ -618,27 +614,6 @@
            this.timerClipboard.Interval = 500;
            this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
            // 
-           // tabPage1
-           // 
-           this.tabPage1.Controls.Add(this.acPlay1);
-           this.tabPage1.Location = new System.Drawing.Point(4, 29);
-           this.tabPage1.Name = "tabPage1";
-           this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-           this.tabPage1.Size = new System.Drawing.Size(537, 309);
-           this.tabPage1.TabIndex = 4;
-           this.tabPage1.Text = "弹幕播放";
-           this.tabPage1.UseVisualStyleBackColor = true;
-           // 
-           // acPlay1
-           // 
-           this.acPlay1.Dock = System.Windows.Forms.DockStyle.Fill;
-           this.acPlay1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-           this.acPlay1.Location = new System.Drawing.Point(3, 3);
-           this.acPlay1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-           this.acPlay1.Name = "acPlay1";
-           this.acPlay1.Size = new System.Drawing.Size(531, 303);
-           this.acPlay1.TabIndex = 0;
-           // 
            // FormMain
            // 
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -670,7 +645,6 @@
            this.tabConfig.ResumeLayout(false);
            this.tabConfig.PerformLayout();
            this.tabFlvCombine.ResumeLayout(false);
-           this.tabPage1.ResumeLayout(false);
            this.ResumeLayout(false);
            this.PerformLayout();
 
@@ -730,8 +704,6 @@
 		  private System.Windows.Forms.ToolStripMenuItem 删除任务并删除文件ToolStripMenuItem;
 		  private System.Windows.Forms.ToolStripButton toolUpdate;
         private System.Windows.Forms.Timer timerClipboard;
-        private System.Windows.Forms.TabPage tabPage1;
-        private Kaedei.AcDown.UI.Components.AcPlay acPlay1;
 
 	 }
 }

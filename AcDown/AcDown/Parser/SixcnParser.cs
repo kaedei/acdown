@@ -10,7 +10,7 @@ namespace Kaedei.AcDown.Parser
    /// <summary>
    /// 6.cn解析器
    /// </summary>
-   class SixcnParser:IParser
+   public class SixcnParser:IParser
    {
       #region IParser 成员
       /// <summary>

@@ -339,9 +339,14 @@ namespace Kaedei.AcDown.Downloader
 				//取得id值
 				Regex rId = new Regex(@"(?<idname>(\w{0,2}id|data))=(?<id>([\w\-]+|$http://.+?$))".Replace("$", "\""));
 				Match mId = rId.Match(embedSrc);
+				//取得ID
+				id = mId.Groups["id"].Value;
+				//取得type值
+				type = mId.Groups["idname"].Value;
 
+				DownloadSubtitleType downsub = GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub;
 				//如果不是“仅下载字幕”
-				if (GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
+				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
 					if (mFile.Success) //如果有file参数
 					{
@@ -350,10 +355,6 @@ namespace Kaedei.AcDown.Downloader
 					}
 					else if (mId.Success)//如果是普通的外链
 					{
-						//取得ID
-						id = mId.Groups["id"].Value;
-						//取得type值
-						type = mId.Groups["idname"].Value;
 						//检查外链
 						switch (type)
 						{
@@ -371,10 +372,6 @@ namespace Kaedei.AcDown.Downloader
 								//解析视频
 								TudouParser parserTudou = new TudouParser();
 								videos = parserTudou.Parse(new string[] { id }, delegates.Proxy);
-								break;
-							case "rid": //6.cn视频
-								SixcnParser parserSixcn = new SixcnParser();
-								videos = parserSixcn.Parse(new string[] { id }, delegates.Proxy);
 								break;
 							case "data": //Flash游戏
 								id = id.Replace("\"", "");
@@ -470,7 +467,7 @@ namespace Kaedei.AcDown.Downloader
 					} //end for
 				}//end 判断是否下载视频
 
-				if ((GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub == DownloadSubtitleType.DownloadSubtitle) && !string.IsNullOrEmpty(id))
+				if ((downsub != DownloadSubtitleType.DontDownloadSubtitle) && !string.IsNullOrEmpty(id))
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));

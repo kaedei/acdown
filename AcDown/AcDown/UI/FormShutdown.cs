@@ -72,7 +72,7 @@ namespace Kaedei.AcDown.UI
 						Shutdown.Hibernate();
 						break;
 				}
-				this.Dispose();
+				Program.frmStart.Close();
 			}
 			else
 			{

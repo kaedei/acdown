@@ -116,6 +116,7 @@
     <Compile Include="Downloader\Youku\Youku.cs" />
     <Compile Include="Interface\Delegates.cs" />
     <Compile Include="Interface\Tools.cs" />
+    <Compile Include="Parser\FlvcdParser.cs" />
     <Compile Include="Parser\SixcnParser.cs" />
     <Compile Include="UI\Components\AcPlay.cs">
       <SubType>UserControl</SubType>
