@@ -87,6 +87,7 @@
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
            this.btnDefault = new System.Windows.Forms.Button();
            this.tip = new System.Windows.Forms.ToolTip(this.components);
+           this.chkPluginSfacg = new System.Windows.Forms.CheckBox();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -483,6 +484,7 @@
            // 
            // pagePlugin
            // 
+           this.pagePlugin.Controls.Add(this.chkPluginSfacg);
            this.pagePlugin.Controls.Add(this.chkPluginTucao);
            this.pagePlugin.Controls.Add(this.lnkFlvcdIntro);
            this.pagePlugin.Controls.Add(this.chkPluginFlvcd);
@@ -796,6 +798,16 @@
            this.tip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
            this.tip.ToolTipTitle = "设置";
            // 
+           // chkPluginSfacg
+           // 
+           this.chkPluginSfacg.AutoSize = true;
+           this.chkPluginSfacg.Location = new System.Drawing.Point(41, 245);
+           this.chkPluginSfacg.Name = "chkPluginSfacg";
+           this.chkPluginSfacg.Size = new System.Drawing.Size(222, 16);
+           this.chkPluginSfacg.TabIndex = 10;
+           this.chkPluginSfacg.Text = "启用SF互动传媒网（SFAcg）下载插件";
+           this.chkPluginSfacg.UseVisualStyleBackColor = true;
+           // 
            // FormConfig
            // 
            this.AcceptButton = this.btnOK;
@@ -894,5 +906,6 @@
 		  private System.Windows.Forms.TextBox txtCustomSound;
 		  private System.Windows.Forms.CheckBox chkCustomSound;
         private System.Windows.Forms.ToolTip tip;
+        private System.Windows.Forms.CheckBox chkPluginSfacg;
 	 }
 }

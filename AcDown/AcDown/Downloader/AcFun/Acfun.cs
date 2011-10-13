@@ -312,7 +312,9 @@ namespace Kaedei.AcDown.Downloader
 				//清空地址
 				_filePath.Clear();
 
-				if (GlobalSettings.GetSettings().TasksInfomation[this.TaskId].DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
+				DownloadSubtitleType downsub = GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub;
+				//如果不是“仅下载字幕”
+				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
 					//检查type值
 					switch (type)
@@ -417,7 +419,7 @@ namespace Kaedei.AcDown.Downloader
 
 				}
 
-				if (GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub == DownloadSubtitleType.DownloadSubtitle)
+				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));

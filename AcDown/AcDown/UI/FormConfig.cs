@@ -54,6 +54,7 @@ namespace Kaedei.AcDown.UI
          chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
          chkPluginTucao.Checked = Config.setting.Plugin_Enable_Tucao;
          chkPluginFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
+         chkPluginSfacg.Checked = Config.setting.Plugin_Enable_SfAcg;
 
          //代理服务器设置
          if (Config.setting.Proxy_Settings != null)
@@ -109,6 +110,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
          Config.setting.Plugin_Enable_Tucao = chkPluginTucao.Checked;
          Config.setting.Plugin_Enable_Flvcd = chkPluginFlvcd.Checked;
+         Config.setting.Plugin_Enable_SfAcg = chkPluginSfacg.Checked;
          //代理服务器设置
          List<AcDownProxy> proxys = new List<AcDownProxy>();
          foreach (ListViewItem item in lsvProxy.Items)

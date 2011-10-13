@@ -1054,7 +1054,7 @@ namespace AcDown.UI
 			TaskItem ac = GetTask(p.TaskId);
 			ListViewItem item = GetLsvItem(p.TaskId);
 			//设置提示信息
-			item.SubItems[GetColumn("Progress")].Text = p.TipText;
+			item.SubItems[GetColumn("Name")].Text = p.TipText;
 		}//end TipText
 
 		/// <summary>
@@ -1078,6 +1078,7 @@ namespace AcDown.UI
 			{
 				//更新item
 				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
+				item.SubItems[GetColumn("Name")].Text = downloader.Title;
 				item.SubItems[GetColumn("Progress")].Text = @"100%"; //下载进度
 				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				//打开文件夹
@@ -1148,6 +1149,7 @@ namespace AcDown.UI
 			{
 				//更新item
 				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
+				item.SubItems[GetColumn("Name")].Text = downloader.Title;
 				item.SubItems[GetColumn("Progress")].Text = @"下载出错"; //下载进度
 				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 			}
@@ -1232,7 +1234,11 @@ namespace AcDown.UI
 				haveupdate = upd.CheckUpdate(new Version(Application.ProductVersion));
 				if (!string.IsNullOrEmpty(haveupdate))
 				{
-					this.Invoke(new MethodInvoker(() => { toolUpdate.Visible = true; }));
+					this.Invoke(new MethodInvoker(() => 
+					{
+						toolUpdate.Visible = true;
+						notifyIcon.ShowBalloonTip(5000, "AcDown动漫下载器 自动更新", "AcDown有新版本了哦~", ToolTipIcon.Info);
+					}));
 				}
 			}));
 			t.IsBackground = true;
@@ -1291,8 +1297,6 @@ namespace AcDown.UI
 		}
 
 		#endregion
-
-
 
 
 	}//end class

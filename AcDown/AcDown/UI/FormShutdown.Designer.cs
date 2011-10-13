@@ -51,9 +51,9 @@
          this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
          this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
          this.btnCancel.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.btnCancel.Location = new System.Drawing.Point(239, 92);
+         this.btnCancel.Location = new System.Drawing.Point(239, 104);
          this.btnCancel.Name = "btnCancel";
-         this.btnCancel.Size = new System.Drawing.Size(102, 46);
+         this.btnCancel.Size = new System.Drawing.Size(102, 34);
          this.btnCancel.TabIndex = 1;
          this.btnCancel.Text = "取消";
          this.btnCancel.UseVisualStyleBackColor = true;
