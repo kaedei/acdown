@@ -46,7 +46,7 @@
          this.btnGetFlvCombine.Anchor = System.Windows.Forms.AnchorStyles.None;
          this.btnGetFlvCombine.Cursor = System.Windows.Forms.Cursors.Hand;
          this.btnGetFlvCombine.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnGetFlvCombine.Location = new System.Drawing.Point(123, 138);
+         this.btnGetFlvCombine.Location = new System.Drawing.Point(123, 109);
          this.btnGetFlvCombine.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.btnGetFlvCombine.Name = "btnGetFlvCombine";
          this.btnGetFlvCombine.Size = new System.Drawing.Size(305, 84);
@@ -65,11 +65,11 @@
          this.panelCombine.Controls.Add(this.btnCombineChooseOutput);
          this.panelCombine.Controls.Add(this.btnCombineAdd);
          this.panelCombine.Controls.Add(this.label3);
-         this.panelCombine.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.panelCombine.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelCombine.Location = new System.Drawing.Point(0, 0);
          this.panelCombine.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.panelCombine.Name = "panelCombine";
-         this.panelCombine.Size = new System.Drawing.Size(551, 360);
+         this.panelCombine.Size = new System.Drawing.Size(551, 303);
          this.panelCombine.TabIndex = 12;
          this.panelCombine.Visible = false;
          // 
@@ -85,7 +85,7 @@
          this.lstCombine.Name = "lstCombine";
          this.lstCombine.ScrollAlwaysVisible = true;
          this.lstCombine.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-         this.lstCombine.Size = new System.Drawing.Size(440, 184);
+         this.lstCombine.Size = new System.Drawing.Size(440, 104);
          this.lstCombine.TabIndex = 2;
          // 
          // btnCombineDelete
@@ -105,7 +105,7 @@
          // 
          this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(4, 233);
+         this.label4.Location = new System.Drawing.Point(4, 176);
          this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(65, 20);
@@ -116,7 +116,7 @@
          // 
          this.txtCombineOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                      | System.Windows.Forms.AnchorStyles.Right)));
-         this.txtCombineOutput.Location = new System.Drawing.Point(11, 258);
+         this.txtCombineOutput.Location = new System.Drawing.Point(11, 201);
          this.txtCombineOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.txtCombineOutput.Name = "txtCombineOutput";
          this.txtCombineOutput.ReadOnly = true;
@@ -125,11 +125,10 @@
          // 
          // btnCombineStart
          // 
-         this.btnCombineStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                     | System.Windows.Forms.AnchorStyles.Right)));
+         this.btnCombineStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.btnCombineStart.Enabled = false;
          this.btnCombineStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnCombineStart.Location = new System.Drawing.Point(192, 294);
+         this.btnCombineStart.Location = new System.Drawing.Point(192, 237);
          this.btnCombineStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.btnCombineStart.Name = "btnCombineStart";
          this.btnCombineStart.Size = new System.Drawing.Size(167, 50);
@@ -142,7 +141,7 @@
          // 
          this.btnCombineChooseOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
          this.btnCombineChooseOutput.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnCombineChooseOutput.Location = new System.Drawing.Point(435, 257);
+         this.btnCombineChooseOutput.Location = new System.Drawing.Point(435, 200);
          this.btnCombineChooseOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.btnCombineChooseOutput.Name = "btnCombineChooseOutput";
          this.btnCombineChooseOutput.Size = new System.Drawing.Size(109, 29);
@@ -178,12 +177,13 @@
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+         this.AutoScroll = true;
          this.Controls.Add(this.btnGetFlvCombine);
          this.Controls.Add(this.panelCombine);
          this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.Name = "FlvCombineControl";
-         this.Size = new System.Drawing.Size(551, 360);
+         this.Size = new System.Drawing.Size(551, 303);
          this.Load += new System.EventHandler(this.FlvCombineControl_Load);
          this.panelCombine.ResumeLayout(false);
          this.panelCombine.PerformLayout();

@@ -16,7 +16,7 @@ using System.Threading;
 using System.Net;
 using Kaedei.AcDown.Component;
 
-namespace Kaedei.AcDown
+namespace Kaedei.AcDown.Component
 {
 	
 	/// <summary>
@@ -50,7 +50,14 @@ namespace Kaedei.AcDown
 			set
 			{
 				_speedLimitGlobal = value;
-				GlobalSettings.GetSettings().SpeedLimit = value / Tasks.Count;
+				int limit = value / Tasks.Count;
+				foreach (Guid item in GlobalSettings.GetSettings().TasksInfomation.Keys)
+				{
+					TaskInfo info = GlobalSettings.GetSettings().TasksInfomation[item];
+					if (info.Status == DownloadStatus.正在下载)
+						info.SpeedLimit = limit;
+				}
+				GlobalSettings.GetSettings().SpeedLimit = limit;
 			}
 		}
 

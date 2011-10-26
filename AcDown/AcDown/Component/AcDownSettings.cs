@@ -14,13 +14,15 @@ using Kaedei.AcDown.Interface;
 using System.Diagnostics;
 using System.Net;
 using System.Collections.Generic;
+using System.Drawing;
 
-namespace Kaedei.AcDown
+namespace Kaedei.AcDown.Component
 {
    [Serializable]
    public class AcDownSettings
    {
       //程序设置
+      public Size WindowSize = new Size(561, 529);
       public bool WatchClipboardEnabled = true; //监视剪贴板
       public bool DownSub = true; //下载字幕
       public string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //保存文件夹
@@ -30,8 +32,10 @@ namespace Kaedei.AcDown
       public bool PlaySound = true; //播放声音
       public string SoundFile = ""; //声音文件路径 (wav格式)
       public bool EnableLog = false; //运行记录日志
+      public bool EnableCheckUpdate = true; //允许检查更新
       public bool AutoCheckUrl = true; //自动检查URL
       public bool ShowBigStartButton = true; //显示大按钮
+      public bool ShowLogo = true; //显示AcDown Logo
       public Int32 MaxRunningTaskCount = 2; //最多同时运行任务数量
       public bool SaveWhenAbort = true; //任务停止或错误退出时保存已经下载的部分
       public string SearchQuery = @"Acfun站内搜索"; //搜索url

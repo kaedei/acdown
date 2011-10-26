@@ -48,6 +48,7 @@
            this.chkOpenFolder = new System.Windows.Forms.CheckBox();
            this.chkDownSub = new System.Windows.Forms.CheckBox();
            this.pageUI = new System.Windows.Forms.TabPage();
+           this.chkShowLogo = new System.Windows.Forms.CheckBox();
            this.udRefreshInfo = new System.Windows.Forms.NumericUpDown();
            this.label7 = new System.Windows.Forms.Label();
            this.chkHideWhenClose = new System.Windows.Forms.CheckBox();
@@ -59,6 +60,7 @@
            this.chkCheckUrl = new System.Windows.Forms.CheckBox();
            this.chkWatch = new System.Windows.Forms.CheckBox();
            this.pagePlugin = new System.Windows.Forms.TabPage();
+           this.chkPluginSfacg = new System.Windows.Forms.CheckBox();
            this.chkPluginTucao = new System.Windows.Forms.CheckBox();
            this.lnkFlvcdIntro = new System.Windows.Forms.LinkLabel();
            this.chkPluginFlvcd = new System.Windows.Forms.CheckBox();
@@ -80,6 +82,8 @@
            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
            this.label6 = new System.Windows.Forms.Label();
+           this.tabUpdate = new System.Windows.Forms.TabPage();
+           this.chkEnableCheckUpdate = new System.Windows.Forms.CheckBox();
            this.pageDebug = new System.Windows.Forms.TabPage();
            this.label8 = new System.Windows.Forms.Label();
            this.udNetworkTimeout = new System.Windows.Forms.NumericUpDown();
@@ -87,7 +91,7 @@
            this.chkEnableLog = new System.Windows.Forms.CheckBox();
            this.btnDefault = new System.Windows.Forms.Button();
            this.tip = new System.Windows.Forms.ToolTip(this.components);
-           this.chkPluginSfacg = new System.Windows.Forms.CheckBox();
+           this.groupBox1 = new System.Windows.Forms.GroupBox();
            this.tab.SuspendLayout();
            this.pageDownload.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -95,8 +99,10 @@
            ((System.ComponentModel.ISupportInitialize)(this.udRefreshInfo)).BeginInit();
            this.pagePlugin.SuspendLayout();
            this.pageProxy.SuspendLayout();
+           this.tabUpdate.SuspendLayout();
            this.pageDebug.SuspendLayout();
            ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).BeginInit();
+           this.groupBox1.SuspendLayout();
            this.SuspendLayout();
            // 
            // btnCancel
@@ -132,6 +138,7 @@
            this.tab.Controls.Add(this.pageUI);
            this.tab.Controls.Add(this.pagePlugin);
            this.tab.Controls.Add(this.pageProxy);
+           this.tab.Controls.Add(this.tabUpdate);
            this.tab.Controls.Add(this.pageDebug);
            this.tab.Location = new System.Drawing.Point(8, 8);
            this.tab.Name = "tab";
@@ -337,12 +344,11 @@
            // 
            // pageUI
            // 
+           this.pageUI.Controls.Add(this.groupBox1);
+           this.pageUI.Controls.Add(this.chkShowLogo);
            this.pageUI.Controls.Add(this.udRefreshInfo);
            this.pageUI.Controls.Add(this.label7);
            this.pageUI.Controls.Add(this.chkHideWhenClose);
-           this.pageUI.Controls.Add(this.lnkCustomSearchExample);
-           this.pageUI.Controls.Add(this.txtSearchText);
-           this.pageUI.Controls.Add(this.label4);
            this.pageUI.Controls.Add(this.chkShowBigButton);
            this.pageUI.Controls.Add(this.chkEnableWin7);
            this.pageUI.Controls.Add(this.chkCheckUrl);
@@ -355,6 +361,17 @@
            this.pageUI.Text = "界面";
            this.pageUI.UseVisualStyleBackColor = true;
            // 
+           // chkShowLogo
+           // 
+           this.chkShowLogo.AutoSize = true;
+           this.chkShowLogo.Location = new System.Drawing.Point(29, 73);
+           this.chkShowLogo.Name = "chkShowLogo";
+           this.chkShowLogo.Size = new System.Drawing.Size(264, 16);
+           this.chkShowLogo.TabIndex = 11;
+           this.chkShowLogo.Text = "显示主界面的Logo图片（重启下载器后生效）";
+           this.tip.SetToolTip(this.chkShowLogo, "显示界面中央的AcDown图片");
+           this.chkShowLogo.UseVisualStyleBackColor = true;
+           // 
            // udRefreshInfo
            // 
            this.udRefreshInfo.Increment = new decimal(new int[] {
@@ -362,7 +379,7 @@
             0,
             0,
             0});
-           this.udRefreshInfo.Location = new System.Drawing.Point(182, 158);
+           this.udRefreshInfo.Location = new System.Drawing.Point(181, 170);
            this.udRefreshInfo.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -385,7 +402,7 @@
            // label7
            // 
            this.label7.AutoSize = true;
-           this.label7.Location = new System.Drawing.Point(27, 160);
+           this.label7.Location = new System.Drawing.Point(26, 172);
            this.label7.Name = "label7";
            this.label7.Size = new System.Drawing.Size(149, 12);
            this.label7.TabIndex = 6;
@@ -394,7 +411,7 @@
            // chkHideWhenClose
            // 
            this.chkHideWhenClose.AutoSize = true;
-           this.chkHideWhenClose.Location = new System.Drawing.Point(29, 119);
+           this.chkHideWhenClose.Location = new System.Drawing.Point(29, 139);
            this.chkHideWhenClose.Name = "chkHideWhenClose";
            this.chkHideWhenClose.Size = new System.Drawing.Size(204, 16);
            this.chkHideWhenClose.TabIndex = 4;
@@ -405,7 +422,7 @@
            // lnkCustomSearchExample
            // 
            this.lnkCustomSearchExample.AutoSize = true;
-           this.lnkCustomSearchExample.Location = new System.Drawing.Point(279, 206);
+           this.lnkCustomSearchExample.Location = new System.Drawing.Point(252, 29);
            this.lnkCustomSearchExample.Name = "lnkCustomSearchExample";
            this.lnkCustomSearchExample.Size = new System.Drawing.Size(77, 12);
            this.lnkCustomSearchExample.TabIndex = 10;
@@ -423,20 +440,20 @@
             "土豆网",
             "优酷搜索(搜酷)",
             "漫画搜索(爱漫画)"});
-           this.txtSearchText.Location = new System.Drawing.Point(29, 234);
+           this.txtSearchText.Location = new System.Drawing.Point(22, 57);
            this.txtSearchText.Name = "txtSearchText";
-           this.txtSearchText.Size = new System.Drawing.Size(327, 20);
+           this.txtSearchText.Size = new System.Drawing.Size(290, 20);
            this.txtSearchText.TabIndex = 9;
            this.tip.SetToolTip(this.txtSearchText, "自定义搜索引擎所使用的搜索字符串");
            // 
            // label4
            // 
            this.label4.AutoSize = true;
-           this.label4.Location = new System.Drawing.Point(27, 194);
+           this.label4.Location = new System.Drawing.Point(20, 17);
            this.label4.Name = "label4";
-           this.label4.Size = new System.Drawing.Size(185, 24);
+           this.label4.Size = new System.Drawing.Size(221, 24);
            this.label4.TabIndex = 8;
-           this.label4.Text = "自定义搜索引擎:\r\n(请用%TEST%替换要搜索的字符串)";
+           this.label4.Text = "请在下方文本框中填写自定义搜索网址\r\n(网址中的%TEST%用于替换用户的字符串)";
            // 
            // chkShowBigButton
            // 
@@ -463,7 +480,7 @@
            // chkCheckUrl
            // 
            this.chkCheckUrl.AutoSize = true;
-           this.chkCheckUrl.Location = new System.Drawing.Point(29, 74);
+           this.chkCheckUrl.Location = new System.Drawing.Point(29, 95);
            this.chkCheckUrl.Name = "chkCheckUrl";
            this.chkCheckUrl.Size = new System.Drawing.Size(102, 16);
            this.chkCheckUrl.TabIndex = 2;
@@ -474,7 +491,7 @@
            // chkWatch
            // 
            this.chkWatch.AutoSize = true;
-           this.chkWatch.Location = new System.Drawing.Point(29, 97);
+           this.chkWatch.Location = new System.Drawing.Point(29, 117);
            this.chkWatch.Name = "chkWatch";
            this.chkWatch.Size = new System.Drawing.Size(84, 16);
            this.chkWatch.TabIndex = 3;
@@ -502,6 +519,16 @@
            this.pagePlugin.TabIndex = 4;
            this.pagePlugin.Text = "插件";
            this.pagePlugin.UseVisualStyleBackColor = true;
+           // 
+           // chkPluginSfacg
+           // 
+           this.chkPluginSfacg.AutoSize = true;
+           this.chkPluginSfacg.Location = new System.Drawing.Point(41, 245);
+           this.chkPluginSfacg.Name = "chkPluginSfacg";
+           this.chkPluginSfacg.Size = new System.Drawing.Size(222, 16);
+           this.chkPluginSfacg.TabIndex = 10;
+           this.chkPluginSfacg.Text = "启用SF互动传媒网（SFAcg）下载插件";
+           this.chkPluginSfacg.UseVisualStyleBackColor = true;
            // 
            // chkPluginTucao
            // 
@@ -705,6 +732,28 @@
            this.label6.TabIndex = 0;
            this.label6.Text = "编辑代理服务器列表：";
            // 
+           // tabUpdate
+           // 
+           this.tabUpdate.Controls.Add(this.chkEnableCheckUpdate);
+           this.tabUpdate.Location = new System.Drawing.Point(4, 22);
+           this.tabUpdate.Name = "tabUpdate";
+           this.tabUpdate.Padding = new System.Windows.Forms.Padding(3);
+           this.tabUpdate.Size = new System.Drawing.Size(386, 312);
+           this.tabUpdate.TabIndex = 8;
+           this.tabUpdate.Text = "更新";
+           this.tabUpdate.UseVisualStyleBackColor = true;
+           // 
+           // chkEnableCheckUpdate
+           // 
+           this.chkEnableCheckUpdate.AutoSize = true;
+           this.chkEnableCheckUpdate.Location = new System.Drawing.Point(32, 32);
+           this.chkEnableCheckUpdate.Name = "chkEnableCheckUpdate";
+           this.chkEnableCheckUpdate.Size = new System.Drawing.Size(96, 16);
+           this.chkEnableCheckUpdate.TabIndex = 0;
+           this.chkEnableCheckUpdate.Text = "自动检查更新";
+           this.tip.SetToolTip(this.chkEnableCheckUpdate, "启动程序时自动检查是否有更新版本的AcDown");
+           this.chkEnableCheckUpdate.UseVisualStyleBackColor = true;
+           // 
            // pageDebug
            // 
            this.pageDebug.Controls.Add(this.label8);
@@ -798,15 +847,17 @@
            this.tip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
            this.tip.ToolTipTitle = "设置";
            // 
-           // chkPluginSfacg
+           // groupBox1
            // 
-           this.chkPluginSfacg.AutoSize = true;
-           this.chkPluginSfacg.Location = new System.Drawing.Point(41, 245);
-           this.chkPluginSfacg.Name = "chkPluginSfacg";
-           this.chkPluginSfacg.Size = new System.Drawing.Size(222, 16);
-           this.chkPluginSfacg.TabIndex = 10;
-           this.chkPluginSfacg.Text = "启用SF互动传媒网（SFAcg）下载插件";
-           this.chkPluginSfacg.UseVisualStyleBackColor = true;
+           this.groupBox1.Controls.Add(this.label4);
+           this.groupBox1.Controls.Add(this.txtSearchText);
+           this.groupBox1.Controls.Add(this.lnkCustomSearchExample);
+           this.groupBox1.Location = new System.Drawing.Point(28, 197);
+           this.groupBox1.Name = "groupBox1";
+           this.groupBox1.Size = new System.Drawing.Size(335, 100);
+           this.groupBox1.TabIndex = 12;
+           this.groupBox1.TabStop = false;
+           this.groupBox1.Text = "自定义搜索引擎";
            // 
            // FormConfig
            // 
@@ -839,9 +890,13 @@
            this.pagePlugin.PerformLayout();
            this.pageProxy.ResumeLayout(false);
            this.pageProxy.PerformLayout();
+           this.tabUpdate.ResumeLayout(false);
+           this.tabUpdate.PerformLayout();
            this.pageDebug.ResumeLayout(false);
            this.pageDebug.PerformLayout();
            ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).EndInit();
+           this.groupBox1.ResumeLayout(false);
+           this.groupBox1.PerformLayout();
            this.ResumeLayout(false);
 
 		  }
@@ -907,5 +962,9 @@
 		  private System.Windows.Forms.CheckBox chkCustomSound;
         private System.Windows.Forms.ToolTip tip;
         private System.Windows.Forms.CheckBox chkPluginSfacg;
+        private System.Windows.Forms.CheckBox chkShowLogo;
+        private System.Windows.Forms.TabPage tabUpdate;
+        private System.Windows.Forms.CheckBox chkEnableCheckUpdate;
+        private System.Windows.Forms.GroupBox groupBox1;
 	 }
 }

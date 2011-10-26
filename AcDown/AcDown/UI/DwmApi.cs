@@ -4,7 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Kaedei.AcDown
+namespace Kaedei.AcDown.UI
 {
 
 	internal class DwmApi

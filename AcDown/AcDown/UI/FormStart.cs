@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using AcDown;
-using AcDown.UI;
 using System.Threading;
+using Kaedei.AcDown.Component;
 
 namespace Kaedei.AcDown.UI
 {

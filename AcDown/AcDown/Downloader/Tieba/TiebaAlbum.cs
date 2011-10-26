@@ -244,6 +244,11 @@ namespace Kaedei.AcDown.Downloader
 			delegates.Start(new ParaStart(this.TaskId));
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析图片地址"));
 			_status = DownloadStatus.正在下载;
+         if (currentParameter != null)
+         {
+            //将停止flag设置为true
+            currentParameter.IsStop = false;
+         }
 			try
 			{
 				//取得首个Url源文件
@@ -281,9 +286,9 @@ namespace Kaedei.AcDown.Downloader
 					MatchCollection mAllPics = rAllPic.Matches(src2);
 					foreach (Match item2 in mAllPics)
 					{
-						string fName = Tools.InvalidCharacterFilter(item2.Groups["des"].Value + " [" + rnd.Next(1000).ToString() + "]", "");
-						fileUrls.Add("http://imgsrc.baidu.com/forum/pic/item/" + item2.Groups["id"].Value + ".jpg",
-							fName);
+						//string fName = Tools.InvalidCharacterFilter(item2.Groups["des"].Value + " [" + rnd.Next(1000).ToString() + "]", "");
+                  string fName = item2.Groups["id"].Value + ".jpg";
+                  fileUrls.Add("http://imgsrc.baidu.com/forum/pic/item/" + fName, fName);
 					}
 				}
 

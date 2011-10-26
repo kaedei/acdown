@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.UI;
-using AcDown;
 
 namespace Kaedei.AcDown.UI
 {

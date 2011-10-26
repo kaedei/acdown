@@ -1,4 +1,4 @@
-﻿namespace AcDown.UI
+﻿namespace Kaedei.AcDown.UI
 {
 	 partial class FormMain
 	 {
@@ -70,17 +70,20 @@
            this.toolStop = new System.Windows.Forms.ToolStripButton();
            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
            this.toolDelete = new System.Windows.Forms.ToolStripSplitButton();
-           this.删除任务并删除文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+           this.toolDeleteAndFile = new System.Windows.Forms.ToolStripMenuItem();
            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-           this.toolOpenFolder = new System.Windows.Forms.ToolStripButton();
-           this.toolOpenWebpage = new System.Windows.Forms.ToolStripButton();
+           this.toolOpenFolder = new System.Windows.Forms.ToolStripSplitButton();
+           this.toolOpenUrl = new System.Windows.Forms.ToolStripMenuItem();
            this.toolInfo = new System.Windows.Forms.ToolStripButton();
            this.tabMain = new System.Windows.Forms.TabControl();
            this.tabDownload = new System.Windows.Forms.TabPage();
            this.tabConfig = new System.Windows.Forms.TabPage();
            this.tabFlvCombine = new System.Windows.Forms.TabPage();
-           this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+           this.tabAcPlay = new System.Windows.Forms.TabPage();
            this.timerClipboard = new System.Windows.Forms.Timer(this.components);
+           this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+           this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
+           this.toolQuestionnaire = new System.Windows.Forms.ToolStripStatusLabel();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -91,6 +94,7 @@
            this.tabDownload.SuspendLayout();
            this.tabConfig.SuspendLayout();
            this.tabFlvCombine.SuspendLayout();
+           this.tabAcPlay.SuspendLayout();
            this.SuspendLayout();
            // 
            // lsv
@@ -185,8 +189,9 @@
            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSpeed,
             this.lblBlank,
+            this.toolQuestionnaire,
             this.toolHelpCenter});
-           this.statusStrip.Location = new System.Drawing.Point(0, 465);
+           this.statusStrip.Location = new System.Drawing.Point(0, 466);
            this.statusStrip.Name = "statusStrip";
            this.statusStrip.Size = new System.Drawing.Size(545, 25);
            this.statusStrip.TabIndex = 6;
@@ -203,7 +208,7 @@
            // lblBlank
            // 
            this.lblBlank.Name = "lblBlank";
-           this.lblBlank.Size = new System.Drawing.Size(402, 20);
+           this.lblBlank.Size = new System.Drawing.Size(179, 20);
            this.lblBlank.Spring = true;
            // 
            // toolHelpCenter
@@ -354,10 +359,10 @@
            this.btnClickNew.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
            this.btnClickNew.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.btnClickNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
-           this.btnClickNew.Location = new System.Drawing.Point(141, 80);
+           this.btnClickNew.Location = new System.Drawing.Point(17, 36);
            this.btnClickNew.MaximumSize = new System.Drawing.Size(254, 148);
            this.btnClickNew.Name = "btnClickNew";
-           this.btnClickNew.Size = new System.Drawing.Size(254, 148);
+           this.btnClickNew.Size = new System.Drawing.Size(177, 64);
            this.btnClickNew.TabIndex = 0;
            this.btnClickNew.Text = "新建下载任务";
            this.btnClickNew.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -454,11 +459,10 @@
             this.toolDelete,
             this.toolStripSeparator2,
             this.toolOpenFolder,
-            this.toolOpenWebpage,
             this.toolInfo});
            this.contextTool.Location = new System.Drawing.Point(43, 104);
            this.contextTool.Name = "contextTool";
-           this.contextTool.Size = new System.Drawing.Size(398, 48);
+           this.contextTool.Size = new System.Drawing.Size(350, 48);
            this.contextTool.TabIndex = 22;
            this.contextTool.Visible = false;
            // 
@@ -490,7 +494,7 @@
            // toolDelete
            // 
            this.toolDelete.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.删除任务并删除文件ToolStripMenuItem});
+            this.toolDeleteAndFile});
            this.toolDelete.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripDelete;
            this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.toolDelete.Name = "toolDelete";
@@ -499,12 +503,12 @@
            this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
            this.toolDelete.ButtonClick += new System.EventHandler(this.mnuConDelete_Click);
            // 
-           // 删除任务并删除文件ToolStripMenuItem
+           // toolDeleteAndFile
            // 
-           this.删除任务并删除文件ToolStripMenuItem.Name = "删除任务并删除文件ToolStripMenuItem";
-           this.删除任务并删除文件ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-           this.删除任务并删除文件ToolStripMenuItem.Text = "删除任务并删除文件";
-           this.删除任务并删除文件ToolStripMenuItem.Click += new System.EventHandler(this.mnuConDeleteAndFile_Click);
+           this.toolDeleteAndFile.Name = "toolDeleteAndFile";
+           this.toolDeleteAndFile.Size = new System.Drawing.Size(184, 22);
+           this.toolDeleteAndFile.Text = "删除任务并删除文件";
+           this.toolDeleteAndFile.Click += new System.EventHandler(this.mnuConDeleteAndFile_Click);
            // 
            // toolStripSeparator2
            // 
@@ -513,25 +517,25 @@
            // 
            // toolOpenFolder
            // 
+           this.toolOpenFolder.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolOpenUrl});
            this.toolOpenFolder.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripOpenFolder;
            this.toolOpenFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
            this.toolOpenFolder.Name = "toolOpenFolder";
-           this.toolOpenFolder.Size = new System.Drawing.Size(60, 45);
+           this.toolOpenFolder.Size = new System.Drawing.Size(72, 45);
            this.toolOpenFolder.Text = "打开目录";
            this.toolOpenFolder.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
            this.toolOpenFolder.ToolTipText = "打开下载文件所在文件夹";
-           this.toolOpenFolder.Click += new System.EventHandler(this.mnuConOpenFolder_Click);
+           this.toolOpenFolder.ButtonClick += new System.EventHandler(this.mnuConOpenFolder_Click);
            // 
-           // toolOpenWebpage
+           // toolOpenUrl
            // 
-           this.toolOpenWebpage.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripOpenWebpage;
-           this.toolOpenWebpage.ImageTransparentColor = System.Drawing.Color.Magenta;
-           this.toolOpenWebpage.Name = "toolOpenWebpage";
-           this.toolOpenWebpage.Size = new System.Drawing.Size(60, 45);
-           this.toolOpenWebpage.Text = "打开网页";
-           this.toolOpenWebpage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-           this.toolOpenWebpage.ToolTipText = "打开任务源网页";
-           this.toolOpenWebpage.Click += new System.EventHandler(this.mnuConOpenUrl_Click);
+           this.toolOpenUrl.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripOpenWebpage;
+           this.toolOpenUrl.Name = "toolOpenUrl";
+           this.toolOpenUrl.Size = new System.Drawing.Size(156, 30);
+           this.toolOpenUrl.Text = "打开原始网页";
+           this.toolOpenUrl.ToolTipText = "打开任务所引用的网页";
+           this.toolOpenUrl.Click += new System.EventHandler(this.mnuConOpenUrl_Click);
            // 
            // toolInfo
            // 
@@ -552,6 +556,7 @@
            this.tabMain.Controls.Add(this.tabDownload);
            this.tabMain.Controls.Add(this.tabConfig);
            this.tabMain.Controls.Add(this.tabFlvCombine);
+           this.tabMain.Controls.Add(this.tabAcPlay);
            this.tabMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.tabMain.Location = new System.Drawing.Point(0, 122);
            this.tabMain.Name = "tabMain";
@@ -598,8 +603,26 @@
            this.tabFlvCombine.Text = "视频合并";
            this.tabFlvCombine.UseVisualStyleBackColor = true;
            // 
+           // tabAcPlay
+           // 
+           this.tabAcPlay.Controls.Add(this.acPlay1);
+           this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
+           this.tabAcPlay.Name = "tabAcPlay";
+           this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
+           this.tabAcPlay.Size = new System.Drawing.Size(537, 309);
+           this.tabAcPlay.TabIndex = 4;
+           this.tabAcPlay.Text = "弹幕播放";
+           this.tabAcPlay.UseVisualStyleBackColor = true;
+           // 
+           // timerClipboard
+           // 
+           this.timerClipboard.Enabled = true;
+           this.timerClipboard.Interval = 500;
+           this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
+           // 
            // flvCombineControl1
            // 
+           this.flvCombineControl1.AutoScroll = true;
            this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
            this.flvCombineControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
            this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
@@ -608,27 +631,42 @@
            this.flvCombineControl1.Size = new System.Drawing.Size(531, 303);
            this.flvCombineControl1.TabIndex = 0;
            // 
-           // timerClipboard
+           // acPlay1
            // 
-           this.timerClipboard.Enabled = true;
-           this.timerClipboard.Interval = 500;
-           this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
+           this.acPlay1.AutoScroll = true;
+           this.acPlay1.Dock = System.Windows.Forms.DockStyle.Fill;
+           this.acPlay1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+           this.acPlay1.Location = new System.Drawing.Point(3, 3);
+           this.acPlay1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+           this.acPlay1.Name = "acPlay1";
+           this.acPlay1.Size = new System.Drawing.Size(531, 303);
+           this.acPlay1.TabIndex = 0;
+           // 
+           // toolQuestionnaire
+           // 
+           this.toolQuestionnaire.IsLink = true;
+           this.toolQuestionnaire.Name = "toolQuestionnaire";
+           this.toolQuestionnaire.Size = new System.Drawing.Size(192, 20);
+           this.toolQuestionnaire.Text = "参与AcDown用户满意度调查";
+           this.toolQuestionnaire.ToolTipText = "点击参与AcDown用户满意度及需求调查";
+           this.toolQuestionnaire.Click += new System.EventHandler(this.toolQuestionnaire_Click);
            // 
            // FormMain
            // 
            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-           this.ClientSize = new System.Drawing.Size(545, 490);
+           this.ClientSize = new System.Drawing.Size(545, 491);
            this.Controls.Add(this.tabMain);
            this.Controls.Add(this.toolStrip);
            this.Controls.Add(this.statusStrip);
            this.Controls.Add(this.picLogo);
-           this.MinimumSize = new System.Drawing.Size(444, 377);
+           this.MinimumSize = new System.Drawing.Size(444, 268);
            this.Name = "FormMain";
            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
            this.Text = "AcDown动漫下载器";
            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
            this.Load += new System.EventHandler(this.FormMain_Load);
+           this.ResizeEnd += new System.EventHandler(this.FormMain_ResizeEnd);
            this.VisibleChanged += new System.EventHandler(this.FormMain_VisibleChanged);
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
            this.statusStrip.ResumeLayout(false);
@@ -645,6 +683,7 @@
            this.tabConfig.ResumeLayout(false);
            this.tabConfig.PerformLayout();
            this.tabFlvCombine.ResumeLayout(false);
+           this.tabAcPlay.ResumeLayout(false);
            this.ResumeLayout(false);
            this.PerformLayout();
 
@@ -686,9 +725,7 @@
 		  private System.Windows.Forms.ToolStripButton toolStart;
 		  private System.Windows.Forms.ToolStripButton toolStop;
 		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		  private System.Windows.Forms.ToolStripButton toolOpenFolder;
-		  private System.Windows.Forms.ToolStripButton toolOpenWebpage;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		  private System.Windows.Forms.ToolStripButton toolInfo;
 		  private System.Windows.Forms.TabControl tabMain;
 		  private System.Windows.Forms.TabPage tabDownload;
@@ -701,9 +738,14 @@
 		  private System.Windows.Forms.ToolStripButton btnConfig;
 		  private System.Windows.Forms.ToolStripButton btnAbout;
 		  private System.Windows.Forms.ToolStripSplitButton toolDelete;
-		  private System.Windows.Forms.ToolStripMenuItem 删除任务并删除文件ToolStripMenuItem;
+		  private System.Windows.Forms.ToolStripMenuItem toolDeleteAndFile;
 		  private System.Windows.Forms.ToolStripButton toolUpdate;
         private System.Windows.Forms.Timer timerClipboard;
+        private System.Windows.Forms.ToolStripSplitButton toolOpenFolder;
+        private System.Windows.Forms.ToolStripMenuItem toolOpenUrl;
+        private System.Windows.Forms.TabPage tabAcPlay;
+        private Components.AcPlayControl acPlay1;
+        private System.Windows.Forms.ToolStripStatusLabel toolQuestionnaire;
 
 	 }
 }

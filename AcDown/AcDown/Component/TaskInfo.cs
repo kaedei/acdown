@@ -16,6 +16,7 @@ namespace Kaedei.AcDown.Component
       public DownloadSubtitleType DownSub; //0-下载 1-不下载 2-只下载
       public WebProxy Proxy;
       public DirectoryInfo SaveDirectory;
+      public int SpeedLimit;
    }
 
 }
