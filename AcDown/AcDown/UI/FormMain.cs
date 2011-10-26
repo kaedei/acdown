@@ -3,18 +3,14 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using Kaedei.AcDown;
 using Kaedei.AcDown.Properties;
 using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
-using Kaedei.AcDown.UI;
-using Kaedei.AcDown.UI.Components.FlvCombine;
 using System.Threading;
-using System.Collections.Generic;
 
 
-namespace AcDown.UI
+namespace Kaedei.AcDown.UI
 {
 
 	public partial class FormMain : Form
@@ -209,6 +205,8 @@ namespace AcDown.UI
 			Initialize();
 			//初始化窗体
 			InitializeComponent();
+			//设置窗口大小
+			this.Size = Config.setting.WindowSize;
 			//设置窗体标题和文字
 			this.Icon = Resources.Ac;
 			this.Text = Application.ProductName +
@@ -218,6 +216,13 @@ namespace AcDown.UI
 			if (Config.setting.ShowBigStartButton == false)
 				if (btnClickNew != null)
 					btnClickNew.Dispose();
+			//取消显示Logo
+			if (Config.setting.ShowLogo == false)
+			{
+				picLogo.Image.Dispose();
+				picLogo.Dispose();
+				tabMain.Dock = DockStyle.Fill;
+			}
 			//显示托盘图标
 			notifyIcon.Icon = Resources.Ac;
 			//设置刷新频率
@@ -244,9 +249,11 @@ namespace AcDown.UI
 				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
 			}
 			//选中下拉列表框
-			cboAfterComplete.SelectedIndex = 0;	
+			cboAfterComplete.SelectedIndex = 0;
 			//检查更新
-			CheckUpdate();
+			if (Config.setting.EnableCheckUpdate)
+				CheckUpdate();
+			
 		}
 
 		private void btnAbout_Click(object sender, EventArgs e)
@@ -432,9 +439,12 @@ namespace AcDown.UI
 					//设置缩略图
 					if (this.WindowState != FormWindowState.Minimized)
 					{
-						RECT rect = new RECT(picLogo.Left, picLogo.Top, picLogo.Right, picLogo.Bottom);
-						//RECT rect = new RECT(lsv.Left, lsv.Top, lsv.Right, lsv.Bottom);
-						taskbarList.SetThumbnailClip(this.Handle, ref rect);
+						if (Config.setting.ShowLogo)
+						{
+							RECT rect = new RECT(picLogo.Left, picLogo.Top, picLogo.Right, picLogo.Bottom);
+							//RECT rect = new RECT(lsv.Left, lsv.Top, lsv.Right, lsv.Bottom);
+							taskbarList.SetThumbnailClip(this.Handle, ref rect);
+						}
 					}
 				}
 				else  //如果禁止Win7特性
@@ -642,7 +652,7 @@ namespace AcDown.UI
 				switch (Config.setting.SearchQuery)
 				{
 					case "Acfun站内搜索":
-						q = @"http://s.acfun.cn/Search.aspx?q=%TEST%&order=008d30f9-cdd4-440f-9149-85f5e3a75f42&group=-1".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+						q = @"http://search.acfun.tv/search.aspx?q=%TEST%&order=088d7595-3b27-46c6-a7c5-0cb1bb5dbcff&group=-1".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "Bilibili站内搜索":
 						q = @"http://www.bilibili.tv/search?keyword=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
@@ -827,6 +837,23 @@ namespace AcDown.UI
 					taskMgr.DeleteTask(downloader, e.Shift | Config.setting.DeleteTaskAndFile);
 				}
 			}
+		}
+
+		//记录窗口大小
+		private void FormMain_ResizeEnd(object sender, EventArgs e)
+		{
+			if (this.WindowState == FormWindowState.Normal)
+			{
+				Config.setting.WindowSize = this.Size;
+				Config.SaveSettings();
+			}
+		}
+
+		//调查问卷
+		private void toolQuestionnaire_Click(object sender, EventArgs e)
+		{
+			Process.Start(@"http://www.sojump.com/jq/1055148.aspx");
+			toolQuestionnaire.Visible = false;
 		}
 
 		//获得win消息
@@ -1237,7 +1264,7 @@ namespace AcDown.UI
 					this.Invoke(new MethodInvoker(() => 
 					{
 						toolUpdate.Visible = true;
-						notifyIcon.ShowBalloonTip(5000, "AcDown动漫下载器 自动更新", "AcDown有新版本了哦~", ToolTipIcon.Info);
+						notifyIcon.ShowBalloonTip(5000, "AcDown动漫下载器自动更新", "AcDown有新版本了哦~", ToolTipIcon.Info);
 					}));
 				}
 			}));
@@ -1297,6 +1324,8 @@ namespace AcDown.UI
 		}
 
 		#endregion
+
+
 
 
 	}//end class

@@ -35,24 +35,29 @@ namespace Kaedei.AcDown.Component
       /// <returns></returns>
       public string CheckUpdate(Version oldVersion)
       {
-         string src = Network.GetHtmlSource(@"http://acdown.codeplex.com/wikipage?title=AutoUpdate", Encoding.UTF8);
-         Regex rVersion = new Regex(@"{updatestart}NEWVERSION=(?<major>\d+)\.(?<minor>\d+).(?<build>\d+)\.(?<revision>\d+){updateend}");
-         Match mVersion = rVersion.Match(src);
-         string verstring = mVersion.Groups["major"].ToString() + "." +
-                           mVersion.Groups["minor"].ToString() + "." +
-                           mVersion.Groups["build"].ToString() + "." +
-                           mVersion.Groups["revision"].ToString();
-         Version newVersion = new Version(verstring);
-         if (newVersion > oldVersion)
+         try
          {
-            Regex rUrl = new Regex(@"{urlstart}URL=(?<url>.+?){urlend}");
-            Match mUrl = rUrl.Match(src);
-            if (mUrl.Success)
+            string src = Network.GetHtmlSource(@"http://acdown.codeplex.com/wikipage?title=AutoUpdate", Encoding.UTF8);
+            Regex rVersion = new Regex(@"{updatestart}NEWVERSION=(?<major>\d+)\.(?<minor>\d+).(?<build>\d+)\.(?<revision>\d+){updateend}");
+            Match mVersion = rVersion.Match(src);
+            string verstring = mVersion.Groups["major"].ToString() + "." +
+                              mVersion.Groups["minor"].ToString() + "." +
+                              mVersion.Groups["build"].ToString() + "." +
+                              mVersion.Groups["revision"].ToString();
+            Version newVersion = new Version(verstring);
+            if (newVersion > oldVersion)
             {
-               string url = mUrl.Groups["url"].Value.Replace("&amp;", "&");
-               return url;
+               Regex rUrl = new Regex(@"{urlstart}URL=(?<url>.+?){urlend}");
+               Match mUrl = rUrl.Match(src);
+               if (mUrl.Success)
+               {
+                  string url = mUrl.Groups["url"].Value.Replace("&amp;", "&");
+                  return url;
+               }
             }
          }
+         catch
+         { }
          return "";
 
       }

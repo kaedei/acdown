@@ -68,9 +68,13 @@ namespace Kaedei.AcDown.UI
 
       private void btnCopyEmail_Click(object sender, EventArgs e)
       {
-         txtEmail.SelectAll();
-         Clipboard.SetText(txtEmail.Text);
-         MessageBox.Show("邮件地址已经复制到系统剪贴板", "帮助中心", MessageBoxButtons.OK, MessageBoxIcon.Information);
+         try
+         {
+            txtEmail.SelectAll();
+            Clipboard.SetText(txtEmail.Text);
+            MessageBox.Show("邮件地址已经复制到系统剪贴板", "帮助中心", MessageBoxButtons.OK, MessageBoxIcon.Information);
+         }
+         catch { }
       }
    }
 }

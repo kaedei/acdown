@@ -136,7 +136,7 @@
            this.lnkPaste.TabIndex = 9;
            this.lnkPaste.TabStop = true;
            this.lnkPaste.Text = "从剪贴板粘贴";
-           this.toolTip.SetToolTip(this.lnkPaste, "如果系统剪贴板中有文字,\r\n则将剪贴板中文字粘贴入文本框");
+           this.toolTip.SetToolTip(this.lnkPaste, "将剪贴板中的文字粘贴进来");
            this.lnkPaste.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPaste_LinkClicked);
            // 
            // lblShowConfig
@@ -180,7 +180,7 @@
            this.rdoDownSubOnly.AutoSize = true;
            this.rdoDownSubOnly.Location = new System.Drawing.Point(22, 78);
            this.rdoDownSubOnly.Name = "rdoDownSubOnly";
-           this.rdoDownSubOnly.Size = new System.Drawing.Size(131, 24);
+           this.rdoDownSubOnly.Size = new System.Drawing.Size(113, 16);
            this.rdoDownSubOnly.TabIndex = 3;
            this.rdoDownSubOnly.TabStop = true;
            this.rdoDownSubOnly.Text = "只下载弹幕/字幕";
@@ -219,9 +219,9 @@
            // 
            this.cboProxy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
            this.cboProxy.FormattingEnabled = true;
-           this.cboProxy.Location = new System.Drawing.Point(7, 116);
+           this.cboProxy.Location = new System.Drawing.Point(12, 116);
            this.cboProxy.Name = "cboProxy";
-           this.cboProxy.Size = new System.Drawing.Size(420, 28);
+           this.cboProxy.Size = new System.Drawing.Size(415, 28);
            this.cboProxy.TabIndex = 12;
            // 
            // txtPath
@@ -235,7 +235,7 @@
            // label3
            // 
            this.label3.AutoSize = true;
-           this.label3.Location = new System.Drawing.Point(3, 93);
+           this.label3.Location = new System.Drawing.Point(8, 93);
            this.label3.Name = "label3";
            this.label3.Size = new System.Drawing.Size(138, 20);
            this.label3.TabIndex = 11;
@@ -350,7 +350,7 @@
            this.rdoDownSub.AutoSize = true;
            this.rdoDownSub.Location = new System.Drawing.Point(22, 18);
            this.rdoDownSub.Name = "rdoDownSub";
-           this.rdoDownSub.Size = new System.Drawing.Size(117, 24);
+           this.rdoDownSub.Size = new System.Drawing.Size(101, 16);
            this.rdoDownSub.TabIndex = 2;
            this.rdoDownSub.Text = "下载弹幕/字幕";
            this.rdoDownSub.UseVisualStyleBackColor = true;
@@ -360,7 +360,7 @@
            this.rdoNotDownSub.AutoSize = true;
            this.rdoNotDownSub.Location = new System.Drawing.Point(22, 48);
            this.rdoNotDownSub.Name = "rdoNotDownSub";
-           this.rdoNotDownSub.Size = new System.Drawing.Size(131, 24);
+           this.rdoNotDownSub.Size = new System.Drawing.Size(113, 16);
            this.rdoNotDownSub.TabIndex = 1;
            this.rdoNotDownSub.Text = "不下载弹幕/字幕";
            this.rdoNotDownSub.UseVisualStyleBackColor = true;

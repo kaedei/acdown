@@ -12,7 +12,7 @@
     <AssemblyName>AcDown</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>AcDown.Program</StartupObject>
+    <StartupObject>Kaedei.AcDown.Program</StartupObject>
     <ApplicationIcon>Resources\Ac.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -118,11 +118,12 @@
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Parser\FlvcdParser.cs" />
     <Compile Include="Parser\SixcnParser.cs" />
-    <Compile Include="UI\Components\AcPlay.cs">
+    <Compile Include="UI\Components\AcPlay.cs" />
+    <Compile Include="UI\Components\AcPlayControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Components\AcPlay.Designer.cs">
-      <DependentUpon>AcPlay.cs</DependentUpon>
+    <Compile Include="UI\Components\AcPlayControl.Designer.cs">
+      <DependentUpon>AcPlayControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Components\FlvCombine.cs" />
     <Compile Include="UI\Components\FlvCombineControl.cs">
@@ -130,6 +131,12 @@
     </Compile>
     <Compile Include="UI\Components\FlvCombineControl.Designer.cs">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\PluginSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\PluginSettings.Designer.cs">
+      <DependentUpon>PluginSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
@@ -210,11 +217,14 @@
     <EmbeddedResource Include="Interface\Forms\FormSelect.resx">
       <DependentUpon>FormSelect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Components\AcPlay.resx">
-      <DependentUpon>AcPlay.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Components\AcPlayControl.resx">
+      <DependentUpon>AcPlayControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\FlvCombineControl.resx">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\PluginSettings.resx">
+      <DependentUpon>PluginSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

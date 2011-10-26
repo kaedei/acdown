@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
-using AcDown.UI;
 using Microsoft.VisualBasic.ApplicationServices;
 using Kaedei.AcDown.UI;
 using Kaedei.AcDown.Component;
 using System.Diagnostics;
 
-namespace AcDown
+namespace Kaedei.AcDown
 {
    static class Program
    {

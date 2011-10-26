@@ -4,6 +4,7 @@ using Kaedei.AcDown.Properties;
 using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Kaedei.AcDown.Component;
 
 namespace Kaedei.AcDown.UI
 {
@@ -40,10 +41,12 @@ namespace Kaedei.AcDown.UI
          if (!Config.IsWindows7OrHigher()) chkEnableWin7.Enabled = false;
          chkEnableWin7.Checked = Config.setting.EnableWindows7Feature;
          chkShowBigButton.Checked = Config.setting.ShowBigStartButton;
+         chkShowLogo.Checked = Config.setting.ShowLogo;
          chkHideWhenClose.Checked = Config.setting.HideWhenClose;
          cboMaxRunningCount.SelectedIndex = Config.setting.MaxRunningTaskCount - 1;
          txtSearchText.Text = Config.setting.SearchQuery;
          udRefreshInfo.Value = Config.setting.RefreshInfoInterval;
+         chkEnableCheckUpdate.Checked = Config.setting.EnableCheckUpdate;
          udNetworkTimeout.Value = Config.setting.NetworkTimeout;
          //插件设置
          chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
@@ -96,11 +99,13 @@ namespace Kaedei.AcDown.UI
          Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
          Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
          Config.setting.ShowBigStartButton = chkShowBigButton.Checked;
+         Config.setting.ShowLogo = chkShowLogo.Checked;
          Config.setting.HideWhenClose = chkHideWhenClose.Checked;
          Config.setting.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
          Config.setting.SearchQuery = txtSearchText.Text;
          Config.setting.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
          Config.setting.NetworkTimeout = (Int32)udNetworkTimeout.Value;
+         Config.setting.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
          //插件设置
          Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
          Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;
