@@ -150,6 +150,7 @@ namespace Kaedei.AcDown.UI.Components
                }));
             }
          });
+         t.IsBackground = true;
          t.Start();
       }
 

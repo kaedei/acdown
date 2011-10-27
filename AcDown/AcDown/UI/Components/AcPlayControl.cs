@@ -6,6 +6,7 @@ using System.Threading;
 using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -155,6 +156,7 @@ namespace Kaedei.AcDown.UI.Components
             btnXml2.Visible = true;
          }
          btnLaunchAcPlay.Enabled = true;
+         lnkUpdatePlayer.Visible = true;
       }
 
 
@@ -267,12 +269,67 @@ namespace Kaedei.AcDown.UI.Components
                }));
             }
          });
+         t.IsBackground = true;
          t.Start();
       }
 
       private void lnkQA_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
       {
          Process.Start(@"http://blog.sina.com.cn/s/blog_58c506600100vf4x.html");
+      }
+
+      private void lnkUpdatePlayer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+      {
+         string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+         string file_acfun = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Acfun.swf");
+         string swf_acfun = "http://www.acfun.tv/newflvplayer/playert.swf";
+         string file_bilibili = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Bilibili.swf");
+         string swf_bilibili = "http://static.loli.my/play.swf";
+         //建立文件夹
+         string dir = Path.GetDirectoryName(file_acfun);
+         if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+
+         bool r;
+         string file = "";
+         string swf = "";
+         //更新播放器
+         switch (cboPlayer.SelectedIndex)
+         {
+            case 0:
+               file = file_bilibili;
+               swf = swf_bilibili;
+               break;
+            case 1:
+               file = file_acfun;
+               swf = swf_acfun;
+               break;
+         }
+
+         lnkUpdatePlayer.Enabled = false;
+         lnkUpdatePlayer.Text = "正在更新播放器缓存";
+         //启动新线程
+         Thread t = new Thread(new ThreadStart(new MethodInvoker(() =>
+         {
+            r = Network.DownloadFile(new DownloadParameter()
+            {
+               Url = swf,
+               FilePath = file
+            });
+            //如果下载失败则删除文件
+            if (!r)
+            {
+               File.Delete(file);
+            }
+            this.Invoke(new MethodInvoker(() => 
+            { 
+               lnkUpdatePlayer.Enabled = true;
+               lnkUpdatePlayer.Text = "更新播放器缓存";
+            }));
+         })));
+         t.IsBackground = true;
+         t.Start();
+
       }
 
 

@@ -4,6 +4,7 @@ using System.Text;
 using System.Diagnostics;
 using Kaedei.AcDown.Interface;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -31,11 +32,8 @@ namespace Kaedei.AcDown.UI.Components
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
          string file_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\AcPlay.exe");
-         string exe_acplay = @"http://download.codeplex.com/Download?ProjectName=acdown&DownloadId=296979";
-         string file_acfun = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Acfun.swf");
-         string swf_acfun = "http://www.acfun.tv/newflvplayer/playert.swf";
-         string file_bilibili = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Bilibili.swf");
-         string swf_bilibili = "http://static.loli.my/play.swf";
+         string exe_acplay = @"http://download.codeplex.com/Download?ProjectName=acdown&DownloadId=297021";
+
 
          //建立文件夹
          string dir = Path.GetDirectoryName(file_acplay);
@@ -49,17 +47,7 @@ namespace Kaedei.AcDown.UI.Components
                Url = exe_acplay,
                FilePath = file_acplay,
             });
-            bool r2 = Network.DownloadFile(new DownloadParameter()
-            {
-               Url = swf_bilibili,
-               FilePath = file_bilibili,
-            });
-            bool r3 = Network.DownloadFile(new DownloadParameter()
-            {
-               Url = swf_acfun,
-               FilePath = file_acplay,
-            });
-            return r1 & r2 & r3;
+            return r1;
          }
          catch (Exception ex)
          {
@@ -81,23 +69,31 @@ namespace Kaedei.AcDown.UI.Components
          ProcessStartInfo pinfo = new ProcessStartInfo(file_acplay);
          //设置参数
          StringBuilder sb = new StringBuilder();
-         sb.Append(@"player=" + player+ " ");
+         sb.Append(@"player=" + player + " ");
          sb.Append(@"video=""");
-         for (int i = 0; i < videos.Length-1; i++)
+         for (int i = 0; i < videos.Length - 1; i++)
          {
             sb.Append(videos[i] + "|");
          }
          sb.Append(videos[videos.Length - 1] + @""" ");
-         sb.Append(@"xml1=""" + xml1 + @""" ");
-         sb.Append(@"xml2=""" + xml2 + @""" ");
+         if (xml1 != "")
+            sb.Append(@"xml1=""" + xml1 + @""" ");
+         if (xml2 != "")
+            sb.Append(@"xml2=""" + xml2 + @""" ");
          sb.Append(@"time=" + timeLength.ToString());
 
          pinfo.Arguments = sb.ToString();
-         //隐藏窗口
-         pinfo.WindowStyle = ProcessWindowStyle.Normal;
          //启动程序
-         Process p = Process.Start(pinfo);
-         p.WaitForExit();
+         try
+         {
+            Process p = Process.Start(pinfo);
+            p.WaitForExit();
+         }
+         catch 
+         {
+            MessageBox.Show("启动AcPlay失败", "AcPlay弹幕播放器", MessageBoxButtons.OK, MessageBoxIcon.Error);
+         }
       }
+   
    }
 }

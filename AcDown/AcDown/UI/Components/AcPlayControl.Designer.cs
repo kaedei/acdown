@@ -72,7 +72,7 @@
          this.btnStart.Location = new System.Drawing.Point(104, 105);
          this.btnStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.btnStart.Name = "btnStart";
-         this.btnStart.Size = new System.Drawing.Size(191, 50);
+         this.btnStart.Size = new System.Drawing.Size(174, 50);
          this.btnStart.TabIndex = 0;
          this.btnStart.Text = "下载AcPlay弹幕播放插件";
          this.btnStart.UseVisualStyleBackColor = true;
@@ -90,7 +90,7 @@
          this.panelPlayer.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelPlayer.Location = new System.Drawing.Point(0, 0);
          this.panelPlayer.Name = "panelPlayer";
-         this.panelPlayer.Size = new System.Drawing.Size(537, 553);
+         this.panelPlayer.Size = new System.Drawing.Size(520, 553);
          this.panelPlayer.TabIndex = 4;
          this.panelPlayer.Visible = false;
          // 
@@ -196,7 +196,7 @@
          this.groupBox3.Controls.Add(this.lblXml);
          this.groupBox3.Location = new System.Drawing.Point(3, 356);
          this.groupBox3.Name = "groupBox3";
-         this.groupBox3.Size = new System.Drawing.Size(513, 114);
+         this.groupBox3.Size = new System.Drawing.Size(496, 114);
          this.groupBox3.TabIndex = 10;
          this.groupBox3.TabStop = false;
          this.groupBox3.Text = "弹幕文件";
@@ -205,7 +205,7 @@
          // 
          this.btnXml2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnXml2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnXml2.Location = new System.Drawing.Point(414, 69);
+         this.btnXml2.Location = new System.Drawing.Point(397, 69);
          this.btnXml2.Name = "btnXml2";
          this.btnXml2.Size = new System.Drawing.Size(93, 31);
          this.btnXml2.TabIndex = 8;
@@ -220,7 +220,7 @@
          this.txtXml2.Location = new System.Drawing.Point(141, 71);
          this.txtXml2.Name = "txtXml2";
          this.txtXml2.ReadOnly = true;
-         this.txtXml2.Size = new System.Drawing.Size(267, 26);
+         this.txtXml2.Size = new System.Drawing.Size(250, 26);
          this.txtXml2.TabIndex = 7;
          // 
          // lblXml2
@@ -236,7 +236,7 @@
          // 
          this.btnXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnXml.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnXml.Location = new System.Drawing.Point(414, 28);
+         this.btnXml.Location = new System.Drawing.Point(397, 28);
          this.btnXml.Name = "btnXml";
          this.btnXml.Size = new System.Drawing.Size(93, 31);
          this.btnXml.TabIndex = 5;
@@ -251,7 +251,7 @@
          this.txtXml.Location = new System.Drawing.Point(141, 30);
          this.txtXml.Name = "txtXml";
          this.txtXml.ReadOnly = true;
-         this.txtXml.Size = new System.Drawing.Size(267, 26);
+         this.txtXml.Size = new System.Drawing.Size(250, 26);
          this.txtXml.TabIndex = 1;
          // 
          // lblXml
@@ -275,7 +275,7 @@
          this.groupBox2.Controls.Add(this.lstVideo);
          this.groupBox2.Location = new System.Drawing.Point(3, 114);
          this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(513, 236);
+         this.groupBox2.Size = new System.Drawing.Size(496, 236);
          this.groupBox2.TabIndex = 9;
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "视频文件";
@@ -285,7 +285,7 @@
          this.btnItemDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnItemDown.Enabled = false;
          this.btnItemDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnItemDown.Location = new System.Drawing.Point(414, 148);
+         this.btnItemDown.Location = new System.Drawing.Point(397, 148);
          this.btnItemDown.Name = "btnItemDown";
          this.btnItemDown.Size = new System.Drawing.Size(93, 35);
          this.btnItemDown.TabIndex = 4;
@@ -298,7 +298,7 @@
          this.btnItemUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnItemUp.Enabled = false;
          this.btnItemUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnItemUp.Location = new System.Drawing.Point(414, 107);
+         this.btnItemUp.Location = new System.Drawing.Point(397, 107);
          this.btnItemUp.Name = "btnItemUp";
          this.btnItemUp.Size = new System.Drawing.Size(93, 35);
          this.btnItemUp.TabIndex = 3;
@@ -310,7 +310,7 @@
          // 
          this.btnItemDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnItemDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnItemDelete.Location = new System.Drawing.Point(414, 66);
+         this.btnItemDelete.Location = new System.Drawing.Point(397, 66);
          this.btnItemDelete.Name = "btnItemDelete";
          this.btnItemDelete.Size = new System.Drawing.Size(93, 35);
          this.btnItemDelete.TabIndex = 2;
@@ -322,7 +322,7 @@
          // 
          this.btnItemAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnItemAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnItemAdd.Location = new System.Drawing.Point(414, 25);
+         this.btnItemAdd.Location = new System.Drawing.Point(397, 25);
          this.btnItemAdd.Name = "btnItemAdd";
          this.btnItemAdd.Size = new System.Drawing.Size(93, 35);
          this.btnItemAdd.TabIndex = 1;
@@ -341,7 +341,7 @@
          this.lstVideo.Name = "lstVideo";
          this.lstVideo.ScrollAlwaysVisible = true;
          this.lstVideo.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-         this.lstVideo.Size = new System.Drawing.Size(398, 184);
+         this.lstVideo.Size = new System.Drawing.Size(381, 184);
          this.lstVideo.TabIndex = 0;
          this.lstVideo.SelectedIndexChanged += new System.EventHandler(this.lstVideo_SelectedIndexChanged);
          // 
@@ -354,7 +354,7 @@
          this.groupBox1.Controls.Add(this.cboPlayer);
          this.groupBox1.Location = new System.Drawing.Point(3, 50);
          this.groupBox1.Name = "groupBox1";
-         this.groupBox1.Size = new System.Drawing.Size(513, 58);
+         this.groupBox1.Size = new System.Drawing.Size(496, 58);
          this.groupBox1.TabIndex = 8;
          this.groupBox1.TabStop = false;
          this.groupBox1.Text = "播放器";
@@ -364,11 +364,12 @@
          this.lnkUpdatePlayer.AutoSize = true;
          this.lnkUpdatePlayer.Location = new System.Drawing.Point(336, 22);
          this.lnkUpdatePlayer.Name = "lnkUpdatePlayer";
-         this.lnkUpdatePlayer.Size = new System.Drawing.Size(79, 20);
+         this.lnkUpdatePlayer.Size = new System.Drawing.Size(107, 20);
          this.lnkUpdatePlayer.TabIndex = 3;
          this.lnkUpdatePlayer.TabStop = true;
-         this.lnkUpdatePlayer.Text = "更新播放器";
+         this.lnkUpdatePlayer.Text = "更新播放器缓存";
          this.lnkUpdatePlayer.Visible = false;
+         this.lnkUpdatePlayer.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUpdatePlayer_LinkClicked);
          // 
          // label1
          // 
@@ -403,7 +404,7 @@
          this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.Name = "AcPlayControl";
-         this.Size = new System.Drawing.Size(537, 435);
+         this.Size = new System.Drawing.Size(520, 435);
          this.Load += new System.EventHandler(this.AcPlay_Load);
          this.panelPlayer.ResumeLayout(false);
          this.panelPlayer.PerformLayout();
