@@ -212,6 +212,8 @@ namespace Kaedei.AcDown.UI
 			this.Text = Application.ProductName +
 							" v" + new Version(Application.ProductVersion).Major + "." +
 							new Version(Application.ProductVersion).Minor;
+			//设置托盘文字
+			notifyIcon.Text = this.Text;
 			//取消显示大按钮
 			if (Config.setting.ShowBigStartButton == false)
 				if (btnClickNew != null)
