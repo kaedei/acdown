@@ -20,7 +20,7 @@ namespace Kaedei.AcDown.UI.Components
       private void btnItemAdd_Click(object sender, EventArgs e)
       {
          OpenFileDialog ofd = new OpenFileDialog();
-         ofd.Filter = "所有视频文件(*.mp4;*.flv;*.hlv)|*.mp4;*.flv;*.hlv|mp4视频(*.mp4)|*.mp4|flv视频(*.flv)|*.flv|高清flv视频(*.hlv)|*.hlv";
+         ofd.Filter = "所有视频文件(*.mp4;*.flv;*.hlv;*.f4v)|*.mp4;*.flv;*.hlv;*.f4v|mp4视频(*.mp4)|*.mp4|flv视频(*.flv)|*.flv|高清flv视频(*.hlv)|*.hlv|f4v视频(*.f4v)|*.f4v";
          ofd.Title = "请选择视频文件";
          ofd.Multiselect = true;
          ofd.InitialDirectory = Config.setting.SavePath;

@@ -42,6 +42,7 @@
            this.statusStrip = new System.Windows.Forms.StatusStrip();
            this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
            this.lblBlank = new System.Windows.Forms.ToolStripStatusLabel();
+           this.toolQuestionnaire = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolHelpCenter = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
            this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -83,7 +84,6 @@
            this.timerClipboard = new System.Windows.Forms.Timer(this.components);
            this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
            this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
-           this.toolQuestionnaire = new System.Windows.Forms.ToolStripStatusLabel();
            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
            this.statusStrip.SuspendLayout();
            this.toolStrip.SuspendLayout();
@@ -210,6 +210,15 @@
            this.lblBlank.Name = "lblBlank";
            this.lblBlank.Size = new System.Drawing.Size(179, 20);
            this.lblBlank.Spring = true;
+           // 
+           // toolQuestionnaire
+           // 
+           this.toolQuestionnaire.IsLink = true;
+           this.toolQuestionnaire.Name = "toolQuestionnaire";
+           this.toolQuestionnaire.Size = new System.Drawing.Size(192, 20);
+           this.toolQuestionnaire.Text = "参与AcDown用户满意度调查";
+           this.toolQuestionnaire.ToolTipText = "点击参与AcDown用户满意度及需求调查";
+           this.toolQuestionnaire.Click += new System.EventHandler(this.toolQuestionnaire_Click);
            // 
            // toolHelpCenter
            // 
@@ -641,15 +650,6 @@
            this.acPlay1.Name = "acPlay1";
            this.acPlay1.Size = new System.Drawing.Size(531, 303);
            this.acPlay1.TabIndex = 0;
-           // 
-           // toolQuestionnaire
-           // 
-           this.toolQuestionnaire.IsLink = true;
-           this.toolQuestionnaire.Name = "toolQuestionnaire";
-           this.toolQuestionnaire.Size = new System.Drawing.Size(192, 20);
-           this.toolQuestionnaire.Text = "参与AcDown用户满意度调查";
-           this.toolQuestionnaire.ToolTipText = "点击参与AcDown用户满意度及需求调查";
-           this.toolQuestionnaire.Click += new System.EventHandler(this.toolQuestionnaire_Click);
            // 
            // FormMain
            // 

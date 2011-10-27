@@ -50,7 +50,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^http://www\.imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
+			Regex r = new Regex(@"^http://(www\.|)imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -68,7 +68,7 @@ namespace Kaedei.AcDown.Downloader
 		/// </summary>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://www\.imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
+			Regex r = new Regex(@"http://(www\.|)imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -251,6 +251,13 @@ namespace Kaedei.AcDown.Downloader
 			delegates.Start(new ParaStart(this.TaskId));
 			delegates.TipText(new ParaTipText(this.TaskId, "正在分析漫画地址"));
 			_status = DownloadStatus.正在下载;
+
+			if (currentParameter != null)
+			{
+				//将停止flag设置为true
+				currentParameter.IsStop = false;
+			}
+
 			try
 			{
 				//取得Url源文件
@@ -260,7 +267,7 @@ namespace Kaedei.AcDown.Downloader
 				List<string> subUrls = new List<string>();
 
 				//分析漫画id和lid
-				Regex r = new Regex(@"http://www\.imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
+				Regex r = new Regex(@"http://(www\.|)imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
 				Match m = r.Match(Url);
 				string id = m.Groups["id"].Value;
 				string lid = m.Groups["lid"].Value;
