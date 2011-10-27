@@ -31,6 +31,12 @@ namespace Kaedei.AcDown.UI.Components
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
          string file_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\AcPlay.exe");
+         string exe_acplay = @"http://download.codeplex.com/Download?ProjectName=acdown&DownloadId=296979";
+         string file_acfun = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Acfun.swf");
+         string swf_acfun = "http://www.acfun.tv/newflvplayer/playert.swf";
+         string file_bilibili = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Bilibili.swf");
+         string swf_bilibili = "http://static.loli.my/play.swf";
+
          //建立文件夹
          string dir = Path.GetDirectoryName(file_acplay);
          if (!Directory.Exists(dir))
@@ -40,10 +46,20 @@ namespace Kaedei.AcDown.UI.Components
          {
             bool r1 = Network.DownloadFile(new DownloadParameter()
             {
-               Url = @"http://download.codeplex.com/Download?ProjectName=acdown&DownloadId=296488",
+               Url = exe_acplay,
                FilePath = file_acplay,
             });
-            return r1;
+            bool r2 = Network.DownloadFile(new DownloadParameter()
+            {
+               Url = swf_bilibili,
+               FilePath = file_bilibili,
+            });
+            bool r3 = Network.DownloadFile(new DownloadParameter()
+            {
+               Url = swf_acfun,
+               FilePath = file_acplay,
+            });
+            return r1 & r2 & r3;
          }
          catch (Exception ex)
          {
