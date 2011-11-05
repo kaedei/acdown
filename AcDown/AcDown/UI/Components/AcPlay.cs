@@ -18,7 +18,7 @@ namespace Kaedei.AcDown.UI.Components
       public static bool CheckExisted()
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-         string acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\AcPlay.exe");
+         string acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1.1\AcPlay.exe");
          if (File.Exists(acplay))
             return true;
          else
@@ -31,8 +31,8 @@ namespace Kaedei.AcDown.UI.Components
       public static bool DownloadComponents()
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-         string file_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\AcPlay.exe");
-         string exe_acplay = @"http://download.codeplex.com/Download?ProjectName=acdown&DownloadId=297021";
+         string file_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1.1\AcPlay.exe");
+         string exe_acplay = @"http://download.codeplex.com/Download?ProjectName=acdown&DownloadId=300331";
 
 
          //建立文件夹
@@ -64,7 +64,7 @@ namespace Kaedei.AcDown.UI.Components
       public static void PlayVideo(string player, string[] videos, string xml1, string xml2, int timeLength)
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-         string file_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\AcPlay.exe");
+         string file_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1.1\AcPlay.exe");
          //生成ProcessStartInfo
          ProcessStartInfo pinfo = new ProcessStartInfo(file_acplay);
          //设置参数

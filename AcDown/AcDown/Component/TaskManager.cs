@@ -6,15 +6,11 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Collections.ObjectModel;
-using Kaedei.AcDown;
 using Kaedei.AcDown.Interface;
 using System.Threading;
 using System.Net;
-using Kaedei.AcDown.Component;
 
 namespace Kaedei.AcDown.Component
 {
@@ -36,8 +32,10 @@ namespace Kaedei.AcDown.Component
 		//保存工作进程的弱引用,用于结束程序时强制结束下载线程
 		private Collection<WeakReference> taskThreadReferenceCollection = new Collection<WeakReference>();
 
-		//任务
+		//正在进行中的任务
 		public Collection<TaskItem> Tasks = new Collection<TaskItem>();
+		//所有任务
+		public Collection<TaskInfo> TaskInfos = new Collection<TaskInfo>();
 
 		//全局速度限制
 		private int _speedLimitGlobal = 0;
@@ -108,6 +106,37 @@ namespace Kaedei.AcDown.Component
 			//返回新建的任务
 			return downloader;
 		}
+
+		/// <summary>
+		/// 添加任务
+		/// </summary>
+		/// <returns></returns>
+		public TaskInfo AddTask(TaskItem downloader,string url,WebProxy proxySetting,DownloadSubtitleType downSub,DateTime startTime)
+		{
+			TaskInfo newTaskInfo = new TaskInfo();
+			//设置TaskInfo
+			newTaskInfo.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
+			newTaskInfo.TaskId = Guid.NewGuid();
+			newTaskInfo.Status = DownloadStatus.等待开始;
+			newTaskInfo.DownSub = downSub;
+			newTaskInfo.Proxy = proxySetting;
+			newTaskInfo.Task = downloader;
+			newTaskInfo.StartTime = startTime;
+			//设置TaskItem
+			newTaskInfo.Task.TaskId = newTaskInfo.TaskId;
+			newTaskInfo.Task.delegates = delegates;
+			newTaskInfo.Task.delegates.Proxy = newTaskInfo.Proxy;
+			newTaskInfo.Task.Url = newTaskInfo.Url;
+			newTaskInfo.Task.SaveDirectory = newTaskInfo.SaveDirectory;
+
+			//向字典中添加信息
+			GlobalSettings.GetSettings().TasksInfomation.Add(newTaskInfo.TaskId, newTaskInfo);
+			//提示UI刷新信息
+			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
+			//返回新建的任务
+			return newTaskInfo;
+		}
+
 
 		/// <summary>
 		/// 开始任务

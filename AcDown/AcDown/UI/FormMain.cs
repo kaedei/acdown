@@ -672,7 +672,11 @@ namespace Kaedei.AcDown.UI
 						q = Config.setting.SearchQuery.Replace(@"%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 				}
-				Process.Start(q);
+				try
+				{
+					Process.Start(q);
+				}
+				catch { };
 			}
 		}
 

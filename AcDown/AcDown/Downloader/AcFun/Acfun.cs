@@ -261,12 +261,12 @@ namespace Kaedei.AcDown.Downloader
 				else
 				{
 					//先取得embed块的源代码
-					Regex rEmbed = new Regex(@"<embed (?<content>.*)>");
+					Regex rEmbed = new Regex(@"<embed id=""ACFlashPlayer"".+?</embed>");
 					Match mEmbed = rEmbed.Match(src);
-					string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
+					string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
 
 					//取得id值
-					Regex rId = new Regex(@"id=(?<id>\w*)(?<ot>(-\w*|))");
+					Regex rId = new Regex(@"(\?|amp;)id=(?<id>\w+)(?<ot>(-\w*|))");
 					Match mId = rId.Match(embedSrc);
 					id = mId.Groups["id"].Value;
 					ot = mId.Groups["ot"].Value;
@@ -419,7 +419,7 @@ namespace Kaedei.AcDown.Downloader
 
 				}
 
-				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
+				if (downsub != DownloadSubtitleType.DontDownloadSubtitle)
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
@@ -427,32 +427,32 @@ namespace Kaedei.AcDown.Downloader
 					string subfile = Path.Combine(SaveDirectory.ToString(), title + "[未锁定].xml");
 					_subFilePath.Add(subfile);
 					//取得字幕文件(on)地址
-					string subUrl = @"http://124.228.254.234/newflvplayer/xmldata/%VideoId%/comment_on.xml?r=0.9138414077460766".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
-					//下载字幕文件
+					string subUrl = @"http://comment.acfun.tv/%VideoId%.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
+
 					try
 					{
-						Network.DownloadSub(new DownloadParameter()
-							{
-								Url = subUrl,
-								FilePath = subfile,
-								Proxy = delegates.Proxy
-							});
+						//下载字幕文件
+						string subcontent = Network.GetHtmlSource(subUrl, Encoding.GetEncoding("gb2312"), delegates.Proxy);
+						//下面这行代码可以将json文件解码
+						//subcontent = Tools.ReplaceUnicode2Str(subcontent);
+						//保存文件
+						File.WriteAllText(subfile, subcontent);
 					}
 					catch { }
-					//字幕文件(lock)地址
+
+					////字幕文件(lock)地址
 					subfile = Path.Combine(SaveDirectory.ToString(), title + "[锁定].xml");
 					_subFilePath.Add(subfile);
 					//取得字幕文件(lock)地址
-					subUrl = @"http://124.228.254.234/newflvplayer/xmldata/%VideoId%/comment_lock.xml?r=0.5152998301200569".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
-					//下载字幕文件
+					subUrl = @"http://comment.acfun.tv/%VideoId%_lock.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
 					try
 					{
-						Network.DownloadSub(new DownloadParameter()
-						{
-							Url = subUrl,
-							FilePath = subfile,
-							Proxy = delegates.Proxy
-						});
+						//下载字幕文件
+						string subcontent = Network.GetHtmlSource(subUrl, Encoding.GetEncoding("gb2312"), delegates.Proxy);
+						//下面这行代码可以将json文件解码
+						//subcontent = Tools.ReplaceUnicode2Str(subcontent);
+						//保存文件
+						File.WriteAllText(subfile, subcontent);
 					}
 					catch { }
 				}

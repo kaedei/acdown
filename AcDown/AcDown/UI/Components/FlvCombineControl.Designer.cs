@@ -43,13 +43,12 @@
          // 
          // btnGetFlvCombine
          // 
-         this.btnGetFlvCombine.Anchor = System.Windows.Forms.AnchorStyles.None;
-         this.btnGetFlvCombine.Cursor = System.Windows.Forms.Cursors.Hand;
+         this.btnGetFlvCombine.Cursor = System.Windows.Forms.Cursors.Default;
          this.btnGetFlvCombine.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnGetFlvCombine.Location = new System.Drawing.Point(123, 109);
+         this.btnGetFlvCombine.Location = new System.Drawing.Point(17, 36);
          this.btnGetFlvCombine.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.btnGetFlvCombine.Name = "btnGetFlvCombine";
-         this.btnGetFlvCombine.Size = new System.Drawing.Size(305, 84);
+         this.btnGetFlvCombine.Size = new System.Drawing.Size(177, 64);
          this.btnGetFlvCombine.TabIndex = 11;
          this.btnGetFlvCombine.Text = "下载FLV合并插件";
          this.btnGetFlvCombine.UseVisualStyleBackColor = true;
