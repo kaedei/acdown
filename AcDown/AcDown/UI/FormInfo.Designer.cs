@@ -42,20 +42,22 @@
          this.txtInfo.Location = new System.Drawing.Point(12, 12);
          this.txtInfo.Multiline = true;
          this.txtInfo.Name = "txtInfo";
+         this.txtInfo.ReadOnly = true;
+         this.txtInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
          this.txtInfo.Size = new System.Drawing.Size(393, 380);
          this.txtInfo.TabIndex = 1;
          // 
          // btnClose
          // 
          this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-         this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+         this.btnClose.Cursor = System.Windows.Forms.Cursors.Default;
          this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
          this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-         this.btnClose.Location = new System.Drawing.Point(315, 398);
+         this.btnClose.Location = new System.Drawing.Point(315, 409);
          this.btnClose.Name = "btnClose";
-         this.btnClose.Size = new System.Drawing.Size(90, 38);
+         this.btnClose.Size = new System.Drawing.Size(90, 27);
          this.btnClose.TabIndex = 0;
-         this.btnClose.Text = "关闭(&C)";
+         this.btnClose.Text = "关闭";
          this.btnClose.UseVisualStyleBackColor = true;
          this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
          // 
@@ -64,9 +66,9 @@
          this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.btnCopy.Cursor = System.Windows.Forms.Cursors.Hand;
          this.btnCopy.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-         this.btnCopy.Location = new System.Drawing.Point(12, 398);
+         this.btnCopy.Location = new System.Drawing.Point(12, 409);
          this.btnCopy.Name = "btnCopy";
-         this.btnCopy.Size = new System.Drawing.Size(113, 38);
+         this.btnCopy.Size = new System.Drawing.Size(113, 27);
          this.btnCopy.TabIndex = 2;
          this.btnCopy.Text = "复制到剪贴板";
          this.btnCopy.UseVisualStyleBackColor = true;

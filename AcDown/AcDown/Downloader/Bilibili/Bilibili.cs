@@ -408,6 +408,7 @@ namespace Kaedei.AcDown.Downloader
 							else
 								ext = Path.GetExtension(videos[i]);
 						}
+						if (ext == ".hlv") ext = ".flv";
 						//设置当前DownloadParameter
 						if (_partCount == 1)
 						{

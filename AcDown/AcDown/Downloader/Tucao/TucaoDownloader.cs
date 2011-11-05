@@ -286,6 +286,7 @@ namespace Kaedei.AcDown.Downloader
 							else
 								ext = Path.GetExtension(videos[i]);
 						}
+						if (ext == ".hlv") ext = ".flv";
 						//设置当前DownloadParameter
 						if (_partCount == 1)
 						{
@@ -345,7 +346,7 @@ namespace Kaedei.AcDown.Downloader
 					} //end for
 				}
 				//下载弹幕
-				if ((downsub != DownloadSubtitleType.DownloadSubtitleOnly) && !string.IsNullOrEmpty(playerId))
+				if ((downsub != DownloadSubtitleType.DontDownloadSubtitle) && !string.IsNullOrEmpty(playerId))
 				{
 					//----------下载字幕-----------
 					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
