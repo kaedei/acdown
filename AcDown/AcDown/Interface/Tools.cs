@@ -41,11 +41,14 @@ namespace Kaedei.AcDown.Interface
       /// <returns></returns>
       public static string GetExtension(string url)
       {
-         return new Regex(@"(?<ext>\.\w{3})\?").Match(url).Groups["ext"].ToString();
+         string r =  new Regex(@"(?<ext>\.\w{3})\?").Match(url).Groups["ext"].ToString();
+         if (r == ".hlv")
+            r = ".flv";
+         return r;
       }
 
       /// <summary>
-      /// 将Unicode字符转换为String
+      /// 将Unicode字符转换为String(转换类似于/u1234的字符串)
       /// </summary>
       /// <param name="input"></param>
       /// <returns></returns>
@@ -64,7 +67,7 @@ namespace Kaedei.AcDown.Interface
       }
 
       /// <summary>
-      /// Url编码
+      /// Url编码(转换为%AF这样的字符)
       /// </summary>
       /// <param name="str"></param>
       /// <returns></returns>
