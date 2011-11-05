@@ -161,7 +161,7 @@ namespace Kaedei.AcDown.Downloader
 				//检查是否需要密码
 				if (src.Contains("请输入密码"))
 				{
-					string pw = ToolForm.CreatePasswordForm();
+               string pw = ToolForm.CreatePasswordForm(true, "", "");
 					url = url + "&passwd=" + pw;
 					src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), delegates.Proxy);
 				}

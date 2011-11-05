@@ -37,10 +37,10 @@ namespace Kaedei.AcDown.Component
 				_plugins.Add(new TiebaAlbumPlugin());
 			if (Config.setting.Plugin_Enable_Tucao)
 				_plugins.Add(new TucaoPlugin());
-			if (Config.setting.Plugin_Enable_Flvcd)
-				_plugins.Add(new FlvcdPlugin());
 			if (Config.setting.Plugin_Enable_SfAcg)
 				_plugins.Add(new SfAcgPlugin());
+			if (Config.setting.Plugin_Enable_Flvcd)
+				_plugins.Add(new FlvcdPlugin());
 		}
 
 	}

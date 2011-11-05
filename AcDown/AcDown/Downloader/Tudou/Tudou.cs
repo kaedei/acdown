@@ -254,7 +254,7 @@ namespace Kaedei.AcDown.Downloader
 				//获取密码
 				string password = "";
 				if (Url.EndsWith("密码"))
-					password = ToolForm.CreatePasswordForm();
+					password = ToolForm.CreatePasswordForm(true, "", "");
 
 				//取得网页源文件
 				string src = Network.GetHtmlSource2(Url.Replace("密码", ""), Encoding.GetEncoding("GBK"), delegates.Proxy);

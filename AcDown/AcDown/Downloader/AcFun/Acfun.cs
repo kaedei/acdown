@@ -26,7 +26,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1,1,0,0); }
+			get { return new Version(2,0,0,0); }
 		}
 
 		public string Describe
@@ -249,22 +249,29 @@ namespace Kaedei.AcDown.Downloader
 				string id = ""; //视频id
 				string ot = ""; //视频子id
 
+				//取得embed块的源代码
+				Regex rEmbed = new Regex(@"<embed .+?>");
+				Match mEmbed = rEmbed.Match(src);
+				string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
+
+				string flashsrc = "";
 				//检查是否为Flash游戏
+				Regex rFlash2 = new Regex(@"src=""(?<player>.+?)""");
+				flashsrc = rFlash2.Match(embedSrc).Groups["player"].Value;
+
 				Regex rFlash = new Regex(@"data=""(?<flash>.+?\.swf)""");
 				Match mFlash = rFlash.Match(src);
+				if (mFlash.Success)
+					flashsrc = mFlash.Groups["flash"].Value;
 
 				//如果是Flash游戏
-				if (mFlash.Success)
+				if (!flashsrc.Contains("newflvplayer"))
 				{
 					type = "game";
 				}
 				else
 				{
-					//先取得embed块的源代码
-					Regex rEmbed = new Regex(@"<embed id=""ACFlashPlayer"".+?</embed>");
-					Match mEmbed = rEmbed.Match(src);
-					string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
-
+					
 					//取得id值
 					Regex rId = new Regex(@"(\?|amp;)id=(?<id>\w+)(?<ot>(-\w*|))");
 					Match mId = rId.Match(embedSrc);
@@ -335,7 +342,7 @@ namespace Kaedei.AcDown.Downloader
 							videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
 							break;
 						case "game": //flash游戏
-							videos = new string[] { mFlash.Groups["flash"].Value };
+							videos = new string[] { flashsrc };
 							break;
 					}
 
@@ -357,6 +364,7 @@ namespace Kaedei.AcDown.Downloader
 							else
 								ext = Path.GetExtension(videos[i]);
 						}
+						if (ext == ".hlv") ext = ".flv";
 						//设置当前DownloadParameter
 						if (_partCount == 1)
 						{

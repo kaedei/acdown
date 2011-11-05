@@ -180,7 +180,7 @@
            this.rdoDownSubOnly.AutoSize = true;
            this.rdoDownSubOnly.Location = new System.Drawing.Point(22, 78);
            this.rdoDownSubOnly.Name = "rdoDownSubOnly";
-           this.rdoDownSubOnly.Size = new System.Drawing.Size(113, 16);
+           this.rdoDownSubOnly.Size = new System.Drawing.Size(131, 24);
            this.rdoDownSubOnly.TabIndex = 3;
            this.rdoDownSubOnly.TabStop = true;
            this.rdoDownSubOnly.Text = "只下载弹幕/字幕";
@@ -292,6 +292,7 @@
            this.txtExample.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
            this.txtExample.Multiline = true;
            this.txtExample.Name = "txtExample";
+           this.txtExample.ReadOnly = true;
            this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Both;
            this.txtExample.Size = new System.Drawing.Size(442, 168);
            this.txtExample.TabIndex = 13;
@@ -350,7 +351,7 @@
            this.rdoDownSub.AutoSize = true;
            this.rdoDownSub.Location = new System.Drawing.Point(22, 18);
            this.rdoDownSub.Name = "rdoDownSub";
-           this.rdoDownSub.Size = new System.Drawing.Size(101, 16);
+           this.rdoDownSub.Size = new System.Drawing.Size(117, 24);
            this.rdoDownSub.TabIndex = 2;
            this.rdoDownSub.Text = "下载弹幕/字幕";
            this.rdoDownSub.UseVisualStyleBackColor = true;
@@ -360,7 +361,7 @@
            this.rdoNotDownSub.AutoSize = true;
            this.rdoNotDownSub.Location = new System.Drawing.Point(22, 48);
            this.rdoNotDownSub.Name = "rdoNotDownSub";
-           this.rdoNotDownSub.Size = new System.Drawing.Size(113, 16);
+           this.rdoNotDownSub.Size = new System.Drawing.Size(131, 24);
            this.rdoNotDownSub.TabIndex = 1;
            this.rdoNotDownSub.Text = "不下载弹幕/字幕";
            this.rdoNotDownSub.UseVisualStyleBackColor = true;
