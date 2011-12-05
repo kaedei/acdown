@@ -16,7 +16,8 @@ namespace Kaedei.AcDown.Interface
 		已经停止 = 2,
 		下载完成 = 3,
 		出现错误 = 4,
-		正在停止 = 5
+		正在停止 = 5,
+		已删除 = 6
 	}
 
 	/// <summary>
@@ -24,27 +25,29 @@ namespace Kaedei.AcDown.Interface
 	/// </summary>
 	public interface IDownloader
 	{
-		Guid TaskId { get; set; }
 		DelegateContainer delegates{ get; set; }
-		IAcdownPluginInfo GetBasePlugin();
+		TaskInfo Info { get; set; }
 
 		long TotalLength{ get; }
 		long DoneBytes{ get; }
 		long LastTick { get; }
-		int PartCount { get; }
-		int CurrentPart { get; }
-
-		string Url{ get; set; }
-		DirectoryInfo SaveDirectory { get; set; }
-		List<string> FilePath { get; }
-		List<string> SubFilePath { get; }
-
-		string Info{ get; }
-		DownloadStatus Status{ get; }
-		string Title{ get; }
 
 		void Download();
 		void StopDownload();
+
+		//Guid TaskId { get; set; }
+		//IAcdownPluginInfo GetBasePlugin();
+
+		//int PartCount { get; }
+		//int CurrentPart { get; }
+
+		//string Url{ get; set; }
+		//DirectoryInfo SaveDirectory { get; set; }
+		//List<string> FilePath { get; }
+		//List<string> SubFilePath { get; }
+
+		//DownloadStatus Status{ get; }
+		//string Title{ get; }
 	}
 
 

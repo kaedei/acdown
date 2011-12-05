@@ -38,6 +38,7 @@
          this.btnCombineChooseOutput = new System.Windows.Forms.Button();
          this.btnCombineAdd = new System.Windows.Forms.Button();
          this.label3 = new System.Windows.Forms.Label();
+         this.btnCombineClear = new System.Windows.Forms.Button();
          this.panelCombine.SuspendLayout();
          this.SuspendLayout();
          // 
@@ -56,6 +57,7 @@
          // 
          // panelCombine
          // 
+         this.panelCombine.Controls.Add(this.btnCombineClear);
          this.panelCombine.Controls.Add(this.lstCombine);
          this.panelCombine.Controls.Add(this.btnCombineDelete);
          this.panelCombine.Controls.Add(this.label4);
@@ -74,9 +76,9 @@
          // 
          // lstCombine
          // 
-         this.lstCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                     | System.Windows.Forms.AnchorStyles.Left)
-                     | System.Windows.Forms.AnchorStyles.Right)));
+         this.lstCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
          this.lstCombine.FormattingEnabled = true;
          this.lstCombine.ItemHeight = 20;
          this.lstCombine.Location = new System.Drawing.Point(11, 41);
@@ -84,17 +86,17 @@
          this.lstCombine.Name = "lstCombine";
          this.lstCombine.ScrollAlwaysVisible = true;
          this.lstCombine.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-         this.lstCombine.Size = new System.Drawing.Size(440, 104);
+         this.lstCombine.Size = new System.Drawing.Size(438, 124);
          this.lstCombine.TabIndex = 2;
          // 
          // btnCombineDelete
          // 
          this.btnCombineDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnCombineDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnCombineDelete.Location = new System.Drawing.Point(460, 91);
+         this.btnCombineDelete.Location = new System.Drawing.Point(457, 82);
          this.btnCombineDelete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.btnCombineDelete.Name = "btnCombineDelete";
-         this.btnCombineDelete.Size = new System.Drawing.Size(87, 39);
+         this.btnCombineDelete.Size = new System.Drawing.Size(87, 31);
          this.btnCombineDelete.TabIndex = 9;
          this.btnCombineDelete.Text = "删除";
          this.btnCombineDelete.UseVisualStyleBackColor = true;
@@ -113,8 +115,8 @@
          // 
          // txtCombineOutput
          // 
-         this.txtCombineOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                     | System.Windows.Forms.AnchorStyles.Right)));
+         this.txtCombineOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
          this.txtCombineOutput.Location = new System.Drawing.Point(11, 201);
          this.txtCombineOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.txtCombineOutput.Name = "txtCombineOutput";
@@ -153,10 +155,10 @@
          // 
          this.btnCombineAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnCombineAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnCombineAdd.Location = new System.Drawing.Point(460, 41);
+         this.btnCombineAdd.Location = new System.Drawing.Point(457, 41);
          this.btnCombineAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.btnCombineAdd.Name = "btnCombineAdd";
-         this.btnCombineAdd.Size = new System.Drawing.Size(87, 40);
+         this.btnCombineAdd.Size = new System.Drawing.Size(87, 31);
          this.btnCombineAdd.TabIndex = 6;
          this.btnCombineAdd.Text = "添加";
          this.btnCombineAdd.UseVisualStyleBackColor = true;
@@ -171,6 +173,19 @@
          this.label3.Size = new System.Drawing.Size(224, 20);
          this.label3.TabIndex = 5;
          this.label3.Text = "选取要合并的视频文件(FLV格式)：";
+         // 
+         // btnCombineClear
+         // 
+         this.btnCombineClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+         this.btnCombineClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnCombineClear.Location = new System.Drawing.Point(457, 123);
+         this.btnCombineClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+         this.btnCombineClear.Name = "btnCombineClear";
+         this.btnCombineClear.Size = new System.Drawing.Size(87, 31);
+         this.btnCombineClear.TabIndex = 10;
+         this.btnCombineClear.Text = "清空";
+         this.btnCombineClear.UseVisualStyleBackColor = true;
+         this.btnCombineClear.Click += new System.EventHandler(this.btnCombineClear_Click);
          // 
          // FlvCombineControl
          // 
@@ -202,6 +217,7 @@
       private System.Windows.Forms.Button btnCombineChooseOutput;
       private System.Windows.Forms.Button btnCombineAdd;
       private System.Windows.Forms.Label label3;
+      private System.Windows.Forms.Button btnCombineClear;
 
    }
 }

@@ -43,5 +43,14 @@ namespace Kaedei.AcDown.Component
 				_plugins.Add(new FlvcdPlugin());
 		}
 
+		public IAcdownPluginInfo GetPlugin(string name)
+		{
+			foreach (var item in _plugins)
+			{
+				if (item.Name == name)
+					return item;
+			}
+			return null;
+		}
 	}
 }

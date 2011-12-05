@@ -73,8 +73,8 @@
   <ItemGroup>
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />
-    <Compile Include="Component\TaskInfo.cs" />
-    <Compile Include="Component\TaskItem.cs" />
+    <Compile Include="Interface\SerializableDictionary.cs" />
+    <Compile Include="Interface\TaskInfo.cs" />
     <Compile Include="Component\Updater.cs" />
     <Compile Include="Downloader\AcFun\Acfun.cs" />
     <Compile Include="Downloader\Bilibili\Bilibili.cs" />
@@ -82,7 +82,6 @@
     <Compile Include="Downloader\Flvcd\FlvcdPlugin.cs" />
     <Compile Include="Downloader\SfAcg\SfAcgComicDownloader.cs" />
     <Compile Include="Downloader\SfAcg\SfAcgPlugin.cs" />
-    <Compile Include="Downloader\Sixcn\Sixcn.cs" />
     <Compile Include="Downloader\Tieba\TiebaAlbum.cs" />
     <Compile Include="Downloader\Tucao\TucaoDownloader.cs" />
     <Compile Include="Downloader\Tucao\TucaoPlugin.cs" />
@@ -365,6 +364,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangeLog.txt" />
+    <None Include="Resources\ToolStripControl.png" />
     <None Include="Resources\Update.png" />
   </ItemGroup>
   <ItemGroup>

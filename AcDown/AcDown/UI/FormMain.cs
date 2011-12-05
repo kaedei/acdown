@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
 using System.Threading;
+using System.Text;
 
 
 namespace Kaedei.AcDown.UI
@@ -189,7 +190,7 @@ namespace Kaedei.AcDown.UI
 				new AcTaskDelegate(Finish),
 				new AcTaskDelegate(Error));
 			//任务管理器
-			taskMgr = new TaskManager(deles);
+			taskMgr = new TaskManager(deles, pluginMgr);
 			//"新建任务"窗体初始化
 			FormNew.Initialize(pluginMgr, taskMgr);
 		}
@@ -214,10 +215,6 @@ namespace Kaedei.AcDown.UI
 							new Version(Application.ProductVersion).Minor;
 			//设置托盘文字
 			notifyIcon.Text = this.Text;
-			//取消显示大按钮
-			if (Config.setting.ShowBigStartButton == false)
-				if (btnClickNew != null)
-					btnClickNew.Dispose();
 			//取消显示Logo
 			if (Config.setting.ShowLogo == false)
 			{
@@ -231,7 +228,19 @@ namespace Kaedei.AcDown.UI
 			timer.Interval = Config.setting.RefreshInfoInterval;
 			//设置是否监视剪贴板
 			watchClipboard = Config.setting.WatchClipboardEnabled;
-
+			//显示网址示例
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine("当前支持的网站:(网址举例)");
+			foreach (var item in pluginMgr.Plugins)
+			{
+				sb.AppendLine();
+				foreach (var i in item.GetUrlExample())
+				{
+					sb.AppendLine(i);
+				}
+				sb.AppendLine();
+			}
+			txtExample.Text = sb.ToString();
 		}
 
 		private void FormMain_Load(object sender, EventArgs e)
@@ -274,11 +283,6 @@ namespace Kaedei.AcDown.UI
 
 		private void btnNew_Click(object sender, EventArgs e)
 		{
-			//去除显示大按钮
-			if (btnClickNew != null)
-			{
-				btnClickNew.Dispose();
-			}
 			//禁用Win7缩略图按钮
 			if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
 			{
@@ -305,29 +309,6 @@ namespace Kaedei.AcDown.UI
 				txtSearch.SelectAll();
 		}
 
-		//新建任务
-		private void btnClickNew_Click(object sender, EventArgs e)
-		{
-			//显示动画提示效果
-			
-			Int32 width = btnClickNew.Size.Width;
-			Int32 height = btnClickNew.Size.Height;
-			Int32 x = btnClickNew.Location.X;
-			Int32 y = btnClickNew.Location.Y;
-
-			for (int i = 99; i >= 0; i--)
-			{
-				btnClickNew.Size = new Size(width * i / 100, height * i / 100);
-				btnClickNew.Location = new Point(x * i / 100, y * i / 100);
-				Application.DoEvents();
-			}
-			btnClickNew.Dispose();
-			watchClipboard = false;
-			//显示新建窗体
-			FormNew.ShowForm("");
-			watchClipboard = true;
-		}
-
 		//上一次取得的URL
 		private string lastUrl;
 		//是否监视剪贴板
@@ -346,31 +327,21 @@ namespace Kaedei.AcDown.UI
 			}
 			//设置限速
 			int sl = Convert.ToInt32(udSpeedLimit.Value);
-			if (sl != 0)
-			{
-				int r = taskMgr.GetRunningCount();
-				if (r != 0 )
-				{
-					GlobalSettings.GetSettings().SpeedLimit = sl / r;
-				}
-			}
-			else
-			{
-				GlobalSettings.GetSettings().SpeedLimit = 0;
-			}
+			taskMgr.SetSpeedLimitKb(sl);
+
 			//全局速度
 			double speed = 0;
 			//取得所有正在进行中的任务
-			foreach (TaskItem downloader in taskMgr.Tasks)
+			foreach (TaskInfo task in taskMgr.TaskInfos)
 			{
 				//如果是正在下载的任务
-				if (downloader.Status == DownloadStatus.正在下载)
+				if (task.Status == DownloadStatus.正在下载)
 				{
 					//显示进度
-					ListViewItem item = GetLsvItem(downloader.TaskId);
-					if (downloader.TotalLength != 0)
+					ListViewItem item = (ListViewItem)task.UIItem;
+					if (task.Downloader.TotalLength != 0)
 					{
-						item.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", downloader.GetProcess());
+						item.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProcess());
 					}
 					else
 					{
@@ -378,16 +349,16 @@ namespace Kaedei.AcDown.UI
 					}
 					//显示速度
 					double currentSpeed = 0;
-					currentSpeed = (double)downloader.GetTickCount() / (timer.Interval *1024 / 1000);
+					currentSpeed = (double)task.GetTickCount() / (timer.Interval *1024 / 1000);
 					if (currentSpeed < 0) currentSpeed = 0;
 					speed += currentSpeed;
 					item.SubItems[GetColumn("Speed")].Text = string.Format("{0:F1}", currentSpeed) + "KB/s";
 					//显示已用时间
 					DateTime now = DateTime.Now;
-					TimeSpan use = now - downloader.CreateTime;
+					TimeSpan use = now - task.CreateTime;
 					item.SubItems[GetColumn("PastTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", use.Hours, use.Minutes, use.Seconds);
 					//显示剩余时间：剩余时间 = (总长度 - 已完成)/每秒速度
-					double remain = (downloader.TotalLength - downloader.DoneBytes) / currentSpeed / 1024;
+					double remain = (task.Downloader.TotalLength - task.Downloader.DoneBytes) / currentSpeed / 1024;
 					if (remain > 0 && !double.IsInfinity(remain))
 					{
 						try
@@ -401,9 +372,9 @@ namespace Kaedei.AcDown.UI
 					}
 				}
 				//如果正在等待开始
-				if (downloader.Status == DownloadStatus.等待开始)
+				if (task.Status == DownloadStatus.等待开始)
 				{
-					ListViewItem item = GetLsvItem(downloader.TaskId);
+					ListViewItem item = (ListViewItem)task.UIItem;
 					if (item != null)
 					{
 						item.SubItems[GetColumn("Status")].Text = "等待开始";
@@ -425,17 +396,17 @@ namespace Kaedei.AcDown.UI
 			{
 				if (Config.setting.EnableWindows7Feature)
 				{
-					TaskItem a = taskMgr.GetFirstRunning();
-					if (a != null) //如果有任务正在运行
-					{
-						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
-						//显示此任务的进度
-						taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProcess() * 10000), 10000);
-					}
-					else
-					{
-						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
-					}
+					//TaskInfo a = taskMgr.GetFirstRunning();
+					//if (a != null) //如果有任务正在运行
+					//{
+					//   taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
+					//   //显示此任务的进度
+					//   taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProcess() * 10000), 10000);
+					//}
+					//else
+					//{
+					//   taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
+					//}
 					//设置win7任务栏小图标
 					//taskbarList.SetOverlayIcon(this.Handle,this.Icon.Handle, "w");
 					//设置缩略图
@@ -469,11 +440,7 @@ namespace Kaedei.AcDown.UI
 					{
 						watchClipboard = false;
 						lastUrl = Clipboard.GetText();
-						//去除显示大按钮
-						if (btnClickNew != null)
-						{
-							btnClickNew.Dispose();
-						}
+						
 
 						//禁用Win7缩略图按钮
 						if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
@@ -568,8 +535,10 @@ namespace Kaedei.AcDown.UI
 			//开始所有可能开始的任务
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				TaskItem downloader = GetTask(new Guid((string)item.Tag));
-				if (downloader.Status == DownloadStatus.出现错误 || downloader.Status == DownloadStatus.已经停止)
+				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
+				if (downloader.Status != DownloadStatus.正在下载 &&
+					downloader.Status != DownloadStatus.等待开始 &&
+					downloader.Status != DownloadStatus.已经停止)
 				{
 					taskMgr.StartTask(downloader);
 				}
@@ -588,7 +557,7 @@ namespace Kaedei.AcDown.UI
 			//停止所有可能停止的任务
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				TaskItem downloader = GetTask(new Guid((string)item.Tag));
+				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
 				if (downloader.Status == DownloadStatus.正在下载 || downloader.Status == DownloadStatus.等待开始)
 				{
 					taskMgr.StopTask(downloader);
@@ -602,7 +571,7 @@ namespace Kaedei.AcDown.UI
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				TaskItem downloader = GetTask(new Guid((string)item.Tag));
+				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
 				if (!string.IsNullOrEmpty(downloader.SaveDirectory.ToString()))
 					Process.Start(downloader.SaveDirectory.ToString());
 				else
@@ -616,7 +585,7 @@ namespace Kaedei.AcDown.UI
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				TaskItem downloader = GetTask(new Guid((string)item.Tag));
+				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
 				Process.Start(downloader.Url);
 			}
 		}
@@ -805,10 +774,8 @@ namespace Kaedei.AcDown.UI
 
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				TaskItem downloader = GetTask(new Guid((string)item.Tag));
+				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
 				taskMgr.DeleteTask(downloader, Config.setting.DeleteTaskAndFile);
-				//删除UI
-				lsv.Items.Remove(item);
 			}
 		}
 
@@ -824,10 +791,8 @@ namespace Kaedei.AcDown.UI
 
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				TaskItem downloader = GetTask(new Guid((string)item.Tag));
+				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
 				taskMgr.DeleteTask(downloader, true);
-				//删除UI
-				lsv.Items.Remove(item);
 			}
 		}
 
@@ -836,12 +801,7 @@ namespace Kaedei.AcDown.UI
 		{
 			if (e.KeyCode == Keys.Delete)
 			{
-				ListViewItem item = lsv.SelectedItems[0];
-				if (item != null)
-				{
-					TaskItem downloader = GetTask(new Guid((string)item.Tag));
-					taskMgr.DeleteTask(downloader, e.Shift | Config.setting.DeleteTaskAndFile);
-				}
+				mnuConDelete_Click(sender, EventArgs.Empty);
 			}
 		}
 
@@ -911,33 +871,12 @@ namespace Kaedei.AcDown.UI
 		/// <param name="guid"></param>
 		/// <returns></returns>
 		[DebuggerNonUserCode()]
-		public TaskItem GetTask(Guid guid)
+		public TaskInfo GetTask(Guid guid)
 		{
-			foreach (var i in taskMgr.Tasks)
+			foreach (var i in taskMgr.TaskInfos)
 			{
 				if (i.TaskId == guid)
 					return i;
-			}
-			return null;
-		}
-
-		/// <summary>
-		/// 根据GUID值寻找对应的ListViewItem
-		/// </summary>
-		/// <param name="guid"></param>
-		/// <returns></returns>
-		[DebuggerNonUserCode()]
-		public ListViewItem GetLsvItem(Guid guid)
-		{
-			for (int i = 0; i < lsv.Items.Count; i++)
-			{
-				if (lsv.Items[i].Tag != null)
-				{
-					if (new Guid((string)lsv.Items[i].Tag) == guid)
-					{
-						return lsv.Items[i];
-					}
-				}
 			}
 			return null;
 		}
@@ -956,6 +895,7 @@ namespace Kaedei.AcDown.UI
 			}
 			return -1;
 		}
+
 		//刷新任务
 		private void RefreshTask(object e)
 		{
@@ -967,39 +907,40 @@ namespace Kaedei.AcDown.UI
 			}
 
 			ParaRefresh r = (ParaRefresh)e;
-			ListViewItem item = GetLsvItem(r.TaskId);
-			TaskItem downloader = GetTask(r.TaskId);
+			ListViewItem item; //= GetLsvItem(r.TaskId);
+			TaskInfo task = r.Task;
 
-			//如果UI存在此任务
-			if (item != null) 
+			//如果任务被删除
+			if (!taskMgr.TaskInfos.Contains(task))
 			{
-				//UI存在并且任务存在
-				if (downloader != null)
+				//移除UI项
+				if (lsv.Items.Contains((ListViewItem)task.UIItem))
 				{
-					//刷新界面
-					//状态
-					item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
-					//视频名称
-					item.SubItems[GetColumn("Name")].Text = downloader.Title;
-					//分段
-					item.SubItems[GetColumn("Part")].Text = downloader.CurrentPart.ToString() + "/" + downloader.PartCount.ToString();
-					//下载进度
-					item.SubItems[GetColumn("Progress")].Text = "";
-					//下载速度
-					item.SubItems[GetColumn("Speed")].Text = "";
-					//剩余时间
-					item.SubItems[GetColumn("RemainTime")].Text = "00:00:00";
-					//已经过的时间
-					item.SubItems[GetColumn("PastTime")].Text = "00:00:00";
-					//源地址
-					item.SubItems[GetColumn("SourceUrl")].Text = downloader.Url; 
-
+					lsv.Items.Remove((ListViewItem)task.UIItem);
 				}
-				else //UI存在但是任务不存在
-				{
-					//清除UI上的此任务
-					lsv.Items.Remove(item);
-				}
+				return;
+			}
+			//如果存在此任务的UI
+			if (task.UIItem != null)
+			{
+				item = (ListViewItem)task.UIItem;
+				//刷新界面
+				//状态
+				item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
+				//视频名称
+				item.SubItems[GetColumn("Name")].Text = task.Title;
+				//分段
+				item.SubItems[GetColumn("Part")].Text = task.CurrentPart.ToString() + "/" + task.PartCount.ToString();
+				//下载进度
+				item.SubItems[GetColumn("Progress")].Text = "";
+				//下载速度
+				item.SubItems[GetColumn("Speed")].Text = "";
+				//剩余时间
+				item.SubItems[GetColumn("RemainTime")].Text = "00:00:00";
+				//已经过的时间
+				item.SubItems[GetColumn("PastTime")].Text = "00:00:00";
+				//源地址
+				item.SubItems[GetColumn("SourceUrl")].Text = task.Url;
 			}
 			else  //如果UI不存在此任务
 			{
@@ -1016,9 +957,13 @@ namespace Kaedei.AcDown.UI
 				lvi.SubItems[GetColumn("Speed")].Text = "0"; //下载速度
 				lvi.SubItems[GetColumn("RemainTime")].Text = "00:00:00"; //剩余时间
 				lvi.SubItems[GetColumn("PastTime")].Text = "00:00:00"; //已经过的时间
-				lvi.SubItems[GetColumn("SourceUrl")].Text = downloader.Url; //源地址
-				lvi.Tag = downloader.TaskId.ToString(); //设置TAG
-				lsv.Items.Add(lvi);
+				lvi.SubItems[GetColumn("SourceUrl")].Text = task.Url; //源地址
+				lvi.Tag = task.TaskId.ToString(); //设置TAG
+				//添加到关联的UI中
+				task.UIItem = lvi;
+				//如果当前任务符合过滤器，则添加到UI中
+				if (IsMatchCurrentFilter(task))
+					lsv.Items.Add(lvi);
 			}
 
 		}
@@ -1035,12 +980,12 @@ namespace Kaedei.AcDown.UI
 			//转换参数
 			ParaStart p = (ParaStart)e;
 			//取得指定任务
-			TaskItem downloader = GetTask(p.TaskId);
-			if (downloader == null)
+			TaskInfo task = p.Task;
+			if (task == null)
 				return;
 
 			//设置TaskItem
-			ListViewItem item = GetLsvItem(p.TaskId);
+			ListViewItem item = (ListViewItem)task.UIItem; 
 			item.SubItems[GetColumn("Status")].Text = "正在下载";
 		} //end Start
 
@@ -1054,15 +999,13 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			ParaNewPart p = (ParaNewPart)e;
-			TaskItem downloader = GetTask(p.TaskId);
-			ListViewItem item = GetLsvItem(p.TaskId);
-			//设置提示信息
-			//item.SubItems[0].Text = downloader.Status.ToString();
+			TaskInfo task = p.Task;
+			ListViewItem item = (ListViewItem)task.UIItem;
 			//视频标题
-			item.SubItems[GetColumn("Name")].Text = downloader.Title;
+			item.SubItems[GetColumn("Name")].Text = task.Title;
 			try
 			{
-				item.SubItems[GetColumn("Part")].Text = p.PartNumber.ToString() + @"/" + downloader.PartCount.ToString();
+				item.SubItems[GetColumn("Part")].Text = p.PartNumber.ToString() + @"/" + task.PartCount.ToString();
 			}
 			catch
 			{
@@ -1084,8 +1027,8 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			ParaTipText p = (ParaTipText)e;
-			TaskItem ac = GetTask(p.TaskId);
-			ListViewItem item = GetLsvItem(p.TaskId);
+			TaskInfo ac = p.Task;
+			ListViewItem item = (ListViewItem)ac.UIItem;
 			//设置提示信息
 			item.SubItems[GetColumn("Name")].Text = p.TipText;
 		}//end TipText
@@ -1103,15 +1046,15 @@ namespace Kaedei.AcDown.UI
 			}
 
 			ParaFinish p = (ParaFinish)e;
-			TaskItem downloader = GetTask(p.TaskId);
-			ListViewItem item = GetLsvItem(p.TaskId);
+			TaskInfo task = p.Task;
+			ListViewItem item = (ListViewItem)task.UIItem;
 
 			//如果下载成功
 			if (p.Successed)
 			{
 				//更新item
-				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
-				item.SubItems[GetColumn("Name")].Text = downloader.Title;
+				item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
+				item.SubItems[GetColumn("Name")].Text = task.Title;
 				item.SubItems[GetColumn("Progress")].Text = @"100%"; //下载进度
 				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				//打开文件夹
@@ -1152,7 +1095,7 @@ namespace Kaedei.AcDown.UI
 				if (item != null)
 				{
 					//更新item
-					item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
+					item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
 					item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				}
 			}
@@ -1172,17 +1115,16 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			ParaError p = (ParaError)e;
-
-			ListViewItem item = GetLsvItem(p.TaskId);
+			TaskInfo task = p.Task;
+			ListViewItem item = (ListViewItem)task.UIItem;
 			//添加到日志
 			Logging.Add(p.E);
 
-			TaskItem downloader = GetTask(p.TaskId);
-			if (downloader != null)
+			if (task != null)
 			{
 				//更新item
-				item.SubItems[GetColumn("Status")].Text = downloader.Status.ToString();
-				item.SubItems[GetColumn("Name")].Text = downloader.Title;
+				item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
+				item.SubItems[GetColumn("Name")].Text = task.Title;
 				item.SubItems[GetColumn("Progress")].Text = @"下载出错"; //下载进度
 				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 			}
@@ -1331,7 +1273,62 @@ namespace Kaedei.AcDown.UI
 
 		#endregion
 
+		#region ——————过滤器——————
 
+
+		private string[] _filter = new string[] { "状态:正在下载", "状态:等待开始", "状态:正在停止", "状态:出现错误" };
+		/// <summary>
+		/// 设置任务过滤器
+		/// </summary>
+		/// <param name="filter"></param>
+		private void SetTaskFilter(string[] filter)
+		{
+			_filter = filter;
+			//临时挂起listview布局
+			lsv.SuspendLayout();
+			//清除当前所有
+			lsv.Items.Clear();
+			//查找所有任务
+			foreach (TaskInfo task in taskMgr.TaskInfos)
+			{
+				//如果符合过滤器
+				if (IsMatchCurrentFilter(task))
+				{
+					lsv.Items.Add((ListViewItem)task.UIItem);
+				}
+			}
+			//恢复listview布局
+			lsv.ResumeLayout();
+
+		}
+
+		/// <summary>
+		/// 判断所提供的任务是否符合当前过滤器
+		/// </summary>
+		/// <param name="infoToString"></param>
+		private bool IsMatchCurrentFilter(TaskInfo task)
+		{
+			string tmp = task.ToString();
+			foreach (string f in _filter)
+			{
+				if (tmp.Contains(f.Trim()))
+					return true;
+			}
+			return false;
+		}
+
+		//点击Radiobutton设置过滤器
+		private void rdo_CheckedChanged(object sender, EventArgs e)
+		{
+			RadioButton rdo = (RadioButton)sender;
+			//设置过滤器
+			if (rdo.Checked)
+				SetTaskFilter(rdo.Tag.ToString().Split('|'));
+			//隐藏浮动工具栏
+			contextTool.Hide();
+		}
+
+		#endregion
 
 
 	}//end class

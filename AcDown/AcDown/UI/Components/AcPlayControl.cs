@@ -96,12 +96,19 @@ namespace Kaedei.AcDown.UI.Components
          lstVideo.SelectedIndex = selected + 1;
       }
 
+
+      //清空
+      private void btnItemClear_Click(object sender, EventArgs e)
+      {
+         lstVideo.Items.Clear();
+      }
+
       //选择xml
       private void btnXml_Click(object sender, EventArgs e)
       {
          OpenFileDialog ofd = new OpenFileDialog();
-         ofd.Filter = "XML弹幕(*.xml)|*.xml";
-         ofd.Title = "请选择弹幕XML文件";
+         ofd.Filter = "弹幕文件(*.xml;*.js)|*.xml;*.js";
+         ofd.Title = "请选择弹幕文件";
          ofd.Multiselect = false;
          if (lstVideo.Items.Count > 0)
          {
@@ -123,7 +130,7 @@ namespace Kaedei.AcDown.UI.Components
       private void btnXml2_Click(object sender, EventArgs e)
       {
          OpenFileDialog ofd = new OpenFileDialog();
-         ofd.Filter = "XML弹幕(*.xml)|*.xml";
+         ofd.Filter = "弹幕文件(*.xml;*.js)|*.xml;*.js";
          ofd.Title = "请选择副弹幕文件";
          ofd.Multiselect = false;
          if (lstVideo.Items.Count > 0)
@@ -331,6 +338,7 @@ namespace Kaedei.AcDown.UI.Components
          t.Start();
 
       }
+
 
 
 

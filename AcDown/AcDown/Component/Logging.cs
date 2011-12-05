@@ -24,7 +24,7 @@ namespace Kaedei.AcDown.Component
 				  return;
 			  //日志文件路径
 				string path=Path.Combine(
-					 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+					 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
 					 @"Kaedei\AcDown\Log\");
 				if (!Directory.Exists(path))
 					 Directory.CreateDirectory(path);

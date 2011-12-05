@@ -22,12 +22,12 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 0, 0, 0); }
+			get { return new Version(2, 0, 0, 0); }
 		}
 
 		public string Describe
 		{
-			get { return @"吐槽弹幕网下载插件"; }
+			get { return @"吐槽网下载插件"; }
 		}
 
 		public string SupportUrl
@@ -37,7 +37,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new TucaoDownloader(this);
+			return new TucaoDownloader();
 		}
 
 		public bool CheckUrl(string url)

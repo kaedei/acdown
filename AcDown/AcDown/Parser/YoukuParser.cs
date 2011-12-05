@@ -4,6 +4,7 @@ using System.Text;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 using System.Net;
+using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Parser
 {
@@ -31,22 +32,61 @@ namespace Kaedei.AcDown.Parser
 			double seed = Double.Parse(m.Groups["seed"].Value);
 			string key1 = m.Groups["key1"].Value;
 			string key2 = m.Groups["key2"].Value;
-			string fileposfix = m.Groups["fileposfix"].Value;
+
+
+			//提取各视频参数
+			Regex rStreamFileIds = new Regex(@"""streamfileids"":{(?<fileids>.+?)}");
+			Match mStreamFileIds = rStreamFileIds.Match(xmldoc);
+			string fileIds = mStreamFileIds.Groups["fileids"].Value;
+
+			List<string> tmpFormTip = new List<string>();
+			//是否有超清模式
+			if( fileIds.Contains("hd2")) tmpFormTip.Add("超清(hd2)");
+			//是否有高清模式
+			if( fileIds.Contains("mp4")) tmpFormTip.Add("高清(mp4)");
+			//是否有普通清晰度
+			if( fileIds.Contains("flv")) tmpFormTip.Add("标清(flv)");
+
+			//用户选择清晰度
+			int select = ToolForm.CreateSelectServerForm("您正在下载优酷视频，请选择视频清晰度:", tmpFormTip.ToArray(), 0);
+			string strSelect = tmpFormTip[select].Replace("超清", "").Replace("高清", "").Replace("标清", "").Trim('(', ')');
+			string fileposfix = strSelect;
 			if (fileposfix == "hd2") fileposfix = "flv";
-			string fileID = m.Groups["fileID"].Value;
+
+			//取得FileID
+			Regex rFileID = new Regex(@"""" + strSelect + @""":""(?<fileid>.+?)""");
+			Match mFileID = rFileID.Match(fileIds);
+			string fileID = mFileID.Groups["fileid"].Value;
+
+			//提取视频个数
+			int flv_no = 0;
+			string regexFlvNo = @"""segs"":{""\w+"":\[(?<content>.+?)\]";
+			Regex rn = new Regex(regexFlvNo);
+			Match mn = rn.Match(xmldoc);
+			char[] tmp_content = mn.Groups["content"].Value.ToCharArray();
+			foreach (char item in tmp_content)
+			{
+				if (item == '{') flv_no++;
+			}
+
 			//提取key
-			string regexKey = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$,$k$:$(?<key>#w+)$(,$#w+$:$#w+$|)*#})".Replace("#", @"\").Replace("$", "\"");
-			MatchCollection mcKey = Regex.Matches(xmldoc, regexKey);
+			Regex rSegs = new Regex(@"segs"":{(?<segs>.+?)},""streamsizes");
+			Match mSegs = rSegs.Match(xmldoc);
+			string segs = mSegs.Groups["segs"].Value;
+			Regex rSegsSub = new Regex(@"""" + strSelect + @""":\[(?<segssub>.+?)\]");
+			Match mSegsSub = rSegsSub.Match(segs);
+			string segssub = mSegsSub.Groups["segssub"].Value;
+
+
+
+			string regexKey = @"""k"":""(?<k>\w+)"",""k2"":""(?<k2>\w+)""";
+			MatchCollection mcKey = Regex.Matches(segssub, regexKey);
 			List<string> keys = new List<string>();
 			foreach (Match mKey in mcKey)
 			{
-				keys.Add(mKey.Groups["key"].Value);
+				keys.Add("?K=" + mKey.Groups["k"].Value + ",k2:" + mKey.Groups["k2"].Value);
 			}
-			//提取视频个数
-			string regexFlvNo = @"(#{$no$:($|)(?<flvno>#d+)($|),$size$:$#d+$,$seconds$:$#d+$(,$#w+$:$#w+$|)#}#])".Replace("#", @"\").Replace("$", "\"");
-			Regex rn = new Regex(regexFlvNo);
-			Match mn = rn.Match(xmldoc);
-			int flv_no = Int32.Parse(mn.Groups["flvno"].Value);
+			
 			//生成sid
 			string sid = genSid();
 			//生成fileid
@@ -55,12 +95,12 @@ namespace Kaedei.AcDown.Parser
 			//string key = genKey(key1, key2);
 			//添加各个地址
 			List<string> lst = new List<string>();
-			for (int i = 0; i < flv_no + 1; i++)
+			for (int i = 0; i < flv_no; i++)
 			{
 				//得到地址
 				string u = "http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
 					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
-					+ fileid.Substring(10) + "?K=" + keys[i];
+					+ fileid.Substring(10) + keys[i];
 				//获得跳转后地址
 				string redirectUrl = "";
 				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(u);

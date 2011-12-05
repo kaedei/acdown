@@ -3,7 +3,8 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
-using System.Text;
+using Kaedei.AcDown.Interface.Forms;
+using System.Collections.Generic;
 
 namespace Kaedei.AcDown.UI
 {
@@ -79,18 +80,6 @@ namespace Kaedei.AcDown.UI
 			 //填充代理服务器
 			 LoadProxys();
 
-			 StringBuilder sb = new StringBuilder();
-			 sb.AppendLine("当前支持的网站:(网址举例)");
-			 foreach (var item in _pluginMgr.Plugins)
-			 {
-				 sb.AppendLine();
-				 foreach (var i in item.GetUrlExample())
-				 {
-					 sb.AppendLine(i);
-				 }
-				 sb.AppendLine();
-			 }
-			 txtExample.Text = sb.ToString();
 			 //显示在线解析引擎选项
 			 if (!Config.setting.Plugin_Enable_Flvcd)
 			 {
@@ -158,24 +147,40 @@ namespace Kaedei.AcDown.UI
 			 this.Cursor = Cursors.WaitCursor;
 			 
 			 //取得可以下载的插件
-			 IAcdownPluginInfo p = null;
+			 List<IAcdownPluginInfo> plugins = new List<IAcdownPluginInfo>();
+			 IAcdownPluginInfo selectedPlugin = null;
 			 foreach (var item in _pluginMgr.Plugins)
 			 {
 				 if (item.CheckUrl(url))
 				 {
-					 p = item;
-					 break;
+					 plugins.Add(item);
 				 }
 			 }
 			 //如果有可用插件
-			 if (p != null)
+			 if (plugins.Count > 0)
 			 {
-				 //取得此url的hash
-				 string hash = p.GetHash(url);
-				 //检查是否有已经在进行的相同任务
-				 foreach (TaskItem downloader in _taskMgr.Tasks)
+				 //有多个插件可供选择时，用户选择插件
+				 if(plugins.Count >1)
 				 {
-					 if (downloader.GetBasePlugin().GetHash(downloader.Url) == hash)
+					 List<string> pluginNames = new List<string>();
+					 foreach (var item in plugins)
+					 {
+						 pluginNames.Add(item.Describe);
+					 }
+					 int selected = ToolForm.CreateSelectServerForm("请选择需要使用的下载插件", pluginNames.ToArray(), 0);
+					 selectedPlugin = plugins[selected];
+				 }
+				 else
+				 {
+					 selectedPlugin = plugins[0];
+				 }
+
+				 //取得此url的hash
+				 string hash = selectedPlugin.GetHash(url);
+				 //检查是否有已经在进行的相同任务
+				 foreach (TaskInfo task in _taskMgr.TaskInfos)
+				 {
+					 if (hash == task.Hash)
 					 {
 						 toolTip.Show("当前任务已经存在", txtInput, 4000);
 						 this.Cursor = Cursors.Default;
@@ -194,32 +199,39 @@ namespace Kaedei.AcDown.UI
 								 selectedProxy = item;
 						 }
 					 }
-					 //取得下载字幕设置
-					 DownloadSubtitleType ds  = DownloadSubtitleType.DownloadSubtitle;
+					 
+					 //添加任务
+					 TaskInfo task = _taskMgr.AddTask(selectedPlugin,
+																 url,
+																 (selectedProxy == null) ? null : selectedProxy.ToWebProxy());
+					 
+					 //设置字幕
+					 DownloadSubtitleType ds = DownloadSubtitleType.DownloadSubtitle;
 					 if (rdoNotDownSub.Checked) ds = DownloadSubtitleType.DontDownloadSubtitle;
 					 if (rdoDownSubOnly.Checked) ds = DownloadSubtitleType.DownloadSubtitleOnly;
-					 //添加任务
-					 TaskItem downloader = _taskMgr.AddTask(new TaskItem(p.CreateDownloader(), null),
-								new TaskInfo()
-								{
-									Url = url,
-									Proxy = (selectedProxy == null) ? null : selectedProxy.ToWebProxy(),
-									DownSub = ds
-								});
+					 task.DownSub = ds;
+					 //设置注释
+					 task.Comment = txtComment.Text;
+
+					 //设置ListView
+					 //ListViewItem lsi = new ListViewItem();
+
+
 					 //开始下载
-					 _taskMgr.StartTask(downloader);
+					 _taskMgr.StartTask(task);
+					 
 					 this.Cursor = Cursors.Default;
 					 this.Close();
 				 }
 				 catch (Exception ex)
 				 {
 					 Logging.Add(ex);
-					 toolTip.Show("新建任务出现错误，请检查相关设置或查看日志文件", btnAdd, 4000);
+					 toolTip.Show("新建任务出现错误:\n" + ex.Message, btnAdd, 4000);
 				 }
 			 }
 			 else
 			 {
-				 toolTip.Show("网络地址(URL)不符合规则，请检查后重新输入。\n您也可以选择使用在线解析引擎解析此地址", txtInput, 3000);
+				 toolTip.Show("您所输入的网络地址(URL)不符合规则。\n没有支持解析此网址的插件，请您检查后重新输入", txtInput, 3000);
 				 txtInput.SelectAll();
 			 }
 			 this.Cursor = Cursors.Default;
@@ -246,12 +258,10 @@ namespace Kaedei.AcDown.UI
 			 //选择文件夹
 			 FolderBrowserDialog fbd = new FolderBrowserDialog();
 			 fbd.ShowNewFolderButton = true;
-			 fbd.Description = "请设置默认保存的文件夹：";
-			 fbd.SelectedPath = Config.setting.SavePath;
+			 fbd.Description = "为您的下载选择一个目标文件夹：";
+			 fbd.SelectedPath = this.txtPath.Text;
 			 if (fbd.ShowDialog() == DialogResult.OK)
-				 Config.setting.SavePath = fbd.SelectedPath;
-			 this.txtPath.Text = Config.setting.SavePath;
-			 Config.SaveSettings();
+				 this.txtPath.Text = fbd.SelectedPath;
 		 }
 
 		 private void lnkPaste_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

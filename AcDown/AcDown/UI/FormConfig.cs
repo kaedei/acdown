@@ -40,7 +40,6 @@ namespace Kaedei.AcDown.UI
          chkDeleteFile.Checked = Config.setting.DeleteTaskAndFile;
          if (!Config.IsWindows7OrHigher()) chkEnableWin7.Enabled = false;
          chkEnableWin7.Checked = Config.setting.EnableWindows7Feature;
-         chkShowBigButton.Checked = Config.setting.ShowBigStartButton;
          chkShowLogo.Checked = Config.setting.ShowLogo;
          chkHideWhenClose.Checked = Config.setting.HideWhenClose;
          cboMaxRunningCount.SelectedIndex = Config.setting.MaxRunningTaskCount - 1;
@@ -98,7 +97,6 @@ namespace Kaedei.AcDown.UI
          Config.setting.WatchClipboardEnabled = chkWatch.Checked;
          Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
          Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
-         Config.setting.ShowBigStartButton = chkShowBigButton.Checked;
          Config.setting.ShowLogo = chkShowLogo.Checked;
          Config.setting.HideWhenClose = chkHideWhenClose.Checked;
          Config.setting.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;

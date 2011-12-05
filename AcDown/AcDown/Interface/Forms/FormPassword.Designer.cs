@@ -44,18 +44,18 @@
          // 
          // txtPassword
          // 
-         this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+         this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
          this.txtPassword.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.txtPassword.Location = new System.Drawing.Point(16, 30);
+         this.txtPassword.Location = new System.Drawing.Point(12, 49);
          this.txtPassword.Name = "txtPassword";
-         this.txtPassword.Size = new System.Drawing.Size(362, 34);
+         this.txtPassword.Size = new System.Drawing.Size(393, 34);
          this.txtPassword.TabIndex = 1;
          // 
          // btnOK
          // 
-         this.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Right;
-         this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.btnOK.Location = new System.Drawing.Point(282, 71);
+         this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+         this.btnOK.Location = new System.Drawing.Point(309, 89);
          this.btnOK.Name = "btnOK";
          this.btnOK.Size = new System.Drawing.Size(96, 36);
          this.btnOK.TabIndex = 2;
@@ -68,14 +68,14 @@
          this.AcceptButton = this.btnOK;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(390, 125);
+         this.ClientSize = new System.Drawing.Size(417, 142);
          this.ControlBox = false;
          this.Controls.Add(this.btnOK);
          this.Controls.Add(this.txtPassword);
          this.Controls.Add(this.lblTipText);
          this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.Margin = new System.Windows.Forms.Padding(5);
-         this.MaximumSize = new System.Drawing.Size(647, 163);
+         this.MaximumSize = new System.Drawing.Size(647, 180);
          this.MinimumSize = new System.Drawing.Size(304, 163);
          this.Name = "FormPassword";
          this.ShowInTaskbar = false;

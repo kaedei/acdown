@@ -24,16 +24,18 @@ namespace Kaedei.AcDown.Component
 		/// 新建TaskManager类的实例
 		/// </summary>
 		/// <param name="delegatesCon"></param>
-		public TaskManager(DelegateContainer delegatesCon)
+		public TaskManager(DelegateContainer delegatesCon,PluginManager pluginManager)
 		{
 			delegates = delegatesCon;
+			_pluginMgr = pluginManager;
 		}
 
 		//保存工作进程的弱引用,用于结束程序时强制结束下载线程
-		private Collection<WeakReference> taskThreadReferenceCollection = new Collection<WeakReference>();
+		//private Collection<WeakReference> taskThreadReferenceCollection = new Collection<WeakReference>();
 
-		//正在进行中的任务
-		public Collection<TaskItem> Tasks = new Collection<TaskItem>();
+		//插件管理器
+		PluginManager _pluginMgr;
+
 		//所有任务
 		public Collection<TaskInfo> TaskInfos = new Collection<TaskInfo>();
 
@@ -48,101 +50,63 @@ namespace Kaedei.AcDown.Component
 			set
 			{
 				_speedLimitGlobal = value;
-				int limit = value / Tasks.Count;
-				foreach (Guid item in GlobalSettings.GetSettings().TasksInfomation.Keys)
+				int c = GetRunningCount();
+				if (c != 0)
 				{
-					TaskInfo info = GlobalSettings.GetSettings().TasksInfomation[item];
-					if (info.Status == DownloadStatus.正在下载)
-						info.SpeedLimit = limit;
+					int limit = value / c;
+					foreach (TaskInfo info in TaskInfos)
+					{
+						if (info.Status == DownloadStatus.正在下载)
+							info.SpeedLimit = limit;
+					}
 				}
-				GlobalSettings.GetSettings().SpeedLimit = limit;
 			}
 		}
 
 		//委托
 		private DelegateContainer delegates;
 
-		
 		/// <summary>
 		/// 添加任务
 		/// </summary>
-		public TaskItem AddTask(TaskItem downloader, TaskInfo newTaskInfo)
-		{
-			//设置下载器
-			downloader.delegates = delegates;
-			//设置代理服务器
-			downloader.delegates.Proxy = newTaskInfo.Proxy;
-			downloader.Url = newTaskInfo.Url;
-			downloader.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
-			newTaskInfo.SaveDirectory = downloader.SaveDirectory;
-			downloader.TaskId = Guid.NewGuid();
-			newTaskInfo.TaskId = downloader.TaskId;
-			//向集合中添加任务
-			Tasks.Add(downloader);
-			//向字典中添加信息
-			GlobalSettings.GetSettings().TasksInfomation.Add(newTaskInfo.TaskId, newTaskInfo);
-			//提示UI刷新信息
-			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
-			//返回新建的任务
-			return downloader;
-		}
-
-		/// <summary>
-		/// 添加任务
-		/// </summary>
-		public TaskItem AddTask(TaskItem downloader, string url, WebProxy proxySetting)
-		{
-			//设置下载器
-			downloader.delegates = delegates;
-			//设置代理服务器
-			downloader.delegates.Proxy = proxySetting;
-			downloader.Url = url;
-			downloader.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
-			downloader.TaskId = Guid.NewGuid();
-			//向集合中添加任务
-			Tasks.Add(downloader);
-			//提示UI刷新信息
-			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
-			//返回新建的任务
-			return downloader;
-		}
-
-		/// <summary>
-		/// 添加任务
-		/// </summary>
+		/// <param name="plugin">任务所属的插件引用</param>
+		/// <param name="url">任务Url</param>
+		/// <param name="proxySetting">代理服务器设置</param>
+		/// <param name="downSub">下载字幕文件设置</param>
 		/// <returns></returns>
-		public TaskInfo AddTask(TaskItem downloader,string url,WebProxy proxySetting,DownloadSubtitleType downSub,DateTime startTime)
+		public TaskInfo AddTask(IAcdownPluginInfo plugin,string url,WebProxy proxySetting)
 		{
-			TaskInfo newTaskInfo = new TaskInfo();
-			//设置TaskInfo
-			newTaskInfo.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
-			newTaskInfo.TaskId = Guid.NewGuid();
-			newTaskInfo.Status = DownloadStatus.等待开始;
-			newTaskInfo.DownSub = downSub;
-			newTaskInfo.Proxy = proxySetting;
-			newTaskInfo.Task = downloader;
-			newTaskInfo.StartTime = startTime;
-			//设置TaskItem
-			newTaskInfo.Task.TaskId = newTaskInfo.TaskId;
-			newTaskInfo.Task.delegates = delegates;
-			newTaskInfo.Task.delegates.Proxy = newTaskInfo.Proxy;
-			newTaskInfo.Task.Url = newTaskInfo.Url;
-			newTaskInfo.Task.SaveDirectory = newTaskInfo.SaveDirectory;
-
-			//向字典中添加信息
-			GlobalSettings.GetSettings().TasksInfomation.Add(newTaskInfo.TaskId, newTaskInfo);
+			//新建TaskInfo对象
+			TaskInfo task = new TaskInfo();
+			task.Url = url;
+			task.SourceUrl = url;
+			task.BasePlugin = plugin;
+			task.PluginName = plugin.Name;
+			task.TaskId = Guid.NewGuid();
+			task.Proxy = proxySetting;
+			task.CreateTime = DateTime.Now;
+			task.Status = DownloadStatus.等待开始;
+			task.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
+			//向集合中添加对象
+			TaskInfos.Add(task);
 			//提示UI刷新信息
-			delegates.Refresh.Invoke(new ParaRefresh(downloader.TaskId));
-			//返回新建的任务
-			return newTaskInfo;
+			//if (delegates.Refresh != null)
+			//	delegates.Refresh.Invoke(new ParaRefresh(task.TaskId));
+			return task;
 		}
 
 
 		/// <summary>
 		/// 开始任务
 		/// </summary>
-		public void StartTask(TaskItem downloader)
+		public void StartTask(TaskInfo task)
 		{
+			//寻找所需插件
+			if (task.BasePlugin == null)
+			{
+				task.BasePlugin = _pluginMgr.GetPlugin(task.PluginName);
+			}
+
 			//如果队列未满则开始下载
 			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 			{
@@ -152,103 +116,131 @@ namespace Kaedei.AcDown.Component
 						try
 						{
 							//下载视频
-							downloader.Start();
+							task.Start(delegates);
 						}
 						catch (Exception ex) //如果出现错误
 						{
-							delegates.Error.Invoke(new ParaError(downloader.TaskId, ex));
+							delegates.Error.Invoke(new ParaError(task, ex));
 						}
 
 					});
+				t.IsBackground = true;
 				//开始下载
 				t.Start();
-				//添加到弱引用集合中
-				WeakReference wr = new WeakReference(t);
-				taskThreadReferenceCollection.Add(wr);
 			}
+			delegates.Refresh(new ParaRefresh(task));
 		}
 
 		/// <summary>
 		/// 停止任务
 		/// </summary>
-		/// <param name="downloader"></param>
-		public void StopTask(TaskItem downloader)
+		/// <param name="task"></param>
+		public void StopTask(TaskInfo task)
 		{
-			downloader.Stop();
+			task.Status = DownloadStatus.正在停止;
 			//刷新信息
-			delegates.Refresh(new ParaRefresh(downloader.TaskId));
+			delegates.Refresh(new ParaRefresh(task));
+			//停止任务
+			task.Stop();
+			
+			//启动新线程等待任务完全停止
+			Thread t = new Thread(new ThreadStart(() =>
+			{
+				//等待停止
+				while (task.Status == DownloadStatus.正在停止)
+				{
+					Thread.Sleep(50);
+				}
+				//刷新信息
+				delegates.Refresh(new ParaRefresh(task));
+			}));
+			t.IsBackground = true;
+			t.Start();
 		}
 
 		/// <summary>
 		/// 删除任务(自动终止未停止的任务)
 		/// </summary>
-		/// <param name="downloader"></param>
-		public void DeleteTask(TaskItem downloader, bool deleteFile)
+		/// <param name="task"></param>
+		public void DeleteTask(TaskInfo task, bool deleteFile)
 		{
+			//停止任务
+			task.Stop();
 
-			//先停止任务
-			downloader.Stop();
-
-			while (downloader.Status == DownloadStatus.正在下载)
+			//启动新线程等待任务完全停止
+			Thread t = new Thread(new ThreadStart(() =>
 			{
-				Thread.Sleep(50);
-			}
-			
-			
-			//是否删除文件
-			if (deleteFile)
-			{
-				//删除所有视频文件
-				foreach (var f in downloader.FilePath)
+				while (task.Status == DownloadStatus.正在停止)
 				{
-					if (File.Exists(f))
+					Thread.Sleep(50);
+				}
+
+				//是否删除文件
+				if (deleteFile)
+				{
+					//删除所有视频文件
+					foreach (var f in task.FilePath)
 					{
-						File.Delete(f);
+						if (File.Exists(f))
+						{
+							File.Delete(f);
+						}
+					}
+					//删除所有字幕文件
+					foreach (var item in task.SubFilePath)
+					{
+						if (File.Exists(item))
+						{
+							File.Delete(item);
+						}
 					}
 				}
-				//删除所有字幕文件
-				foreach (var item in downloader.SubFilePath)
-				{
-					if (File.Exists(item))
-					{
-						File.Delete(item);
-					}
-				}
-			}
-			
 
-			//从任务列表中删除任务
-			if (Tasks.Contains(downloader))
-			{
-				Tasks.Remove(downloader);
-			}
+				//从任务列表中删除任务
+				//如果任务正在运行
+				if (task.Status != DownloadStatus.已删除)
+				{
+					//移动到已删除
+					task.Status = DownloadStatus.已删除;
+				}
+				else //如果任务已经删除至回收站
+				{
+					//移除集合中的任务
+					TaskInfos.Remove(task);
+				}
+
+				//刷新信息
+				delegates.Refresh(new ParaRefresh(task));
+			}));
+			t.IsBackground = true;
+			t.Start();
 		}
 
 
-
 		/// <summary>
-		/// 取得下一个正在等待的任务
+		/// 返回与指定的ID相关联的任务
 		/// </summary>
+		/// <param name="taskId">任务ID</param>
 		/// <returns></returns>
-		public TaskItem GetNextWaiting()
+		public TaskInfo GetTaskInfo(Guid taskId)
 		{
-			foreach (var item in Tasks)
+			foreach (TaskInfo item in TaskInfos)
 			{
-				if (item.Status == DownloadStatus.等待开始)
+				if (item.TaskId == taskId)
 					return item;
 			}
 			return null;
 		}
 
 		/// <summary>
-		/// 取得第一个正在下载的任务
+		/// 取得下一个正在等待的任务
 		/// </summary>
 		/// <returns></returns>
-		public TaskItem GetFirstRunning()
+		public TaskInfo GetNextWaiting()
 		{
-			foreach (var item in Tasks)
+			foreach (var item in TaskInfos)
 			{
-				if (item.Status == DownloadStatus.正在下载)
+				if (item.Status == DownloadStatus.等待开始)
 					return item;
 			}
 			return null;
@@ -261,7 +253,7 @@ namespace Kaedei.AcDown.Component
 		public Int32 GetRunningCount()
 		{
 			int count = 0;
-			foreach (var i in this.Tasks)
+			foreach (var i in this.TaskInfos)
 			{
 				if (i.Status == DownloadStatus.正在下载)
 					count++;
@@ -274,18 +266,17 @@ namespace Kaedei.AcDown.Component
 		/// </summary>
 		public void StopAllTasks()
 		{
-			//在正在进行的任务的弱引用集合中
-			foreach (var item in taskThreadReferenceCollection)
-			{
-				//如果该任务对象仍然存活（未被销毁）
-				if (item.IsAlive)
-				{
-					//强制终止线程
-					Thread t = (Thread)item.Target;
-					t.Abort();
-				}
-			}
-
+			////在正在进行的任务的弱引用集合中
+			//foreach (var item in taskThreadReferenceCollection)
+			//{
+			//   //如果该任务对象仍然存活（未被销毁）
+			//   if (item.IsAlive)
+			//   {
+			//      //强制终止线程
+			//      Thread t = (Thread)item.Target;
+			//      t.Abort();
+			//   }
+			//}
 		}//end StopAllTasks()
 
 		/// <summary>
@@ -298,7 +289,7 @@ namespace Kaedei.AcDown.Component
 			if (canStart > 0)
 			{
 				//所有等待的任务尝试开始
-				foreach (var item in Tasks)
+				foreach (var item in TaskInfos)
 				{
 					if (item.Status == DownloadStatus.等待开始)
 					{
@@ -309,8 +300,30 @@ namespace Kaedei.AcDown.Component
 						}
 					}
 				}
+				//设置限速
+				Thread.Sleep(250);
+				SpeedLimitGlobal = _speedLimitGlobal;
 			}
 		}//end ContinueNext
 
+
+		/// <summary>
+		/// 为所有正在运行的任务设置限速
+		/// </summary>
+		/// <param name="limit"></param>
+		public void SetSpeedLimitKb(int limit)
+		{
+			int running = GetRunningCount();
+			int speed = 0;
+			if (running != 0)
+			{
+				speed = limit / running;
+			}
+			foreach (TaskInfo task in TaskInfos)
+			{
+				if (task.Status == DownloadStatus.正在下载)
+					task.SpeedLimit = speed;
+			}
+		}
 	}//end class
 }//end namespace

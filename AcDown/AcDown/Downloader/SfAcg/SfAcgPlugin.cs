@@ -25,7 +25,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 0, 0, 0); }
+			get { return new Version(2, 0, 0, 0); }
 		}
 
 		public string Describe
@@ -40,7 +40,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new SfAcgComicDownloader(this);
+			return new SfAcgComicDownloader();
 		}
 
 		public bool CheckUrl(string url)

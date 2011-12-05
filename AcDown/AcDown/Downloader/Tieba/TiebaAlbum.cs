@@ -30,7 +30,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 0, 0, 0); }
+			get { return new Version(2, 0, 0, 0); }
 		}
 
 		public string Describe
@@ -45,7 +45,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new TiebaAlbumDownloader(this);
+			return new TiebaAlbumDownloader();
 		}
 
 		public bool CheckUrl(string url)
@@ -96,20 +96,12 @@ namespace Kaedei.AcDown.Downloader
 	public class TiebaAlbumDownloader : IDownloader
 	{
 
-		public TiebaAlbumDownloader(TiebaAlbumPlugin p)
-		{
-			_basePlugin = p;
-		}
-		//插件
-		TiebaAlbumPlugin _basePlugin;
-		public IAcdownPluginInfo GetBasePlugin() { return _basePlugin; }
+		public TaskInfo Info { get; set; }
 
 		//下载参数
 		DownloadParameter currentParameter = new DownloadParameter();
 
 		#region IDownloader 成员
-
-		public Guid TaskId { get; set; }
 
 		public DelegateContainer delegates { get; set; }
 
@@ -164,106 +156,34 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		//分段数量
-		private int _partCount;
-		public int PartCount
-		{
-			get { return _partCount; }
-		}
-
-		//当前分段
-		private int _currentPart;
-		public int CurrentPart
-		{
-			get { return _currentPart; }
-		}
-
-		//下载地址
-		public string Url { get; set; }
-
-
-		//下载状态
-		private DownloadStatus _status;
-		public DownloadStatus Status
-		{
-			get
-			{
-				return _status;
-			}
-		}
-
-		//视频标题
-		private string _title;
-		public string Title
-		{
-			get
-			{
-				return _title;
-			}
-		}
-
-		//保存到的文件夹
-		public DirectoryInfo SaveDirectory { get; set; }
-
-		//下载文件地址
-		private List<string> _filePath = new List<string>();
-		public List<string> FilePath
-		{
-			get
-			{
-				return _filePath;
-			}
-		}
-
-		//字幕文件地址
-		private List<string> _subFilePath = new List<string>();
-		public List<string> SubFilePath
-		{
-			get
-			{
-				return _subFilePath;
-			}
-		}
-
-		//下载信息（显示到UI上）
-		public string Info
-		{
-			get
-			{
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("TaskId: " + this.TaskId.ToString());
-				sb.AppendLine("Url: " + this.Url);
-				return sb.ToString();
-			}
-		}
 
 		//开始下载
 		public void Download()
 		{
 			//开始下载
-			delegates.Start(new ParaStart(this.TaskId));
-			delegates.TipText(new ParaTipText(this.TaskId, "正在分析图片地址"));
-			_status = DownloadStatus.正在下载;
-         if (currentParameter != null)
-         {
-            //将停止flag设置为true
-            currentParameter.IsStop = false;
-         }
+			delegates.Start(new ParaStart(this.Info));
+			delegates.TipText(new ParaTipText(this.Info, "正在分析图片地址"));
+			Info.Status = DownloadStatus.正在下载;
+			if (currentParameter != null)
+			{
+				//将停止flag设置为true
+				currentParameter.IsStop = false;
+			}
 			try
 			{
 				//取得首个Url源文件
-				string src1 = Network.GetHtmlSource(Url, Encoding.GetEncoding("GBK"),delegates.Proxy);
+				string src1 = Network.GetHtmlSource(Info.Url, Encoding.GetEncoding("GBK"),Info.Proxy);
 				Collection<string> subUrls = new Collection<string>();
-				subUrls.Add(Url);
+				subUrls.Add(Info.Url);
 				//要下载的源文件列表
 				Dictionary<string, string> fileUrls = new Dictionary<string, string>();
 
 				//取得标题(文件夹名称)
 				Regex r = new Regex(@"http://tieba\.baidu\.com/f/tupian/album\?kw=(?<kw>.+)&an=(?<an>.+)");
-				Match m = r.Match(Url);
+				Match m = r.Match(Info.Url);
 				string title = Tools.UrlDecode(m.Groups["kw"].Value) + "吧 - " + Tools.UrlDecode(m.Groups["an"].Value);
 				//过滤无效字符
-				_title = Tools.InvalidCharacterFilter(title, "");
+				Info.Title = Tools.InvalidCharacterFilter(title, "");
 
 				//分析页面
 				Regex rSubPage = new Regex(@"a href=$(?<suburl>/f/tupian/album\?kw=.+?&an=.+?&pn=\d+)$>\d+<".Replace("$", "\""));
@@ -280,32 +200,32 @@ namespace Kaedei.AcDown.Downloader
 				foreach (string item in subUrls)
 				{
 					//取得源代码
-					string src2 = Network.GetHtmlSource(item, Encoding.GetEncoding("GBK"), delegates.Proxy);
+					string src2 = Network.GetHtmlSource(item, Encoding.GetEncoding("GBK"), Info.Proxy);
 					//解析所有图片
 					Regex rAllPic = new Regex(@"<div class=$j_showtip pic_box$ id=$(?<id>\w+).+?<p class=$pic_des$>(?<des>.+?)</p>".Replace("$", "\""), RegexOptions.Singleline);
 					MatchCollection mAllPics = rAllPic.Matches(src2);
 					foreach (Match item2 in mAllPics)
 					{
 						//string fName = Tools.InvalidCharacterFilter(item2.Groups["des"].Value + " [" + rnd.Next(1000).ToString() + "]", "");
-                  string fName = item2.Groups["id"].Value + ".jpg";
-                  fileUrls.Add("http://imgsrc.baidu.com/forum/pic/item/" + fName, fName);
+						string fName = item2.Groups["id"].Value + ".jpg";
+						fileUrls.Add("http://imgsrc.baidu.com/forum/pic/item/" + fName, fName);
 					}
 				}
 
 				#region 下载图片
 
 				//建立文件夹
-				string mainDir = SaveDirectory + (SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + _title;
+				string mainDir = Info.SaveDirectory + (Info.SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + Info.Title;
 				
 				//确定下载任务共有几个Part
-				_partCount = 1;
-				_currentPart = 1;
-				delegates.NewPart(new ParaNewPart(this.TaskId, 1));
+				Info.PartCount = 1;
+				Info.CurrentPart = 1;
+				delegates.NewPart(new ParaNewPart(this.Info, 1));
 
 				//分析源代码,取得下载地址
 				WebClient wc = new WebClient();
-				if (delegates.Proxy != null)
-					wc.Proxy = delegates.Proxy;
+				if (Info.Proxy != null)
+					wc.Proxy = Info.Proxy;
 
 				//创建文件夹
 				Directory.CreateDirectory(mainDir);
@@ -319,8 +239,8 @@ namespace Kaedei.AcDown.Downloader
 				{
 					if (currentParameter.IsStop)
 					{
-						_status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.TaskId, false));
+						Info.Status = DownloadStatus.已经停止;
+						delegates.Finish(new ParaFinish(this.Info, false));
 						return;
 					}
 					try
@@ -337,13 +257,13 @@ namespace Kaedei.AcDown.Downloader
 			}//end try
 			catch (Exception ex) //出现错误即下载失败
 			{
-				_status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.TaskId, ex));
+				Info.Status = DownloadStatus.出现错误;
+				delegates.Error(new ParaError(this.Info, ex));
 				return;
 			}//end try
 			//下载成功完成
-			_status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.TaskId, true));
+			Info.Status = DownloadStatus.下载完成;
+			delegates.Finish(new ParaFinish(this.Info, true));
 
 				#endregion
 

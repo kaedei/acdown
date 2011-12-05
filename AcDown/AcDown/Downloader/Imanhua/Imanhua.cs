@@ -30,7 +30,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 0, 0, 0); }
+			get { return new Version(2, 0, 0, 0); }
 		}
 
 		public string Describe
@@ -45,7 +45,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new ImanhuaDownloader(this);
+			return new ImanhuaDownloader();
 		}
 
 		public bool CheckUrl(string url)
@@ -102,21 +102,12 @@ namespace Kaedei.AcDown.Downloader
 	/// </summary>
 	public class ImanhuaDownloader : IDownloader
 	{
-
-		public ImanhuaDownloader(ImanhuaPlugin p)
-		{
-			_basePlugin = p;
-		}
-		//插件
-		ImanhuaPlugin _basePlugin;
-		public IAcdownPluginInfo GetBasePlugin() { return _basePlugin; }
-
+		public TaskInfo Info { get; set; }
+		
 		//下载参数
 		DownloadParameter currentParameter = new DownloadParameter();
 
 		#region IDownloader 成员
-
-		public Guid TaskId { get; set; }
 
 		public DelegateContainer delegates { get; set; }
 
@@ -171,86 +162,14 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		//分段数量
-		private int _partCount;
-		public int PartCount
-		{
-			get { return _partCount; }
-		}
-
-		//当前分段
-		private int _currentPart;
-		public int CurrentPart
-		{
-			get { return _currentPart; }
-		}
-
-		//下载地址
-		public string Url { get; set; }
-
-
-		//下载状态
-		private DownloadStatus _status;
-		public DownloadStatus Status
-		{
-			get
-			{
-				return _status;
-			}
-		}
-
-		//视频标题
-		private string _title;
-		public string Title
-		{
-			get
-			{
-				return _title;
-			}
-		}
-
-		//保存到的文件夹
-		public DirectoryInfo SaveDirectory { get; set; }
-
-		//下载文件地址
-		private List<string> _filePath = new List<string>();
-		public List<string> FilePath
-		{
-			get
-			{
-				return _filePath;
-			}
-		}
-
-		//字幕文件地址
-		private List<string> _subFilePath = new List<string>();
-		public List<string> SubFilePath
-		{
-			get
-			{
-				return _subFilePath;
-			}
-		}
-
-		//下载信息（显示到UI上）
-		public string Info
-		{
-			get
-			{
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("TaskId: " + this.TaskId.ToString());
-				sb.AppendLine("Url: " + this.Url);
-				return sb.ToString();
-			}
-		}
 
 		//下载视频
 		public void Download()
 		{
 			//开始下载
-			delegates.Start(new ParaStart(this.TaskId));
-			delegates.TipText(new ParaTipText(this.TaskId, "正在分析漫画地址"));
-			_status = DownloadStatus.正在下载;
+			delegates.Start(new ParaStart(this.Info));
+			delegates.TipText(new ParaTipText(this.Info, "正在分析漫画地址"));
+			Info.Status = DownloadStatus.正在下载;
 
 			if (currentParameter != null)
 			{
@@ -261,14 +180,14 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得Url源文件
-				string src = Network.GetHtmlSource(Url, Encoding.GetEncoding("GB2312"), delegates.Proxy);
+				string src = Network.GetHtmlSource(Info.Url, Encoding.GetEncoding("GB2312"), Info.Proxy);
 
 				//要下载的Url列表
 				List<string> subUrls = new List<string>();
 
 				//分析漫画id和lid
 				Regex r = new Regex(@"http://(www\.|)imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
-				Match m = r.Match(Url);
+				Match m = r.Match(Info.Url);
 				string id = m.Groups["id"].Value;
 				string lid = m.Groups["lid"].Value;
 
@@ -313,8 +232,8 @@ namespace Kaedei.AcDown.Downloader
 					//如果用户没有选择任何章节
 					if (subUrls.Count == 0)
 					{
-						_status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.TaskId, false));
+						Info.Status = DownloadStatus.已经停止;
+						delegates.Finish(new ParaFinish(this.Info, false));
 						return;
 					}
 
@@ -324,25 +243,25 @@ namespace Kaedei.AcDown.Downloader
 					string title = mTitle.Groups["title"].Value;
 					//过滤标题中的非法字符
 					title = Tools.InvalidCharacterFilter(title, "");
-					_title = title;
+					Info.Title = title;
 				}
 				else //如果不是整部漫画则添加此单话url
 				{
-					subUrls.Add(Url);
+					subUrls.Add(Info.Url);
 					//取得漫画标题
 					//取得上级页面的url
 					Regex rGetParent = new Regex(@"http://www\.imanhua\.com/comic/\d+/");
-					Match mGetParent = rGetParent.Match(Url);
+					Match mGetParent = rGetParent.Match(Info.Url);
 					string parentUrl = mGetParent.ToString();
 					//取得源代码并分析
-					string pSrc = Network.GetHtmlSource(parentUrl, Encoding.GetEncoding("GB2312"), delegates.Proxy);
+					string pSrc = Network.GetHtmlSource(parentUrl, Encoding.GetEncoding("GB2312"), Info.Proxy);
 					//取得漫画标题
 					Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
 					Match mTitle = rTitle.Match(pSrc);
 					string title = mTitle.Groups["title"].Value;
 					//过滤标题中的非法字符
 					title = Tools.InvalidCharacterFilter(title, "");
-					_title = title;
+					Info.Title = title;
 				} //end if
 
 #endregion
@@ -351,7 +270,7 @@ namespace Kaedei.AcDown.Downloader
 				
 				string serverName;
 				//取得配置文件
-				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), delegates.Proxy);
+				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), Info.Proxy);
 				Regex rServer = new Regex("\"(?<sname>.+?)\" , \"(?<surl>.+?)\"");
 				MatchCollection mServers = rServer.Matches(serverjs);
 
@@ -373,24 +292,24 @@ namespace Kaedei.AcDown.Downloader
 #region 下载漫画
 
 				//建立文件夹
-				string mainDir = SaveDirectory + (SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + _title;
+				string mainDir = Info.SaveDirectory + (Info.SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + Info.Title;
 				//确定漫画共有几个段落
-				_partCount = subUrls.Count;
+				Info.PartCount = subUrls.Count;
 
 				//分段落下载
-				for (int i = 0; i < _partCount; i++)
+				for (int i = 0; i < Info.PartCount; i++)
 				{
-					_currentPart = i + 1;
+					Info.CurrentPart = i + 1;
 					//提示更换新Part
-					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 					//地址数组
 					List<string> fileUrls = new List<string>();
 
 					//分析源代码,取得下载地址
 					WebClient wc = new WebClient();
-					if (delegates.Proxy != null)
-						wc.Proxy = delegates.Proxy;
+					if (Info.Proxy != null)
+						wc.Proxy = Info.Proxy;
 
 					//取得源代码
 					byte[] buff = wc.DownloadData(subUrls[i]);
@@ -449,8 +368,8 @@ namespace Kaedei.AcDown.Downloader
 					{
 						if (currentParameter.IsStop)
 						{
-							_status = DownloadStatus.已经停止;
-							delegates.Finish(new ParaFinish(this.TaskId, false));
+							Info.Status = DownloadStatus.已经停止;
+							delegates.Finish(new ParaFinish(this.Info, false));
 							return;
 						}
 						try
@@ -469,13 +388,13 @@ namespace Kaedei.AcDown.Downloader
 			}//end try
 			catch (Exception ex) //出现错误即下载失败
 			{
-				_status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.TaskId, ex));
+				Info.Status = DownloadStatus.出现错误;
+				delegates.Error(new ParaError(this.Info, ex));
 				return;
 			}//end try
 			//下载成功完成
-			_status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.TaskId, true));
+			Info.Status = DownloadStatus.下载完成;
+			delegates.Finish(new ParaFinish(this.Info, true));
 
 #endregion
 
