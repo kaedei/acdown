@@ -26,21 +26,6 @@ namespace Kaedei.AcDown.Interface
 			return _settings;
 		}
 
-		/// <summary>
-		/// 缓存
-		/// </summary>
-		public int CacheSizeMb { get; set; }
-
-		/// <summary>
-		/// 速度限制
-		/// </summary>
-		public int SpeedLimit { get; set; }
-
-		/// <summary>
-		/// 下载字幕
-		/// </summary>
-		public bool DownSub { get; set; }
-
 		private int _networkTimeout = 25000; //25秒
 		/// <summary>
 		/// 网络请求的超时值（以毫秒为单位）
@@ -62,18 +47,6 @@ namespace Kaedei.AcDown.Interface
 						_networkTimeout = value;
 			}
 		}
-
-		/// <summary>
-		/// 任务的相关信息
-		/// </summary>
-		public Dictionary<Guid, TaskInfo> TasksInfomation = new Dictionary<Guid, TaskInfo>();
-
-		//代理服务器设置
-		public bool Proxy_Enabled { get; set; }
-		public string Proxy_Address { get; set; }
-		public int Proxy_Port { get; set; }
-		public string Proxy_Username { get; set; }
-		public string Proxy_Password { get; set; }
 
 	}
 

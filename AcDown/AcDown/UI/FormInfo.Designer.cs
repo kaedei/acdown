@@ -35,9 +35,9 @@
          // 
          // txtInfo
          // 
-         this.txtInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                     | System.Windows.Forms.AnchorStyles.Left)
-                     | System.Windows.Forms.AnchorStyles.Right)));
+         this.txtInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
          this.txtInfo.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.txtInfo.Location = new System.Drawing.Point(12, 12);
          this.txtInfo.Multiline = true;
@@ -83,9 +83,7 @@
          this.Controls.Add(this.btnCopy);
          this.Controls.Add(this.btnClose);
          this.Controls.Add(this.txtInfo);
-         this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-         this.MaximizeBox = false;
-         this.MinimizeBox = false;
+         this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
          this.Name = "FormInfo";
          this.ShowInTaskbar = false;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

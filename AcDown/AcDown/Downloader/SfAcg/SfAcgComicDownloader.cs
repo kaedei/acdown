@@ -16,20 +16,12 @@ namespace Kaedei.AcDown.Downloader
    public class SfAcgComicDownloader : IDownloader
    {
 
-      public SfAcgComicDownloader(SfAcgPlugin p)
-      {
-         _basePlugin = p;
-      }
-      //插件
-      SfAcgPlugin _basePlugin;
-      public IAcdownPluginInfo GetBasePlugin() { return _basePlugin; }
+      public TaskInfo Info { get; set; }
 
       //下载参数
       DownloadParameter currentParameter = new DownloadParameter();
 
       #region IDownloader 成员
-
-      public Guid TaskId { get; set; }
 
       public DelegateContainer delegates { get; set; }
 
@@ -84,97 +76,24 @@ namespace Kaedei.AcDown.Downloader
          }
       }
 
-      //分段数量
-      private int _partCount;
-      public int PartCount
-      {
-         get { return _partCount; }
-      }
-
-      //当前分段
-      private int _currentPart;
-      public int CurrentPart
-      {
-         get { return _currentPart; }
-      }
-
-      //下载地址
-      public string Url { get; set; }
-
-
-      //下载状态
-      private DownloadStatus _status;
-      public DownloadStatus Status
-      {
-         get
-         {
-            return _status;
-         }
-      }
-
-      //视频标题
-      private string _title;
-      public string Title
-      {
-         get
-         {
-            return _title;
-         }
-      }
-
-      //保存到的文件夹
-      public DirectoryInfo SaveDirectory { get; set; }
-
-      //下载文件地址
-      private List<string> _filePath = new List<string>();
-      public List<string> FilePath
-      {
-         get
-         {
-            return _filePath;
-         }
-      }
-
-      //字幕文件地址
-      private List<string> _subFilePath = new List<string>();
-      public List<string> SubFilePath
-      {
-         get
-         {
-            return _subFilePath;
-         }
-      }
-
-      //下载信息（显示到UI上）
-      public string Info
-      {
-         get
-         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("TaskId: " + this.TaskId.ToString());
-            sb.AppendLine("Url: " + this.Url);
-            return sb.ToString();
-         }
-      }
-
-      //下载视频
+      //下载漫画
       public void Download()
       {
          //开始下载
-         delegates.Start(new ParaStart(this.TaskId));
-         delegates.TipText(new ParaTipText(this.TaskId, "正在分析漫画地址"));
-         _status = DownloadStatus.正在下载;
+         delegates.Start(new ParaStart(this.Info));
+         delegates.TipText(new ParaTipText(this.Info, "正在分析漫画地址"));
+         Info.Status = DownloadStatus.正在下载;
          try
          {
             //取得Url源文件
-            string src = Network.GetHtmlSource(Url, Encoding.UTF8, delegates.Proxy);
+            string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
 
             //要下载的Url列表（页面）
             List<string> subUrls = new List<string>();
 
             //分析漫画id
             Regex r = new Regex(@"http://\w+\.sfacg\.com/AllComic/(?<id>.+)");
-            Match m = r.Match(Url);
+            Match m = r.Match(Info.Url);
             string id = m.Groups["id"].Value;
 
             //是否为漫画的介绍页面
@@ -221,8 +140,8 @@ namespace Kaedei.AcDown.Downloader
                //如果用户没有选择任何章节
                if (subUrls.Count == 0)
                {
-                  _status = DownloadStatus.已经停止;
-                  delegates.Finish(new ParaFinish(this.TaskId, false));
+                  Info.Status = DownloadStatus.已经停止;
+                  delegates.Finish(new ParaFinish(this.Info, false));
                   return;
                }
 
@@ -232,70 +151,47 @@ namespace Kaedei.AcDown.Downloader
                string title = mTitle.Groups["title"].Value;
                //过滤标题中的非法字符
                title = Tools.InvalidCharacterFilter(title, "");
-               _title = title;
+               Info.Title = title;
             }
             else //如果不是整部漫画则添加此单话url
             {
-               subUrls.Add(Url);
+               subUrls.Add(Info.Url);
                //取得漫画标题
                //取得源代码并分析
-               string pSrc = Network.GetHtmlSource(Url, Encoding.UTF8, delegates.Proxy);
+               string pSrc = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
                //取得漫画标题
                Regex rTitle = new Regex(@"&gt;&gt; <a href="".+?"">(?<title>.+?)</a> &gt;&gt;");
                Match mTitle = rTitle.Match(pSrc);
                string title = mTitle.Groups["title"].Value;
                //过滤标题中的非法字符
                title = Tools.InvalidCharacterFilter(title, "");
-               _title = title;
+               Info.Title = title;
             } //end if
-
-            #endregion
-
-            #region 选择服务器
-
-            //string serverName;
-            ////取得配置文件
-            //string serverjs = Network.GetHtmlSource(@"http://www.SfAcgComic.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), delegates.Proxy);
-            //Regex rServer = new Regex("\"(?<sname>.+?)\" , \"(?<surl>.+?)\"");
-            //MatchCollection mServers = rServer.Matches(serverjs);
-
-            ////添加到数组中
-            //List<string> servers = new List<string>();
-            //foreach (Match item in mServers)
-            //{
-            //   if (servers.Count < 5)
-            //      servers.Add(item.Groups["sname"].Value);
-            //}
-
-            ////选择服务器
-            //int svr = ToolForm.CreateSelectServerForm("", servers.ToArray(), 0);
-            //serverName = mServers[svr].Groups["surl"].Value;
-
 
             #endregion
 
             #region 下载漫画
 
             //建立文件夹
-            string mainDir = SaveDirectory + (SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + _title;
+            string mainDir = Info.SaveDirectory + (Info.SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + Info.Title;
             //确定漫画共有几个段落
-            _partCount = subUrls.Count;
+            Info.PartCount = subUrls.Count;
 
             //分段落下载
-            for (int i = 0; i < _partCount; i++)
+            for (int i = 0; i < Info.PartCount; i++)
             {
                
-               _currentPart = i + 1;
+               Info.CurrentPart = i + 1;
                //提示更换新Part
-               delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+               delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
                //地址数组
                Dictionary<string, string> files = new Dictionary<string, string>();
 
                //分析源代码,取得下载地址
                WebClient wc = new WebClient();
-               if (delegates.Proxy != null)
-                  wc.Proxy = delegates.Proxy;
+               if (Info.Proxy != null)
+                  wc.Proxy = Info.Proxy;
 
                //取得源代码
                byte[] buff = wc.DownloadData(subUrls[i]);
@@ -349,8 +245,8 @@ namespace Kaedei.AcDown.Downloader
                {
                   if (currentParameter.IsStop)
                   {
-                     _status = DownloadStatus.已经停止;
-                     delegates.Finish(new ParaFinish(this.TaskId, false));
+                     Info.Status = DownloadStatus.已经停止;
+                     delegates.Finish(new ParaFinish(this.Info, false));
                      return;
                   }
                   try
@@ -368,13 +264,13 @@ namespace Kaedei.AcDown.Downloader
          }//end try
          catch (Exception ex) //出现错误即下载失败
          {
-            _status = DownloadStatus.出现错误;
-            delegates.Error(new ParaError(this.TaskId, ex));
+            Info.Status = DownloadStatus.出现错误;
+            delegates.Error(new ParaError(this.Info, ex));
             return;
          }//end try
          //下载成功完成
-         _status = DownloadStatus.下载完成;
-         delegates.Finish(new ParaFinish(this.TaskId, true));
+         Info.Status = DownloadStatus.下载完成;
+         delegates.Finish(new ParaFinish(this.Info, true));
 
             #endregion
 

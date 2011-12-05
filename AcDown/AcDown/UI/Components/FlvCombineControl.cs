@@ -25,7 +25,7 @@ namespace Kaedei.AcDown.UI.Components
          //显示Open对话框
          OpenFileDialog ofd = new OpenFileDialog();
          ofd.DefaultExt = ".flv";
-         ofd.Filter = "Flv视频文件(*.flv;*.hlv)|*.flv;*.hlv";
+         ofd.Filter = "Flv视频文件(*.flv;*.hlv;*.f4v)|*.flv;*.hlv;*.f4v";
          ofd.Multiselect = true;
 
          if (lstCombine.Items.Count == 0)
@@ -161,6 +161,11 @@ namespace Kaedei.AcDown.UI.Components
             btnGetFlvCombine.Hide();
             panelCombine.Show();
          }
+      }
+
+      private void btnCombineClear_Click(object sender, EventArgs e)
+      {
+         lstCombine.Items.Clear();
       }
 
 

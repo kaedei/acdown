@@ -7,7 +7,7 @@ namespace Kaedei.AcDown.Interface
 {
 
 	/// <summary>
-	/// 包装委托类,包括传递到下载插件的部分参数
+	/// 包装委托类
 	/// </summary>
 	public class DelegateContainer
 	{
@@ -32,8 +32,6 @@ namespace Kaedei.AcDown.Interface
 		public AcTaskDelegate TipText { get; set; }
 		public AcTaskDelegate Finish { get; set; }
 		public AcTaskDelegate Error { get; set; }
-
-		public WebProxy Proxy { get; set; }
 	}
  
 
@@ -42,36 +40,36 @@ namespace Kaedei.AcDown.Interface
 	public delegate void AcTaskDelegate(object para);
 	public class ParaStart
 	{
-		public ParaStart(Guid task) { TaskId = task; }
-		public Guid TaskId { get; set; }
+		public ParaStart(TaskInfo task) { Task = task; }
+		public TaskInfo Task { get; set; }
 	}
 	public class ParaNewPart
 	{
-		public ParaNewPart(Guid task, Int32 partNum) { TaskId = task; PartNumber = partNum; }
-		public Guid TaskId { get; set; }
+		public ParaNewPart(TaskInfo task, Int32 partNum) { Task = task; PartNumber = partNum; }
+		public TaskInfo Task { get; set; }
 		public Int32 PartNumber { get; set; }
 	}
 	public class ParaRefresh
 	{
-		public ParaRefresh(Guid task) { TaskId = task; }
-		public Guid TaskId { get; set; }
+		public ParaRefresh(TaskInfo task) { Task = task; }
+		public TaskInfo Task { get; set; }
 	}
 	public class ParaTipText
 	{
-		public ParaTipText(Guid task, string tip) { TaskId = task; TipText = tip; }
-		public Guid TaskId { get; set; }
+		public ParaTipText(TaskInfo task, string tip) { Task = task; TipText = tip; }
+		public TaskInfo Task { get; set; }
 		public string TipText { get; set; }
 	}
 	public class ParaFinish
 	{
-		public ParaFinish(Guid task, bool isSuccess) { TaskId = task; Successed = isSuccess; }
-		public Guid TaskId { get; set; }
+		public ParaFinish(TaskInfo task, bool isSuccess) { Task = task; Successed = isSuccess; }
+		public TaskInfo Task { get; set; }
 		public bool Successed { get; set; }
 	}
 	public class ParaError
 	{
-		public ParaError(Guid task, Exception excp) { TaskId = task; E = excp; }
-		public Guid TaskId { get; set; }
+		public ParaError(TaskInfo task, Exception excp) { Task = task; E = excp; }
+		public TaskInfo Task { get; set; }
 		public Exception E { get; set; }
 	}
 

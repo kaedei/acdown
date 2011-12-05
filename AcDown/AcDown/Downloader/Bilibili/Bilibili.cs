@@ -26,12 +26,12 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 3, 0, 0); }
+			get { return new Version(2, 0, 0, 0); }
 		}
 
 		public string Describe
 		{
-			get { return @"Bilibili下载插件"; }
+			get { return @"Bilibili.tv下载插件"; }
 		}
 
 		public string SupportUrl
@@ -41,7 +41,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new BilibiliDownloader(this);
+			return new BilibiliDownloader();
 		}
 
 		public bool CheckUrl(string url)
@@ -94,19 +94,12 @@ namespace Kaedei.AcDown.Downloader
 	/// </summary>
 	public class BilibiliDownloader : IDownloader
 	{
-		public BilibiliDownloader(BilibiliPlugin p)
-		{
-			_basePlugin = p;
-		}
-		//插件
-		BilibiliPlugin _basePlugin;
-		public IAcdownPluginInfo GetBasePlugin() { return _basePlugin; }
+
+		public TaskInfo Info { get; set; }
 		
 		//下载参数
 		DownloadParameter currentParameter;
 		#region IDownloader 成员
-
-		public Guid TaskId { get; set; }
 
 		public DelegateContainer delegates { get; set; }
 
@@ -161,85 +154,24 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		//分段数量
-		private int _partCount;
-		public int PartCount
-		{
-			get { return _partCount; }
-		}
-
-		//当前分段
-		private int _currentPart;
-		public int CurrentPart
-		{
-			get { return _currentPart; }
-		}
-
-		//下载地址
-		public string Url { get; set; }
-
-
-		//下载状态
-		private DownloadStatus _status;
-		public DownloadStatus Status
-		{
-			get
-			{
-				return _status;
-			}
-		}
-
-		//视频标题
-		private string _title;
-		public string Title
-		{
-			get
-			{
-				return _title;
-			}
-		}
-
-		//保存到的文件夹
-		public DirectoryInfo SaveDirectory { get; set; }
-
-		//下载文件地址
-		private List<string> _filePath = new List<string>();
-		public List<string> FilePath
-		{
-			get
-			{
-				return _filePath;
-			}
-		}
-
-		//字幕文件地址
-		private List<string> _subFilePath = new List<string>();
-		public List<string> SubFilePath
-		{
-			get
-			{
-				return _subFilePath;
-			}
-		}
-
 		//下载视频
 		public void Download()
 		{ 
 			//开始下载
-			delegates.Start(new ParaStart(this.TaskId));
-			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
-			_status = DownloadStatus.正在下载;
+			delegates.Start(new ParaStart(this.Info));
+			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
+			Info.Status = DownloadStatus.正在下载;
 
 			//修正URL
-			Url = Url.Replace("bilibili.us", "bilibili.tv");
-			string url = Url;
+			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
+			string url = Info.Url;
 			//视频地址数组
 			string[] videos;
 
 			try
 			{
 				//取得网页源文件
-				string src = Network.GetHtmlSource2(url, Encoding.UTF8, delegates.Proxy);
+				string src = Network.GetHtmlSource2(url, Encoding.UTF8, Info.Proxy);
 				//type值
 				string type = "";
 				#region 登录并重新获取网页源文件
@@ -274,8 +206,8 @@ namespace Kaedei.AcDown.Downloader
 
 					//重新请求网页
 					HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
-					if (delegates.Proxy != null)
-						request.Proxy = delegates.Proxy;
+					if (Info.Proxy != null)
+						request.Proxy = Info.Proxy;
 					//设置cookies
 					request.CookieContainer = cookies;
 					HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -291,7 +223,7 @@ namespace Kaedei.AcDown.Downloader
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
 				//文件名称！
-				string title = mTitle.Groups["title"].Value.Replace(" _嗶哩嗶哩", "").Replace(" - 嗶哩嗶哩", "");
+				string title = mTitle.Groups["title"].Value.Replace("- 嗶哩嗶哩", "").Replace("- ( ゜- ゜)つロ 乾杯~", "").Trim();
 
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+?)</option>");
@@ -315,11 +247,11 @@ namespace Kaedei.AcDown.Downloader
 					}
 				}
 				//过滤非法字符
-				_title = title;
+				Info.Title = title;
 				title = Tools.InvalidCharacterFilter(title, "");
 
 				//清空地址
-				_filePath.Clear();
+				Info.FilePath.Clear();
 
 				//视频id
 				string id = "";
@@ -344,7 +276,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得type值
 				type = mId.Groups["idname"].Value;
 
-				DownloadSubtitleType downsub = GlobalSettings.GetSettings().TasksInfomation[TaskId].DownSub;
+				DownloadSubtitleType downsub = Info.DownSub;
 				//如果不是“仅下载字幕”
 				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
@@ -361,17 +293,17 @@ namespace Kaedei.AcDown.Downloader
 							case "qid": //QQ视频
 								//解析视频
 								QQVideoParser parserQQ = new QQVideoParser();
-								videos = parserQQ.Parse(new string[] { id }, delegates.Proxy);
+								videos = parserQQ.Parse(new string[] { id }, Info.Proxy);
 								break;
 							case "ykid": //优酷视频
 								//解析视频
 								YoukuParser parserYouKu = new YoukuParser();
-								videos = parserYouKu.Parse(new string[] { id }, delegates.Proxy);
+								videos = parserYouKu.Parse(new string[] { id }, Info.Proxy);
 								break;
 							case "uid": //土豆视频
 								//解析视频
 								TudouParser parserTudou = new TudouParser();
-								videos = parserTudou.Parse(new string[] { id }, delegates.Proxy);
+								videos = parserTudou.Parse(new string[] { id }, Info.Proxy);
 								break;
 							case "data": //Flash游戏
 								id = id.Replace("\"", "");
@@ -379,7 +311,7 @@ namespace Kaedei.AcDown.Downloader
 								break;
 							default: //新浪视频
 								SinaVideoParser parserSina = new SinaVideoParser();
-								videos = parserSina.Parse(new string[] { id }, delegates.Proxy);
+								videos = parserSina.Parse(new string[] { id }, Info.Proxy);
 								break;
 						}
 					}
@@ -392,12 +324,12 @@ namespace Kaedei.AcDown.Downloader
 
 					//下载视频
 					//确定视频共有几个段落
-					_partCount = videos.Length;
+					Info.PartCount = videos.Length;
 
 					//------------分段落下载------------
-					for (int i = 0; i < _partCount; i++)
+					for (int i = 0; i < Info.PartCount; i++)
 					{
-						_currentPart = i + 1;
+						Info.CurrentPart = i + 1;
 
 						//取得文件后缀名
 						string ext = Tools.GetExtension(videos[i]);
@@ -410,16 +342,16 @@ namespace Kaedei.AcDown.Downloader
 						}
 						if (ext == ".hlv") ext = ".flv";
 						//设置当前DownloadParameter
-						if (_partCount == 1)
+						if (Info.PartCount == 1)
 						{
 							currentParameter = new DownloadParameter()
 							{
 								//文件名 例: c:\123(1).flv
-								FilePath = Path.Combine(SaveDirectory.ToString(),
+								FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 											title + ext),
 								//文件URL
 								Url = videos[i],
-								Proxy = delegates.Proxy
+								Proxy = Info.Proxy
 							};
 						}
 						else
@@ -427,16 +359,16 @@ namespace Kaedei.AcDown.Downloader
 							currentParameter = new DownloadParameter()
 							{
 								//文件名 例: c:\123(1).flv
-								FilePath = Path.Combine(SaveDirectory.ToString(),
+								FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 											title + "(" + (i + 1).ToString() + ")" + ext),
 								//文件URL
 								Url = videos[i],
 								//代理服务器
-								Proxy = delegates.Proxy
+								Proxy = Info.Proxy
 							};
 						}
 						//添加文件路径到List<>中
-						_filePath.Add(currentParameter.FilePath);
+						Info.FilePath.Add(currentParameter.FilePath);
 						//下载文件
 						bool success;
 						//添加断点续传段
@@ -446,46 +378,46 @@ namespace Kaedei.AcDown.Downloader
 							int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
 							//设置RangeStart属性
 							currentParameter.RangeStart = len;
-							_title = "[续传]" + _title;
+							Info.Title = "[续传]" + Info.Title;
 						}
 						else
 						{
-							_title = _title.Replace("[续传]", "");
+							Info.Title = Info.Title.Replace("[续传]", "");
 						}
 
 						//提示更换新Part
-						delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+						delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 						//下载视频
 						success = Network.DownloadFile(currentParameter);
 
 						if (!success) //未出现错误即用户手动停止
 						{
-							_status = DownloadStatus.已经停止;
-							delegates.Finish(new ParaFinish(this.TaskId, false));
+							Info.Status = DownloadStatus.已经停止;
+							delegates.Finish(new ParaFinish(this.Info, false));
 							return;
 						}
 					} //end for
 				}//end 判断是否下载视频
 
+				//如果不是“不下载弹幕”且ID不为空
 				if ((downsub != DownloadSubtitleType.DontDownloadSubtitle) && !string.IsNullOrEmpty(id))
 				{
 					//----------下载字幕-----------
-					delegates.TipText(new ParaTipText(this.TaskId, "正在下载字幕文件"));
+					delegates.TipText(new ParaTipText(this.Info, "正在下载字幕文件"));
 					//字幕文件(on)地址
-					string subfile = Path.Combine(SaveDirectory.ToString(), title + ".xml");
-					_subFilePath.Add(subfile);
+					string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".xml");
+					Info.SubFilePath.Add(subfile);
 					//取得字幕文件(on)地址
-					string subUrl = "http://www.bilibili.tv/dm," + id + "?r=155";
+					string subUrl = "http://comment.bilibili.tv/dm," + id;
 					//下载字幕文件
 					try
 					{
-						Network.DownloadSub(new DownloadParameter()
+						Network.DownloadFile(new DownloadParameter()
 							{
 								Url = subUrl,
 								FilePath = subfile,
-								UseDeflate = true,
-								Proxy = delegates.Proxy
+								Proxy = Info.Proxy
 							});
 					}
 					catch { }
@@ -493,14 +425,14 @@ namespace Kaedei.AcDown.Downloader
 			}
 			catch (Exception ex)
 			{
-				_status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.TaskId, ex));
+				Info.Status = DownloadStatus.出现错误;
+				delegates.Error(new ParaError(this.Info, ex));
 				return;
 			}
 		
 			//下载成功完成
-			_status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.TaskId, true));
+			Info.Status = DownloadStatus.下载完成;
+			delegates.Finish(new ParaFinish(this.Info, true));
 		}
 
 		//停止下载
@@ -513,17 +445,6 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		//下载信息（显示到UI上）
-		public string Info
-		{
-			get
-			{
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("TaskId: " + this.TaskId.ToString());
-				sb.AppendLine("Url: " + this.Url);
-				return sb.ToString();
-			}
-		}
 
 		#endregion
 	}

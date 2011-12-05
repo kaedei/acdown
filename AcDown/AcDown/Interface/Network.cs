@@ -94,21 +94,32 @@ namespace Kaedei.AcDown.Interface
 
 			
 			Stream st, fs; //网络流和文件流
-			DeflateStream deflate = null; //Deflate解压流
+			Stream deflate = null; //Deflate/gzip 解压流
 			BufferedStream bs; //缓冲流
 			int t, limitcount = 0;
 			//确定缓冲长度
-			if (GlobalSettings.GetSettings().CacheSizeMb > 256 || GlobalSettings.GetSettings().CacheSizeMb < 1)
-				GlobalSettings.GetSettings().CacheSizeMb = 1;
+			if (para.CacheSize > 256 || para.CacheSize < 1)
+				para.CacheSize = 1;
 			para.DoneBytes = 0; //完成字节数
 			para.LastTick = System.Environment.TickCount; //系统计数
 
 			//获取下载流
 			using (st = response.GetResponseStream())
 			{
-				//设置deflate解压缩
-				if (para.UseDeflate)
+				//设置gzip/deflate解压缩
+				if (response.ContentEncoding == "gzip")
+				{
+					deflate = new GZipStream(st, CompressionMode.Decompress);
+				}
+				else if (response.ContentEncoding == "deflate")
+				{
 					deflate = new DeflateStream(st, CompressionMode.Decompress);
+				}
+				else
+				{
+					deflate = st;
+				}
+				
 				//设置FileStream
 				if ((para.RangeStart != 0 || para.RangeTo != 0) && supportrange)//若设置了范围且服务器支持
 				{
@@ -123,14 +134,12 @@ namespace Kaedei.AcDown.Interface
 				using (fs)
 				{
 					//使用缓冲流
-					if (deflate == null)
-						bs = new BufferedStream(fs, GlobalSettings.GetSettings().CacheSizeMb * 1024);
-					else
-						bs = new BufferedStream(deflate, GlobalSettings.GetSettings().CacheSizeMb * 1024);
+					bs = new BufferedStream(fs, para.CacheSize * 1024);
+					
 					try
 					{
 						//读取第一块数据
-						Int32 osize = st.Read(buffer, 0, buffer.Length);
+						Int32 osize = deflate.Read(buffer, 0, buffer.Length);
 						//开始循环
 						while (osize > 0)
 						{
@@ -153,15 +162,16 @@ namespace Kaedei.AcDown.Interface
 							bs.Write(buffer, 0, osize);
 
 							//限速
-							if (GlobalSettings.GetSettings().SpeedLimit > 0)
+							//if (GlobalSettings.GetSettings().SpeedLimit > 0)
+							if (para.SpeedLimit > 0)
 							{
 
 								//下载计数加一count++
 								limitcount++;
 								//下载1KB
-								osize = st.Read(buffer, 0, buffer.Length);
+								osize = deflate.Read(buffer, 0, buffer.Length);
 								//累积到limit KB后
-								if (limitcount >= GlobalSettings.GetSettings().SpeedLimit)
+								if (limitcount >= para.SpeedLimit)
 								{
 									t = System.Environment.TickCount - privateTick;
 									//检查是否大于一秒
@@ -174,7 +184,7 @@ namespace Kaedei.AcDown.Interface
 							}
 							else //如果不限速
 							{
-								osize = st.Read(buffer, 0, buffer.Length);
+								osize = deflate.Read(buffer, 0, buffer.Length);
 							}
 
 						} //end while
@@ -194,58 +204,58 @@ namespace Kaedei.AcDown.Interface
 			return true;
 		}
 
-		/// <summary>
-		/// 下载字幕文件
-		/// </summary>
-		public static bool DownloadSub(DownloadParameter para)
-		{
-			try
-			{
-				//网络缓存(100KB)
-				byte[] buffer = new byte[102400];
-				WebRequest Myrq = HttpWebRequest.Create(para.Url);
-				if (para.Proxy != null)
-					Myrq.Proxy = para.Proxy;
-				WebResponse myrp = Myrq.GetResponse();
+		///// <summary>
+		///// 下载字幕文件
+		///// </summary>
+		//public static bool DownloadSub(DownloadParameter para)
+		//{
+		//   try
+		//   {
+		//      //网络缓存(100KB)
+		//      byte[] buffer = new byte[102400];
+		//      WebRequest Myrq = HttpWebRequest.Create(para.Url);
+		//      if (para.Proxy != null)
+		//         Myrq.Proxy = para.Proxy;
+		//      WebResponse myrp = Myrq.GetResponse();
 
-				//获取下载流
-				Stream st = myrp.GetResponseStream();
-				if (!para.UseDeflate)
-				{
-					//打开文件流
-					using (Stream so = new FileStream(para.FilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read, 8))
-					{
-						//读取数据
-						Int32 osize = st.Read(buffer, 0, buffer.Length);
-						while (osize > 0)
-						{
-							//写入数据
-							so.Write(buffer, 0, osize);
-							osize = st.Read(buffer, 0, buffer.Length);
-						}
-					}
-				}
-				else
-				{
-					//deflate解压缩
-					var deflate = new DeflateStream(st, CompressionMode.Decompress);
-					using (StreamReader reader = new StreamReader(deflate))
-					{
-						File.WriteAllText(para.FilePath, reader.ReadToEnd());
-					}
+		//      //获取下载流
+		//      Stream st = myrp.GetResponseStream();
+		//      if (!para.UseDeflate)
+		//      {
+		//         //打开文件流
+		//         using (Stream so = new FileStream(para.FilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read, 8))
+		//         {
+		//            //读取数据
+		//            Int32 osize = st.Read(buffer, 0, buffer.Length);
+		//            while (osize > 0)
+		//            {
+		//               //写入数据
+		//               so.Write(buffer, 0, osize);
+		//               osize = st.Read(buffer, 0, buffer.Length);
+		//            }
+		//         }
+		//      }
+		//      else
+		//      {
+		//         //deflate解压缩
+		//         var deflate = new DeflateStream(st, CompressionMode.Decompress);
+		//         using (StreamReader reader = new StreamReader(deflate))
+		//         {
+		//            File.WriteAllText(para.FilePath, reader.ReadToEnd());
+		//         }
 
-				}
-				//关闭流
-				st.Close();
-				//一切顺利返回true
-				return true;
-			}
-			catch
-			{
-				//发生错误返回False
-				return false;
-			}
-		}
+		//      }
+		//      //关闭流
+		//      st.Close();
+		//      //一切顺利返回true
+		//      return true;
+		//   }
+		//   catch
+		//   {
+		//      //发生错误返回False
+		//      return false;
+		//   }
+		//}
 
 
 		/// <summary>
@@ -354,9 +364,13 @@ namespace Kaedei.AcDown.Interface
 		/// </summary>
 		public bool IsStop { get; set; }
 		/// <summary>
-		/// 下载时是否使用Deflate解压缩
+		/// 读取或设置下载所使用的缓存大小，范围为1到255，单位为MByte。默认值为1
 		/// </summary>
-		public bool UseDeflate { get; set; }
+		public int CacheSize { get; set; }
+		/// <summary>
+		/// 读取或设置下载速度限制值。单位为KB
+		/// </summary>
+		public int SpeedLimit { get; set; }
 		/// <summary>
 		/// 读取或设置使用的代理服务器设置
 		/// </summary>

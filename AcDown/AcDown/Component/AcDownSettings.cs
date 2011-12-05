@@ -22,7 +22,7 @@ namespace Kaedei.AcDown.Component
    public class AcDownSettings
    {
       //程序设置
-      public Size WindowSize = new Size(561, 529);
+      public Size WindowSize = new Size(584, 513);
       public bool WatchClipboardEnabled = true; //监视剪贴板
       public bool DownSub = true; //下载字幕
       public string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //保存文件夹
@@ -34,8 +34,8 @@ namespace Kaedei.AcDown.Component
       public bool EnableLog = false; //运行记录日志
       public bool EnableCheckUpdate = true; //允许检查更新
       public bool AutoCheckUrl = true; //自动检查URL
-      public bool ShowBigStartButton = true; //显示大按钮
-      public bool ShowLogo = true; //显示AcDown Logo
+      public bool ShowBigStartButton = false; //显示大按钮
+      public bool ShowLogo = false; //显示AcDown Logo
       public Int32 MaxRunningTaskCount = 2; //最多同时运行任务数量
       public bool SaveWhenAbort = true; //任务停止或错误退出时保存已经下载的部分
       public string SearchQuery = @"Acfun站内搜索"; //搜索url
@@ -91,7 +91,7 @@ namespace Kaedei.AcDown.Component
       public static void SaveSettings()
       {
          //取得APPDATA路径名称
-         string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+         string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
          path = Path.Combine(path, @"Kaedei\AcDown\");
 
          if (!Directory.Exists(path))
@@ -118,7 +118,7 @@ namespace Kaedei.AcDown.Component
          try
          {
             AcDownSettings s;
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             path = Path.Combine(path, @"Kaedei\AcDown\config.xml");
             using (FileStream fs = new FileStream(path, FileMode.Open))
             {
@@ -138,8 +138,6 @@ namespace Kaedei.AcDown.Component
          }
          finally
          {
-            GlobalSettings.GetSettings().CacheSizeMb = setting.CacheSize;
-            GlobalSettings.GetSettings().DownSub = setting.DownSub;
             GlobalSettings.GetSettings().NetworkTimeout = setting.NetworkTimeout;
          }
          return setting;

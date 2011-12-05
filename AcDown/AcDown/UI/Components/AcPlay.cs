@@ -34,6 +34,10 @@ namespace Kaedei.AcDown.UI.Components
          string file_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1.1\AcPlay.exe");
          string exe_acplay = @"http://download.codeplex.com/Download?ProjectName=acdown&DownloadId=300331";
 
+         //删除所有旧版本文件
+         string dir_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\");
+         Directory.Delete(dir_acplay, true);
+
 
          //建立文件夹
          string dir = Path.GetDirectoryName(file_acplay);
@@ -53,6 +57,7 @@ namespace Kaedei.AcDown.UI.Components
          {
             return false;
          }
+
       }
 
       /// <summary>

@@ -26,7 +26,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(1, 0, 0, 0); }
+			get { return new Version(2, 0, 0, 0); }
 		}
 
 		public string Describe
@@ -41,7 +41,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public IDownloader CreateDownloader()
 		{
-			return new YoukuDownloader(this);
+			return new YoukuDownloader();
 		}
 
 		public bool CheckUrl(string url)
@@ -94,20 +94,12 @@ namespace Kaedei.AcDown.Downloader
 	public class YoukuDownloader : IDownloader
 	{
 
-		public YoukuDownloader(YoukuPlugin p)
-		{
-			_basePlugin = p;
-		}
-		//插件
-		YoukuPlugin _basePlugin;
-		public IAcdownPluginInfo GetBasePlugin() { return _basePlugin; }
+		public TaskInfo Info { get; set; }
 
 		//下载参数
 		DownloadParameter currentParameter;
 
 		#region IDownloader 成员
-
-		public Guid TaskId { get; set; }
 
 		public DelegateContainer delegates { get; set; }
 
@@ -162,95 +154,22 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		//分段数量
-		private int _partCount;
-		public int PartCount
-		{
-			get { return _partCount; }
-		}
-
-		//当前分段
-		private int _currentPart;
-		public int CurrentPart
-		{
-			get { return _currentPart; }
-		}
-
-		//下载地址
-		public string Url { get; set; }
-
-
-		//下载状态
-		private DownloadStatus _status;
-		public DownloadStatus Status
-		{
-			get
-			{
-				return _status;
-			}
-		}
-
-		//视频标题
-		private string _title;
-		public string Title
-		{
-			get
-			{
-				return _title;
-			}
-		}
-
-		//保存到的文件夹
-		public DirectoryInfo SaveDirectory { get; set; }
-
-		//下载文件地址
-		private List<string> _filePath = new List<string>();
-		public List<string> FilePath
-		{
-			get
-			{
-				return _filePath;
-			}
-		}
-
-		//字幕文件地址
-		private List<string> _subFilePath = new List<string>();
-		public List<string> SubFilePath
-		{
-			get
-			{
-				return _subFilePath;
-			}
-		}
-
-		//下载信息（显示到UI上）
-		public string Info
-		{
-			get
-			{
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("TaskId: " + this.TaskId.ToString());
-				sb.AppendLine("Url: " + this.Url);
-				return sb.ToString();
-			}
-		}
-
 		//下载视频
 		public void Download()
 		{
 			//开始下载
-			delegates.Start(new ParaStart(this.TaskId));
-			delegates.TipText(new ParaTipText(this.TaskId, "正在分析视频地址"));
-			_status = DownloadStatus.正在下载;
+			delegates.Start(new ParaStart(this.Info));
+			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
+			Info.Status = DownloadStatus.正在下载;
 			try
 			{
 				//获取密码
 				string password = "";
-				if (Url.EndsWith("密码"))
+				if (Info.Url.EndsWith("密码"))
 					password = ToolForm.CreatePasswordForm(true, "", "");
 
 				//取得网页源文件
-				string src = Network.GetHtmlSource(Url.Replace("密码", ""), Encoding.UTF8, delegates.Proxy);
+				string src = Network.GetHtmlSource(Info.Url.Replace("密码", ""), Encoding.UTF8, Info.Proxy);
 
 				//分析视频id
 				Regex r1 = new Regex(@"videoId = '(?<vid>\w+)'");
@@ -262,37 +181,37 @@ namespace Kaedei.AcDown.Downloader
 				Match mTitle = rTitle.Match(src);
 				string title = mTitle.Groups["title"].Value.Replace(" - 在线观看","");
 
-				_title = title;
+				Info.Title = title;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
 
 				//视频地址数组
 				string[] videos = null;
 				//清空地址
-				_filePath.Clear();
+				Info.FilePath.Clear();
 
 				//调用内建的优酷视频解析器
 				YoukuParser parserYouku = new YoukuParser();
-				videos = parserYouku.Parse(new string[] { vid, password }, delegates.Proxy);
+				videos = parserYouku.Parse(new string[] { vid, password }, Info.Proxy);
 
 				//下载视频
 				//确定视频共有几个段落
-				_partCount = videos.Length;
+				Info.PartCount = videos.Length;
 
 				//分段落下载
-				for (int i = 0; i < _partCount; i++)
+				for (int i = 0; i < Info.PartCount; i++)
 				{
-					_currentPart = i + 1;
+					Info.CurrentPart = i + 1;
 					
 					//取得文件后缀名
 					//string ext = Tools.GetExtension(videos[i]);
 					//设置当前DownloadParameter
-					if (_partCount == 1) //如果只有一段
+					if (Info.PartCount == 1) //如果只有一段
 					{
 						currentParameter = new DownloadParameter()
 						{
 							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(SaveDirectory.ToString(),
+							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 														  title + ".flv"),
 							//文件URL
 							Url = videos[i]
@@ -303,7 +222,7 @@ namespace Kaedei.AcDown.Downloader
 						currentParameter = new DownloadParameter()
 						{
 							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(SaveDirectory.ToString(),
+							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 														  title + "(" + (i + 1).ToString() + ")" + ".flv"),
 							//文件URL
 							Url = videos[i]
@@ -311,7 +230,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 
 					//添加文件路径到List<>中
-					_filePath.Add(currentParameter.FilePath);
+					Info.FilePath.Add(currentParameter.FilePath);
 					//下载文件
 					bool success;
 					//断点续传
@@ -321,15 +240,15 @@ namespace Kaedei.AcDown.Downloader
 						int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
 						//设置RangeStart属性
 						currentParameter.RangeStart = len;
-						_title = "[续传]" + _title;
+						Info.Title = "[续传]" + Info.Title;
 					}
 					else
 					{
-						_title = _title.Replace("[续传]", "");
+						Info.Title = Info.Title.Replace("[续传]", "");
 					}
 
 					//提示更换新Part
-					delegates.NewPart(new ParaNewPart(this.TaskId, i + 1));
+					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 					//下载视频文件
 					success = Network.DownloadFile(currentParameter);
@@ -337,21 +256,21 @@ namespace Kaedei.AcDown.Downloader
 					//未出现错误即用户手动停止
 					if (!success)
 					{
-						_status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.TaskId, false));
+						Info.Status = DownloadStatus.已经停止;
+						delegates.Finish(new ParaFinish(this.Info, false));
 						return;
 					}
 				}
 			}
 			catch (Exception ex) //出现错误即下载失败
 			{
-				_status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.TaskId, ex));
+				Info.Status = DownloadStatus.出现错误;
+				delegates.Error(new ParaError(this.Info, ex));
 				return;
 			}
 			//下载成功完成
-			_status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.TaskId, true));
+			Info.Status = DownloadStatus.下载完成;
+			delegates.Finish(new ParaFinish(this.Info, true));
 
 		}
 
