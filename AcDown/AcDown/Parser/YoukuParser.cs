@@ -48,7 +48,16 @@ namespace Kaedei.AcDown.Parser
 			if( fileIds.Contains("flv")) tmpFormTip.Add("标清(flv)");
 
 			//用户选择清晰度
-			int select = ToolForm.CreateSelectServerForm("您正在下载优酷视频，请选择视频清晰度:", tmpFormTip.ToArray(), 0);
+			int select;
+			//如果多余一种清晰度
+			if (tmpFormTip.Count > 1)
+			{
+				select = ToolForm.CreateSelectServerForm("您正在下载优酷视频，请选择视频清晰度:", tmpFormTip.ToArray(), 0);
+			}
+			else
+			{
+				select = 0;
+			}
 			string strSelect = tmpFormTip[select].Replace("超清", "").Replace("高清", "").Replace("标清", "").Trim('(', ')');
 			string fileposfix = strSelect;
 			if (fileposfix == "hd2") fileposfix = "flv";

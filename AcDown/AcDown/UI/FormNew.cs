@@ -80,14 +80,6 @@ namespace Kaedei.AcDown.UI
 			 //填充代理服务器
 			 LoadProxys();
 
-			 //显示在线解析引擎选项
-			 if (!Config.setting.Plugin_Enable_Flvcd)
-			 {
-				 chkFlvcd.Visible = false;
-				 lblVideoType.Visible = false;
-				 cboVideoType.Visible = false;
-			 }
-			 cboVideoType.SelectedIndex = 0;
 			 //显示下载弹幕/字幕选项
 			 if (Config.setting.DownSub)
 				 rdoDownSub.Checked = true;
@@ -129,11 +121,6 @@ namespace Kaedei.AcDown.UI
 					 picCheck.Visible = false;
 				 }
 			 }
-			 //设置checkbox
-			 if (txtInput.Text.StartsWith("+"))
-				 chkFlvcd.Checked = true;
-			 else
-				 chkFlvcd.Checked = false;
 		 }
 
 		 /// <summary>
@@ -167,7 +154,7 @@ namespace Kaedei.AcDown.UI
 					 {
 						 pluginNames.Add(item.Describe);
 					 }
-					 int selected = ToolForm.CreateSelectServerForm("请选择需要使用的下载插件", pluginNames.ToArray(), 0);
+					 int selected = ToolForm.CreateSelectServerForm("此网址被多个插件所支持，\n请选择需要使用的下载插件：", pluginNames.ToArray(), 0);
 					 selectedPlugin = plugins[selected];
 				 }
 				 else
@@ -212,10 +199,6 @@ namespace Kaedei.AcDown.UI
 					 task.DownSub = ds;
 					 //设置注释
 					 task.Comment = txtComment.Text;
-
-					 //设置ListView
-					 //ListViewItem lsi = new ListViewItem();
-
 
 					 //开始下载
 					 _taskMgr.StartTask(task);
@@ -283,59 +266,6 @@ namespace Kaedei.AcDown.UI
 			 this.TopMost = true;
 			 frm.Dispose();
 			 LoadProxys();
-		 }
-
-		 private void chkFlvcd_CheckedChanged(object sender, EventArgs e)
-		 {
-			 if (chkFlvcd.Checked)
-			 {
-				 if (!txtInput.Text.StartsWith("+"))
-					 txtInput.Text = "+" + txtInput.Text;
-				 if (Config.setting.Plugin_Enable_Flvcd)
-				 {
-					 cboVideoType.Enabled = true;
-				 }
-				 tabNew.SelectTab(tabOnline);
-			 }
-			 else
-			 {
-				 if (txtInput.Text.StartsWith("+"))
-					 txtInput.Text = txtInput.Text.TrimStart('+');
-				 if (Config.setting.Plugin_Enable_Flvcd)
-				 {
-					 cboVideoType.SelectedIndex = 0;
-					 cboVideoType.Enabled = false;
-				 }
-			 }
-		 }
-
-		 private void cboVideoType_SelectedIndexChanged(object sender, EventArgs e)
-		 {
-			 string end  = "";
-			 switch(cboVideoType.SelectedIndex)
-			 {
-				 case 1: //高清(360P)
-					 end = @"&format=high";
-					 break;
-				 case 2: //超清
-					 end=@"&format=super";
-					 break;
-				 case 3: //原画
-					 end = @"&format=real";
-					 break;
-				 default: //默认
-					 end="";
-					 break;
-			 }
-			 //替换Url
-			 txtInput.Text = txtInput.Text.Replace(@"&format=high", "");
-			 txtInput.Text = txtInput.Text.Replace(@"&format=super", "");
-			 txtInput.Text = txtInput.Text.Replace(@"&format=real", "");
-			 txtInput.Text += end;
-			 //显示提示
-			 if (end != "")
-				 toolTip.Show("只有部分支持网站支持清晰度切换。\n选择视频未包含的清晰度可能会造成解析失败", this.cboVideoType, 2500);
-
 		 }
 
 
