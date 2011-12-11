@@ -165,12 +165,12 @@ namespace Kaedei.AcDown.Component
 		public void DeleteTask(TaskInfo task, bool deleteFile)
 		{
 			//停止任务
-			task.Stop();
+			StopTask(task);
 
 			//启动新线程等待任务完全停止
 			Thread t = new Thread(new ThreadStart(() =>
 			{
-				while (task.Status == DownloadStatus.正在停止)
+				while (task.Status == DownloadStatus.正在停止 || task.Status== DownloadStatus.正在下载)
 				{
 					Thread.Sleep(50);
 				}
@@ -183,7 +183,14 @@ namespace Kaedei.AcDown.Component
 					{
 						if (File.Exists(f))
 						{
-							File.Delete(f);
+							try
+							{
+								File.Delete(f);
+							}
+							catch (Exception ex)
+							{
+								Logging.Add(ex);
+							}
 						}
 					}
 					//删除所有字幕文件
@@ -191,7 +198,14 @@ namespace Kaedei.AcDown.Component
 					{
 						if (File.Exists(item))
 						{
-							File.Delete(item);
+							try
+							{
+								File.Delete(item);
+							}
+							catch (Exception ex)
+							{
+								Logging.Add(ex);
+							}
 						}
 					}
 				}
@@ -324,6 +338,22 @@ namespace Kaedei.AcDown.Component
 				if (task.Status == DownloadStatus.正在下载)
 					task.SpeedLimit = speed;
 			}
+		}
+
+		/// <summary>
+		/// 取得任务队列的第一个运行中的任务
+		/// </summary>
+		public TaskInfo GetFirstRunning()
+		{
+			foreach (TaskInfo task in TaskInfos)
+			{
+				if (task.Status == DownloadStatus.正在下载)
+				{
+					return task;
+				}
+			}
+			return null;
+
 		}
 	}//end class
 }//end namespace

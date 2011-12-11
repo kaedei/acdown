@@ -34,20 +34,6 @@ namespace Kaedei.AcDown.Interface
 
 		void Download();
 		void StopDownload();
-
-		//Guid TaskId { get; set; }
-		//IAcdownPluginInfo GetBasePlugin();
-
-		//int PartCount { get; }
-		//int CurrentPart { get; }
-
-		//string Url{ get; set; }
-		//DirectoryInfo SaveDirectory { get; set; }
-		//List<string> FilePath { get; }
-		//List<string> SubFilePath { get; }
-
-		//DownloadStatus Status{ get; }
-		//string Title{ get; }
 	}
 
 

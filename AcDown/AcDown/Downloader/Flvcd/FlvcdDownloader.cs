@@ -79,10 +79,9 @@ namespace Kaedei.AcDown.Downloader
 			Info.Status = DownloadStatus.正在下载;
 
 			//原始Url
-			string ourl = Info.Url.Replace("+","");
-			Info.Url = ourl;
+			Info.Url = Info.Url.TrimStart('+');
 			//修正url
-			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(ourl);
+			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(Info.Url);
 			
 
 			try
@@ -97,6 +96,36 @@ namespace Kaedei.AcDown.Downloader
 					url = url + "&passwd=" + pw;
 					src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), Info.Proxy);
 				}
+
+				//获得所有清晰度
+				//获取需要的源代码部分
+				Regex rMulti = new Regex(@"用硕鼠下载.*?<a href.*?</table>", RegexOptions.Singleline);
+				Match mMulti = rMulti.Match(src);
+				if (mMulti.Success)
+				{
+					string allResSrc = mMulti.Value;
+					//获取url和名称
+					Regex rGetAllRes = new Regex(@"<a href=""(?<url>.+?)"">.+?<B>(?<mode>.+?)</B>");
+					MatchCollection mGetAllRes = rGetAllRes.Matches(allResSrc);
+					//将url和名称填入list中
+					List<string> resName = new List<string>();
+					List<string> resUrl = new List<string>();
+					resName.Add("默认清晰度");
+					resUrl.Add(url);
+					foreach (Match item in mGetAllRes)
+					{
+						resName.Add(item.Groups["mode"].Value);
+						resUrl.Add(item.Groups["url"].Value);
+					}
+					//用户选择清晰度
+					int selected = ToolForm.CreateSelectServerForm("在线解析引擎可以解析此视频的多种清晰度模式，\n请选择您需要的视频清晰度：", resName.ToArray(), 0);
+					url = resUrl[selected];
+
+					//重新获取网页源文件
+					src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), Info.Proxy);
+				}
+
+
 
 				//取得视频标题
 				Regex rTitle = new Regex(@"<input type=$hidden$ name=$name$ value=$(?<title>.+?)$>".Replace("$", "\""));
@@ -135,7 +164,7 @@ namespace Kaedei.AcDown.Downloader
 				MatchCollection mcPartUrls = rPartUrls.Matches(content);
 				foreach (Match item in mcPartUrls)
 				{
-					partUrls.Add(item.Groups["url"].Value);
+					partUrls.Add(item.Groups["url"].Value.Replace("&amp;", "&"));
 				}
 
 				//下载视频
@@ -190,7 +219,7 @@ namespace Kaedei.AcDown.Downloader
 					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 					//下载视频
-					success = Network.DownloadFile(currentParameter);
+					success = Network.DownloadFile(currentParameter, this.Info);
 
 					if (!success) //未出现错误即用户手动停止
 					{

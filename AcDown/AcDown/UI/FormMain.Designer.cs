@@ -65,6 +65,7 @@
          this.label2 = new System.Windows.Forms.Label();
          this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
          this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+         this.btnSpeedlimitApply = new System.Windows.Forms.Button();
          this.contextTool = new System.Windows.Forms.ToolStrip();
          this.toolStripButton2 = new System.Windows.Forms.ToolStripDropDownButton();
          this.toolStart = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,13 +84,13 @@
          this.rdoDeleted = new System.Windows.Forms.RadioButton();
          this.rdoFinished = new System.Windows.Forms.RadioButton();
          this.tabConfig = new System.Windows.Forms.TabPage();
-         this.tabFlvCombine = new System.Windows.Forms.TabPage();
-         this.tabAcPlay = new System.Windows.Forms.TabPage();
-         this.timerClipboard = new System.Windows.Forms.Timer(this.components);
          this.tabExample = new System.Windows.Forms.TabPage();
          this.txtExample = new System.Windows.Forms.TextBox();
+         this.tabFlvCombine = new System.Windows.Forms.TabPage();
          this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+         this.tabAcPlay = new System.Windows.Forms.TabPage();
          this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
+         this.timerClipboard = new System.Windows.Forms.Timer(this.components);
          ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
          this.statusStrip.SuspendLayout();
          this.toolStrip.SuspendLayout();
@@ -100,9 +101,9 @@
          this.tabDownload.SuspendLayout();
          this.panelFilter.SuspendLayout();
          this.tabConfig.SuspendLayout();
+         this.tabExample.SuspendLayout();
          this.tabFlvCombine.SuspendLayout();
          this.tabAcPlay.SuspendLayout();
-         this.tabExample.SuspendLayout();
          this.SuspendLayout();
          // 
          // lsv
@@ -393,7 +394,7 @@
             "关闭程序"});
          this.cboAfterComplete.Location = new System.Drawing.Point(141, 75);
          this.cboAfterComplete.Name = "cboAfterComplete";
-         this.cboAfterComplete.Size = new System.Drawing.Size(116, 28);
+         this.cboAfterComplete.Size = new System.Drawing.Size(138, 28);
          this.cboAfterComplete.TabIndex = 13;
          this.toolTip.SetToolTip(this.cboAfterComplete, "全部下载完成后执行的动作");
          // 
@@ -423,7 +424,7 @@
          this.udSpeedLimit.Size = new System.Drawing.Size(68, 26);
          this.udSpeedLimit.TabIndex = 16;
          this.udSpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-         this.toolTip.SetToolTip(this.udSpeedLimit, "限速设置即时生效。设置为0可以取消限速");
+         this.toolTip.SetToolTip(this.udSpeedLimit, "设置速度限制");
          // 
          // label2
          // 
@@ -446,6 +447,18 @@
          // 
          this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
          this.toolTip.ToolTipTitle = "提示";
+         // 
+         // btnSpeedlimitApply
+         // 
+         this.btnSpeedlimitApply.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnSpeedlimitApply.Location = new System.Drawing.Point(215, 28);
+         this.btnSpeedlimitApply.Name = "btnSpeedlimitApply";
+         this.btnSpeedlimitApply.Size = new System.Drawing.Size(64, 29);
+         this.btnSpeedlimitApply.TabIndex = 18;
+         this.btnSpeedlimitApply.Text = "生效";
+         this.toolTip.SetToolTip(this.btnSpeedlimitApply, "点击使速度限制生效，设置为0可以取消限速。");
+         this.btnSpeedlimitApply.UseVisualStyleBackColor = true;
+         this.btnSpeedlimitApply.Click += new System.EventHandler(this.btnSpeedlimitApply_Click);
          // 
          // contextTool
          // 
@@ -609,7 +622,7 @@
          this.rdoDownloading.Size = new System.Drawing.Size(82, 30);
          this.rdoDownloading.TabIndex = 23;
          this.rdoDownloading.TabStop = true;
-         this.rdoDownloading.Tag = "状态:正在下载|状态:等待开始|状态:正在停止|状态:出现错误";
+         this.rdoDownloading.Tag = "状态:正在下载|状态:等待开始|状态:正在停止|状态:出现错误|状态:已经停止";
          this.rdoDownloading.Text = "正在下载";
          this.rdoDownloading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
          this.rdoDownloading.UseVisualStyleBackColor = true;
@@ -645,6 +658,7 @@
          // 
          // tabConfig
          // 
+         this.tabConfig.Controls.Add(this.btnSpeedlimitApply);
          this.tabConfig.Controls.Add(this.label2);
          this.tabConfig.Controls.Add(this.udSpeedLimit);
          this.tabConfig.Controls.Add(this.cboAfterComplete);
@@ -656,34 +670,6 @@
          this.tabConfig.TabIndex = 1;
          this.tabConfig.Text = "下载选项";
          this.tabConfig.UseVisualStyleBackColor = true;
-         // 
-         // tabFlvCombine
-         // 
-         this.tabFlvCombine.Controls.Add(this.flvCombineControl1);
-         this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
-         this.tabFlvCombine.Name = "tabFlvCombine";
-         this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
-         this.tabFlvCombine.Size = new System.Drawing.Size(560, 293);
-         this.tabFlvCombine.TabIndex = 3;
-         this.tabFlvCombine.Text = "视频合并";
-         this.tabFlvCombine.UseVisualStyleBackColor = true;
-         // 
-         // tabAcPlay
-         // 
-         this.tabAcPlay.Controls.Add(this.acPlay1);
-         this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
-         this.tabAcPlay.Name = "tabAcPlay";
-         this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
-         this.tabAcPlay.Size = new System.Drawing.Size(560, 293);
-         this.tabAcPlay.TabIndex = 4;
-         this.tabAcPlay.Text = "弹幕播放";
-         this.tabAcPlay.UseVisualStyleBackColor = true;
-         // 
-         // timerClipboard
-         // 
-         this.timerClipboard.Enabled = true;
-         this.timerClipboard.Interval = 500;
-         this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
          // 
          // tabExample
          // 
@@ -708,6 +694,17 @@
          this.txtExample.Size = new System.Drawing.Size(554, 287);
          this.txtExample.TabIndex = 0;
          // 
+         // tabFlvCombine
+         // 
+         this.tabFlvCombine.Controls.Add(this.flvCombineControl1);
+         this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
+         this.tabFlvCombine.Name = "tabFlvCombine";
+         this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
+         this.tabFlvCombine.Size = new System.Drawing.Size(560, 293);
+         this.tabFlvCombine.TabIndex = 3;
+         this.tabFlvCombine.Text = "视频合并";
+         this.tabFlvCombine.UseVisualStyleBackColor = true;
+         // 
          // flvCombineControl1
          // 
          this.flvCombineControl1.AutoScroll = true;
@@ -719,6 +716,17 @@
          this.flvCombineControl1.Size = new System.Drawing.Size(554, 287);
          this.flvCombineControl1.TabIndex = 0;
          // 
+         // tabAcPlay
+         // 
+         this.tabAcPlay.Controls.Add(this.acPlay1);
+         this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
+         this.tabAcPlay.Name = "tabAcPlay";
+         this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
+         this.tabAcPlay.Size = new System.Drawing.Size(560, 293);
+         this.tabAcPlay.TabIndex = 4;
+         this.tabAcPlay.Text = "弹幕播放";
+         this.tabAcPlay.UseVisualStyleBackColor = true;
+         // 
          // acPlay1
          // 
          this.acPlay1.AutoScroll = true;
@@ -729,6 +737,12 @@
          this.acPlay1.Name = "acPlay1";
          this.acPlay1.Size = new System.Drawing.Size(554, 287);
          this.acPlay1.TabIndex = 0;
+         // 
+         // timerClipboard
+         // 
+         this.timerClipboard.Enabled = true;
+         this.timerClipboard.Interval = 500;
+         this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
          // 
          // FormMain
          // 
@@ -762,10 +776,10 @@
          this.panelFilter.ResumeLayout(false);
          this.tabConfig.ResumeLayout(false);
          this.tabConfig.PerformLayout();
-         this.tabFlvCombine.ResumeLayout(false);
-         this.tabAcPlay.ResumeLayout(false);
          this.tabExample.ResumeLayout(false);
          this.tabExample.PerformLayout();
+         this.tabFlvCombine.ResumeLayout(false);
+         this.tabAcPlay.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -834,6 +848,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStop;
         private System.Windows.Forms.TabPage tabExample;
         private System.Windows.Forms.TextBox txtExample;
+        private System.Windows.Forms.Button btnSpeedlimitApply;
 
 	 }
 }

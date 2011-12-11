@@ -12,9 +12,22 @@ namespace Kaedei.AcDown.Interface
 	public class Network
 	{
 		/// <summary>
-		/// 下载视频文件
+		/// 下载文件
 		/// </summary>
+		/// <param name="para">传递的下载参数</param>
+		/// <returns>一个布尔值，指示指定的下载是否已成功完成</returns>
 		public static bool DownloadFile(DownloadParameter para)
+		{
+			return DownloadFile(para, null);
+		}
+
+		/// <summary>
+		/// 下载文件
+		/// </summary>
+		/// <param name="para">传递的下载参数</param>
+		/// <param name="task">当前下载的任务信息</param>
+		/// <returns>一个布尔值，指示指定的下载是否已成功完成</returns>
+		public static bool DownloadFile(DownloadParameter para, TaskInfo task)
 		{
 			//用于限速的Tick
 			Int32 privateTick = 0;
@@ -161,17 +174,21 @@ namespace Kaedei.AcDown.Interface
 							//写文件(缓存)
 							bs.Write(buffer, 0, osize);
 
-							//限速
-							//if (GlobalSettings.GetSettings().SpeedLimit > 0)
-							if (para.SpeedLimit > 0)
-							{
 
+							//设置限速
+							int limit = 0;
+							if (task != null)
+								if (task.SpeedLimit >= 0)
+									limit = task.SpeedLimit;
+
+							if (limit > 0)
+							{
 								//下载计数加一count++
 								limitcount++;
 								//下载1KB
 								osize = deflate.Read(buffer, 0, buffer.Length);
 								//累积到limit KB后
-								if (limitcount >= para.SpeedLimit)
+								if (limitcount >= limit)
 								{
 									t = System.Environment.TickCount - privateTick;
 									//检查是否大于一秒
@@ -182,10 +199,12 @@ namespace Kaedei.AcDown.Interface
 									privateTick = System.Environment.TickCount;
 								}
 							}
+
 							else //如果不限速
 							{
 								osize = deflate.Read(buffer, 0, buffer.Length);
 							}
+							
 
 						} //end while
 					} //end bufferedstream
@@ -367,10 +386,6 @@ namespace Kaedei.AcDown.Interface
 		/// 读取或设置下载所使用的缓存大小，范围为1到255，单位为MByte。默认值为1
 		/// </summary>
 		public int CacheSize { get; set; }
-		/// <summary>
-		/// 读取或设置下载速度限制值。单位为KB
-		/// </summary>
-		public int SpeedLimit { get; set; }
 		/// <summary>
 		/// 读取或设置使用的代理服务器设置
 		/// </summary>

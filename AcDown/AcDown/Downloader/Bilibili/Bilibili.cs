@@ -389,7 +389,7 @@ namespace Kaedei.AcDown.Downloader
 						delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 						//下载视频
-						success = Network.DownloadFile(currentParameter);
+						success = Network.DownloadFile(currentParameter, this.Info);
 
 						if (!success) //未出现错误即用户手动停止
 						{

@@ -37,7 +37,6 @@
          this.lnkPaste = new System.Windows.Forms.LinkLabel();
          this.lblShowConfig = new System.Windows.Forms.LinkLabel();
          this.lnkSetProxy = new System.Windows.Forms.LinkLabel();
-         this.chkFlvcd = new System.Windows.Forms.CheckBox();
          this.rdoDownSubOnly = new System.Windows.Forms.RadioButton();
          this.label2 = new System.Windows.Forms.Label();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -45,11 +44,8 @@
          this.txtPath = new System.Windows.Forms.TextBox();
          this.label3 = new System.Windows.Forms.Label();
          this.groupBox2 = new System.Windows.Forms.GroupBox();
-         this.lblVideoType = new System.Windows.Forms.Label();
-         this.cboVideoType = new System.Windows.Forms.ComboBox();
          this.tabNew = new System.Windows.Forms.TabControl();
          this.tabConfig = new System.Windows.Forms.TabPage();
-         this.tabOnline = new System.Windows.Forms.TabPage();
          this.tabSub = new System.Windows.Forms.TabPage();
          this.rdoDownSub = new System.Windows.Forms.RadioButton();
          this.rdoNotDownSub = new System.Windows.Forms.RadioButton();
@@ -60,7 +56,6 @@
          this.groupBox2.SuspendLayout();
          this.tabNew.SuspendLayout();
          this.tabConfig.SuspendLayout();
-         this.tabOnline.SuspendLayout();
          this.tabSub.SuspendLayout();
          this.tabPage1.SuspendLayout();
          this.SuspendLayout();
@@ -129,7 +124,7 @@
          // 
          this.lnkPaste.AutoSize = true;
          this.lnkPaste.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.lnkPaste.Location = new System.Drawing.Point(342, 24);
+         this.lnkPaste.Location = new System.Drawing.Point(210, 156);
          this.lnkPaste.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
          this.lnkPaste.Name = "lnkPaste";
          this.lnkPaste.Size = new System.Drawing.Size(106, 21);
@@ -163,17 +158,6 @@
          this.lnkSetProxy.Text = "设置代理服务器";
          this.toolTip.SetToolTip(this.lnkSetProxy, "编辑代理服务器列表 ");
          this.lnkSetProxy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetProxy_LinkClicked);
-         // 
-         // chkFlvcd
-         // 
-         this.chkFlvcd.Location = new System.Drawing.Point(14, 159);
-         this.chkFlvcd.Name = "chkFlvcd";
-         this.chkFlvcd.Size = new System.Drawing.Size(190, 25);
-         this.chkFlvcd.TabIndex = 10;
-         this.chkFlvcd.Text = "使用在线引擎解析视频";
-         this.toolTip.SetToolTip(this.chkFlvcd, "遇到无法解析的网址，可以选择使用在线引擎来解析。\r\n目前在线解析引擎支持解析多达70多个网站，将近200多个网址示例");
-         this.chkFlvcd.UseVisualStyleBackColor = true;
-         this.chkFlvcd.CheckedChanged += new System.EventHandler(this.chkFlvcd_CheckedChanged);
          // 
          // rdoDownSubOnly
          // 
@@ -243,7 +227,6 @@
          // 
          // groupBox2
          // 
-         this.groupBox2.Controls.Add(this.chkFlvcd);
          this.groupBox2.Controls.Add(this.txtInput);
          this.groupBox2.Controls.Add(this.picCheck);
          this.groupBox2.Controls.Add(this.btnAdd);
@@ -258,36 +241,9 @@
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "下载";
          // 
-         // lblVideoType
-         // 
-         this.lblVideoType.AutoSize = true;
-         this.lblVideoType.Location = new System.Drawing.Point(25, 27);
-         this.lblVideoType.Name = "lblVideoType";
-         this.lblVideoType.Size = new System.Drawing.Size(93, 20);
-         this.lblVideoType.TabIndex = 19;
-         this.lblVideoType.Text = "视频清晰度：";
-         // 
-         // cboVideoType
-         // 
-         this.cboVideoType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-         this.cboVideoType.Enabled = false;
-         this.cboVideoType.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.cboVideoType.FormattingEnabled = true;
-         this.cboVideoType.Items.AddRange(new object[] {
-            "普通 / 标清",
-            "优酷高清 / 土豆360P",
-            "优酷超清 / 土豆480P",
-            "原画"});
-         this.cboVideoType.Location = new System.Drawing.Point(120, 24);
-         this.cboVideoType.Name = "cboVideoType";
-         this.cboVideoType.Size = new System.Drawing.Size(189, 28);
-         this.cboVideoType.TabIndex = 18;
-         this.cboVideoType.SelectedIndexChanged += new System.EventHandler(this.cboVideoType_SelectedIndexChanged);
-         // 
          // tabNew
          // 
          this.tabNew.Controls.Add(this.tabConfig);
-         this.tabNew.Controls.Add(this.tabOnline);
          this.tabNew.Controls.Add(this.tabSub);
          this.tabNew.Controls.Add(this.tabPage1);
          this.tabNew.Location = new System.Drawing.Point(12, 217);
@@ -307,18 +263,6 @@
          this.tabConfig.TabIndex = 1;
          this.tabConfig.Text = "下载设置";
          this.tabConfig.UseVisualStyleBackColor = true;
-         // 
-         // tabOnline
-         // 
-         this.tabOnline.Controls.Add(this.lblVideoType);
-         this.tabOnline.Controls.Add(this.cboVideoType);
-         this.tabOnline.Location = new System.Drawing.Point(4, 29);
-         this.tabOnline.Name = "tabOnline";
-         this.tabOnline.Padding = new System.Windows.Forms.Padding(3);
-         this.tabOnline.Size = new System.Drawing.Size(448, 174);
-         this.tabOnline.TabIndex = 0;
-         this.tabOnline.Text = "在线解析";
-         this.tabOnline.UseVisualStyleBackColor = true;
          // 
          // tabSub
          // 
@@ -399,8 +343,6 @@
          this.groupBox2.PerformLayout();
          this.tabNew.ResumeLayout(false);
          this.tabConfig.ResumeLayout(false);
-         this.tabOnline.ResumeLayout(false);
-         this.tabOnline.PerformLayout();
          this.tabSub.ResumeLayout(false);
          this.tabSub.PerformLayout();
          this.tabPage1.ResumeLayout(false);
@@ -425,12 +367,8 @@
         private System.Windows.Forms.ComboBox cboProxy;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel lnkSetProxy;
-        private System.Windows.Forms.CheckBox chkFlvcd;
         private System.Windows.Forms.TabControl tabNew;
-        private System.Windows.Forms.TabPage tabOnline;
         private System.Windows.Forms.TabPage tabConfig;
-        private System.Windows.Forms.Label lblVideoType;
-        private System.Windows.Forms.ComboBox cboVideoType;
         private System.Windows.Forms.TabPage tabSub;
         private System.Windows.Forms.RadioButton rdoDownSubOnly;
         private System.Windows.Forms.RadioButton rdoDownSub;

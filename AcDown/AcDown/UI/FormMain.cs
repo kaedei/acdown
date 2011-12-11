@@ -230,7 +230,7 @@ namespace Kaedei.AcDown.UI
 			watchClipboard = Config.setting.WatchClipboardEnabled;
 			//显示网址示例
 			StringBuilder sb = new StringBuilder();
-			sb.AppendLine("当前支持的网站:(网址举例)");
+			sb.AppendLine("AcDown当前支持下载的网站:(网址举例)");
 			foreach (var item in pluginMgr.Plugins)
 			{
 				sb.AppendLine();
@@ -319,7 +319,6 @@ namespace Kaedei.AcDown.UI
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			
-
 			//设置刷新频率
 			if (Config.setting.RefreshInfoInterval != timer.Interval)
 			{
@@ -396,17 +395,17 @@ namespace Kaedei.AcDown.UI
 			{
 				if (Config.setting.EnableWindows7Feature)
 				{
-					//TaskInfo a = taskMgr.GetFirstRunning();
-					//if (a != null) //如果有任务正在运行
-					//{
-					//   taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
-					//   //显示此任务的进度
-					//   taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProcess() * 10000), 10000);
-					//}
-					//else
-					//{
-					//   taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
-					//}
+					TaskInfo a = taskMgr.GetFirstRunning();
+					if (a != null) //如果有任务正在运行
+					{
+						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
+						//显示此任务的进度
+						taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProcess() * 10000), 10000);
+					}
+					else
+					{
+						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
+					}
 					//设置win7任务栏小图标
 					//taskbarList.SetOverlayIcon(this.Handle,this.Icon.Handle, "w");
 					//设置缩略图
@@ -463,6 +462,8 @@ namespace Kaedei.AcDown.UI
 				}
 			}
 		}// end timerClipboard_Tick
+
+
 
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -538,7 +539,7 @@ namespace Kaedei.AcDown.UI
 				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
 				if (downloader.Status != DownloadStatus.正在下载 &&
 					downloader.Status != DownloadStatus.等待开始 &&
-					downloader.Status != DownloadStatus.已经停止)
+					downloader.Status != DownloadStatus.正在停止)
 				{
 					taskMgr.StartTask(downloader);
 				}
@@ -771,12 +772,7 @@ namespace Kaedei.AcDown.UI
 			{
 				return;
 			}
-
-			foreach (ListViewItem item in lsv.SelectedItems)
-			{
-				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
-				taskMgr.DeleteTask(downloader, Config.setting.DeleteTaskAndFile);
-			}
+			DeleteFile(Config.setting.DeleteTaskAndFile);
 		}
 
 		//删除任务及文件
@@ -788,11 +784,20 @@ namespace Kaedei.AcDown.UI
 			{
 				return;
 			}
+			DeleteFile(true);
+			
+		}
 
+		private void DeleteFile(bool deletefile)
+		{
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
-				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
-				taskMgr.DeleteTask(downloader, true);
+				TaskInfo task = GetTask(new Guid((string)item.Tag));
+				//移除item
+				if (lsv.Items.Contains((ListViewItem)task.UIItem))
+					if (!IsMatchCurrentFilter(task))
+						lsv.Items.Remove(item);
+				taskMgr.DeleteTask(task, deletefile);
 			}
 		}
 
@@ -820,6 +825,12 @@ namespace Kaedei.AcDown.UI
 		{
 			Process.Start(@"http://www.sojump.com/jq/1055148.aspx");
 			toolQuestionnaire.Visible = false;
+		}
+
+		//限速生效
+		private void btnSpeedlimitApply_Click(object sender, EventArgs e)
+		{
+			taskMgr.SetSpeedLimitKb((int)udSpeedLimit.Value);
 		}
 
 		//获得win消息
@@ -1099,6 +1110,11 @@ namespace Kaedei.AcDown.UI
 					item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				}
 			}
+			//移除item
+			if (lsv.Items.Contains(item))
+				if (!IsMatchCurrentFilter(task))
+					lsv.Items.Remove(item);
+
 			//继续下一任务或关机
 			ProcessNext();
 		}
