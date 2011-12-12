@@ -72,7 +72,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//下载视频
 		public void Download()
-		{ 
+		{
 			//开始下载
 			delegates.Start(new ParaStart(this.Info));
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
@@ -82,7 +82,7 @@ namespace Kaedei.AcDown.Downloader
 			Info.Url = Info.Url.TrimStart('+');
 			//修正url
 			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(Info.Url);
-			
+
 
 			try
 			{
@@ -99,14 +99,15 @@ namespace Kaedei.AcDown.Downloader
 
 				//获得所有清晰度
 				//获取需要的源代码部分
-				Regex rMulti = new Regex(@"用硕鼠下载.*?<a href.*?</table>", RegexOptions.Singleline);
+				Regex rMulti = new Regex(@"用硕鼠下载.*?赞助商链接", RegexOptions.Singleline);
 				Match mMulti = rMulti.Match(src);
-				if (mMulti.Success)
+
+				string allResSrc = mMulti.Value;
+				//获取url和名称
+				Regex rGetAllRes = new Regex(@"<a href=""(?<url>.+?)"">.+?<B>(?<mode>.+?)</B>");
+				MatchCollection mGetAllRes = rGetAllRes.Matches(allResSrc);
+				if (mGetAllRes.Count > 1)
 				{
-					string allResSrc = mMulti.Value;
-					//获取url和名称
-					Regex rGetAllRes = new Regex(@"<a href=""(?<url>.+?)"">.+?<B>(?<mode>.+?)</B>");
-					MatchCollection mGetAllRes = rGetAllRes.Matches(allResSrc);
 					//将url和名称填入list中
 					List<string> resName = new List<string>();
 					List<string> resUrl = new List<string>();
@@ -120,11 +121,10 @@ namespace Kaedei.AcDown.Downloader
 					//用户选择清晰度
 					int selected = ToolForm.CreateSelectServerForm("在线解析引擎可以解析此视频的多种清晰度模式，\n请选择您需要的视频清晰度：", resName.ToArray(), 0);
 					url = resUrl[selected];
-
 					//重新获取网页源文件
 					src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), Info.Proxy);
-				}
 
+				}
 
 
 				//取得视频标题
@@ -154,7 +154,7 @@ namespace Kaedei.AcDown.Downloader
 				MatchCollection mcPartNames = rPartNames.Matches(content);
 				foreach (Match item in mcPartNames)
 				{
-					string pn = Tools.InvalidCharacterFilter(item.Groups["name"].Value,"");
+					string pn = Tools.InvalidCharacterFilter(item.Groups["name"].Value, "");
 					partNames.Add(pn);
 				}
 
@@ -175,7 +175,7 @@ namespace Kaedei.AcDown.Downloader
 				for (int i = 0; i < Info.PartCount; i++)
 				{
 					Info.CurrentPart = i + 1;
-					
+
 					//取得文件后缀名
 					string ext = Tools.GetExtension(partUrls[i]);
 					if (string.IsNullOrEmpty(ext))
@@ -229,7 +229,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 				} //end for
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Info.Status = DownloadStatus.出现错误;
 				delegates.Error(new ParaError(this.Info, ex));

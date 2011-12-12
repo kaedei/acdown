@@ -62,24 +62,7 @@ namespace Kaedei.AcDown.Component
       public bool Plugin_Enable_SfAcg = true;
    }
 
-   /// <summary>
-   /// 代理服务器设置
-   /// </summary>
-   [Serializable()]
-   public class AcDownProxy
-   {
-      public string Name = "";
-      public string Adress = "";
-      public int Port;
-      public string Username = "";
-      public string Password = "";
-      public WebProxy ToWebProxy()
-      {
-         WebProxy p = new WebProxy(Adress, Port);
-         p.Credentials = new NetworkCredential(Username, Password);
-         return p;
-      }
-   }
+   
 
    public static class Config
    {

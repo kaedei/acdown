@@ -11,6 +11,8 @@ using System.Collections.ObjectModel;
 using Kaedei.AcDown.Interface;
 using System.Threading;
 using System.Net;
+using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace Kaedei.AcDown.Component
 {
@@ -37,7 +39,7 @@ namespace Kaedei.AcDown.Component
 		PluginManager _pluginMgr;
 
 		//所有任务
-		public Collection<TaskInfo> TaskInfos = new Collection<TaskInfo>();
+		public List<TaskInfo> TaskInfos = new List<TaskInfo>();
 
 		//全局速度限制
 		private int _speedLimitGlobal = 0;
@@ -101,12 +103,6 @@ namespace Kaedei.AcDown.Component
 		/// </summary>
 		public void StartTask(TaskInfo task)
 		{
-			//寻找所需插件
-			if (task.BasePlugin == null)
-			{
-				task.BasePlugin = _pluginMgr.GetPlugin(task.PluginName);
-			}
-
 			//如果队列未满则开始下载
 			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 			{
@@ -137,6 +133,10 @@ namespace Kaedei.AcDown.Component
 		/// <param name="task"></param>
 		public void StopTask(TaskInfo task)
 		{
+			if (task.Status != DownloadStatus.等待开始 &&
+				task.Status != DownloadStatus.正在下载)
+				return;
+
 			task.Status = DownloadStatus.正在停止;
 			//刷新信息
 			delegates.Refresh(new ParaRefresh(task));
@@ -280,17 +280,7 @@ namespace Kaedei.AcDown.Component
 		/// </summary>
 		public void StopAllTasks()
 		{
-			////在正在进行的任务的弱引用集合中
-			//foreach (var item in taskThreadReferenceCollection)
-			//{
-			//   //如果该任务对象仍然存活（未被销毁）
-			//   if (item.IsAlive)
-			//   {
-			//      //强制终止线程
-			//      Thread t = (Thread)item.Target;
-			//      t.Abort();
-			//   }
-			//}
+
 		}//end StopAllTasks()
 
 		/// <summary>
@@ -353,6 +343,72 @@ namespace Kaedei.AcDown.Component
 				}
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// 保存所有任务到文件中
+		/// </summary>
+		public void SaveAllTasks()
+		{
+			//取得APPDATA路径名称
+			string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			path = Path.Combine(path, @"Kaedei\AcDown\");
+
+			if (!Directory.Exists(path))
+			{
+				//如果目录不存在则创建
+				Directory.CreateDirectory(path);
+			}
+
+			//序列化设置
+			using (FileStream fs = new FileStream(path + @"Task.xml", FileMode.Create))
+			{
+				try
+				{
+					XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
+					formatter.Serialize(fs, TaskInfos);
+				}
+				catch(Exception ex)
+				{
+					Logging.Add(ex);
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// 从文件中读取任务列表
+		/// </summary>
+		public void LoadAllTasks()
+		{
+			//取得APPDATA路径名称
+			string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			path = Path.Combine(path, @"Kaedei\AcDown\Task.xml");
+			//如果文件存在
+			if (File.Exists(path))
+			{
+				using (FileStream fs = new FileStream(path, FileMode.Open))
+				{
+					try
+					{
+						XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
+						TaskInfos = (List<TaskInfo>)formatter.Deserialize(fs);
+					}
+					catch (Exception ex)
+					{
+						Logging.Add(ex);
+					}
+				}
+			}
+
+			foreach (TaskInfo task in TaskInfos)
+			{
+				//寻找所需插件
+				if (task.BasePlugin == null)
+				{
+					task.BasePlugin = _pluginMgr.GetPlugin(task.PluginName);
+				}
+			}
 
 		}
 	}//end class

@@ -28,7 +28,15 @@ namespace Kaedei.AcDown.UI
          sb.AppendLine("任务编号: " + _task.TaskId.ToString());
          sb.AppendLine("Url: " + _task.Url);
          sb.AppendLine("下载状态: " + _task.Status.ToString());
-         sb.AppendLine("插件: " + _task.BasePlugin.Describe + " " + _task.BasePlugin.Version.ToString());
+         if (_task.BasePlugin == null)
+         {
+            sb.AppendLine("插件: 未加载或未启用");
+            sb.AppendLine("期望插件: " + _task.PluginName);
+         }
+         else
+         {
+            sb.AppendLine("插件: " + _task.BasePlugin.Describe + " " + _task.BasePlugin.Version.ToString());
+         }
          sb.AppendLine("标题: " + _task.Title);
          sb.AppendLine("创建时间: " + _task.CreateTime.ToString());
          sb.AppendLine("引用页: " + _task.SourceUrl);
@@ -54,7 +62,7 @@ namespace Kaedei.AcDown.UI
          }
 
          sb.AppendLine("字幕文件: ");
-         if (_task.FilePath.Count > 0)
+         if (_task.SubFilePath.Count > 0)
          {
             foreach (string item in _task.SubFilePath)
             {

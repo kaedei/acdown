@@ -10,6 +10,7 @@ using System.Xml;
 
 namespace Kaedei.AcDown.Interface
 {
+   [Serializable()]
    public class TaskInfo : IXmlSerializable
    {
       public TaskInfo()
@@ -173,7 +174,7 @@ namespace Kaedei.AcDown.Interface
       public void Start(DelegateContainer delegates)
       {
          if (BasePlugin == null)
-            throw new Exception("未找到匹配的插件");
+            throw new Exception("Plugin Not Found");
          resourceDownloader = BasePlugin.CreateDownloader();
          resourceDownloader.Info = this;
          resourceDownloader.delegates = delegates;
@@ -217,8 +218,8 @@ namespace Kaedei.AcDown.Interface
 
       public override string ToString()
       {
-         string template = "状态:{0} ID:{1} 标题:{2} 网址:{3} 创建时间:{4} 引用页:{5} 注释:{6}";
-         return string.Format(template, Status.ToString(), TaskId.ToString(), Title, Url, CreateTime.ToShortDateString(), SourceUrl, Comment);
+         string template = "状态:{0} 标题:{1} 网址:{2} 创建时间:{3} 引用页:{4} 注释:{5}";
+         return string.Format(template, Status.ToString(), Title, Url, CreateTime.ToShortDateString(), SourceUrl, Comment);
       }
 
       #region IXmlSerializable 成员
@@ -312,7 +313,8 @@ namespace Kaedei.AcDown.Interface
                FilePath.Add((string)s.Deserialize(reader));
                reader.ReadEndElement();
             }
-            reader.ReadEndElement();
+            if (reader.NodeType == XmlNodeType.EndElement)
+               reader.ReadEndElement();
 
             //downsub
             reader.ReadStartElement("DownSub");
@@ -320,9 +322,13 @@ namespace Kaedei.AcDown.Interface
             reader.ReadEndElement();
 
             //proxy
-            XmlSerializer sProxy = new XmlSerializer(typeof(WebProxy));
+            XmlSerializer sProxy = new XmlSerializer(typeof(AcDownProxy));
             reader.ReadStartElement("Proxy");
-            Proxy = (WebProxy)sProxy.Deserialize(reader);
+            AcDownProxy pxy = (AcDownProxy)sProxy.Deserialize(reader);
+            if (pxy.Address == "" && pxy.Port == 0)
+               Proxy = null;
+            else
+               Proxy = pxy.ToWebProxy();
             reader.ReadEndElement();
 
             //sourceUrl
@@ -346,10 +352,10 @@ namespace Kaedei.AcDown.Interface
             reader.ReadEndElement();
 
             //settings
-            XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
-            reader.ReadStartElement("Settings");
-            Settings = (SerializableDictionary<string, string>)sSettings.Deserialize(reader);
-            reader.ReadEndElement();
+            //XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
+            //reader.ReadStartElement("Settings");
+            //Settings = (SerializableDictionary<string, string>)sSettings.Deserialize(reader);
+            //reader.ReadEndElement();
 
 
             //结束读取
@@ -444,9 +450,9 @@ namespace Kaedei.AcDown.Interface
          writer.WriteEndElement();
 
          //proxy
-         XmlSerializer sProxy = new XmlSerializer(typeof(WebProxy));
+         XmlSerializer sProxy = new XmlSerializer(typeof(AcDownProxy));
          writer.WriteStartElement("Proxy");
-         sProxy.Serialize(writer, Proxy);
+         sProxy.Serialize(writer, new AcDownProxy().FromWebProxy(Proxy));
          writer.WriteEndElement();
 
          //source url
@@ -470,10 +476,10 @@ namespace Kaedei.AcDown.Interface
          writer.WriteEndElement();
 
          //settings
-         XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
-         writer.WriteStartElement("Settings");
-         s.Serialize(writer, Settings);
-         writer.WriteEndElement();
+         //XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
+         //writer.WriteStartElement("Settings");
+         //s.Serialize(writer, Settings);
+         //writer.WriteEndElement();
 
          //结束写入
          writer.WriteEndElement();
