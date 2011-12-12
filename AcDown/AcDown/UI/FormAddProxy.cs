@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI
 {
@@ -24,7 +25,7 @@ namespace Kaedei.AcDown.UI
       private void FormAddProxy_Load(object sender, EventArgs e)
       {
          txtName.Text = p.Name;
-         txtAddress.Text = p.Adress;
+         txtAddress.Text = p.Address;
          txtPort.Text = p.Port.ToString();
          txtUsername.Text = p.Username;
          txtPassword.Text = p.Password;
@@ -43,7 +44,7 @@ namespace Kaedei.AcDown.UI
             return;
          }
          p.Name = txtName.Text;
-         p.Adress = txtAddress.Text;
+         p.Address = txtAddress.Text;
          p.Port = int.Parse(txtPort.Text);
          p.Username = txtUsername.Text;
          p.Password = txtPassword.Text;

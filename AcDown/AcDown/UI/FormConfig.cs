@@ -5,6 +5,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI
 {
@@ -66,7 +67,7 @@ namespace Kaedei.AcDown.UI
                lsvProxy.Items.Add(new ListViewItem(new string[] 
                {
                   item.Name,
-                  item.Adress,
+                  item.Address,
                   item.Port.ToString() ,
                   item.Username,
                   item.Password
@@ -120,7 +121,7 @@ namespace Kaedei.AcDown.UI
          {
             AcDownProxy proxy = new AcDownProxy();
             proxy.Name = item.SubItems[0].Text;
-            proxy.Adress = item.SubItems[1].Text;
+            proxy.Address = item.SubItems[1].Text;
             proxy.Port = int.Parse(item.SubItems[2].Text);
             proxy.Username = item.SubItems[3].Text;
             proxy.Password = item.SubItems[4].Text;
@@ -188,7 +189,7 @@ namespace Kaedei.AcDown.UI
             lsvProxy.Items.Add(new ListViewItem(new string[] 
             {
                proxy.Name,
-               proxy.Adress,
+               proxy.Address,
                proxy.Port.ToString() ,
                proxy.Username,
                proxy.Password
@@ -206,7 +207,7 @@ namespace Kaedei.AcDown.UI
             //生成新的AcDownProxy对象
             AcDownProxy proxy = new AcDownProxy();
             proxy.Name = lsvProxy.Items[selected].SubItems[0].Text;
-            proxy.Adress = lsvProxy.Items[selected].SubItems[1].Text;
+            proxy.Address = lsvProxy.Items[selected].SubItems[1].Text;
             proxy.Port = int.Parse(lsvProxy.Items[selected].SubItems[2].Text);
             proxy.Username = lsvProxy.Items[selected].SubItems[3].Text;
             proxy.Password = lsvProxy.Items[selected].SubItems[4].Text;
@@ -219,7 +220,7 @@ namespace Kaedei.AcDown.UI
                lsvProxy.Items[selected] = new ListViewItem(new string[] 
                {
                   proxy.Name,
-                  proxy.Adress,
+                  proxy.Address,
                   proxy.Port.ToString() ,
                   proxy.Username,
                   proxy.Password

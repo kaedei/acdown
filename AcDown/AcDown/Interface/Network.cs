@@ -34,6 +34,18 @@ namespace Kaedei.AcDown.Interface
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
 
+			#region 先检查目标网址是否有Location属性
+
+			HttpWebRequest testlocation = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+			testlocation.AllowAutoRedirect = false;
+			using (WebResponse testresponse = testlocation.GetResponse())
+			{
+				if(!string.IsNullOrEmpty(testresponse.Headers["Location"]))
+				para.Url = testresponse.Headers["Location"];      //这里就是跳转地址了
+			}
+
+			#endregion
+
 			#region 检查文件是否被下载过&是否支持断点续传
 			//创建http请求
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
@@ -400,5 +412,33 @@ namespace Kaedei.AcDown.Interface
 		public int RangeTo { get; set; }
 	}
 
-	
+	/// <summary>
+	/// 代理服务器设置
+	/// </summary>
+	[Serializable()]
+	public class AcDownProxy
+	{
+		public string Name = "";
+		public string Address = "";
+		public int Port;
+		public string Username = "";
+		public string Password = "";
+		public WebProxy ToWebProxy()
+		{
+			WebProxy p = new WebProxy(Address, Port);
+			p.Credentials = new NetworkCredential(Username, Password);
+			return p;
+		}
+		public AcDownProxy FromWebProxy(WebProxy proxy)
+		{
+			if (proxy != null)
+			{
+				this.Address = proxy.Address.Host;
+				this.Port = proxy.Address.Port;
+				this.Username = ((NetworkCredential)proxy.Credentials).UserName;
+				this.Password = ((NetworkCredential)proxy.Credentials).Password;
+			}
+			return this;
+		}
+	}
 }

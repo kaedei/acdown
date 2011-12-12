@@ -80,6 +80,7 @@
          this.tabMain = new System.Windows.Forms.TabControl();
          this.tabDownload = new System.Windows.Forms.TabPage();
          this.panelFilter = new System.Windows.Forms.Panel();
+         this.rdoSearch = new System.Windows.Forms.RadioButton();
          this.rdoDownloading = new System.Windows.Forms.RadioButton();
          this.rdoDeleted = new System.Windows.Forms.RadioButton();
          this.rdoFinished = new System.Windows.Forms.RadioButton();
@@ -132,7 +133,6 @@
          this.lsv.View = System.Windows.Forms.View.Details;
          this.lsv.SelectedIndexChanged += new System.EventHandler(this.lsv_SelectedIndexChanged);
          this.lsv.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lsv_KeyUp);
-         this.lsv.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lsv_MouseClick);
          // 
          // headerStatus
          // 
@@ -308,8 +308,8 @@
          // searchCustom
          // 
          this.searchCustom.Name = "searchCustom";
-         this.searchCustom.Size = new System.Drawing.Size(121, 22);
-         this.searchCustom.Text = "自定义...";
+         this.searchCustom.Size = new System.Drawing.Size(169, 22);
+         this.searchCustom.Text = "自定义搜索引擎...";
          this.searchCustom.Click += new System.EventHandler(this.searchCustom_Click);
          // 
          // txtSearch
@@ -319,7 +319,6 @@
          this.txtSearch.MaxLength = 20;
          this.txtSearch.Name = "txtSearch";
          this.txtSearch.Size = new System.Drawing.Size(120, 31);
-         this.txtSearch.Text = "快捷搜索";
          this.txtSearch.ToolTipText = "请键入搜索关键词";
          this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
          this.txtSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyUp);
@@ -603,6 +602,7 @@
          // panelFilter
          // 
          this.panelFilter.AutoScroll = true;
+         this.panelFilter.Controls.Add(this.rdoSearch);
          this.panelFilter.Controls.Add(this.rdoDownloading);
          this.panelFilter.Controls.Add(this.rdoDeleted);
          this.panelFilter.Controls.Add(this.rdoFinished);
@@ -611,6 +611,20 @@
          this.panelFilter.Name = "panelFilter";
          this.panelFilter.Size = new System.Drawing.Size(90, 287);
          this.panelFilter.TabIndex = 26;
+         // 
+         // rdoSearch
+         // 
+         this.rdoSearch.Appearance = System.Windows.Forms.Appearance.Button;
+         this.rdoSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.rdoSearch.Location = new System.Drawing.Point(3, 114);
+         this.rdoSearch.Name = "rdoSearch";
+         this.rdoSearch.Size = new System.Drawing.Size(82, 30);
+         this.rdoSearch.TabIndex = 26;
+         this.rdoSearch.Tag = "CustomSearch";
+         this.rdoSearch.Text = "搜索";
+         this.rdoSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+         this.rdoSearch.UseVisualStyleBackColor = true;
+         this.rdoSearch.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
          // 
          // rdoDownloading
          // 
@@ -800,7 +814,7 @@
 		  private System.Windows.Forms.ColumnHeader headerName;
 		  private System.Windows.Forms.ColumnHeader headerProgress;
 		  private System.Windows.Forms.ColumnHeader headerSpeed;
-        private System.Windows.Forms.ColumnHeader headerSourceUrl;
+		  private System.Windows.Forms.ColumnHeader headerSourceUrl;
 		  private System.Windows.Forms.ColumnHeader headerPart;
 		  private System.Windows.Forms.Timer timer;
 		  private System.Windows.Forms.ToolStripSplitButton btnSearch;
@@ -816,9 +830,9 @@
 		  private System.Windows.Forms.ToolStripMenuItem mnuTrayExit;
 		  private System.Windows.Forms.ToolStripStatusLabel toolHelpCenter;
 		  private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.ToolStrip contextTool;
+		  private System.Windows.Forms.ToolStrip contextTool;
 		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		  private System.Windows.Forms.ToolStripButton toolInfo;
 		  private System.Windows.Forms.TabControl tabMain;
 		  private System.Windows.Forms.TabPage tabDownload;
@@ -833,22 +847,23 @@
 		  private System.Windows.Forms.ToolStripSplitButton toolDelete;
 		  private System.Windows.Forms.ToolStripMenuItem toolDeleteAndFile;
 		  private System.Windows.Forms.ToolStripButton toolUpdate;
-        private System.Windows.Forms.Timer timerClipboard;
-        private System.Windows.Forms.ToolStripSplitButton toolOpenFolder;
-        private System.Windows.Forms.ToolStripMenuItem toolOpenUrl;
-        private System.Windows.Forms.TabPage tabAcPlay;
-        private Components.AcPlayControl acPlay1;
-        private System.Windows.Forms.ToolStripStatusLabel toolQuestionnaire;
-        private System.Windows.Forms.RadioButton rdoDeleted;
-        private System.Windows.Forms.RadioButton rdoFinished;
-        private System.Windows.Forms.RadioButton rdoDownloading;
-        private System.Windows.Forms.Panel panelFilter;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripButton2;
-        private System.Windows.Forms.ToolStripMenuItem toolStart;
-        private System.Windows.Forms.ToolStripMenuItem toolStop;
-        private System.Windows.Forms.TabPage tabExample;
-        private System.Windows.Forms.TextBox txtExample;
-        private System.Windows.Forms.Button btnSpeedlimitApply;
+		  private System.Windows.Forms.Timer timerClipboard;
+		  private System.Windows.Forms.ToolStripSplitButton toolOpenFolder;
+		  private System.Windows.Forms.ToolStripMenuItem toolOpenUrl;
+		  private System.Windows.Forms.TabPage tabAcPlay;
+		  private Components.AcPlayControl acPlay1;
+		  private System.Windows.Forms.ToolStripStatusLabel toolQuestionnaire;
+		  private System.Windows.Forms.RadioButton rdoDeleted;
+		  private System.Windows.Forms.RadioButton rdoFinished;
+		  private System.Windows.Forms.RadioButton rdoDownloading;
+		  private System.Windows.Forms.Panel panelFilter;
+		  private System.Windows.Forms.ToolStripDropDownButton toolStripButton2;
+		  private System.Windows.Forms.ToolStripMenuItem toolStart;
+		  private System.Windows.Forms.ToolStripMenuItem toolStop;
+		  private System.Windows.Forms.TabPage tabExample;
+		  private System.Windows.Forms.TextBox txtExample;
+		  private System.Windows.Forms.Button btnSpeedlimitApply;
+        private System.Windows.Forms.RadioButton rdoSearch;
 
 	 }
 }

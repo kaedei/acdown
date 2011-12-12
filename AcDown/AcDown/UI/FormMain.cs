@@ -191,6 +191,7 @@ namespace Kaedei.AcDown.UI
 				new AcTaskDelegate(Error));
 			//任务管理器
 			taskMgr = new TaskManager(deles, pluginMgr);
+			taskMgr.LoadAllTasks();
 			//"新建任务"窗体初始化
 			FormNew.Initialize(pluginMgr, taskMgr);
 		}
@@ -241,8 +242,11 @@ namespace Kaedei.AcDown.UI
 				sb.AppendLine();
 			}
 			txtExample.Text = sb.ToString();
+
 		}
 
+
+		//窗体加载
 		private void FormMain_Load(object sender, EventArgs e)
 		{
 			if (Config.IsWindowsVistaOrHigher())
@@ -254,17 +258,25 @@ namespace Kaedei.AcDown.UI
 					taskbarList.HrInit();
 				}
 				//设置提示文字
-				SendMessage(txtSearch.TextBox.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"快捷搜索"));
+				SendMessage(txtSearch.TextBox.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"即时搜索"));
 				//设置listview效果
 				SetWindowTheme(this.lsv.Handle, "explorer", null); //Explorer style 
 				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
+			}
+			else  //如果是XP系统
+			{
+				txtSearch.Text = "即时搜索";
 			}
 			//选中下拉列表框
 			cboAfterComplete.SelectedIndex = 0;
 			//检查更新
 			if (Config.setting.EnableCheckUpdate)
 				CheckUpdate();
-			
+			//加载任务UI
+			foreach (TaskInfo task in taskMgr.TaskInfos)
+			{
+				RefreshTask(new ParaRefresh(task));
+			}
 		}
 
 		private void btnAbout_Click(object sender, EventArgs e)
@@ -303,7 +315,7 @@ namespace Kaedei.AcDown.UI
 
 		private void txtSearch_Click(object sender, EventArgs e)
 		{
-			if (txtSearch.Text == "快捷搜索")
+			if (txtSearch.Text == "即时搜索")
 				txtSearch.Text = "";
 			else
 				txtSearch.SelectAll();
@@ -494,19 +506,6 @@ namespace Kaedei.AcDown.UI
 			}
 		}
 
-		//单击弹出菜单
-		private void lsv_MouseClick(object sender, MouseEventArgs e)
-		{
-			//如果按下右键
-			if (e.Button == MouseButtons.Right)
-			{
-				////如果选择的项目大于0个
-				//if (lsv.SelectedItems.Count > 0)
-				//{
-				//   mnuContext.Show(lsv, e.Location);
-				//}
-			}
-		}
 
 		//显示工具栏
 		private void lsv_SelectedIndexChanged(object sender, EventArgs e)
@@ -616,7 +615,7 @@ namespace Kaedei.AcDown.UI
 		//搜索
 		private void btnSearch_ButtonClick(object sender, EventArgs e)
 		{
-			if (txtSearch.Text == "快捷搜索")
+			if (txtSearch.Text == "即时搜索")
 				return;
 			if (txtSearch.Text.Length != 0)
 			{
@@ -655,6 +654,11 @@ namespace Kaedei.AcDown.UI
 		{
 			if (e.KeyData == Keys.Enter)
 				btnSearch_ButtonClick(this, EventArgs.Empty);
+			else
+			{
+				SetTaskFilter(new string[] { txtSearch.Text.Trim() });
+				rdoSearch.Checked = true;
+			}
 		}
 
 		private void lblSpeed_Click(object sender, EventArgs e)
@@ -744,8 +748,8 @@ namespace Kaedei.AcDown.UI
 				}
 			}
 			this.Cursor = Cursors.WaitCursor;
-			//结束所有任务
-			taskMgr.StopAllTasks();
+			//保存所有任务
+			taskMgr.SaveAllTasks();
 			this.Cursor = Cursors.Default;
 			//释放托盘图标
 			notifyIcon.Dispose();
@@ -760,7 +764,7 @@ namespace Kaedei.AcDown.UI
 		private void txtSearch_Leave(object sender, EventArgs e)
 		{
 			if (!Config.IsWindowsVistaOrHigher() && txtSearch.Text == "")
-				txtSearch.Text = "快捷搜索";
+				txtSearch.Text = "即时搜索";
 		}
 
 		//删除任务
@@ -957,14 +961,15 @@ namespace Kaedei.AcDown.UI
 			{
 				//新建ListViewItem
 				ListViewItem lvi = new ListViewItem();
-				//lvi.SubItems.Add(downloader.Status.ToString()); //状态
+				
 				for (int i = 0; i < 8; i++)
 				{
 					lvi.SubItems.Add("");
 				}
-				lvi.SubItems[GetColumn("Name")].Text = "正在解析,请稍候"; //视频名称
-				lvi.SubItems[GetColumn("Part")].Text = "0/0"; //分段
-				lvi.SubItems[GetColumn("Progress")].Text = "0.0%"; //下载进度
+				lvi.SubItems[GetColumn("Status")].Text = task.Status.ToString();//状态
+				lvi.SubItems[GetColumn("Name")].Text = task.Title; //视频名称
+				lvi.SubItems[GetColumn("Part")].Text = task.CurrentPart.ToString() + "/" + task.PartCount.ToString(); //分段
+				lvi.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProcess()); //下载进度
 				lvi.SubItems[GetColumn("Speed")].Text = "0"; //下载速度
 				lvi.SubItems[GetColumn("RemainTime")].Text = "00:00:00"; //剩余时间
 				lvi.SubItems[GetColumn("PastTime")].Text = "00:00:00"; //已经过的时间
@@ -1141,8 +1146,14 @@ namespace Kaedei.AcDown.UI
 				//更新item
 				item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
 				item.SubItems[GetColumn("Name")].Text = task.Title;
-				item.SubItems[GetColumn("Progress")].Text = @"下载出错"; //下载进度
+				item.SubItems[GetColumn("Progress")].Text = @""; //下载进度
 				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
+			}
+			if (p.E.Message == "Plugin Not Found")
+			{
+				MessageBox.Show("AcDown希望使用这个插件来下载此任务:\n" + task.PluginName +
+										"\n遗憾的是，您好像并未启用它。", "未加载指定的插件", 
+										MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 			//显示ToolTip
 			if (errorTip)
@@ -1292,7 +1303,7 @@ namespace Kaedei.AcDown.UI
 		#region ——————过滤器——————
 
 
-		private string[] _filter = new string[] { "状态:正在下载", "状态:等待开始", "状态:正在停止", "状态:出现错误" };
+		private string[] _filter = new string[] { "状态:正在下载", "状态:等待开始", "状态:正在停止", "状态:出现错误", "状态:已经停止" };
 		/// <summary>
 		/// 设置任务过滤器
 		/// </summary>
@@ -1327,8 +1338,9 @@ namespace Kaedei.AcDown.UI
 			string tmp = task.ToString();
 			foreach (string f in _filter)
 			{
-				if (tmp.Contains(f.Trim()))
-					return true;
+				if (f.Trim() != "")
+					if (tmp.Contains(f.Trim()))
+						return true;
 			}
 			return false;
 		}
@@ -1339,9 +1351,16 @@ namespace Kaedei.AcDown.UI
 			RadioButton rdo = (RadioButton)sender;
 			//设置过滤器
 			if (rdo.Checked)
-				SetTaskFilter(rdo.Tag.ToString().Split('|'));
+			{
+				if (rdo.Tag.ToString() == "CustomSearch")
+					txtSearch.Focus();
+				else
+					SetTaskFilter(rdo.Tag.ToString().Split('|'));
+			}
 			//隐藏浮动工具栏
 			contextTool.Hide();
+			//取消选中所有任务
+			lsv.SelectedItems.Clear();
 		}
 
 		#endregion
