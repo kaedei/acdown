@@ -110,9 +110,6 @@ namespace Kaedei.AcDown.Interface
 					Directory.CreateDirectory(dir);
 			}
 
-			
-
-
 			#endregion
 
 			
@@ -146,7 +143,7 @@ namespace Kaedei.AcDown.Interface
 				if (supportrange && filelength != 0)//若服务器支持断点续传且文件存在
 				{
 					fs = new FileStream(para.FilePath, FileMode.Open, FileAccess.Write, FileShare.Read, 8);
-					fs.Seek(para.RangeStart, SeekOrigin.Begin);
+					fs.Seek(filelength, SeekOrigin.Begin);
 				}
 				else //服务器不支持断点续传或文件不存在（从头下载）
 				{
@@ -400,14 +397,6 @@ namespace Kaedei.AcDown.Interface
 		/// 读取或设置使用的代理服务器设置
 		/// </summary>
 		public WebProxy Proxy { get; set; }
-		/// <summary>
-		/// HTTP Range属性的起始值
-		/// </summary>
-		public int RangeStart { get; set; }
-		/// <summary>
-		/// HTTP Range属性的终止值，设置为0以单独使用RangeStart
-		/// </summary>
-		public int RangeTo { get; set; }
 	}
 
 	/// <summary>

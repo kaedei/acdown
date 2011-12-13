@@ -35,6 +35,7 @@
          this.lblVersion = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
          this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.btnSendEmail = new System.Windows.Forms.Button();
          this.btnCopyEmail = new System.Windows.Forms.Button();
          this.txtEmail = new System.Windows.Forms.TextBox();
          this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -136,6 +137,7 @@
          // 
          // groupBox2
          // 
+         this.groupBox2.Controls.Add(this.btnSendEmail);
          this.groupBox2.Controls.Add(this.btnCopyEmail);
          this.groupBox2.Controls.Add(this.txtEmail);
          this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -146,25 +148,36 @@
          this.groupBox2.Size = new System.Drawing.Size(294, 156);
          this.groupBox2.TabIndex = 2;
          this.groupBox2.TabStop = false;
-         this.groupBox2.Text = "联系作者";
+         this.groupBox2.Text = "联系作者(推荐)";
+         // 
+         // btnSendEmail
+         // 
+         this.btnSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+         this.btnSendEmail.Location = new System.Drawing.Point(150, 78);
+         this.btnSendEmail.Name = "btnSendEmail";
+         this.btnSendEmail.Size = new System.Drawing.Size(91, 36);
+         this.btnSendEmail.TabIndex = 3;
+         this.btnSendEmail.Text = "发送邮件";
+         this.btnSendEmail.UseVisualStyleBackColor = true;
+         this.btnSendEmail.Click += new System.EventHandler(this.btnSendEmail_Click);
          // 
          // btnCopyEmail
          // 
          this.btnCopyEmail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-         this.btnCopyEmail.Location = new System.Drawing.Point(56, 78);
+         this.btnCopyEmail.Location = new System.Drawing.Point(53, 78);
          this.btnCopyEmail.Name = "btnCopyEmail";
-         this.btnCopyEmail.Size = new System.Drawing.Size(182, 36);
+         this.btnCopyEmail.Size = new System.Drawing.Size(91, 36);
          this.btnCopyEmail.TabIndex = 2;
-         this.btnCopyEmail.Text = "复制邮件地址到剪贴板";
+         this.btnCopyEmail.Text = "复制地址";
          this.btnCopyEmail.UseVisualStyleBackColor = true;
          this.btnCopyEmail.Click += new System.EventHandler(this.btnCopyEmail_Click);
          // 
          // txtEmail
          // 
-         this.txtEmail.Location = new System.Drawing.Point(56, 43);
+         this.txtEmail.Location = new System.Drawing.Point(53, 43);
          this.txtEmail.Name = "txtEmail";
          this.txtEmail.ReadOnly = true;
-         this.txtEmail.Size = new System.Drawing.Size(182, 29);
+         this.txtEmail.Size = new System.Drawing.Size(188, 29);
          this.txtEmail.TabIndex = 1;
          this.txtEmail.Text = "kaedei@foxmail.com";
          // 
@@ -233,18 +246,18 @@
          // 
          this.lnkFeed.Image = global::Kaedei.AcDown.Properties.Resources.UpdateNoti;
          this.lnkFeed.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-         this.lnkFeed.Location = new System.Drawing.Point(54, 47);
+         this.lnkFeed.Location = new System.Drawing.Point(22, 47);
          this.lnkFeed.Name = "lnkFeed";
-         this.lnkFeed.Size = new System.Drawing.Size(186, 63);
+         this.lnkFeed.Size = new System.Drawing.Size(250, 63);
          this.lnkFeed.TabIndex = 6;
          this.lnkFeed.TabStop = true;
-         this.lnkFeed.Text = "第一时间获得新版本信息";
+         this.lnkFeed.Text = "【新】第一时间获得新版本信息";
          this.lnkFeed.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
          this.lnkFeed.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFeed_LinkClicked);
          // 
          // btnClose
          // 
-         this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+         this.btnClose.Cursor = System.Windows.Forms.Cursors.Default;
          this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
          this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
          this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -357,5 +370,6 @@
       private System.Windows.Forms.LinkLabel lnkWeibo;
       private System.Windows.Forms.Button btnCopyEmail;
       private System.Windows.Forms.TextBox txtEmail;
+      private System.Windows.Forms.Button btnSendEmail;
    }
 }
