@@ -1067,6 +1067,9 @@ namespace Kaedei.AcDown.UI
 			TaskInfo task = p.Task;
 			ListViewItem item = (ListViewItem)task.UIItem;
 
+			//设置完成时间
+			task.FinishTime = DateTime.Now;
+
 			//如果下载成功
 			if (p.Successed)
 			{

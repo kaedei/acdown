@@ -76,5 +76,11 @@ namespace Kaedei.AcDown.UI
          }
          catch { }
       }
+
+      private void btnSendEmail_Click(object sender, EventArgs e)
+      {
+         Process.Start(@"http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=td7U0NHQ3PXD3MWbxMSb1trY");
+      }
+
    }
 }
