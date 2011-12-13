@@ -40,10 +40,10 @@ namespace Kaedei.AcDown.Interface
 			testlocation.AllowAutoRedirect = false;
 			using (WebResponse testresponse = testlocation.GetResponse())
 			{
-				if(!string.IsNullOrEmpty(testresponse.Headers["Location"]))
-				para.Url = testresponse.Headers["Location"];      //这里就是跳转地址了
+				if (!string.IsNullOrEmpty(testresponse.Headers["Location"]))
+					//获得跳转地址
+					para.Url = testresponse.Headers["Location"];
 			}
-
 			#endregion
 
 			#region 检查文件是否被下载过&是否支持断点续传
@@ -54,58 +54,53 @@ namespace Kaedei.AcDown.Interface
 			//设置代理服务器
 			if (para.Proxy != null) 
 				request.Proxy = para.Proxy;
-			//设置Range
-			if (para.RangeStart > 0)
-			{
-				if (para.RangeTo > para.RangeStart)
-					request.AddRange(para.RangeStart, para.RangeTo);
-				else
-					request.AddRange(para.RangeStart);
-			}
 
 			//获取服务器回应
-			HttpWebResponse response = null;
-			try
-			{
-				response = (HttpWebResponse)request.GetResponse();
-			}
-			catch(WebException ex)
-			{
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
 				//如果Range超出范围
-				if(((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.RequestedRangeNotSatisfiable)
-					throw ex;
-			}
+				//if(((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.RequestedRangeNotSatisfiable)
+				//   throw ex;
+
 			//检查服务器是否支持断点续传
 			bool supportrange = false;
 			if (response != null)
 				supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
-			//若设置了范围 而服务器却不支持断点续传
-			if ((para.RangeStart != 0 || para.RangeTo != 0) && supportrange==false) 
-			{
-				//重新获取服务器回应
-				if (response != null)
-					response.Close();
-				//创建http请求
-				request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-				//设置超时
-				request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
-				//设置代理服务器
-				if (para.Proxy != null)
-					request.Proxy = para.Proxy;
-				response = (HttpWebResponse)request.GetResponse();
-			}
+
+			//设置文件长度和已下载的长度
 			//文件长度
-			para.TotalLength = response.ContentLength; 
+			para.TotalLength = response.ContentLength;
 
 			//如果要下载的文件存在
-			if (File.Exists(para.FilePath) && supportrange == false)
+			long filelength=0;
+			if (File.Exists(para.FilePath))
 			{
-				long filelength = new FileInfo(para.FilePath).Length;
+				filelength = new FileInfo(para.FilePath).Length;
 				//如果文件长度相同
 				if (filelength == para.TotalLength)
 				{
 					//返回下载成功
 					return true;
+				}
+				
+				//如果服务器支持断点续传
+				if (supportrange)
+				{
+					//设置"已完成字节数"
+					para.DoneBytes = filelength;
+					//重新获取服务器回应
+					if (response != null)
+						response.Close();
+					//创建http请求
+					request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+					//设置超时
+					request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+					//设置代理服务器
+					if (para.Proxy != null)
+						request.Proxy = para.Proxy;
+					//设置Range
+					request.AddRange(int.Parse(filelength.ToString()));
+					response = (HttpWebResponse)request.GetResponse();
 				}
 			}
 			else //如果不存在则建立文件夹
@@ -114,6 +109,9 @@ namespace Kaedei.AcDown.Interface
 				if (!Directory.Exists(dir))
 					Directory.CreateDirectory(dir);
 			}
+
+			
+
 
 			#endregion
 
@@ -125,7 +123,6 @@ namespace Kaedei.AcDown.Interface
 			//确定缓冲长度
 			if (para.CacheSize > 256 || para.CacheSize < 1)
 				para.CacheSize = 1;
-			para.DoneBytes = 0; //完成字节数
 			para.LastTick = System.Environment.TickCount; //系统计数
 
 			//获取下载流
@@ -146,12 +143,12 @@ namespace Kaedei.AcDown.Interface
 				}
 				
 				//设置FileStream
-				if ((para.RangeStart != 0 || para.RangeTo != 0) && supportrange)//若设置了范围且服务器支持
+				if (supportrange && filelength != 0)//若服务器支持断点续传且文件存在
 				{
 					fs = new FileStream(para.FilePath, FileMode.Open, FileAccess.Write, FileShare.Read, 8);
 					fs.Seek(para.RangeStart, SeekOrigin.Begin);
 				}
-				else //没有设置范围或服务器不支持（从头下载）
+				else //服务器不支持断点续传或文件不存在（从头下载）
 				{
 					fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8);
 				}
@@ -364,6 +361,7 @@ namespace Kaedei.AcDown.Interface
 		}
 
 	}
+
 
 	/// <summary>
 	/// 下载参数

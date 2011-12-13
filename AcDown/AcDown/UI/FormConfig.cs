@@ -287,6 +287,21 @@ namespace Kaedei.AcDown.UI
          }
       }
 
+      private void lnkOpenConfig_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+      {
+         //取得APPDATA路径名称
+         string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+         path = Path.Combine(path, @"Kaedei\AcDown\");
+
+         try
+         {
+            Process.Start(path);
+         }
+         catch
+         {
+         }
+      }
+
 
 
 

@@ -348,39 +348,44 @@ namespace Kaedei.AcDown.UI
 				//如果是正在下载的任务
 				if (task.Status == DownloadStatus.正在下载)
 				{
-					//显示进度
-					ListViewItem item = (ListViewItem)task.UIItem;
-					if (task.Downloader.TotalLength != 0)
+					try
 					{
-						item.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProcess());
-					}
-					else
-					{
-						item.SubItems[GetColumn("Progress")].Text = "0.0%";
-					}
-					//显示速度
-					double currentSpeed = 0;
-					currentSpeed = (double)task.GetTickCount() / (timer.Interval *1024 / 1000);
-					if (currentSpeed < 0) currentSpeed = 0;
-					speed += currentSpeed;
-					item.SubItems[GetColumn("Speed")].Text = string.Format("{0:F1}", currentSpeed) + "KB/s";
-					//显示已用时间
-					DateTime now = DateTime.Now;
-					TimeSpan use = now - task.CreateTime;
-					item.SubItems[GetColumn("PastTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", use.Hours, use.Minutes, use.Seconds);
-					//显示剩余时间：剩余时间 = (总长度 - 已完成)/每秒速度
-					double remain = (task.Downloader.TotalLength - task.Downloader.DoneBytes) / currentSpeed / 1024;
-					if (remain > 0 && !double.IsInfinity(remain))
-					{
-						try
+						//显示进度
+						ListViewItem item = (ListViewItem)task.UIItem;
+						if (task.Downloader.TotalLength != 0)
 						{
-							int hour = (int)(remain / 3600);
-							int minute =(int)((remain % 3600) / 60);
-							int second = (int)(remain % 3600 % 60);
-							item.SubItems[GetColumn("RemainTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", hour, minute, second);
+							item.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProcess());
 						}
-						catch (Exception ex) { }
+						else
+						{
+							item.SubItems[GetColumn("Progress")].Text = "0.0%";
+						}
+						//显示速度
+						double currentSpeed = 0;
+						currentSpeed = (double)task.GetTickCount() / (timer.Interval * 1024 / 1000);
+						if (currentSpeed < 0) currentSpeed = 0;
+						speed += currentSpeed;
+						item.SubItems[GetColumn("Speed")].Text = string.Format("{0:F1}", currentSpeed) + "KB/s";
+						//显示已用时间
+						DateTime now = DateTime.Now;
+						TimeSpan use = now - task.CreateTime;
+						item.SubItems[GetColumn("PastTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", use.Hours, use.Minutes, use.Seconds);
+						//显示剩余时间：剩余时间 = (总长度 - 已完成)/每秒速度
+						double remain = (task.Downloader.TotalLength - task.Downloader.DoneBytes) / currentSpeed / 1024;
+						if (remain > 0 && !double.IsInfinity(remain))
+						{
+							try
+							{
+								int hour = (int)(remain / 3600);
+								int minute = (int)((remain % 3600) / 60);
+								int second = (int)(remain % 3600 % 60);
+								item.SubItems[GetColumn("RemainTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", hour, minute, second);
+							}
+							catch (Exception ex) { }
+						}
 					}
+					catch
+					{ }
 				}
 				//如果正在等待开始
 				if (task.Status == DownloadStatus.等待开始)
@@ -649,7 +654,7 @@ namespace Kaedei.AcDown.UI
 			}
 		}
 
-		//按下回车搜索
+		//即时搜索
 		private void txtSearch_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (e.KeyData == Keys.Enter)
@@ -749,7 +754,8 @@ namespace Kaedei.AcDown.UI
 			}
 			this.Cursor = Cursors.WaitCursor;
 			//保存所有任务
-			taskMgr.SaveAllTasks();
+			Thread t = new Thread(new ThreadStart(new MethodInvoker(taskMgr.SaveAllTasks)));
+			t.Start();
 			this.Cursor = Cursors.Default;
 			//释放托盘图标
 			notifyIcon.Dispose();
@@ -797,10 +803,6 @@ namespace Kaedei.AcDown.UI
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
 				TaskInfo task = GetTask(new Guid((string)item.Tag));
-				//移除item
-				if (lsv.Items.Contains((ListViewItem)task.UIItem))
-					if (!IsMatchCurrentFilter(task))
-						lsv.Items.Remove(item);
 				taskMgr.DeleteTask(task, deletefile);
 			}
 		}

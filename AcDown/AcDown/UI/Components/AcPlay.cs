@@ -36,7 +36,8 @@ namespace Kaedei.AcDown.UI.Components
 
          //删除所有旧版本文件
          string dir_acplay = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\");
-         Directory.Delete(dir_acplay, true);
+         if (Directory.Exists(dir_acplay))
+            Directory.Delete(dir_acplay, true);
 
 
          //建立文件夹

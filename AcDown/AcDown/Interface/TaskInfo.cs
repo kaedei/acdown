@@ -302,11 +302,13 @@ namespace Kaedei.AcDown.Interface
                FilePath.Add((string)s.Deserialize(reader));
                reader.ReadEndElement();
             }
-            reader.ReadEndElement();
+            if (reader.NodeType == XmlNodeType.EndElement)
+               reader.ReadEndElement();
 
             //subfilepath
-            reader.ReadStartElement("SubFiles");
             SubFilePath = new List<string>();
+            reader.ReadStartElement("SubFiles");
+
             while (reader.IsStartElement("SubFile"))
             {
                reader.ReadStartElement("SubFile");
@@ -315,6 +317,9 @@ namespace Kaedei.AcDown.Interface
             }
             if (reader.NodeType == XmlNodeType.EndElement)
                reader.ReadEndElement();
+
+
+
 
             //downsub
             reader.ReadStartElement("DownSub");
@@ -352,11 +357,18 @@ namespace Kaedei.AcDown.Interface
             reader.ReadEndElement();
 
             //settings
-            //XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
-            //reader.ReadStartElement("Settings");
-            //Settings = (SerializableDictionary<string, string>)sSettings.Deserialize(reader);
-            //reader.ReadEndElement();
-
+            reader.ReadStartElement("Settings");
+            if (!reader.IsEmptyElement)
+            {
+               XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
+               Settings = (SerializableDictionary<string, string>)sSettings.Deserialize(reader);
+            }
+            else
+            {
+               Settings = new SerializableDictionary<string, string>();
+               reader.Read();
+            }
+            reader.ReadEndElement();
 
             //结束读取
             reader.ReadEndElement();
@@ -393,6 +405,8 @@ namespace Kaedei.AcDown.Interface
 
          //status
          writer.WriteStartElement("Status");
+         if (Status == DownloadStatus.正在下载 || Status == DownloadStatus.正在停止 || Status == DownloadStatus.等待开始)
+            Status = DownloadStatus.已经停止;
          s.Serialize(writer, Status.ToString());
          writer.WriteEndElement();
 
@@ -476,12 +490,11 @@ namespace Kaedei.AcDown.Interface
          writer.WriteEndElement();
 
          //settings
-         //XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
-         //writer.WriteStartElement("Settings");
-         //s.Serialize(writer, Settings);
-         //writer.WriteEndElement();
+         XmlSerializer sSettings = new XmlSerializer(typeof(SerializableDictionary<string, string>));
+         writer.WriteStartElement("Settings");
+         sSettings.Serialize(writer, Settings);
+         writer.WriteEndElement();
 
-         //结束写入
          writer.WriteEndElement();
 
       }

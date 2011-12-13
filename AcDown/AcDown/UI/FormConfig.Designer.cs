@@ -91,6 +91,7 @@
          this.chkEnableLog = new System.Windows.Forms.CheckBox();
          this.btnDefault = new System.Windows.Forms.Button();
          this.tip = new System.Windows.Forms.ToolTip(this.components);
+         this.lnkOpenConfig = new System.Windows.Forms.LinkLabel();
          this.tab.SuspendLayout();
          this.pageDownload.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -755,6 +756,7 @@
          // 
          // pageDebug
          // 
+         this.pageDebug.Controls.Add(this.lnkOpenConfig);
          this.pageDebug.Controls.Add(this.label8);
          this.pageDebug.Controls.Add(this.udNetworkTimeout);
          this.pageDebug.Controls.Add(this.lnkLog);
@@ -845,6 +847,17 @@
          // 
          this.tip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
          this.tip.ToolTipTitle = "设置";
+         // 
+         // lnkOpenConfig
+         // 
+         this.lnkOpenConfig.AutoSize = true;
+         this.lnkOpenConfig.Location = new System.Drawing.Point(131, 57);
+         this.lnkOpenConfig.Name = "lnkOpenConfig";
+         this.lnkOpenConfig.Size = new System.Drawing.Size(125, 12);
+         this.lnkOpenConfig.TabIndex = 11;
+         this.lnkOpenConfig.TabStop = true;
+         this.lnkOpenConfig.Text = "打开配置文件存储目录";
+         this.lnkOpenConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOpenConfig_LinkClicked);
          // 
          // FormConfig
          // 
@@ -952,5 +965,6 @@
         private System.Windows.Forms.TabPage tabUpdate;
         private System.Windows.Forms.CheckBox chkEnableCheckUpdate;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.LinkLabel lnkOpenConfig;
 	 }
 }
