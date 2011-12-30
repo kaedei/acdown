@@ -46,7 +46,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^http://(www\.|)bilibili\.(us|tv)/video/av(?<av>\w+)");
+			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv)/video/|)av(?<av>\d{2,6})");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -65,7 +65,7 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://(www\.|)bilibili\.(us|tv)/video/av(?<av>.\w+)(/index_(?<subav>\d+)\.html|)");
+			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv)/video/|)av(?<av>\d{2,6})(/index_(?<subav>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -164,6 +164,10 @@ namespace Kaedei.AcDown.Downloader
 
 			//修正URL
 			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
+			//修正URL2
+			if (Regex.Match(Info.Url, @"^av\d{2,6}$").Success)
+				Info.Url = "http://www.bilibili.tv/video/" + Info.Url + "/";
+
 			string url = Info.Url;
 			//视频地址数组
 			string[] videos;
@@ -210,11 +214,8 @@ namespace Kaedei.AcDown.Downloader
 						request.Proxy = Info.Proxy;
 					//设置cookies
 					request.CookieContainer = cookies;
-					HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-					using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-					{
-						src = reader.ReadToEnd();
-					}
+					//获取网页源代码
+					src = Network.GetHtmlSource(request, Encoding.UTF8);
 				}
 
 				#endregion

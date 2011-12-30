@@ -3,6 +3,7 @@ using System.Net;
 using System.IO;
 using System.Threading;
 using System.IO.Compression;
+using System.Text;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -312,18 +313,15 @@ namespace Kaedei.AcDown.Interface
 		}
 
 		/// <summary>
-		/// 取得网页源代码
+		/// 获取网页源代码
 		/// </summary>
-		/// <param name="url"></param>
+		/// <param name="request"></param>
 		/// <param name="encode"></param>
 		/// <returns></returns>
-		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy)
+		public static string GetHtmlSource(HttpWebRequest request, System.Text.Encoding encode)
 		{
 			string sline = "";
-			var req = HttpWebRequest.Create(url);
-			if (proxy != null)
-				req.Proxy = proxy;
-			HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+			HttpWebResponse res = (HttpWebResponse)request.GetResponse();
 			if (res.ContentEncoding == "gzip")
 			{
 				//Gzip解压缩
@@ -353,10 +351,23 @@ namespace Kaedei.AcDown.Interface
 					sline = reader.ReadToEnd();
 				}
 			}
-			
 			return sline;
 		}
 
+		/// <summary>
+		/// 取得网页源代码
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="encode"></param>
+		/// <returns></returns>
+		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy)
+		{
+			string sline = "";
+			HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+			if (proxy != null)
+				req.Proxy = proxy;
+			return GetHtmlSource(req, encode);
+		}
 	}
 
 

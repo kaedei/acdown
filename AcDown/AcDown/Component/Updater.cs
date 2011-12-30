@@ -25,7 +25,7 @@ namespace Kaedei.AcDown.Component
       public Updater()
       {
          //取得临时文件的路径
-         tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+         tempFile = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
          tempFile = Path.Combine(tempFile, @"Kaedei\AcDown\Update\AcDown.exe");
       }
 
@@ -37,7 +37,7 @@ namespace Kaedei.AcDown.Component
       {
          try
          {
-            string src = Network.GetHtmlSource(@"http://acdown.codeplex.com/wikipage?title=AutoUpdate", Encoding.UTF8);
+            string src = Network.GetHtmlSource(Config.setting.CheckUpdateDocument, Encoding.UTF8);
             Regex rVersion = new Regex(@"{updatestart}NEWVERSION=(?<major>\d+)\.(?<minor>\d+).(?<build>\d+)\.(?<revision>\d+){updateend}");
             Match mVersion = rVersion.Match(src);
             string verstring = mVersion.Groups["major"].ToString() + "." +

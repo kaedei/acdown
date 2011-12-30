@@ -1331,7 +1331,10 @@ namespace Kaedei.AcDown.UI
 			}
 			//恢复listview布局
 			lsv.ResumeLayout();
-
+			//隐藏浮动工具栏
+			contextTool.Hide();
+			//取消选中所有任务
+			lsv.SelectedItems.Clear();
 		}
 
 		/// <summary>
@@ -1362,10 +1365,10 @@ namespace Kaedei.AcDown.UI
 				else
 					SetTaskFilter(rdo.Tag.ToString().Split('|'));
 			}
-			//隐藏浮动工具栏
-			contextTool.Hide();
-			//取消选中所有任务
-			lsv.SelectedItems.Clear();
+			////隐藏浮动工具栏
+			//contextTool.Hide();
+			////取消选中所有任务
+			//lsv.SelectedItems.Clear();
 		}
 
 		#endregion

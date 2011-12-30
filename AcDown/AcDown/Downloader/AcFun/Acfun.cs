@@ -46,7 +46,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)");
+			Regex r = new Regex(@"^(http://((www\.|)acfun\.tv|.*?)/v/|)ac(?<id>\d+)");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -65,7 +65,7 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"^http://((www\.|)acfun\.tv|.*?)/v/ac(?<id>\d+)(/index_(?<subid>\d+)\.html|)");
+			Regex r = new Regex(@"^(http://((www\.|)acfun\.tv|.*?)/v/|)ac(?<id>\d+)(/index_(?<subid>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -169,9 +169,12 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
 			Info.Status = DownloadStatus.正在下载;
 
-			////要分析的地址
-			string url = Info.Url.Replace("www.acfun.tv", ServerIP);
-			url = url.Replace("acfun.tv", ServerIP);
+			//修正URL
+			if (Regex.Match(Info.Url, @"^ac\d+$").Success)
+				Info.Url = "http://www.acfun.tv/v/" + Info.Url;
+
+			string url = Info.Url;
+
 
 			try
 			{

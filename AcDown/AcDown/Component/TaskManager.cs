@@ -345,6 +345,7 @@ namespace Kaedei.AcDown.Component
 			return null;
 		}
 
+		private string saveTaskLock = "acdownsavetask";
 		/// <summary>
 		/// 保存所有任务到文件中
 		/// </summary>
@@ -360,17 +361,20 @@ namespace Kaedei.AcDown.Component
 				Directory.CreateDirectory(path);
 			}
 
-			//序列化设置
-			using (FileStream fs = new FileStream(path + @"Task.xml", FileMode.Create))
+			lock (saveTaskLock)
 			{
-				try
+				//序列化至文件
+				using (FileStream fs = new FileStream(path + @"Task.xml", FileMode.Create))
 				{
-					XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
-					formatter.Serialize(fs, TaskInfos);
-				}
-				catch(Exception ex)
-				{
-					Logging.Add(ex);
+					try
+					{
+						XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
+						formatter.Serialize(fs, TaskInfos);
+					}
+					catch (Exception ex)
+					{
+						Logging.Add(ex);
+					}
 				}
 			}
 		}
