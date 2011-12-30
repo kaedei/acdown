@@ -48,6 +48,8 @@ namespace Kaedei.AcDown.UI
          udRefreshInfo.Value = Config.setting.RefreshInfoInterval;
          chkEnableCheckUpdate.Checked = Config.setting.EnableCheckUpdate;
          udNetworkTimeout.Value = Config.setting.NetworkTimeout;
+         txtUpdateDocument.Text = Config.setting.CheckUpdateDocument;
+
          //插件设置
          chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
          chkPluginTudou.Checked = Config.setting.Plugin_Enable_Tudou;
@@ -105,6 +107,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
          Config.setting.NetworkTimeout = (Int32)udNetworkTimeout.Value;
          Config.setting.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
+         Config.setting.CheckUpdateDocument = txtUpdateDocument.Text;
          //插件设置
          Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
          Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;
@@ -301,10 +304,6 @@ namespace Kaedei.AcDown.UI
          {
          }
       }
-
-
-
-
 
    }
 }

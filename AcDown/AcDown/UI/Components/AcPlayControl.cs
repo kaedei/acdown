@@ -288,10 +288,10 @@ namespace Kaedei.AcDown.UI.Components
       private void lnkUpdatePlayer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
       {
          string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-         string file_acfun = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Acfun.swf");
-         string swf_acfun = "http://www.acfun.tv/newflvplayer/playert.swf";
-         string file_bilibili = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1\Bilibili.swf");
+         string file_acfun = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1.1\Acfun.swf");
+         string file_bilibili = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\AcPlay\1.1\Bilibili.swf");
          string swf_bilibili = "http://static.loli.my/play.swf";
+         string swf_acfun = @"http://www.acfun.tv/newflvplayer/playert.swf";
          //建立文件夹
          string dir = Path.GetDirectoryName(file_acfun);
          if (!Directory.Exists(dir))
