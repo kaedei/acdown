@@ -15,9 +15,20 @@ namespace Kaedei.AcDown.Interface.Forms
       public static BitArray CreateSelctionForm(string[] itemContent)
       {
          BitArray ba = new BitArray(itemContent.Length);
-         FormSelect frm = new FormSelect(ref ba, itemContent);
+         return CreateSelctionForm(itemContent, ba);
+      }
+
+      /// <summary>
+      /// 创建[选择章节]窗体
+      /// </summary>
+      /// <param name="itemContent">一个字符串数组,包括列表中每一项的描述</param>
+      /// <param name="selectedItem">一个Boolean数组，指示默认已选中的项</param>
+      /// <returns>返回Boolean数组，指示每一项数据所相对应的值</returns>
+      public static BitArray CreateSelctionForm(string[] itemContent, BitArray selectedItem)
+      {
+         FormSelect frm = new FormSelect(ref selectedItem, itemContent);
          frm.ShowDialog();
-         return ba;
+         return selectedItem;
       }
 
       /// <summary>

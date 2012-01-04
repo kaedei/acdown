@@ -5,6 +5,7 @@ using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
 using Kaedei.AcDown.Interface.Forms;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Kaedei.AcDown.UI
 {
@@ -41,7 +42,7 @@ namespace Kaedei.AcDown.UI
 			 }
 			 instance.LoadProxys();
 			 instance.Show();
-			 instance.txtInput.Focus();
+			 instance.btnAdd.Focus();
 			 instance.Activate();
 		 }
 
@@ -73,9 +74,13 @@ namespace Kaedei.AcDown.UI
 		 
 		 private void FormNew_Load(object sender, EventArgs e)
 		 {
+			 //设置提示文字
+			 SendMessage(txtInput.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"将网页地址粘贴或填写到此处"));
 			 //显示默认文字
 			 if (!string.IsNullOrEmpty(u))
+			 {
 				 txtInput.Text = u;
+			 }
 			 txtPath.Text = Config.setting.SavePath;
 			 //填充代理服务器
 			 LoadProxys();
@@ -85,6 +90,9 @@ namespace Kaedei.AcDown.UI
 				 rdoDownSub.Checked = true;
 			 else
 				 rdoNotDownSub.Checked = true;
+
+			 //设置焦点
+			 btnAdd.Focus();
 		 }
 
 		 //读取代理服务器设置
@@ -101,25 +109,65 @@ namespace Kaedei.AcDown.UI
 			 }
 			 cboProxy.SelectedIndex = 0;
 		 }
-		 
-		 //检查Url
+
+
+		 //候选插件列表
+		 private List<IAcdownPluginInfo> supportedPlugins = new List<IAcdownPluginInfo>();
+		 //检查输入的Url
 		 private void txtInput_TextChanged(object sender, EventArgs e)
 		 {
-			 string t = txtInput.Text;
-			 if (Config.setting.AutoCheckUrl)
+			 string t = txtInput.Text.Trim();  //去除空格
+
+			 if (t.Length > 0) //如果文本不为空
 			 {
-				 if (t.Length != 0)
+				 picCheck.Visible = true;
+				 //清除已有列表
+				 supportedPlugins.Clear();
+				 cboPlugins.Items.Clear();
+				 //查找所有候选插件
+				 foreach (var item in _pluginMgr.Plugins)
 				 {
-					 picCheck.Visible = true;
-					 if (CheckUrl(t)) //检查url 设置图片
-						 picCheck.Image = Properties.Resources._1;
-					 else
-						 picCheck.Image = Properties.Resources._2;
+					 if (item.CheckUrl(t))
+					 {
+						 supportedPlugins.Add(item);
+					 }
+				 }
+				 //填充下拉列表
+				 foreach (var item in supportedPlugins)
+				 {
+					 cboPlugins.Items.Add(item.Describe);
+				 }
+				 //如果有插件支持
+				 if (supportedPlugins.Count > 0)
+				 {
+					 //设置笑脸图片
+					 picCheck.Image = Properties.Resources._1;
+					 //清除下拉列表的选择
+					 cboPlugins.SelectedIndex = 0;
+					 //显示下拉列表
+					 panelSelectPlugin.Show();
+					 //按钮可以按下
+					 btnAdd.Enabled = true;
 				 }
 				 else
 				 {
-					 picCheck.Visible = false;
+					 //设置哭脸图片
+					 picCheck.Image = Properties.Resources._2;
+					 //清除下拉列表的选择
+					 cboPlugins.SelectedIndex = -1;
+					 //显示下拉列表
+					 panelSelectPlugin.Hide();
+					 //按钮不可按下
+					 btnAdd.Enabled = false;
 				 }
+
+				 btnAdd.Text = "添加任务";
+			 }
+			 else
+			 {
+				 picCheck.Visible = false;
+				 btnAdd.Enabled = true;
+				 btnAdd.Text = "粘贴并添加";
 			 }
 		 }
 
@@ -130,37 +178,24 @@ namespace Kaedei.AcDown.UI
 		 /// <param name="e"></param>
 		 private void btnAdd_Click(object sender, EventArgs e)
 		 {
+			 //判断是否是“粘贴并添加”
+			 if (txtInput.Text.Trim() == "" && Clipboard.ContainsText()) //如果文本框为空则为“粘贴并添加”
+			 {
+				 txtInput.Text = Clipboard.GetText();
+			 }
+			 
+
 			 string url = txtInput.Text;
 			 this.Cursor = Cursors.WaitCursor;
 			 
-			 //取得可以下载的插件
-			 List<IAcdownPluginInfo> plugins = new List<IAcdownPluginInfo>();
 			 IAcdownPluginInfo selectedPlugin = null;
-			 foreach (var item in _pluginMgr.Plugins)
-			 {
-				 if (item.CheckUrl(url))
-				 {
-					 plugins.Add(item);
-				 }
-			 }
+
 			 //如果有可用插件
-			 if (plugins.Count > 0)
+			 if (supportedPlugins.Count > 0)
 			 {
-				 //有多个插件可供选择时，用户选择插件
-				 if(plugins.Count >1)
-				 {
-					 List<string> pluginNames = new List<string>();
-					 foreach (var item in plugins)
-					 {
-						 pluginNames.Add(item.Describe);
-					 }
-					 int selected = ToolForm.CreateSelectServerForm("此网址被多个插件所支持，\n请选择需要使用的下载插件：", pluginNames.ToArray(), 0);
-					 selectedPlugin = plugins[selected];
-				 }
-				 else
-				 {
-					 selectedPlugin = plugins[0];
-				 }
+
+				 selectedPlugin = supportedPlugins[cboPlugins.SelectedIndex];
+
 
 				 //取得此url的hash
 				 string hash = selectedPlugin.GetHash(url);
@@ -176,6 +211,8 @@ namespace Kaedei.AcDown.UI
 				 }
 				 try
 				 {
+					 
+
 					 //取得代理设置
 					 AcDownProxy selectedProxy = null;
 					 if (Config.setting.Proxy_Settings != null)
@@ -186,12 +223,13 @@ namespace Kaedei.AcDown.UI
 								 selectedProxy = item;
 						 }
 					 }
-					 
+
 					 //添加任务
 					 TaskInfo task = _taskMgr.AddTask(selectedPlugin,
 																 url,
 																 (selectedProxy == null) ? null : selectedProxy.ToWebProxy());
-					 
+					 //设置保存目录
+					 task.SaveDirectory = new DirectoryInfo(txtPath.Text);
 					 //设置字幕
 					 DownloadSubtitleType ds = DownloadSubtitleType.DownloadSubtitle;
 					 if (rdoNotDownSub.Checked) ds = DownloadSubtitleType.DontDownloadSubtitle;
@@ -202,6 +240,7 @@ namespace Kaedei.AcDown.UI
 
 					 //开始下载
 					 _taskMgr.StartTask(task);
+
 					 
 					 this.Cursor = Cursors.Default;
 					 this.Close();
@@ -233,6 +272,7 @@ namespace Kaedei.AcDown.UI
 			 e.Cancel = true;
 			 u = "";
 			 txtInput.Text = "";
+			 panelSelectPlugin.Hide();
 			 this.Hide();
 		 }
 
@@ -247,17 +287,8 @@ namespace Kaedei.AcDown.UI
 				 this.txtPath.Text = fbd.SelectedPath;
 		 }
 
-		 private void lnkPaste_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		 {
-			 if (Clipboard.ContainsText())
-			 {
-				 if (txtInput.Text.StartsWith("+"))
-					 txtInput.Text = "+" + Clipboard.GetText();
-				 else
-					 txtInput.Text = Clipboard.GetText();
-			 }
-		 }
 
+		 //设置代理服务器
 		 private void lnkSetProxy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		 {
 			 FormConfig frm = new FormConfig("pageProxy");

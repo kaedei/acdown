@@ -88,7 +88,8 @@ namespace Kaedei.AcDown.Component
 			task.Proxy = proxySetting;
 			task.CreateTime = DateTime.Now;
 			task.Status = DownloadStatus.等待开始;
-			task.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
+			if (task.SaveDirectory == null)
+				task.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
 			//向集合中添加对象
 			TaskInfos.Add(task);
 			//提示UI刷新信息

@@ -192,16 +192,16 @@ namespace Kaedei.AcDown.Interface
       }
 
 
-      private double _process;
+      private double _progress;
       /// <summary>
       /// 任务下载进度
       /// </summary>
       /// <returns></returns>
-      public double GetProcess()
+      public double GetProgress()
       {
          if (resourceDownloader != null)
-            _process = (double)resourceDownloader.DoneBytes / (double)resourceDownloader.TotalLength;
-         return _process;
+            _progress = (double)resourceDownloader.DoneBytes / (double)resourceDownloader.TotalLength;
+         return _progress;
       }
 
 
@@ -351,9 +351,9 @@ namespace Kaedei.AcDown.Interface
             _hash = (string)s.Deserialize(reader);
             reader.ReadEndElement();
 
-            //Process
+            //Progress
             reader.ReadStartElement("Process");
-            _process = double.Parse((string)s.Deserialize(reader));
+            _progress = double.Parse((string)s.Deserialize(reader));
             reader.ReadEndElement();
 
             //settings
@@ -484,9 +484,9 @@ namespace Kaedei.AcDown.Interface
          s.Serialize(writer, Hash);
          writer.WriteEndElement();
 
-         //process
+         //Progress
          writer.WriteStartElement("Process");
-         s.Serialize(writer, GetProcess().ToString());
+         s.Serialize(writer, GetProgress().ToString());
          writer.WriteEndElement();
 
          //settings
