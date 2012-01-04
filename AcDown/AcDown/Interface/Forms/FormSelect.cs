@@ -67,7 +67,14 @@ namespace Kaedei.AcDown.Interface.Forms
 
       private void FormSelect_Load(object sender, EventArgs e)
       {
-
+         //设置已选择的项
+         for (int i = 0; i < lst.Items.Count; i++)
+         {
+            if (i < s.Count)
+            {
+               lst.SetItemChecked(i, s[i]);
+            }
+         }
       }
 
       private void lst_SelectedIndexChanged(object sender, EventArgs e)

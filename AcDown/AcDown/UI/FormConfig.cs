@@ -36,7 +36,6 @@ namespace Kaedei.AcDown.UI
          numCacheSize.Value = Config.setting.CacheSize;
          txtSavePath.Text = Config.setting.SavePath;
          chkEnableLog.Checked = Config.setting.EnableLog;
-         chkCheckUrl.Checked = Config.setting.AutoCheckUrl;
          chkWatch.Checked = Config.setting.WatchClipboardEnabled;
          chkDeleteFile.Checked = Config.setting.DeleteTaskAndFile;
          if (!Config.IsWindows7OrHigher()) chkEnableWin7.Enabled = false;
@@ -96,7 +95,6 @@ namespace Kaedei.AcDown.UI
          Config.setting.CacheSize = (Int32)numCacheSize.Value;
          Config.setting.SavePath = txtSavePath.Text;
          Config.setting.EnableLog = chkEnableLog.Checked;
-         Config.setting.AutoCheckUrl = chkCheckUrl.Checked;
          Config.setting.WatchClipboardEnabled = chkWatch.Checked;
          Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
          Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;

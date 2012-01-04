@@ -22,11 +22,22 @@ namespace Kaedei.AcDown.Component
          get { return tempFile; }
       }
 
+      private string tempFile2 = "";
+      /// <summary>
+      /// 临时文件路径2(兼容旧版本)
+      /// </summary>
+      public string TempFile2
+      {
+         get { return tempFile2; }
+      }
+
       public Updater()
       {
          //取得临时文件的路径
          tempFile = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
          tempFile = Path.Combine(tempFile, @"Kaedei\AcDown\Update\AcDown.exe");
+         tempFile2 = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+         tempFile2 = Path.Combine(tempFile2, @"Kaedei\AcDown\Update\AcDown.exe");
       }
 
       /// <summary>
@@ -93,6 +104,8 @@ namespace Kaedei.AcDown.Component
       public bool CheckIfUpdating(string path)
       {
          if (path.ToUpper() == tempFile.ToUpper())
+            return true;
+         if (path.ToUpper() == tempFile2.ToUpper())
             return true;
          return false;
       }

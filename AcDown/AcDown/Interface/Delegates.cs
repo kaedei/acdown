@@ -17,7 +17,8 @@ namespace Kaedei.AcDown.Interface
                       AcTaskDelegate refreshDele,
                       AcTaskDelegate tipTextDele,
                       AcTaskDelegate finishDele,
-                      AcTaskDelegate errorDele)
+                      AcTaskDelegate errorDele,
+                      AcTaskDelegate newTaskDele)
       {
          Start += startDele;
          NewPart += newPartDele;
@@ -25,6 +26,7 @@ namespace Kaedei.AcDown.Interface
          TipText += tipTextDele;
          Finish += finishDele;
          Error += errorDele;
+         NewTask += newTaskDele;
       }
       public AcTaskDelegate Start { get; set; }
       public AcTaskDelegate NewPart { get; set; }
@@ -32,6 +34,7 @@ namespace Kaedei.AcDown.Interface
       public AcTaskDelegate TipText { get; set; }
       public AcTaskDelegate Finish { get; set; }
       public AcTaskDelegate Error { get; set; }
+      public AcTaskDelegate NewTask { get; set; }
    }
 
 
@@ -71,6 +74,18 @@ namespace Kaedei.AcDown.Interface
       public ParaError(TaskInfo task, Exception excp) { Task = task; E = excp; }
       public TaskInfo Task { get; set; }
       public Exception E { get; set; }
+   }
+   public class ParaNewTask
+   {
+      public ParaNewTask(IAcdownPluginInfo plugin, string url, TaskInfo sourceTask)
+      {
+         Plugin = plugin;
+         Url = url;
+         SourceTask = sourceTask;
+      }
+      public IAcdownPluginInfo Plugin { get; set; }
+      public string Url { get; set; }
+      public TaskInfo SourceTask { get; set; }
    }
 
    #endregion

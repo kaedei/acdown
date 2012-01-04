@@ -362,7 +362,6 @@ namespace Kaedei.AcDown.Interface
 		/// <returns></returns>
 		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy)
 		{
-			string sline = "";
 			HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
 			if (proxy != null)
 				req.Proxy = proxy;

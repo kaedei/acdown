@@ -188,7 +188,8 @@ namespace Kaedei.AcDown.UI
 				new AcTaskDelegate(RefreshTask),
 				new AcTaskDelegate(TipText),
 				new AcTaskDelegate(Finish),
-				new AcTaskDelegate(Error));
+				new AcTaskDelegate(Error),
+				new AcTaskDelegate(NewTask));
 			//任务管理器
 			taskMgr = new TaskManager(deles, pluginMgr);
 			taskMgr.LoadAllTasks();
@@ -354,7 +355,7 @@ namespace Kaedei.AcDown.UI
 						ListViewItem item = (ListViewItem)task.UIItem;
 						if (task.Downloader.TotalLength != 0)
 						{
-							item.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProcess());
+							item.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProgress());
 						}
 						else
 						{
@@ -417,7 +418,7 @@ namespace Kaedei.AcDown.UI
 					{
 						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
 						//显示此任务的进度
-						taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProcess() * 10000), 10000);
+						taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProgress() * 10000), 10000);
 					}
 					else
 					{
@@ -971,7 +972,7 @@ namespace Kaedei.AcDown.UI
 				lvi.SubItems[GetColumn("Status")].Text = task.Status.ToString();//状态
 				lvi.SubItems[GetColumn("Name")].Text = task.Title; //视频名称
 				lvi.SubItems[GetColumn("Part")].Text = task.CurrentPart.ToString() + "/" + task.PartCount.ToString(); //分段
-				lvi.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProcess()); //下载进度
+				lvi.SubItems[GetColumn("Progress")].Text = string.Format(@"{0:P}", task.GetProgress()); //下载进度
 				lvi.SubItems[GetColumn("Speed")].Text = "0"; //下载速度
 				lvi.SubItems[GetColumn("RemainTime")].Text = "00:00:00"; //剩余时间
 				lvi.SubItems[GetColumn("PastTime")].Text = "00:00:00"; //已经过的时间
@@ -1171,6 +1172,47 @@ namespace Kaedei.AcDown.UI
 			ProcessNext();
 		}
 
+		/// <summary>
+		/// 插件新建任务
+		/// </summary>
+		/// <param name="e"></param>
+		public void NewTask(object e)
+		{
+			if (this.InvokeRequired)
+			{
+				this.Invoke(new AcTaskDelegate(Error), e);
+				return;
+			}
+			ParaNewTask p = (ParaNewTask)e;
+			TaskInfo sourcetask = p.SourceTask;
+			IAcdownPluginInfo plugin = p.Plugin;
+			string url = p.Url;
+
+			//检查参数有效性
+			if (!plugin.CheckUrl(url) || sourcetask == null || plugin == null || string.IsNullOrEmpty(url))
+				return;
+			//取得此url的hash
+			string hash = plugin.GetHash(url);
+			//检查是否有已经在进行的相同任务
+			foreach (TaskInfo t in taskMgr.TaskInfos)
+			{
+				if (hash == t.Hash)
+				{
+					//如果有则不新建此任务
+					return;
+				}
+			}
+
+			//设置新任务
+			TaskInfo task = taskMgr.AddTask(plugin, url, sourcetask.Proxy);
+			task.Settings = sourcetask.Settings;
+			task.DownSub = sourcetask.DownSub;
+			task.Comment = sourcetask.Comment;
+			task.SaveDirectory = sourcetask.SaveDirectory;
+			//开始新任务
+			taskMgr.StartTask(task);
+
+		}
 
 		/// <summary>
 		/// 执行下一个任务，如果所有任务执行完毕则执行关机任务
