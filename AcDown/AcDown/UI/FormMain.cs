@@ -9,6 +9,7 @@ using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Component;
 using System.Threading;
 using System.Text;
+using System.Collections.ObjectModel;
 
 
 namespace Kaedei.AcDown.UI
@@ -658,8 +659,26 @@ namespace Kaedei.AcDown.UI
 		//即时搜索
 		private void txtSearch_KeyUp(object sender, KeyEventArgs e)
 		{
+			//回车搜索
 			if (e.KeyData == Keys.Enter)
-				btnSearch_ButtonClick(this, EventArgs.Empty);
+			{
+				string t = txtSearch.Text.Trim();
+				//if (t == "清除搜索结果") //清除搜索结果
+				//{
+				//   txtSearch.AutoCompleteCustomSource.Clear();
+				//   txtSearch.AutoCompleteCustomSource.Add("清除搜索结果");
+				//}
+				//加入历史记录
+				//else 
+				if (t != "")
+				{
+					if (!this.txtSearch.AutoCompleteCustomSource.Contains(t)) //如果历史记录中没有
+					{
+						txtSearch.AutoCompleteCustomSource.Add(txtSearch.Text);
+					}
+					btnSearch_ButtonClick(this, EventArgs.Empty);
+				}
+			}
 			else
 			{
 				SetTaskFilter(new string[] { txtSearch.Text.Trim() });
@@ -801,11 +820,17 @@ namespace Kaedei.AcDown.UI
 
 		private void DeleteFile(bool deletefile)
 		{
+			Collection<TaskInfo> willbedeleted = new Collection<TaskInfo>();
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
 				TaskInfo task = GetTask(new Guid((string)item.Tag));
-				taskMgr.DeleteTask(task, deletefile);
+				willbedeleted.Add(task);
 			}
+			foreach (TaskInfo item in willbedeleted)
+			{
+				taskMgr.DeleteTask(item, deletefile);
+			}
+			
 		}
 
 		//按下delete键删除任务
@@ -1149,6 +1174,8 @@ namespace Kaedei.AcDown.UI
 
 			if (task != null)
 			{
+				//记录最后一次错误
+				task.LastError = p.E;
 				//更新item
 				item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
 				item.SubItems[GetColumn("Name")].Text = task.Title;
@@ -1180,7 +1207,7 @@ namespace Kaedei.AcDown.UI
 		{
 			if (this.InvokeRequired)
 			{
-				this.Invoke(new AcTaskDelegate(Error), e);
+				this.Invoke(new AcTaskDelegate(NewTask), e);
 				return;
 			}
 			ParaNewTask p = (ParaNewTask)e;
@@ -1286,7 +1313,7 @@ namespace Kaedei.AcDown.UI
 					this.Invoke(new MethodInvoker(() => 
 					{
 						toolUpdate.Visible = true;
-						notifyIcon.ShowBalloonTip(5000, "AcDown动漫下载器自动更新", "AcDown有新版本了哦~", ToolTipIcon.Info);
+						notifyIcon.ShowBalloonTip(10000, "AcDown动漫下载器自动更新", "AcDown有新版本了哦~\n请点击主界面上方的“更新AcDown”按钮进行更新", ToolTipIcon.Info);
 					}));
 				}
 			}));

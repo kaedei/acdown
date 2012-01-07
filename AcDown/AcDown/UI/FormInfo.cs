@@ -23,6 +23,7 @@ namespace Kaedei.AcDown.UI
       
       private void FormInfo_Load(object sender, EventArgs e)
       {
+         this.Text = this.Text + " - " + _task.Title;
          //添加信息
          StringBuilder sb = new StringBuilder();
          sb.AppendLine("任务编号: " + _task.TaskId.ToString());
@@ -39,9 +40,20 @@ namespace Kaedei.AcDown.UI
          }
          sb.AppendLine("标题: " + _task.Title);
          sb.AppendLine("创建时间: " + _task.CreateTime.ToString());
+         if (_task.FinishTime != null)
+            sb.AppendLine("完成时间: " + _task.FinishTime.ToString());
          sb.AppendLine("引用页: " + _task.SourceUrl);
          sb.AppendLine("保存目录: " + _task.SaveDirectory.ToString());
          sb.AppendLine("任务散列值: " + _task.Hash);
+         sb.AppendLine("字幕/弹幕下载设置: " + _task.DownSub.ToString());
+         //sb.AppendLine("关联视频解析设置: " + (_task.ParseRelated ? "是" : "否"));
+         sb.Append("代理服务器: ");
+         if (_task.Proxy != null && _task.Proxy.Address != null)
+         {
+            sb.AppendLine(_task.Proxy.Address.ToString());
+         }
+         else
+            sb.AppendLine("未设置");
          sb.AppendLine("注释: ");
          sb.AppendLine(_task.Comment);
 
@@ -93,8 +105,25 @@ namespace Kaedei.AcDown.UI
          }
 
 
-         sb.AppendLine("索引信息: ");
-         sb.AppendLine(_task.ToString());
+         //sb.AppendLine("索引信息: ");
+         //sb.AppendLine(_task.ToString());
+         sb.AppendLine("最近一次发生的错误: ");
+         if (_task.LastError != null)
+         {
+            sb.AppendLine("错误信息 = " + _task.LastError.Message);
+            if (_task.LastError.TargetSite != null)
+               sb.AppendLine("方法名称 = " + _task.LastError.TargetSite);
+            if (_task.LastError.Source != null)
+               sb.AppendLine("来源 = " + _task.LastError.Source);
+            if (_task.LastError.StackTrace != null)
+               sb.AppendLine("堆栈 = " + _task.LastError.StackTrace);
+            if (!string.IsNullOrEmpty(_task.LastError.HelpLink))
+               sb.AppendLine("帮助链接 = " + _task.LastError.HelpLink);
+            if (_task.LastError.InnerException != _task.LastError.InnerException)
+               sb.AppendLine("内联异常 = " + _task.LastError.InnerException.Message);
+         }
+         else
+            sb.AppendLine("无");
          sb.AppendLine();
 
          txtInfo.Text = sb.ToString();
@@ -105,7 +134,11 @@ namespace Kaedei.AcDown.UI
       {
          if (!string.IsNullOrEmpty(txtInfo.Text))
          {
-            Clipboard.SetText(txtInfo.Text);
+            try
+            {
+               Clipboard.SetText(txtInfo.Text);
+            }
+            catch { };
          }
       }
 

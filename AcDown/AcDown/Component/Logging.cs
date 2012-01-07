@@ -61,7 +61,7 @@ namespace Kaedei.AcDown.Component
 				  writer.WriteLine("Exception: {0}", e.Message);
 			  if (!string.IsNullOrEmpty(e.StackTrace))
 				  writer.WriteLine("StackTrace：{0}", e.StackTrace);
-			  if (e.InnerException != e.InnerException)
+			  if (e.InnerException != null)
 				  writer.WriteLine("Inner Exception: {0}", e.InnerException.Message);
 			  writer.Flush();
 		  }

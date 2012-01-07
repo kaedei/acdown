@@ -5,6 +5,8 @@ using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 using Kaedei.AcDown.Parser;
 using System.IO;
+using System.Collections;
+using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -26,7 +28,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public Version Version
 		{
-			get { return new Version(3,0,0,0); }
+			get { return new Version(3, 1, 0, 0); }
 		}
 
 		public string Describe
@@ -81,8 +83,9 @@ namespace Kaedei.AcDown.Downloader
 		{
 			return new string[] { 
 				"AcFun.tv下载插件:",
-				"支持识别各Part名称",
-				"http://acfun.tv/v/ac06020",
+				"支持识别各Part名称、支持简写形式",
+				"ac206020",
+				"http://acfun.tv/v/ac206020",
 				"http://www.acfun.tv/v/ac206020",
 				"http://124.228.254.229/v/ac206020 (IP地址形式)"
 			};
@@ -101,7 +104,7 @@ namespace Kaedei.AcDown.Downloader
 		public TaskInfo Info { get; set; }
 
 		//服务器IP地址
-		private const string ServerIP = "124.228.254.229";
+		//private const string ServerIP = "124.228.254.229";
 		//下载参数
 		DownloadParameter currentParameter;
 
@@ -173,8 +176,18 @@ namespace Kaedei.AcDown.Downloader
 			if (Regex.Match(Info.Url, @"^ac\d+$").Success)
 				Info.Url = "http://www.acfun.tv/v/" + Info.Url;
 
-			string url = Info.Url;
+			//修正index.html
+			if (!Info.Url.EndsWith(".html"))
+			{
+				if (Info.Url.EndsWith("/"))
+					Info.Url += "index.html";
+				else
+					Info.Url += "/index.html";
+			}
 
+			string url = Info.Url;
+			//取得子页面文件名（例如"index_123.html"）
+			string suburl = Regex.Match(Info.Url, @"ac\d+/(?<part>index\.html|index_\d+\.html)").Groups["part"].Value;
 
 			try
 			{
@@ -227,23 +240,49 @@ namespace Kaedei.AcDown.Downloader
 				string title = mTitle.Groups["title"].Value.Replace(" - AcFun.tv","");
 
 				//取得子标题
-				Regex rSubTitle = new Regex(@"<option value='\w+?\.html'(?<isselected>(| selected))>(?<content>.+)</option>");
+				Regex rSubTitle = new Regex(@"<option value='(?<part>\w+?\.html)'(| selected)>(?<content>.+?)</option>");
 				MatchCollection mSubTitles = rSubTitle.Matches(src);
 				 //如果存在下拉列表框
 				if (mSubTitles.Count > 0)
 				{
-					bool findSelected = false;
+					//确定当前视频的子标题
 					foreach (Match item in mSubTitles)
 					{
-						if (!string.IsNullOrEmpty(item.Groups["isselected"].Value))
+						if (suburl == item.Groups["part"].Value)
 						{
 							title = title + " - " + item.Groups["content"].Value;
-							findSelected = true;
+							break;
 						}
 					}
-					if (!findSelected)
+					//如果需要解析关联下载项
+					if (Info.ParseRelated)
 					{
-						title = title + " - " + mSubTitles[0].Groups["content"].Value;
+						//准备地址列表
+						List<string> urls = new List<string>();
+						//准备标题列表
+						List<string> titles = new List<string>();
+						//填充两个列表
+						foreach (Match item in mSubTitles)
+						{
+							if (suburl == item.Groups["part"].Value)
+							{
+								urls.Add(url.Replace(suburl, item.Groups["part"].Value));
+								titles.Add(item.Groups["content"].Value);
+							}
+						}
+						//提供BitArray
+						BitArray ba = new BitArray(mSubTitles.Count, false);
+						//用户选择任务
+						ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
+						//根据用户选择新建任务
+						for (int i = 0; i < ba.Count; i++)
+						{
+							if (ba[i]) //如果选中了某项
+							{
+								//新建任务
+								delegates.NewTask(new ParaNewTask(Info.BasePlugin, urls[i], this.Info));
+							}
+						}
 					}
 				}
 
@@ -311,7 +350,9 @@ namespace Kaedei.AcDown.Downloader
 								FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 											title + ext),
 								//文件URL
-								Url = videos[i]
+								Url = videos[i],
+								//代理服务器
+								Proxy = Info.Proxy
 							};
 						}
 						else
@@ -322,7 +363,9 @@ namespace Kaedei.AcDown.Downloader
 								FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 											title + "(" + (i + 1).ToString() + ")" + ext),
 								//文件URL
-								Url = videos[i]
+								Url = videos[i],
+								//代理服务器
+								Proxy = Info.Proxy
 							};
 						}
 

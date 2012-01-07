@@ -34,11 +34,11 @@
          this.btnAdd = new System.Windows.Forms.Button();
          this.picCheck = new System.Windows.Forms.PictureBox();
          this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-         this.lblShowConfig = new System.Windows.Forms.LinkLabel();
-         this.lnkSetProxy = new System.Windows.Forms.LinkLabel();
          this.rdoDownSubOnly = new System.Windows.Forms.RadioButton();
          this.label2 = new System.Windows.Forms.Label();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.btnSelectDir = new System.Windows.Forms.Button();
+         this.btnSetProxy = new System.Windows.Forms.Button();
          this.cboProxy = new System.Windows.Forms.ComboBox();
          this.txtPath = new System.Windows.Forms.TextBox();
          this.label3 = new System.Windows.Forms.Label();
@@ -53,6 +53,9 @@
          this.rdoNotDownSub = new System.Windows.Forms.RadioButton();
          this.tabPage1 = new System.Windows.Forms.TabPage();
          this.txtComment = new System.Windows.Forms.TextBox();
+         this.chkParseRelated = new System.Windows.Forms.CheckBox();
+         this.groupBox3 = new System.Windows.Forms.GroupBox();
+         this.groupBox4 = new System.Windows.Forms.GroupBox();
          ((System.ComponentModel.ISupportInitialize)(this.picCheck)).BeginInit();
          this.groupBox1.SuspendLayout();
          this.groupBox2.SuspendLayout();
@@ -61,6 +64,8 @@
          this.tabConfig.SuspendLayout();
          this.tabSub.SuspendLayout();
          this.tabPage1.SuspendLayout();
+         this.groupBox3.SuspendLayout();
+         this.groupBox4.SuspendLayout();
          this.SuspendLayout();
          // 
          // txtInput
@@ -121,41 +126,16 @@
          this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
          this.toolTip.ToolTipTitle = "提示:";
          // 
-         // lblShowConfig
-         // 
-         this.lblShowConfig.AutoSize = true;
-         this.lblShowConfig.Location = new System.Drawing.Point(334, 24);
-         this.lblShowConfig.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-         this.lblShowConfig.Name = "lblShowConfig";
-         this.lblShowConfig.Size = new System.Drawing.Size(93, 20);
-         this.lblShowConfig.TabIndex = 0;
-         this.lblShowConfig.TabStop = true;
-         this.lblShowConfig.Text = "更改保存位置";
-         this.toolTip.SetToolTip(this.lblShowConfig, "更改默认保存下载文件的位置");
-         this.lblShowConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblShowConfig_LinkClicked);
-         // 
-         // lnkSetProxy
-         // 
-         this.lnkSetProxy.AutoSize = true;
-         this.lnkSetProxy.Location = new System.Drawing.Point(325, 93);
-         this.lnkSetProxy.Name = "lnkSetProxy";
-         this.lnkSetProxy.Size = new System.Drawing.Size(107, 20);
-         this.lnkSetProxy.TabIndex = 2;
-         this.lnkSetProxy.TabStop = true;
-         this.lnkSetProxy.Text = "设置代理服务器";
-         this.toolTip.SetToolTip(this.lnkSetProxy, "编辑代理服务器列表 ");
-         this.lnkSetProxy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSetProxy_LinkClicked);
-         // 
          // rdoDownSubOnly
          // 
          this.rdoDownSubOnly.AutoSize = true;
-         this.rdoDownSubOnly.Location = new System.Drawing.Point(22, 78);
+         this.rdoDownSubOnly.Location = new System.Drawing.Point(17, 85);
          this.rdoDownSubOnly.Name = "rdoDownSubOnly";
          this.rdoDownSubOnly.Size = new System.Drawing.Size(131, 24);
          this.rdoDownSubOnly.TabIndex = 2;
          this.rdoDownSubOnly.TabStop = true;
          this.rdoDownSubOnly.Text = "只下载弹幕/字幕";
-         this.toolTip.SetToolTip(this.rdoDownSubOnly, "针对弹幕网站的下载任务，下载时仅下载相应的弹幕/字幕文件，而不下载视频本身");
+         this.toolTip.SetToolTip(this.rdoDownSubOnly, "针对弹幕网站（或包括字幕下载特性）的下载任务，下载时仅下载相应的弹幕/字幕文件，而不下载视频本身");
          this.rdoDownSubOnly.UseVisualStyleBackColor = true;
          // 
          // label2
@@ -170,10 +150,10 @@
          // 
          // groupBox1
          // 
-         this.groupBox1.Controls.Add(this.lnkSetProxy);
+         this.groupBox1.Controls.Add(this.btnSelectDir);
+         this.groupBox1.Controls.Add(this.btnSetProxy);
          this.groupBox1.Controls.Add(this.cboProxy);
          this.groupBox1.Controls.Add(this.txtPath);
-         this.groupBox1.Controls.Add(this.lblShowConfig);
          this.groupBox1.Controls.Add(this.label3);
          this.groupBox1.Controls.Add(this.label2);
          this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -186,13 +166,37 @@
          this.groupBox1.TabStop = false;
          this.groupBox1.Text = "设置";
          // 
+         // btnSelectDir
+         // 
+         this.btnSelectDir.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnSelectDir.Location = new System.Drawing.Point(350, 46);
+         this.btnSelectDir.Name = "btnSelectDir";
+         this.btnSelectDir.Size = new System.Drawing.Size(77, 28);
+         this.btnSelectDir.TabIndex = 13;
+         this.btnSelectDir.Text = "选择...";
+         this.toolTip.SetToolTip(this.btnSelectDir, "选择文件将要被下载到的位置");
+         this.btnSelectDir.UseVisualStyleBackColor = true;
+         this.btnSelectDir.Click += new System.EventHandler(this.btnSelectDir_Click);
+         // 
+         // btnSetProxy
+         // 
+         this.btnSetProxy.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnSetProxy.Location = new System.Drawing.Point(350, 116);
+         this.btnSetProxy.Name = "btnSetProxy";
+         this.btnSetProxy.Size = new System.Drawing.Size(77, 28);
+         this.btnSetProxy.TabIndex = 12;
+         this.btnSetProxy.Text = "编辑...";
+         this.toolTip.SetToolTip(this.btnSetProxy, "点击编辑代理服务器设置");
+         this.btnSetProxy.UseVisualStyleBackColor = true;
+         this.btnSetProxy.Click += new System.EventHandler(this.btnSetProxy_Click);
+         // 
          // cboProxy
          // 
          this.cboProxy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
          this.cboProxy.FormattingEnabled = true;
          this.cboProxy.Location = new System.Drawing.Point(12, 116);
          this.cboProxy.Name = "cboProxy";
-         this.cboProxy.Size = new System.Drawing.Size(415, 28);
+         this.cboProxy.Size = new System.Drawing.Size(332, 28);
          this.cboProxy.TabIndex = 3;
          // 
          // txtPath
@@ -200,7 +204,7 @@
          this.txtPath.Location = new System.Drawing.Point(12, 47);
          this.txtPath.Name = "txtPath";
          this.txtPath.ReadOnly = true;
-         this.txtPath.Size = new System.Drawing.Size(415, 26);
+         this.txtPath.Size = new System.Drawing.Size(332, 26);
          this.txtPath.TabIndex = 1;
          // 
          // label3
@@ -290,35 +294,36 @@
          // 
          // tabSub
          // 
-         this.tabSub.Controls.Add(this.rdoDownSubOnly);
-         this.tabSub.Controls.Add(this.rdoDownSub);
-         this.tabSub.Controls.Add(this.rdoNotDownSub);
+         this.tabSub.Controls.Add(this.groupBox4);
+         this.tabSub.Controls.Add(this.groupBox3);
          this.tabSub.Location = new System.Drawing.Point(4, 29);
          this.tabSub.Name = "tabSub";
          this.tabSub.Padding = new System.Windows.Forms.Padding(3);
          this.tabSub.Size = new System.Drawing.Size(448, 174);
          this.tabSub.TabIndex = 3;
-         this.tabSub.Text = "弹幕/字幕";
+         this.tabSub.Text = "高级";
          this.tabSub.UseVisualStyleBackColor = true;
          // 
          // rdoDownSub
          // 
          this.rdoDownSub.AutoSize = true;
-         this.rdoDownSub.Location = new System.Drawing.Point(22, 18);
+         this.rdoDownSub.Location = new System.Drawing.Point(17, 25);
          this.rdoDownSub.Name = "rdoDownSub";
          this.rdoDownSub.Size = new System.Drawing.Size(117, 24);
          this.rdoDownSub.TabIndex = 0;
          this.rdoDownSub.Text = "下载弹幕/字幕";
+         this.toolTip.SetToolTip(this.rdoDownSub, "针对弹幕网站（或包括字幕下载特性）的下载任务，下载视频及其所关联的弹幕/字幕文件");
          this.rdoDownSub.UseVisualStyleBackColor = true;
          // 
          // rdoNotDownSub
          // 
          this.rdoNotDownSub.AutoSize = true;
-         this.rdoNotDownSub.Location = new System.Drawing.Point(22, 48);
+         this.rdoNotDownSub.Location = new System.Drawing.Point(17, 55);
          this.rdoNotDownSub.Name = "rdoNotDownSub";
          this.rdoNotDownSub.Size = new System.Drawing.Size(131, 24);
          this.rdoNotDownSub.TabIndex = 1;
          this.rdoNotDownSub.Text = "不下载弹幕/字幕";
+         this.toolTip.SetToolTip(this.rdoNotDownSub, "针对弹幕网站（或包括字幕下载特性）的下载任务，下载时只下载视频本身");
          this.rdoNotDownSub.UseVisualStyleBackColor = true;
          // 
          // tabPage1
@@ -340,6 +345,39 @@
          this.txtComment.Name = "txtComment";
          this.txtComment.Size = new System.Drawing.Size(442, 168);
          this.txtComment.TabIndex = 0;
+         // 
+         // chkParseRelated
+         // 
+         this.chkParseRelated.AutoSize = true;
+         this.chkParseRelated.Location = new System.Drawing.Point(16, 25);
+         this.chkParseRelated.Name = "chkParseRelated";
+         this.chkParseRelated.Size = new System.Drawing.Size(168, 24);
+         this.chkParseRelated.TabIndex = 3;
+         this.chkParseRelated.Text = "解析所有关联的下载项";
+         this.toolTip.SetToolTip(this.chkParseRelated, "添加任务时，解析与此任务相关联的其他任务");
+         this.chkParseRelated.UseVisualStyleBackColor = true;
+         // 
+         // groupBox3
+         // 
+         this.groupBox3.Controls.Add(this.rdoDownSub);
+         this.groupBox3.Controls.Add(this.rdoNotDownSub);
+         this.groupBox3.Controls.Add(this.rdoDownSubOnly);
+         this.groupBox3.Location = new System.Drawing.Point(15, 11);
+         this.groupBox3.Name = "groupBox3";
+         this.groupBox3.Size = new System.Drawing.Size(204, 150);
+         this.groupBox3.TabIndex = 4;
+         this.groupBox3.TabStop = false;
+         this.groupBox3.Text = "弹幕&&字幕";
+         // 
+         // groupBox4
+         // 
+         this.groupBox4.Controls.Add(this.chkParseRelated);
+         this.groupBox4.Location = new System.Drawing.Point(225, 11);
+         this.groupBox4.Name = "groupBox4";
+         this.groupBox4.Size = new System.Drawing.Size(210, 62);
+         this.groupBox4.TabIndex = 5;
+         this.groupBox4.TabStop = false;
+         this.groupBox4.Text = "关联任务";
          // 
          // FormNew
          // 
@@ -369,9 +407,12 @@
          this.tabNew.ResumeLayout(false);
          this.tabConfig.ResumeLayout(false);
          this.tabSub.ResumeLayout(false);
-         this.tabSub.PerformLayout();
          this.tabPage1.ResumeLayout(false);
          this.tabPage1.PerformLayout();
+         this.groupBox3.ResumeLayout(false);
+         this.groupBox3.PerformLayout();
+         this.groupBox4.ResumeLayout(false);
+         this.groupBox4.PerformLayout();
          this.ResumeLayout(false);
 
 		  }
@@ -384,13 +425,11 @@
 		  private System.Windows.Forms.PictureBox picCheck;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Label label2;
-		  private System.Windows.Forms.LinkLabel lblShowConfig;
 		  private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.ComboBox cboProxy;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.LinkLabel lnkSetProxy;
         private System.Windows.Forms.TabControl tabNew;
         private System.Windows.Forms.TabPage tabConfig;
         private System.Windows.Forms.TabPage tabSub;
@@ -402,5 +441,10 @@
         private System.Windows.Forms.Panel panelSelectPlugin;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cboPlugins;
+        private System.Windows.Forms.Button btnSelectDir;
+        private System.Windows.Forms.Button btnSetProxy;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox chkParseRelated;
+        private System.Windows.Forms.GroupBox groupBox3;
 	 }
 }

@@ -73,6 +73,8 @@
   <ItemGroup>
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />
+    <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
+    <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />
     <Compile Include="Interface\SerializableDictionary.cs" />
     <Compile Include="Interface\TaskInfo.cs" />
     <Compile Include="Component\Updater.cs" />

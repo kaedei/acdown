@@ -228,7 +228,9 @@ namespace Kaedei.AcDown.Downloader
 							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 														  title + "." + ext),
 							//文件URL
-							Url = videos[i]
+                     Url = videos[i],
+                     //代理服务器
+                     Proxy = Info.Proxy
 						};
 					}
 					else //如果分段有多段
@@ -239,7 +241,9 @@ namespace Kaedei.AcDown.Downloader
 							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 														  title + "(" + (i + 1).ToString() + ")" + "." + ext),
 							//文件URL
-							Url = videos[i]
+                     Url = videos[i],
+                     //代理服务器
+                     Proxy = Info.Proxy
 						};
 					}
 

@@ -28,6 +28,7 @@ namespace Kaedei.AcDown.UI
 
       private void lblVersion_DoubleClick(object sender, EventArgs e)
       {
+         pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
          pictureBox1.Image = AcDown.Properties.Resources.ICONICON_1;
       }
 
@@ -35,6 +36,7 @@ namespace Kaedei.AcDown.UI
       {
          Process.Start(@"http://acdown.codeplex.com/");
       }
+
 
    }
 }

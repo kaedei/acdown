@@ -45,7 +45,7 @@
          this.txtInfo.Name = "txtInfo";
          this.txtInfo.ReadOnly = true;
          this.txtInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-         this.txtInfo.Size = new System.Drawing.Size(393, 380);
+         this.txtInfo.Size = new System.Drawing.Size(411, 380);
          this.txtInfo.TabIndex = 1;
          // 
          // btnClose
@@ -54,7 +54,7 @@
          this.btnClose.Cursor = System.Windows.Forms.Cursors.Default;
          this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
          this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-         this.btnClose.Location = new System.Drawing.Point(315, 409);
+         this.btnClose.Location = new System.Drawing.Point(333, 409);
          this.btnClose.Name = "btnClose";
          this.btnClose.Size = new System.Drawing.Size(90, 27);
          this.btnClose.TabIndex = 0;
@@ -80,7 +80,7 @@
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.CancelButton = this.btnClose;
-         this.ClientSize = new System.Drawing.Size(417, 448);
+         this.ClientSize = new System.Drawing.Size(435, 448);
          this.Controls.Add(this.btnCopy);
          this.Controls.Add(this.btnClose);
          this.Controls.Add(this.txtInfo);

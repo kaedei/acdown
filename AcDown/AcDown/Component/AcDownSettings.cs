@@ -27,6 +27,7 @@ namespace Kaedei.AcDown.Component
       public bool DownSub = true; //下载字幕
       public string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //保存文件夹
       public bool DownAllSection; //自动下载所有分段
+      public bool ParseRelated = true; //自动解析关联的下载项
       public Int32 CacheSize = 1; //缓存文件
       public bool OpenFolderAfterComplete; //完成后打开文件夹
       public bool PlaySound = true; //播放声音
@@ -45,6 +46,7 @@ namespace Kaedei.AcDown.Component
       public int RefreshInfoInterval = 2000; //下载信息刷新频率(毫秒)
       public int NetworkTimeout = 25000; //发送请求的默认超时时间（毫秒）
       public string CheckUpdateDocument = @"http://acdown.codeplex.com/wikipage?title=AutoUpdate"; //自动更新文档
+      //public List<string> RecentSearch = new List<string>();
 
       //代理设置
       public bool Proxy_Enabled = false;
@@ -61,6 +63,7 @@ namespace Kaedei.AcDown.Component
       public bool Plugin_Enable_Tucao = true;
       public bool Plugin_Enable_Flvcd = true;
       public bool Plugin_Enable_SfAcg = true;
+      public bool Plugin_Enable_Youtube = true;
    }
 
    
