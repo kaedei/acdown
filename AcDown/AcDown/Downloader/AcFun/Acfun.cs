@@ -264,14 +264,14 @@ namespace Kaedei.AcDown.Downloader
 						//填充两个列表
 						foreach (Match item in mSubTitles)
 						{
-							if (suburl == item.Groups["part"].Value)
+							if (suburl != item.Groups["part"].Value)
 							{
 								urls.Add(url.Replace(suburl, item.Groups["part"].Value));
 								titles.Add(item.Groups["content"].Value);
 							}
 						}
 						//提供BitArray
-						BitArray ba = new BitArray(mSubTitles.Count, false);
+						BitArray ba = new BitArray(urls.Count, false);
 						//用户选择任务
 						ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
 						//根据用户选择新建任务
