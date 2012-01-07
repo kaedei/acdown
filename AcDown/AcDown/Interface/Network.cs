@@ -38,6 +38,8 @@ namespace Kaedei.AcDown.Interface
 			#region 先检查目标网址是否有Location属性
 
 			HttpWebRequest testlocation = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+			testlocation.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+			testlocation.Proxy = para.Proxy;
 			testlocation.AllowAutoRedirect = false;
 			using (WebResponse testresponse = testlocation.GetResponse())
 			{

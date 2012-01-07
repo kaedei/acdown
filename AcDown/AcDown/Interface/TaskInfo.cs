@@ -119,6 +119,10 @@ namespace Kaedei.AcDown.Interface
       /// </summary>
       public DownloadSubtitleType DownSub { get; set; }
 
+      /// <summary>
+      /// 是否解析关联的任务
+      /// </summary>
+      public bool ParseRelated { get; set; }
 
       /// <summary>
       /// 应用的代理服务器
@@ -129,6 +133,11 @@ namespace Kaedei.AcDown.Interface
       /// 速度限制
       /// </summary>
       public int SpeedLimit { get; set; }
+
+      /// <summary>
+      /// 最后一次错误
+      /// </summary>
+      public Exception LastError { get; set; }
 
       /// <summary>
       /// 引用页
@@ -353,7 +362,15 @@ namespace Kaedei.AcDown.Interface
 
             //Progress
             reader.ReadStartElement("Process");
-            _progress = double.Parse((string)s.Deserialize(reader));
+            try 
+            {
+               _progress = double.Parse((string)s.Deserialize(reader));
+            }
+            catch
+            {
+               //如果解析出现错误则设置为0%
+               _progress = 0.0;
+            }
             reader.ReadEndElement();
 
             //settings

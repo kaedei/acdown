@@ -315,6 +315,8 @@
          // txtSearch
          // 
          this.txtSearch.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+         this.txtSearch.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+         this.txtSearch.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
          this.txtSearch.AutoToolTip = true;
          this.txtSearch.MaxLength = 20;
          this.txtSearch.Name = "txtSearch";
@@ -699,6 +701,7 @@
          // txtExample
          // 
          this.txtExample.BackColor = System.Drawing.SystemColors.Window;
+         this.txtExample.BorderStyle = System.Windows.Forms.BorderStyle.None;
          this.txtExample.Dock = System.Windows.Forms.DockStyle.Fill;
          this.txtExample.Location = new System.Drawing.Point(3, 3);
          this.txtExample.Multiline = true;

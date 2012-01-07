@@ -74,8 +74,11 @@ namespace Kaedei.AcDown.UI
 		 
 		 private void FormNew_Load(object sender, EventArgs e)
 		 {
-			 //设置提示文字
-			 SendMessage(txtInput.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"将网页地址粘贴或填写到此处"));
+			 if (Config.IsWindowsVistaOrHigher())
+			 {
+				 //设置提示文字
+				 SendMessage(txtInput.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"将网页地址粘贴或填写到此处"));
+			 }
 			 //显示默认文字
 			 if (!string.IsNullOrEmpty(u))
 			 {
@@ -90,6 +93,9 @@ namespace Kaedei.AcDown.UI
 				 rdoDownSub.Checked = true;
 			 else
 				 rdoNotDownSub.Checked = true;
+
+			 //解析关联的下载项
+			 chkParseRelated.Checked = Config.setting.ParseRelated;
 
 			 //设置焦点
 			 btnAdd.Focus();
@@ -145,7 +151,7 @@ namespace Kaedei.AcDown.UI
 					 //清除下拉列表的选择
 					 cboPlugins.SelectedIndex = 0;
 					 //显示下拉列表
-					 panelSelectPlugin.Show();
+					 panelSelectPlugin.Visible = true;
 					 //按钮可以按下
 					 btnAdd.Enabled = true;
 				 }
@@ -156,7 +162,7 @@ namespace Kaedei.AcDown.UI
 					 //清除下拉列表的选择
 					 cboPlugins.SelectedIndex = -1;
 					 //显示下拉列表
-					 panelSelectPlugin.Hide();
+					 panelSelectPlugin.Visible = false;
 					 //按钮不可按下
 					 btnAdd.Enabled = false;
 				 }
@@ -165,6 +171,7 @@ namespace Kaedei.AcDown.UI
 			 }
 			 else
 			 {
+				 panelSelectPlugin.Visible = false;
 				 picCheck.Visible = false;
 				 btnAdd.Enabled = true;
 				 btnAdd.Text = "粘贴并添加";
@@ -235,6 +242,8 @@ namespace Kaedei.AcDown.UI
 					 if (rdoNotDownSub.Checked) ds = DownloadSubtitleType.DontDownloadSubtitle;
 					 if (rdoDownSubOnly.Checked) ds = DownloadSubtitleType.DownloadSubtitleOnly;
 					 task.DownSub = ds;
+					 //设置解析关联视频
+					 task.ParseRelated = chkParseRelated.Checked;
 					 //设置注释
 					 task.Comment = txtComment.Text;
 
@@ -276,7 +285,8 @@ namespace Kaedei.AcDown.UI
 			 this.Hide();
 		 }
 
-		 private void lblShowConfig_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		 //选择保存文件夹
+		 private void btnSelectDir_Click(object sender, EventArgs e)
 		 {
 			 //选择文件夹
 			 FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -287,9 +297,8 @@ namespace Kaedei.AcDown.UI
 				 this.txtPath.Text = fbd.SelectedPath;
 		 }
 
-
 		 //设置代理服务器
-		 private void lnkSetProxy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		 private void btnSetProxy_Click(object sender, EventArgs e)
 		 {
 			 FormConfig frm = new FormConfig("pageProxy");
 			 this.TopMost = false;

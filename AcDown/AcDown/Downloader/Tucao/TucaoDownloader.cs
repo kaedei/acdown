@@ -154,7 +154,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				//设置标题
-				string title = mTitle.Groups["title"].Value.Replace("- tucao, 吐槽_弹幕", "");
+				string title = mTitle.Groups["title"].Value.Replace("- 吐槽 - tucao.cc", "");
 				string subTitle = mSubTitle.Groups["subtitle"].Value;
 				if (!string.IsNullOrEmpty(subTitle)) //如果存在子标题（视频为合集）
 				{
@@ -230,6 +230,7 @@ namespace Kaedei.AcDown.Downloader
 											title + ext),
 								//文件URL
 								Url = videos[i],
+								//代理服务器
 								Proxy = Info.Proxy
 							};
 						}

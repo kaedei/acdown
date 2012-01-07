@@ -32,7 +32,7 @@ namespace Kaedei.AcDown.UI
             chkCustomSound.Checked = true;
             txtCustomSound.Text = Config.setting.SoundFile;
          }
-         chkDownAllSection.Checked = Config.setting.DownAllSection;
+         chkParseRelated.Checked = Config.setting.ParseRelated;
          numCacheSize.Value = Config.setting.CacheSize;
          txtSavePath.Text = Config.setting.SavePath;
          chkEnableLog.Checked = Config.setting.EnableLog;
@@ -59,6 +59,7 @@ namespace Kaedei.AcDown.UI
          chkPluginTucao.Checked = Config.setting.Plugin_Enable_Tucao;
          chkPluginFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
          chkPluginSfacg.Checked = Config.setting.Plugin_Enable_SfAcg;
+         chkPluginYoutube.Checked = Config.setting.Plugin_Enable_Youtube;
 
          //代理服务器设置
          if (Config.setting.Proxy_Settings != null)
@@ -91,7 +92,7 @@ namespace Kaedei.AcDown.UI
          {
             Config.setting.SoundFile = "";
          }
-         Config.setting.DownAllSection = chkDownAllSection.Checked;
+         Config.setting.ParseRelated = chkParseRelated.Checked;
          Config.setting.CacheSize = (Int32)numCacheSize.Value;
          Config.setting.SavePath = txtSavePath.Text;
          Config.setting.EnableLog = chkEnableLog.Checked;
@@ -116,6 +117,7 @@ namespace Kaedei.AcDown.UI
          Config.setting.Plugin_Enable_Tucao = chkPluginTucao.Checked;
          Config.setting.Plugin_Enable_Flvcd = chkPluginFlvcd.Checked;
          Config.setting.Plugin_Enable_SfAcg = chkPluginSfacg.Checked;
+         Config.setting.Plugin_Enable_Youtube = chkPluginYoutube.Checked;
          //代理服务器设置
          List<AcDownProxy> proxys = new List<AcDownProxy>();
          foreach (ListViewItem item in lsvProxy.Items)
@@ -247,11 +249,6 @@ namespace Kaedei.AcDown.UI
          fbd.SelectedPath = txtSavePath.Text;
          if (fbd.ShowDialog() == DialogResult.OK)
             txtSavePath.Text = fbd.SelectedPath;
-      }
-
-      private void lnkFlvcdIntro_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-      {
-         Process.Start("http://acdown.codeplex.com/wikipage?title=%E5%85%B3%E4%BA%8EFLVCD%E6%8F%92%E4%BB%B6");
       }
 
       //恢复默认设置

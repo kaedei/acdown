@@ -83,7 +83,7 @@ namespace Kaedei.AcDown.Interface
       }
 
       /// <summary>
-      /// 
+      /// url解码（从%AF这样的字符转换）
       /// </summary>
       /// <param name="input"></param>
       /// <returns></returns>
@@ -117,6 +117,7 @@ namespace Kaedei.AcDown.Interface
          Byte[] codeBytes = { b1, b2 };
          return ecode.GetChars(codeBytes)[0].ToString();
       }
+
 
    }
 }

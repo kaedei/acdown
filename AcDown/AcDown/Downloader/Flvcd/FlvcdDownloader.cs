@@ -193,8 +193,9 @@ namespace Kaedei.AcDown.Downloader
 						FilePath = Path.Combine(Info.SaveDirectory.ToString(),
 									partNames[i] + ext),
 						//文件URL
-						Url = partUrls[i],
-						Proxy = Info.Proxy
+                  Url = partUrls[i],
+                  //代理服务器
+                  Proxy = Info.Proxy
 					};
 
 					//添加文件路径到List<>中

@@ -41,6 +41,8 @@ namespace Kaedei.AcDown.Component
 				_plugins.Add(new SfAcgPlugin());
 			if (Config.setting.Plugin_Enable_Flvcd)
 				_plugins.Add(new FlvcdPlugin());
+			if (Config.setting.Plugin_Enable_Youtube)
+				_plugins.Add(new YouTubePlugin());
 		}
 
 		public IAcdownPluginInfo GetPlugin(string name)

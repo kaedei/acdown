@@ -40,7 +40,7 @@
          this.cboMaxRunningCount = new System.Windows.Forms.ComboBox();
          this.label5 = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
-         this.chkDownAllSection = new System.Windows.Forms.CheckBox();
+         this.chkParseRelated = new System.Windows.Forms.CheckBox();
          this.label1 = new System.Windows.Forms.Label();
          this.numCacheSize = new System.Windows.Forms.NumericUpDown();
          this.chkDeleteFile = new System.Windows.Forms.CheckBox();
@@ -59,9 +59,9 @@
          this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
          this.chkWatch = new System.Windows.Forms.CheckBox();
          this.pagePlugin = new System.Windows.Forms.TabPage();
+         this.chkPluginYoutube = new System.Windows.Forms.CheckBox();
          this.chkPluginSfacg = new System.Windows.Forms.CheckBox();
          this.chkPluginTucao = new System.Windows.Forms.CheckBox();
-         this.lnkFlvcdIntro = new System.Windows.Forms.LinkLabel();
          this.chkPluginFlvcd = new System.Windows.Forms.CheckBox();
          this.chkPluginTiebaAlbum = new System.Windows.Forms.CheckBox();
          this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
@@ -158,7 +158,7 @@
          this.pageDownload.Controls.Add(this.cboMaxRunningCount);
          this.pageDownload.Controls.Add(this.label5);
          this.pageDownload.Controls.Add(this.label2);
-         this.pageDownload.Controls.Add(this.chkDownAllSection);
+         this.pageDownload.Controls.Add(this.chkParseRelated);
          this.pageDownload.Controls.Add(this.label1);
          this.pageDownload.Controls.Add(this.numCacheSize);
          this.pageDownload.Controls.Add(this.chkDeleteFile);
@@ -255,16 +255,16 @@
          this.label2.TabIndex = 0;
          this.label2.Text = "默认保存文件夹：";
          // 
-         // chkDownAllSection
+         // chkParseRelated
          // 
-         this.chkDownAllSection.AutoSize = true;
-         this.chkDownAllSection.Enabled = false;
-         this.chkDownAllSection.Location = new System.Drawing.Point(35, 207);
-         this.chkDownAllSection.Name = "chkDownAllSection";
-         this.chkDownAllSection.Size = new System.Drawing.Size(144, 16);
-         this.chkDownAllSection.TabIndex = 7;
-         this.chkDownAllSection.Text = "解析所有关联的下载项";
-         this.chkDownAllSection.UseVisualStyleBackColor = true;
+         this.chkParseRelated.AutoSize = true;
+         this.chkParseRelated.Location = new System.Drawing.Point(35, 207);
+         this.chkParseRelated.Name = "chkParseRelated";
+         this.chkParseRelated.Size = new System.Drawing.Size(144, 16);
+         this.chkParseRelated.TabIndex = 7;
+         this.chkParseRelated.Text = "解析所有关联的下载项";
+         this.tip.SetToolTip(this.chkParseRelated, "解析所有与任务关联的其他下载项。\r\n若指定的下载任务是一个列表中的一部分，选中此选项可以建议插件解析列表中其他的部分。");
+         this.chkParseRelated.UseVisualStyleBackColor = true;
          // 
          // label1
          // 
@@ -491,9 +491,9 @@
          // 
          // pagePlugin
          // 
+         this.pagePlugin.Controls.Add(this.chkPluginYoutube);
          this.pagePlugin.Controls.Add(this.chkPluginSfacg);
          this.pagePlugin.Controls.Add(this.chkPluginTucao);
-         this.pagePlugin.Controls.Add(this.lnkFlvcdIntro);
          this.pagePlugin.Controls.Add(this.chkPluginFlvcd);
          this.pagePlugin.Controls.Add(this.chkPluginTiebaAlbum);
          this.pagePlugin.Controls.Add(this.chkPluginImanhua);
@@ -510,10 +510,20 @@
          this.pagePlugin.Text = "插件";
          this.pagePlugin.UseVisualStyleBackColor = true;
          // 
+         // chkPluginYoutube
+         // 
+         this.chkPluginYoutube.AutoSize = true;
+         this.chkPluginYoutube.Location = new System.Drawing.Point(41, 254);
+         this.chkPluginYoutube.Name = "chkPluginYoutube";
+         this.chkPluginYoutube.Size = new System.Drawing.Size(138, 16);
+         this.chkPluginYoutube.TabIndex = 11;
+         this.chkPluginYoutube.Text = "启用YouTube下载插件";
+         this.chkPluginYoutube.UseVisualStyleBackColor = true;
+         // 
          // chkPluginSfacg
          // 
          this.chkPluginSfacg.AutoSize = true;
-         this.chkPluginSfacg.Location = new System.Drawing.Point(41, 245);
+         this.chkPluginSfacg.Location = new System.Drawing.Point(41, 232);
          this.chkPluginSfacg.Name = "chkPluginSfacg";
          this.chkPluginSfacg.Size = new System.Drawing.Size(222, 16);
          this.chkPluginSfacg.TabIndex = 10;
@@ -530,25 +540,14 @@
          this.chkPluginTucao.Text = "启用Tucao(吐槽网)下载插件";
          this.chkPluginTucao.UseVisualStyleBackColor = true;
          // 
-         // lnkFlvcdIntro
-         // 
-         this.lnkFlvcdIntro.AutoSize = true;
-         this.lnkFlvcdIntro.Location = new System.Drawing.Point(60, 230);
-         this.lnkFlvcdIntro.Name = "lnkFlvcdIntro";
-         this.lnkFlvcdIntro.Size = new System.Drawing.Size(83, 12);
-         this.lnkFlvcdIntro.TabIndex = 8;
-         this.lnkFlvcdIntro.TabStop = true;
-         this.lnkFlvcdIntro.Text = "FLVCD插件介绍";
-         this.lnkFlvcdIntro.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFlvcdIntro_LinkClicked);
-         // 
          // chkPluginFlvcd
          // 
          this.chkPluginFlvcd.AutoSize = true;
          this.chkPluginFlvcd.Location = new System.Drawing.Point(41, 210);
          this.chkPluginFlvcd.Name = "chkPluginFlvcd";
-         this.chkPluginFlvcd.Size = new System.Drawing.Size(132, 16);
+         this.chkPluginFlvcd.Size = new System.Drawing.Size(126, 16);
          this.chkPluginFlvcd.TabIndex = 7;
-         this.chkPluginFlvcd.Text = "启用FLVCD解析插件*";
+         this.chkPluginFlvcd.Text = "启用FLVCD解析插件";
          this.chkPluginFlvcd.UseVisualStyleBackColor = true;
          // 
          // chkPluginTiebaAlbum
@@ -745,15 +744,16 @@
          this.txtUpdateDocument.Name = "txtUpdateDocument";
          this.txtUpdateDocument.Size = new System.Drawing.Size(297, 20);
          this.txtUpdateDocument.TabIndex = 5;
+         this.tip.SetToolTip(this.txtUpdateDocument, "自定义更新节点。\r\n如果您无法链接到CodePlex.com或是有信任的第三方提供者，则可以在这里自定义AcDown的更新节点");
          // 
          // label9
          // 
          this.label9.AutoSize = true;
          this.label9.Location = new System.Drawing.Point(30, 66);
          this.label9.Name = "label9";
-         this.label9.Size = new System.Drawing.Size(65, 12);
+         this.label9.Size = new System.Drawing.Size(101, 12);
          this.label9.TabIndex = 4;
-         this.label9.Text = "更新节点：";
+         this.label9.Text = "自定义更新节点：";
          // 
          // chkEnableCheckUpdate
          // 
@@ -938,7 +938,7 @@
 		  private System.Windows.Forms.Label label3;
 		  private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
 		  private System.Windows.Forms.CheckBox chkPluginImanhua;
-		  private System.Windows.Forms.CheckBox chkDownAllSection;
+		  private System.Windows.Forms.CheckBox chkParseRelated;
 		  private System.Windows.Forms.CheckBox chkPluginTiebaAlbum;
 		  private System.Windows.Forms.Label label2;
 		  private System.Windows.Forms.CheckBox chkHideWhenClose;
@@ -962,8 +962,7 @@
 		  private System.Windows.Forms.Button btnSavePath;
 		  private System.Windows.Forms.Label label7;
 		  private System.Windows.Forms.NumericUpDown udRefreshInfo;
-		  private System.Windows.Forms.CheckBox chkPluginFlvcd;
-		  private System.Windows.Forms.LinkLabel lnkFlvcdIntro;
+        private System.Windows.Forms.CheckBox chkPluginFlvcd;
 		  private System.Windows.Forms.Button btnDefault;
 		  private System.Windows.Forms.CheckBox chkPluginTucao;
 		  private System.Windows.Forms.Label label8;
@@ -978,6 +977,7 @@
 		  private System.Windows.Forms.GroupBox groupBox1;
 		  private System.Windows.Forms.LinkLabel lnkOpenConfig;
 		  private System.Windows.Forms.ComboBox txtUpdateDocument;
-		  private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox chkPluginYoutube;
 	 }
 }
