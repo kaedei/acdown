@@ -172,7 +172,7 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
 			Info.Status = DownloadStatus.正在下载;
 
-			//修正URL
+			//修正简写URL
 			if (Regex.Match(Info.Url, @"^ac\d+$").Success)
 				Info.Url = "http://www.acfun.tv/v/" + Info.Url;
 
@@ -254,33 +254,42 @@ namespace Kaedei.AcDown.Downloader
 							break;
 						}
 					}
-					//如果需要解析关联下载项
-					if (Info.ParseRelated)
+
+					//解析关联项需要同时满足的条件：
+					//1.这个任务不是被其他任务所添加的
+					//2.用户设置了“解析关联项” 或者 插件设置中保存了“解析关联项”
+					if (!Info.IsBeAdded)
 					{
-						//准备地址列表
-						List<string> urls = new List<string>();
-						//准备标题列表
-						List<string> titles = new List<string>();
-						//填充两个列表
-						foreach (Match item in mSubTitles)
+						if (!Info.Settings.ContainsKey("ParseRelated"))
+							Info.Settings.Add("ParseRelated", "false");
+						if (Info.ParseRelated || Info.Settings["ParseRelated"] == "true")
 						{
-							if (suburl != item.Groups["part"].Value)
+							Info.Settings["ParseRelated"] = "true";
+							//准备地址列表
+							List<string> urls = new List<string>();
+							//准备标题列表
+							List<string> titles = new List<string>();
+							//填充两个列表
+							foreach (Match item in mSubTitles)
 							{
-								urls.Add(url.Replace(suburl, item.Groups["part"].Value));
-								titles.Add(item.Groups["content"].Value);
+								if (suburl != item.Groups["part"].Value)
+								{
+									urls.Add(url.Replace(suburl, item.Groups["part"].Value));
+									titles.Add(item.Groups["content"].Value);
+								}
 							}
-						}
-						//提供BitArray
-						BitArray ba = new BitArray(urls.Count, false);
-						//用户选择任务
-						ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
-						//根据用户选择新建任务
-						for (int i = 0; i < ba.Count; i++)
-						{
-							if (ba[i]) //如果选中了某项
+							//提供BitArray
+							BitArray ba = new BitArray(urls.Count, false);
+							//用户选择任务
+							ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
+							//根据用户选择新建任务
+							for (int i = 0; i < ba.Count; i++)
 							{
-								//新建任务
-								delegates.NewTask(new ParaNewTask(Info.BasePlugin, urls[i], this.Info));
+								if (ba[i]) //如果选中了某项
+								{
+									//新建任务
+									delegates.NewTask(new ParaNewTask(Info.BasePlugin, urls[i], this.Info));
+								}
 							}
 						}
 					}
