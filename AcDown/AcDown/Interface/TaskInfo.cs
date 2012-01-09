@@ -150,6 +150,12 @@ namespace Kaedei.AcDown.Interface
       public string Comment { get; set; }
 
 
+      /// <summary>
+      /// 读取或设置一个Boolean值，指示此任务是否由其他任务所添加
+      /// </summary>
+      public bool IsBeAdded { get; set; }
+
+
       private string _hash = "";
       /// <summary>
       /// 任务的散列值
@@ -198,6 +204,15 @@ namespace Kaedei.AcDown.Interface
       {
          if (resourceDownloader != null)
             resourceDownloader.StopDownload();
+      }
+
+
+      /// <summary>
+      /// 销毁关联的IDownloader对象
+      /// </summary>
+      public void DisposeDownloader()
+      {
+         resourceDownloader = null;
       }
 
 

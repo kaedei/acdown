@@ -32,9 +32,6 @@ namespace Kaedei.AcDown.Component
 			_pluginMgr = pluginManager;
 		}
 
-		//保存工作进程的弱引用,用于结束程序时强制结束下载线程
-		//private Collection<WeakReference> taskThreadReferenceCollection = new Collection<WeakReference>();
-
 		//插件管理器
 		PluginManager _pluginMgr;
 
@@ -147,10 +144,20 @@ namespace Kaedei.AcDown.Component
 			//启动新线程等待任务完全停止
 			Thread t = new Thread(new ThreadStart(() =>
 			{
+				//超时时长 (毫秒)
+				int timeout = 10000;
 				//等待停止
 				while (task.Status == DownloadStatus.正在停止)
 				{
 					Thread.Sleep(50);
+					timeout -= 50;
+					if (timeout < 0) //如果到时仍未停止
+					{
+						task.Status = DownloadStatus.已经停止;
+						//销毁Downloader
+						task.DisposeDownloader();
+						break;
+					}
 				}
 				//刷新信息
 				delegates.Refresh(new ParaRefresh(task));
@@ -277,14 +284,6 @@ namespace Kaedei.AcDown.Component
 		}
 
 		/// <summary>
-		/// 停止所有任务
-		/// </summary>
-		public void StopAllTasks()
-		{
-
-		}//end StopAllTasks()
-
-		/// <summary>
 		/// 执行下一个任务
 		/// </summary>
 		public void ContinueNext()
@@ -377,6 +376,8 @@ namespace Kaedei.AcDown.Component
 						Logging.Add(ex);
 					}
 				}
+				//保证TaskInfos对象不会被意外回收
+				GC.KeepAlive(TaskInfos);
 			}
 		}
 
@@ -416,5 +417,42 @@ namespace Kaedei.AcDown.Component
 			}
 
 		}
+
+
+		private bool bgWorkerContinue = false;
+		private Timer bgWorker;
+		/// <summary>
+		/// 启动后台自动保存任务的进程
+		/// </summary>
+		public void StartSaveBackgroundWorker()
+		{
+			bgWorkerContinue = true;
+			if (bgWorker == null)
+			{
+				//每45秒自动保存一次任务状态信息
+				bgWorker = new Timer(new TimerCallback(SaveBackgroundWorker), null, 45000, 45000);
+			}
+		}
+
+		/// <summary>
+		/// 结束侯台自动保存任务的进程
+		/// </summary>
+		public void EndSaveBackgroundWorker()
+		{
+			bgWorkerContinue = false;
+		}
+
+		private void SaveBackgroundWorker(object o)
+		{
+			if (bgWorkerContinue)
+			{
+				SaveAllTasks();
+			}
+			else
+			{
+				bgWorker.Dispose();
+			}
+		}
+
 	}//end class
 }//end namespace

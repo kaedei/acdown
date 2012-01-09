@@ -274,6 +274,8 @@ namespace Kaedei.AcDown.UI
 			//检查更新
 			if (Config.setting.EnableCheckUpdate)
 				CheckUpdate();
+			//启动自动保存线程
+			taskMgr.StartSaveBackgroundWorker();
 			//加载任务UI
 			foreach (TaskInfo task in taskMgr.TaskInfos)
 			{
@@ -773,6 +775,8 @@ namespace Kaedei.AcDown.UI
 				}
 			}
 			this.Cursor = Cursors.WaitCursor;
+			//终止自动保存线程
+			taskMgr.EndSaveBackgroundWorker();
 			//保存所有任务
 			Thread t = new Thread(new ThreadStart(new MethodInvoker(taskMgr.SaveAllTasks)));
 			t.Start();
@@ -1226,6 +1230,11 @@ namespace Kaedei.AcDown.UI
 				if (hash == t.Hash)
 				{
 					//如果有则不新建此任务
+					//将状态由停止或删除修改为开始
+					if (t.Status == DownloadStatus.出现错误 ||
+						t.Status == DownloadStatus.已经停止 ||
+						t.Status == DownloadStatus.已删除)
+						taskMgr.StartTask(t);
 					return;
 				}
 			}
@@ -1236,6 +1245,8 @@ namespace Kaedei.AcDown.UI
 			task.DownSub = sourcetask.DownSub;
 			task.Comment = sourcetask.Comment;
 			task.SaveDirectory = sourcetask.SaveDirectory;
+			//此任务由其他任务所添加
+			task.IsBeAdded = true;
 			//开始新任务
 			taskMgr.StartTask(task);
 
