@@ -437,9 +437,10 @@ namespace Kaedei.AcDown.Interface
 
          //status
          writer.WriteStartElement("Status");
-         if (Status == DownloadStatus.正在下载 || Status == DownloadStatus.正在停止 || Status == DownloadStatus.等待开始)
-            Status = DownloadStatus.已经停止;
-         s.Serialize(writer, Status.ToString());
+         DownloadStatus tmpds = Status;
+         if (tmpds == DownloadStatus.正在下载 || tmpds == DownloadStatus.正在停止 || tmpds == DownloadStatus.等待开始)
+            tmpds = DownloadStatus.已经停止;
+         s.Serialize(writer, tmpds.ToString());
          writer.WriteEndElement();
 
          //createtime

@@ -172,6 +172,8 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
 			Info.Status = DownloadStatus.正在下载;
 
+			//修正井号
+			Info.Url = Info.Url.TrimEnd('#');
 			//修正简写URL
 			if (Regex.Match(Info.Url, @"^ac\d+$").Success)
 				Info.Url = "http://www.acfun.tv/v/" + Info.Url;
@@ -261,10 +263,9 @@ namespace Kaedei.AcDown.Downloader
 					if (!Info.IsBeAdded)
 					{
 						if (!Info.Settings.ContainsKey("ParseRelated"))
-							Info.Settings.Add("ParseRelated", "false");
-						if (Info.ParseRelated || Info.Settings["ParseRelated"] == "true")
+							Info.Settings.Add("ParseRelated", Info.ParseRelated ? "true" : "false");
+						if (Info.Settings["ParseRelated"] == "true")
 						{
-							Info.Settings["ParseRelated"] = "true";
 							//准备地址列表
 							List<string> urls = new List<string>();
 							//准备标题列表
@@ -303,6 +304,7 @@ namespace Kaedei.AcDown.Downloader
 				string[] videos = null;
 				//清空地址
 				Info.FilePath.Clear();
+				Info.SubFilePath.Clear();
 
 				DownloadSubtitleType downsub = Info.DownSub;
 				//如果不是“仅下载字幕”

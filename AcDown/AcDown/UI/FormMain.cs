@@ -1324,7 +1324,7 @@ namespace Kaedei.AcDown.UI
 					this.Invoke(new MethodInvoker(() => 
 					{
 						toolUpdate.Visible = true;
-						notifyIcon.ShowBalloonTip(10000, "AcDown动漫下载器自动更新", "AcDown有新版本了哦~\n请点击主界面上方的“更新AcDown”按钮进行更新", ToolTipIcon.Info);
+						notifyIcon.ShowBalloonTip(10000, "保持AcDown在最新状态!", "AcDown有新版本了哦~\n使用最新版本有助于减少解析错误发生的概率\n请点击主界面上方的“更新AcDown”按钮进行更新", ToolTipIcon.Info);
 					}));
 				}
 			}));
