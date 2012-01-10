@@ -164,6 +164,8 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
 			Info.Status = DownloadStatus.正在下载;
 
+			//修正井号
+			Info.Url = Info.Url.TrimEnd('#');
 			//修正旧版URL
 			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
 			//修正简写URL
@@ -264,11 +266,9 @@ namespace Kaedei.AcDown.Downloader
 					if (!Info.IsBeAdded)
 					{
 						if (!Info.Settings.ContainsKey("ParseRelated"))
-							Info.Settings.Add("ParseRelated", "false");
-						if (Info.ParseRelated || Info.Settings["ParseRelated"] == "true")
+							Info.Settings.Add("ParseRelated", Info.ParseRelated ? "true" : "false");
+						if (Info.Settings["ParseRelated"] == "true")
 						{
-							//保存插件设置
-							Info.Settings["ParseRelated"] = "true";
 							//准备地址列表
 							List<string> urls = new List<string>();
 							//准备标题列表
@@ -305,6 +305,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//清空地址
 				Info.FilePath.Clear();
+				Info.SubFilePath.Clear();
 
 				//视频id
 				string id = "";

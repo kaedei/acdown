@@ -144,7 +144,7 @@ namespace Kaedei.AcDown.Component
 			//启动新线程等待任务完全停止
 			Thread t = new Thread(new ThreadStart(() =>
 			{
-				//超时时长 (毫秒)
+				//超时时长 (10秒钟)
 				int timeout = 10000;
 				//等待停止
 				while (task.Status == DownloadStatus.正在停止)
