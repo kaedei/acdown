@@ -124,7 +124,41 @@ namespace Kaedei.AcDown.Downloader
             List<string> resolutions = new List<string>();
             foreach (Match fmt in mFmts)
             {
-               resolutions.Add("FMT=" + fmt.Groups["fmtid"].Value + ",分辨率: " + fmt.Groups["fmtres"].Value);
+               string describe = "";
+               switch (fmt.Groups["fmtid"].Value)
+               {
+                  #region "FMT列表"
+                  case "0":
+                  case "5":
+                  case "6":
+                     describe = "FLV(flv1)";
+                     break;
+                  case "13":
+                  case "17":
+                     describe = "3GP(mpeg4)";
+                     break;
+                  case "18":
+                  case "22":
+                  case "37":
+                  case "38":
+                     describe = "MP4(h264)";
+                     break;
+                  case "34":
+                  case "35":
+                     describe = "FLV";
+                     break;
+                  case "43":
+                  case "44":
+                  case "45":
+                  case "46":
+                     describe = "WebM";
+                     break;
+                  default:
+                     describe = "未知格式";
+                     break;
+                  #endregion
+               }
+               resolutions.Add(fmt.Groups["fmtres"].Value + " " + describe + ",fmt=" + fmt.Groups["fmtid"].Value);
             }
 
             //获取下载地址

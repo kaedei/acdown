@@ -85,7 +85,10 @@ namespace Kaedei.AcDown.Interface
 					//返回下载成功
 					return true;
 				}
-				
+				if (filelength < para.TotalLength)
+				{
+					supportrange = false;
+				}
 				//如果服务器支持断点续传
 				if (supportrange)
 				{
@@ -105,6 +108,7 @@ namespace Kaedei.AcDown.Interface
 					request.AddRange(int.Parse(filelength.ToString()));
 					response = (HttpWebResponse)request.GetResponse();
 				}
+
 			}
 			else //如果不存在则建立文件夹
 			{
