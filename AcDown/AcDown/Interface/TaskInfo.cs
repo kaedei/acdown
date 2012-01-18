@@ -193,7 +193,6 @@ namespace Kaedei.AcDown.Interface
          resourceDownloader = BasePlugin.CreateDownloader();
          resourceDownloader.Info = this;
          resourceDownloader.delegates = delegates;
-         this.Status = DownloadStatus.正在下载;
          resourceDownloader.Download();
       }
 
@@ -336,7 +335,7 @@ namespace Kaedei.AcDown.Interface
             while (reader.IsStartElement("SubFile"))
             {
                reader.ReadStartElement("SubFile");
-               FilePath.Add((string)s.Deserialize(reader));
+               SubFilePath.Add((string)s.Deserialize(reader));
                reader.ReadEndElement();
             }
             if (reader.NodeType == XmlNodeType.EndElement)

@@ -59,17 +59,6 @@
          this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
          this.chkWatch = new System.Windows.Forms.CheckBox();
          this.pagePlugin = new System.Windows.Forms.TabPage();
-         this.chkPluginYoutube = new System.Windows.Forms.CheckBox();
-         this.chkPluginSfacg = new System.Windows.Forms.CheckBox();
-         this.chkPluginTucao = new System.Windows.Forms.CheckBox();
-         this.chkPluginFlvcd = new System.Windows.Forms.CheckBox();
-         this.chkPluginTiebaAlbum = new System.Windows.Forms.CheckBox();
-         this.chkPluginImanhua = new System.Windows.Forms.CheckBox();
-         this.label3 = new System.Windows.Forms.Label();
-         this.chkPluginYouku = new System.Windows.Forms.CheckBox();
-         this.chkPluginBilibili = new System.Windows.Forms.CheckBox();
-         this.chkPluginTudou = new System.Windows.Forms.CheckBox();
-         this.chkPluginAcfun = new System.Windows.Forms.CheckBox();
          this.pageProxy = new System.Windows.Forms.TabPage();
          this.btnProxyDelete = new System.Windows.Forms.Button();
          this.btnProxyModify = new System.Windows.Forms.Button();
@@ -93,6 +82,7 @@
          this.chkEnableLog = new System.Windows.Forms.CheckBox();
          this.btnDefault = new System.Windows.Forms.Button();
          this.tip = new System.Windows.Forms.ToolTip(this.components);
+         this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
          this.tab.SuspendLayout();
          this.pageDownload.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -114,7 +104,7 @@
          this.btnCancel.Location = new System.Drawing.Point(327, 352);
          this.btnCancel.Name = "btnCancel";
          this.btnCancel.Size = new System.Drawing.Size(75, 23);
-         this.btnCancel.TabIndex = 1;
+         this.btnCancel.TabIndex = 2;
          this.btnCancel.Text = "取消";
          this.tip.SetToolTip(this.btnCancel, "取消更改并关闭此窗口");
          this.btnCancel.UseVisualStyleBackColor = true;
@@ -127,7 +117,7 @@
          this.btnOK.Location = new System.Drawing.Point(246, 352);
          this.btnOK.Name = "btnOK";
          this.btnOK.Size = new System.Drawing.Size(75, 23);
-         this.btnOK.TabIndex = 0;
+         this.btnOK.TabIndex = 1;
          this.btnOK.Text = "确认";
          this.tip.SetToolTip(this.btnOK, "保存更改");
          this.btnOK.UseVisualStyleBackColor = true;
@@ -146,7 +136,7 @@
          this.tab.SelectedIndex = 0;
          this.tab.ShowToolTips = true;
          this.tab.Size = new System.Drawing.Size(394, 338);
-         this.tab.TabIndex = 3;
+         this.tab.TabIndex = 0;
          this.tab.TabStop = false;
          // 
          // pageDownload
@@ -179,7 +169,7 @@
          this.txtCustomSound.Location = new System.Drawing.Point(164, 158);
          this.txtCustomSound.Name = "txtCustomSound";
          this.txtCustomSound.Size = new System.Drawing.Size(186, 21);
-         this.txtCustomSound.TabIndex = 13;
+         this.txtCustomSound.TabIndex = 7;
          this.tip.SetToolTip(this.txtCustomSound, "点击修改提示音(.wav格式)");
          this.txtCustomSound.Click += new System.EventHandler(this.txtCustomSound_Click);
          // 
@@ -189,7 +179,7 @@
          this.chkCustomSound.Location = new System.Drawing.Point(56, 160);
          this.chkCustomSound.Name = "chkCustomSound";
          this.chkCustomSound.Size = new System.Drawing.Size(102, 16);
-         this.chkCustomSound.TabIndex = 12;
+         this.chkCustomSound.TabIndex = 6;
          this.chkCustomSound.Text = "自定义提示音:";
          this.tip.SetToolTip(this.chkCustomSound, "替换系统默认的提示音");
          this.chkCustomSound.UseVisualStyleBackColor = true;
@@ -234,7 +224,7 @@
          this.cboMaxRunningCount.Location = new System.Drawing.Point(173, 256);
          this.cboMaxRunningCount.Name = "cboMaxRunningCount";
          this.cboMaxRunningCount.Size = new System.Drawing.Size(51, 20);
-         this.cboMaxRunningCount.TabIndex = 11;
+         this.cboMaxRunningCount.TabIndex = 13;
          this.tip.SetToolTip(this.cboMaxRunningCount, "同时可以进行的任务数量的最大值");
          // 
          // label5
@@ -243,7 +233,7 @@
          this.label5.Location = new System.Drawing.Point(33, 259);
          this.label5.Name = "label5";
          this.label5.Size = new System.Drawing.Size(131, 12);
-         this.label5.TabIndex = 10;
+         this.label5.TabIndex = 12;
          this.label5.Text = "同时运行的最大任务数:";
          // 
          // label2
@@ -261,7 +251,7 @@
          this.chkParseRelated.Location = new System.Drawing.Point(35, 207);
          this.chkParseRelated.Name = "chkParseRelated";
          this.chkParseRelated.Size = new System.Drawing.Size(144, 16);
-         this.chkParseRelated.TabIndex = 7;
+         this.chkParseRelated.TabIndex = 9;
          this.chkParseRelated.Text = "解析所有关联的下载项";
          this.tip.SetToolTip(this.chkParseRelated, "解析所有与任务关联的其他下载项。\r\n若指定的下载任务是一个列表中的一部分，选中此选项可以建议插件解析列表中其他的部分。");
          this.chkParseRelated.UseVisualStyleBackColor = true;
@@ -272,7 +262,7 @@
          this.label1.Location = new System.Drawing.Point(33, 231);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(113, 12);
-         this.label1.TabIndex = 8;
+         this.label1.TabIndex = 10;
          this.label1.Text = "缓存大小: (1-16MB)";
          // 
          // numCacheSize
@@ -290,7 +280,7 @@
             0});
          this.numCacheSize.Name = "numCacheSize";
          this.numCacheSize.Size = new System.Drawing.Size(51, 21);
-         this.numCacheSize.TabIndex = 9;
+         this.numCacheSize.TabIndex = 11;
          this.tip.SetToolTip(this.numCacheSize, "下载时的缓存大小");
          this.numCacheSize.Value = new decimal(new int[] {
             1,
@@ -304,7 +294,7 @@
          this.chkDeleteFile.Location = new System.Drawing.Point(35, 185);
          this.chkDeleteFile.Name = "chkDeleteFile";
          this.chkDeleteFile.Size = new System.Drawing.Size(180, 16);
-         this.chkDeleteFile.TabIndex = 6;
+         this.chkDeleteFile.TabIndex = 8;
          this.chkDeleteFile.Text = "删除任务的同时删除相应文件";
          this.tip.SetToolTip(this.chkDeleteFile, "删除任务时，是否同时删除与任务有关的所有文件");
          this.chkDeleteFile.UseVisualStyleBackColor = true;
@@ -368,7 +358,7 @@
          this.groupBox1.Location = new System.Drawing.Point(29, 170);
          this.groupBox1.Name = "groupBox1";
          this.groupBox1.Size = new System.Drawing.Size(335, 100);
-         this.groupBox1.TabIndex = 12;
+         this.groupBox1.TabIndex = 6;
          this.groupBox1.TabStop = false;
          this.groupBox1.Text = "自定义搜索引擎";
          // 
@@ -378,7 +368,7 @@
          this.label4.Location = new System.Drawing.Point(20, 17);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(221, 24);
-         this.label4.TabIndex = 8;
+         this.label4.TabIndex = 0;
          this.label4.Text = "请在下方文本框中填写自定义搜索网址\r\n(网址中的%TEST%用于替换用户的字符串)";
          // 
          // txtSearchText
@@ -394,7 +384,7 @@
          this.txtSearchText.Location = new System.Drawing.Point(22, 57);
          this.txtSearchText.Name = "txtSearchText";
          this.txtSearchText.Size = new System.Drawing.Size(290, 20);
-         this.txtSearchText.TabIndex = 9;
+         this.txtSearchText.TabIndex = 1;
          this.tip.SetToolTip(this.txtSearchText, "自定义搜索引擎所使用的搜索字符串");
          // 
          // lnkCustomSearchExample
@@ -403,7 +393,7 @@
          this.lnkCustomSearchExample.Location = new System.Drawing.Point(252, 29);
          this.lnkCustomSearchExample.Name = "lnkCustomSearchExample";
          this.lnkCustomSearchExample.Size = new System.Drawing.Size(77, 12);
-         this.lnkCustomSearchExample.TabIndex = 10;
+         this.lnkCustomSearchExample.TabIndex = 2;
          this.lnkCustomSearchExample.TabStop = true;
          this.lnkCustomSearchExample.Text = "查看更多示例";
          this.lnkCustomSearchExample.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCustomSearchExample_LinkClicked);
@@ -414,7 +404,7 @@
          this.chkShowLogo.Location = new System.Drawing.Point(29, 50);
          this.chkShowLogo.Name = "chkShowLogo";
          this.chkShowLogo.Size = new System.Drawing.Size(264, 16);
-         this.chkShowLogo.TabIndex = 11;
+         this.chkShowLogo.TabIndex = 1;
          this.chkShowLogo.Text = "显示主界面的Logo图片（重启下载器后生效）";
          this.tip.SetToolTip(this.chkShowLogo, "显示界面中央的AcDown图片");
          this.chkShowLogo.UseVisualStyleBackColor = true;
@@ -439,7 +429,7 @@
             0});
          this.udRefreshInfo.Name = "udRefreshInfo";
          this.udRefreshInfo.Size = new System.Drawing.Size(57, 21);
-         this.udRefreshInfo.TabIndex = 7;
+         this.udRefreshInfo.TabIndex = 5;
          this.udRefreshInfo.ThousandsSeparator = true;
          this.udRefreshInfo.Value = new decimal(new int[] {
             2000,
@@ -453,7 +443,7 @@
          this.label7.Location = new System.Drawing.Point(27, 123);
          this.label7.Name = "label7";
          this.label7.Size = new System.Drawing.Size(149, 12);
-         this.label7.TabIndex = 6;
+         this.label7.TabIndex = 4;
          this.label7.Text = "任务列表刷新频率(毫秒)：";
          // 
          // chkHideWhenClose
@@ -462,7 +452,7 @@
          this.chkHideWhenClose.Location = new System.Drawing.Point(29, 94);
          this.chkHideWhenClose.Name = "chkHideWhenClose";
          this.chkHideWhenClose.Size = new System.Drawing.Size(204, 16);
-         this.chkHideWhenClose.TabIndex = 4;
+         this.chkHideWhenClose.TabIndex = 3;
          this.chkHideWhenClose.Text = "点击\"关闭\"时隐藏程序到系统托盘";
          this.tip.SetToolTip(this.chkHideWhenClose, "点击“关闭”按钮时，隐藏程序到系统托盘而不是退出程序");
          this.chkHideWhenClose.UseVisualStyleBackColor = true;
@@ -484,24 +474,14 @@
          this.chkWatch.Location = new System.Drawing.Point(29, 72);
          this.chkWatch.Name = "chkWatch";
          this.chkWatch.Size = new System.Drawing.Size(84, 16);
-         this.chkWatch.TabIndex = 3;
+         this.chkWatch.TabIndex = 2;
          this.chkWatch.Text = "监视剪贴板";
          this.tip.SetToolTip(this.chkWatch, "监视剪贴板并自动显示“新建任务”窗口");
          this.chkWatch.UseVisualStyleBackColor = true;
          // 
          // pagePlugin
          // 
-         this.pagePlugin.Controls.Add(this.chkPluginYoutube);
-         this.pagePlugin.Controls.Add(this.chkPluginSfacg);
-         this.pagePlugin.Controls.Add(this.chkPluginTucao);
-         this.pagePlugin.Controls.Add(this.chkPluginFlvcd);
-         this.pagePlugin.Controls.Add(this.chkPluginTiebaAlbum);
-         this.pagePlugin.Controls.Add(this.chkPluginImanhua);
-         this.pagePlugin.Controls.Add(this.label3);
-         this.pagePlugin.Controls.Add(this.chkPluginYouku);
-         this.pagePlugin.Controls.Add(this.chkPluginBilibili);
-         this.pagePlugin.Controls.Add(this.chkPluginTudou);
-         this.pagePlugin.Controls.Add(this.chkPluginAcfun);
+         this.pagePlugin.Controls.Add(this.pluginSettings1);
          this.pagePlugin.Location = new System.Drawing.Point(4, 22);
          this.pagePlugin.Name = "pagePlugin";
          this.pagePlugin.Padding = new System.Windows.Forms.Padding(3);
@@ -509,115 +489,6 @@
          this.pagePlugin.TabIndex = 4;
          this.pagePlugin.Text = "插件";
          this.pagePlugin.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginYoutube
-         // 
-         this.chkPluginYoutube.AutoSize = true;
-         this.chkPluginYoutube.Location = new System.Drawing.Point(41, 254);
-         this.chkPluginYoutube.Name = "chkPluginYoutube";
-         this.chkPluginYoutube.Size = new System.Drawing.Size(138, 16);
-         this.chkPluginYoutube.TabIndex = 11;
-         this.chkPluginYoutube.Text = "启用YouTube下载插件";
-         this.chkPluginYoutube.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginSfacg
-         // 
-         this.chkPluginSfacg.AutoSize = true;
-         this.chkPluginSfacg.Location = new System.Drawing.Point(41, 232);
-         this.chkPluginSfacg.Name = "chkPluginSfacg";
-         this.chkPluginSfacg.Size = new System.Drawing.Size(222, 16);
-         this.chkPluginSfacg.TabIndex = 10;
-         this.chkPluginSfacg.Text = "启用SF互动传媒网（SFAcg）下载插件";
-         this.chkPluginSfacg.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginTucao
-         // 
-         this.chkPluginTucao.AutoSize = true;
-         this.chkPluginTucao.Location = new System.Drawing.Point(41, 188);
-         this.chkPluginTucao.Name = "chkPluginTucao";
-         this.chkPluginTucao.Size = new System.Drawing.Size(174, 16);
-         this.chkPluginTucao.TabIndex = 9;
-         this.chkPluginTucao.Text = "启用Tucao(吐槽网)下载插件";
-         this.chkPluginTucao.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginFlvcd
-         // 
-         this.chkPluginFlvcd.AutoSize = true;
-         this.chkPluginFlvcd.Location = new System.Drawing.Point(41, 210);
-         this.chkPluginFlvcd.Name = "chkPluginFlvcd";
-         this.chkPluginFlvcd.Size = new System.Drawing.Size(126, 16);
-         this.chkPluginFlvcd.TabIndex = 7;
-         this.chkPluginFlvcd.Text = "启用FLVCD解析插件";
-         this.chkPluginFlvcd.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginTiebaAlbum
-         // 
-         this.chkPluginTiebaAlbum.AutoSize = true;
-         this.chkPluginTiebaAlbum.Location = new System.Drawing.Point(41, 166);
-         this.chkPluginTiebaAlbum.Name = "chkPluginTiebaAlbum";
-         this.chkPluginTiebaAlbum.Size = new System.Drawing.Size(168, 16);
-         this.chkPluginTiebaAlbum.TabIndex = 6;
-         this.chkPluginTiebaAlbum.Text = "启用百度贴吧相册下载插件";
-         this.chkPluginTiebaAlbum.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginImanhua
-         // 
-         this.chkPluginImanhua.AutoSize = true;
-         this.chkPluginImanhua.Location = new System.Drawing.Point(41, 143);
-         this.chkPluginImanhua.Name = "chkPluginImanhua";
-         this.chkPluginImanhua.Size = new System.Drawing.Size(144, 16);
-         this.chkPluginImanhua.TabIndex = 5;
-         this.chkPluginImanhua.Text = "启用爱漫画网下载插件";
-         this.chkPluginImanhua.UseVisualStyleBackColor = true;
-         // 
-         // label3
-         // 
-         this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(25, 27);
-         this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(173, 12);
-         this.label3.TabIndex = 4;
-         this.label3.Text = "设置插件（重启下载器后生效）";
-         // 
-         // chkPluginYouku
-         // 
-         this.chkPluginYouku.AutoSize = true;
-         this.chkPluginYouku.Location = new System.Drawing.Point(41, 121);
-         this.chkPluginYouku.Name = "chkPluginYouku";
-         this.chkPluginYouku.Size = new System.Drawing.Size(132, 16);
-         this.chkPluginYouku.TabIndex = 3;
-         this.chkPluginYouku.Text = "启用优酷网下载插件";
-         this.chkPluginYouku.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginBilibili
-         // 
-         this.chkPluginBilibili.AutoSize = true;
-         this.chkPluginBilibili.Location = new System.Drawing.Point(41, 99);
-         this.chkPluginBilibili.Name = "chkPluginBilibili";
-         this.chkPluginBilibili.Size = new System.Drawing.Size(144, 16);
-         this.chkPluginBilibili.TabIndex = 2;
-         this.chkPluginBilibili.Text = "启用Bilibili下载插件";
-         this.chkPluginBilibili.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginTudou
-         // 
-         this.chkPluginTudou.AutoSize = true;
-         this.chkPluginTudou.Location = new System.Drawing.Point(41, 77);
-         this.chkPluginTudou.Name = "chkPluginTudou";
-         this.chkPluginTudou.Size = new System.Drawing.Size(132, 16);
-         this.chkPluginTudou.TabIndex = 1;
-         this.chkPluginTudou.Text = "启用土豆网下载插件";
-         this.chkPluginTudou.UseVisualStyleBackColor = true;
-         // 
-         // chkPluginAcfun
-         // 
-         this.chkPluginAcfun.AutoSize = true;
-         this.chkPluginAcfun.Location = new System.Drawing.Point(41, 55);
-         this.chkPluginAcfun.Name = "chkPluginAcfun";
-         this.chkPluginAcfun.Size = new System.Drawing.Size(126, 16);
-         this.chkPluginAcfun.TabIndex = 0;
-         this.chkPluginAcfun.Text = "启用Acfun下载插件";
-         this.chkPluginAcfun.UseVisualStyleBackColor = true;
          // 
          // pageProxy
          // 
@@ -743,7 +614,7 @@
          this.txtUpdateDocument.Location = new System.Drawing.Point(32, 90);
          this.txtUpdateDocument.Name = "txtUpdateDocument";
          this.txtUpdateDocument.Size = new System.Drawing.Size(297, 20);
-         this.txtUpdateDocument.TabIndex = 5;
+         this.txtUpdateDocument.TabIndex = 2;
          this.tip.SetToolTip(this.txtUpdateDocument, "自定义更新节点。\r\n如果您无法链接到CodePlex.com或是有信任的第三方提供者，则可以在这里自定义AcDown的更新节点");
          // 
          // label9
@@ -752,7 +623,7 @@
          this.label9.Location = new System.Drawing.Point(30, 66);
          this.label9.Name = "label9";
          this.label9.Size = new System.Drawing.Size(101, 12);
-         this.label9.TabIndex = 4;
+         this.label9.TabIndex = 1;
          this.label9.Text = "自定义更新节点：";
          // 
          // chkEnableCheckUpdate
@@ -787,7 +658,7 @@
          this.lnkOpenConfig.Location = new System.Drawing.Point(131, 57);
          this.lnkOpenConfig.Name = "lnkOpenConfig";
          this.lnkOpenConfig.Size = new System.Drawing.Size(125, 12);
-         this.lnkOpenConfig.TabIndex = 11;
+         this.lnkOpenConfig.TabIndex = 2;
          this.lnkOpenConfig.TabStop = true;
          this.lnkOpenConfig.Text = "打开配置文件存储目录";
          this.lnkOpenConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOpenConfig_LinkClicked);
@@ -798,7 +669,7 @@
          this.label8.Location = new System.Drawing.Point(35, 95);
          this.label8.Name = "label8";
          this.label8.Size = new System.Drawing.Size(137, 12);
-         this.label8.TabIndex = 10;
+         this.label8.TabIndex = 3;
          this.label8.Text = "网络超时时间（毫秒）：";
          // 
          // udNetworkTimeout
@@ -821,7 +692,7 @@
             0});
          this.udNetworkTimeout.Name = "udNetworkTimeout";
          this.udNetworkTimeout.Size = new System.Drawing.Size(75, 21);
-         this.udNetworkTimeout.TabIndex = 9;
+         this.udNetworkTimeout.TabIndex = 4;
          this.udNetworkTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
          this.udNetworkTimeout.ThousandsSeparator = true;
          this.tip.SetToolTip(this.udNetworkTimeout, "设置网络超时时间。\r\n减少数值可以降低网络连接失败时等待的时间\r\n增加数值以适用于网络环境不佳的情况");
@@ -837,7 +708,7 @@
          this.lnkLog.Location = new System.Drawing.Point(48, 57);
          this.lnkLog.Name = "lnkLog";
          this.lnkLog.Size = new System.Drawing.Size(77, 12);
-         this.lnkLog.TabIndex = 7;
+         this.lnkLog.TabIndex = 1;
          this.lnkLog.TabStop = true;
          this.lnkLog.Text = "查看错误日志";
          this.tip.SetToolTip(this.lnkLog, "查看当前已保存的程序日志");
@@ -849,7 +720,7 @@
          this.chkEnableLog.Location = new System.Drawing.Point(37, 33);
          this.chkEnableLog.Name = "chkEnableLog";
          this.chkEnableLog.Size = new System.Drawing.Size(216, 16);
-         this.chkEnableLog.TabIndex = 8;
+         this.chkEnableLog.TabIndex = 0;
          this.chkEnableLog.Text = "启用错误日志（重启下载器后生效）";
          this.tip.SetToolTip(this.chkEnableLog, "启用下载日志，下载日志可以帮助确认下载时出现的问题");
          this.chkEnableLog.UseVisualStyleBackColor = true;
@@ -860,7 +731,7 @@
          this.btnDefault.Location = new System.Drawing.Point(12, 352);
          this.btnDefault.Name = "btnDefault";
          this.btnDefault.Size = new System.Drawing.Size(110, 23);
-         this.btnDefault.TabIndex = 2;
+         this.btnDefault.TabIndex = 3;
          this.btnDefault.Text = "恢复默认设置";
          this.tip.SetToolTip(this.btnDefault, "恢复所有选项至默认值");
          this.btnDefault.UseVisualStyleBackColor = true;
@@ -870,6 +741,14 @@
          // 
          this.tip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
          this.tip.ToolTipTitle = "设置";
+         // 
+         // pluginSettings1
+         // 
+         this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
+         this.pluginSettings1.Name = "pluginSettings1";
+         this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
+         this.pluginSettings1.TabIndex = 0;
          // 
          // FormConfig
          // 
@@ -901,7 +780,6 @@
          this.groupBox1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.udRefreshInfo)).EndInit();
          this.pagePlugin.ResumeLayout(false);
-         this.pagePlugin.PerformLayout();
          this.pageProxy.ResumeLayout(false);
          this.pageProxy.PerformLayout();
          this.tabUpdate.ResumeLayout(false);
@@ -930,16 +808,9 @@
 		  private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkEnableWin7;
 		  private System.Windows.Forms.CheckBox chkWatch;
-		  private System.Windows.Forms.ComboBox txtSearchText;
-		  private System.Windows.Forms.CheckBox chkPluginYouku;
-		  private System.Windows.Forms.CheckBox chkPluginBilibili;
-		  private System.Windows.Forms.CheckBox chkPluginTudou;
-		  private System.Windows.Forms.CheckBox chkPluginAcfun;
-		  private System.Windows.Forms.Label label3;
-		  private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
-		  private System.Windows.Forms.CheckBox chkPluginImanhua;
-		  private System.Windows.Forms.CheckBox chkParseRelated;
-		  private System.Windows.Forms.CheckBox chkPluginTiebaAlbum;
+        private System.Windows.Forms.ComboBox txtSearchText;
+        private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
+        private System.Windows.Forms.CheckBox chkParseRelated;
 		  private System.Windows.Forms.Label label2;
 		  private System.Windows.Forms.CheckBox chkHideWhenClose;
 		  private System.Windows.Forms.TabPage pageDebug;
@@ -961,16 +832,13 @@
 		  private System.Windows.Forms.TextBox txtSavePath;
 		  private System.Windows.Forms.Button btnSavePath;
 		  private System.Windows.Forms.Label label7;
-		  private System.Windows.Forms.NumericUpDown udRefreshInfo;
-        private System.Windows.Forms.CheckBox chkPluginFlvcd;
-		  private System.Windows.Forms.Button btnDefault;
-		  private System.Windows.Forms.CheckBox chkPluginTucao;
+        private System.Windows.Forms.NumericUpDown udRefreshInfo;
+        private System.Windows.Forms.Button btnDefault;
 		  private System.Windows.Forms.Label label8;
 		  private System.Windows.Forms.NumericUpDown udNetworkTimeout;
 		  private System.Windows.Forms.TextBox txtCustomSound;
 		  private System.Windows.Forms.CheckBox chkCustomSound;
-		  private System.Windows.Forms.ToolTip tip;
-		  private System.Windows.Forms.CheckBox chkPluginSfacg;
+        private System.Windows.Forms.ToolTip tip;
 		  private System.Windows.Forms.CheckBox chkShowLogo;
 		  private System.Windows.Forms.TabPage tabUpdate;
 		  private System.Windows.Forms.CheckBox chkEnableCheckUpdate;
@@ -978,6 +846,6 @@
 		  private System.Windows.Forms.LinkLabel lnkOpenConfig;
 		  private System.Windows.Forms.ComboBox txtUpdateDocument;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckBox chkPluginYoutube;
+        private Components.PluginSettings pluginSettings1;
 	 }
 }

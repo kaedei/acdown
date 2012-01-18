@@ -150,8 +150,15 @@ namespace Kaedei.AcDown.UI
 					 picCheck.Image = Properties.Resources._1;
 					 //清除下拉列表的选择
 					 cboPlugins.SelectedIndex = 0;
-					 //显示下拉列表
-					 panelSelectPlugin.Visible = true;
+					 //支持的插件数量大于1个时才显示下拉列表
+					 if (supportedPlugins.Count > 1)
+					 {
+						 panelSelectPlugin.Visible = true;
+					 }
+					 else
+					 {
+						 panelSelectPlugin.Visible = false;
+					 }
 					 //按钮可以按下
 					 btnAdd.Enabled = true;
 				 }

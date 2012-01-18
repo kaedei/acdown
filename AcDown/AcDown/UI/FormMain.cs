@@ -10,6 +10,7 @@ using Kaedei.AcDown.Component;
 using System.Threading;
 using System.Text;
 using System.Collections.ObjectModel;
+using Kaedei.AcDown.Interface.Forms;
 
 
 namespace Kaedei.AcDown.UI
@@ -221,8 +222,7 @@ namespace Kaedei.AcDown.UI
 			//取消显示Logo
 			if (Config.setting.ShowLogo == false)
 			{
-				picLogo.Image.Dispose();
-				picLogo.Dispose();
+				picLogo.Hide();
 				tabMain.Dock = DockStyle.Fill;
 			}
 			//显示托盘图标
@@ -283,6 +283,7 @@ namespace Kaedei.AcDown.UI
 			}
 		}
 
+		//关于
 		private void btnAbout_Click(object sender, EventArgs e)
 		{
 			FormAbout about = new FormAbout();
@@ -290,11 +291,17 @@ namespace Kaedei.AcDown.UI
 			about.Dispose();
 		}
 
+		//设置
 		private void btnConfig_Click(object sender, EventArgs e)
 		{
-			FormConfig config = new FormConfig();
+			FormConfig config = new FormConfig(this.pluginMgr);
 			config.ShowDialog();
 			config.Dispose();
+			//重新加载某些项目
+			//检查更新
+			//检查更新
+			if (Config.setting.EnableCheckUpdate)
+				CheckUpdate();
 		}
 
 		private void btnNew_Click(object sender, EventArgs e)
@@ -369,7 +376,10 @@ namespace Kaedei.AcDown.UI
 						currentSpeed = (double)task.GetTickCount() / (timer.Interval * 1024 / 1000);
 						if (currentSpeed < 0) currentSpeed = 0;
 						speed += currentSpeed;
-						item.SubItems[GetColumn("Speed")].Text = string.Format("{0:F1}", currentSpeed) + "KB/s";
+						if (currentSpeed > 1024)
+							item.SubItems[GetColumn("Speed")].Text = string.Format("{0:F1}", currentSpeed / 1024) + "MB/s";
+						else
+							item.SubItems[GetColumn("Speed")].Text = string.Format("{0:F1}", currentSpeed) + "KB/s";
 						//显示已用时间
 						DateTime now = DateTime.Now;
 						TimeSpan use = now - task.CreateTime;
@@ -405,7 +415,10 @@ namespace Kaedei.AcDown.UI
 			//显示全局速度
 			if (speed != 0.0)
 			{
-				lblSpeed.Text = string.Format("当前速度: {0:F1}", speed) + "KB/s";
+				if (speed > 1024)
+					lblSpeed.Text = string.Format("当前速度: {0:F1}", speed / 1024) + "MB/s";
+				else
+					lblSpeed.Text = string.Format("当前速度: {0:F1}", speed) + "KB/s";
 			}
 			else
 			{
@@ -545,12 +558,7 @@ namespace Kaedei.AcDown.UI
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
 				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
-				if (downloader.Status != DownloadStatus.正在下载 &&
-					downloader.Status != DownloadStatus.等待开始 &&
-					downloader.Status != DownloadStatus.正在停止)
-				{
-					taskMgr.StartTask(downloader);
-				}
+				taskMgr.StartTask(downloader);
 			}
 		}
 
@@ -699,6 +707,12 @@ namespace Kaedei.AcDown.UI
 		{
 			FormHelp frmHelp = new FormHelp();
 			frmHelp.ShowDialog();
+		}
+
+		//点击“常见问题”链接
+		private void toolQA_Click(object sender, EventArgs e)
+		{
+			ToolForm.CreateWebpageForm("http://blog.sina.com.cn/s/blog_58c506600100z40t.html", "常见问题", true);
 		}
 
 		//双击托盘图标
@@ -1427,7 +1441,7 @@ namespace Kaedei.AcDown.UI
 			foreach (string f in _filter)
 			{
 				if (f.Trim() != "")
-					if (tmp.Contains(f.Trim()))
+					if (tmp.IndexOf(f.Trim(), StringComparison.CurrentCultureIgnoreCase) >= 0)
 						return true;
 			}
 			return false;
@@ -1452,6 +1466,8 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
+
+
 
 
 	}//end class

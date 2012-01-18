@@ -101,6 +101,9 @@ namespace Kaedei.AcDown.Component
 		/// </summary>
 		public void StartTask(TaskInfo task)
 		{
+			//如果正在停止则什么都不做(等待任务正常停止)
+			if (task.Status == DownloadStatus.正在停止 || task.Status == DownloadStatus.正在下载)
+				return;
 			//如果队列未满则开始下载
 			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
 			{
@@ -109,6 +112,8 @@ namespace Kaedei.AcDown.Component
 					{
 						try
 						{
+							//AcDown规范:仅有TaskManager及插件本身有权修改其所属TaskInfo对象的Status属性
+							task.Status = DownloadStatus.正在下载;
 							//下载视频
 							task.Start(delegates);
 						}
@@ -122,6 +127,11 @@ namespace Kaedei.AcDown.Component
 				//开始下载
 				t.Start();
 			}
+			else //如果队列已满，则转换状态至“等待开始”
+			{
+				task.Status = DownloadStatus.等待开始;
+			}
+			//刷新UI
 			delegates.Refresh(new ParaRefresh(task));
 		}
 
@@ -131,39 +141,50 @@ namespace Kaedei.AcDown.Component
 		/// <param name="task"></param>
 		public void StopTask(TaskInfo task)
 		{
-			if (task.Status != DownloadStatus.等待开始 &&
-				task.Status != DownloadStatus.正在下载)
-				return;
+			//只有已开始的任务才可停止
+			switch (task.Status)
+			{
+				case DownloadStatus.等待开始: //尚未开始的任务直接停止
+					task.Status = DownloadStatus.已经停止;
+					break;
+				case DownloadStatus.正在下载: //已经开始的任务启动新线程停止
+					task.Status = DownloadStatus.正在停止;
+					break;
+				default:
+					return;
+			}
 
-			task.Status = DownloadStatus.正在停止;
 			//刷新信息
 			delegates.Refresh(new ParaRefresh(task));
 			//停止任务
 			task.Stop();
-			
-			//启动新线程等待任务完全停止
-			Thread t = new Thread(new ThreadStart(() =>
+
+			if (task.Status != DownloadStatus.已经停止)
 			{
-				//超时时长 (10秒钟)
-				int timeout = 10000;
-				//等待停止
-				while (task.Status == DownloadStatus.正在停止)
+				//启动新线程等待任务完全停止
+				Thread t = new Thread(new ThreadStart(() =>
 				{
-					Thread.Sleep(50);
-					timeout -= 50;
-					if (timeout < 0) //如果到时仍未停止
+					//超时时长 (10秒钟)
+					int timeout = 10000;
+					//等待停止
+					while (task.Status == DownloadStatus.正在停止)
 					{
-						task.Status = DownloadStatus.已经停止;
-						//销毁Downloader
-						task.DisposeDownloader();
-						break;
+						Thread.Sleep(500);
+						timeout -= 500;
+						if (timeout < 0) //如果到时仍未停止
+						{
+							task.Status = DownloadStatus.已经停止;
+							break;
+						}
 					}
-				}
-				//刷新信息
-				delegates.Refresh(new ParaRefresh(task));
-			}));
-			t.IsBackground = true;
-			t.Start();
+					//刷新信息
+					delegates.Refresh(new ParaRefresh(task));
+				}));
+				t.IsBackground = true;
+				t.Start();
+			}
+			//销毁Downloader
+			task.DisposeDownloader();
 		}
 
 		/// <summary>

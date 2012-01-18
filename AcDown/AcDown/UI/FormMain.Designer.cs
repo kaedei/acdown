@@ -44,6 +44,7 @@
          this.lblBlank = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolQuestionnaire = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolHelpCenter = new System.Windows.Forms.ToolStripStatusLabel();
+         this.toolQA = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolStrip = new System.Windows.Forms.ToolStrip();
          this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -201,6 +202,7 @@
             this.lblSpeed,
             this.lblBlank,
             this.toolQuestionnaire,
+            this.toolQA,
             this.toolHelpCenter});
          this.statusStrip.Location = new System.Drawing.Point(0, 450);
          this.statusStrip.Name = "statusStrip";
@@ -219,7 +221,7 @@
          // lblBlank
          // 
          this.lblBlank.Name = "lblBlank";
-         this.lblBlank.Size = new System.Drawing.Size(233, 20);
+         this.lblBlank.Size = new System.Drawing.Size(121, 20);
          this.lblBlank.Spring = true;
          // 
          // toolQuestionnaire
@@ -240,6 +242,16 @@
          this.toolHelpCenter.Text = "帮助中心";
          this.toolHelpCenter.ToolTipText = "打开帮助中心";
          this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
+         // 
+         // toolQA
+         // 
+         this.toolQA.Image = global::Kaedei.AcDown.Properties.Resources.Help;
+         this.toolQA.IsLink = true;
+         this.toolQA.Name = "toolQA";
+         this.toolQA.Size = new System.Drawing.Size(81, 20);
+         this.toolQA.Text = "常见问题";
+         this.toolQA.ToolTipText = "查看常见问题及帮助";
+         this.toolQA.Click += new System.EventHandler(this.toolQA_Click);
          // 
          // toolStripStatusLabel1
          // 
@@ -280,6 +292,7 @@
          this.btnConfig.Name = "btnConfig";
          this.btnConfig.Size = new System.Drawing.Size(76, 28);
          this.btnConfig.Text = "设置(&C)";
+         this.btnConfig.ToolTipText = "调整下载器设置";
          this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
          // 
          // btnAbout
@@ -867,6 +880,7 @@
 		  private System.Windows.Forms.TextBox txtExample;
 		  private System.Windows.Forms.Button btnSpeedlimitApply;
         private System.Windows.Forms.RadioButton rdoSearch;
+        private System.Windows.Forms.ToolStripStatusLabel toolQA;
 
 	 }
 }
