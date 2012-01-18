@@ -11,14 +11,27 @@ namespace Kaedei.AcDown.UI
 {
    public partial class FormConfig : Form
    {
+      private PluginManager pMgr;
 
       public FormConfig()
       {
          InitializeComponent();
       }
-      public FormConfig(string selectTabPage) : this()
+
+      public FormConfig(PluginManager pluginManager):this()
       {
-         try { tab.SelectTab(selectTabPage); }
+         pMgr = pluginManager;
+      }
+
+      public FormConfig(string selectTabPage) :this()
+      {
+         try 
+         {
+            TabPage p = tab.TabPages[selectTabPage];
+            tab.TabPages.Clear();
+            tab.TabPages.Add(p);
+            btnDefault.Visible = false;
+         }
          catch { }
       }
 
@@ -50,16 +63,17 @@ namespace Kaedei.AcDown.UI
          txtUpdateDocument.Text = Config.setting.CheckUpdateDocument;
 
          //插件设置
-         chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
-         chkPluginTudou.Checked = Config.setting.Plugin_Enable_Tudou;
-         chkPluginBilibili.Checked = Config.setting.Plugin_Enable_Bilibili;
-         chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
-         chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
-         chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
-         chkPluginTucao.Checked = Config.setting.Plugin_Enable_Tucao;
-         chkPluginFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
-         chkPluginSfacg.Checked = Config.setting.Plugin_Enable_SfAcg;
-         chkPluginYoutube.Checked = Config.setting.Plugin_Enable_Youtube;
+         pluginSettings1.SetPluginManager(pMgr);
+         //chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
+         //chkPluginTudou.Checked = Config.setting.Plugin_Enable_Tudou;
+         //chkPluginBilibili.Checked = Config.setting.Plugin_Enable_Bilibili;
+         //chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
+         //chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
+         //chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
+         //chkPluginTucao.Checked = Config.setting.Plugin_Enable_Tucao;
+         //chkPluginFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
+         //chkPluginSfacg.Checked = Config.setting.Plugin_Enable_SfAcg;
+         //chkPluginYoutube.Checked = Config.setting.Plugin_Enable_Youtube;
 
          //代理服务器设置
          if (Config.setting.Proxy_Settings != null)
@@ -108,16 +122,16 @@ namespace Kaedei.AcDown.UI
          Config.setting.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
          Config.setting.CheckUpdateDocument = txtUpdateDocument.Text;
          //插件设置
-         Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
-         Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;
-         Config.setting.Plugin_Enable_Bilibili = chkPluginBilibili.Checked;
-         Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
-         Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
-         Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
-         Config.setting.Plugin_Enable_Tucao = chkPluginTucao.Checked;
-         Config.setting.Plugin_Enable_Flvcd = chkPluginFlvcd.Checked;
-         Config.setting.Plugin_Enable_SfAcg = chkPluginSfacg.Checked;
-         Config.setting.Plugin_Enable_Youtube = chkPluginYoutube.Checked;
+         //Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
+         //Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;
+         //Config.setting.Plugin_Enable_Bilibili = chkPluginBilibili.Checked;
+         //Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
+         //Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
+         //Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
+         //Config.setting.Plugin_Enable_Tucao = chkPluginTucao.Checked;
+         //Config.setting.Plugin_Enable_Flvcd = chkPluginFlvcd.Checked;
+         //Config.setting.Plugin_Enable_SfAcg = chkPluginSfacg.Checked;
+         //Config.setting.Plugin_Enable_Youtube = chkPluginYoutube.Checked;
          //代理服务器设置
          List<AcDownProxy> proxys = new List<AcDownProxy>();
          foreach (ListViewItem item in lsvProxy.Items)

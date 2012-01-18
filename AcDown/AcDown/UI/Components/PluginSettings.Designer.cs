@@ -32,24 +32,26 @@
          System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
          System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
          this.lsv = new System.Windows.Forms.ListView();
-         this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-         this.label9 = new System.Windows.Forms.Label();
          this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+         this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+         this.label9 = new System.Windows.Forms.Label();
+         this.btnAdd = new System.Windows.Forms.Button();
+         this.btnProperty = new System.Windows.Forms.Button();
+         this.btnDelete = new System.Windows.Forms.Button();
          this.SuspendLayout();
          // 
          // lsv
          // 
-         this.lsv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                     | System.Windows.Forms.AnchorStyles.Left)
-                     | System.Windows.Forms.AnchorStyles.Right)));
-         this.lsv.CheckBoxes = true;
+         this.lsv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
          this.lsv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader6,
             this.columnHeader7,
+            this.columnHeader2,
             this.columnHeader8,
             this.columnHeader9,
             this.columnHeader10,
@@ -66,55 +68,96 @@
             listViewItem1,
             listViewItem2,
             listViewItem3});
-         this.lsv.Location = new System.Drawing.Point(6, 39);
+         this.lsv.Location = new System.Drawing.Point(5, 39);
          this.lsv.MultiSelect = false;
          this.lsv.Name = "lsv";
-         this.lsv.Size = new System.Drawing.Size(395, 269);
+         this.lsv.Size = new System.Drawing.Size(396, 231);
          this.lsv.TabIndex = 7;
          this.lsv.UseCompatibleStateImageBehavior = false;
          this.lsv.View = System.Windows.Forms.View.Details;
          // 
-         // columnHeader6
-         // 
-         this.columnHeader6.Text = "启用";
-         this.columnHeader6.Width = 80;
-         // 
          // columnHeader7
          // 
          this.columnHeader7.Text = "插件名称";
-         this.columnHeader7.Width = 93;
+         this.columnHeader7.Width = 100;
          // 
          // columnHeader8
          // 
          this.columnHeader8.Text = "作者";
+         this.columnHeader8.Width = 100;
          // 
          // columnHeader9
          // 
          this.columnHeader9.Text = "描述";
-         this.columnHeader9.Width = 100;
+         this.columnHeader9.Width = 145;
          // 
          // columnHeader10
          // 
          this.columnHeader10.Text = "支持信息";
-         this.columnHeader10.Width = 75;
-         // 
-         // label9
-         // 
-         this.label9.AutoSize = true;
-         this.label9.Location = new System.Drawing.Point(3, 0);
-         this.label9.Name = "label9";
-         this.label9.Size = new System.Drawing.Size(269, 24);
-         this.label9.TabIndex = 8;
-         this.label9.Text = "AcDown插件能够帮助你解析各种各样的网络地址：\r\n（设置插件启用/禁用后，重启下载器即可生效）";
+         this.columnHeader10.Width = 100;
          // 
          // columnHeader1
          // 
          this.columnHeader1.Text = "内部名称";
+         this.columnHeader1.Width = 85;
+         // 
+         // columnHeader2
+         // 
+         this.columnHeader2.Text = "版本";
+         this.columnHeader2.Width = 70;
+         // 
+         // label9
+         // 
+         this.label9.AutoSize = true;
+         this.label9.Location = new System.Drawing.Point(3, 12);
+         this.label9.Name = "label9";
+         this.label9.Size = new System.Drawing.Size(269, 24);
+         this.label9.TabIndex = 8;
+         this.label9.Text = "AcDown插件能够帮助你解析各种各样的网络地址：\r\n（加载或删除插件后，重启下载器即可生效）";
+         // 
+         // btnAdd
+         // 
+         this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.btnAdd.Enabled = false;
+         this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnAdd.Location = new System.Drawing.Point(5, 276);
+         this.btnAdd.Name = "btnAdd";
+         this.btnAdd.Size = new System.Drawing.Size(75, 23);
+         this.btnAdd.TabIndex = 9;
+         this.btnAdd.Text = "添加...";
+         this.btnAdd.UseVisualStyleBackColor = true;
+         // 
+         // btnProperty
+         // 
+         this.btnProperty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+         this.btnProperty.Enabled = false;
+         this.btnProperty.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnProperty.Location = new System.Drawing.Point(326, 276);
+         this.btnProperty.Name = "btnProperty";
+         this.btnProperty.Size = new System.Drawing.Size(75, 23);
+         this.btnProperty.TabIndex = 10;
+         this.btnProperty.Text = "属性";
+         this.btnProperty.UseVisualStyleBackColor = true;
+         // 
+         // btnDelete
+         // 
+         this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.btnDelete.Enabled = false;
+         this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
+         this.btnDelete.Location = new System.Drawing.Point(86, 276);
+         this.btnDelete.Name = "btnDelete";
+         this.btnDelete.Size = new System.Drawing.Size(75, 23);
+         this.btnDelete.TabIndex = 11;
+         this.btnDelete.Text = "删除";
+         this.btnDelete.UseVisualStyleBackColor = true;
          // 
          // PluginSettings
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+         this.Controls.Add(this.btnDelete);
+         this.Controls.Add(this.btnProperty);
+         this.Controls.Add(this.btnAdd);
          this.Controls.Add(this.label9);
          this.Controls.Add(this.lsv);
          this.Name = "PluginSettings";
@@ -127,12 +170,15 @@
       #endregion
 
       private System.Windows.Forms.ListView lsv;
-      private System.Windows.Forms.ColumnHeader columnHeader6;
       private System.Windows.Forms.ColumnHeader columnHeader7;
       private System.Windows.Forms.ColumnHeader columnHeader8;
       private System.Windows.Forms.ColumnHeader columnHeader9;
       private System.Windows.Forms.ColumnHeader columnHeader10;
       private System.Windows.Forms.Label label9;
       private System.Windows.Forms.ColumnHeader columnHeader1;
+      private System.Windows.Forms.Button btnAdd;
+      private System.Windows.Forms.Button btnProperty;
+      private System.Windows.Forms.ColumnHeader columnHeader2;
+      private System.Windows.Forms.Button btnDelete;
    }
 }

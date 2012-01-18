@@ -69,5 +69,15 @@ namespace Kaedei.AcDown.Interface.Forms
          frm.ShowDialog();
          return info;
       }
+
+      /// <summary>
+      /// 创建[显示网页]窗体
+      /// </summary>
+      /// <param name="url">需要加载的页面链接</param>
+      public static void CreateWebpageForm(string url,string formTitle,bool sizable)
+      {
+         FormWebbrowser frm = new FormWebbrowser(url, formTitle, sizable);
+         frm.ShowDialog();
+      }
    }
 }

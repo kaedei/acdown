@@ -118,6 +118,9 @@ namespace Kaedei.AcDown.Component
       {
          string file = filePath.Replace("\"", "");
          //拷贝并覆盖同名文件
+         if (File.Exists(tempFile2))
+            File.Copy(tempFile2, file, true);
+         //拷贝并覆盖同名文件
          if (File.Exists(tempFile))
             File.Copy(tempFile, file, true);
       }
@@ -127,7 +130,14 @@ namespace Kaedei.AcDown.Component
       /// </summary>
       public void DeleteTempFile()
       {
-         File.Delete(tempFile);
+         try
+         {
+            if (File.Exists(tempFile))
+               File.Delete(tempFile);
+            if (File.Exists(tempFile2))
+               File.Delete(tempFile2);
+         }
+         catch { }
       }
 
    }

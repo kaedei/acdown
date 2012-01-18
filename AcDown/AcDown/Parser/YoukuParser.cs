@@ -114,6 +114,7 @@ namespace Kaedei.AcDown.Parser
 				string redirectUrl = "";
 				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(u);
 				request.AllowAutoRedirect = false;
+				request.Proxy = proxy;
 				using (WebResponse response = request.GetResponse())
 				{
 					redirectUrl = response.Headers["Location"];      //这里就是跳转地址了
