@@ -46,6 +46,8 @@ namespace Kaedei.AcDown.Component
       public int RefreshInfoInterval = 2000; //下载信息刷新频率(毫秒)
       public int NetworkTimeout = 25000; //发送请求的默认超时时间（毫秒）
       public string CheckUpdateDocument = @"http://acdown.codeplex.com/wikipage?title=AutoUpdate"; //自动更新文档
+      public int RetryTimes = 3; //重试次数
+      public int RetryWaitingTime = 5000; //重试前的等待时间（毫秒）
       //public List<string> RecentSearch = new List<string>();
 
       //代理设置
@@ -66,7 +68,7 @@ namespace Kaedei.AcDown.Component
       public bool Plugin_Enable_Youtube = true;
    }
 
-   
+
 
    public static class Config
    {
@@ -126,6 +128,7 @@ namespace Kaedei.AcDown.Component
          finally
          {
             GlobalSettings.GetSettings().NetworkTimeout = setting.NetworkTimeout;
+            GlobalSettings.GetSettings().RetryTimes = setting.RetryTimes;
          }
          return setting;
       }
@@ -138,7 +141,7 @@ namespace Kaedei.AcDown.Component
       [DebuggerNonUserCode()]
       public static bool IsWindows7OrHigher()
       {
-         if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
+         if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 1)
             return true;
          else
             return false;

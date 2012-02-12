@@ -309,9 +309,6 @@
     <None Include="Resources\bing.gif" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\finish.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ICONICON_1.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +372,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangeLog.txt" />
+    <None Include="Resources\remind.wav" />
     <None Include="Resources\ToolStripControl.png" />
     <None Include="Resources\Update.png" />
   </ItemGroup>

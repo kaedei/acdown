@@ -59,6 +59,7 @@
          this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
          this.chkWatch = new System.Windows.Forms.CheckBox();
          this.pagePlugin = new System.Windows.Forms.TabPage();
+         this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
          this.pageProxy = new System.Windows.Forms.TabPage();
          this.btnProxyDelete = new System.Windows.Forms.Button();
          this.btnProxyModify = new System.Windows.Forms.Button();
@@ -82,7 +83,10 @@
          this.chkEnableLog = new System.Windows.Forms.CheckBox();
          this.btnDefault = new System.Windows.Forms.Button();
          this.tip = new System.Windows.Forms.ToolTip(this.components);
-         this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
+         this.label3 = new System.Windows.Forms.Label();
+         this.udRetryTimes = new System.Windows.Forms.NumericUpDown();
+         this.label10 = new System.Windows.Forms.Label();
+         this.udRetryWatingTime = new System.Windows.Forms.NumericUpDown();
          this.tab.SuspendLayout();
          this.pageDownload.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -94,6 +98,8 @@
          this.tabUpdate.SuspendLayout();
          this.pageDebug.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udRetryTimes)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udRetryWatingTime)).BeginInit();
          this.SuspendLayout();
          // 
          // btnCancel
@@ -490,6 +496,14 @@
          this.pagePlugin.Text = "插件";
          this.pagePlugin.UseVisualStyleBackColor = true;
          // 
+         // pluginSettings1
+         // 
+         this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
+         this.pluginSettings1.Name = "pluginSettings1";
+         this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
+         this.pluginSettings1.TabIndex = 0;
+         // 
          // pageProxy
          // 
          this.pageProxy.Controls.Add(this.btnProxyDelete);
@@ -639,6 +653,10 @@
          // 
          // pageDebug
          // 
+         this.pageDebug.Controls.Add(this.udRetryWatingTime);
+         this.pageDebug.Controls.Add(this.label10);
+         this.pageDebug.Controls.Add(this.udRetryTimes);
+         this.pageDebug.Controls.Add(this.label3);
          this.pageDebug.Controls.Add(this.lnkOpenConfig);
          this.pageDebug.Controls.Add(this.label8);
          this.pageDebug.Controls.Add(this.udNetworkTimeout);
@@ -649,7 +667,7 @@
          this.pageDebug.Padding = new System.Windows.Forms.Padding(3);
          this.pageDebug.Size = new System.Drawing.Size(386, 312);
          this.pageDebug.TabIndex = 5;
-         this.pageDebug.Text = "调试";
+         this.pageDebug.Text = "高级";
          this.pageDebug.UseVisualStyleBackColor = true;
          // 
          // lnkOpenConfig
@@ -742,13 +760,49 @@
          this.tip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
          this.tip.ToolTipTitle = "设置";
          // 
-         // pluginSettings1
+         // label3
          // 
-         this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
-         this.pluginSettings1.Name = "pluginSettings1";
-         this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
-         this.pluginSettings1.TabIndex = 0;
+         this.label3.AutoSize = true;
+         this.label3.Location = new System.Drawing.Point(47, 122);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(125, 12);
+         this.label3.TabIndex = 5;
+         this.label3.Text = "重试次数限制(0-99)：";
+         // 
+         // udRetryTimes
+         // 
+         this.udRetryTimes.Location = new System.Drawing.Point(178, 120);
+         this.udRetryTimes.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+         this.udRetryTimes.Name = "udRetryTimes";
+         this.udRetryTimes.Size = new System.Drawing.Size(75, 21);
+         this.udRetryTimes.TabIndex = 6;
+         this.udRetryTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+         // 
+         // label10
+         // 
+         this.label10.AutoSize = true;
+         this.label10.Location = new System.Drawing.Point(29, 149);
+         this.label10.Name = "label10";
+         this.label10.Size = new System.Drawing.Size(143, 12);
+         this.label10.TabIndex = 7;
+         this.label10.Text = "重试等待时间(0-300秒)：";
+         // 
+         // udRetryWatingTime
+         // 
+         this.udRetryWatingTime.Location = new System.Drawing.Point(178, 147);
+         this.udRetryWatingTime.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+         this.udRetryWatingTime.Name = "udRetryWatingTime";
+         this.udRetryWatingTime.Size = new System.Drawing.Size(75, 21);
+         this.udRetryWatingTime.TabIndex = 8;
+         this.udRetryWatingTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
          // 
          // FormConfig
          // 
@@ -787,6 +841,8 @@
          this.pageDebug.ResumeLayout(false);
          this.pageDebug.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udRetryTimes)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udRetryWatingTime)).EndInit();
          this.ResumeLayout(false);
 
 		  }
@@ -847,5 +903,9 @@
 		  private System.Windows.Forms.ComboBox txtUpdateDocument;
         private System.Windows.Forms.Label label9;
         private Components.PluginSettings pluginSettings1;
+        private System.Windows.Forms.NumericUpDown udRetryWatingTime;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown udRetryTimes;
+        private System.Windows.Forms.Label label3;
 	 }
 }

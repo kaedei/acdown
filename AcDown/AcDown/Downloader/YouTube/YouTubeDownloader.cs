@@ -84,7 +84,9 @@ namespace Kaedei.AcDown.Downloader
             //取得网页源文件
             string src = Network.GetHtmlSource2(Info.Url, Encoding.UTF8, Info.Proxy);
 
-            //转码
+            //去除乱码
+            src = src.Replace(@"\u0026", "&");
+            src = src.Replace("\\\"", "\"");
             for (int i = 0; i < 10; i++)
             {
                src = src.Replace("%25", "%");
@@ -131,34 +133,53 @@ namespace Kaedei.AcDown.Downloader
                   case "0":
                   case "5":
                   case "6":
-                     describe = "FLV(flv1)";
-                     break;
-                  case "13":
-                  case "17":
-                     describe = "3GP(mpeg4)";
-                     break;
-                  case "18":
-                  case "22":
-                  case "37":
-                  case "38":
-                     describe = "MP4(h264)";
+                     describe = "FLV(H.263) MP3(64kbps)";
                      break;
                   case "34":
                   case "35":
-                     describe = "FLV";
+                     describe = "FLV(H.263) AAC(128kbps)";
+                     break;
+                  case "13":
+                  case "17":
+                     describe = "3GP(mpeg4) AAC";
+                     break;
+                  case "18":
+                     describe = "MPEG-4-AAC(H.264) AAC(128kbps)";
+                     break;
+                  case "22":
+                  case "37":
+                  case "38":
+                     describe = "MPEG-4-AAC(H.264) AAC(152kbps)";
+                     break;
+                  case "82":
+                  case "85":
+                     describe = "3D MPEG-4-AAC(H.264) AAC(152kbps)";
+                     break;
+                  case "83":
+                     describe = "3D MPEG-4-AAC(H.264) AAC(96kbps)";
+                     break;
+                  case "84":
+                     describe = "3D MPEG-4-AAC(H.264) AAC(128kbps)";
                      break;
                   case "43":
+                  case "46":
+                     describe = "WebM(VP8) OGG(128kbps)";
+                     break;
                   case "44":
                   case "45":
-                  case "46":
-                     describe = "WebM";
+                     describe = "WebM(VP8) OGG(192kbps)";
+                     break;
+                  case "100":
+                  case "101":
+                  case "102":
+                     describe = "3D WebM(VP8) OGG(192kbps)";
                      break;
                   default:
                      describe = "未知格式";
                      break;
                   #endregion
                }
-               resolutions.Add(fmt.Groups["fmtres"].Value + " " + describe + ",fmt=" + fmt.Groups["fmtid"].Value);
+               resolutions.Add(fmt.Groups["fmtres"].Value + " " + describe /*+ " [fmt=" + fmt.Groups["fmtid"].Value + "]" */);
             }
 
             //获取下载地址

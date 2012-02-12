@@ -48,6 +48,35 @@ namespace Kaedei.AcDown.Interface
 			}
 		}
 
+
+		private int _retryTimes;
+		/// <summary>
+		/// 下载失败时的重试次数
+		/// </summary>
+		public int RetryTimes
+		{
+			get { return _retryTimes; }
+			set 
+			{
+				if (value > 99 || value < 0) _retryTimes = 3;
+				else _retryTimes = value;
+			}
+		}
+
+		private int _retryWaitingTime;
+		/// <summary>
+		/// 下载重试前的等待时间(毫秒)
+		/// </summary>
+		public int RetryWaitingTime
+		{
+			get { return _retryWaitingTime; }
+			set
+			{
+				if (value > 300000 || value < 0) _retryWaitingTime = 5000; //默认值5秒钟
+				else _retryWaitingTime = value;
+			}
+		}
+
 	}
 
 	public enum DownloadSubtitleType
