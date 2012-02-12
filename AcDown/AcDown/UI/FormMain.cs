@@ -11,6 +11,8 @@ using System.Threading;
 using System.Text;
 using System.Collections.ObjectModel;
 using Kaedei.AcDown.Interface.Forms;
+using System.Security.Principal;
+using System.ComponentModel;
 
 
 namespace Kaedei.AcDown.UI
@@ -1145,7 +1147,7 @@ namespace Kaedei.AcDown.UI
 							}
 							else //如果都没有则播放资源文件中的声音文件
 							{
-								player.Stream = Resources.finish;
+								player.Stream = Resources.remind;
 							}
 						}
 						player.Load();
@@ -1366,7 +1368,23 @@ namespace Kaedei.AcDown.UI
 						if (success) //下载更新成功
 						{
 							Application.DoEvents();
-							Process.Start(upd.TempFile, "\"" + Application.ExecutablePath + "\"");
+							bool isadmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+							ProcessStartInfo startInfo = new ProcessStartInfo();
+							startInfo.UseShellExecute = true;
+							startInfo.WorkingDirectory = Path.GetDirectoryName(upd.TempFile);
+							startInfo.FileName = upd.TempFile;
+							startInfo.Arguments = "\"" + Application.ExecutablePath + "\""; ;
+							if (!isadmin)
+								startInfo.Verb = "runas";
+							try
+							{
+								Process process = Process.Start(startInfo);
+							}
+							catch (Win32Exception ex) //提升权限失败
+							{
+								startInfo.Verb = "";
+								Process process = Process.Start(startInfo);
+							}
 							this.Invoke(new MethodInvoker(() =>
 							{
 								Program.frmStart.Close();

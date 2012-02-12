@@ -102,12 +102,6 @@ namespace Kaedei.AcDown.Properties {
             }
         }
         
-        internal static System.IO.UnmanagedMemoryStream finish {
-            get {
-                return ResourceManager.GetStream("finish", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap Help {
             get {
                 object obj = ResourceManager.GetObject("Help", resourceCulture);
@@ -126,6 +120,12 @@ namespace Kaedei.AcDown.Properties {
             get {
                 object obj = ResourceManager.GetObject("Logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream remind {
+            get {
+                return ResourceManager.GetStream("remind", resourceCulture);
             }
         }
         

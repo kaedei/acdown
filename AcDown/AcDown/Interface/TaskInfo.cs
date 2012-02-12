@@ -382,9 +382,9 @@ namespace Kaedei.AcDown.Interface
             }
             catch
             {
-               //如果解析出现错误则设置为0%
-               _progress = 0.0;
             }
+            if (double.IsNaN(_progress))
+               _progress = 0.0;
             reader.ReadEndElement();
 
             //settings

@@ -271,7 +271,7 @@ namespace Kaedei.AcDown.Downloader
 				string serverName;
 				//取得配置文件
 				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), Info.Proxy);
-				Regex rServer = new Regex("\"(?<sname>.+?)\" , \"(?<surl>.+?)\"");
+				Regex rServer = new Regex(@"\['(?<server>.+?)[ ,']+(?<ip>.+?)'\]");
 				MatchCollection mServers = rServer.Matches(serverjs);
 
 				//添加到数组中
@@ -279,12 +279,12 @@ namespace Kaedei.AcDown.Downloader
 				foreach (Match item in mServers)
 				{
 					if (servers.Count < 5)
-						servers.Add(item.Groups["sname"].Value);
+						servers.Add(item.Groups["server"].Value);
 				}
 
 				//选择服务器
 				int svr = ToolForm.CreateSelectServerForm("", servers.ToArray(), 0);
-				serverName = mServers[svr].Groups["surl"].Value;
+				serverName = mServers[svr].Groups["ip"].Value;
 
 
 #endregion

@@ -36,6 +36,7 @@
          // combo
          // 
          this.combo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.combo.DropDownWidth = 365;
          this.combo.FlatStyle = System.Windows.Forms.FlatStyle.System;
          this.combo.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.combo.FormattingEnabled = true;

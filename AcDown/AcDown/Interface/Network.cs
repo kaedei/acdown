@@ -35,260 +35,230 @@ namespace Kaedei.AcDown.Interface
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
 
-			#region 先检查目标网址是否有Location属性
+			//初始化重试管理器
+			bool needRedownload = true; //需要重试下载
+			int remainRetryTime = GlobalSettings.GetSettings().RetryTimes; //剩余的重试次数
 
-			HttpWebRequest testlocation = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-			testlocation.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
-			testlocation.Proxy = para.Proxy;
-			testlocation.AllowAutoRedirect = false;
-			using (WebResponse testresponse = testlocation.GetResponse())
+			//重试次数大于0时才进行循环
+			while (needRedownload)
 			{
-				if (!string.IsNullOrEmpty(testresponse.Headers["Location"]))
-					//获得跳转地址
-					para.Url = testresponse.Headers["Location"];
-			}
-			#endregion
 
-			#region 检查文件是否被下载过&是否支持断点续传
-			//创建http请求
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-			//设置超时
-			request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
-			//设置代理服务器
-			if (para.Proxy != null) 
-				request.Proxy = para.Proxy;
+				#region 先检查目标网址是否有Location属性
 
-			//获取服务器回应
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				HttpWebRequest testlocation = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+				testlocation.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+				testlocation.Proxy = para.Proxy;
+				testlocation.AllowAutoRedirect = false;
+				using (WebResponse testresponse = testlocation.GetResponse())
+				{
+					if (!string.IsNullOrEmpty(testresponse.Headers["Location"]))
+						//获得跳转地址
+						para.Url = testresponse.Headers["Location"];
+				}
+
+				#endregion
+
+				#region 检查文件是否被下载过&是否支持断点续传
+				//创建http请求
+				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+				//设置超时
+				request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+				//设置代理服务器
+				if (para.Proxy != null)
+					request.Proxy = para.Proxy;
+
+				//获取服务器回应
+				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
 				//如果Range超出范围
 				//if(((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.RequestedRangeNotSatisfiable)
 				//   throw ex;
 
-			//检查服务器是否支持断点续传
-			bool supportrange = false;
-			if (response != null)
-				supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
+				//检查服务器是否支持断点续传
+				bool supportrange = false;
+				if (response != null)
+					supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
 
-			//设置文件长度和已下载的长度
-			//文件长度
-			para.TotalLength = response.ContentLength;
+				//设置文件长度和已下载的长度
+				//文件长度
+				para.TotalLength = response.ContentLength;
 
-			//如果要下载的文件存在
-			long filelength=0;
-			if (File.Exists(para.FilePath))
-			{
-				filelength = new FileInfo(para.FilePath).Length;
-				//如果文件长度相同
-				if (filelength == para.TotalLength)
+				//如果要下载的文件存在
+				long filelength = 0;
+				if (File.Exists(para.FilePath))
 				{
-					//返回下载成功
-					return true;
-				}
-				if (filelength < para.TotalLength)
-				{
-					supportrange = false;
-				}
-				//如果服务器支持断点续传
-				if (supportrange)
-				{
-					//设置"已完成字节数"
-					para.DoneBytes = filelength;
-					//重新获取服务器回应
-					if (response != null)
-						response.Close();
-					//创建http请求
-					request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-					//设置超时
-					request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
-					//设置代理服务器
-					if (para.Proxy != null)
-						request.Proxy = para.Proxy;
-					//设置Range
-					request.AddRange(int.Parse(filelength.ToString()));
-					response = (HttpWebResponse)request.GetResponse();
-				}
-
-			}
-			else //如果不存在则建立文件夹
-			{
-				string dir = Directory.GetParent(para.FilePath).ToString();
-				if (!Directory.Exists(dir))
-					Directory.CreateDirectory(dir);
-			}
-
-			#endregion
-
-			
-			Stream st, fs; //网络流和文件流
-			Stream deflate = null; //Deflate/gzip 解压流
-			BufferedStream bs; //缓冲流
-			int t, limitcount = 0;
-			//确定缓冲长度
-			if (para.CacheSize > 256 || para.CacheSize < 1)
-				para.CacheSize = 1;
-			para.LastTick = System.Environment.TickCount; //系统计数
-
-			//获取下载流
-			using (st = response.GetResponseStream())
-			{
-				//设置gzip/deflate解压缩
-				if (response.ContentEncoding == "gzip")
-				{
-					deflate = new GZipStream(st, CompressionMode.Decompress);
-				}
-				else if (response.ContentEncoding == "deflate")
-				{
-					deflate = new DeflateStream(st, CompressionMode.Decompress);
-				}
-				else
-				{
-					deflate = st;
-				}
-				
-				//设置FileStream
-				if (supportrange && filelength != 0)//若服务器支持断点续传且文件存在
-				{
-					fs = new FileStream(para.FilePath, FileMode.Open, FileAccess.Write, FileShare.Read, 8);
-					fs.Seek(filelength, SeekOrigin.Begin);
-				}
-				else //服务器不支持断点续传或文件不存在（从头下载）
-				{
-					fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8);
-				}
-				//打开文件流
-				using (fs)
-				{
-					//使用缓冲流
-					bs = new BufferedStream(fs, para.CacheSize * 1024);
-					
-					try
+					filelength = new FileInfo(para.FilePath).Length;
+					//如果文件长度相同
+					if (filelength == para.TotalLength)
 					{
-						//读取第一块数据
-						Int32 osize = deflate.Read(buffer, 0, buffer.Length);
-						//开始循环
-						while (osize > 0)
+						//返回下载成功
+						return true;
+					}
+					//如果已有文件长度长于网络文件总长度（需要重新下载）
+					if (filelength > para.TotalLength)
+					{
+						supportrange = false;
+					}
+					//如果服务器支持断点续传
+					if (supportrange)
+					{
+						//设置"已完成字节数"
+						para.DoneBytes = filelength;
+						//重新获取服务器回应
+						if (response != null)
+							response.Close();
+						//创建http请求
+						request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+						//设置超时
+						request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+						//设置代理服务器
+						if (para.Proxy != null)
+							request.Proxy = para.Proxy;
+						//设置Range
+						request.AddRange(int.Parse(filelength.ToString()));
+						response = (HttpWebResponse)request.GetResponse();
+					}
+
+				}
+				else //如果不存在则建立文件夹
+				{
+					string dir = Directory.GetParent(para.FilePath).ToString();
+					if (!Directory.Exists(dir))
+						Directory.CreateDirectory(dir);
+				}
+
+				#endregion
+
+
+				Stream st, fs; //网络流和文件流
+				Stream deflate = null; //Deflate/gzip 解压流
+				BufferedStream bs; //缓冲流
+				int t, limitcount = 0;
+				//确定缓冲长度
+				if (para.CacheSize > 256 || para.CacheSize < 1)
+					para.CacheSize = 1;
+				para.LastTick = System.Environment.TickCount; //系统计数
+
+				//获取下载流
+				using (st = response.GetResponseStream())
+				{
+					//设置gzip/deflate解压缩
+					if (response.ContentEncoding == "gzip")
+					{
+						deflate = new GZipStream(st, CompressionMode.Decompress);
+					}
+					else if (response.ContentEncoding == "deflate")
+					{
+						deflate = new DeflateStream(st, CompressionMode.Decompress);
+					}
+					else
+					{
+						deflate = st;
+					}
+
+					//设置FileStream
+					if (supportrange && filelength != 0)//若服务器支持断点续传且文件存在
+					{
+						fs = new FileStream(para.FilePath, FileMode.Open, FileAccess.Write, FileShare.Read, 8);
+						fs.Seek(filelength, SeekOrigin.Begin);
+					}
+					else //服务器不支持断点续传或文件不存在（从头下载）
+					{
+						fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8);
+					}
+					//打开文件流
+					using (fs)
+					{
+						//使用缓冲流
+						bs = new BufferedStream(fs, para.CacheSize * 1024);
+
+						try
 						{
-							#region 判断是否取消下载
-							//如果用户终止则返回false
-							if (para.IsStop)
+							//读取第一块数据
+							Int32 osize = deflate.Read(buffer, 0, buffer.Length);
+							//开始循环
+							while (osize > 0)
 							{
-								//关闭流
-								bs.Close();
-								st.Close();
-								fs.Close();
-								return false;
-							}
-							#endregion
-
-							//增加已完成字节数
-							para.DoneBytes += osize;
-
-							//写文件(缓存)
-							bs.Write(buffer, 0, osize);
-
-
-							//设置限速
-							int limit = 0;
-							if (task != null)
-								if (task.SpeedLimit >= 0)
-									limit = task.SpeedLimit;
-
-							if (limit > 0)
-							{
-								//下载计数加一count++
-								limitcount++;
-								//下载1KB
-								osize = deflate.Read(buffer, 0, buffer.Length);
-								//累积到limit KB后
-								if (limitcount >= limit)
+								#region 判断是否取消下载
+								//如果用户终止则返回false
+								if (para.IsStop)
 								{
-									t = System.Environment.TickCount - privateTick;
-									//检查是否大于一秒
-									if (t < 1000)		//如果小于一秒则等待至一秒
-										Thread.Sleep(1000 - t);
-									//重置count和计时器，继续下载
-									limitcount = 0;
-									privateTick = System.Environment.TickCount;
+									//关闭流
+									bs.Close();
+									st.Close();
+									fs.Close();
+									return false;
 								}
-							}
+								#endregion
 
-							else //如果不限速
+								//增加已完成字节数
+								para.DoneBytes += osize;
+
+								//写文件(缓存)
+								bs.Write(buffer, 0, osize);
+
+
+								//设置限速
+								int limit = 0;
+								if (task != null)
+									if (task.SpeedLimit >= 0)
+										limit = task.SpeedLimit;
+
+								if (limit > 0)
+								{
+									//下载计数加一count++
+									limitcount++;
+									//下载1KB
+									osize = deflate.Read(buffer, 0, buffer.Length);
+									//累积到limit KB后
+									if (limitcount >= limit)
+									{
+										t = System.Environment.TickCount - privateTick;
+										//检查是否大于一秒
+										if (t < 1000)		//如果小于一秒则等待至一秒
+											Thread.Sleep(1000 - t);
+										//重置count和计时器，继续下载
+										limitcount = 0;
+										privateTick = System.Environment.TickCount;
+									}
+								}
+
+								else //如果不限速
+								{
+									osize = deflate.Read(buffer, 0, buffer.Length);
+								}
+
+								//下载成功完成，不需要重新下载
+								needRedownload = false;
+							} //end while
+						} //end bufferedstream
+						catch (Exception ex)
+						{
+							//可重试次数减1
+							remainRetryTime--;
+							//不再重试直接抛出异常的规则：
+							//1.没有可重试次数 
+							//2.服务器不支持断点续传 且 文件长度不为0（已经下载了部分数据）
+							if (remainRetryTime < 0 || (!supportrange))
+								throw ex;
+							else //否则继续重试
 							{
-								osize = deflate.Read(buffer, 0, buffer.Length);
+								//重试前等待的时间
+								Thread.Sleep(GlobalSettings.GetSettings().RetryWaitingTime);
+								needRedownload = true;
 							}
-							
-
-						} //end while
-					} //end bufferedstream
-					catch (Exception ex)
-					{
-						throw ex;
-					}
-					finally
-					{
-						bs.Close();
-					}
-				}// end filestream
-			} //end netstream
-
+						}
+						finally
+						{
+							bs.Close();
+						}
+					}// end filestream
+				} //end netstream
+			} //end while(needReDownload)
 			//一切顺利返回true
 			return true;
+
 		}
-
-		///// <summary>
-		///// 下载字幕文件
-		///// </summary>
-		//public static bool DownloadSub(DownloadParameter para)
-		//{
-		//   try
-		//   {
-		//      //网络缓存(100KB)
-		//      byte[] buffer = new byte[102400];
-		//      WebRequest Myrq = HttpWebRequest.Create(para.Url);
-		//      if (para.Proxy != null)
-		//         Myrq.Proxy = para.Proxy;
-		//      WebResponse myrp = Myrq.GetResponse();
-
-		//      //获取下载流
-		//      Stream st = myrp.GetResponseStream();
-		//      if (!para.UseDeflate)
-		//      {
-		//         //打开文件流
-		//         using (Stream so = new FileStream(para.FilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read, 8))
-		//         {
-		//            //读取数据
-		//            Int32 osize = st.Read(buffer, 0, buffer.Length);
-		//            while (osize > 0)
-		//            {
-		//               //写入数据
-		//               so.Write(buffer, 0, osize);
-		//               osize = st.Read(buffer, 0, buffer.Length);
-		//            }
-		//         }
-		//      }
-		//      else
-		//      {
-		//         //deflate解压缩
-		//         var deflate = new DeflateStream(st, CompressionMode.Decompress);
-		//         using (StreamReader reader = new StreamReader(deflate))
-		//         {
-		//            File.WriteAllText(para.FilePath, reader.ReadToEnd());
-		//         }
-
-		//      }
-		//      //关闭流
-		//      st.Close();
-		//      //一切顺利返回true
-		//      return true;
-		//   }
-		//   catch
-		//   {
-		//      //发生错误返回False
-		//      return false;
-		//   }
-		//}
-
 
 		/// <summary>
 		/// 获取网页源代码(推荐使用的版本)

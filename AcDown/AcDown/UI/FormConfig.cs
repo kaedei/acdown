@@ -61,19 +61,11 @@ namespace Kaedei.AcDown.UI
          chkEnableCheckUpdate.Checked = Config.setting.EnableCheckUpdate;
          udNetworkTimeout.Value = Config.setting.NetworkTimeout;
          txtUpdateDocument.Text = Config.setting.CheckUpdateDocument;
+         udRetryTimes.Value = Config.setting.RetryTimes;
+         udRetryWatingTime.Value = Config.setting.RetryWaitingTime / 1000;
 
          //插件设置
          pluginSettings1.SetPluginManager(pMgr);
-         //chkPluginAcfun.Checked = Config.setting.Plugin_Enable_Acfun;
-         //chkPluginTudou.Checked = Config.setting.Plugin_Enable_Tudou;
-         //chkPluginBilibili.Checked = Config.setting.Plugin_Enable_Bilibili;
-         //chkPluginYouku.Checked = Config.setting.Plugin_Enable_Youku;
-         //chkPluginImanhua.Checked = Config.setting.Plugin_Enable_Imanhua;
-         //chkPluginTiebaAlbum.Checked = Config.setting.Plugin_Enable_TiebaAlbum;
-         //chkPluginTucao.Checked = Config.setting.Plugin_Enable_Tucao;
-         //chkPluginFlvcd.Checked = Config.setting.Plugin_Enable_Flvcd;
-         //chkPluginSfacg.Checked = Config.setting.Plugin_Enable_SfAcg;
-         //chkPluginYoutube.Checked = Config.setting.Plugin_Enable_Youtube;
 
          //代理服务器设置
          if (Config.setting.Proxy_Settings != null)
@@ -121,17 +113,11 @@ namespace Kaedei.AcDown.UI
          Config.setting.NetworkTimeout = (Int32)udNetworkTimeout.Value;
          Config.setting.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
          Config.setting.CheckUpdateDocument = txtUpdateDocument.Text;
+         Config.setting.RetryTimes = (Int32)udRetryTimes.Value;
+         Config.setting.RetryWaitingTime = (Int32)udRetryWatingTime.Value * 1000;
+
          //插件设置
-         //Config.setting.Plugin_Enable_Acfun = chkPluginAcfun.Checked;
-         //Config.setting.Plugin_Enable_Tudou = chkPluginTudou.Checked;
-         //Config.setting.Plugin_Enable_Bilibili = chkPluginBilibili.Checked;
-         //Config.setting.Plugin_Enable_Youku = chkPluginYouku.Checked;
-         //Config.setting.Plugin_Enable_Imanhua = chkPluginImanhua.Checked;
-         //Config.setting.Plugin_Enable_TiebaAlbum = chkPluginTiebaAlbum.Checked;
-         //Config.setting.Plugin_Enable_Tucao = chkPluginTucao.Checked;
-         //Config.setting.Plugin_Enable_Flvcd = chkPluginFlvcd.Checked;
-         //Config.setting.Plugin_Enable_SfAcg = chkPluginSfacg.Checked;
-         //Config.setting.Plugin_Enable_Youtube = chkPluginYoutube.Checked;
+
          //代理服务器设置
          List<AcDownProxy> proxys = new List<AcDownProxy>();
          foreach (ListViewItem item in lsvProxy.Items)
