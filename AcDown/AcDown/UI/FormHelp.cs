@@ -23,17 +23,7 @@ namespace Kaedei.AcDown.UI
 
       private void FormHelp_Load(object sender, EventArgs e)
       {
-         lblVersion.Text = Application.ProductVersion.ToString();
-      }
-
-      private void lnkCheckUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-      {
-         Process.Start("http://acdown.codeplex.com/wikipage?title=Check%20Update");
-      }
-
-      private void lnkFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-      {
-         Process.Start("http://acdown.codeplex.com/wikipage?title=FAQ");
+         
       }
 
       private void lnkReportBug_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
