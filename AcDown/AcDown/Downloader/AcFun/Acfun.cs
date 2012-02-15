@@ -225,7 +225,7 @@ namespace Kaedei.AcDown.Downloader
 				{
 					
 					//取得id值
-					Regex rId = new Regex(@"(\?|amp;)id=(?<id>\w+)(?<ot>(-\w*|))");
+					Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
 					Match mId = rId.Match(embedSrc);
 					id = mId.Groups["id"].Value;
 					ot = mId.Groups["ot"].Value;

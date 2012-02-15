@@ -43,8 +43,8 @@
          this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
          this.lblBlank = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolQuestionnaire = new System.Windows.Forms.ToolStripStatusLabel();
-         this.toolHelpCenter = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolQA = new System.Windows.Forms.ToolStripStatusLabel();
+         this.toolHelpCenter = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolStrip = new System.Windows.Forms.ToolStrip();
          this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -89,10 +89,10 @@
          this.tabExample = new System.Windows.Forms.TabPage();
          this.txtExample = new System.Windows.Forms.TextBox();
          this.tabFlvCombine = new System.Windows.Forms.TabPage();
-         this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
          this.tabAcPlay = new System.Windows.Forms.TabPage();
-         this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
          this.timerClipboard = new System.Windows.Forms.Timer(this.components);
+         this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+         this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
          ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
          this.statusStrip.SuspendLayout();
          this.toolStrip.SuspendLayout();
@@ -221,7 +221,7 @@
          // lblBlank
          // 
          this.lblBlank.Name = "lblBlank";
-         this.lblBlank.Size = new System.Drawing.Size(121, 20);
+         this.lblBlank.Size = new System.Drawing.Size(152, 20);
          this.lblBlank.Spring = true;
          // 
          // toolQuestionnaire
@@ -233,16 +233,6 @@
          this.toolQuestionnaire.ToolTipText = "点击参与AcDown用户满意度及需求调查";
          this.toolQuestionnaire.Click += new System.EventHandler(this.toolQuestionnaire_Click);
          // 
-         // toolHelpCenter
-         // 
-         this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources.Help;
-         this.toolHelpCenter.IsLink = true;
-         this.toolHelpCenter.Name = "toolHelpCenter";
-         this.toolHelpCenter.Size = new System.Drawing.Size(81, 20);
-         this.toolHelpCenter.Text = "帮助中心";
-         this.toolHelpCenter.ToolTipText = "打开帮助中心";
-         this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
-         // 
          // toolQA
          // 
          this.toolQA.Image = global::Kaedei.AcDown.Properties.Resources.Help;
@@ -252,6 +242,16 @@
          this.toolQA.Text = "常见问题";
          this.toolQA.ToolTipText = "查看常见问题及帮助";
          this.toolQA.Click += new System.EventHandler(this.toolQA_Click);
+         // 
+         // toolHelpCenter
+         // 
+         this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources.Help;
+         this.toolHelpCenter.IsLink = true;
+         this.toolHelpCenter.Name = "toolHelpCenter";
+         this.toolHelpCenter.Size = new System.Drawing.Size(81, 20);
+         this.toolHelpCenter.Text = "提交反馈";
+         this.toolHelpCenter.ToolTipText = "打开帮助中心";
+         this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
          // 
          // toolStripStatusLabel1
          // 
@@ -735,17 +735,6 @@
          this.tabFlvCombine.Text = "视频合并";
          this.tabFlvCombine.UseVisualStyleBackColor = true;
          // 
-         // flvCombineControl1
-         // 
-         this.flvCombineControl1.AutoScroll = true;
-         this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.flvCombineControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
-         this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-         this.flvCombineControl1.Name = "flvCombineControl1";
-         this.flvCombineControl1.Size = new System.Drawing.Size(554, 287);
-         this.flvCombineControl1.TabIndex = 0;
-         // 
          // tabAcPlay
          // 
          this.tabAcPlay.Controls.Add(this.acPlay1);
@@ -757,6 +746,23 @@
          this.tabAcPlay.Text = "弹幕播放";
          this.tabAcPlay.UseVisualStyleBackColor = true;
          // 
+         // timerClipboard
+         // 
+         this.timerClipboard.Enabled = true;
+         this.timerClipboard.Interval = 500;
+         this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
+         // 
+         // flvCombineControl1
+         // 
+         this.flvCombineControl1.AutoScroll = true;
+         this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.flvCombineControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
+         this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+         this.flvCombineControl1.Name = "flvCombineControl1";
+         this.flvCombineControl1.Size = new System.Drawing.Size(554, 287);
+         this.flvCombineControl1.TabIndex = 0;
+         // 
          // acPlay1
          // 
          this.acPlay1.AutoScroll = true;
@@ -767,12 +773,6 @@
          this.acPlay1.Name = "acPlay1";
          this.acPlay1.Size = new System.Drawing.Size(554, 287);
          this.acPlay1.TabIndex = 0;
-         // 
-         // timerClipboard
-         // 
-         this.timerClipboard.Enabled = true;
-         this.timerClipboard.Interval = 500;
-         this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
          // 
          // FormMain
          // 
