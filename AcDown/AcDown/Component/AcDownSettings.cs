@@ -45,7 +45,7 @@ namespace Kaedei.AcDown.Component
       public bool HideWhenClose = true; //点击关闭按钮时最小化
       public int RefreshInfoInterval = 2000; //下载信息刷新频率(毫秒)
       public int NetworkTimeout = 25000; //发送请求的默认超时时间（毫秒）
-      public string CheckUpdateDocument = @"http://acdown.codeplex.com/wikipage?title=AutoUpdate"; //自动更新文档
+      public string CheckUpdateDocument = @"stable"; //自动更新通道
       public int RetryTimes = 3; //重试次数
       public int RetryWaitingTime = 5000; //重试前的等待时间（毫秒）
       //public List<string> RecentSearch = new List<string>();

@@ -89,10 +89,10 @@
          this.tabExample = new System.Windows.Forms.TabPage();
          this.txtExample = new System.Windows.Forms.TextBox();
          this.tabFlvCombine = new System.Windows.Forms.TabPage();
-         this.tabAcPlay = new System.Windows.Forms.TabPage();
-         this.timerClipboard = new System.Windows.Forms.Timer(this.components);
          this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+         this.tabAcPlay = new System.Windows.Forms.TabPage();
          this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
+         this.timerClipboard = new System.Windows.Forms.Timer(this.components);
          ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
          this.statusStrip.SuspendLayout();
          this.toolStrip.SuspendLayout();
@@ -221,7 +221,7 @@
          // lblBlank
          // 
          this.lblBlank.Name = "lblBlank";
-         this.lblBlank.Size = new System.Drawing.Size(152, 20);
+         this.lblBlank.Size = new System.Drawing.Size(121, 20);
          this.lblBlank.Spring = true;
          // 
          // toolQuestionnaire
@@ -237,6 +237,7 @@
          // 
          this.toolQA.Image = global::Kaedei.AcDown.Properties.Resources.Help;
          this.toolQA.IsLink = true;
+         this.toolQA.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
          this.toolQA.Name = "toolQA";
          this.toolQA.Size = new System.Drawing.Size(81, 20);
          this.toolQA.Text = "常见问题";
@@ -245,8 +246,9 @@
          // 
          // toolHelpCenter
          // 
-         this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources.Help;
+         this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources.feedback;
          this.toolHelpCenter.IsLink = true;
+         this.toolHelpCenter.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
          this.toolHelpCenter.Name = "toolHelpCenter";
          this.toolHelpCenter.Size = new System.Drawing.Size(81, 20);
          this.toolHelpCenter.Text = "提交反馈";
@@ -735,23 +737,6 @@
          this.tabFlvCombine.Text = "视频合并";
          this.tabFlvCombine.UseVisualStyleBackColor = true;
          // 
-         // tabAcPlay
-         // 
-         this.tabAcPlay.Controls.Add(this.acPlay1);
-         this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
-         this.tabAcPlay.Name = "tabAcPlay";
-         this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
-         this.tabAcPlay.Size = new System.Drawing.Size(560, 293);
-         this.tabAcPlay.TabIndex = 4;
-         this.tabAcPlay.Text = "弹幕播放";
-         this.tabAcPlay.UseVisualStyleBackColor = true;
-         // 
-         // timerClipboard
-         // 
-         this.timerClipboard.Enabled = true;
-         this.timerClipboard.Interval = 500;
-         this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
-         // 
          // flvCombineControl1
          // 
          this.flvCombineControl1.AutoScroll = true;
@@ -763,6 +748,17 @@
          this.flvCombineControl1.Size = new System.Drawing.Size(554, 287);
          this.flvCombineControl1.TabIndex = 0;
          // 
+         // tabAcPlay
+         // 
+         this.tabAcPlay.Controls.Add(this.acPlay1);
+         this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
+         this.tabAcPlay.Name = "tabAcPlay";
+         this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
+         this.tabAcPlay.Size = new System.Drawing.Size(560, 293);
+         this.tabAcPlay.TabIndex = 4;
+         this.tabAcPlay.Text = "弹幕播放";
+         this.tabAcPlay.UseVisualStyleBackColor = true;
+         // 
          // acPlay1
          // 
          this.acPlay1.AutoScroll = true;
@@ -773,6 +769,12 @@
          this.acPlay1.Name = "acPlay1";
          this.acPlay1.Size = new System.Drawing.Size(554, 287);
          this.acPlay1.TabIndex = 0;
+         // 
+         // timerClipboard
+         // 
+         this.timerClipboard.Enabled = true;
+         this.timerClipboard.Interval = 500;
+         this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
          // 
          // FormMain
          // 
