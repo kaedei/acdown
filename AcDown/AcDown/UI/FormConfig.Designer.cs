@@ -59,7 +59,6 @@
          this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
          this.chkWatch = new System.Windows.Forms.CheckBox();
          this.pagePlugin = new System.Windows.Forms.TabPage();
-         this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
          this.pageProxy = new System.Windows.Forms.TabPage();
          this.btnProxyDelete = new System.Windows.Forms.Button();
          this.btnProxyModify = new System.Windows.Forms.Button();
@@ -72,10 +71,17 @@
          this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.label6 = new System.Windows.Forms.Label();
          this.tabUpdate = new System.Windows.Forms.TabPage();
+         this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.rdoChannelStable = new System.Windows.Forms.RadioButton();
+         this.rdoChannelCustom = new System.Windows.Forms.RadioButton();
          this.txtUpdateDocument = new System.Windows.Forms.ComboBox();
-         this.label9 = new System.Windows.Forms.Label();
+         this.rdoChannelDevelop = new System.Windows.Forms.RadioButton();
          this.chkEnableCheckUpdate = new System.Windows.Forms.CheckBox();
          this.pageDebug = new System.Windows.Forms.TabPage();
+         this.udRetryWatingTime = new System.Windows.Forms.NumericUpDown();
+         this.label10 = new System.Windows.Forms.Label();
+         this.udRetryTimes = new System.Windows.Forms.NumericUpDown();
+         this.label3 = new System.Windows.Forms.Label();
          this.lnkOpenConfig = new System.Windows.Forms.LinkLabel();
          this.label8 = new System.Windows.Forms.Label();
          this.udNetworkTimeout = new System.Windows.Forms.NumericUpDown();
@@ -83,10 +89,7 @@
          this.chkEnableLog = new System.Windows.Forms.CheckBox();
          this.btnDefault = new System.Windows.Forms.Button();
          this.tip = new System.Windows.Forms.ToolTip(this.components);
-         this.label3 = new System.Windows.Forms.Label();
-         this.udRetryTimes = new System.Windows.Forms.NumericUpDown();
-         this.label10 = new System.Windows.Forms.Label();
-         this.udRetryWatingTime = new System.Windows.Forms.NumericUpDown();
+         this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
          this.tab.SuspendLayout();
          this.pageDownload.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -96,10 +99,11 @@
          this.pagePlugin.SuspendLayout();
          this.pageProxy.SuspendLayout();
          this.tabUpdate.SuspendLayout();
+         this.groupBox2.SuspendLayout();
          this.pageDebug.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.udRetryTimes)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.udRetryWatingTime)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udRetryTimes)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).BeginInit();
          this.SuspendLayout();
          // 
          // btnCancel
@@ -496,14 +500,6 @@
          this.pagePlugin.Text = "插件";
          this.pagePlugin.UseVisualStyleBackColor = true;
          // 
-         // pluginSettings1
-         // 
-         this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
-         this.pluginSettings1.Name = "pluginSettings1";
-         this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
-         this.pluginSettings1.TabIndex = 0;
-         // 
          // pageProxy
          // 
          this.pageProxy.Controls.Add(this.btnProxyDelete);
@@ -608,8 +604,7 @@
          // 
          // tabUpdate
          // 
-         this.tabUpdate.Controls.Add(this.txtUpdateDocument);
-         this.tabUpdate.Controls.Add(this.label9);
+         this.tabUpdate.Controls.Add(this.groupBox2);
          this.tabUpdate.Controls.Add(this.chkEnableCheckUpdate);
          this.tabUpdate.Location = new System.Drawing.Point(4, 22);
          this.tabUpdate.Name = "tabUpdate";
@@ -619,26 +614,67 @@
          this.tabUpdate.Text = "更新";
          this.tabUpdate.UseVisualStyleBackColor = true;
          // 
+         // groupBox2
+         // 
+         this.groupBox2.Controls.Add(this.rdoChannelStable);
+         this.groupBox2.Controls.Add(this.rdoChannelCustom);
+         this.groupBox2.Controls.Add(this.txtUpdateDocument);
+         this.groupBox2.Controls.Add(this.rdoChannelDevelop);
+         this.groupBox2.Location = new System.Drawing.Point(32, 66);
+         this.groupBox2.Name = "groupBox2";
+         this.groupBox2.Size = new System.Drawing.Size(318, 134);
+         this.groupBox2.TabIndex = 6;
+         this.groupBox2.TabStop = false;
+         this.groupBox2.Text = "更新通道";
+         // 
+         // rdoChannelStable
+         // 
+         this.rdoChannelStable.AutoSize = true;
+         this.rdoChannelStable.Location = new System.Drawing.Point(21, 30);
+         this.rdoChannelStable.Name = "rdoChannelStable";
+         this.rdoChannelStable.Size = new System.Drawing.Size(71, 16);
+         this.rdoChannelStable.TabIndex = 3;
+         this.rdoChannelStable.TabStop = true;
+         this.rdoChannelStable.Text = "稳定版本";
+         this.rdoChannelStable.UseVisualStyleBackColor = true;
+         // 
+         // rdoChannelCustom
+         // 
+         this.rdoChannelCustom.AutoSize = true;
+         this.rdoChannelCustom.Location = new System.Drawing.Point(21, 74);
+         this.rdoChannelCustom.Name = "rdoChannelCustom";
+         this.rdoChannelCustom.Size = new System.Drawing.Size(59, 16);
+         this.rdoChannelCustom.TabIndex = 5;
+         this.rdoChannelCustom.TabStop = true;
+         this.rdoChannelCustom.Text = "自定义";
+         this.rdoChannelCustom.UseVisualStyleBackColor = true;
+         this.rdoChannelCustom.CheckedChanged += new System.EventHandler(this.rdoChannelCustom_CheckedChanged);
+         // 
          // txtUpdateDocument
          // 
+         this.txtUpdateDocument.Enabled = false;
          this.txtUpdateDocument.FormattingEnabled = true;
          this.txtUpdateDocument.Items.AddRange(new object[] {
+            "http://hi.baidu.com/%E9%9D%99%E6%B5%81_%E9%80%8D%E9%81%A5l/blog/item/4f45c817fa1b" +
+                "134ff2de323b.html",
             "http://acdown.codeplex.com/wikipage?title=AutoUpdate",
             "http://blog.sina.com.cn/s/blog_58c506600100ylrt.html"});
-         this.txtUpdateDocument.Location = new System.Drawing.Point(32, 90);
+         this.txtUpdateDocument.Location = new System.Drawing.Point(21, 96);
          this.txtUpdateDocument.Name = "txtUpdateDocument";
-         this.txtUpdateDocument.Size = new System.Drawing.Size(297, 20);
+         this.txtUpdateDocument.Size = new System.Drawing.Size(280, 20);
          this.txtUpdateDocument.TabIndex = 2;
          this.tip.SetToolTip(this.txtUpdateDocument, "自定义更新节点。\r\n如果您无法链接到CodePlex.com或是有信任的第三方提供者，则可以在这里自定义AcDown的更新节点");
          // 
-         // label9
+         // rdoChannelDevelop
          // 
-         this.label9.AutoSize = true;
-         this.label9.Location = new System.Drawing.Point(30, 66);
-         this.label9.Name = "label9";
-         this.label9.Size = new System.Drawing.Size(101, 12);
-         this.label9.TabIndex = 1;
-         this.label9.Text = "自定义更新节点：";
+         this.rdoChannelDevelop.AutoSize = true;
+         this.rdoChannelDevelop.Location = new System.Drawing.Point(21, 52);
+         this.rdoChannelDevelop.Name = "rdoChannelDevelop";
+         this.rdoChannelDevelop.Size = new System.Drawing.Size(71, 16);
+         this.rdoChannelDevelop.TabIndex = 4;
+         this.rdoChannelDevelop.TabStop = true;
+         this.rdoChannelDevelop.Text = "开发版本";
+         this.rdoChannelDevelop.UseVisualStyleBackColor = true;
          // 
          // chkEnableCheckUpdate
          // 
@@ -669,6 +705,50 @@
          this.pageDebug.TabIndex = 5;
          this.pageDebug.Text = "高级";
          this.pageDebug.UseVisualStyleBackColor = true;
+         // 
+         // udRetryWatingTime
+         // 
+         this.udRetryWatingTime.Location = new System.Drawing.Point(178, 147);
+         this.udRetryWatingTime.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+         this.udRetryWatingTime.Name = "udRetryWatingTime";
+         this.udRetryWatingTime.Size = new System.Drawing.Size(75, 21);
+         this.udRetryWatingTime.TabIndex = 8;
+         this.udRetryWatingTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+         // 
+         // label10
+         // 
+         this.label10.AutoSize = true;
+         this.label10.Location = new System.Drawing.Point(29, 149);
+         this.label10.Name = "label10";
+         this.label10.Size = new System.Drawing.Size(143, 12);
+         this.label10.TabIndex = 7;
+         this.label10.Text = "重试等待时间(0-300秒)：";
+         // 
+         // udRetryTimes
+         // 
+         this.udRetryTimes.Location = new System.Drawing.Point(178, 120);
+         this.udRetryTimes.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+         this.udRetryTimes.Name = "udRetryTimes";
+         this.udRetryTimes.Size = new System.Drawing.Size(75, 21);
+         this.udRetryTimes.TabIndex = 6;
+         this.udRetryTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+         // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.Location = new System.Drawing.Point(47, 122);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(125, 12);
+         this.label3.TabIndex = 5;
+         this.label3.Text = "重试次数限制(0-99)：";
          // 
          // lnkOpenConfig
          // 
@@ -760,49 +840,13 @@
          this.tip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
          this.tip.ToolTipTitle = "设置";
          // 
-         // label3
+         // pluginSettings1
          // 
-         this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(47, 122);
-         this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(125, 12);
-         this.label3.TabIndex = 5;
-         this.label3.Text = "重试次数限制(0-99)：";
-         // 
-         // udRetryTimes
-         // 
-         this.udRetryTimes.Location = new System.Drawing.Point(178, 120);
-         this.udRetryTimes.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-         this.udRetryTimes.Name = "udRetryTimes";
-         this.udRetryTimes.Size = new System.Drawing.Size(75, 21);
-         this.udRetryTimes.TabIndex = 6;
-         this.udRetryTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-         // 
-         // label10
-         // 
-         this.label10.AutoSize = true;
-         this.label10.Location = new System.Drawing.Point(29, 149);
-         this.label10.Name = "label10";
-         this.label10.Size = new System.Drawing.Size(143, 12);
-         this.label10.TabIndex = 7;
-         this.label10.Text = "重试等待时间(0-300秒)：";
-         // 
-         // udRetryWatingTime
-         // 
-         this.udRetryWatingTime.Location = new System.Drawing.Point(178, 147);
-         this.udRetryWatingTime.Maximum = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-         this.udRetryWatingTime.Name = "udRetryWatingTime";
-         this.udRetryWatingTime.Size = new System.Drawing.Size(75, 21);
-         this.udRetryWatingTime.TabIndex = 8;
-         this.udRetryWatingTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+         this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
+         this.pluginSettings1.Name = "pluginSettings1";
+         this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
+         this.pluginSettings1.TabIndex = 0;
          // 
          // FormConfig
          // 
@@ -838,11 +882,13 @@
          this.pageProxy.PerformLayout();
          this.tabUpdate.ResumeLayout(false);
          this.tabUpdate.PerformLayout();
+         this.groupBox2.ResumeLayout(false);
+         this.groupBox2.PerformLayout();
          this.pageDebug.ResumeLayout(false);
          this.pageDebug.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.udRetryTimes)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.udRetryWatingTime)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udRetryTimes)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.udNetworkTimeout)).EndInit();
          this.ResumeLayout(false);
 
 		  }
@@ -862,11 +908,11 @@
 		  private System.Windows.Forms.Label label1;
 		  private System.Windows.Forms.NumericUpDown numCacheSize;
 		  private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox chkEnableWin7;
+		  private System.Windows.Forms.CheckBox chkEnableWin7;
 		  private System.Windows.Forms.CheckBox chkWatch;
-        private System.Windows.Forms.ComboBox txtSearchText;
-        private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
-        private System.Windows.Forms.CheckBox chkParseRelated;
+		  private System.Windows.Forms.ComboBox txtSearchText;
+		  private System.Windows.Forms.LinkLabel lnkCustomSearchExample;
+		  private System.Windows.Forms.CheckBox chkParseRelated;
 		  private System.Windows.Forms.Label label2;
 		  private System.Windows.Forms.CheckBox chkHideWhenClose;
 		  private System.Windows.Forms.TabPage pageDebug;
@@ -888,24 +934,27 @@
 		  private System.Windows.Forms.TextBox txtSavePath;
 		  private System.Windows.Forms.Button btnSavePath;
 		  private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown udRefreshInfo;
-        private System.Windows.Forms.Button btnDefault;
+		  private System.Windows.Forms.NumericUpDown udRefreshInfo;
+		  private System.Windows.Forms.Button btnDefault;
 		  private System.Windows.Forms.Label label8;
 		  private System.Windows.Forms.NumericUpDown udNetworkTimeout;
 		  private System.Windows.Forms.TextBox txtCustomSound;
 		  private System.Windows.Forms.CheckBox chkCustomSound;
-        private System.Windows.Forms.ToolTip tip;
+		  private System.Windows.Forms.ToolTip tip;
 		  private System.Windows.Forms.CheckBox chkShowLogo;
 		  private System.Windows.Forms.TabPage tabUpdate;
 		  private System.Windows.Forms.CheckBox chkEnableCheckUpdate;
 		  private System.Windows.Forms.GroupBox groupBox1;
 		  private System.Windows.Forms.LinkLabel lnkOpenConfig;
 		  private System.Windows.Forms.ComboBox txtUpdateDocument;
-        private System.Windows.Forms.Label label9;
-        private Components.PluginSettings pluginSettings1;
-        private System.Windows.Forms.NumericUpDown udRetryWatingTime;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown udRetryTimes;
-        private System.Windows.Forms.Label label3;
+		  private Components.PluginSettings pluginSettings1;
+		  private System.Windows.Forms.NumericUpDown udRetryWatingTime;
+		  private System.Windows.Forms.Label label10;
+		  private System.Windows.Forms.NumericUpDown udRetryTimes;
+		  private System.Windows.Forms.Label label3;
+		  private System.Windows.Forms.GroupBox groupBox2;
+		  private System.Windows.Forms.RadioButton rdoChannelStable;
+		  private System.Windows.Forms.RadioButton rdoChannelCustom;
+		  private System.Windows.Forms.RadioButton rdoChannelDevelop;
 	 }
 }

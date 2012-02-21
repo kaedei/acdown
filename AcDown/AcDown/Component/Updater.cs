@@ -48,7 +48,13 @@ namespace Kaedei.AcDown.Component
       {
          try
          {
-            string src = Network.GetHtmlSource(Config.setting.CheckUpdateDocument, Encoding.UTF8);
+            string url = Config.setting.CheckUpdateDocument;
+            if (url == "stable")
+               url = "http://acdown.codeplex.com/wikipage?title=AutoUpdate";
+            if (url == "develop")
+               url = "http://blog.sina.com.cn/s/blog_58c506600100ylrt.html";
+
+            string src = Network.GetHtmlSource(url, Encoding.UTF8);
             Regex rVersion = new Regex(@"{updatestart}NEWVERSION=(?<major>\d+)\.(?<minor>\d+).(?<build>\d+)\.(?<revision>\d+){updateend}");
             Match mVersion = rVersion.Match(src);
             string verstring = mVersion.Groups["major"].ToString() + "." +
@@ -62,8 +68,8 @@ namespace Kaedei.AcDown.Component
                Match mUrl = rUrl.Match(src);
                if (mUrl.Success)
                {
-                  string url = mUrl.Groups["url"].Value.Replace("&amp;", "&");
-                  return url;
+                  string u = mUrl.Groups["url"].Value.Replace("&amp;", "&");
+                  return u;
                }
             }
          }

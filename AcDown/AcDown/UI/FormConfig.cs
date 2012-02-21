@@ -60,7 +60,15 @@ namespace Kaedei.AcDown.UI
          udRefreshInfo.Value = Config.setting.RefreshInfoInterval;
          chkEnableCheckUpdate.Checked = Config.setting.EnableCheckUpdate;
          udNetworkTimeout.Value = Config.setting.NetworkTimeout;
-         txtUpdateDocument.Text = Config.setting.CheckUpdateDocument;
+         if (Config.setting.CheckUpdateDocument == "stable")
+            rdoChannelStable.Checked = true;
+         else if (Config.setting.CheckUpdateDocument == "develop")
+            rdoChannelDevelop.Checked = true;
+         else
+         {
+            rdoChannelCustom.Checked = true;
+            txtUpdateDocument.Text = Config.setting.CheckUpdateDocument;
+         }
          udRetryTimes.Value = Config.setting.RetryTimes;
          udRetryWatingTime.Value = Config.setting.RetryWaitingTime / 1000;
 
@@ -112,7 +120,12 @@ namespace Kaedei.AcDown.UI
          Config.setting.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
          Config.setting.NetworkTimeout = (Int32)udNetworkTimeout.Value;
          Config.setting.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
-         Config.setting.CheckUpdateDocument = txtUpdateDocument.Text;
+         if (rdoChannelStable.Checked)
+            Config.setting.CheckUpdateDocument = "stable";
+         if (rdoChannelDevelop.Checked)
+            Config.setting.CheckUpdateDocument = "develop";
+         if (rdoChannelCustom.Checked)
+            Config.setting.CheckUpdateDocument = txtUpdateDocument.Text;
          Config.setting.RetryTimes = (Int32)udRetryTimes.Value;
          Config.setting.RetryWaitingTime = (Int32)udRetryWatingTime.Value * 1000;
 
@@ -298,6 +311,11 @@ namespace Kaedei.AcDown.UI
          catch
          {
          }
+      }
+
+      private void rdoChannelCustom_CheckedChanged(object sender, EventArgs e)
+      {
+         txtUpdateDocument.Enabled = rdoChannelCustom.Checked;
       }
 
    }

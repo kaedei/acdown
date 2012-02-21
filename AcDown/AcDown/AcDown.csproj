@@ -372,6 +372,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangeLog.txt" />
+    <None Include="Resources\feedback.png" />
     <None Include="Resources\remind.wav" />
     <None Include="Resources\ToolStripControl.png" />
     <None Include="Resources\Update.png" />

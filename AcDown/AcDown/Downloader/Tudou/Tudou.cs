@@ -174,10 +174,13 @@ namespace Kaedei.AcDown.Downloader
 				//获取密码
 				string password = "";
 				if (Info.Url.EndsWith("密码"))
+				{
 					password = ToolForm.CreatePasswordForm(true, "", "");
+					Info.Url.Replace("密码", "");
+				}
 
 				//取得网页源文件
-				string src = Network.GetHtmlSource2(Info.Url.Replace("密码", ""), Encoding.GetEncoding("GBK"), Info.Proxy);
+				string src = Network.GetHtmlSource2(Info.Url, Encoding.GetEncoding("GBK"), Info.Proxy);
 
 				//分析视频iid
 				string iid = "";
@@ -186,15 +189,37 @@ namespace Kaedei.AcDown.Downloader
 				//Match m = r.Match(Url);
 
 				//取得iid
-				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
-				Match m1 = r1.Match(src);
-				iid = m1.Groups["iid"].ToString();
+				Regex rlist = new Regex(@"a(?<aid>\d+)i(?<iid>\d+)");
+				Match mlist = rlist.Match(Info.Url);
+				if (mlist.Success)
+				{
+					iid = mlist.Groups["iid"].Value;
+				}
+				else
+				{
+					Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
+					Match m1 = r1.Match(src);
+					iid = m1.Groups["iid"].ToString();
+				}
 
 				//取得视频标题
-				Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
-				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value;
-
+				string title = "";
+				
+				if (mlist.Success)
+				{
+					string aid = mlist.Groups["aid"].Value;
+					Regex rlisttitle = new Regex(@"aid:" + aid + @"\n,name:""(?<title>.+?)""", RegexOptions.Singleline);
+					Match mlisttitle = rlisttitle.Match(src);
+					Regex rsubtitle = new Regex(@"iid:" + iid + @"\n,cartoonType:\d+\n,title:""(?<subtitle>.+?)""", RegexOptions.Singleline);
+					Match msubtitle = rsubtitle.Match(src);
+					title = mlisttitle.Groups["title"].Value + "-" + msubtitle.Groups["subtitle"].Value;
+				}
+				else
+				{
+					Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
+					Match mTitle = rTitle.Match(src);
+					title = mTitle.Groups["title"].Value;
+				}
 				Info.Title = title;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
@@ -216,9 +241,10 @@ namespace Kaedei.AcDown.Downloader
 				for (int i = 0; i < Info.PartCount; i++)
 				{
 					Info.CurrentPart = i + 1;
-					
+
 					//取得文件后缀名
 					string ext = Tools.GetExtension(videos[i]);
+					if (ext == ".f4v") ext = ".flv";
 					//设置当前DownloadParameter
 					if (Info.PartCount == 1) //如果只有一段
 					{
@@ -226,11 +252,11 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
-														  title + "." + ext),
+														  title + ext),
 							//文件URL
-                     Url = videos[i],
-                     //代理服务器
-                     Proxy = Info.Proxy
+							Url = videos[i],
+							//代理服务器
+							Proxy = Info.Proxy
 						};
 					}
 					else //如果分段有多段
@@ -239,11 +265,11 @@ namespace Kaedei.AcDown.Downloader
 						{
 							//文件名 例: c:\123(1).flv
 							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
-														  title + "(" + (i + 1).ToString() + ")" + "." + ext),
+														  title + "(" + (i + 1).ToString() + ")" + ext),
 							//文件URL
-                     Url = videos[i],
-                     //代理服务器
-                     Proxy = Info.Proxy
+							Url = videos[i],
+							//代理服务器
+							Proxy = Info.Proxy
 						};
 					}
 
@@ -273,7 +299,7 @@ namespace Kaedei.AcDown.Downloader
 					success = Network.DownloadFile(currentParameter, this.Info);
 
 					//未出现错误即用户手动停止
-					if (!success) 
+					if (!success)
 					{
 						Info.Status = DownloadStatus.已经停止;
 						delegates.Finish(new ParaFinish(this.Info, false));
