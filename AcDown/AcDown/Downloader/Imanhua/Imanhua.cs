@@ -393,6 +393,7 @@ namespace Kaedei.AcDown.Downloader
 				return;
 			}//end try
 			//下载成功完成
+			currentParameter.DoneBytes = currentParameter.TotalLength;
 			Info.Status = DownloadStatus.下载完成;
 			delegates.Finish(new ParaFinish(this.Info, true));
 

@@ -228,9 +228,10 @@ namespace Kaedei.AcDown.Interface
 									osize = deflate.Read(buffer, 0, buffer.Length);
 								}
 
-								//下载成功完成，不需要重新下载
-								needRedownload = false;
 							} //end while
+
+							//下载成功完成，不需要重新下载
+							needRedownload = false;
 						} //end bufferedstream
 						catch (Exception ex)
 						{
