@@ -82,7 +82,7 @@ namespace Kaedei.AcDown.Downloader
          {
            
             //取得网页源文件
-            string src = Network.GetHtmlSource2(Info.Url, Encoding.UTF8, Info.Proxy);
+            string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
 
             //去除乱码
             src = src.Replace(@"\u0026", "&");

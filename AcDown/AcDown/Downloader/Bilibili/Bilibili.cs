@@ -191,7 +191,7 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得网页源文件
-				string src = Network.GetHtmlSource2(url, Encoding.UTF8, Info.Proxy);
+				string src = Network.GetHtmlSource(url, Encoding.UTF8, Info.Proxy);
 				//type值
 				string type = "";
 				#region 登录并重新获取网页源文件

@@ -52,13 +52,13 @@
          this.label4 = new System.Windows.Forms.Label();
          this.txtSearchText = new System.Windows.Forms.ComboBox();
          this.lnkCustomSearchExample = new System.Windows.Forms.LinkLabel();
-         this.chkShowLogo = new System.Windows.Forms.CheckBox();
          this.udRefreshInfo = new System.Windows.Forms.NumericUpDown();
          this.label7 = new System.Windows.Forms.Label();
          this.chkHideWhenClose = new System.Windows.Forms.CheckBox();
          this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
          this.chkWatch = new System.Windows.Forms.CheckBox();
          this.pagePlugin = new System.Windows.Forms.TabPage();
+         this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
          this.pageProxy = new System.Windows.Forms.TabPage();
          this.btnProxyDelete = new System.Windows.Forms.Button();
          this.btnProxyModify = new System.Windows.Forms.Button();
@@ -89,7 +89,6 @@
          this.chkEnableLog = new System.Windows.Forms.CheckBox();
          this.btnDefault = new System.Windows.Forms.Button();
          this.tip = new System.Windows.Forms.ToolTip(this.components);
-         this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
          this.tab.SuspendLayout();
          this.pageDownload.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numCacheSize)).BeginInit();
@@ -346,7 +345,6 @@
          // pageUI
          // 
          this.pageUI.Controls.Add(this.groupBox1);
-         this.pageUI.Controls.Add(this.chkShowLogo);
          this.pageUI.Controls.Add(this.udRefreshInfo);
          this.pageUI.Controls.Add(this.label7);
          this.pageUI.Controls.Add(this.chkHideWhenClose);
@@ -365,7 +363,7 @@
          this.groupBox1.Controls.Add(this.label4);
          this.groupBox1.Controls.Add(this.txtSearchText);
          this.groupBox1.Controls.Add(this.lnkCustomSearchExample);
-         this.groupBox1.Location = new System.Drawing.Point(29, 170);
+         this.groupBox1.Location = new System.Drawing.Point(29, 139);
          this.groupBox1.Name = "groupBox1";
          this.groupBox1.Size = new System.Drawing.Size(335, 100);
          this.groupBox1.TabIndex = 6;
@@ -408,17 +406,6 @@
          this.lnkCustomSearchExample.Text = "查看更多示例";
          this.lnkCustomSearchExample.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCustomSearchExample_LinkClicked);
          // 
-         // chkShowLogo
-         // 
-         this.chkShowLogo.AutoSize = true;
-         this.chkShowLogo.Location = new System.Drawing.Point(29, 50);
-         this.chkShowLogo.Name = "chkShowLogo";
-         this.chkShowLogo.Size = new System.Drawing.Size(264, 16);
-         this.chkShowLogo.TabIndex = 1;
-         this.chkShowLogo.Text = "显示主界面的Logo图片（重启下载器后生效）";
-         this.tip.SetToolTip(this.chkShowLogo, "显示界面中央的AcDown图片");
-         this.chkShowLogo.UseVisualStyleBackColor = true;
-         // 
          // udRefreshInfo
          // 
          this.udRefreshInfo.Increment = new decimal(new int[] {
@@ -426,7 +413,7 @@
             0,
             0,
             0});
-         this.udRefreshInfo.Location = new System.Drawing.Point(182, 121);
+         this.udRefreshInfo.Location = new System.Drawing.Point(182, 99);
          this.udRefreshInfo.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -450,7 +437,7 @@
          // label7
          // 
          this.label7.AutoSize = true;
-         this.label7.Location = new System.Drawing.Point(27, 123);
+         this.label7.Location = new System.Drawing.Point(27, 101);
          this.label7.Name = "label7";
          this.label7.Size = new System.Drawing.Size(149, 12);
          this.label7.TabIndex = 4;
@@ -459,7 +446,7 @@
          // chkHideWhenClose
          // 
          this.chkHideWhenClose.AutoSize = true;
-         this.chkHideWhenClose.Location = new System.Drawing.Point(29, 94);
+         this.chkHideWhenClose.Location = new System.Drawing.Point(29, 72);
          this.chkHideWhenClose.Name = "chkHideWhenClose";
          this.chkHideWhenClose.Size = new System.Drawing.Size(204, 16);
          this.chkHideWhenClose.TabIndex = 3;
@@ -481,7 +468,7 @@
          // chkWatch
          // 
          this.chkWatch.AutoSize = true;
-         this.chkWatch.Location = new System.Drawing.Point(29, 72);
+         this.chkWatch.Location = new System.Drawing.Point(29, 50);
          this.chkWatch.Name = "chkWatch";
          this.chkWatch.Size = new System.Drawing.Size(84, 16);
          this.chkWatch.TabIndex = 2;
@@ -499,6 +486,14 @@
          this.pagePlugin.TabIndex = 4;
          this.pagePlugin.Text = "插件";
          this.pagePlugin.UseVisualStyleBackColor = true;
+         // 
+         // pluginSettings1
+         // 
+         this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
+         this.pluginSettings1.Name = "pluginSettings1";
+         this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
+         this.pluginSettings1.TabIndex = 0;
          // 
          // pageProxy
          // 
@@ -840,14 +835,6 @@
          this.tip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
          this.tip.ToolTipTitle = "设置";
          // 
-         // pluginSettings1
-         // 
-         this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
-         this.pluginSettings1.Name = "pluginSettings1";
-         this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
-         this.pluginSettings1.TabIndex = 0;
-         // 
          // FormConfig
          // 
          this.AcceptButton = this.btnOK;
@@ -940,8 +927,7 @@
 		  private System.Windows.Forms.NumericUpDown udNetworkTimeout;
 		  private System.Windows.Forms.TextBox txtCustomSound;
 		  private System.Windows.Forms.CheckBox chkCustomSound;
-		  private System.Windows.Forms.ToolTip tip;
-		  private System.Windows.Forms.CheckBox chkShowLogo;
+        private System.Windows.Forms.ToolTip tip;
 		  private System.Windows.Forms.TabPage tabUpdate;
 		  private System.Windows.Forms.CheckBox chkEnableCheckUpdate;
 		  private System.Windows.Forms.GroupBox groupBox1;

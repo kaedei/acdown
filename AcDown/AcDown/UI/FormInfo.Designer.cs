@@ -47,6 +47,7 @@
          this.txtInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
          this.txtInfo.Size = new System.Drawing.Size(411, 380);
          this.txtInfo.TabIndex = 1;
+         this.txtInfo.WordWrap = false;
          // 
          // btnClose
          // 

@@ -189,7 +189,10 @@ namespace Kaedei.AcDown.Interface
       public void Start(DelegateContainer delegates)
       {
          if (BasePlugin == null)
+         {
+            this.Status = DownloadStatus.出现错误;
             throw new Exception("Plugin Not Found");
+         }
          resourceDownloader = BasePlugin.CreateDownloader();
          resourceDownloader.Info = this;
          resourceDownloader.delegates = delegates;
