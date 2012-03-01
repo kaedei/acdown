@@ -180,7 +180,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				//取得网页源文件
-				string src = Network.GetHtmlSource2(Info.Url, Encoding.GetEncoding("GBK"), Info.Proxy);
+				string src = Network.GetHtmlSource(Info.Url, Encoding.GetEncoding("GBK"), Info.Proxy);
 
 				//分析视频iid
 				string iid = "";

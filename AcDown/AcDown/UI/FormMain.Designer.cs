@@ -38,7 +38,6 @@
          this.headerRemainTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.headerPastTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.headerSourceUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-         this.picLogo = new System.Windows.Forms.PictureBox();
          this.statusStrip = new System.Windows.Forms.StatusStrip();
          this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
          this.lblBlank = new System.Windows.Forms.ToolStripStatusLabel();
@@ -68,9 +67,6 @@
          this.toolTip = new System.Windows.Forms.ToolTip(this.components);
          this.btnSpeedlimitApply = new System.Windows.Forms.Button();
          this.contextTool = new System.Windows.Forms.ToolStrip();
-         this.toolStripButton2 = new System.Windows.Forms.ToolStripDropDownButton();
-         this.toolStart = new System.Windows.Forms.ToolStripMenuItem();
-         this.toolStop = new System.Windows.Forms.ToolStripMenuItem();
          this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
          this.toolDelete = new System.Windows.Forms.ToolStripSplitButton();
          this.toolDeleteAndFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,7 +89,8 @@
          this.tabAcPlay = new System.Windows.Forms.TabPage();
          this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
          this.timerClipboard = new System.Windows.Forms.Timer(this.components);
-         ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
+         this.mnuConStart = new System.Windows.Forms.ToolStripButton();
+         this.mnuConStop = new System.Windows.Forms.ToolStripButton();
          this.statusStrip.SuspendLayout();
          this.toolStrip.SuspendLayout();
          this.mnuTray.SuspendLayout();
@@ -128,7 +125,7 @@
          this.lsv.Location = new System.Drawing.Point(94, 6);
          this.lsv.Name = "lsv";
          this.lsv.ShowItemToolTips = true;
-         this.lsv.Size = new System.Drawing.Size(463, 284);
+         this.lsv.Size = new System.Drawing.Size(463, 377);
          this.lsv.TabIndex = 0;
          this.lsv.UseCompatibleStateImageBehavior = false;
          this.lsv.View = System.Windows.Forms.View.Details;
@@ -183,18 +180,6 @@
          this.headerSourceUrl.Text = "源地址";
          this.headerSourceUrl.Width = 500;
          // 
-         // picLogo
-         // 
-         this.picLogo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.picLogo.Image = global::Kaedei.AcDown.Properties.Resources.Logo;
-         this.picLogo.Location = new System.Drawing.Point(0, 34);
-         this.picLogo.Name = "picLogo";
-         this.picLogo.Size = new System.Drawing.Size(568, 82);
-         this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-         this.picLogo.TabIndex = 1;
-         this.picLogo.TabStop = false;
-         // 
          // statusStrip
          // 
          this.statusStrip.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -221,7 +206,7 @@
          // lblBlank
          // 
          this.lblBlank.Name = "lblBlank";
-         this.lblBlank.Size = new System.Drawing.Size(121, 20);
+         this.lblBlank.Size = new System.Drawing.Size(152, 20);
          this.lblBlank.Spring = true;
          // 
          // toolQuestionnaire
@@ -483,7 +468,8 @@
          this.contextTool.GripMargin = new System.Windows.Forms.Padding(4, 2, 2, 2);
          this.contextTool.ImageScalingSize = new System.Drawing.Size(24, 24);
          this.contextTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
+            this.mnuConStart,
+            this.mnuConStop,
             this.toolStripSeparator1,
             this.toolDelete,
             this.toolStripSeparator2,
@@ -491,37 +477,9 @@
             this.toolInfo});
          this.contextTool.Location = new System.Drawing.Point(130, 63);
          this.contextTool.Name = "contextTool";
-         this.contextTool.Size = new System.Drawing.Size(299, 48);
+         this.contextTool.Size = new System.Drawing.Size(381, 48);
          this.contextTool.TabIndex = 22;
          this.contextTool.Visible = false;
-         // 
-         // toolStripButton2
-         // 
-         this.toolStripButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStart,
-            this.toolStop});
-         this.toolStripButton2.Image = global::Kaedei.AcDown.Properties.Resources.ToolStripControl;
-         this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-         this.toolStripButton2.Name = "toolStripButton2";
-         this.toolStripButton2.Size = new System.Drawing.Size(69, 45);
-         this.toolStripButton2.Text = "任务操作";
-         this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-         // 
-         // toolStart
-         // 
-         this.toolStart.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStart;
-         this.toolStart.Name = "toolStart";
-         this.toolStart.Size = new System.Drawing.Size(132, 30);
-         this.toolStart.Text = "开始下载";
-         this.toolStart.Click += new System.EventHandler(this.mnuConStart_Click);
-         // 
-         // toolStop
-         // 
-         this.toolStop.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStop;
-         this.toolStop.Name = "toolStop";
-         this.toolStop.Size = new System.Drawing.Size(132, 30);
-         this.toolStop.Text = "停止下载";
-         this.toolStop.Click += new System.EventHandler(this.mnuConStop_Click);
          // 
          // toolStripSeparator1
          // 
@@ -587,19 +545,17 @@
          // 
          // tabMain
          // 
-         this.tabMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
          this.tabMain.Controls.Add(this.tabDownload);
          this.tabMain.Controls.Add(this.tabConfig);
          this.tabMain.Controls.Add(this.tabExample);
          this.tabMain.Controls.Add(this.tabFlvCombine);
          this.tabMain.Controls.Add(this.tabAcPlay);
+         this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
          this.tabMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-         this.tabMain.Location = new System.Drawing.Point(0, 122);
+         this.tabMain.Location = new System.Drawing.Point(0, 31);
          this.tabMain.Name = "tabMain";
          this.tabMain.SelectedIndex = 0;
-         this.tabMain.Size = new System.Drawing.Size(568, 326);
+         this.tabMain.Size = new System.Drawing.Size(568, 419);
          this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
          this.tabMain.TabIndex = 23;
          // 
@@ -611,7 +567,7 @@
          this.tabDownload.Location = new System.Drawing.Point(4, 29);
          this.tabDownload.Name = "tabDownload";
          this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-         this.tabDownload.Size = new System.Drawing.Size(560, 293);
+         this.tabDownload.Size = new System.Drawing.Size(560, 386);
          this.tabDownload.TabIndex = 0;
          this.tabDownload.Text = "任务";
          this.tabDownload.UseVisualStyleBackColor = true;
@@ -626,7 +582,7 @@
          this.panelFilter.Dock = System.Windows.Forms.DockStyle.Left;
          this.panelFilter.Location = new System.Drawing.Point(3, 3);
          this.panelFilter.Name = "panelFilter";
-         this.panelFilter.Size = new System.Drawing.Size(90, 287);
+         this.panelFilter.Size = new System.Drawing.Size(90, 380);
          this.panelFilter.TabIndex = 26;
          // 
          // rdoSearch
@@ -697,7 +653,7 @@
          this.tabConfig.Location = new System.Drawing.Point(4, 29);
          this.tabConfig.Name = "tabConfig";
          this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
-         this.tabConfig.Size = new System.Drawing.Size(560, 293);
+         this.tabConfig.Size = new System.Drawing.Size(560, 386);
          this.tabConfig.TabIndex = 1;
          this.tabConfig.Text = "下载选项";
          this.tabConfig.UseVisualStyleBackColor = true;
@@ -708,7 +664,7 @@
          this.tabExample.Location = new System.Drawing.Point(4, 29);
          this.tabExample.Name = "tabExample";
          this.tabExample.Padding = new System.Windows.Forms.Padding(3);
-         this.tabExample.Size = new System.Drawing.Size(560, 293);
+         this.tabExample.Size = new System.Drawing.Size(560, 386);
          this.tabExample.TabIndex = 5;
          this.tabExample.Text = "网址示例";
          this.tabExample.UseVisualStyleBackColor = true;
@@ -732,7 +688,7 @@
          this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
          this.tabFlvCombine.Name = "tabFlvCombine";
          this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
-         this.tabFlvCombine.Size = new System.Drawing.Size(560, 293);
+         this.tabFlvCombine.Size = new System.Drawing.Size(560, 386);
          this.tabFlvCombine.TabIndex = 3;
          this.tabFlvCombine.Text = "视频合并";
          this.tabFlvCombine.UseVisualStyleBackColor = true;
@@ -754,7 +710,7 @@
          this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
          this.tabAcPlay.Name = "tabAcPlay";
          this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
-         this.tabAcPlay.Size = new System.Drawing.Size(560, 293);
+         this.tabAcPlay.Size = new System.Drawing.Size(560, 386);
          this.tabAcPlay.TabIndex = 4;
          this.tabAcPlay.Text = "弹幕播放";
          this.tabAcPlay.UseVisualStyleBackColor = true;
@@ -776,6 +732,27 @@
          this.timerClipboard.Interval = 500;
          this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
          // 
+         // mnuConStart
+         // 
+         this.mnuConStart.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStart;
+         this.mnuConStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.mnuConStart.Name = "mnuConStart";
+         this.mnuConStart.Size = new System.Drawing.Size(60, 45);
+         this.mnuConStart.Text = "开始下载";
+         this.mnuConStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+         this.mnuConStart.ToolTipText = "开始/重新下载选定的任务";
+         this.mnuConStart.Click += new System.EventHandler(this.mnuConStart_Click);
+         // 
+         // mnuConStop
+         // 
+         this.mnuConStop.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStop;
+         this.mnuConStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.mnuConStop.Name = "mnuConStop";
+         this.mnuConStop.Size = new System.Drawing.Size(60, 45);
+         this.mnuConStop.Text = "停止下载";
+         this.mnuConStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+         this.mnuConStop.Click += new System.EventHandler(this.mnuConStop_Click);
+         // 
          // FormMain
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -784,7 +761,6 @@
          this.Controls.Add(this.tabMain);
          this.Controls.Add(this.toolStrip);
          this.Controls.Add(this.statusStrip);
-         this.Controls.Add(this.picLogo);
          this.MinimumSize = new System.Drawing.Size(444, 268);
          this.Name = "FormMain";
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -793,7 +769,6 @@
          this.Load += new System.EventHandler(this.FormMain_Load);
          this.ResizeEnd += new System.EventHandler(this.FormMain_ResizeEnd);
          this.VisibleChanged += new System.EventHandler(this.FormMain_VisibleChanged);
-         ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
          this.statusStrip.ResumeLayout(false);
          this.statusStrip.PerformLayout();
          this.toolStrip.ResumeLayout(false);
@@ -819,8 +794,7 @@
 
 		  #endregion
 
-		  private System.Windows.Forms.ListView lsv;
-		  private System.Windows.Forms.PictureBox picLogo;
+        private System.Windows.Forms.ListView lsv;
 		  private System.Windows.Forms.StatusStrip statusStrip;
 		  private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		  private System.Windows.Forms.ToolStripStatusLabel lblSpeed;
@@ -874,15 +848,14 @@
 		  private System.Windows.Forms.RadioButton rdoDeleted;
 		  private System.Windows.Forms.RadioButton rdoFinished;
 		  private System.Windows.Forms.RadioButton rdoDownloading;
-		  private System.Windows.Forms.Panel panelFilter;
-		  private System.Windows.Forms.ToolStripDropDownButton toolStripButton2;
-		  private System.Windows.Forms.ToolStripMenuItem toolStart;
-		  private System.Windows.Forms.ToolStripMenuItem toolStop;
+        private System.Windows.Forms.Panel panelFilter;
 		  private System.Windows.Forms.TabPage tabExample;
 		  private System.Windows.Forms.TextBox txtExample;
 		  private System.Windows.Forms.Button btnSpeedlimitApply;
         private System.Windows.Forms.RadioButton rdoSearch;
         private System.Windows.Forms.ToolStripStatusLabel toolQA;
+        private System.Windows.Forms.ToolStripButton mnuConStart;
+        private System.Windows.Forms.ToolStripButton mnuConStop;
 
 	 }
 }

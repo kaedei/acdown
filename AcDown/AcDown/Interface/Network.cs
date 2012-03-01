@@ -36,39 +36,42 @@ namespace Kaedei.AcDown.Interface
 			byte[] buffer = new byte[1024];
 
 			//初始化重试管理器
-			bool needRedownload = true; //需要重试下载
+			bool needRedownload = false; //需要重试下载
 			int remainRetryTime = GlobalSettings.GetSettings().RetryTimes; //剩余的重试次数
 
 			//重试次数大于0时才进行循环
-			while (needRedownload)
+			do
 			{
+				//Http请求
+				HttpWebRequest request;
+				//服务器回应
+				HttpWebResponse response;
 
 				#region 先检查目标网址是否有Location属性
-
-				HttpWebRequest testlocation = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-				testlocation.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
-				testlocation.Proxy = para.Proxy;
-				testlocation.AllowAutoRedirect = false;
-				using (WebResponse testresponse = testlocation.GetResponse())
+				bool needRedirect = false; //是否需要继续获取Location值(重定向)
+				do
 				{
-					if (!string.IsNullOrEmpty(testresponse.Headers["Location"]))
-						//获得跳转地址
-						para.Url = testresponse.Headers["Location"];
-				}
+					//创建http请求
+					request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+					//设置超时
+					request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+					//设置代理服务器
+					if (para.Proxy != null)
+						request.Proxy = para.Proxy;
+					request.AllowAutoRedirect = false;
+					//获取服务器回应
+					response = (HttpWebResponse)request.GetResponse();
+					if (!string.IsNullOrEmpty(request.Headers["Location"]))
+					{
+						para.Url = request.Headers["Location"];
+						needRedirect = true;
+					}
+				} while (needRedirect);  //重新获取服务器回应
 
 				#endregion
 
 				#region 检查文件是否被下载过&是否支持断点续传
-				//创建http请求
-				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-				//设置超时
-				request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
-				//设置代理服务器
-				if (para.Proxy != null)
-					request.Proxy = para.Proxy;
 
-				//获取服务器回应
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
 				//如果Range超出范围
 				//if(((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.RequestedRangeNotSatisfiable)
@@ -241,12 +244,15 @@ namespace Kaedei.AcDown.Interface
 							//1.没有可重试次数 
 							//2.服务器不支持断点续传 且 文件长度不为0（已经下载了部分数据）
 							if (remainRetryTime < 0 || (!supportrange))
+							{
+								needRedownload = false;
 								throw ex;
+							}
 							else //否则继续重试
 							{
+								needRedownload = true;
 								//重试前等待的时间
 								Thread.Sleep(GlobalSettings.GetSettings().RetryWaitingTime);
-								needRedownload = true;
 							}
 						}
 						finally
@@ -255,14 +261,14 @@ namespace Kaedei.AcDown.Interface
 						}
 					}// end filestream
 				} //end netstream
-			} //end while(needReDownload)
+			} while (needRedownload); //end while(needReDownload)
 			//一切顺利返回true
 			return true;
 
 		}
 
 		/// <summary>
-		/// 获取网页源代码(推荐使用的版本)
+		/// 获取网页源代码
 		/// </summary>
 		/// <param name="url"></param>
 		/// <param name="encode"></param>
@@ -272,22 +278,22 @@ namespace Kaedei.AcDown.Interface
 			return GetHtmlSource(url, encode, null);
 		}
 
-		/// <summary>
-		/// 获取网页源代码(推荐使用的版本)
-		/// </summary>
-		/// <param name="url"></param>
-		/// <param name="encode"></param>
-		/// <returns></returns>
-		public static string GetHtmlSource(string url, System.Text.Encoding encode, WebProxy proxy)
-		{
-			WebClient wc = new WebClient();
-			if (proxy != null)
-			{
-				wc.Proxy = proxy;
-			}
-			byte[] data = wc.DownloadData(url);
-			return encode.GetString(data);
-		}
+		///// <summary>
+		///// 获取网页源代码(推荐使用的版本)
+		///// </summary>
+		///// <param name="url"></param>
+		///// <param name="encode"></param>
+		///// <returns></returns>
+		//public static string GetHtmlSource(string url, System.Text.Encoding encode, WebProxy proxy)
+		//{
+		//   WebClient wc = new WebClient();
+		//   if (proxy != null)
+		//   {
+		//      wc.Proxy = proxy;
+		//   }
+		//   byte[] data = wc.DownloadData(url);
+		//   return encode.GetString(data);
+		//}
 
 		/// <summary>
 		/// 获取网页源代码
@@ -298,36 +304,63 @@ namespace Kaedei.AcDown.Interface
 		public static string GetHtmlSource(HttpWebRequest request, System.Text.Encoding encode)
 		{
 			string sline = "";
-			HttpWebResponse res = (HttpWebResponse)request.GetResponse();
-			if (res.ContentEncoding == "gzip")
+			bool needRedownload = false;
+			int remainTimes = GlobalSettings.GetSettings().RetryTimes;
+			//当需要重试下载时
+			do
 			{
-				//Gzip解压缩
-				using (GZipStream gzip = new GZipStream(res.GetResponseStream(), CompressionMode.Decompress))
+				try
 				{
-					using (StreamReader reader = new StreamReader(gzip, encode))
+					//获取服务器回应
+					HttpWebResponse res = (HttpWebResponse)request.GetResponse();
+					if (res.ContentEncoding == "gzip")
 					{
-						sline = reader.ReadToEnd();
+						//Gzip解压缩
+						using (GZipStream gzip = new GZipStream(res.GetResponseStream(), CompressionMode.Decompress))
+						{
+							using (StreamReader reader = new StreamReader(gzip, encode))
+							{
+								sline = reader.ReadToEnd();
+							}
+						}
+					}
+					else if (res.ContentEncoding == "deflate")
+					{
+						//deflate解压缩
+						using (DeflateStream deflate = new DeflateStream(res.GetResponseStream(), CompressionMode.Decompress))
+						{
+							using (StreamReader reader = new StreamReader(deflate, encode))
+							{
+								sline = reader.ReadToEnd();
+							}
+						}
+					}
+					else
+					{
+						using (StreamReader reader = new StreamReader(res.GetResponseStream(), encode))
+						{
+							sline = reader.ReadToEnd();
+						}
 					}
 				}
-			}
-			else if (res.ContentEncoding == "deflate")
-			{
-				//deflate解压缩
-				using (DeflateStream deflate = new DeflateStream(res.GetResponseStream(), CompressionMode.Decompress))
+				catch (Exception ex) //发生错误
 				{
-					using (StreamReader reader = new StreamReader(deflate, encode))
+					//重试次数-1
+					remainTimes--;
+					//如果重试次数小于0，抛出错误
+					if (remainTimes < 0)
 					{
-						sline = reader.ReadToEnd();
+						needRedownload = false;
+						throw ex;
+					}
+					else
+					{
+						//等待时间
+						Thread.Sleep(GlobalSettings.GetSettings().RetryWaitingTime);
+						needRedownload = true;
 					}
 				}
-			}
-			else
-			{
-				using (StreamReader reader = new StreamReader(res.GetResponseStream(), encode))
-				{
-					sline = reader.ReadToEnd();
-				}
-			}
+			} while (needRedownload);
 			return sline;
 		}
 
@@ -337,7 +370,7 @@ namespace Kaedei.AcDown.Interface
 		/// <param name="url"></param>
 		/// <param name="encode"></param>
 		/// <returns></returns>
-		public static string GetHtmlSource2(string url, System.Text.Encoding encode, WebProxy proxy)
+		public static string GetHtmlSource(string url, System.Text.Encoding encode, WebProxy proxy)
 		{
 			HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
 			if (proxy != null)

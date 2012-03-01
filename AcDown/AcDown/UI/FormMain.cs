@@ -221,12 +221,6 @@ namespace Kaedei.AcDown.UI
 							new Version(Application.ProductVersion).Minor;
 			//设置托盘文字
 			notifyIcon.Text = this.Text;
-			//取消显示Logo
-			if (Config.setting.ShowLogo == false)
-			{
-				picLogo.Hide();
-				tabMain.Dock = DockStyle.Fill;
-			}
 			//显示托盘图标
 			notifyIcon.Icon = Resources.Ac;
 			//设置刷新频率
@@ -445,15 +439,15 @@ namespace Kaedei.AcDown.UI
 					//设置win7任务栏小图标
 					//taskbarList.SetOverlayIcon(this.Handle,this.Icon.Handle, "w");
 					//设置缩略图
-					if (this.WindowState != FormWindowState.Minimized)
-					{
-						if (Config.setting.ShowLogo)
-						{
-							RECT rect = new RECT(picLogo.Left, picLogo.Top, picLogo.Right, picLogo.Bottom);
-							//RECT rect = new RECT(lsv.Left, lsv.Top, lsv.Right, lsv.Bottom);
-							taskbarList.SetThumbnailClip(this.Handle, ref rect);
-						}
-					}
+					//if (this.WindowState != FormWindowState.Minimized)
+					//{
+					//   if (Config.setting.ShowLogo)
+					//   {
+					//      RECT rect = new RECT(picLogo.Left, picLogo.Top, picLogo.Right, picLogo.Bottom);
+					//      //RECT rect = new RECT(lsv.Left, lsv.Top, lsv.Right, lsv.Bottom);
+					//      taskbarList.SetThumbnailClip(this.Handle, ref rect);
+					//   }
+					//}
 				}
 				else  //如果禁止Win7特性
 				{
@@ -1472,10 +1466,16 @@ namespace Kaedei.AcDown.UI
 			//设置过滤器
 			if (rdo.Checked)
 			{
-				if (rdo.Tag.ToString() == "CustomSearch")
-					txtSearch.Focus();
-				else
-					SetTaskFilter(rdo.Tag.ToString().Split('|'));
+            if (rdo.Tag.ToString() == "CustomSearch")
+            {
+               //设置焦点并显示提示
+               txtSearch.Focus();
+               toolTip.Show("输入文字,搜索已有任务", this,
+                           this.ClientSize.Width - btnSearch.Width - 20,
+                           this.Size.Height - this.ClientSize.Height + txtSearch.Height, 3500);
+            }
+            else
+               SetTaskFilter(rdo.Tag.ToString().Split('|'));
 			}
 			////隐藏浮动工具栏
 			//contextTool.Hide();

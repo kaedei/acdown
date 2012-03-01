@@ -32,7 +32,7 @@ namespace Kaedei.AcDown.Parser
 			catch
 			{
 				//取得土豆网页面源代码
-				string tudousource = Network.GetHtmlSource2("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GB2312"), proxy);
+				string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GB2312"), proxy);
 				//取得iid
 				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
 				Match m1 = r1.Match(tudousource);
