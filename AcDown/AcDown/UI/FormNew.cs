@@ -210,7 +210,6 @@ namespace Kaedei.AcDown.UI
 
 				 selectedPlugin = supportedPlugins[cboPlugins.SelectedIndex];
 
-
 				 //取得此url的hash
 				 string hash = selectedPlugin.GetHash(url);
 				 //检查是否有已经在进行的相同任务
@@ -225,8 +224,6 @@ namespace Kaedei.AcDown.UI
 				 }
 				 try
 				 {
-					 
-
 					 //取得代理设置
 					 AcDownProxy selectedProxy = null;
 					 if (Config.setting.Proxy_Settings != null)
