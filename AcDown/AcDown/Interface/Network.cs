@@ -61,21 +61,20 @@ namespace Kaedei.AcDown.Interface
 					request.AllowAutoRedirect = false;
 					//获取服务器回应
 					response = (HttpWebResponse)request.GetResponse();
-					if (!string.IsNullOrEmpty(request.Headers["Location"]))
+					if (!string.IsNullOrEmpty(response.Headers["Location"]))
 					{
-						para.Url = request.Headers["Location"];
+						para.Url = response.Headers["Location"];
 						needRedirect = true;
+					}
+					else
+					{
+						needRedirect = false;
 					}
 				} while (needRedirect);  //重新获取服务器回应
 
 				#endregion
 
 				#region 检查文件是否被下载过&是否支持断点续传
-
-
-				//如果Range超出范围
-				//if(((HttpWebResponse)ex.Response).StatusCode != HttpStatusCode.RequestedRangeNotSatisfiable)
-				//   throw ex;
 
 				//检查服务器是否支持断点续传
 				bool supportrange = false;

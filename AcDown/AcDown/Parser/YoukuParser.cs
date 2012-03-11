@@ -110,16 +110,18 @@ namespace Kaedei.AcDown.Parser
 				string u = "http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
 					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
 					+ fileid.Substring(10) + keys[i];
+				//添加地址
+				lst.Add(u);
 				//获得跳转后地址
-				string redirectUrl = "";
-				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(u);
-				request.AllowAutoRedirect = false;
-				request.Proxy = proxy;
-				using (WebResponse response = request.GetResponse())
-				{
-					redirectUrl = response.Headers["Location"];      //这里就是跳转地址了
-				}
-				lst.Add(redirectUrl);
+				//string redirectUrl = "";
+				//HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(u);
+				//request.AllowAutoRedirect = false;
+				//request.Proxy = proxy;
+				//using (WebResponse response = request.GetResponse())
+				//{
+				//   redirectUrl = response.Headers["Location"];      //这里就是跳转地址了
+				//}
+				//lst.Add(redirectUrl);
 			}
 			return lst.ToArray();
 		}
