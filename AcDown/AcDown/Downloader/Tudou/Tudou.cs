@@ -189,13 +189,19 @@ namespace Kaedei.AcDown.Downloader
 				//Match m = r.Match(Url);
 
 				//取得iid
-				Regex rlist = new Regex(@"a(?<aid>\d+)i(?<iid>\d+)");
+				Regex rlist = new Regex(@"(a|l)(?<aid>\d+)(i(?<iid>\d+)|)");
 				Match mlist = rlist.Match(Info.Url);
-				if (mlist.Success)
+				if (mlist.Success) //如果是列表中的视频
 				{
-					iid = mlist.Groups["iid"].Value;
+					//尝试取得url中的iid
+					if (!string.IsNullOrEmpty(mlist.Groups["iid"].Value))
+						iid = mlist.Groups["iid"].Value;
+					//否则取得源文件中的iid
+					Regex r1 = new Regex(@"defaultIid = (?<iid>\d.*)");
+					Match m1 = r1.Match(src);
+					iid = m1.Groups["iid"].ToString();
 				}
-				else
+				else //如果是普通视频
 				{
 					Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
 					Match m1 = r1.Match(src);
@@ -207,10 +213,22 @@ namespace Kaedei.AcDown.Downloader
 				
 				if (mlist.Success)
 				{
+					//取得aid/lid标题
 					string aid = mlist.Groups["aid"].Value;
-					Regex rlisttitle = new Regex(@"aid:" + aid + @"\n,name:""(?<title>.+?)""", RegexOptions.Singleline);
-					Match mlisttitle = rlisttitle.Match(src);
-					Regex rsubtitle = new Regex(@"iid:" + iid + @"\n,cartoonType:\d+\n,title:""(?<subtitle>.+?)""", RegexOptions.Singleline);
+					Regex rlisttitle = null;
+					Match mlisttitle = null;
+					if (mlist.ToString().StartsWith("a")) //如果是a开头的列表
+					{
+						rlisttitle = new Regex(@"aid:" + aid + @"\n,name:""(?<title>.+?)""", RegexOptions.Singleline);
+						mlisttitle = rlisttitle.Match(src);
+					}
+					else if(mlist.ToString().StartsWith("l")) //如果是l开头的列表
+					{
+						rlisttitle = new Regex(@"ltitle = ""(?<title>.+?)""", RegexOptions.Singleline);
+						mlisttitle = rlisttitle.Match(src);
+					}
+					//取得iid标题
+					Regex rsubtitle = new Regex(@"iid:" + iid + @"\n(,cartoonType:\d+\n|),title:""(?<subtitle>.+?)""", RegexOptions.Singleline);
 					Match msubtitle = rsubtitle.Match(src);
 					title = mlisttitle.Groups["title"].Value + "-" + msubtitle.Groups["subtitle"].Value;
 				}
