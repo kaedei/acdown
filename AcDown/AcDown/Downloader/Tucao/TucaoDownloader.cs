@@ -183,21 +183,21 @@ namespace Kaedei.AcDown.Downloader
 						case "qq": //QQ视频
 							//解析视频
 							QQVideoParser parserQQ = new QQVideoParser();
-							videos = parserQQ.Parse(new string[] { id }, Info.Proxy);
+							videos = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 							break;
 						case "youku": //优酷视频
 							//解析视频
 							YoukuParser parserYouKu = new YoukuParser();
-							videos = parserYouKu.Parse(new string[] { id }, Info.Proxy);
+							videos = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 							break;
 						case "tudou": //土豆视频
 							//解析视频
 							TudouParser parserTudou = new TudouParser();
-							videos = parserTudou.Parse(new string[] { id }, Info.Proxy);
+							videos = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 							break;
 						case "sina": //新浪视频
 							SinaVideoParser parserSina = new SinaVideoParser();
-							videos = parserSina.Parse(new string[] { id }, Info.Proxy);
+							videos = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 							break;
 					}
 

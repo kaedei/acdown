@@ -6,34 +6,20 @@ using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Downloader
 {
+
+	[AcDownPluginInformation("YouTubeDownloader", "YouTube下载插件", "Kaedei", "3.10.0.0", "YouTube下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class YouTubePlugin : IAcdownPluginInfo
 	{
-
-		#region IAcdownPluginInfo 成员
-
-		public string Name
+		public YouTubePlugin()
 		{
-			get { return "YouTubeDownloader"; }
-		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(1, 0, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return "YouTube下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"YouTube.com下载插件:",
+				"http://www.youtube.com/watch?v=HbVBdU88Sbw"
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
 
 		public IDownloader CreateDownloader()
@@ -81,6 +67,9 @@ namespace Kaedei.AcDown.Downloader
 			};
 		}
 
-		#endregion
+		public Dictionary<string, object> Feature { get; private set; }
+
+		public SerializableDictionary<string, string> Configuration { get; set; }
+
 	}
 }

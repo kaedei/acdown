@@ -80,7 +80,8 @@ namespace Kaedei.AcDown.Component
 			task.Url = url;
 			task.SourceUrl = url;
 			task.BasePlugin = plugin;
-			task.PluginName = plugin.Name;
+			object[] types = plugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
+			task.PluginName = (types[0] as AcDownPluginInformationAttribute).Name;
 			task.TaskId = Guid.NewGuid();
 			task.Proxy = proxySetting;
 			task.CreateTime = DateTime.Now;

@@ -12,35 +12,23 @@ namespace Kaedei.AcDown.Downloader
 {
 
 	/// <summary>
-	/// 爱漫画下载插件
+	/// 贴吧相册下载插件
 	/// </summary>
+	[AcDownPluginInformation("TiebaAlbumDownloader", "百度贴吧相册下载插件", "Kaedei", "3.10.0.0", "百度贴吧相册下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TiebaAlbumPlugin : IAcdownPluginInfo
 	{
-		#region IAcdownPluginInfo 成员
 
-		public string Name
+		
+		public TiebaAlbumPlugin()
 		{
-			get { return "TiebaAlbumDownloader"; }
-		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(2, 0, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return "百度贴吧相册下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"百度贴吧相册下载插件:",
+				"http://tieba.baidu.com/f/tupian/album?kw=windows7&an=win7%D7%D4%B4%F8%B1%DA%D6%BD",
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
 
 		public IDownloader CreateDownloader()
@@ -77,21 +65,14 @@ namespace Kaedei.AcDown.Downloader
 			return null;
 		}
 
+		public Dictionary<string, object> Feature { get; private set; }
 
-
-		public string[] GetUrlExample()
-		{
-			return new string[] { 
-				"百度贴吧相册下载插件:",
-				"http://tieba.baidu.com/f/tupian/album?kw=windows7&an=win7%D7%D4%B4%F8%B1%DA%D6%BD",
-			};
-		}
-		#endregion
+		public SerializableDictionary<string, string> Configuration { get; set; }
 	}
 
 
 	/// <summary>
-	/// 爱漫画下载器
+	/// 贴吧相册下载器
 	/// </summary>
 	public class TiebaAlbumDownloader : IDownloader
 	{

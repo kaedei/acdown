@@ -12,34 +12,38 @@ namespace Kaedei.AcDown.Parser
 	/// <summary>
 	/// 新浪视频分析器
 	/// </summary>
-	public class SinaVideoParser:IParser 
+	public class SinaVideoParser : IParser
 	{
-
-		#region IParser 成员
 		/// <summary>
 		/// 解析新浪视频视频文件源地址
 		/// </summary>
-		/// <param name="parameters">单视频的ID</param>
-		/// <returns>所有分段视频地址的数组</returns>
-		public string[] Parse(string[] parameters, WebProxy proxy)
+		public ParseResult Parse(ParseRequest request)
 		{
-			//返回的数组
-			List<string> address = new List<string>();
+			ParseResult pr = new ParseResult();
 			//合并完整url
-			string url = @"http://v.iask.com/v_play.php?vid=" + parameters[0];
-			string source = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
-			Regex r = new Regex(@"http://.*(.flv|.f4v|.mp4|.hlv)");
-			MatchCollection matches = r.Matches(source);
-			foreach (var item in matches)
-			{
-				address.Add(item.ToString());
-			}
-			
-			//返回数组
-			return address.ToArray();
+			string url = @"http://v.iask.com/v_play.php?vid=" + request.Id;
+			string source = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
+			//视频总长度
+			string totallength = Regex.Match(source, @"<timelength>(?<timelength>\d+)</timelength>").Groups["timelength"].Value;
+			//Framecount
+			string framecount = Regex.Match(source, @"<framecount>(?<framecount>\d+)</framecount>").Groups["framecount"].Value;
+			//src
+			string src = Regex.Match(source, @"<src>(?<src>\d+)</src>").Groups["src"].Value;
 
+			//video information
+			Regex r = new Regex(@"<durl>.+<order>(?<order>\d+)</order>.+<length>(?<length>\d+)</length>.+<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+</durl>", RegexOptions.Singleline);
+			MatchCollection matches = r.Matches(source);
+			foreach (Match item in matches)
+			{
+				var pri = new ParseResultItem();
+				pri.RealAddress = new Uri(item.Groups["url"].Value);
+				pri.Information.Add("order", item.Groups["order"].Value);
+				pri.Information.Add("length", item.Groups["length"].Value);
+				pr.Items.Add(pri);
+			}
+			//返回结果
+			return pr;
 		}
-		#endregion
 	}
 
 }

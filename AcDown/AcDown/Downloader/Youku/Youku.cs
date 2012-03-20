@@ -9,34 +9,23 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
-
+	[AcDownPluginInformation("YoukuDownloader","优酷网下载插件","Kaedei","3.10.0.0","优酷网下载插件","http://blog.sina.com.cn/kaedei")]
 	public class YoukuPlugin : IAcdownPluginInfo
 	{
-		#region IAcdownPluginInfo 成员
-
-		public string Name
+		public YoukuPlugin()
 		{
-			get { return "YoukuDownloader"; }
-		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(2, 0, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return "优酷网下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"优酷网(Youku.com)下载插件:",
+				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html",
+				"http://v.youku.com/v_playlist/f5656465o1p0.html","",
+				"优酷加密视频:(在地址后加“密码”字样)",
+				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html密码",
+				"http://v.youku.com/v_playlist/f5656465o1p0.html密码",
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
 
 		public IDownloader CreateDownloader()
@@ -75,20 +64,10 @@ namespace Kaedei.AcDown.Downloader
 
 		}
 
+		public Dictionary<string, object> Feature { get; private set; }
 
-		public string[] GetUrlExample()
-		{
-			return new string[] { 
-				"优酷网(Youku.com)下载插件:",
-				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html",
-				"http://v.youku.com/v_playlist/f5656465o1p0.html","",
-				"优酷加密视频:(在地址后加“密码”字样)",
-				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html密码",
-				"http://v.youku.com/v_playlist/f5656465o1p0.html密码",
-			};
-		}
+		public SerializableDictionary<string, string> Configuration { get; set; }
 
-		#endregion
 	}
 
 	public class YoukuDownloader : IDownloader
@@ -192,7 +171,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//调用内建的优酷视频解析器
 				YoukuParser parserYouku = new YoukuParser();
-				videos = parserYouku.Parse(new string[] { vid, password }, Info.Proxy);
+				videos = parserYouku.Parse(new ParseRequest() { Id = vid, Password = password, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 
 				//下载视频
 				//确定视频共有几个段落

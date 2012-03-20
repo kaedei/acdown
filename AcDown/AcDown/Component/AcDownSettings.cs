@@ -34,9 +34,6 @@ namespace Kaedei.AcDown.Component
       public string SoundFile = ""; //声音文件路径 (wav格式)
       public bool EnableLog = false; //运行记录日志
       public bool EnableCheckUpdate = true; //允许检查更新
-      public bool AutoCheckUrl = true; //自动检查URL
-      public bool ShowBigStartButton = false; //显示大按钮
-      public bool ShowLogo = false; //显示AcDown Logo
       public Int32 MaxRunningTaskCount = 2; //最多同时运行任务数量
       public bool SaveWhenAbort = true; //任务停止或错误退出时保存已经下载的部分
       public string SearchQuery = @"Acfun站内搜索"; //搜索url
@@ -48,24 +45,17 @@ namespace Kaedei.AcDown.Component
       public string CheckUpdateDocument = @"stable"; //自动更新通道
       public int RetryTimes = 3; //重试次数
       public int RetryWaitingTime = 5000; //重试前的等待时间（毫秒）
+		public bool EnableAutoAnswer = false; //默认启用自动应答
       //public List<string> RecentSearch = new List<string>();
 
       //代理设置
-      public bool Proxy_Enabled = false;
-      [XmlElement(IsNullable = true)]
+		//[XmlElement(IsNullable = true)]
+		[XmlArray("Proxies")]
       public AcDownProxy[] Proxy_Settings;
 
-      //启用插件
-      public bool Plugin_Enable_Acfun = true;
-      public bool Plugin_Enable_Bilibili = true;
-      public bool Plugin_Enable_Tudou = true;
-      public bool Plugin_Enable_Youku = true;
-      public bool Plugin_Enable_Imanhua = true;
-      public bool Plugin_Enable_TiebaAlbum = true;
-      public bool Plugin_Enable_Tucao = true;
-      public bool Plugin_Enable_Flvcd = true;
-      public bool Plugin_Enable_SfAcg = true;
-      public bool Plugin_Enable_Youtube = true;
+		//自动应答设置
+		//[XmlArray("AutoAnswers")]
+		//public List<AutoAnswer> Auto_Answers;
    }
 
 

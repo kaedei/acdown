@@ -15,31 +15,25 @@ namespace Kaedei.AcDown.Parser
 		/// <summary>
 		/// 解析土豆视频
 		/// </summary>
-		/// <param name="parameters">维度为1、长度为2的字符串数组，1内容为待分析的视频ID（iid）,2为视频密码</param>
-		/// <returns>视频指定清晰度(用户选择)的真实地址数组</returns>
-		public string[] Parse(string[] parameters, WebProxy proxy)
+		/// <remarks>接受的AutoAnswer对象需要以<i>tudou</i>作为前缀</remarks>
+		public ParseResult Parse(ParseRequest request)
 		{
-			//密码
-			string pw = "";
-			if (parameters.Length > 1) pw = parameters[1];
-			
-			List<string> returnarray = new List<string>();
-			string iid = parameters[0];
+			ParseResult pr = new ParseResult();
 			try //测试iid是否是真实的(应该为数字)
 			{
-				int t = int.Parse(iid);
+				int t = int.Parse(request.Id);
 			}
 			catch
 			{
 				//取得土豆网页面源代码
-				string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + iid + "/", Encoding.GetEncoding("GB2312"), proxy);
+				string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + request.Id + "/", Encoding.GetEncoding("GB2312"), request.Proxy);
 				//取得iid
 				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
 				Match m1 = r1.Match(tudousource);
-				iid = m1.Groups["iid"].ToString();
+				request.Id = m1.Groups["iid"].ToString();
 			}
-			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + iid + "&pw=" + pw;
-			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, proxy);
+			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + request.Id + "&pw=" + request.Password;
+			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, request.Proxy);
 			Regex rVideo = new Regex("<f [^>]+brt=\"(?<brt>\\d+)\">(?<url>[^<]+)</f>");
 			MatchCollection mcVideo = rVideo.Matches(xmldoc);
 
@@ -69,6 +63,24 @@ namespace Kaedei.AcDown.Parser
 				}
 				if (!videodict.ContainsKey(brt)) //不覆盖已有的 清晰度-地址 对
 					videodict.Add(brt, url);
+			}
+
+			//自动应答
+			if (request.AutoAnswers.Count > 0)
+			{
+				string answer;
+				foreach (var item in request.AutoAnswers)
+				{
+					if (item.Prefix == "tudou")
+					{
+						if (videodict.ContainsKey(item.Identify))
+						{
+							answer = videodict[item.Identify];
+							pr.Items.Add(new ParseResultItem(new Uri(answer)));
+							return pr;
+						}
+					}
+				}
 			}
 
 			//设置 索引-清晰度 字典
@@ -102,12 +114,8 @@ namespace Kaedei.AcDown.Parser
 			//取得地址
 			string urladdress = videodict[resolution];
 
-			return new string[] { urladdress };
-			//foreach (Match item in mc)
-			//{
-			//   returnarray.Add(item.Groups["url"].Value);
-			//}
-			//return returnarray.ToArray();
+			pr.Items.Add(new ParseResultItem(new Uri(urladdress)));
+			return pr;
 		}
 
 		#endregion

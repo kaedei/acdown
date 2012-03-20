@@ -15,15 +15,13 @@ namespace Kaedei.AcDown.Parser
 		/// <summary>
 		/// 解析优酷视频源文件地址
 		/// </summary>
-		/// <param name="parameters">维度为1、长度为2的字符串数组，1的内容为待分析的视频ID（v=?）,2的内容为视频密码(如果有的话)</param>
-		/// <returns>各分段视频的真实地址数组(如果存在MP4格式则优先返回)</returns>
-		public string[] Parse(string[] parameters, WebProxy proxy)
+		///<remarks>自动应答会检查前缀为<i>youku</i>的所有设置</remarks>
+		public ParseResult Parse(ParseRequest request)
 		{
-			List<string> returnarray = new List<string>();
-			string pw = (parameters.Length > 1) ? parameters[1] : "";
-
-			string url = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/timezone/+08/version/5/source/video?n=3&ran=4656&password=%PW%".Replace(@"%ID%", parameters[0]).Replace(@"%PW%", pw);
-			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, proxy);
+			ParseResult pr = new ParseResult();
+			
+			string url = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/timezone/+08/version/5/source/video?n=3&ran=4656&password=%PW%".Replace(@"%ID%", request.Id).Replace(@"%PW%", request.Password);
+			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
 			//正则表达式提取各个参数
 			string regexstring = "\"seed\":(?<seed>\\w+),.+\"key1\":\"(?<key1>\\w+)\",\"key2\":\"(?<key2>\\w+)\".+\"streamfileids\":{\"(?<fileposfix>\\w+)\":\"(?<fileID>[0-9\\*]+)";
 			Regex r = new Regex(regexstring);
@@ -47,19 +45,45 @@ namespace Kaedei.AcDown.Parser
 			//是否有普通清晰度
 			if( fileIds.Contains("flv")) tmpFormTip.Add("标清(flv)");
 
-			//用户选择清晰度
-			int select;
-			//如果多余一种清晰度
-			if (tmpFormTip.Count > 1)
+
+			string fileposfix = null;
+			string strSelect = null;
+
+			//自动应答
+			if (request.AutoAnswers.Count > 0)
 			{
-				select = ToolForm.CreateSelectServerForm("您正在下载优酷视频，请选择视频清晰度:", tmpFormTip.ToArray(), 0);
+				foreach (var item in request.AutoAnswers)
+				{
+					if (item.Prefix == "youku")
+					{
+						if (fileIds.Contains(item.Identify))
+						{
+							strSelect = item.Identify;
+							fileposfix = item.Identify;
+							break;
+						}
+					}
+				}
 			}
-			else
+
+			if (string.IsNullOrEmpty(fileposfix))
 			{
-				select = 0;
+				//用户选择清晰度
+				int select;
+				//如果多余一种清晰度
+				if (tmpFormTip.Count > 1)
+				{
+					select = ToolForm.CreateSelectServerForm("您正在下载优酷视频，请选择视频清晰度:", tmpFormTip.ToArray(), 0);
+				}
+				else
+				{
+					select = 0;
+				}
+				strSelect = tmpFormTip[select].Replace("超清", "").Replace("高清", "").Replace("标清", "").Trim('(', ')');
+				fileposfix = strSelect;
 			}
-			string strSelect = tmpFormTip[select].Replace("超清", "").Replace("高清", "").Replace("标清", "").Trim('(', ')');
-			string fileposfix = strSelect;
+
+			//修正高清
 			if (fileposfix == "hd2") fileposfix = "flv";
 
 			//取得FileID
@@ -111,19 +135,9 @@ namespace Kaedei.AcDown.Parser
 					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
 					+ fileid.Substring(10) + keys[i];
 				//添加地址
-				lst.Add(u);
-				//获得跳转后地址
-				//string redirectUrl = "";
-				//HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(u);
-				//request.AllowAutoRedirect = false;
-				//request.Proxy = proxy;
-				//using (WebResponse response = request.GetResponse())
-				//{
-				//   redirectUrl = response.Headers["Location"];      //这里就是跳转地址了
-				//}
-				//lst.Add(redirectUrl);
+				pr.Items.Add(new ParseResultItem(new Uri(u)));
 			}
-			return lst.ToArray();
+			return pr;
 		}
 		#endregion
 

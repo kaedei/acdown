@@ -9,35 +9,20 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// SFACG漫画下载插件
 	/// </summary>
+	[AcDownPluginInformation("SfAcgDownloader","SF互动传媒网下载插件","Kaedei","3.10.0.0","SF互动传媒网下载插件","http://blog.sina.com.cn/kaedei")]
 	public class SfAcgPlugin : IAcdownPluginInfo
 	{
-		#region IAcdownPluginInfo 成员
-
-		public string Name
+		public SfAcgPlugin()
 		{
-			get { return "SfAcgDownloader"; }
+			Feature = new Dictionary<string,object>();
+			Feature.Add("ExampleUrl", new string[] { 
+				"SF互动传媒网(SfAcg.com)漫画下载插件:",
+				"http://comic.sfacg.com/HTML/WXSN/",
+				"http://coldpic.sfacg.com/AllComic/495/001/",
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(2, 0, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return "SF互动传媒网下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
-		}
-
 		public IDownloader CreateDownloader()
 		{
 			return new SfAcgComicDownloader();
@@ -74,15 +59,8 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 
+		public Dictionary<string, object> Feature { get; private set; }
 
-		public string[] GetUrlExample()
-		{
-			return new string[] { 
-				"SF互动传媒网(SfAcg.com)漫画下载插件:",
-				"http://comic.sfacg.com/HTML/WXSN/",
-				"http://coldpic.sfacg.com/AllComic/495/001/",
-			};
-		}
-		#endregion
+		public SerializableDictionary<string, string> Configuration { get; set; }
 	}
 }

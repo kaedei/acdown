@@ -8,35 +8,28 @@ namespace Kaedei.AcDown.Parser
 {
 	public class FlvcdParser:IParser
 	{
-		#region IParser 成员
 
 		/// <summary>
 		/// 解析任意视频源地址
 		/// </summary>
-		/// <param name="parameters">维度为1、长度为3的字符串数组，1的内容为待分析的视频页面地址,2的内容为视频密码(如果有的话),3为清晰度设置</param>
-		/// <param name="proxy"></param>
-		/// <returns></returns>
-		public string[] Parse(string[] parameters, System.Net.WebProxy proxy)
+		public ParseResult Parse(ParseRequest request)
 		{
-			//原始Url
-			string ourl = parameters[0];
-			//密码
-			string password = parameters[1];
-			//清晰度
-			string resolution = parameters[2];
-
+			//返回值
+			ParseResult pr = new ParseResult();
+			//分辨率
+			string resolution = (request.SpecificConfiguration.Count > 0) ? request.SpecificConfiguration[0] : "";
 			//修正url
-			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(ourl) + resolution;
+			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(request.Id) + resolution;
 
 
 			//取得网页源文件
-			string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), proxy);
+			string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), request.Proxy);
 
 			//检查是否需要密码
 			if (src.Contains("请输入密码"))
 			{
-				url = url + "&passwd=" + password;
-				src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), proxy);
+				url = url + "&passwd=" + request.Password;
+				src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), request.Proxy);
 			}
 
 			//取得内容
@@ -50,11 +43,9 @@ namespace Kaedei.AcDown.Parser
 			MatchCollection mcPartUrls = rPartUrls.Matches(content);
 			foreach (Match item in mcPartUrls)
 			{
-				partUrls.Add(item.Groups["url"].Value);
+				pr.Items.Add(new ParseResultItem() { RealAddress = new Uri(item.Groups["url"].Value) });
 			}
-			return partUrls.ToArray();
+			return pr;
 		}
-
-		#endregion
 	}
 }

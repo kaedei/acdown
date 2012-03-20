@@ -13,32 +13,23 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	public class AcFunPlugin :IAcdownPluginInfo
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.10.0.0", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	public class AcFunPlugin : IAcdownPluginInfo
 	{
-
-		public string Name
+		public AcFunPlugin()
 		{
-			get { return @"AcFunDownloader"; }
-		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(3, 1, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return @"Acfun.tv下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"AcFun.tv下载插件:",
+				"支持识别各Part名称、支持简写形式",
+				"ac206020",
+				"http://acfun.tv/v/ac206020",
+				"http://www.acfun.tv/v/ac206020",
+				"http://124.228.254.229/v/ac206020 (IP地址形式)"
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
 
 		public IDownloader CreateDownloader()
@@ -61,7 +52,7 @@ namespace Kaedei.AcDown.Downloader
 
 		/// <summary>
 		/// 规则为 acfun + 视频ID + 下划线 + 子视频编号
-		/// 如 "acfun158539_"或"acfun123456_2"
+		/// 如 "acfun158539_2"
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
@@ -71,7 +62,7 @@ namespace Kaedei.AcDown.Downloader
 			Match m = r.Match(url);
 			if (m.Success)
 			{
-				return "acfun" + m.Groups["id"].Value + "_" + m.Groups["subid"].Value;
+				return "acfun" + m.Groups["id"].Value + "_" + (String.IsNullOrEmpty(m.Groups["subid"].Value) ? "1" : m.Groups["subid"].Value);
 			}
 			else
 			{
@@ -79,20 +70,9 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		public string[] GetUrlExample()
-		{
-			return new string[] { 
-				"AcFun.tv下载插件:",
-				"支持识别各Part名称、支持简写形式",
-				"ac206020",
-				"http://acfun.tv/v/ac206020",
-				"http://www.acfun.tv/v/ac206020",
-				"http://124.228.254.229/v/ac206020 (IP地址形式)"
-			};
-		}
+		public Dictionary<string, object> Feature { get; private set; }
 
-
-
+		public SerializableDictionary<string, string> Configuration { get; set; }
 	}
 
 	/// <summary>
@@ -131,7 +111,7 @@ namespace Kaedei.AcDown.Downloader
 		//已完成的长度
 		public long DoneBytes
 		{
-			get 
+			get
 			{
 				if (currentParameter != null)
 				{
@@ -147,14 +127,14 @@ namespace Kaedei.AcDown.Downloader
 		//最后一次Tick时的值
 		public long LastTick
 		{
-			get 
+			get
 			{
 				if (currentParameter != null)
 				{
 					//将tick值更新为当前值
 					long tmp = currentParameter.LastTick;
 					currentParameter.LastTick = currentParameter.DoneBytes;
-					return tmp;	
+					return tmp;
 				}
 				else
 				{
@@ -166,7 +146,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//下载视频
 		public void Download()
-		{ 
+		{
 			//开始下载
 			delegates.Start(new ParaStart(this.Info));
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
@@ -223,7 +203,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 				else
 				{
-					
+
 					//取得id值
 					Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
 					Match mId = rId.Match(embedSrc);
@@ -239,12 +219,12 @@ namespace Kaedei.AcDown.Downloader
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace(" - AcFun.tv","");
+				string title = mTitle.Groups["title"].Value.Replace(" - AcFun.tv", "");
 
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='(?<part>\w+?\.html)'(| selected)>(?<content>.+?)</option>");
 				MatchCollection mSubTitles = rSubTitle.Matches(src);
-				 //如果存在下拉列表框
+				//如果存在下拉列表框
 				if (mSubTitles.Count > 0)
 				{
 					//确定当前视频的子标题
@@ -259,12 +239,10 @@ namespace Kaedei.AcDown.Downloader
 
 					//解析关联项需要同时满足的条件：
 					//1.这个任务不是被其他任务所添加的
-					//2.用户设置了“解析关联项” 或者 插件设置中保存了“解析关联项”
+					//2.用户设置了“解析关联项”
 					if (!Info.IsBeAdded)
 					{
-						if (!Info.Settings.ContainsKey("ParseRelated"))
-							Info.Settings.Add("ParseRelated", Info.ParseRelated ? "true" : "false");
-						if (Info.Settings["ParseRelated"] == "true")
+						if (Info.ParseRelated)
 						{
 							//准备地址列表
 							List<string> urls = new List<string>();
@@ -316,17 +294,17 @@ namespace Kaedei.AcDown.Downloader
 						case "video": //新浪视频
 							//解析视频
 							SinaVideoParser parserSina = new SinaVideoParser();
-							videos = parserSina.Parse(new string[] { id }, Info.Proxy);
+							videos = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 							break;
 						case "qq": //QQ视频
 							//解析视频
 							QQVideoParser parserQQ = new QQVideoParser();
-							videos = parserQQ.Parse(new string[] { id }, Info.Proxy);
+							videos = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 							break;
 						case "youku": //优酷视频
 							//解析视频
 							YoukuParser parserYouKu = new YoukuParser();
-							videos = parserYouKu.Parse(new string[] { id }, Info.Proxy);
+							videos = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 							break;
 						case "game": //flash游戏
 							videos = new string[] { flashsrc };
@@ -363,7 +341,10 @@ namespace Kaedei.AcDown.Downloader
 								//文件URL
 								Url = videos[i],
 								//代理服务器
-								Proxy = Info.Proxy
+								Proxy = Info.Proxy,
+								//提取缓存
+								ExtractCache = Info.ExtractCache,
+								ExtractCachePattern = "fla*.tmp"
 							};
 						}
 						else
@@ -376,7 +357,10 @@ namespace Kaedei.AcDown.Downloader
 								//文件URL
 								Url = videos[i],
 								//代理服务器
-								Proxy = Info.Proxy
+								Proxy = Info.Proxy,
+								//提取缓存
+								ExtractCache = Info.ExtractCache,
+								ExtractCachePattern = "fla*.tmp"
 							};
 						}
 
@@ -441,9 +425,9 @@ namespace Kaedei.AcDown.Downloader
 					}
 					catch { }
 				}
-			
+
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Info.Status = DownloadStatus.出现错误;
 				delegates.Error(new ParaError(this.Info, ex));
@@ -468,7 +452,7 @@ namespace Kaedei.AcDown.Downloader
 
 		#endregion
 
-		
+
 
 	}
 }
