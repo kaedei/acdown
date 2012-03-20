@@ -232,12 +232,16 @@ namespace Kaedei.AcDown.UI
 			sb.AppendLine("AcDown当前支持下载的网站:(网址举例)");
 			foreach (var item in pluginMgr.Plugins)
 			{
-				sb.AppendLine();
-				foreach (var i in item.GetUrlExample())
+				if (item.Feature.ContainsKey("ExampleUrl"))
 				{
-					sb.AppendLine(i);
+					string[] tmp = (string[])item.Feature["ExampleUrl"];
+					sb.AppendLine();
+					foreach (var i in tmp)
+					{
+						sb.AppendLine(i);
+					}
+					sb.AppendLine();
 				}
-				sb.AppendLine();
 			}
 			txtExample.Text = sb.ToString();
 
@@ -1466,16 +1470,16 @@ namespace Kaedei.AcDown.UI
 			//设置过滤器
 			if (rdo.Checked)
 			{
-            if (rdo.Tag.ToString() == "CustomSearch")
-            {
-               //设置焦点并显示提示
-               txtSearch.Focus();
-               toolTip.Show("输入文字,搜索已有任务", this,
-                           this.ClientSize.Width - btnSearch.Width - 20,
-                           this.Size.Height - this.ClientSize.Height + txtSearch.Height, 3500);
-            }
-            else
-               SetTaskFilter(rdo.Tag.ToString().Split('|'));
+				if (rdo.Tag.ToString() == "CustomSearch")
+				{
+					//设置焦点并显示提示
+					txtSearch.Focus();
+					toolTip.Show("输入文字,搜索已有任务", this,
+									this.ClientSize.Width - btnSearch.Width - 20,
+									this.Size.Height - this.ClientSize.Height + txtSearch.Height, 3500);
+				}
+				else
+					SetTaskFilter(rdo.Tag.ToString().Split('|'));
 			}
 			////隐藏浮动工具栏
 			//contextTool.Hide();

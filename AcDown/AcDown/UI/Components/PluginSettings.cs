@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -26,15 +27,20 @@ namespace Kaedei.AcDown.UI.Components
          {
             foreach (var item in _mgr.Plugins)
             {
-               lsv.Items.Add(new ListViewItem(new string[] 
-            {
-               item.Describe,
-               item.Version.ToString(),
-               item.Author,
-               item.Describe,
-               item.SupportUrl,
-               item.Name
-            }));
+               object[] types = item.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
+               if (types.Length > 0)
+               {
+                  var attrib = (AcDownPluginInformationAttribute)types[0];
+                  lsv.Items.Add(new ListViewItem(new string[]
+                  {
+                     attrib.FriendlyName,
+                     attrib.Version.ToString(),
+                     attrib.Author,
+                     attrib.Describe,
+                     attrib.SupportUrl,
+                     attrib.Name
+                  }));
+               }
             }
          }
          lsv.ResumeLayout();

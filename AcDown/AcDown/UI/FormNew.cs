@@ -141,7 +141,9 @@ namespace Kaedei.AcDown.UI
 				 //填充下拉列表
 				 foreach (var item in supportedPlugins)
 				 {
-					 cboPlugins.Items.Add(item.Describe);
+					 object[] types = item.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
+					 var attrib = (AcDownPluginInformationAttribute)types[0];
+					 cboPlugins.Items.Add(attrib.FriendlyName);
 				 }
 				 //如果有插件支持
 				 if (supportedPlugins.Count > 0)

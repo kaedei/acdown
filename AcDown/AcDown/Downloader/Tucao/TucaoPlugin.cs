@@ -6,33 +6,21 @@ using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Downloader
 {
-
+	[AcDownPluginInformation("TucaoDownloader","吐槽网下载插件","Kaedei","3.10.0.0","吐槽网下载插件","http://blog.sina.com.cn/kaedei")]
 	public class TucaoPlugin : IAcdownPluginInfo
 	{
-
-		public string Name
+		public TucaoPlugin()
 		{
-			get { return @"TucaoDownloader"; }
-		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(2, 0, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return @"吐槽网下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"Tucao下载插件:",
+				"支持识别各Part名称",
+				"http://www.tucao.cc/play/114530/",
+				"http://www.tucao.cc/play/811894/",
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
 
 		public IDownloader CreateDownloader()
@@ -73,15 +61,9 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		public string[] GetUrlExample()
-		{
-			return new string[] { 
-				"Tucao下载插件:",
-				"支持识别各Part名称",
-				"http://www.tucao.cc/play/114530/",
-				"http://www.tucao.cc/play/811894/",
-			};
-		}
+		public Dictionary<string, object> Feature { get; private set; }
+
+		public SerializableDictionary<string, string> Configuration { get; set; }
 
 	} //end class
 }

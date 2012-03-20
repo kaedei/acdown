@@ -26,6 +26,7 @@ namespace Kaedei.AcDown.UI
          this.Text = this.Text + " - " + _task.Title;
          //添加信息
          StringBuilder sb = new StringBuilder();
+
          sb.AppendLine("任务编号: " + _task.TaskId.ToString());
          sb.AppendLine("Url: " + _task.Url);
          sb.AppendLine("下载状态: " + _task.Status.ToString());
@@ -36,7 +37,9 @@ namespace Kaedei.AcDown.UI
          }
          else
          {
-            sb.AppendLine("插件: " + _task.BasePlugin.Describe + " " + _task.BasePlugin.Version.ToString());
+            object[] types = _task.BasePlugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
+            var attrib = (AcDownPluginInformationAttribute)types[0];
+            sb.AppendLine("插件: " + attrib.FriendlyName + " " + attrib.Version.ToString());
          }
          sb.AppendLine("标题: " + _task.Title);
          sb.AppendLine("创建时间: " + _task.CreateTime.ToString());

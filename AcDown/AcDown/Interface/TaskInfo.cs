@@ -124,6 +124,14 @@ namespace Kaedei.AcDown.Interface
       /// </summary>
       public bool ParseRelated { get; set; }
 
+		/// <summary>
+		/// 自动应答设置
+		/// </summary>
+		public List<AutoAnswer> AutoAnswer { get; set; }
+
+		///是否启用缓存提取
+		public bool ExtractCache { get; set; }
+
       /// <summary>
       /// 应用的代理服务器
       /// </summary>
@@ -257,7 +265,10 @@ namespace Kaedei.AcDown.Interface
 
       public void ReadXml(System.Xml.XmlReader reader)
       {
-         XmlSerializer s = new XmlSerializer(typeof(string));
+         var s = new XmlSerializer(typeof(string));
+			var b = new XmlSerializer(typeof(bool));
+			var l = new XmlSerializer(typeof(List<AutoAnswer>));
+
          if (reader.IsEmptyElement || !reader.Read())
          {
             return;
@@ -319,6 +330,21 @@ namespace Kaedei.AcDown.Interface
             CurrentPart = Int32.Parse((string)s.Deserialize(reader));
             reader.ReadEndElement();
 
+				//is be added
+				reader.ReadStartElement("IsBeAdded");
+				IsBeAdded = (bool)b.Deserialize(reader);
+				reader.ReadEndElement();
+
+				//autoanswer
+				reader.ReadStartElement("AutoAnswer");
+				AutoAnswer = (List<AutoAnswer>)l.Deserialize(reader);
+				reader.ReadEndElement();
+
+				//extract cache
+				reader.ReadStartElement("ExtractCache");
+				ExtractCache = (bool)b.Deserialize(reader);
+				reader.ReadEndElement();
+
             //filepath
             reader.ReadStartElement("Files");
             FilePath = new List<string>();
@@ -378,7 +404,7 @@ namespace Kaedei.AcDown.Interface
             reader.ReadEndElement();
 
             //Progress
-            reader.ReadStartElement("Process");
+            reader.ReadStartElement("Progress");
             try 
             {
                _progress = double.Parse((string)s.Deserialize(reader));
@@ -413,7 +439,9 @@ namespace Kaedei.AcDown.Interface
 
       public void WriteXml(System.Xml.XmlWriter writer)
       {
-         XmlSerializer s = new XmlSerializer(typeof(string));
+         var s = new XmlSerializer(typeof(string));
+			var b = new XmlSerializer(typeof(bool));
+			var l = new XmlSerializer(typeof(List<AutoAnswer>));
 
          writer.WriteStartElement("TaskInfo");
 
@@ -473,6 +501,21 @@ namespace Kaedei.AcDown.Interface
          s.Serialize(writer, CurrentPart.ToString());
          writer.WriteEndElement();
 
+			//is be added
+			writer.WriteStartElement("IsBeAdded");
+			b.Serialize(writer, IsBeAdded);
+			writer.WriteEndElement();
+
+			//autoanswer
+			writer.WriteStartElement("AutoAnswer");
+			l.Serialize(writer, AutoAnswer);
+			writer.WriteEndElement();
+
+			//extract cache
+			writer.WriteStartElement("ExtractCache");
+			b.Serialize(writer, ExtractCache);
+			writer.WriteEndElement();
+
          //FilePath
          writer.WriteStartElement("Files");
          foreach (string item in FilePath)
@@ -520,7 +563,7 @@ namespace Kaedei.AcDown.Interface
          writer.WriteEndElement();
 
          //Progress
-         writer.WriteStartElement("Process");
+         writer.WriteStartElement("Progress");
          s.Serialize(writer, GetProgress().ToString());
          writer.WriteEndElement();
 

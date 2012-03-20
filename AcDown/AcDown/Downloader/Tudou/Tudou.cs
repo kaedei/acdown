@@ -9,33 +9,24 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
+	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "3.10.0.0", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TudouPlugin : IAcdownPluginInfo
 	{
-		#region IAcdownPluginInfo 成员
 
-		public string Name
+		public TudouPlugin()
 		{
-			get { return "TudouDownloader"; }
-		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(2, 0, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return "土豆网下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"土豆网(Tudou.com)下载插件:",
+				"http://www.tudou.com/playlist/p/l12302995.html",
+				"http://www.tudou.com/programs/view/scMdGug3bgY/","",
+				"土豆网加密视频:(在地址后加“密码”字样)",
+				"http://www.tudou.com/playlist/p/l12302995.html密码",
+				"http://www.tudou.com/programs/view/JiTcS97DBHo/密码",
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
 
 		public IDownloader CreateDownloader()
@@ -82,20 +73,10 @@ namespace Kaedei.AcDown.Downloader
 
 		}
 
+		public Dictionary<string, object> Feature { get; private set; }
 
-		public string[] GetUrlExample()
-		{
-			return new string[] { 
-				"土豆网(Tudou.com)下载插件:",
-				"http://www.tudou.com/playlist/p/l12302995.html",
-				"http://www.tudou.com/programs/view/scMdGug3bgY/","",
-				"土豆网加密视频:(在地址后加“密码”字样)",
-				"http://www.tudou.com/playlist/p/l12302995.html密码",
-				"http://www.tudou.com/programs/view/JiTcS97DBHo/密码",
-			};
-		}
+		public SerializableDictionary<string, string> Configuration { get; set; }
 
-		#endregion
 	}
 
 	public class TudouDownloader : IDownloader
@@ -210,7 +191,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//取得视频标题
 				string title = "";
-				
+
 				if (mlist.Success)
 				{
 					//取得aid/lid标题
@@ -222,7 +203,7 @@ namespace Kaedei.AcDown.Downloader
 						rlisttitle = new Regex(@"aid:" + aid + @"\n,name:""(?<title>.+?)""", RegexOptions.Singleline);
 						mlisttitle = rlisttitle.Match(src);
 					}
-					else if(mlist.ToString().StartsWith("l")) //如果是l开头的列表
+					else if (mlist.ToString().StartsWith("l")) //如果是l开头的列表
 					{
 						rlisttitle = new Regex(@"ltitle = ""(?<title>.+?)""", RegexOptions.Singleline);
 						mlisttitle = rlisttitle.Match(src);
@@ -249,7 +230,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//调用内建的土豆视频解析器
 				TudouParser parserTudou = new TudouParser();
-				videos = parserTudou.Parse(new string[] { iid, password }, Info.Proxy);
+				videos = parserTudou.Parse(new ParseRequest() { Id = iid, Password = password, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 
 				//下载视频
 				//确定视频共有几个段落

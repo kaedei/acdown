@@ -14,33 +14,22 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// 爱漫画下载插件
 	/// </summary>
+	[AcDownPluginInformation("ImanhuaDownloader","爱漫画下载插件","Kaedei","3.10.0.0","爱漫画网下载插件","http://blog.sina.com.cn/kaedei")]
 	public class ImanhuaPlugin : IAcdownPluginInfo
 	{
-		#region IAcdownPluginInfo 成员
 
-		public string Name
+		public ImanhuaPlugin()
 		{
-			get { return "ImanhuaDownloader"; }
-		}
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"爱漫画(imanhua.com)下载插件:",
+				"http://www.imanhua.com/comic/120/",
+				"http://www.imanhua.com/comic/120/list_55010.html",
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(2, 0, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return "爱漫画网下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
 		}
 
 		public IDownloader CreateDownloader()
@@ -84,17 +73,10 @@ namespace Kaedei.AcDown.Downloader
 			return null;
 		}
 
+		public Dictionary<string, object> Feature { get; private set; }
 
+		public SerializableDictionary<string, string> Configuration { get; set; }
 
-		public string[] GetUrlExample()
-		{
-			return new string[] { 
-				"爱漫画(imanhua.com)下载插件:",
-				"http://www.imanhua.com/comic/120/",
-				"http://www.imanhua.com/comic/120/list_55010.html",
-			};
-		}
-		#endregion
 	}
 
 	/// <summary>

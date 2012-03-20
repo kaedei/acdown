@@ -75,6 +75,7 @@
     <Compile Include="Component\PluginManager.cs" />
     <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
     <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />
+    <Compile Include="Interface\AutoAnswer.cs" />
     <Compile Include="Interface\SerializableDictionary.cs" />
     <Compile Include="Interface\TaskInfo.cs" />
     <Compile Include="Component\Updater.cs" />
@@ -118,7 +119,6 @@
     <Compile Include="Interface\Delegates.cs" />
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Parser\FlvcdParser.cs" />
-    <Compile Include="Parser\SixcnParser.cs" />
     <Compile Include="UI\Components\AcPlay.cs" />
     <Compile Include="UI\Components\AcPlayControl.cs">
       <SubType>UserControl</SubType>

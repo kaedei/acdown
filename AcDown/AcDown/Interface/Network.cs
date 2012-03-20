@@ -34,12 +34,29 @@ namespace Kaedei.AcDown.Interface
 			Int32 privateTick = 0;
 			//网络数据包大小 = 1KB
 			byte[] buffer = new byte[1024];
+			//网络流
+			Stream st;
+			//文件流
+			Stream fs;
+			//Deflate/gzip 解压流
+			Stream decompressStream = null;
+			//缓冲流
+			BufferedStream bs; 
+			//服务器是否支持range
+			bool supportrange = false;
+			//是否启用断点续传
+			bool enableResume = false;
+			//提取缓存
+			bool extractcache = false;
+			if (task != null)
+				extractcache = para.ExtractCache;
+
 
 			//初始化重试管理器
 			bool needRedownload = false; //需要重试下载
 			int remainRetryTime = GlobalSettings.GetSettings().RetryTimes; //剩余的重试次数
 
-			//重试次数大于0时才进行循环
+			//允许重试时才进行循环
 			do
 			{
 				//Http请求
@@ -47,7 +64,8 @@ namespace Kaedei.AcDown.Interface
 				//服务器回应
 				HttpWebResponse response;
 
-				#region 先检查目标网址是否有Location属性
+				#region 获取多次跳转后的真实地址
+
 				bool needRedirect = false; //是否需要继续获取Location值(重定向)
 				do
 				{
@@ -77,13 +95,71 @@ namespace Kaedei.AcDown.Interface
 				#region 检查文件是否被下载过&是否支持断点续传
 
 				//检查服务器是否支持断点续传
-				bool supportrange = false;
 				if (response != null)
 					supportrange = (response.Headers[HttpResponseHeader.AcceptRanges] == "bytes");
 
 				//设置文件长度和已下载的长度
 				//文件长度
 				para.TotalLength = response.ContentLength;
+
+				#region 检查系统缓存
+				try
+				{
+					if (extractcache && para.TotalLength > 0) //如果允许提取缓存且文件长度大于0时
+					{
+						//获取temp文件夹
+						string tempfolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Temp\");
+						//获取internet cache文件夹
+						string internettemp = Environment.GetFolderPath(Environment.SpecialFolder.InternetCache);
+						//查找到的文件名称
+						string filename = null;
+						//查找文件
+						//internet cache文件夹
+						string[] files = Directory.GetFiles(internettemp, para.ExtractCachePattern, SearchOption.AllDirectories);
+						foreach (var file in files)
+						{
+							FileInfo fi = new FileInfo(file);
+							if (fi.Length == para.TotalLength)
+							{
+								filename = file;
+								break;
+							}
+						}
+						if (String.IsNullOrEmpty(filename)) //系统temp文件夹
+						{
+							files = Directory.GetFiles(tempfolder, para.ExtractCachePattern, SearchOption.AllDirectories);
+							foreach (var file in files)
+							{
+								FileInfo fi = new FileInfo(file);
+								if (fi.Length == para.TotalLength)
+								{
+									filename = file;
+									break;
+								}
+							}
+						}
+						//释放空间
+						files = null;
+
+						//如果找到文件则直接复制
+						if (!String.IsNullOrEmpty(filename))
+						{
+							para.DoneBytes = para.TotalLength;
+							File.Copy(filename, para.FilePath);
+
+						}
+						//不需要继续下载
+						needRedownload = false;
+						//跳出循环
+						break;
+					}
+				}
+				catch
+				{
+					//如果复制过程中出错则继续下载
+					needRedownload = true;
+				}
+				#endregion
 
 				//如果要下载的文件存在
 				long filelength = 0;
@@ -96,13 +172,11 @@ namespace Kaedei.AcDown.Interface
 						//返回下载成功
 						return true;
 					}
-					//如果已有文件长度长于网络文件总长度（需要重新下载）
-					if (filelength > para.TotalLength)
-					{
-						supportrange = false;
-					}
+					//如果【已有文件长度小于网络文件总长度】才启用断点续传
+					enableResume = filelength < para.TotalLength;
+					
 					//如果服务器支持断点续传
-					if (supportrange)
+					if (enableResume)
 					{
 						//设置"已完成字节数"
 						para.DoneBytes = filelength;
@@ -132,9 +206,6 @@ namespace Kaedei.AcDown.Interface
 				#endregion
 
 
-				Stream st, fs; //网络流和文件流
-				Stream deflate = null; //Deflate/gzip 解压流
-				BufferedStream bs; //缓冲流
 				int t, limitcount = 0;
 				//确定缓冲长度
 				if (para.CacheSize > 256 || para.CacheSize < 1)
@@ -147,24 +218,24 @@ namespace Kaedei.AcDown.Interface
 					//设置gzip/deflate解压缩
 					if (response.ContentEncoding == "gzip")
 					{
-						deflate = new GZipStream(st, CompressionMode.Decompress);
+						decompressStream = new GZipStream(st, CompressionMode.Decompress);
 					}
 					else if (response.ContentEncoding == "deflate")
 					{
-						deflate = new DeflateStream(st, CompressionMode.Decompress);
+						decompressStream = new DeflateStream(st, CompressionMode.Decompress);
 					}
 					else
 					{
-						deflate = st;
+						decompressStream = st;
 					}
 
 					//设置FileStream
-					if (supportrange && filelength != 0)//若服务器支持断点续传且文件存在
+					if (enableResume)//若允许断点续传
 					{
 						fs = new FileStream(para.FilePath, FileMode.Open, FileAccess.Write, FileShare.Read, 8);
 						fs.Seek(filelength, SeekOrigin.Begin);
 					}
-					else //服务器不支持断点续传或文件不存在（从头下载）
+					else //不允许断点续传
 					{
 						fs = new FileStream(para.FilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 8);
 					}
@@ -177,7 +248,7 @@ namespace Kaedei.AcDown.Interface
 						try
 						{
 							//读取第一块数据
-							Int32 osize = deflate.Read(buffer, 0, buffer.Length);
+							Int32 osize = decompressStream.Read(buffer, 0, buffer.Length);
 							//开始循环
 							while (osize > 0)
 							{
@@ -211,7 +282,7 @@ namespace Kaedei.AcDown.Interface
 									//下载计数加一count++
 									limitcount++;
 									//下载1KB
-									osize = deflate.Read(buffer, 0, buffer.Length);
+									osize = decompressStream.Read(buffer, 0, buffer.Length);
 									//累积到limit KB后
 									if (limitcount >= limit)
 									{
@@ -227,7 +298,7 @@ namespace Kaedei.AcDown.Interface
 
 								else //如果不限速
 								{
-									osize = deflate.Read(buffer, 0, buffer.Length);
+									osize = decompressStream.Read(buffer, 0, buffer.Length);
 								}
 
 							} //end while
@@ -240,9 +311,9 @@ namespace Kaedei.AcDown.Interface
 							//可重试次数减1
 							remainRetryTime--;
 							//不再重试直接抛出异常的规则：
-							//1.没有可重试次数 
-							//2.服务器不支持断点续传 且 文件长度不为0（已经下载了部分数据）
-							if (remainRetryTime < 0 || (!supportrange))
+							//1.没有可重试次数
+							//2.服务器不支持断点续传
+							if (remainRetryTime < 0 || (!enableResume))
 							{
 								needRedownload = false;
 								throw ex;
@@ -416,6 +487,14 @@ namespace Kaedei.AcDown.Interface
 		/// 读取或设置使用的代理服务器设置
 		/// </summary>
 		public WebProxy Proxy { get; set; }
+		/// <summary>
+		/// 读取或设置一个值，指示下载时是否直接提取系统缓存
+		/// </summary>
+		public bool ExtractCache { get; set; }
+		/// <summary>
+		/// 读取或设置一个值，指示提取缓存时所使用的文件名过滤器
+		/// </summary>
+		public string ExtractCachePattern { get; set; }
 	}
 
 	/// <summary>

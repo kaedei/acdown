@@ -12,34 +12,24 @@ using System.Collections;
 namespace Kaedei.AcDown.Downloader
 {
 
+	[AcDownPluginInformation("BilibiliDownloader","Bilibili.tv下载插件","Kaedei","3.10.0.0","Bilibili.tv下载插件","http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IAcdownPluginInfo
 	{
 
-		public string Name
+		public BilibiliPlugin()
 		{
-			get { return @"BilibiliDownloader"; }
+			Feature = new Dictionary<string, object>();
+			//ExampleUrl
+			Feature.Add("ExampleUrl", new string[] { 
+				"Bilibili下载插件:",
+				"支持识别各Part名称、支持简写形式",
+				"av97834",
+				"http://www.bilibili.tv/video/av97834/",
+				"http://www.bilibili.tv/video/av70229/index_20.html",
+			});
+			//AutoAnswer(不支持)
+			//ConfigurationForm(不支持)
 		}
-
-		public string Author
-		{
-			get { return "Kaedei Software"; }
-		}
-
-		public Version Version
-		{
-			get { return new Version(2, 1, 0, 0); }
-		}
-
-		public string Describe
-		{
-			get { return @"Bilibili.tv下载插件"; }
-		}
-
-		public string SupportUrl
-		{
-			get { return @"http://blog.sina.com.cn/kaedei"; }
-		}
-
 		public IDownloader CreateDownloader()
 		{
 			return new BilibiliDownloader();
@@ -60,7 +50,7 @@ namespace Kaedei.AcDown.Downloader
 
 		/// <summary>
 		/// 规则为 bilibili + 视频ID + 下划线 + 子视频编号
-		/// 如 "bilibili99999_2"或"bilibili99999_"
+		/// 如 "bilibili99999_2"
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
@@ -70,7 +60,7 @@ namespace Kaedei.AcDown.Downloader
 			Match m = r.Match(url);
 			if (m.Success)
 			{
-				return "bilibili" + m.Groups["av"].Value + "_" + m.Groups["subav"].Value;
+				return "bilibili" + m.Groups["av"].Value + "_" + (String.IsNullOrEmpty(m.Groups["subav"].Value) ? "1" : m.Groups["subav"].Value);
 			}
 			else
 			{
@@ -78,17 +68,17 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		public string[] GetUrlExample()
+		public Dictionary<string, object> Feature
 		{
-			return new string[] { 
-				"Bilibili下载插件:",
-				"支持识别各Part名称、支持简写形式",
-				"av97834",
-				"http://www.bilibili.tv/video/av97834/",
-				"http://www.bilibili.tv/video/av70229/index_20.html",
-			};
+			get;
+			private set;
 		}
 
+		public SerializableDictionary<string, string> Configuration
+		{
+			get;
+			set;
+		}
 	} //end class
 
 	/// <summary>
@@ -211,7 +201,7 @@ namespace Kaedei.AcDown.Downloader
 					req.Referer = "https://secure.bilibili.tv/login.php";
 					req.ContentType = "application/x-www-form-urlencoded";
 					req.ContentLength = data.Length;
-					req.UserAgent= "Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20100101 Firefox/6.0";
+					req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0";
 					req.CookieContainer = new CookieContainer();
 					//发送POST数据
 					using (var outstream = req.GetRequestStream())
@@ -262,12 +252,10 @@ namespace Kaedei.AcDown.Downloader
 					//如果需要解析关联下载项
 					//解析关联项需要同时满足的条件：
 					//1.这个任务不是被其他任务所添加的
-					//2.用户设置了“解析关联项” 或者 插件设置中保存了“解析关联项”
+					//2.用户设置了“解析关联项”
 					if (!Info.IsBeAdded)
 					{
-						if (!Info.Settings.ContainsKey("ParseRelated"))
-							Info.Settings.Add("ParseRelated", Info.ParseRelated ? "true" : "false");
-						if (Info.Settings["ParseRelated"] == "true")
+						if (Info.ParseRelated)
 						{
 							//准备地址列表
 							List<string> urls = new List<string>();
@@ -347,17 +335,17 @@ namespace Kaedei.AcDown.Downloader
 							case "qid": //QQ视频
 								//解析视频
 								QQVideoParser parserQQ = new QQVideoParser();
-								videos = parserQQ.Parse(new string[] { id }, Info.Proxy);
+								videos = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 								break;
 							case "ykid": //优酷视频
 								//解析视频
 								YoukuParser parserYouKu = new YoukuParser();
-								videos = parserYouKu.Parse(new string[] { id }, Info.Proxy);
+								videos = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 								break;
 							case "uid": //土豆视频
 								//解析视频
 								TudouParser parserTudou = new TudouParser();
-								videos = parserTudou.Parse(new string[] { id }, Info.Proxy);
+								videos = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 								break;
 							case "data": //Flash游戏
 								id = id.Replace("\"", "");
@@ -365,7 +353,7 @@ namespace Kaedei.AcDown.Downloader
 								break;
 							default: //新浪视频
 								SinaVideoParser parserSina = new SinaVideoParser();
-								videos = parserSina.Parse(new string[] { id }, Info.Proxy);
+								videos = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
 								break;
 						}
 					}
@@ -406,7 +394,10 @@ namespace Kaedei.AcDown.Downloader
 								//文件URL
 								Url = videos[i],
 								//代理服务器
-								Proxy = Info.Proxy
+								Proxy = Info.Proxy,
+								//提取缓存
+								ExtractCache = Info.ExtractCache,
+								ExtractCachePattern = "fla*.tmp"
 							};
 						}
 						else
@@ -419,7 +410,10 @@ namespace Kaedei.AcDown.Downloader
 								//文件URL
 								Url = videos[i],
 								//代理服务器
-								Proxy = Info.Proxy
+								Proxy = Info.Proxy,
+								//提取缓存
+								ExtractCache = Info.ExtractCache,
+								ExtractCachePattern = "fla*.tmp"
 							};
 						}
 						//添加文件路径到List<>中

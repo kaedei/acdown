@@ -17,7 +17,8 @@ namespace Kaedei.AcDown.Interface
 		下载完成 = 3,
 		出现错误 = 4,
 		正在停止 = 5,
-		已删除 = 6
+		已删除 = 6,
+		部分完成 = 7
 	}
 
 	/// <summary>

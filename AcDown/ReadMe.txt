@@ -3,7 +3,7 @@
 http://acdown.codeplex.com/releases
 
 
-此文件更新时间：2012-3-1
+此文件更新时间：2012-3-20
 
 系统需求：
 正常打开AcDown项目文件需要您的系统安装如下软件/程序：
@@ -11,11 +11,12 @@ Visual Studio 2010 (包含C#组件)；
 .Net Framework 3.5 SDK；
 
 正常运行AcDown可执行文件(.exe格式)需要:
-至少Windows XP；
+至少Windows XP SP3；
 系统中已安装.NET Framework 2.0；
 
 正常运行“弹幕播放”组件需要：
-至少Windows XP Service Pack 2；
+至少Windows XP Service Pack 3；
+以管理员权限运行AcPlay.exe；
 关闭系统防火墙或为AcPlay.exe设置放行规则；
 
 
