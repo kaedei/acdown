@@ -20,6 +20,7 @@ namespace Kaedei.AcDown.Interface.Forms
          s = selected;
          if (!string.IsNullOrEmpty(tipText))
             lblTip.Text = tipText;
+			formtitle = btnOK.Text;
       }
 
       private void btnOK_Click(object sender, EventArgs e)
@@ -32,5 +33,17 @@ namespace Kaedei.AcDown.Interface.Forms
       {
 
       }
+
+		private string formtitle;
+		private int countdown = GlobalSettings.GetSettings().ToolFormTimeout;
+		private void tmr_Tick(object sender, EventArgs e)
+		{
+			countdown--;
+			btnOK.Text = formtitle + " [" + countdown.ToString() + "]";
+			if (countdown == 0)
+			{
+				btnOK_Click(sender, EventArgs.Empty);
+			}
+		}
    }//end class
 }

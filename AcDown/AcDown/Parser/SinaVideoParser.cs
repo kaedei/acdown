@@ -30,7 +30,11 @@ namespace Kaedei.AcDown.Parser
 			//src
 			string src = Regex.Match(source, @"<src>(?<src>\d+)</src>").Groups["src"].Value;
 
-			//video information
+			pr.SpecificResult.Add("totallength", totallength);
+			pr.SpecificResult.Add("framecount", framecount);
+			pr.SpecificResult.Add("src", src);
+
+			//视频信息
 			Regex r = new Regex(@"<durl>.+<order>(?<order>\d+)</order>.+<length>(?<length>\d+)</length>.+<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+</durl>", RegexOptions.Singleline);
 			MatchCollection matches = r.Matches(source);
 			foreach (Match item in matches)

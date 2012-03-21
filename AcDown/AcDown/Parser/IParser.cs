@@ -39,7 +39,7 @@ namespace Kaedei.AcDown.Parser
 		/// <summary>
 		/// 指定特殊配置
 		/// </summary>
-		public List<string> SpecificConfiguration = new List<string>();
+		public Dictionary<string, string> SpecificConfiguration = new Dictionary<string, string>();
 	}
 
 	/// <summary>
@@ -48,6 +48,8 @@ namespace Kaedei.AcDown.Parser
 	public class ParseResult
 	{
 		public List<ParseResultItem> Items = new List<ParseResultItem>();
+		public Dictionary<string, string> SpecificResult = new Dictionary<string, string>();
+
 		public String[] ToArray()
 		{
 			string[] r = new string[Items.Count];

@@ -24,7 +24,13 @@ namespace Kaedei.AcDown.Downloader
 				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html密码",
 				"http://v.youku.com/v_playlist/f5656465o1p0.html密码",
 			});
-			//AutoAnswer(不支持)
+            //AutoAnswer
+            Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			{
+                new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+				new AutoAnswer("youku","hd2","优酷 超清(HD)"),
+				new AutoAnswer("youku","flv","优酷 标清(Flv)")
+			});
 			//ConfigurationForm(不支持)
 		}
 

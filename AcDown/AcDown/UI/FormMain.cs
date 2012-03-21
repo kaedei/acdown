@@ -1259,6 +1259,8 @@ namespace Kaedei.AcDown.UI
 			task.DownSub = sourcetask.DownSub;
 			task.Comment = sourcetask.Comment;
 			task.SaveDirectory = sourcetask.SaveDirectory;
+			task.AutoAnswer = sourcetask.AutoAnswer;
+			task.ExtractCache = sourcetask.ExtractCache;
 			//此任务由其他任务所添加
 			task.IsBeAdded = true;
 			//开始新任务
@@ -1488,9 +1490,6 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
-
-
-
 
 	}//end class
 

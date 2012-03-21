@@ -46,6 +46,7 @@ namespace Kaedei.AcDown.UI
             txtCustomSound.Text = Config.setting.SoundFile;
          }
          chkParseRelated.Checked = Config.setting.ParseRelated;
+			chkEnableExtractCache.Checked = Config.setting.EnableExtractCache;
          numCacheSize.Value = Config.setting.CacheSize;
          txtSavePath.Text = Config.setting.SavePath;
          chkEnableLog.Checked = Config.setting.EnableLog;
@@ -57,8 +58,10 @@ namespace Kaedei.AcDown.UI
          cboMaxRunningCount.SelectedIndex = Config.setting.MaxRunningTaskCount - 1;
          txtSearchText.Text = Config.setting.SearchQuery;
          udRefreshInfo.Value = Config.setting.RefreshInfoInterval;
+			udToolFormTimeout.Value = Config.setting.ToolFormTimeout;
          chkEnableCheckUpdate.Checked = Config.setting.EnableCheckUpdate;
          udNetworkTimeout.Value = Config.setting.NetworkTimeout;
+			
          if (Config.setting.CheckUpdateDocument == "stable")
             rdoChannelStable.Checked = true;
          else if (Config.setting.CheckUpdateDocument == "develop")
@@ -111,11 +114,13 @@ namespace Kaedei.AcDown.UI
          Config.setting.EnableLog = chkEnableLog.Checked;
          Config.setting.WatchClipboardEnabled = chkWatch.Checked;
          Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
+			Config.setting.EnableExtractCache = chkEnableExtractCache.Checked;
          Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
          Config.setting.HideWhenClose = chkHideWhenClose.Checked;
          Config.setting.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
          Config.setting.SearchQuery = txtSearchText.Text;
          Config.setting.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
+			Config.setting.ToolFormTimeout = (Int32)udToolFormTimeout.Value;
          Config.setting.NetworkTimeout = (Int32)udNetworkTimeout.Value;
          Config.setting.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
          if (rdoChannelStable.Checked)
@@ -126,6 +131,7 @@ namespace Kaedei.AcDown.UI
             Config.setting.CheckUpdateDocument = txtUpdateDocument.Text;
          Config.setting.RetryTimes = (Int32)udRetryTimes.Value;
          Config.setting.RetryWaitingTime = (Int32)udRetryWatingTime.Value * 1000;
+			
 
          //插件设置
 

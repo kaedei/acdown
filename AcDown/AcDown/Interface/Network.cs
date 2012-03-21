@@ -146,12 +146,11 @@ namespace Kaedei.AcDown.Interface
 						{
 							para.DoneBytes = para.TotalLength;
 							File.Copy(filename, para.FilePath);
-
+							//不需要继续下载
+							needRedownload = false;
+							//跳出循环
+							break;
 						}
-						//不需要继续下载
-						needRedownload = false;
-						//跳出循环
-						break;
 					}
 				}
 				catch

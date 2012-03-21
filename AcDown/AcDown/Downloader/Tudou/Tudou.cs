@@ -25,7 +25,14 @@ namespace Kaedei.AcDown.Downloader
 				"http://www.tudou.com/playlist/p/l12302995.html密码",
 				"http://www.tudou.com/programs/view/JiTcS97DBHo/密码",
 			});
-			//AutoAnswer(不支持)
+			//AutoAnswer
+			Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			{
+                new AutoAnswer("tudou","3","土豆 高清(720P)"),
+				new AutoAnswer("tudou","99","土豆 原画"),
+				new AutoAnswer("tudou","2","土豆 清晰(360P)"),
+                new AutoAnswer("tudou","1","土豆 流畅(256P)")
+			});
 			//ConfigurationForm(不支持)
 		}
 

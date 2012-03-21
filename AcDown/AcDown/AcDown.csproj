@@ -160,6 +160,12 @@
     <Compile Include="UI\FormAddProxy.Designer.cs">
       <DependentUpon>FormAddProxy.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FormAutoAnswer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormAutoAnswer.Designer.cs">
+      <DependentUpon>FormAutoAnswer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FormSingle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormAddProxy.resx">
       <DependentUpon>FormAddProxy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormAutoAnswer.resx">
+      <DependentUpon>FormAutoAnswer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormConfig.resx">
       <DependentUpon>FormConfig.cs</DependentUpon>

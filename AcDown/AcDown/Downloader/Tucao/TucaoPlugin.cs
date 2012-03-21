@@ -19,7 +19,17 @@ namespace Kaedei.AcDown.Downloader
 				"http://www.tucao.cc/play/114530/",
 				"http://www.tucao.cc/play/811894/",
 			});
-			//AutoAnswer(不支持)
+			//AutoAnswer
+            Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			{
+                new AutoAnswer("tudou","3","土豆 高清(720P)"),
+                new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+				new AutoAnswer("tudou","99","土豆 原画"),
+                new AutoAnswer("youku","hd2","优酷 超清(HD)"),
+				new AutoAnswer("youku","flv","优酷 标清(Flv)"),
+                new AutoAnswer("tudou","2","土豆 清晰(360P)"),
+                new AutoAnswer("tudou","1","土豆 流畅(256P)")
+			});
 			//ConfigurationForm(不支持)
 		}
 
