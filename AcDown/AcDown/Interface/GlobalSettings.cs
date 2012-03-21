@@ -49,7 +49,7 @@ namespace Kaedei.AcDown.Interface
 		}
 
 
-		private int _retryTimes;
+		private int _retryTimes = 3;
 		/// <summary>
 		/// 下载失败时的重试次数
 		/// </summary>
@@ -63,7 +63,7 @@ namespace Kaedei.AcDown.Interface
 			}
 		}
 
-		private int _retryWaitingTime;
+		private int _retryWaitingTime = 5000;
 		/// <summary>
 		/// 下载重试前的等待时间(毫秒)
 		/// </summary>
@@ -76,6 +76,26 @@ namespace Kaedei.AcDown.Interface
 				else _retryWaitingTime = value;
 			}
 		}
+
+		private int toolFormTimeout = 150; //默认值150秒
+
+		/// <summary>
+		/// 工具窗口的超时时间(秒)
+		/// </summary>
+		public int ToolFormTimeout
+		{
+			get { return toolFormTimeout; }
+			set 
+			{
+				if (value < 10)
+					toolFormTimeout = 10;
+				else if (value > 600)
+					toolFormTimeout = 600;
+				else
+					toolFormTimeout = value;
+			}
+		}
+		
 
 	}
 

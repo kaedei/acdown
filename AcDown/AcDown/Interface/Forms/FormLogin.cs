@@ -16,6 +16,7 @@ namespace Kaedei.AcDown.Interface.Forms
       public FormLogin(UserLoginInfo userLoginInfo, string regUrl)
       {
          InitializeComponent();
+			formtitle = this.Text;
          info = userLoginInfo;
          url = regUrl;
       }
@@ -45,7 +46,20 @@ namespace Kaedei.AcDown.Interface.Forms
       {
          this.Close();
       }
-   } // end class formlogin
+
+		private string formtitle;
+		private int countdown = GlobalSettings.GetSettings().ToolFormTimeout;
+		private void tmr_Tick(object sender, EventArgs e)
+		{
+			countdown--;
+			this.Text = "[" + countdown.ToString() + "]" + formtitle;
+			if (countdown == 0)
+			{
+				btnOK_Click(sender, EventArgs.Empty);
+			}
+		}
+
+	} // end class formlogin
 
    public class UserLoginInfo
    {

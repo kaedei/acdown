@@ -7,6 +7,7 @@ using Kaedei.AcDown.Parser;
 using System.IO;
 using System.Collections;
 using Kaedei.AcDown.Interface.Forms;
+using System.Net;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -28,7 +29,17 @@ namespace Kaedei.AcDown.Downloader
 				"http://www.acfun.tv/v/ac206020",
 				"http://124.228.254.229/v/ac206020 (IP地址形式)"
 			});
-			//AutoAnswer(不支持)
+			//AutoAnswer
+            Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			{
+                new AutoAnswer("tudou","3","土豆 高清(720P)"),
+                new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+				new AutoAnswer("tudou","99","土豆 原画"),
+                new AutoAnswer("youku","hd2","优酷 超清(HD)"),
+				new AutoAnswer("youku","flv","优酷 标清(Flv)"),
+                new AutoAnswer("tudou","2","土豆 清晰(360P)"),
+                new AutoAnswer("tudou","1","土豆 流畅(256P)")
+			});
 			//ConfigurationForm(不支持)
 		}
 
@@ -417,7 +428,10 @@ namespace Kaedei.AcDown.Downloader
 					try
 					{
 						//下载字幕文件
-						string subcontent = Network.GetHtmlSource(subUrl, Encoding.GetEncoding("gb2312"), Info.Proxy);
+                        WebClient wc = new WebClient();
+                        wc.Proxy = Info.Proxy;
+                        byte[] data = wc.DownloadData(suburl);
+                        string subcontent = Encoding.GetEncoding("gb2312").GetString(data);
 						//下面这行代码可以将json文件解码
 						//subcontent = Tools.ReplaceUnicode2Str(subcontent);
 						//保存文件

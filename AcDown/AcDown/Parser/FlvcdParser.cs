@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Parser
 {
-	public class FlvcdParser:IParser
+	public class FlvcdParser : IParser
 	{
 
 		/// <summary>
@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Parser
 			//返回值
 			ParseResult pr = new ParseResult();
 			//分辨率
-			string resolution = (request.SpecificConfiguration.Count > 0) ? request.SpecificConfiguration[0] : "";
+			string resolution = request.SpecificConfiguration.ContainsKey("resolution") ? request.SpecificConfiguration["resolution"] : "";
 			//修正url
 			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(request.Id) + resolution;
 

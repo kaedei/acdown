@@ -18,6 +18,7 @@ namespace Kaedei.AcDown.Interface.Forms
       public FormSelect(ref BitArray selected, string[] content)
       {
          InitializeComponent();
+			formtitle = this.Text;
          s = selected;
          this.SuspendLayout();
          foreach (var item in content)
@@ -124,6 +125,18 @@ namespace Kaedei.AcDown.Interface.Forms
             lst.SetItemChecked(i, false);
          }
       }
+
+		private string formtitle;
+		private int countdown = GlobalSettings.GetSettings().ToolFormTimeout * 2;
+		private void tmr_Tick(object sender, EventArgs e)
+		{
+			countdown--;
+			this.Text = "[" + countdown.ToString() + "]" + formtitle;
+			if (countdown == 0)
+			{
+				btnOK_Click(sender, EventArgs.Empty);
+			}
+		}
 
 
    }//end class

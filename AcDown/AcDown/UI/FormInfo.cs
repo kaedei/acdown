@@ -108,7 +108,22 @@ namespace Kaedei.AcDown.UI
             sb.AppendLine("无");
          }
 
-
+			sb.AppendLine("自动应答设置: ");
+			if (_task.AutoAnswer != null)
+			{
+				if (_task.AutoAnswer.Count > 0)
+				{
+					for (int i = 0; i < _task.AutoAnswer.Count; i++)
+					{
+						var aa = _task.AutoAnswer[i];
+						sb.AppendLine(string.Format("\t{0}: {1}-{2} ({3})", i, aa.Prefix, aa.Identify, aa.Description));
+					}
+				}
+				else
+				{
+					sb.AppendLine("无");
+				}
+			}
          //sb.AppendLine("索引信息: ");
          //sb.AppendLine(_task.ToString());
          sb.AppendLine("最近一次发生的错误: ");
