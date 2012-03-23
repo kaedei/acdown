@@ -30,15 +30,16 @@ namespace Kaedei.AcDown.Downloader
 				"http://124.228.254.229/v/ac206020 (IP地址形式)"
 			});
 			//AutoAnswer
-            Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-                new AutoAnswer("tudou","3","土豆 高清(720P)"),
-                new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+				new AutoAnswer("tudou","3","土豆 高清(720P)"),
+				new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
 				new AutoAnswer("tudou","99","土豆 原画"),
-                new AutoAnswer("youku","hd2","优酷 超清(HD)"),
+				new AutoAnswer("youku","hd2","优酷 超清(HD)"),
 				new AutoAnswer("youku","flv","优酷 标清(Flv)"),
-                new AutoAnswer("tudou","2","土豆 清晰(360P)"),
-                new AutoAnswer("tudou","1","土豆 流畅(256P)")
+				new AutoAnswer("tudou","2","土豆 清晰(360P)"),
+				new AutoAnswer("tudou","1","土豆 流畅(256P)"),
+				new AutoAnswer("acfun","auto","设置为Auto可以禁止Acfun插件显示任何对话框")
 			});
 			//ConfigurationForm(不支持)
 		}
@@ -182,6 +183,21 @@ namespace Kaedei.AcDown.Downloader
 			//取得子页面文件名（例如"index_123.html"）
 			string suburl = Regex.Match(Info.Url, @"ac\d+/(?<part>index\.html|index_\d+\.html)").Groups["part"].Value;
 
+			//是否通过【自动应答】禁用对话框
+			bool disableDialog = false;
+			if (Info.AutoAnswer != null)
+			{
+				foreach (var item in Info.AutoAnswer)
+				{
+					if (item.Prefix == "acfun")
+					{
+						if (item.Identify == "auto")
+							disableDialog = true;
+						break;
+					}
+				}
+			}
+
 			try
 			{
 				//取得网页源文件
@@ -271,7 +287,8 @@ namespace Kaedei.AcDown.Downloader
 							//提供BitArray
 							BitArray ba = new BitArray(urls.Count, false);
 							//用户选择任务
-							ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
+							if (!disableDialog)
+								ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
 							//根据用户选择新建任务
 							for (int i = 0; i < ba.Count; i++)
 							{
@@ -428,10 +445,10 @@ namespace Kaedei.AcDown.Downloader
 					try
 					{
 						//下载字幕文件
-                        WebClient wc = new WebClient();
-                        wc.Proxy = Info.Proxy;
-                        byte[] data = wc.DownloadData(suburl);
-                        string subcontent = Encoding.GetEncoding("gb2312").GetString(data);
+						WebClient wc = new WebClient();
+						wc.Proxy = Info.Proxy;
+						byte[] data = wc.DownloadData(suburl);
+						string subcontent = Encoding.GetEncoding("gb2312").GetString(data);
 						//下面这行代码可以将json文件解码
 						//subcontent = Tools.ReplaceUnicode2Str(subcontent);
 						//保存文件

@@ -12,7 +12,7 @@ using System.Collections;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader","Bilibili.tv下载插件","Kaedei","3.10.0.0","Bilibili.tv下载插件","http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.10.0.0", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IAcdownPluginInfo
 	{
 
@@ -28,15 +28,16 @@ namespace Kaedei.AcDown.Downloader
 				"http://www.bilibili.tv/video/av70229/index_20.html",
 			});
 			//AutoAnswer
-            Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-                new AutoAnswer("tudou","3","土豆 高清(720P)"),
-                new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+				new AutoAnswer("tudou","3","土豆 高清(720P)"),
+				new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
 				new AutoAnswer("tudou","99","土豆 原画"),
-                new AutoAnswer("youku","hd2","优酷 超清(HD)"),
+				new AutoAnswer("youku","hd2","优酷 超清(HD)"),
 				new AutoAnswer("youku","flv","优酷 标清(Flv)"),
-                new AutoAnswer("tudou","2","土豆 清晰(360P)"),
-                new AutoAnswer("tudou","1","土豆 流畅(256P)")
+				new AutoAnswer("tudou","2","土豆 清晰(360P)"),
+				new AutoAnswer("tudou","1","土豆 流畅(256P)"),
+				new AutoAnswer("bilibili","auto","设置为Auto可以禁止BiliBili插件显示任何对话框")
 			});
 			//ConfigurationForm(不支持)
 		}
@@ -98,7 +99,7 @@ namespace Kaedei.AcDown.Downloader
 	{
 
 		public TaskInfo Info { get; set; }
-		
+
 		//下载参数
 		DownloadParameter currentParameter;
 		#region IDownloader 成员
@@ -124,7 +125,7 @@ namespace Kaedei.AcDown.Downloader
 		//已完成的长度
 		public long DoneBytes
 		{
-			get 
+			get
 			{
 				if (currentParameter != null)
 				{
@@ -140,14 +141,14 @@ namespace Kaedei.AcDown.Downloader
 		//最后一次Tick时的值
 		public long LastTick
 		{
-			get 
+			get
 			{
 				if (currentParameter != null)
 				{
 					//将tick值更新为当前值
 					long tmp = currentParameter.LastTick;
 					currentParameter.LastTick = currentParameter.DoneBytes;
-					return tmp;	
+					return tmp;
 				}
 				else
 				{
@@ -158,7 +159,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//下载视频
 		public void Download()
-		{ 
+		{
 			//开始下载
 			delegates.Start(new ParaStart(this.Info));
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
@@ -180,10 +181,24 @@ namespace Kaedei.AcDown.Downloader
 					Info.Url += "/index_1.html";
 			}
 
-
 			string url = Info.Url;
 			//取得子页面文件名（例如"/video/av12345/index_123.html"）
 			string suburl = Regex.Match(Info.Url, @"bilibili\.tv(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
+
+			//是否通过【自动应答】禁用对话框
+			bool disableDialog = false;
+			if (Info.AutoAnswer != null)
+			{
+				foreach (var item in Info.AutoAnswer)
+				{
+					if (item.Prefix == "bilibili")
+					{
+						if (item.Identify == "auto")
+							disableDialog = true;
+						break;
+					}
+				}
+			}
 
 			//视频地址数组
 			string[] videos;
@@ -283,7 +298,8 @@ namespace Kaedei.AcDown.Downloader
 							//提供BitArray
 							BitArray ba = new BitArray(urls.Count, false);
 							//用户选择任务
-							ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
+							if (!disableDialog)
+								ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
 							//根据用户选择新建任务
 							for (int i = 0; i < ba.Count; i++)
 							{
@@ -315,7 +331,7 @@ namespace Kaedei.AcDown.Downloader
 				string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
 
 				//检查"file"参数
-				Regex rFile = new Regex("file=\"(?<file>.+?)\"");
+				Regex rFile = new Regex("file=(\"|)(?<file>.+?)(\"|&)");
 				Match mFile = rFile.Match(embedSrc);
 				//取得Flash地址
 				Regex rFlash = new Regex("src=\"(?<flash>.*?\\.swf)\"");
@@ -475,7 +491,7 @@ namespace Kaedei.AcDown.Downloader
 				delegates.Error(new ParaError(this.Info, ex));
 				return;
 			}
-		
+
 			//下载成功完成
 			Info.Status = DownloadStatus.下载完成;
 			delegates.Finish(new ParaFinish(this.Info, true));
