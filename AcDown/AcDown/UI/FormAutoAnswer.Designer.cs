@@ -39,6 +39,7 @@
          this.btnUp = new System.Windows.Forms.Button();
          this.btnDown = new System.Windows.Forms.Button();
          this.tmr = new System.Windows.Forms.Timer(this.components);
+         this.btnDelete = new System.Windows.Forms.Button();
          this.SuspendLayout();
          // 
          // label1
@@ -47,9 +48,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.label1.Location = new System.Drawing.Point(12, 8);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(426, 40);
+         this.label1.Size = new System.Drawing.Size(426, 62);
          this.label1.TabIndex = 0;
-         this.label1.Text = "\"自动应答\"功能能够帮助您决定下载过程中可能出现的各种选项，从而达到自动化下载的目的。\r\n请在下方调整您所倾向的应答顺序，排序越靠前，该选项的优先级别越高。";
+         this.label1.Text = "    \"自动应答\"功能能够帮助您决定下载过程中可能出现的各种选项，从而达到自动化下载的目的。\r\n    请在下方调整您所倾向的应答顺序，排序越靠前，该选项的优先" +
+    "级别越高。\r\n    *被此任务添加的其他任务也会继承您所选择的\"自动应答\"设置";
          // 
          // lsv
          // 
@@ -63,11 +65,11 @@
             this.columnHeader3});
          this.lsv.FullRowSelect = true;
          this.lsv.GridLines = true;
-         this.lsv.Location = new System.Drawing.Point(15, 51);
+         this.lsv.Location = new System.Drawing.Point(15, 73);
          this.lsv.MultiSelect = false;
          this.lsv.Name = "lsv";
          this.lsv.ShowItemToolTips = true;
-         this.lsv.Size = new System.Drawing.Size(377, 188);
+         this.lsv.Size = new System.Drawing.Size(377, 166);
          this.lsv.TabIndex = 1;
          this.lsv.UseCompatibleStateImageBehavior = false;
          this.lsv.View = System.Windows.Forms.View.Details;
@@ -129,7 +131,7 @@
          this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.btnDown.Enabled = false;
          this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-         this.btnDown.Location = new System.Drawing.Point(402, 115);
+         this.btnDown.Location = new System.Drawing.Point(402, 112);
          this.btnDown.Name = "btnDown";
          this.btnDown.Size = new System.Drawing.Size(36, 33);
          this.btnDown.TabIndex = 5;
@@ -143,6 +145,18 @@
          this.tmr.Interval = 1000;
          this.tmr.Tick += new System.EventHandler(this.tmr_Tick);
          // 
+         // btnDelete
+         // 
+         this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+         this.btnDelete.Enabled = false;
+         this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+         this.btnDelete.Location = new System.Drawing.Point(402, 151);
+         this.btnDelete.Name = "btnDelete";
+         this.btnDelete.Size = new System.Drawing.Size(36, 33);
+         this.btnDelete.TabIndex = 6;
+         this.btnDelete.Text = "×";
+         this.btnDelete.UseVisualStyleBackColor = true;
+         // 
          // FormAutoAnswer
          // 
          this.AcceptButton = this.btnOK;
@@ -151,6 +165,7 @@
          this.CancelButton = this.btnCancel;
          this.ClientSize = new System.Drawing.Size(450, 294);
          this.ControlBox = false;
+         this.Controls.Add(this.btnDelete);
          this.Controls.Add(this.btnDown);
          this.Controls.Add(this.btnUp);
          this.Controls.Add(this.btnOK);
@@ -181,5 +196,6 @@
 		private System.Windows.Forms.Button btnUp;
 		private System.Windows.Forms.Button btnDown;
 		private System.Windows.Forms.Timer tmr;
+      private System.Windows.Forms.Button btnDelete;
 	}
 }

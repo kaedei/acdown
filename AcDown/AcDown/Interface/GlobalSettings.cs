@@ -26,6 +26,22 @@ namespace Kaedei.AcDown.Interface
 			return _settings;
 		}
 
+		private int _cacheSize = 1;
+		/// <summary>
+		/// 网络缓存大小，单位为兆字节(MB)，取值范围为1~16
+		/// </summary>
+		public int CacheSize
+		{
+			get
+			{
+				return _cacheSize;
+			}
+			set
+			{
+				_cacheSize = (value > 16 || value < 1) ? 1 : value;
+			}
+		}
+
 		private int _networkTimeout = 25000; //25秒
 		/// <summary>
 		/// 网络请求的超时值（以毫秒为单位）
