@@ -1,6 +1,6 @@
 ﻿namespace Kaedei.AcDown.Interface.Forms
 {
-   partial class FormServer
+   partial class FormSingleSelect
    {
       /// <summary>
       /// Required designer variable.
@@ -42,7 +42,7 @@
 			this.combo.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.combo.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.combo.FormattingEnabled = true;
-			this.combo.Location = new System.Drawing.Point(62, 79);
+			this.combo.Location = new System.Drawing.Point(62, 81);
 			this.combo.Name = "combo";
 			this.combo.Size = new System.Drawing.Size(296, 29);
 			this.combo.TabIndex = 0;
@@ -61,9 +61,9 @@
 			// 
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnOK.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnOK.Location = new System.Drawing.Point(292, 138);
+			this.btnOK.Location = new System.Drawing.Point(301, 126);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(117, 39);
+			this.btnOK.Size = new System.Drawing.Size(108, 35);
 			this.btnOK.TabIndex = 2;
 			this.btnOK.Text = "确定";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -75,20 +75,21 @@
 			this.tmr.Interval = 1000;
 			this.tmr.Tick += new System.EventHandler(this.tmr_Tick);
 			// 
-			// FormServer
+			// FormSingleSelect
 			// 
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(421, 190);
+			this.ClientSize = new System.Drawing.Size(421, 176);
 			this.ControlBox = false;
+			this.Controls.Add(this.combo);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.lblTip);
-			this.Controls.Add(this.combo);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "FormServer";
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Name = "FormSingleSelect";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = " 请选择一个选项";
 			this.TopMost = true;
 			this.Load += new System.EventHandler(this.FormServer_Load);
 			this.ResumeLayout(false);

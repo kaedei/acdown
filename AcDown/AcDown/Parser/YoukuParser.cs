@@ -19,7 +19,7 @@ namespace Kaedei.AcDown.Parser
 		public ParseResult Parse(ParseRequest request)
 		{
 			ParseResult pr = new ParseResult();
-			
+
 			string url = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/timezone/+08/version/5/source/video?n=3&ran=4656&password=%PW%".Replace(@"%ID%", request.Id).Replace(@"%PW%", request.Password);
 			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
 			//正则表达式提取各个参数
@@ -37,13 +37,26 @@ namespace Kaedei.AcDown.Parser
 			Match mStreamFileIds = rStreamFileIds.Match(xmldoc);
 			string fileIds = mStreamFileIds.Groups["fileids"].Value;
 
-			List<string> tmpFormTip = new List<string>();
+			var dict = new Dictionary<string, string>();
+			string defaultres = "";
 			//是否有超清模式
-			if( fileIds.Contains("hd2")) tmpFormTip.Add("超清(hd2)");
+			if (fileIds.Contains("hd2"))
+			{
+				dict.Add("hd2", "超清(hd2)");
+				defaultres = "hd2";
+			}
 			//是否有高清模式
-			if( fileIds.Contains("mp4")) tmpFormTip.Add("高清(mp4)");
+			if (fileIds.Contains("mp4"))
+			{
+				dict.Add("mp4", "高清(mp4)");
+				defaultres = "mp4";
+			}
 			//是否有普通清晰度
-			if( fileIds.Contains("flv")) tmpFormTip.Add("标清(flv)");
+			if (fileIds.Contains("flv"))
+			{
+				dict.Add("flv", "标清(flv)");
+				defaultres = "flv";
+			}
 
 
 			string fileposfix = null;
@@ -68,19 +81,15 @@ namespace Kaedei.AcDown.Parser
 
 			if (string.IsNullOrEmpty(fileposfix))
 			{
-				//用户选择清晰度
-				int select;
 				//如果多余一种清晰度
-				if (tmpFormTip.Count > 1)
+				if (dict.Count > 1)
 				{
-					select = ToolForm.CreateSelectServerForm("您正在下载优酷视频，请选择视频清晰度:", tmpFormTip.ToArray(), 0);
+					fileposfix = ToolForm.CreateSingleSelectForm("您正在下载优酷视频，请选择视频清晰度:", dict, defaultres, request.AutoAnswers, "youku");
 				}
 				else
 				{
-					select = 0;
+					fileposfix = defaultres;
 				}
-				strSelect = tmpFormTip[select].Replace("超清", "").Replace("高清", "").Replace("标清", "").Trim('(', ')');
-				fileposfix = strSelect;
 			}
 
 			//修正高清
@@ -119,7 +128,7 @@ namespace Kaedei.AcDown.Parser
 			{
 				keys.Add("?K=" + mKey.Groups["k"].Value + ",k2:" + mKey.Groups["k2"].Value);
 			}
-			
+
 			//生成sid
 			string sid = genSid();
 			//生成fileid
@@ -184,6 +193,6 @@ namespace Kaedei.AcDown.Parser
 			var tempkey = key ^ 0xA55AA5A5;
 			return key2 + Convert.ToString(tempkey, 16).Substring(8);
 		}
-		
+
 	}
 }

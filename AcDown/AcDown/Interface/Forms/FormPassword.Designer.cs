@@ -49,7 +49,7 @@
 			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 							| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPassword.Font = new System.Drawing.Font("Microsoft YaHei", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.txtPassword.Location = new System.Drawing.Point(12, 39);
+			this.txtPassword.Location = new System.Drawing.Point(12, 34);
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.Size = new System.Drawing.Size(393, 34);
 			this.txtPassword.TabIndex = 1;
@@ -57,7 +57,7 @@
 			// btnOK
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.Location = new System.Drawing.Point(309, 79);
+			this.btnOK.Location = new System.Drawing.Point(309, 74);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(96, 36);
 			this.btnOK.TabIndex = 2;

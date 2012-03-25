@@ -1,6 +1,6 @@
 ﻿namespace Kaedei.AcDown.Interface.Forms
 {
-   partial class FormSelect
+   partial class FormMultiSelect
    {
       /// <summary>
       /// Required designer variable.
@@ -29,7 +29,6 @@
       private void InitializeComponent()
       {
 			this.components = new System.ComponentModel.Container();
-			this.lst = new System.Windows.Forms.CheckedListBox();
 			this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.请选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuSelectUp = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,26 +42,9 @@
 			this.lnkSelectInvert = new System.Windows.Forms.LinkLabel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tmr = new System.Windows.Forms.Timer(this.components);
+			this.lsv = new System.Windows.Forms.ListView();
 			this.mnu.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// lst
-			// 
-			this.lst.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-							| System.Windows.Forms.AnchorStyles.Left)
-							| System.Windows.Forms.AnchorStyles.Right)));
-			this.lst.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lst.CheckOnClick = true;
-			this.lst.ContextMenuStrip = this.mnu;
-			this.lst.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lst.FormattingEnabled = true;
-			this.lst.Location = new System.Drawing.Point(14, 42);
-			this.lst.Margin = new System.Windows.Forms.Padding(5);
-			this.lst.Name = "lst";
-			this.lst.Size = new System.Drawing.Size(316, 338);
-			this.lst.TabIndex = 0;
-			this.lst.SelectedIndexChanged += new System.EventHandler(this.lst_SelectedIndexChanged);
-			this.lst.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lst_MouseUp);
 			// 
 			// mnu
 			// 
@@ -171,11 +153,10 @@
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(14, 9);
 			this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(170, 21);
+			this.label1.Size = new System.Drawing.Size(316, 45);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "请确认要下载的章节：";
 			// 
@@ -185,26 +166,40 @@
 			this.tmr.Interval = 1000;
 			this.tmr.Tick += new System.EventHandler(this.tmr_Tick);
 			// 
-			// FormSelect
+			// lsv
+			// 
+			this.lsv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+							| System.Windows.Forms.AnchorStyles.Left)
+							| System.Windows.Forms.AnchorStyles.Right)));
+			this.lsv.CheckBoxes = true;
+			this.lsv.Location = new System.Drawing.Point(18, 57);
+			this.lsv.MultiSelect = false;
+			this.lsv.Name = "lsv";
+			this.lsv.Size = new System.Drawing.Size(312, 326);
+			this.lsv.TabIndex = 7;
+			this.lsv.UseCompatibleStateImageBehavior = false;
+			this.lsv.View = System.Windows.Forms.View.List;
+			// 
+			// FormMultiSelect
 			// 
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(344, 433);
 			this.ControlBox = false;
+			this.Controls.Add(this.lsv);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lnkSelectInvert);
 			this.Controls.Add(this.lnkSelectNone);
 			this.Controls.Add(this.lnkSelectAll);
 			this.Controls.Add(this.btnOK);
-			this.Controls.Add(this.lst);
 			this.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.Margin = new System.Windows.Forms.Padding(5);
 			this.MinimumSize = new System.Drawing.Size(340, 390);
-			this.Name = "FormSelect";
+			this.Name = "FormMultiSelect";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "请选择要下载的章节";
+			this.Text = "请选择一个或多个选项";
 			this.TopMost = true;
 			this.Load += new System.EventHandler(this.FormSelect_Load);
 			this.mnu.ResumeLayout(false);
@@ -215,8 +210,7 @@
 
       #endregion
 
-      private System.Windows.Forms.CheckedListBox lst;
-      private System.Windows.Forms.Button btnOK;
+		private System.Windows.Forms.Button btnOK;
       private System.Windows.Forms.LinkLabel lnkSelectAll;
       private System.Windows.Forms.LinkLabel lnkSelectNone;
       private System.Windows.Forms.LinkLabel lnkSelectInvert;
@@ -229,5 +223,6 @@
       private System.Windows.Forms.ToolStripMenuItem mnuSelectDown;
       private System.Windows.Forms.ToolStripMenuItem mnuDeselectDown;
 		private System.Windows.Forms.Timer tmr;
+		private System.Windows.Forms.ListView lsv;
    }
 }
