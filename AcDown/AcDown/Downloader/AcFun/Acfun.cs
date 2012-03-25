@@ -8,6 +8,7 @@ using System.IO;
 using System.Collections;
 using Kaedei.AcDown.Interface.Forms;
 using System.Net;
+using System.Collections.ObjectModel;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -39,7 +40,7 @@ namespace Kaedei.AcDown.Downloader
 				new AutoAnswer("youku","flv","优酷 标清(Flv)"),
 				new AutoAnswer("tudou","2","土豆 清晰(360P)"),
 				new AutoAnswer("tudou","1","土豆 流畅(256P)"),
-				new AutoAnswer("acfun","auto","设置为Auto可以禁止Acfun插件显示任何对话框")
+				new AutoAnswer("acfun","auto","保留此项可以禁止Acfun插件显示任何对话框")
 			});
 			//ConfigurationForm(不支持)
 		}
@@ -271,32 +272,25 @@ namespace Kaedei.AcDown.Downloader
 					{
 						if (Info.ParseRelated)
 						{
-							//准备地址列表
-							List<string> urls = new List<string>();
-							//准备标题列表
-							List<string> titles = new List<string>();
-							//填充两个列表
+							//准备(地址-标题)字典
+							var dict = new Dictionary<string, string>();
 							foreach (Match item in mSubTitles)
 							{
 								if (suburl != item.Groups["part"].Value)
 								{
-									urls.Add(url.Replace(suburl, item.Groups["part"].Value));
-									titles.Add(item.Groups["content"].Value);
+									dict.Add(url.Replace(suburl, item.Groups["part"].Value),
+												item.Groups["content"].Value);
 								}
 							}
-							//提供BitArray
-							BitArray ba = new BitArray(urls.Count, false);
 							//用户选择任务
+							var ba = new Collection<string>();
 							if (!disableDialog)
-								ba = ToolForm.CreateSelctionForm(titles.ToArray(), ba);
+								ba = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "acfun");
 							//根据用户选择新建任务
-							for (int i = 0; i < ba.Count; i++)
+							foreach (string u in ba)
 							{
-								if (ba[i]) //如果选中了某项
-								{
-									//新建任务
-									delegates.NewTask(new ParaNewTask(Info.BasePlugin, urls[i], this.Info));
-								}
+								//新建任务
+								delegates.NewTask(new ParaNewTask(Info.BasePlugin, u, this.Info));
 							}
 						}
 					}

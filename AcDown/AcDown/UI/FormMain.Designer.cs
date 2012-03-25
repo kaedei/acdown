@@ -67,6 +67,8 @@
          this.toolTip = new System.Windows.Forms.ToolTip(this.components);
          this.btnSpeedlimitApply = new System.Windows.Forms.Button();
          this.contextTool = new System.Windows.Forms.ToolStrip();
+         this.mnuConStart = new System.Windows.Forms.ToolStripButton();
+         this.mnuConStop = new System.Windows.Forms.ToolStripButton();
          this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
          this.toolDelete = new System.Windows.Forms.ToolStripSplitButton();
          this.toolDeleteAndFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,8 +91,6 @@
          this.tabAcPlay = new System.Windows.Forms.TabPage();
          this.acPlay1 = new Kaedei.AcDown.UI.Components.AcPlayControl();
          this.timerClipboard = new System.Windows.Forms.Timer(this.components);
-         this.mnuConStart = new System.Windows.Forms.ToolStripButton();
-         this.mnuConStop = new System.Windows.Forms.ToolStripButton();
          this.statusStrip.SuspendLayout();
          this.toolStrip.SuspendLayout();
          this.mnuTray.SuspendLayout();
@@ -351,26 +351,26 @@
             this.mnuTrayLine1,
             this.mnuTrayExit});
          this.mnuTray.Name = "mnuTray";
-         this.mnuTray.Size = new System.Drawing.Size(173, 54);
+         this.mnuTray.Size = new System.Drawing.Size(172, 54);
          this.mnuTray.Opening += new System.ComponentModel.CancelEventHandler(this.mnuTray_Opening);
          // 
          // mnuTrayShowHide
          // 
          this.mnuTrayShowHide.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
          this.mnuTrayShowHide.Name = "mnuTrayShowHide";
-         this.mnuTrayShowHide.Size = new System.Drawing.Size(172, 22);
+         this.mnuTrayShowHide.Size = new System.Drawing.Size(171, 22);
          this.mnuTrayShowHide.Text = "显示/隐藏主窗口";
          this.mnuTrayShowHide.Click += new System.EventHandler(this.mnuTrayShowHide_Click);
          // 
          // mnuTrayLine1
          // 
          this.mnuTrayLine1.Name = "mnuTrayLine1";
-         this.mnuTrayLine1.Size = new System.Drawing.Size(169, 6);
+         this.mnuTrayLine1.Size = new System.Drawing.Size(168, 6);
          // 
          // mnuTrayExit
          // 
          this.mnuTrayExit.Name = "mnuTrayExit";
-         this.mnuTrayExit.Size = new System.Drawing.Size(172, 22);
+         this.mnuTrayExit.Size = new System.Drawing.Size(171, 22);
          this.mnuTrayExit.Text = "退出";
          this.mnuTrayExit.Click += new System.EventHandler(this.mnuTrayExit_Click);
          // 
@@ -477,9 +477,30 @@
             this.toolInfo});
          this.contextTool.Location = new System.Drawing.Point(130, 63);
          this.contextTool.Name = "contextTool";
-         this.contextTool.Size = new System.Drawing.Size(381, 48);
+         this.contextTool.Size = new System.Drawing.Size(350, 48);
          this.contextTool.TabIndex = 22;
          this.contextTool.Visible = false;
+         // 
+         // mnuConStart
+         // 
+         this.mnuConStart.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStart;
+         this.mnuConStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.mnuConStart.Name = "mnuConStart";
+         this.mnuConStart.Size = new System.Drawing.Size(60, 45);
+         this.mnuConStart.Text = "开始下载";
+         this.mnuConStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+         this.mnuConStart.ToolTipText = "开始/重新下载选定的任务";
+         this.mnuConStart.Click += new System.EventHandler(this.mnuConStart_Click);
+         // 
+         // mnuConStop
+         // 
+         this.mnuConStop.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStop;
+         this.mnuConStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.mnuConStop.Name = "mnuConStop";
+         this.mnuConStop.Size = new System.Drawing.Size(60, 45);
+         this.mnuConStop.Text = "停止下载";
+         this.mnuConStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+         this.mnuConStop.Click += new System.EventHandler(this.mnuConStop_Click);
          // 
          // toolStripSeparator1
          // 
@@ -653,7 +674,7 @@
          this.tabConfig.Location = new System.Drawing.Point(4, 29);
          this.tabConfig.Name = "tabConfig";
          this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
-         this.tabConfig.Size = new System.Drawing.Size(560, 386);
+         this.tabConfig.Size = new System.Drawing.Size(560, 391);
          this.tabConfig.TabIndex = 1;
          this.tabConfig.Text = "下载选项";
          this.tabConfig.UseVisualStyleBackColor = true;
@@ -664,7 +685,7 @@
          this.tabExample.Location = new System.Drawing.Point(4, 29);
          this.tabExample.Name = "tabExample";
          this.tabExample.Padding = new System.Windows.Forms.Padding(3);
-         this.tabExample.Size = new System.Drawing.Size(560, 386);
+         this.tabExample.Size = new System.Drawing.Size(560, 391);
          this.tabExample.TabIndex = 5;
          this.tabExample.Text = "网址示例";
          this.tabExample.UseVisualStyleBackColor = true;
@@ -679,7 +700,7 @@
          this.txtExample.Name = "txtExample";
          this.txtExample.ReadOnly = true;
          this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-         this.txtExample.Size = new System.Drawing.Size(554, 287);
+         this.txtExample.Size = new System.Drawing.Size(554, 388);
          this.txtExample.TabIndex = 0;
          // 
          // tabFlvCombine
@@ -688,7 +709,7 @@
          this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
          this.tabFlvCombine.Name = "tabFlvCombine";
          this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
-         this.tabFlvCombine.Size = new System.Drawing.Size(560, 386);
+         this.tabFlvCombine.Size = new System.Drawing.Size(560, 391);
          this.tabFlvCombine.TabIndex = 3;
          this.tabFlvCombine.Text = "视频合并";
          this.tabFlvCombine.UseVisualStyleBackColor = true;
@@ -701,7 +722,7 @@
          this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
          this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.flvCombineControl1.Name = "flvCombineControl1";
-         this.flvCombineControl1.Size = new System.Drawing.Size(554, 287);
+         this.flvCombineControl1.Size = new System.Drawing.Size(554, 388);
          this.flvCombineControl1.TabIndex = 0;
          // 
          // tabAcPlay
@@ -710,7 +731,7 @@
          this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
          this.tabAcPlay.Name = "tabAcPlay";
          this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
-         this.tabAcPlay.Size = new System.Drawing.Size(560, 386);
+         this.tabAcPlay.Size = new System.Drawing.Size(560, 391);
          this.tabAcPlay.TabIndex = 4;
          this.tabAcPlay.Text = "弹幕播放";
          this.tabAcPlay.UseVisualStyleBackColor = true;
@@ -723,7 +744,7 @@
          this.acPlay1.Location = new System.Drawing.Point(3, 3);
          this.acPlay1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
          this.acPlay1.Name = "acPlay1";
-         this.acPlay1.Size = new System.Drawing.Size(554, 287);
+         this.acPlay1.Size = new System.Drawing.Size(554, 388);
          this.acPlay1.TabIndex = 0;
          // 
          // timerClipboard
@@ -731,27 +752,6 @@
          this.timerClipboard.Enabled = true;
          this.timerClipboard.Interval = 500;
          this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
-         // 
-         // mnuConStart
-         // 
-         this.mnuConStart.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStart;
-         this.mnuConStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-         this.mnuConStart.Name = "mnuConStart";
-         this.mnuConStart.Size = new System.Drawing.Size(60, 45);
-         this.mnuConStart.Text = "开始下载";
-         this.mnuConStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-         this.mnuConStart.ToolTipText = "开始/重新下载选定的任务";
-         this.mnuConStart.Click += new System.EventHandler(this.mnuConStart_Click);
-         // 
-         // mnuConStop
-         // 
-         this.mnuConStop.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStop;
-         this.mnuConStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-         this.mnuConStop.Name = "mnuConStop";
-         this.mnuConStop.Size = new System.Drawing.Size(60, 45);
-         this.mnuConStop.Text = "停止下载";
-         this.mnuConStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-         this.mnuConStop.Click += new System.EventHandler(this.mnuConStop_Click);
          // 
          // FormMain
          // 

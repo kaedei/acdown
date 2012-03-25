@@ -108,19 +108,15 @@ namespace Kaedei.AcDown.Downloader
 				MatchCollection mGetAllRes = rGetAllRes.Matches(allResSrc);
 				if (mGetAllRes.Count > 1)
 				{
-					//将url和名称填入list中
-					List<string> resName = new List<string>();
-					List<string> resUrl = new List<string>();
-					resName.Add("默认清晰度");
-					resUrl.Add(url);
+					//将url和名称填入字典中
+					var dict = new Dictionary<string, string>();
+					dict.Add(url, "默认清晰度");
 					foreach (Match item in mGetAllRes)
 					{
-						resName.Add(item.Groups["mode"].Value);
-						resUrl.Add(item.Groups["url"].Value);
+						dict.Add(item.Groups["url"].Value, item.Groups["mode"].Value);
 					}
 					//用户选择清晰度
-					int selected = ToolForm.CreateSelectServerForm("在线解析引擎可以解析此视频的多种清晰度模式，\n请选择您需要的视频清晰度：", resName.ToArray(), 0);
-					url = resUrl[selected];
+					url = ToolForm.CreateSingleSelectForm("在线解析引擎可以解析此视频的多种清晰度模式，\n请选择您需要的视频清晰度：", dict, url, Info.AutoAnswer, "flvcd");
 					//重新获取网页源文件
 					src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), Info.Proxy);
 

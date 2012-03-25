@@ -8,6 +8,7 @@ using Kaedei.AcDown.Parser;
 using Kaedei.AcDown.Interface.Forms;
 using System.Net;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -165,7 +166,7 @@ namespace Kaedei.AcDown.Downloader
 				string src = Network.GetHtmlSource(Info.Url, Encoding.GetEncoding("GB2312"), Info.Proxy);
 
 				//要下载的Url列表
-				List<string> subUrls = new List<string>();
+				var subUrls = new Collection<string>();
 
 				//分析漫画id和lid
 				Regex r = new Regex(@"http://(www\.|)imanhua\.com/comic/(?<id>\d+)(/list_(?<lid>\d+)\.html|)");
@@ -182,34 +183,17 @@ namespace Kaedei.AcDown.Downloader
 					Regex rAllComics = new Regex(@"<a href=$(?<suburl>/comic/\d+/list_\d+.html)$ title=$(?<title>.*?)$".Replace("$", "\""));
 					MatchCollection mcAllComics = rAllComics.Matches(src);
 
-					//新建数组
-					BitArray selected = new BitArray(mcAllComics.Count);
+					//填充字典
+					var dict = new Dictionary<string, string>();
 
-					//suburl数组
-					List<string> urls = new List<string>();
 					foreach (Match item in mcAllComics)
 					{
-						urls.Add("http://www.imanhua.com" + item.Groups["suburl"].Value);
-					}
-
-					//各话标题数组
-					List<string> titles = new List<string>();
-					foreach (Match item in mcAllComics)
-					{
-						titles.Add(item.Groups["title"].Value);
+						dict.Add("http://www.imanhua.com" + item.Groups["suburl"].Value,
+									item.Groups["title"].Value);
 					}
 
 					//选择下载哪部漫画
-					selected = ToolForm.CreateSelctionForm(titles.ToArray());
-
-					//将地址填充到下载列表中
-					for (int i = 0; i < mcAllComics.Count; i++)
-					{
-						if (selected[i])
-						{
-							subUrls.Add(urls[i]);
-						}
-					}
+					subUrls = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "imanhua");
 
 					//如果用户没有选择任何章节
 					if (subUrls.Count == 0)
@@ -250,23 +234,21 @@ namespace Kaedei.AcDown.Downloader
 
 #region 选择服务器
 				
-				string serverName;
+				
 				//取得配置文件
 				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), Info.Proxy);
 				Regex rServer = new Regex(@"\['(?<server>.+?)[ ,']+(?<ip>.+?)'\]");
 				MatchCollection mServers = rServer.Matches(serverjs);
 
 				//添加到数组中
-				List<string> servers = new List<string>();
+				Dictionary<string, string> servers = new Dictionary<string, string>();
 				foreach (Match item in mServers)
 				{
-					if (servers.Count < 5)
-						servers.Add(item.Groups["server"].Value);
+					servers.Add(item.Groups["ip"].Value, item.Groups["server"].Value);
 				}
 
 				//选择服务器
-				int svr = ToolForm.CreateSelectServerForm("", servers.ToArray(), 0);
-				serverName = mServers[svr].Groups["ip"].Value;
+				string serverName = ToolForm.CreateSingleSelectForm("", servers, "", Info.AutoAnswer, "imanhua");
 
 
 #endregion

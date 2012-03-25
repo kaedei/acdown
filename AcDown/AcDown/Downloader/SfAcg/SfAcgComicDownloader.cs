@@ -108,34 +108,19 @@ namespace Kaedei.AcDown.Downloader
                Regex rAllComics = new Regex(@"<li><a href=""(?<page>http://\w+\.sfacg\.com/AllComic/.+?)"" target=""_blank"">(?<title>.+?)</a>");
                MatchCollection mcAllComics = rAllComics.Matches(src);
 
-               //新建数组
-               BitArray selected = new BitArray(mcAllComics.Count);
+					//新建（url-标题）字典
+					var dict = new Dictionary<string, string>();
 
-               //suburl数组
-               List<string> urls = new List<string>();
                foreach (Match item in mcAllComics)
                {
-                  urls.Add(item.Groups["page"].Value);
-               }
-
-               //各话标题数组
-               List<string> titles = new List<string>();
-               foreach (Match item in mcAllComics)
-               {
-                  titles.Add(item.Groups["title"].Value);
+						dict.Add(item.Groups["page"].Value, item.Groups["title"].Value);
                }
 
                //选择下载哪部漫画
-               selected = ToolForm.CreateSelctionForm(titles.ToArray());
-
-               //将地址填充到下载列表中
-               for (int i = 0; i < mcAllComics.Count; i++)
-               {
-                  if (selected[i])
-                  {
-                     subUrls.Add(urls[i]);
-                  }
-               }
+					var selected = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "sfacgcomic");
+				
+					//将地址填充到下载列表中
+					subUrls.AddRange(selected);
 
                //如果用户没有选择任何章节
                if (subUrls.Count == 0)

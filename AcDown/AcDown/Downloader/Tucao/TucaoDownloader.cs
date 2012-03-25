@@ -118,6 +118,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得id值
 				Regex rId = new Regex(@"\w+id=(?<id>\w+)");
 				MatchCollection mIds = rId.Matches(embedSrc);
+				
 				//取得type值
 				Regex rType = new Regex(@"type=(?<type>\w+)");
 				MatchCollection mTypes = rType.Matches(embedSrc);
@@ -128,20 +129,20 @@ namespace Kaedei.AcDown.Downloader
 				//取得所有子标题
 				Regex rSubTitle = new Regex(@"\|(?<subtitle>.*?)(\*\*|</li>)");
 				MatchCollection mSubTitles = rSubTitle.Matches(embedSrc);
-
-
 				Match mId = null;
 				Match mType = null;
 				Match mSubTitle = null;
+
 				if (mIds.Count > 1) //如果数量大于一个
 				{
-					List<string> texts = new List<string>();
+					//定义字典
+					var dict = new Dictionary<string, string>();
 					for (int i = 0; i < mIds.Count; i++)
 					{
-						texts.Add((i + 1).ToString() + "、" + mSubTitles[i].Groups["subtitle"].Value);
+						dict.Add(i.ToString(), (i + 1).ToString() + "、" + mSubTitles[i].Groups["subtitle"].Value);
 					}
 					//用户选择下载哪一个视频
-					selectedvideo = ToolForm.CreateSelectServerForm("请选择视频：", texts.ToArray(), 0);
+					selectedvideo = int.Parse(ToolForm.CreateSingleSelectForm("请选择视频：", dict, "", Info.AutoAnswer, "tucao"));
 					mId = mIds[selectedvideo];
 					mType = mTypes[selectedvideo];
 					mSubTitle = mSubTitles[selectedvideo];

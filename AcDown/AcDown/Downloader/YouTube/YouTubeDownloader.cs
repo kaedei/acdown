@@ -123,6 +123,7 @@ namespace Kaedei.AcDown.Downloader
 
             Regex rFmts = new Regex(@"(?<fmtid>\d+)/(?<fmtres>\d+x\d+)/\d+/\d+/\d+");
             MatchCollection mFmts = rFmts.Matches(fmtlist);
+
             List<string> resolutions = new List<string>();
             foreach (Match fmt in mFmts)
             {
@@ -191,12 +192,19 @@ namespace Kaedei.AcDown.Downloader
             {
                videoUrls.Add(item.Groups["url"].Value);
             }
-            
-            //用户选择清晰度
-            int selected = ToolForm.CreateSelectServerForm("您正在下载YouTube视频，请选择视频清晰度:", resolutions.ToArray(), 0);
 
-            videos = new string[1];
-            videos[0] = videoUrls[selected];
+
+				//添加(地址-清晰度)字典
+				var dict = new Dictionary<string, string>();
+				for (int i = 0; i < videoUrls.Count; i++)
+				{
+					dict.Add(videoUrls[i], resolutions[i]);
+				}
+
+
+            //用户选择清晰度
+				videos = new string[1];
+				videos[0] = ToolForm.CreateSingleSelectForm("您正在下载YouTube视频，请选择视频清晰度:", dict, "", Info.AutoAnswer, "youtube");
 
             //下载视频
             //确定视频共有几个段落

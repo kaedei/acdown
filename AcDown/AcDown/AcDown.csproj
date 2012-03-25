@@ -71,11 +71,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcPlay\Video.cs" />
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />
     <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
     <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />
     <Compile Include="Interface\AutoAnswer.cs" />
+    <Compile Include="Interface\Forms\FormMultiSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\FormMultiSelect.Designer.cs">
+      <DependentUpon>FormMultiSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Forms\FormSingleSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Forms\FormSingleSelect.Designer.cs">
+      <DependentUpon>FormSingleSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\SerializableDictionary.cs" />
     <Compile Include="Interface\TaskInfo.cs" />
     <Compile Include="Component\Updater.cs" />
@@ -101,18 +114,6 @@
       <DependentUpon>FormPassword.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface\Forms\ToolForm.cs" />
-    <Compile Include="Interface\Forms\FormSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interface\Forms\FormSelect.Designer.cs">
-      <DependentUpon>FormSelect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interface\Forms\FormServer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interface\Forms\FormServer.Designer.cs">
-      <DependentUpon>FormServer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Downloader\Imanhua\Imanhua.cs" />
     <Compile Include="Downloader\Tudou\Tudou.cs" />
     <Compile Include="Downloader\Youku\Youku.cs" />
@@ -120,11 +121,23 @@
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Parser\FlvcdParser.cs" />
     <Compile Include="UI\Components\AcPlay.cs" />
+    <Compile Include="UI\Components\AcPlay2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\AcPlay2.Designer.cs">
+      <DependentUpon>AcPlay2.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Components\AcPlayControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Components\AcPlayControl.Designer.cs">
       <DependentUpon>AcPlayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\AcPlayItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Components\AcPlayItem.Designer.cs">
+      <DependentUpon>AcPlayItem.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Components\FlvCombine.cs" />
     <Compile Include="UI\Components\FlvCombineControl.cs">
@@ -215,20 +228,26 @@
     <EmbeddedResource Include="Interface\Forms\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Forms\FormMultiSelect.resx">
+      <DependentUpon>FormMultiSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\Forms\FormPassword.resx">
       <DependentUpon>FormPassword.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interface\Forms\FormServer.resx">
-      <DependentUpon>FormServer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\Forms\FormSelect.resx">
-      <DependentUpon>FormSelect.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\Forms\FormSingleSelect.resx">
+      <DependentUpon>FormSingleSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interface\Forms\FormWebbrowser.resx">
       <DependentUpon>FormWebbrowser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\AcPlay2.resx">
+      <DependentUpon>AcPlay2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\AcPlayControl.resx">
       <DependentUpon>AcPlayControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\AcPlayItem.resx">
+      <DependentUpon>AcPlayItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\FlvCombineControl.resx">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>

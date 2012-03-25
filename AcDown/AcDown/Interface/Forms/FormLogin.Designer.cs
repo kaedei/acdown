@@ -108,7 +108,7 @@
 			// lnkRegister
 			// 
 			this.lnkRegister.AutoSize = true;
-			this.lnkRegister.Location = new System.Drawing.Point(367, 45);
+			this.lnkRegister.Location = new System.Drawing.Point(356, 45);
 			this.lnkRegister.Name = "lnkRegister";
 			this.lnkRegister.Size = new System.Drawing.Size(42, 21);
 			this.lnkRegister.TabIndex = 7;
