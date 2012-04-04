@@ -400,6 +400,9 @@
     <None Include="Resources\Weibo.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AcPlay\acplay.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="ChangeLog.txt" />
     <None Include="Resources\feedback.png" />
     <None Include="Resources\remind.wav" />

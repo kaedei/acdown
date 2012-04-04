@@ -10,6 +10,7 @@ using Kaedei.AcPlay;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -123,7 +124,7 @@ namespace Kaedei.AcDown.UI.Components
 				}
 
 				//获得完整文件名
-				if (!Regex.IsMatch(file, @"$\w:\\"))
+				if (!Regex.IsMatch(file, @"^\w:\\"))
 					lvi.SubItems.Add(Path.Combine(Path.GetDirectoryName(filePath), file));
 				else
 					lvi.SubItems.Add(file);
@@ -398,13 +399,6 @@ namespace Kaedei.AcDown.UI.Components
 		{
 			//验证文件
 
-			//acplay.exe地址
-			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcPlay\acplay.exe");
-			//检查exe文件完整性
-			if (!File.Exists(exeFile))
-			{
-
-			}
 			//保存配置文件
 			string acplayFile = SaveConfigToFile("");
 			//播放文件
@@ -415,6 +409,33 @@ namespace Kaedei.AcDown.UI.Components
 		{
 			//禁用面板
 			this.Enabled = false;
+			//释放AcPlay.exe文件
+			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcPlay\acplay.exe");
+			Assembly assembly = GetType().Assembly;
+			var stream = assembly.GetManifestResourceStream("Kaedei.AcDown.AcPlay.acplay.exe");
+			if (!File.Exists(exeFile) || (new FileInfo(exeFile).Length != stream.Length))
+			{
+				//创建文件夹
+				if (!Directory.Exists(Path.GetDirectoryName(exeFile)))
+					Directory.CreateDirectory(Path.GetDirectoryName(exeFile));
+				using (var fs = new FileStream(exeFile, FileMode.Create))
+				{
+					byte[] bf = new byte[100 * 1024]; //100kb buffer
+					while (true)
+					{
+						int read = stream.Read(bf, 0, bf.Length);
+						if (read > 0)
+						{
+							fs.Write(bf, 0, read);
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+			}
+
 			//调用外部程序
 			Process p = new Process();
 			p.StartInfo = new ProcessStartInfo()
