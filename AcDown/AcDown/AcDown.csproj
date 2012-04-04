@@ -14,9 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <StartupObject>Kaedei.AcDown.Program</StartupObject>
     <ApplicationIcon>Resources\Ac.ico</ApplicationIcon>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>AcDown.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -71,7 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcPlay\Video.cs" />
+    <Compile Include="AcPlay\AcPlayConfiguration.cs" />
+    <Compile Include="AcPlay\FlvHelper.cs" />
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />
     <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
@@ -303,6 +303,7 @@
     <EmbeddedResource Include="UI\FormStart.resx">
       <DependentUpon>FormStart.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="AcDown.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

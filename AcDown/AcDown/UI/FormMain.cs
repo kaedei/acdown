@@ -162,7 +162,7 @@ namespace Kaedei.AcDown.UI
 		#endregion
 
 		#region ——————管理器——————
-		
+
 		//任务管理器
 		private TaskManager taskMgr;
 		//插件管理器
@@ -281,6 +281,14 @@ namespace Kaedei.AcDown.UI
 			{
 				RefreshTask(new ParaRefresh(task));
 			}
+			//程序文件名中有acplay
+			if (Path.GetFileNameWithoutExtension(Application.ExecutablePath)
+				.IndexOf("acplay", StringComparison.CurrentCultureIgnoreCase) >= 0)
+			{
+				tabMain.SelectedTab = tabAcPlay;
+			}
+			//如果命令行中指定播放acplay
+			ShowFormToFront();
 		}
 
 		//关于
@@ -341,7 +349,7 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			
+
 			//设置刷新频率
 			if (Config.setting.RefreshInfoInterval != timer.Interval)
 			{
@@ -409,7 +417,7 @@ namespace Kaedei.AcDown.UI
 					{
 						item.SubItems[GetColumn("Status")].Text = "等待开始";
 					}
-					
+
 				}
 			}
 			//显示全局速度
@@ -473,7 +481,7 @@ namespace Kaedei.AcDown.UI
 					{
 						watchClipboard = false;
 						lastUrl = Clipboard.GetText();
-						
+
 
 						//禁用Win7缩略图按钮
 						if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
@@ -504,14 +512,14 @@ namespace Kaedei.AcDown.UI
 		{
 			e.Cancel = !exitapp;
 			if (!exitapp && Config.setting.HideWhenClose)
-			{		
+			{
 				this.Hide();
 			}
 			else
 			{
 				mnuTrayExit_Click(sender, EventArgs.Empty);
 			}
-			
+
 		}
 
 		private bool alreayTipMinimize = false;
@@ -545,6 +553,24 @@ namespace Kaedei.AcDown.UI
 				{
 					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 3;
 				}
+				//显示"更多"菜单
+				mnuConMore.Visible = false;
+				if (lsv.SelectedItems.Count == 1)
+				{
+					TaskInfo downloader = GetTask(new Guid((string)sItem.Tag));
+					if (downloader.Status == DownloadStatus.下载完成 || downloader.Status == DownloadStatus.部分完成)
+					{
+						mnuConMore.Visible = true;
+					}
+					//特性
+					if (downloader.Settings != null)
+					{
+						//导出地址
+						mnuConExportUrlList.Enabled = downloader.Settings.ContainsKey("ExportUrl");
+						//AcPlay
+						mnuConAcPlay.Enabled = downloader.Settings.ContainsKey("AcPlay");
+					}
+				}
 				contextTool.Visible = true;
 			}
 			else
@@ -565,8 +591,8 @@ namespace Kaedei.AcDown.UI
 		//菜单中的停止
 		private void mnuConStop_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("是否要停止选定的下载任务?","停止下载", 
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question , 
+			if (MessageBox.Show("是否要停止选定的下载任务?", "停止下载",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
 				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
 			{
 				return;
@@ -588,11 +614,15 @@ namespace Kaedei.AcDown.UI
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
-				if (!string.IsNullOrEmpty(downloader.SaveDirectory.ToString()))
-					Process.Start(downloader.SaveDirectory.ToString());
-				else
-					Process.Start(Config.setting.SavePath);
+				try
+				{
+					TaskInfo downloader = GetTask(new Guid((string)item.Tag));
+					if (!string.IsNullOrEmpty(downloader.SaveDirectory.ToString()))
+						Process.Start(downloader.SaveDirectory.ToString());
+					else
+						Process.Start(Config.setting.SavePath);
+				}
+				catch { }
 			}
 		}
 
@@ -620,7 +650,23 @@ namespace Kaedei.AcDown.UI
 				}
 			}
 		}
-		
+
+		//播放AcPlay
+		private void mnuConAcPlay_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (lsv.SelectedItems.Count == 1)
+				{
+					ListViewItem item = lsv.SelectedItems[0];
+					TaskInfo downloader = GetTask(new Guid((string)item.Tag));
+					tabMain.SelectedTab = tabAcPlay;
+					acPlay.PlayConfig(downloader.Settings["AcPlay"]);
+				}
+			}
+			catch { }
+		}
+
 		//自定义搜索引擎
 		private void searchCustom_Click(object sender, EventArgs e)
 		{
@@ -738,6 +784,15 @@ namespace Kaedei.AcDown.UI
 				this.Activate();
 				this.TopMost = false;
 			}
+
+			//播放AcPlay配置文件
+			if (!AcPlayStartup.IsHandled)
+			{
+				AcPlayStartup.IsHandled = true;
+				tabMain.SelectedTab = tabAcPlay;
+				acPlay.PlayConfig(AcPlayStartup.FilePath);
+			}
+
 		}
 
 		//显示/隐藏窗口
@@ -803,7 +858,7 @@ namespace Kaedei.AcDown.UI
 			exitapp = true;
 			Program.frmStart.Close();
 		}
-		
+
 		//xp下搜索框失去焦点
 		private void txtSearch_Leave(object sender, EventArgs e)
 		{
@@ -833,7 +888,7 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			DeleteFile(true);
-			
+
 		}
 
 		private void DeleteFile(bool deletefile)
@@ -848,7 +903,7 @@ namespace Kaedei.AcDown.UI
 			{
 				taskMgr.DeleteTask(item, deletefile);
 			}
-			
+
 		}
 
 		//按下delete键删除任务
@@ -1007,7 +1062,7 @@ namespace Kaedei.AcDown.UI
 			{
 				//新建ListViewItem
 				ListViewItem lvi = new ListViewItem();
-				
+
 				for (int i = 0; i < 8; i++)
 				{
 					lvi.SubItems.Add("");
@@ -1047,8 +1102,8 @@ namespace Kaedei.AcDown.UI
 				return;
 
 			//设置TaskItem
-			ListViewItem item = (ListViewItem)task.UIItem; 
-			item.SubItems[GetColumn("Status")].Text = "正在下载";
+			ListViewItem item = (ListViewItem)task.UIItem;
+			item.SubItems[GetColumn("Status")].Text = task.Status.ToString();//"正在下载";
 		} //end Start
 
 		// 进入到新的分段
@@ -1203,7 +1258,7 @@ namespace Kaedei.AcDown.UI
 			if (p.E.Message == "Plugin Not Found")
 			{
 				MessageBox.Show("AcDown希望使用这个插件来下载此任务:\n" + task.PluginName +
-										"\n遗憾的是，您好像并未启用它。", "未加载指定的插件", 
+										"\n遗憾的是，您好像并未启用它。", "未加载指定的插件",
 										MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 			//显示ToolTip
@@ -1319,7 +1374,7 @@ namespace Kaedei.AcDown.UI
 
 		}
 
-#endregion
+		#endregion
 
 		#region ——————自动更新——————
 
@@ -1337,7 +1392,7 @@ namespace Kaedei.AcDown.UI
 				haveupdate = upd.CheckUpdate(new Version(Application.ProductVersion));
 				if (!string.IsNullOrEmpty(haveupdate))
 				{
-					this.Invoke(new MethodInvoker(() => 
+					this.Invoke(new MethodInvoker(() =>
 					{
 						toolUpdate.Visible = true;
 						notifyIcon.ShowBalloonTip(10000, "保持AcDown在最新状态!", "AcDown有新版本了哦~\n使用最新版本有助于减少解析错误发生的概率\n请点击主界面上方的“更新AcDown”按钮进行更新", ToolTipIcon.Info);
@@ -1400,7 +1455,7 @@ namespace Kaedei.AcDown.UI
 							}));
 						}
 					}
-					catch 
+					catch
 					{
 						this.Invoke(new MethodInvoker(() =>
 						{
@@ -1490,6 +1545,8 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
+
+
 
 	}//end class
 

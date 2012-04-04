@@ -15,7 +15,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// 爱漫画下载插件
 	/// </summary>
-	[AcDownPluginInformation("ImanhuaDownloader","爱漫画下载插件","Kaedei","3.10.0.0","爱漫画网下载插件","http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.10.0.0", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class ImanhuaPlugin : IAcdownPluginInfo
 	{
 
@@ -86,11 +86,9 @@ namespace Kaedei.AcDown.Downloader
 	public class ImanhuaDownloader : IDownloader
 	{
 		public TaskInfo Info { get; set; }
-		
+
 		//下载参数
 		DownloadParameter currentParameter = new DownloadParameter();
-
-		#region IDownloader 成员
 
 		public DelegateContainer delegates { get; set; }
 
@@ -147,12 +145,10 @@ namespace Kaedei.AcDown.Downloader
 
 
 		//下载视频
-		public void Download()
+		public bool Download()
 		{
 			//开始下载
-			delegates.Start(new ParaStart(this.Info));
 			delegates.TipText(new ParaTipText(this.Info, "正在分析漫画地址"));
-			Info.Status = DownloadStatus.正在下载;
 
 			if (currentParameter != null)
 			{
@@ -174,7 +170,7 @@ namespace Kaedei.AcDown.Downloader
 				string id = m.Groups["id"].Value;
 				string lid = m.Groups["lid"].Value;
 
-#region 确定是整部漫画还是单独一话
+				#region 确定是整部漫画还是单独一话
 
 				//lid为空 则为整部漫画
 				if (string.IsNullOrEmpty(lid))
@@ -198,9 +194,7 @@ namespace Kaedei.AcDown.Downloader
 					//如果用户没有选择任何章节
 					if (subUrls.Count == 0)
 					{
-						Info.Status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.Info, false));
-						return;
+						return false;
 					}
 
 					//取得漫画标题
@@ -230,11 +224,11 @@ namespace Kaedei.AcDown.Downloader
 					Info.Title = title;
 				} //end if
 
-#endregion
+				#endregion
 
-#region 选择服务器
-				
-				
+				#region 选择服务器
+
+
 				//取得配置文件
 				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), Info.Proxy);
 				Regex rServer = new Regex(@"\['(?<server>.+?)[ ,']+(?<ip>.+?)'\]");
@@ -251,9 +245,9 @@ namespace Kaedei.AcDown.Downloader
 				string serverName = ToolForm.CreateSingleSelectForm("", servers, "", Info.AutoAnswer, "imanhua");
 
 
-#endregion
-				
-#region 下载漫画
+				#endregion
+
+				#region 下载漫画
 
 				//建立文件夹
 				string mainDir = Info.SaveDirectory + (Info.SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + Info.Title;
@@ -312,7 +306,7 @@ namespace Kaedei.AcDown.Downloader
 						string subsource = mSubSource.ToString();
 						Regex rNewFile = new Regex(@"\|(?<file>\w+[^pic,sid,var,len,\|,'])");
 						MatchCollection mNewFiles = rNewFile.Matches(subsource);
-						
+
 						//添加url到数组
 						foreach (Match item in mNewFiles)
 						{
@@ -332,9 +326,7 @@ namespace Kaedei.AcDown.Downloader
 					{
 						if (currentParameter.IsStop)
 						{
-							Info.Status = DownloadStatus.已经停止;
-							delegates.Finish(new ParaFinish(this.Info, false));
-							return;
+							return false;
 						}
 						try
 						{
@@ -344,7 +336,7 @@ namespace Kaedei.AcDown.Downloader
 							string fn = Path.GetFileName(fileUrls[j]);
 							File.WriteAllBytes(Path.Combine(subDir, fn), content);
 						}
-						catch(Exception ex) { } //end try
+						catch (Exception ex) { } //end try
 						currentParameter.DoneBytes = j;
 					} // end for
 
@@ -352,16 +344,15 @@ namespace Kaedei.AcDown.Downloader
 			}//end try
 			catch (Exception ex) //出现错误即下载失败
 			{
-				Info.Status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.Info, ex));
-				return;
+				throw ex;
 			}//end try
+
+
+				#endregion
+
 			//下载成功完成
 			currentParameter.DoneBytes = currentParameter.TotalLength;
-			Info.Status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.Info, true));
-
-#endregion
+			return true;
 
 		}//end DownloadVideo
 
@@ -376,6 +367,5 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		#endregion
 	}
 }

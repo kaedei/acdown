@@ -9,6 +9,8 @@ using System.Collections;
 using Kaedei.AcDown.Interface.Forms;
 using System.Net;
 using System.Collections.ObjectModel;
+using Kaedei.AcPlay;
+using System.Xml.Serialization;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -158,12 +160,10 @@ namespace Kaedei.AcDown.Downloader
 
 
 		//下载视频
-		public void Download()
+		public bool Download()
 		{
 			//开始下载
-			delegates.Start(new ParaStart(this.Info));
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
-			Info.Status = DownloadStatus.正在下载;
 
 			//修正井号
 			Info.Url = Info.Url.TrimEnd('#');
@@ -252,6 +252,8 @@ namespace Kaedei.AcDown.Downloader
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='(?<part>\w+?\.html)'(| selected)>(?<content>.+?)</option>");
 				MatchCollection mSubTitles = rSubTitle.Matches(src);
+
+
 				//如果存在下拉列表框
 				if (mSubTitles.Count > 0)
 				{
@@ -296,9 +298,17 @@ namespace Kaedei.AcDown.Downloader
 					}
 				}
 
+
 				Info.Title = title;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
+				//重新设置保存目录（生成子文件夹）
+				if (!Info.SaveDirectory.ToString().EndsWith(title))
+				{
+					string newdir = Path.Combine(Info.SaveDirectory.ToString(), title);
+					if (!Directory.Exists(newdir)) Directory.CreateDirectory(newdir);
+					Info.SaveDirectory = new DirectoryInfo(newdir);
+				}
 
 				//视频地址数组
 				string[] videos = null;
@@ -306,9 +316,11 @@ namespace Kaedei.AcDown.Downloader
 				Info.FilePath.Clear();
 				Info.SubFilePath.Clear();
 
-				DownloadSubtitleType downsub = Info.DownSub;
+				//解析器的解析结果
+				ParseResult pr = null;
+
 				//如果不是“仅下载字幕”
-				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
+				if (Info.DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
 					//检查type值
 					switch (type)
@@ -316,17 +328,20 @@ namespace Kaedei.AcDown.Downloader
 						case "video": //新浪视频
 							//解析视频
 							SinaVideoParser parserSina = new SinaVideoParser();
-							videos = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+							pr = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+							videos = pr.ToArray();
 							break;
 						case "qq": //QQ视频
 							//解析视频
 							QQVideoParser parserQQ = new QQVideoParser();
-							videos = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+							pr = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+							videos = pr.ToArray();
 							break;
 						case "youku": //优酷视频
 							//解析视频
 							YoukuParser parserYouKu = new YoukuParser();
-							videos = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+							pr = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+							videos = pr.ToArray();
 							break;
 						case "game": //flash游戏
 							videos = new string[] { flashsrc };
@@ -391,77 +406,77 @@ namespace Kaedei.AcDown.Downloader
 						//添加文件路径到List<>中
 						Info.FilePath.Add(currentParameter.FilePath);
 						//下载文件
-						bool success;
-
+						bool success = false;
 
 						//提示更换新Part
 						delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 						//下载视频
-						success = Network.DownloadFile(currentParameter, this.Info);
-
-						if (!success) //未出现错误即用户手动停止
+						try
 						{
-							Info.Status = DownloadStatus.已经停止;
-							delegates.Finish(new ParaFinish(this.Info, false));
-							return;
+							success = Network.DownloadFile(currentParameter, this.Info);
+							if (!success) //未出现错误即用户手动停止
+							{
+								return false;
+							}
 						}
+						catch (Exception ex) //下载文件时出现错误
+						{
+							//如果此任务由一个视频组成,则报错（下载失败）
+							if (Info.PartCount == 1)
+							{
+								throw ex;
+							}
+							else //否则继续下载，设置“部分失败”状态
+							{
+								Info.PartialFinished = true;
+								Info.PartialFinishedDetail += "\r\n文件: " + currentParameter.Url + " 下载失败";
+							}
+						}
+
+
 					} //end for
 
 				}
 
-				if (downsub != DownloadSubtitleType.DontDownloadSubtitle)
+				//下载弹幕
+				bool comment = DownloadComment(title, id, ot);
+				//生成AcPlay文件
+				string acplay = GenerateAcplayConfig(pr, title);
+
+				if (!comment)
 				{
-					//----------下载字幕-----------
-					delegates.TipText(new ParaTipText(this.Info, "正在下载字幕文件"));
-					//字幕文件(on)地址
-					string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".xml");
-					Info.SubFilePath.Add(subfile);
-					//取得字幕文件(on)地址
-					string subUrl = @"http://comment.acfun.tv/%VideoId%.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
-
-					try
-					{
-						//下载字幕文件
-						string subcontent = Network.GetHtmlSource(subUrl, Encoding.GetEncoding("gb2312"), Info.Proxy);
-						//下面这行代码可以将json文件解码
-						//subcontent = Tools.ReplaceUnicode2Str(subcontent);
-						//保存文件
-						File.WriteAllText(subfile, subcontent);
-					}
-					catch { }
-
-					////字幕文件(lock)地址
-					subfile = Path.Combine(Info.SaveDirectory.ToString(), title + "[锁定].xml");
-					Info.SubFilePath.Add(subfile);
-					//取得字幕文件(lock)地址
-					subUrl = @"http://comment.acfun.tv/%VideoId%_lock.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (ot.Length > 2 ? ot : ""));
-					try
-					{
-						//下载字幕文件
-						WebClient wc = new WebClient();
-						wc.Proxy = Info.Proxy;
-						byte[] data = wc.DownloadData(suburl);
-						string subcontent = Encoding.GetEncoding("gb2312").GetString(data);
-						//下面这行代码可以将json文件解码
-						//subcontent = Tools.ReplaceUnicode2Str(subcontent);
-						//保存文件
-						File.WriteAllText(subfile, subcontent);
-					}
-					catch { }
+					Info.PartialFinished = true;
+					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
 				}
+
+				//支持导出列表
+				StringBuilder sb = new StringBuilder(videos.Length * 2);
+				foreach (string item in videos)
+				{
+					sb.Append(item);
+					sb.Append("|");
+				}
+				if (Info.Settings.ContainsKey("ExportUrl"))
+					Info.Settings["ExportUrl"] = sb.ToString();
+				else
+					Info.Settings.Add("ExportUrl", sb.ToString());
+				//支持AcPlay
+				if (Info.Settings.ContainsKey("AcPlay"))
+					Info.Settings["AcPlay"] = acplay;
+				else
+					Info.Settings.Add("AcPlay", acplay);
 
 			}
 			catch (Exception ex)
 			{
-				Info.Status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.Info, ex));
-				return;
+				throw ex;
 			}
 			//下载成功完成
-			Info.Status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.Info, true));
+			return true;
 		}
+
+
 
 
 		//停止下载
@@ -477,7 +492,123 @@ namespace Kaedei.AcDown.Downloader
 
 		#endregion
 
+		/// <summary>
+		/// 下载弹幕
+		/// </summary>
+		/// <param name="title">文件名</param>
+		/// <param name="id">视频id</param>
+		/// <param name="subId">子id</param>
+		/// <returns>是否下载成功</returns>
+		private bool DownloadComment(string title, string id, string subId)
+		{
+			if (Info.DownSub != DownloadSubtitleType.DontDownloadSubtitle)
+			{
+				//----------下载字幕-----------
+				delegates.TipText(new ParaTipText(this.Info, "正在下载字幕文件"));
+				//字幕文件(on)地址
+				string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".json");
+				Info.SubFilePath.Add(subfile);
+				//取得字幕文件(on)地址
+				string subUrl = @"http://comment.acfun.tv/%VideoId%.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
 
+				try
+				{
+					//下载字幕文件
+					string subcontent = Network.GetHtmlSource(subUrl, Encoding.GetEncoding("gb2312"), Info.Proxy);
+					//下面这行代码可以将json文件解码
+					//subcontent = Tools.ReplaceUnicode2Str(subcontent);
+					//保存文件
+					File.WriteAllText(subfile, subcontent);
+				}
+				catch
+				{
+					return false;
+				}
+
+				////字幕文件(lock)地址
+				subfile = Path.Combine(Info.SaveDirectory.ToString(), title + "[锁定].json");
+				Info.SubFilePath.Add(subfile);
+				//取得字幕文件(lock)地址
+				subUrl = @"http://comment.acfun.tv/%VideoId%_lock.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
+				try
+				{
+					//下载字幕文件
+					WebClient wc = new WebClient();
+					wc.Proxy = Info.Proxy;
+					byte[] data = wc.DownloadData(subUrl);
+					string subcontent = Encoding.GetEncoding("gb2312").GetString(data);
+					//下面这行代码可以将json文件解码
+					//subcontent = Tools.ReplaceUnicode2Str(subcontent);
+					//保存文件
+					File.WriteAllText(subfile, subcontent);
+				}
+				catch { }
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// 生成acplay配置文件
+		/// </summary>
+		/// <param name="pr">Parser的解析结果</param>
+		/// <param name="title">文件标题</param>
+		private string GenerateAcplayConfig(ParseResult pr, string title)
+		{
+			try
+			{
+				//生成新的配置
+				AcPlayConfiguration c = new AcPlayConfiguration();
+				//播放器
+				c.PlayerName = "acfun";
+				//端口
+				c.HttpServerPort = 7776;
+				c.ProxyServerPort = 7777;
+				//视频
+				c.Videos = new Video[Info.FilePath.Count];
+				for (int i = 0; i < Info.FilePath.Count; i++)
+				{
+					c.Videos[i] = new Video();
+					c.Videos[i].FileName = Path.GetFileName(Info.FilePath[i]);
+					if (pr != null)
+						if (pr.Items[i].Information.ContainsKey("length"))
+							c.Videos[i].Length = int.Parse(pr.Items[i].Information["length"]);
+					if (pr != null)
+						if (pr.Items[i].Information.ContainsKey("order"))
+							c.Videos[i].Order = int.Parse(pr.Items[i].Information["order"]);
+				}
+				//弹幕
+				c.Subtitles = new string[Info.SubFilePath.Count];
+				for (int i = 0; i < Info.SubFilePath.Count; i++)
+				{
+					c.Subtitles[i] = Path.GetFileName(Info.SubFilePath[i]);
+				}
+				//其他
+				c.ExtraConfig = new SerializableDictionary<string, string>();
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("totallength")) //totallength
+						c.ExtraConfig.Add("totallength", pr.SpecificResult["totallength"]);
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("src")) //src
+						c.ExtraConfig.Add("src", pr.SpecificResult["src"]);
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("framecount")) //framecount
+						c.ExtraConfig.Add("framecount", pr.SpecificResult["framecount"]);
+
+				//配置文件的生成地址
+				string path = Path.Combine(Info.SaveDirectory.ToString(), title + ".acplay");
+				//序列化到文件中
+				using (var fs = new FileStream(path, FileMode.Create))
+				{
+					XmlSerializer s = new XmlSerializer(typeof(AcPlayConfiguration));
+					s.Serialize(fs, c);
+				}
+				return path;
+			}
+			catch
+			{
+				return "";
+			}
+		}
 
 	}
 }

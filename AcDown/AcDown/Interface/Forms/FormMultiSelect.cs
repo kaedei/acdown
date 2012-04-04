@@ -45,7 +45,7 @@ namespace Kaedei.AcDown.Interface.Forms
 			foreach (var item in keyValueContent.Keys)
 			{
 				var lvi = new ListViewItem(keyValueContent[item]);
-				lvi.Tag = keyValueContent[item];
+				lvi.Tag = item;
 				lsv.Items.Add(lvi);
 			}
 			this.ResumeLayout();

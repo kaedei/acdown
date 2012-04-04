@@ -37,8 +37,11 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
+			this.udMilli = new System.Windows.Forms.NumericUpDown();
+			this.label5 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.udMin)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udSec)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.udMilli)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -47,7 +50,7 @@
 			this.label1.Location = new System.Drawing.Point(14, 27);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(37, 13);
-			this.label1.TabIndex = 0;
+			this.label1.TabIndex = 7;
 			this.label1.Text = "文件：";
 			// 
 			// udMin
@@ -73,7 +76,7 @@
             0});
 			this.udSec.Name = "udSec";
 			this.udSec.Size = new System.Drawing.Size(42, 20);
-			this.udSec.TabIndex = 2;
+			this.udSec.TabIndex = 3;
 			this.udSec.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label2
@@ -82,7 +85,7 @@
 			this.label2.Location = new System.Drawing.Point(14, 81);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(37, 13);
-			this.label2.TabIndex = 3;
+			this.label2.TabIndex = 0;
 			this.label2.Text = "时间：";
 			// 
 			// txtFile
@@ -92,16 +95,18 @@
 			this.txtFile.Location = new System.Drawing.Point(12, 43);
 			this.txtFile.Name = "txtFile";
 			this.txtFile.Size = new System.Drawing.Size(220, 20);
-			this.txtFile.TabIndex = 4;
+			this.txtFile.TabIndex = 8;
 			// 
 			// btnBrowse
 			// 
+			this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnBrowse.Location = new System.Drawing.Point(238, 41);
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.Size = new System.Drawing.Size(75, 23);
-			this.btnBrowse.TabIndex = 5;
+			this.btnBrowse.TabIndex = 9;
 			this.btnBrowse.Text = "浏览...";
 			this.btnBrowse.UseVisualStyleBackColor = true;
+			this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
 			// 
 			// label3
 			// 
@@ -109,7 +114,7 @@
 			this.label3.Location = new System.Drawing.Point(109, 81);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(19, 13);
-			this.label3.TabIndex = 6;
+			this.label3.TabIndex = 2;
 			this.label3.Text = "分";
 			// 
 			// label4
@@ -118,17 +123,41 @@
 			this.label4.Location = new System.Drawing.Point(182, 81);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(19, 13);
-			this.label4.TabIndex = 7;
+			this.label4.TabIndex = 4;
 			this.label4.Text = "秒";
 			// 
 			// btnOK
 			// 
+			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnOK.Location = new System.Drawing.Point(238, 131);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
-			this.btnOK.TabIndex = 8;
+			this.btnOK.TabIndex = 10;
 			this.btnOK.Text = "确定";
 			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+			// 
+			// udMilli
+			// 
+			this.udMilli.Location = new System.Drawing.Point(207, 79);
+			this.udMilli.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+			this.udMilli.Name = "udMilli";
+			this.udMilli.Size = new System.Drawing.Size(42, 20);
+			this.udMilli.TabIndex = 5;
+			this.udMilli.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(255, 81);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(31, 13);
+			this.label5.TabIndex = 6;
+			this.label5.Text = "毫秒";
 			// 
 			// AcPlayItem
 			// 
@@ -136,6 +165,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(325, 166);
+			this.Controls.Add(this.label5);
+			this.Controls.Add(this.udMilli);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
@@ -154,6 +185,7 @@
 			this.Load += new System.EventHandler(this.AcPlayItem_Load);
 			((System.ComponentModel.ISupportInitialize)(this.udMin)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.udSec)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.udMilli)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -170,5 +202,7 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button btnOK;
+		private System.Windows.Forms.NumericUpDown udMilli;
+		private System.Windows.Forms.Label label5;
 	}
 }

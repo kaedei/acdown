@@ -50,7 +50,9 @@ namespace Kaedei.AcDown.Interface
          bool extractcache = false;
          if (task != null)
             extractcache = para.ExtractCache;
-
+			//修正代理服务器
+			if (para.Proxy == null)
+				para.Proxy = new WebProxy();
 
          //初始化重试管理器
          bool needRedownload = false; //需要重试下载
@@ -145,7 +147,19 @@ namespace Kaedei.AcDown.Interface
                   if (!String.IsNullOrEmpty(filename))
                   {
                      para.DoneBytes = para.TotalLength;
-                     File.Copy(filename, para.FilePath);
+							using (var reader = File.OpenRead(filename))
+							{
+								using(var writer = File.OpenWrite(para.FilePath))
+								{
+									byte[] bf = new byte[1024*1024];
+									int w = reader.Read(bf, 0, bf.Length);
+									while (w > 0)
+									{
+										writer.Write(bf, 0, w);
+									}
+								}
+							}
+                     //File.Copy(filename, para.FilePath);
                      //不需要继续下载
                      needRedownload = false;
                      //跳出循环
@@ -156,6 +170,7 @@ namespace Kaedei.AcDown.Interface
             catch
             {
                //如果复制过程中出错则继续下载
+					para.DoneBytes = 0;
                needRedownload = true;
             }
             #endregion
@@ -347,7 +362,7 @@ namespace Kaedei.AcDown.Interface
       /// <returns></returns>
       public static string GetHtmlSource(string url, System.Text.Encoding encode)
       {
-         return GetHtmlSource(url, encode, null);
+         return GetHtmlSource(url, encode, new WebProxy());
       }
 
       ///// <summary>
@@ -445,7 +460,9 @@ namespace Kaedei.AcDown.Interface
       public static string GetHtmlSource(string url, System.Text.Encoding encode, WebProxy proxy)
       {
          HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
-         if (proxy != null)
+			if (proxy == null)
+				req.Proxy = new WebProxy();
+			else
             req.Proxy = proxy;
          return GetHtmlSource(req, encode);
       }
