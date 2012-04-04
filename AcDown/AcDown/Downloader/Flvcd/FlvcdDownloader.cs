@@ -14,7 +14,6 @@ namespace Kaedei.AcDown.Downloader
 
 		//下载参数
 		DownloadParameter currentParameter;
-		#region IDownloader 成员
 
 		public DelegateContainer delegates { get; set; }
 
@@ -71,12 +70,10 @@ namespace Kaedei.AcDown.Downloader
 
 
 		//下载视频
-		public void Download()
+		public bool Download()
 		{
 			//开始下载
-			delegates.Start(new ParaStart(this.Info));
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
-			Info.Status = DownloadStatus.正在下载;
 
 			//原始Url
 			Info.Url = Info.Url.TrimStart('+');
@@ -216,25 +213,36 @@ namespace Kaedei.AcDown.Downloader
 					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 					//下载视频
-					success = Network.DownloadFile(currentParameter, this.Info);
-
-					if (!success) //未出现错误即用户手动停止
+					try
 					{
-						Info.Status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.Info, false));
-						return;
+						success = Network.DownloadFile(currentParameter, this.Info);
+						if (!success) //未出现错误即用户手动停止
+						{
+							return false;
+						}
+					}
+					catch (Exception ex) //下载文件时出现错误
+					{
+						//如果此任务由一个视频组成,则报错（下载失败）
+						if (Info.PartCount == 1)
+						{
+							throw ex;
+						}
+						else //否则继续下载，设置“部分失败”状态
+						{
+							Info.PartialFinished = true;
+							Info.PartialFinishedDetail += "\r\n文件: " + currentParameter.Url + " 下载失败";
+						}
 					}
 				} //end for
 			}
 			catch (Exception ex)
 			{
-				Info.Status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.Info, ex));
-				return;
+				throw ex;
 			}// end try
+
 			//下载成功完成
-			Info.Status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.Info, true));
+			return true;
 		}
 
 		//停止下载
@@ -247,6 +255,5 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		#endregion
 	}
 }

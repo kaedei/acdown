@@ -18,7 +18,7 @@ namespace Kaedei.AcDown.Downloader
 	public class TiebaAlbumPlugin : IAcdownPluginInfo
 	{
 
-		
+
 		public TiebaAlbumPlugin()
 		{
 			Feature = new Dictionary<string, object>();
@@ -82,8 +82,6 @@ namespace Kaedei.AcDown.Downloader
 		//下载参数
 		DownloadParameter currentParameter = new DownloadParameter();
 
-		#region IDownloader 成员
-
 		public DelegateContainer delegates { get; set; }
 
 		//文件总长度
@@ -139,12 +137,11 @@ namespace Kaedei.AcDown.Downloader
 
 
 		//开始下载
-		public void Download()
+		public bool Download()
 		{
 			//开始下载
-			delegates.Start(new ParaStart(this.Info));
 			delegates.TipText(new ParaTipText(this.Info, "正在分析图片地址"));
-			Info.Status = DownloadStatus.正在下载;
+
 			if (currentParameter != null)
 			{
 				//将停止flag设置为true
@@ -153,7 +150,7 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得首个Url源文件
-				string src1 = Network.GetHtmlSource(Info.Url, Encoding.GetEncoding("GBK"),Info.Proxy);
+				string src1 = Network.GetHtmlSource(Info.Url, Encoding.GetEncoding("GBK"), Info.Proxy);
 				Collection<string> subUrls = new Collection<string>();
 				subUrls.Add(Info.Url);
 				//要下载的源文件列表
@@ -197,7 +194,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//建立文件夹
 				string mainDir = Info.SaveDirectory + (Info.SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + Info.Title;
-				
+
 				//确定下载任务共有几个Part
 				Info.PartCount = 1;
 				Info.CurrentPart = 1;
@@ -216,13 +213,11 @@ namespace Kaedei.AcDown.Downloader
 
 				int j = 0;
 				//下载文件
-				foreach(string item in fileUrls.Keys)
+				foreach (string item in fileUrls.Keys)
 				{
 					if (currentParameter.IsStop)
 					{
-						Info.Status = DownloadStatus.已经停止;
-						delegates.Finish(new ParaFinish(this.Info, false));
-						return;
+						return false;
 					}
 					try
 					{
@@ -233,20 +228,20 @@ namespace Kaedei.AcDown.Downloader
 					j++;
 					currentParameter.DoneBytes = j;
 				} // end for
-
+				#endregion
 
 			}//end try
 			catch (Exception ex) //出现错误即下载失败
 			{
-				Info.Status = DownloadStatus.出现错误;
-				delegates.Error(new ParaError(this.Info, ex));
-				return;
+				throw ex;
 			}//end try
-			//下载成功完成
-			Info.Status = DownloadStatus.下载完成;
-			delegates.Finish(new ParaFinish(this.Info, true));
 
-				#endregion
+
+
+			//下载成功完成
+			currentParameter.DoneBytes = currentParameter.TotalLength;
+			return true;
+
 
 		}//end DownloadVideo
 
@@ -261,6 +256,5 @@ namespace Kaedei.AcDown.Downloader
 			}
 		}
 
-		#endregion
 	}
 }

@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace Kaedei.AcDown.Component
 {
-	
+
 	/// <summary>
 	/// 任务管理
 	/// </summary>
@@ -26,7 +26,7 @@ namespace Kaedei.AcDown.Component
 		/// 新建TaskManager类的实例
 		/// </summary>
 		/// <param name="delegatesCon"></param>
-		public TaskManager(DelegateContainer delegatesCon,PluginManager pluginManager)
+		public TaskManager(DelegateContainer delegatesCon, PluginManager pluginManager)
 		{
 			delegates = delegatesCon;
 			_pluginMgr = pluginManager;
@@ -42,9 +42,9 @@ namespace Kaedei.AcDown.Component
 		private int _speedLimitGlobal = 0;
 		public int SpeedLimitGlobal
 		{
-			get 
-			{ 
-				return _speedLimitGlobal; 
+			get
+			{
+				return _speedLimitGlobal;
 			}
 			set
 			{
@@ -73,7 +73,7 @@ namespace Kaedei.AcDown.Component
 		/// <param name="proxySetting">代理服务器设置</param>
 		/// <param name="downSub">下载字幕文件设置</param>
 		/// <returns></returns>
-		public TaskInfo AddTask(IAcdownPluginInfo plugin,string url,WebProxy proxySetting)
+		public TaskInfo AddTask(IAcdownPluginInfo plugin, string url, WebProxy proxySetting)
 		{
 			//新建TaskInfo对象
 			TaskInfo task = new TaskInfo();
@@ -115,11 +115,28 @@ namespace Kaedei.AcDown.Component
 						{
 							//AcDown规范:仅有TaskManager及插件本身有权修改其所属TaskInfo对象的Status属性
 							task.Status = DownloadStatus.正在下载;
+							delegates.Start(new ParaStart(task));
+							
 							//下载视频
-							task.Start(delegates);
+							bool finished = task.Start(delegates);
+
+							if (finished)
+							{
+								//设置完成状态
+								if (task.PartialFinished)
+									task.Status = DownloadStatus.部分完成;
+								else
+									task.Status = DownloadStatus.下载完成;
+							}
+							else
+							{
+								task.Status = DownloadStatus.已经停止;
+							}
+							delegates.Finish(new ParaFinish(task, finished));
 						}
 						catch (Exception ex) //如果出现错误
 						{
+							task.Status = DownloadStatus.出现错误;
 							delegates.Error.Invoke(new ParaError(task, ex));
 						}
 
@@ -200,7 +217,7 @@ namespace Kaedei.AcDown.Component
 			//启动新线程等待任务完全停止
 			Thread t = new Thread(new ThreadStart(() =>
 			{
-				while (task.Status == DownloadStatus.正在停止 || task.Status== DownloadStatus.正在下载)
+				while (task.Status == DownloadStatus.正在停止 || task.Status == DownloadStatus.正在下载)
 				{
 					Thread.Sleep(50);
 				}

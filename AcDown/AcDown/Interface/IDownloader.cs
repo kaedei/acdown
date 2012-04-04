@@ -33,7 +33,7 @@ namespace Kaedei.AcDown.Interface
 		long DoneBytes{ get; }
 		long LastTick { get; }
 
-		void Download();
+		bool Download();
 		void StopDownload();
 	}
 
