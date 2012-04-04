@@ -51,9 +51,9 @@
 			// lsv
 			// 
 			this.lsv.AllowDrop = true;
-			this.lsv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-							| System.Windows.Forms.AnchorStyles.Left)
-							| System.Windows.Forms.AnchorStyles.Right)));
+			this.lsv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lsv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -69,7 +69,7 @@
 			this.lsv.Location = new System.Drawing.Point(3, 41);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.lsv.Name = "lsv";
-			this.lsv.Size = new System.Drawing.Size(562, 358);
+			this.lsv.Size = new System.Drawing.Size(464, 256);
 			this.lsv.SmallImageList = this.imageList1;
 			this.lsv.TabIndex = 3;
 			this.lsv.TileSize = new System.Drawing.Size(220, 56);
@@ -102,7 +102,7 @@
 			// 
 			this.lnkAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkAdd.AutoSize = true;
-			this.lnkAdd.Location = new System.Drawing.Point(3, 408);
+			this.lnkAdd.Location = new System.Drawing.Point(3, 306);
 			this.lnkAdd.Name = "lnkAdd";
 			this.lnkAdd.Size = new System.Drawing.Size(32, 17);
 			this.lnkAdd.TabIndex = 4;
@@ -114,7 +114,7 @@
 			// 
 			this.lnkDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkDelete.AutoSize = true;
-			this.lnkDelete.Location = new System.Drawing.Point(41, 408);
+			this.lnkDelete.Location = new System.Drawing.Point(41, 306);
 			this.lnkDelete.Name = "lnkDelete";
 			this.lnkDelete.Size = new System.Drawing.Size(32, 17);
 			this.lnkDelete.TabIndex = 5;
@@ -126,7 +126,7 @@
 			// 
 			this.lnkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkClear.AutoSize = true;
-			this.lnkClear.Location = new System.Drawing.Point(79, 408);
+			this.lnkClear.Location = new System.Drawing.Point(79, 306);
 			this.lnkClear.Name = "lnkClear";
 			this.lnkClear.Size = new System.Drawing.Size(32, 17);
 			this.lnkClear.TabIndex = 6;
@@ -138,7 +138,7 @@
 			// 
 			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnStart.Location = new System.Drawing.Point(457, 407);
+			this.btnStart.Location = new System.Drawing.Point(359, 305);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(108, 41);
@@ -183,7 +183,7 @@
 			// 
 			this.lnkImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkImport.AutoSize = true;
-			this.lnkImport.Location = new System.Drawing.Point(117, 408);
+			this.lnkImport.Location = new System.Drawing.Point(117, 306);
 			this.lnkImport.Name = "lnkImport";
 			this.lnkImport.Size = new System.Drawing.Size(92, 17);
 			this.lnkImport.TabIndex = 7;
@@ -195,7 +195,7 @@
 			// 
 			this.lnkExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkExport.AutoSize = true;
-			this.lnkExport.Location = new System.Drawing.Point(215, 408);
+			this.lnkExport.Location = new System.Drawing.Point(215, 306);
 			this.lnkExport.Name = "lnkExport";
 			this.lnkExport.Size = new System.Drawing.Size(80, 17);
 			this.lnkExport.TabIndex = 8;
@@ -218,10 +218,10 @@
 			this.Controls.Add(this.lnkDelete);
 			this.Controls.Add(this.lnkAdd);
 			this.Controls.Add(this.lsv);
-			this.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "AcPlay2";
-			this.Size = new System.Drawing.Size(569, 454);
+			this.Size = new System.Drawing.Size(471, 352);
 			this.Load += new System.EventHandler(this.AcPlay2_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
