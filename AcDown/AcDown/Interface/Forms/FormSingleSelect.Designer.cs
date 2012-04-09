@@ -40,9 +40,9 @@
 			this.combo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.combo.DropDownWidth = 365;
 			this.combo.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.combo.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.combo.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.combo.FormattingEnabled = true;
-			this.combo.Location = new System.Drawing.Point(62, 81);
+			this.combo.Location = new System.Drawing.Point(66, 74);
 			this.combo.Name = "combo";
 			this.combo.Size = new System.Drawing.Size(296, 29);
 			this.combo.TabIndex = 0;
@@ -50,20 +50,20 @@
 			// lblTip
 			// 
 			this.lblTip.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.lblTip.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblTip.Location = new System.Drawing.Point(12, 10);
+			this.lblTip.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lblTip.Location = new System.Drawing.Point(12, 9);
 			this.lblTip.Name = "lblTip";
-			this.lblTip.Size = new System.Drawing.Size(397, 66);
+			this.lblTip.Size = new System.Drawing.Size(397, 61);
 			this.lblTip.TabIndex = 1;
 			this.lblTip.Text = "下载时优先使用以下服务器:";
 			// 
 			// btnOK
 			// 
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnOK.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnOK.Location = new System.Drawing.Point(301, 126);
+			this.btnOK.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.btnOK.Location = new System.Drawing.Point(309, 132);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(108, 35);
+			this.btnOK.Size = new System.Drawing.Size(108, 32);
 			this.btnOK.TabIndex = 2;
 			this.btnOK.Text = "确定";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -78,9 +78,9 @@
 			// FormSingleSelect
 			// 
 			this.AcceptButton = this.btnOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(421, 176);
+			this.ClientSize = new System.Drawing.Size(429, 176);
 			this.ControlBox = false;
 			this.Controls.Add(this.combo);
 			this.Controls.Add(this.btnOK);

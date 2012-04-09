@@ -23,7 +23,7 @@ namespace Kaedei.AcDown.UI.Components
 		private void AcPlayItem_Load(object sender, EventArgs e)
 		{
 			txtFile.Text = v.FileName;
-			TimeSpan ts = new TimeSpan(0, 0, 0, 0, v.Length);
+			TimeSpan ts = new TimeSpan(0, 0, 0, 0, v.Length > 1 ? v.Length : 1);
 
 			//获取视频时长
 			try

@@ -150,8 +150,8 @@ namespace Kaedei.AcDown.Interface
 							File.Copy(filename, para.FilePath);
 							//不需要继续下载
 							needRedownload = false;
-							//跳出循环
-							break;
+							//返回下载成功
+							return true;
 						}
 					}
 				}

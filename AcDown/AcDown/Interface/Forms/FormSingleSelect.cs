@@ -22,10 +22,10 @@ namespace Kaedei.AcDown.Interface.Forms
 			{
 				contents.Add(new KeyValueItem() { Key = item, Value = keyValueContent[item] });
 			}
-
-			combo.DataSource = contents;
-			combo.DataSource = "Key";
-			combo.DisplayMember = "Value";
+			foreach (var item in contents)
+			{
+				combo.Items.Add(item);
+			}
 
 			if (autoAnswers != null)
 			{
@@ -63,7 +63,7 @@ namespace Kaedei.AcDown.Interface.Forms
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			s[0] = combo.SelectedValue.ToString();
+			s[0] = ((KeyValueItem)combo.SelectedItem).Key;
 			this.Close();
 		}
 
@@ -77,7 +77,7 @@ namespace Kaedei.AcDown.Interface.Forms
 		private void tmr_Tick(object sender, EventArgs e)
 		{
 			countdown--;
-			this.Text = formtitle + " [" + countdown.ToString() + "]";
+			this.Text = " [" + countdown.ToString() + "]" + formtitle;
 			if (countdown == 0)
 			{
 				btnOK_Click(sender, EventArgs.Empty);
@@ -89,5 +89,9 @@ namespace Kaedei.AcDown.Interface.Forms
 	{
 		public string Key;
 		public string Value;
+		public override string ToString()
+		{
+			return Value;
+		}
 	}
 }

@@ -90,10 +90,12 @@ namespace Kaedei.AcDown.Parser
 				{
 					fileposfix = defaultres;
 				}
+				strSelect = fileposfix;
 			}
 
 			//修正高清
 			if (fileposfix == "hd2") fileposfix = "flv";
+			
 
 			//取得FileID
 			Regex rFileID = new Regex(@"""" + strSelect + @""":""(?<fileid>.+?)""");

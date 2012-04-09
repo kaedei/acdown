@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using Kaedei.AcDown.Component;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+using Kaedei.AcDown.Component;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcPlay;
-using System.Xml.Serialization;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Reflection;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -85,7 +85,7 @@ namespace Kaedei.AcDown.UI.Components
 				//填充listviewitem
 				var lvi = new ListViewItem();
 				lvi.Text = Path.GetFileName(v.FileName);
-				TimeSpan ts = new TimeSpan(0, 0, 0, 0, v.Length);
+				TimeSpan ts = new TimeSpan(0, 0, 0, 0, v.Length > 1 ? v.Length : 1);
 				lvi.SubItems.Add(ts.Hours.ToString() + ":" + ts.Minutes.ToString("D2") + ":" + ts.Seconds.ToString("D2") + "." + ts.Milliseconds.ToString("D3"));
 				//获得完整文件名
 				if (!Regex.IsMatch(v.FileName, @"^\w:\\"))
