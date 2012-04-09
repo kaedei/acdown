@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.10.0.0", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.0.0", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IAcdownPluginInfo
 	{
 		public AcFunPlugin()
@@ -509,12 +509,12 @@ namespace Kaedei.AcDown.Downloader
 				string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".json");
 				Info.SubFilePath.Add(subfile);
 				//取得字幕文件(on)地址
-				string subUrl = @"http://comment.acfun.tv/%VideoId%.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
+				string subUrl = @"http://122.224.11.162/%VideoId%.json?clientID=0.4059425941668451".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
 
 				try
 				{
 					//下载字幕文件
-					string subcontent = Network.GetHtmlSource(subUrl, Encoding.GetEncoding("gb2312"), Info.Proxy);
+					string subcontent = Network.GetHtmlSource(subUrl, Encoding.UTF8, Info.Proxy);
 					//下面这行代码可以将json文件解码
 					//subcontent = Tools.ReplaceUnicode2Str(subcontent);
 					//保存文件
@@ -529,7 +529,7 @@ namespace Kaedei.AcDown.Downloader
 				subfile = Path.Combine(Info.SaveDirectory.ToString(), title + "[锁定].json");
 				Info.SubFilePath.Add(subfile);
 				//取得字幕文件(lock)地址
-				subUrl = @"http://comment.acfun.tv/%VideoId%_lock.json?clientID=0.17456858092918992".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
+				subUrl = @"http://122.224.11.162/%VideoId%_lock.json?clientID=0.4059425941668451".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
 				try
 				{
 					//下载字幕文件
