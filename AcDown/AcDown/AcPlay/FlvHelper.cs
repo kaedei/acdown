@@ -166,7 +166,6 @@ namespace _30edu.Common
 				}
 				return aFlvInfo;
 			}
-			return null;
 		}
 	}
 

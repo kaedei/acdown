@@ -120,18 +120,11 @@
     <Compile Include="Interface\Delegates.cs" />
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Parser\FlvcdParser.cs" />
-    <Compile Include="UI\Components\AcPlay.cs" />
     <Compile Include="UI\Components\AcPlay2.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Components\AcPlay2.Designer.cs">
       <DependentUpon>AcPlay2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\AcPlayControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Components\AcPlayControl.Designer.cs">
-      <DependentUpon>AcPlayControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Components\AcPlayItem.cs">
       <SubType>Form</SubType>
@@ -139,7 +132,6 @@
     <Compile Include="UI\Components\AcPlayItem.Designer.cs">
       <DependentUpon>AcPlayItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Components\FlvCombine.cs" />
     <Compile Include="UI\Components\FlvCombineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -242,9 +234,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\AcPlay2.resx">
       <DependentUpon>AcPlay2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Components\AcPlayControl.resx">
-      <DependentUpon>AcPlayControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\AcPlayItem.resx">
       <DependentUpon>AcPlayItem.cs</DependentUpon>
@@ -400,6 +389,8 @@
     <None Include="Resources\Weibo.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UI\Components\FlvCombine\FlvBind.exe" />
+    <EmbeddedResource Include="UI\Components\FlvCombine\FLVLib.dll" />
     <EmbeddedResource Include="AcPlay\acplay.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
