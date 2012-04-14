@@ -402,13 +402,15 @@ namespace Kaedei.AcDown.Component
 
 			lock (saveTaskLock)
 			{
-				//序列化至文件
-				using (FileStream fs = new FileStream(path + @"Task.xml", FileMode.Create))
+				//序列化至临时文件
+				using (FileStream fs = new FileStream(path + @"Task_temp.xml", FileMode.Create))
 				{
 					try
 					{
 						XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
 						formatter.Serialize(fs, TaskInfos);
+						//拷贝临时文件到任务文件
+						File.Copy(path + @"Task_temp.xml", path + @"Task.xml", true);
 					}
 					catch (Exception ex)
 					{

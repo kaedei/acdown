@@ -391,9 +391,7 @@
   <ItemGroup>
     <EmbeddedResource Include="UI\Components\FlvCombine\FlvBind.exe" />
     <EmbeddedResource Include="UI\Components\FlvCombine\FLVLib.dll" />
-    <EmbeddedResource Include="AcPlay\acplay.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="AcPlay\acplay.exe" />
     <Content Include="ChangeLog.txt" />
     <None Include="Resources\feedback.png" />
     <None Include="Resources\remind.wav" />

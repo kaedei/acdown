@@ -392,9 +392,6 @@ namespace Kaedei.AcDown.UI.Components
 		#region 播放
 
 
-
-
-
 		private void btnStart_Click(object sender, EventArgs e)
 		{
 			//验证文件
@@ -519,6 +516,18 @@ namespace Kaedei.AcDown.UI.Components
 				e.Effect = DragDropEffects.Copy;
 			else
 				e.Effect = DragDropEffects.None;
+		}
+		#endregion
+
+		#region 链接到帮助页面
+		
+		private void lnkAbout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			try
+			{
+				Process.Start("http://blog.sina.com.cn/s/blog_58c5066001012xsd.html");
+			}
+			catch { }
 		}
 		#endregion
 
