@@ -46,6 +46,7 @@
 			this.lnkPlayerCache = new System.Windows.Forms.LinkLabel();
 			this.lnkImport = new System.Windows.Forms.LinkLabel();
 			this.lnkExport = new System.Windows.Forms.LinkLabel();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// lsv
@@ -66,10 +67,10 @@
             listViewGroup1,
             listViewGroup2});
 			this.lsv.LargeImageList = this.imageList1;
-			this.lsv.Location = new System.Drawing.Point(3, 41);
+			this.lsv.Location = new System.Drawing.Point(3, 63);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.lsv.Name = "lsv";
-			this.lsv.Size = new System.Drawing.Size(464, 256);
+			this.lsv.Size = new System.Drawing.Size(464, 234);
 			this.lsv.SmallImageList = this.imageList1;
 			this.lsv.TabIndex = 3;
 			this.lsv.TileSize = new System.Drawing.Size(220, 56);
@@ -203,11 +204,21 @@
 			this.lnkExport.Text = "导出配置文件";
 			this.lnkExport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkExport_LinkClicked);
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(3, 42);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(68, 17);
+			this.label2.TabIndex = 10;
+			this.label2.Text = "播放列表：";
+			// 
 			// AcPlay2
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.lnkExport);
 			this.Controls.Add(this.lnkImport);
 			this.Controls.Add(this.lnkPlayerCache);
@@ -244,6 +255,7 @@
 		private System.Windows.Forms.LinkLabel lnkPlayerCache;
 		private System.Windows.Forms.LinkLabel lnkImport;
 		private System.Windows.Forms.LinkLabel lnkExport;
+		private System.Windows.Forms.Label label2;
 
 	}
 }

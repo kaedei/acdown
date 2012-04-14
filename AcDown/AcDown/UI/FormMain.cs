@@ -651,6 +651,35 @@ namespace Kaedei.AcDown.UI
 			}
 		}
 
+		//导出真实地址列表
+		private void mnuConExportUrlList_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (lsv.SelectedItems.Count == 1)
+				{
+					ListViewItem item = lsv.SelectedItems[0];
+					TaskInfo downloader = GetTask(new Guid((string)item.Tag));
+					//检查ExportUrl属性
+					string[] urls = downloader.Settings["ExportUrl"].Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+					//如果长度大于0 导出列表
+					if (urls.Length > 0)
+					{
+						SaveFileDialog sfd = new SaveFileDialog();
+						sfd.Filter = "列表文件(*.txt)|*.txt";
+						sfd.InitialDirectory = Config.setting.SavePath;
+						if (sfd.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+						{
+							File.WriteAllLines(sfd.FileName, urls, Encoding.UTF8);
+						}
+					}
+				}
+			}
+			catch { }
+			
+		}
+
+
 		//播放AcPlay
 		private void mnuConAcPlay_Click(object sender, EventArgs e)
 		{
@@ -1545,8 +1574,6 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
-
-
 
 	}//end class
 

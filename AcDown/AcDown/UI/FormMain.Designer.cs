@@ -483,7 +483,7 @@
             this.mnuConMore});
 			this.contextTool.Location = new System.Drawing.Point(130, 63);
 			this.contextTool.Name = "contextTool";
-			this.contextTool.Size = new System.Drawing.Size(356, 48);
+			this.contextTool.Size = new System.Drawing.Size(456, 48);
 			this.contextTool.TabIndex = 22;
 			this.contextTool.Visible = false;
 			// 
@@ -583,7 +583,7 @@
 			this.mnuConMore.Image = global::Kaedei.AcDown.Properties.Resources.ToolStripControl;
 			this.mnuConMore.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.mnuConMore.Name = "mnuConMore";
-			this.mnuConMore.Size = new System.Drawing.Size(69, 43);
+			this.mnuConMore.Size = new System.Drawing.Size(69, 45);
 			this.mnuConMore.Text = "更多操作";
 			this.mnuConMore.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.mnuConMore.Visible = false;
@@ -593,6 +593,7 @@
 			this.mnuConExportUrlList.Name = "mnuConExportUrlList";
 			this.mnuConExportUrlList.Size = new System.Drawing.Size(214, 22);
 			this.mnuConExportUrlList.Text = "导出地址列表...";
+			this.mnuConExportUrlList.Click += new System.EventHandler(this.mnuConExportUrlList_Click);
 			// 
 			// mnuConAcPlay
 			// 
@@ -728,7 +729,7 @@
 			this.tabConfig.Location = new System.Drawing.Point(4, 29);
 			this.tabConfig.Name = "tabConfig";
 			this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
-			this.tabConfig.Size = new System.Drawing.Size(610, 391);
+			this.tabConfig.Size = new System.Drawing.Size(610, 386);
 			this.tabConfig.TabIndex = 1;
 			this.tabConfig.Text = "下载选项";
 			this.tabConfig.UseVisualStyleBackColor = true;
@@ -739,7 +740,7 @@
 			this.tabExample.Location = new System.Drawing.Point(4, 29);
 			this.tabExample.Name = "tabExample";
 			this.tabExample.Padding = new System.Windows.Forms.Padding(3);
-			this.tabExample.Size = new System.Drawing.Size(610, 391);
+			this.tabExample.Size = new System.Drawing.Size(610, 386);
 			this.tabExample.TabIndex = 5;
 			this.tabExample.Text = "网址示例";
 			this.tabExample.UseVisualStyleBackColor = true;
@@ -754,7 +755,7 @@
 			this.txtExample.Name = "txtExample";
 			this.txtExample.ReadOnly = true;
 			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtExample.Size = new System.Drawing.Size(604, 388);
+			this.txtExample.Size = new System.Drawing.Size(604, 385);
 			this.txtExample.TabIndex = 0;
 			// 
 			// tabFlvCombine
@@ -763,7 +764,7 @@
 			this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
 			this.tabFlvCombine.Name = "tabFlvCombine";
 			this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFlvCombine.Size = new System.Drawing.Size(610, 391);
+			this.tabFlvCombine.Size = new System.Drawing.Size(610, 386);
 			this.tabFlvCombine.TabIndex = 3;
 			this.tabFlvCombine.Text = "视频合并";
 			this.tabFlvCombine.UseVisualStyleBackColor = true;
@@ -776,7 +777,7 @@
 			this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
 			this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.flvCombineControl1.Name = "flvCombineControl1";
-			this.flvCombineControl1.Size = new System.Drawing.Size(604, 388);
+			this.flvCombineControl1.Size = new System.Drawing.Size(604, 385);
 			this.flvCombineControl1.TabIndex = 0;
 			// 
 			// tabAcPlay
