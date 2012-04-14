@@ -483,7 +483,7 @@
             this.mnuConMore});
 			this.contextTool.Location = new System.Drawing.Point(130, 63);
 			this.contextTool.Name = "contextTool";
-			this.contextTool.Size = new System.Drawing.Size(456, 48);
+			this.contextTool.Size = new System.Drawing.Size(356, 48);
 			this.contextTool.TabIndex = 22;
 			this.contextTool.Visible = false;
 			// 
@@ -696,7 +696,7 @@
 			this.rdoDeleted.Size = new System.Drawing.Size(82, 30);
 			this.rdoDeleted.TabIndex = 25;
 			this.rdoDeleted.Tag = "状态:已删除";
-			this.rdoDeleted.Text = "已删除";
+			this.rdoDeleted.Text = "回收站";
 			this.rdoDeleted.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.rdoDeleted.UseVisualStyleBackColor = true;
 			this.rdoDeleted.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
@@ -755,7 +755,7 @@
 			this.txtExample.Name = "txtExample";
 			this.txtExample.ReadOnly = true;
 			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtExample.Size = new System.Drawing.Size(604, 385);
+			this.txtExample.Size = new System.Drawing.Size(604, 380);
 			this.txtExample.TabIndex = 0;
 			// 
 			// tabFlvCombine
@@ -777,7 +777,7 @@
 			this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
 			this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.flvCombineControl1.Name = "flvCombineControl1";
-			this.flvCombineControl1.Size = new System.Drawing.Size(604, 385);
+			this.flvCombineControl1.Size = new System.Drawing.Size(604, 380);
 			this.flvCombineControl1.TabIndex = 0;
 			// 
 			// tabAcPlay

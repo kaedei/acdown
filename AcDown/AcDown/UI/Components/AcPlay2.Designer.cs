@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AcPlay2));
 			this.lsv = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,6 +47,7 @@
 			this.lnkImport = new System.Windows.Forms.LinkLabel();
 			this.lnkExport = new System.Windows.Forms.LinkLabel();
 			this.label2 = new System.Windows.Forms.Label();
+			this.lnkAbout = new System.Windows.Forms.LinkLabel();
 			this.SuspendLayout();
 			// 
 			// lsv
@@ -59,13 +60,13 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-			listViewGroup1.Header = "视频";
-			listViewGroup1.Name = "VideoGroup";
-			listViewGroup2.Header = "弹幕";
-			listViewGroup2.Name = "SubtitleGroup";
+			listViewGroup3.Header = "视频";
+			listViewGroup3.Name = "VideoGroup";
+			listViewGroup4.Header = "弹幕";
+			listViewGroup4.Name = "SubtitleGroup";
 			this.lsv.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
 			this.lsv.LargeImageList = this.imageList1;
 			this.lsv.Location = new System.Drawing.Point(3, 63);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -103,36 +104,39 @@
 			// 
 			this.lnkAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkAdd.AutoSize = true;
+			this.lnkAdd.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this.lnkAdd.Location = new System.Drawing.Point(3, 306);
 			this.lnkAdd.Name = "lnkAdd";
-			this.lnkAdd.Size = new System.Drawing.Size(32, 17);
+			this.lnkAdd.Size = new System.Drawing.Size(85, 17);
 			this.lnkAdd.TabIndex = 4;
 			this.lnkAdd.TabStop = true;
-			this.lnkAdd.Text = "添加";
+			this.lnkAdd.Text = "添加视频/弹幕";
 			this.lnkAdd.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdd_LinkClicked);
 			// 
 			// lnkDelete
 			// 
 			this.lnkDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkDelete.AutoSize = true;
-			this.lnkDelete.Location = new System.Drawing.Point(41, 306);
+			this.lnkDelete.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+			this.lnkDelete.Location = new System.Drawing.Point(94, 306);
 			this.lnkDelete.Name = "lnkDelete";
-			this.lnkDelete.Size = new System.Drawing.Size(32, 17);
+			this.lnkDelete.Size = new System.Drawing.Size(68, 17);
 			this.lnkDelete.TabIndex = 5;
 			this.lnkDelete.TabStop = true;
-			this.lnkDelete.Text = "删除";
+			this.lnkDelete.Text = "删除选中项";
 			this.lnkDelete.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDelete_LinkClicked);
 			// 
 			// lnkClear
 			// 
 			this.lnkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkClear.AutoSize = true;
-			this.lnkClear.Location = new System.Drawing.Point(79, 306);
+			this.lnkClear.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+			this.lnkClear.Location = new System.Drawing.Point(168, 306);
 			this.lnkClear.Name = "lnkClear";
-			this.lnkClear.Size = new System.Drawing.Size(32, 17);
+			this.lnkClear.Size = new System.Drawing.Size(56, 17);
 			this.lnkClear.TabIndex = 6;
 			this.lnkClear.TabStop = true;
-			this.lnkClear.Text = "清空";
+			this.lnkClear.Text = "清空列表";
 			this.lnkClear.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClear_LinkClicked);
 			// 
 			// btnStart
@@ -172,6 +176,7 @@
 			// lnkPlayerCache
 			// 
 			this.lnkPlayerCache.AutoSize = true;
+			this.lnkPlayerCache.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this.lnkPlayerCache.Location = new System.Drawing.Point(216, 12);
 			this.lnkPlayerCache.Name = "lnkPlayerCache";
 			this.lnkPlayerCache.Size = new System.Drawing.Size(92, 17);
@@ -184,7 +189,8 @@
 			// 
 			this.lnkImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkImport.AutoSize = true;
-			this.lnkImport.Location = new System.Drawing.Point(117, 306);
+			this.lnkImport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+			this.lnkImport.Location = new System.Drawing.Point(3, 329);
 			this.lnkImport.Name = "lnkImport";
 			this.lnkImport.Size = new System.Drawing.Size(92, 17);
 			this.lnkImport.TabIndex = 7;
@@ -196,7 +202,8 @@
 			// 
 			this.lnkExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkExport.AutoSize = true;
-			this.lnkExport.Location = new System.Drawing.Point(215, 306);
+			this.lnkExport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+			this.lnkExport.Location = new System.Drawing.Point(101, 329);
 			this.lnkExport.Name = "lnkExport";
 			this.lnkExport.Size = new System.Drawing.Size(80, 17);
 			this.lnkExport.TabIndex = 8;
@@ -213,11 +220,24 @@
 			this.label2.TabIndex = 10;
 			this.label2.Text = "播放列表：";
 			// 
+			// lnkAbout
+			// 
+			this.lnkAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lnkAbout.AutoSize = true;
+			this.lnkAbout.Location = new System.Drawing.Point(351, 12);
+			this.lnkAbout.Name = "lnkAbout";
+			this.lnkAbout.Size = new System.Drawing.Size(114, 17);
+			this.lnkAbout.TabIndex = 11;
+			this.lnkAbout.TabStop = true;
+			this.lnkAbout.Text = "使用方法&&常见问题";
+			this.lnkAbout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAbout_LinkClicked);
+			// 
 			// AcPlay2
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.lnkAbout);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.lnkExport);
 			this.Controls.Add(this.lnkImport);
@@ -256,6 +276,7 @@
 		private System.Windows.Forms.LinkLabel lnkImport;
 		private System.Windows.Forms.LinkLabel lnkExport;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.LinkLabel lnkAbout;
 
 	}
 }
