@@ -47,7 +47,7 @@ namespace Kaedei.AcDown.Component
       public int RetryWaitingTime = 5000; //重试前的等待时间（毫秒）
       public bool EnableExtractCache = true; //默认启用缓存提取
       public bool EnableAutoAnswer = false; //默认启用自动应答
-      public int ToolFormTimeout = 150; //工具窗口默认超时时间
+      public int ToolFormTimeout = 90; //工具窗口默认超时时间
       //public List<string> RecentSearch = new List<string>();
 
       //代理设置

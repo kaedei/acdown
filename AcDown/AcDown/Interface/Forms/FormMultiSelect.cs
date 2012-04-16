@@ -80,19 +80,19 @@ namespace Kaedei.AcDown.Interface.Forms
 
 		//点击确定
 		private void btnOK_Click(object sender, EventArgs e)
-      {
-         for (int i = 0; i < lsv.Items.Count; i++)
-         {
+		{
+			for (int i = 0; i < lsv.Items.Count; i++)
+			{
 				var lvi = lsv.Items[i];
 				if (lvi.Checked)
 				{
 					string key = lvi.Tag.ToString();
 					s.Add(key);
 				}
-         }
-         //关闭窗口
-         this.Close();
-      }
+			}
+			//关闭窗口
+			this.Close();
+		}
 
 		private void FormSelect_Load(object sender, EventArgs e)
 		{

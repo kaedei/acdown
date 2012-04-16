@@ -179,6 +179,7 @@
 			this.lsv.TabIndex = 7;
 			this.lsv.UseCompatibleStateImageBehavior = false;
 			this.lsv.View = System.Windows.Forms.View.List;
+			this.lsv.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lst_MouseUp);
 			// 
 			// FormMultiSelect
 			// 

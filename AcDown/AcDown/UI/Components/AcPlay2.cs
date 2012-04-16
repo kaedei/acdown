@@ -113,14 +113,18 @@ namespace Kaedei.AcDown.UI.Components
 					{
 						lvi.SubItems.Add("Acfun弹幕文件");
 					}
-					else
+					else if (File.OpenText(file).ReadLine().StartsWith(@"<?xml version=""1.0"" encoding=""UTF-8""?><i><chatserver>chat.bilibili.tv</chatserver>"))
 					{
 						lvi.SubItems.Add("Bilibili弹幕文件");
+					}
+					else
+					{
+						lvi.SubItems.Add("未知格式弹幕文件");
 					}
 				}
 				catch (Exception)
 				{
-					lvi.SubItems.Add("Acfun弹幕文件");
+					lvi.SubItems.Add("未知格式弹幕文件");
 				}
 
 				//获得完整文件名
@@ -329,13 +333,24 @@ namespace Kaedei.AcDown.UI.Components
 				//文件名
 				lvi.Text = Path.GetFileName(file);
 				//弹幕文件
-				if (File.OpenText(file).ReadLine().StartsWith("[{")) //acfun
+				try
 				{
-					lvi.SubItems.Add("Acfun弹幕文件");
+					if (File.OpenText(file).ReadLine().StartsWith("[{")) //acfun
+					{
+						lvi.SubItems.Add("Acfun弹幕文件");
+					}
+					else if (File.OpenText(file).ReadLine().StartsWith(@"<?xml version=""1.0"" encoding=""UTF-8""?><i><chatserver>chat.bilibili.tv</chatserver>"))
+					{
+						lvi.SubItems.Add("Bilibili弹幕文件");
+					}
+					else
+					{
+						lvi.SubItems.Add("未知格式弹幕文件");
+					}
 				}
-				else
+				catch (Exception)
 				{
-					lvi.SubItems.Add("Bilibili弹幕文件");
+					lvi.SubItems.Add("未知格式弹幕文件");
 				}
 				lvi.SubItems.Add(file);
 				//设置Group
@@ -395,7 +410,7 @@ namespace Kaedei.AcDown.UI.Components
 		private void btnStart_Click(object sender, EventArgs e)
 		{
 			//验证文件
-
+			if (lsv.Items.Count == 0) return;
 			//保存配置文件
 			string acplayFile = SaveConfigToFile("");
 			//播放文件
