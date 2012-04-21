@@ -5,9 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Kaedei.AcPlay;
 using System.IO;
 using _30edu.Common;
+using Kaedei.AcDown.Interface.AcPlay;
 
 namespace Kaedei.AcDown.UI.Components
 {

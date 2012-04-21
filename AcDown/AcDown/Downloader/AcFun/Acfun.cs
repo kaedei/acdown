@@ -5,19 +5,18 @@ using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 using Kaedei.AcDown.Parser;
 using System.IO;
-using System.Collections;
 using Kaedei.AcDown.Interface.Forms;
 using System.Net;
 using System.Collections.ObjectModel;
-using Kaedei.AcPlay;
 using System.Xml.Serialization;
+using Kaedei.AcDown.Interface.AcPlay;
 
 namespace Kaedei.AcDown.Downloader
 {
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.0.0", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.5.421", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IAcdownPluginInfo
 	{
 		public AcFunPlugin()
@@ -202,55 +201,79 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//取得网页源文件
-				string src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), Info.Proxy);
+				string src = Network.GetHtmlSource(url, Encoding.UTF8, Info.Proxy);
 
 				//分析id和视频存放站点(type)
 				string type;
 				string id = ""; //视频id
-				string ot = ""; //视频子id
+				//string ot = ""; //视频子id
 
 				//取得embed块的源代码
-				Regex rEmbed = new Regex(@"<embed .+?>");
+				Regex rEmbed = new Regex(@"\<div id=""area-player""\>.+?\</div\>");
 				Match mEmbed = rEmbed.Match(src);
-				string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
+				string embedSrc = mEmbed.ToString(); //.Replace("type=\"application/x-shockwave-flash\"", "");
 
-				string flashsrc = "";
 				//检查是否为Flash游戏
-				Regex rFlash2 = new Regex(@"src=""(?<player>.+?)""");
-				flashsrc = rFlash2.Match(embedSrc).Groups["player"].Value;
+				Regex rFlash = new Regex(@"src=""(?<player>.+?)\.swf""");
+				Match mFlash = rFlash.Match(embedSrc);
 
-				Regex rFlash = new Regex(@"data=""(?<flash>.+?\.swf)""");
-				Match mFlash = rFlash.Match(src);
-				if (mFlash.Success)
-					flashsrc = mFlash.Groups["flash"].Value;
 
 				//如果是Flash游戏
-				if (!flashsrc.Contains("newflvplayer"))
+				if (mFlash.Success)
 				{
 					type = "game";
 				}
 				else
 				{
+					//取得播放器地址
+					Regex rPlayer = new Regex(@"http://.+?\.swf");
+					if (Info.Settings.ContainsKey("PlayerUrl"))
+						Info.Settings["PlayerUrl"] = rPlayer.Match(embedSrc).Value;
+					else
+						Info.Settings.Add("PlayerUrl", rPlayer.Match(embedSrc).Value);
 
-					//取得id值
-					Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
-					Match mId = rId.Match(embedSrc);
-					id = mId.Groups["id"].Value;
-					ot = mId.Groups["ot"].Value;
+					//取得acfun id值
+					Regex rAcfunId = new Regex(@"'id':'(?<id>\d+)");
+					Match mAcfunId = rAcfunId.Match(embedSrc);
+					string acfunid = mAcfunId.Groups["id"].Value;
+
+					//获取跳转
+					string getvideobyid = Network.GetHtmlSource("http://www.acfun.tv/api/getVideoByID.aspx?vid=" + acfunid, Encoding.UTF8);
+
+					//将信息添加到Setting中
+					Regex rVideoInfo = new Regex(@"""(?<key>.+?)"":(""|)(?<value>.+?)(""|)[,|}]");
+					MatchCollection mcVideoInfo = rVideoInfo.Matches(getvideobyid);
+					foreach (Match mVideoInfo in mcVideoInfo)
+					{
+						string key = mVideoInfo.Groups["key"].Value;
+						string value = mVideoInfo.Groups["value"].Value;
+						if (Info.Settings.ContainsKey(key))
+							Info.Settings[key] = value;
+						else
+							Info.Settings.Add(key, value);
+					}
+
+					//获取ID
+					//Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
+					//Match mId = rId.Match(embedSrc);
+					id = Info.Settings["vid"];
+					//mId.Groups["id"].Value;
+					//ot = mId.Groups["ot"].Value;
 
 					//取得type值
-					Regex rType = new Regex(@"type(|\w)=(?<type>\w*)");
-					Match mType = rType.Match(embedSrc);
-					type = mType.Groups["type"].Value;
+					//Regex rType = new Regex(@"type(|\w)=(?<type>\w*)");
+					//Match mType = rType.Match(embedSrc);
+					type = Info.Settings["vtype"];
+					//mType.Groups["type"].Value;
 				}
 
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace(" - AcFun.tv", "");
+				string title = mTitle.Groups["title"].Value.Replace(" - Acfun", "");
 
-				//取得子标题
-				Regex rSubTitle = new Regex(@"<option value='(?<part>\w+?\.html)'(| selected)>(?<content>.+?)</option>");
+				//取得所有子标题
+				Regex rSubTitle = new Regex(@"<a class=""pager pager-article"" href=""(?<part>.+?)"">(?<content>.+?)</a>");
 				MatchCollection mSubTitles = rSubTitle.Matches(src);
 
 
@@ -258,14 +281,14 @@ namespace Kaedei.AcDown.Downloader
 				if (mSubTitles.Count > 0)
 				{
 					//确定当前视频的子标题
-					foreach (Match item in mSubTitles)
-					{
-						if (suburl == item.Groups["part"].Value)
-						{
-							title = title + " - " + item.Groups["content"].Value;
-							break;
-						}
-					}
+					//foreach (Match item in mSubTitles)
+					//{
+					//   if (suburl == item.Groups["part"].Value)
+					//   {
+					//      title = title + " - " + item.Groups["content"].Value;
+					//      break;
+					//   }
+					//}
 
 					//解析关联项需要同时满足的条件：
 					//1.这个任务不是被其他任务所添加的
@@ -278,11 +301,11 @@ namespace Kaedei.AcDown.Downloader
 							var dict = new Dictionary<string, string>();
 							foreach (Match item in mSubTitles)
 							{
-								if (suburl != item.Groups["part"].Value)
-								{
+								//if (suburl != item.Groups["part"].Value)
+								//{
 									dict.Add(url.Replace(suburl, item.Groups["part"].Value),
 												item.Groups["content"].Value);
-								}
+								//}
 							}
 							//用户选择任务
 							var ba = new Collection<string>();
@@ -325,7 +348,7 @@ namespace Kaedei.AcDown.Downloader
 					//检查type值
 					switch (type)
 					{
-						case "video": //新浪视频
+						case "sina": //新浪视频
 							//解析视频
 							SinaVideoParser parserSina = new SinaVideoParser();
 							pr = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
@@ -343,8 +366,13 @@ namespace Kaedei.AcDown.Downloader
 							pr = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
 							videos = pr.ToArray();
 							break;
+						case "tudou": //土豆视频
+							TudouParser parserTudou = new TudouParser();
+							pr = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+							videos = pr.ToArray();
+							break;
 						case "game": //flash游戏
-							videos = new string[] { flashsrc };
+							videos = new string[] { mFlash.Groups["player"].Value };
 							break;
 					}
 
@@ -436,11 +464,10 @@ namespace Kaedei.AcDown.Downloader
 
 
 					} //end for
-
-				}
+				}//end 判断是否下载视频
 
 				//下载弹幕
-				bool comment = DownloadComment(title, id, ot);
+				bool comment = DownloadComment(title);
 				//生成AcPlay文件
 				string acplay = GenerateAcplayConfig(pr, title);
 
@@ -496,10 +523,8 @@ namespace Kaedei.AcDown.Downloader
 		/// 下载弹幕
 		/// </summary>
 		/// <param name="title">文件名</param>
-		/// <param name="id">视频id</param>
-		/// <param name="subId">子id</param>
 		/// <returns>是否下载成功</returns>
-		private bool DownloadComment(string title, string id, string subId)
+		private bool DownloadComment(string title)
 		{
 			if (Info.DownSub != DownloadSubtitleType.DontDownloadSubtitle)
 			{
@@ -509,14 +534,12 @@ namespace Kaedei.AcDown.Downloader
 				string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".json");
 				Info.SubFilePath.Add(subfile);
 				//取得字幕文件(on)地址
-				string subUrl = @"http://122.224.11.162/%VideoId%.json?clientID=0.4059425941668451".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
+				string subUrl = @"http://comment.acfun.tv/" + Info.Settings["cid"] + ".json?clientID=0.46080235205590725";
 
 				try
 				{
 					//下载字幕文件
 					string subcontent = Network.GetHtmlSource(subUrl, Encoding.UTF8, Info.Proxy);
-					//下面这行代码可以将json文件解码
-					//subcontent = Tools.ReplaceUnicode2Str(subcontent);
 					//保存文件
 					File.WriteAllText(subfile, subcontent);
 				}
@@ -529,16 +552,14 @@ namespace Kaedei.AcDown.Downloader
 				subfile = Path.Combine(Info.SaveDirectory.ToString(), title + "[锁定].json");
 				Info.SubFilePath.Add(subfile);
 				//取得字幕文件(lock)地址
-				subUrl = @"http://122.224.11.162/%VideoId%_lock.json?clientID=0.4059425941668451".Replace(@"%VideoId%", id + (subId.Length > 2 ? subId : ""));
+				subUrl = @"http://comment.acfun.tv/" + Info.Settings["cid"] + "_lock.json?clientID=0.46080235205590725";
 				try
 				{
 					//下载字幕文件
 					WebClient wc = new WebClient();
 					wc.Proxy = Info.Proxy;
 					byte[] data = wc.DownloadData(subUrl);
-					string subcontent = Encoding.GetEncoding("gb2312").GetString(data);
-					//下面这行代码可以将json文件解码
-					//subcontent = Tools.ReplaceUnicode2Str(subcontent);
+					string subcontent = Encoding.UTF8.GetString(data);
 					//保存文件
 					File.WriteAllText(subfile, subcontent);
 				}
@@ -560,6 +581,8 @@ namespace Kaedei.AcDown.Downloader
 				AcPlayConfiguration c = new AcPlayConfiguration();
 				//播放器
 				c.PlayerName = "acfun";
+				//播放器地址
+				c.PlayerUrl = Info.Settings["PlayerUrl"];
 				//端口
 				c.HttpServerPort = 7776;
 				c.ProxyServerPort = 7777;

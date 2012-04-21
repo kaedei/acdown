@@ -403,20 +403,27 @@ namespace Kaedei.AcDown.Component
 			lock (saveTaskLock)
 			{
 				//序列化至临时文件
-				using (FileStream fs = new FileStream(path + @"Task_temp.xml", FileMode.Create))
+				string tempfilename = path + "Task_" + new Random().Next(10000).ToString() + ".xml";
+				using (FileStream fs = new FileStream(tempfilename, FileMode.Create))
 				{
 					try
 					{
 						XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
 						formatter.Serialize(fs, TaskInfos);
 						//拷贝临时文件到任务文件
-						File.Copy(path + @"Task_temp.xml", path + @"Task.xml", true);
+						File.Copy(tempfilename, path + @"Task.xml", true);
 					}
 					catch (Exception ex)
 					{
 						Logging.Add(ex);
 					}
 				}
+				//删除临时文件
+				try
+				{
+					File.Delete(tempfilename);
+				}
+				catch { }
 				//保证TaskInfos对象不会被意外回收
 				GC.KeepAlive(TaskInfos);
 			}

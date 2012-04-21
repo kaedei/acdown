@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Kaedei.AcDown.Interface;
-using System.Text.RegularExpressions;
-using System.IO;
-using Kaedei.AcDown.Parser;
-using Kaedei.AcDown.Interface.Forms;
-using System.Net;
-using System.Collections;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml.Serialization;
+using Kaedei.AcDown.Interface;
+using Kaedei.AcDown.Interface.AcPlay;
+using Kaedei.AcDown.Interface.Forms;
+using Kaedei.AcDown.Parser;
 
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.10.0.0", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.11.5.421", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IAcdownPluginInfo
 	{
 
@@ -200,7 +201,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 
 			//视频地址数组
-			string[] videos;
+			string[] videos = null;
 
 			try
 			{
@@ -345,9 +346,11 @@ namespace Kaedei.AcDown.Downloader
 				//取得type值
 				type = mId.Groups["idname"].Value;
 
-				DownloadSubtitleType downsub = Info.DownSub;
+				//解析器的解析结果
+				ParseResult pr = null;
+
 				//如果不是“仅下载字幕”
-				if (downsub != DownloadSubtitleType.DownloadSubtitleOnly)
+				if (Info.DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
 				{
 					if (mFile.Success) //如果有file参数
 					{
@@ -362,17 +365,20 @@ namespace Kaedei.AcDown.Downloader
 							case "qid": //QQ视频
 								//解析视频
 								QQVideoParser parserQQ = new QQVideoParser();
-								videos = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+								pr = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+								videos = pr.ToArray();
 								break;
 							case "ykid": //优酷视频
 								//解析视频
 								YoukuParser parserYouKu = new YoukuParser();
-								videos = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+								pr = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+								videos = pr.ToArray();
 								break;
 							case "uid": //土豆视频
 								//解析视频
 								TudouParser parserTudou = new TudouParser();
-								videos = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+								pr = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+								videos = pr.ToArray();
 								break;
 							case "data": //Flash游戏
 								id = id.Replace("\"", "");
@@ -380,7 +386,8 @@ namespace Kaedei.AcDown.Downloader
 								break;
 							default: //新浪视频
 								SinaVideoParser parserSina = new SinaVideoParser();
-								videos = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+								pr = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+								videos = pr.ToArray();
 								break;
 						}
 					}
@@ -477,38 +484,142 @@ namespace Kaedei.AcDown.Downloader
 					} //end for
 				}//end 判断是否下载视频
 
-				//如果不是“不下载弹幕”且ID不为空
-				if ((downsub != DownloadSubtitleType.DontDownloadSubtitle) && !string.IsNullOrEmpty(id))
+				//下载弹幕
+				bool comment = DownloadComment(title, id);
+				//生成AcPlay文件
+				string acplay = GenerateAcplayConfig(pr, title);
+
+				if (!comment)
 				{
-					//----------下载字幕-----------
-					delegates.TipText(new ParaTipText(this.Info, "正在下载字幕文件"));
-					//字幕文件(on)地址
-					string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".xml");
-					Info.SubFilePath.Add(subfile);
-					//取得字幕文件(on)地址
-					string subUrl = "http://comment.bilibili.tv/dm," + id;
-					//下载字幕文件
-					try
-					{
-						Network.DownloadFile(new DownloadParameter()
-							{
-								Url = subUrl,
-								FilePath = subfile,
-								Proxy = Info.Proxy
-							});
-					}
-					catch 
-					{
-						Info.PartialFinished = true;
-						Info.PartialFinishedDetail += "\r\n弹幕文件下载失败";
-					}
+					Info.PartialFinished = true;
+					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
 				}
+
+				//支持导出列表
+				StringBuilder sb = new StringBuilder(videos.Length * 2);
+				foreach (string item in videos)
+				{
+					sb.Append(item);
+					sb.Append("|");
+				}
+				if (Info.Settings.ContainsKey("ExportUrl"))
+					Info.Settings["ExportUrl"] = sb.ToString();
+				else
+					Info.Settings.Add("ExportUrl", sb.ToString());
+				//支持AcPlay
+				if (Info.Settings.ContainsKey("AcPlay"))
+					Info.Settings["AcPlay"] = acplay;
+				else
+					Info.Settings.Add("AcPlay", acplay);
+
 			}
 			catch (Exception ex)
 			{
 				throw ex;
 			}
 
+			return true;
+		}
+
+
+		/// <summary>
+		/// 生成acplay配置文件
+		/// </summary>
+		/// <param name="pr">Parser的解析结果</param>
+		/// <param name="title">文件标题</param>
+		private string GenerateAcplayConfig(ParseResult pr, string title)
+		{
+			try
+			{
+				//生成新的配置
+				AcPlayConfiguration c = new AcPlayConfiguration();
+				//播放器
+				c.PlayerName = "bilibili";
+				//播放器地址
+				c.PlayerUrl = "http://static.loli.my/play.swf";
+				//端口
+				c.HttpServerPort = 7776;
+				c.ProxyServerPort = 7777;
+				//视频
+				c.Videos = new Video[Info.FilePath.Count];
+				for (int i = 0; i < Info.FilePath.Count; i++)
+				{
+					c.Videos[i] = new Video();
+					c.Videos[i].FileName = Path.GetFileName(Info.FilePath[i]);
+					if (pr != null)
+						if (pr.Items[i].Information.ContainsKey("length"))
+							c.Videos[i].Length = int.Parse(pr.Items[i].Information["length"]);
+					if (pr != null)
+						if (pr.Items[i].Information.ContainsKey("order"))
+							c.Videos[i].Order = int.Parse(pr.Items[i].Information["order"]);
+				}
+				//弹幕
+				c.Subtitles = new string[Info.SubFilePath.Count];
+				for (int i = 0; i < Info.SubFilePath.Count; i++)
+				{
+					c.Subtitles[i] = Path.GetFileName(Info.SubFilePath[i]);
+				}
+				//其他
+				c.ExtraConfig = new SerializableDictionary<string, string>();
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("totallength")) //totallength
+						c.ExtraConfig.Add("totallength", pr.SpecificResult["totallength"]);
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("src")) //src
+						c.ExtraConfig.Add("src", pr.SpecificResult["src"]);
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("framecount")) //framecount
+						c.ExtraConfig.Add("framecount", pr.SpecificResult["framecount"]);
+
+				//配置文件的生成地址
+				string path = Path.Combine(Info.SaveDirectory.ToString(), title + ".acplay");
+				//序列化到文件中
+				using (var fs = new FileStream(path, FileMode.Create))
+				{
+					XmlSerializer s = new XmlSerializer(typeof(AcPlayConfiguration));
+					s.Serialize(fs, c);
+				}
+				return path;
+			}
+			catch
+			{
+				return "";
+			}
+		}
+
+
+		/// <summary>
+		/// 下载弹幕
+		/// </summary>
+		/// <param name="title">文件名</param>
+		/// <returns>是否下载成功</returns>
+		private bool DownloadComment(string title,string id)
+		{
+			//如果不是“不下载弹幕”且ID不为空
+			if ((Info.DownSub != DownloadSubtitleType.DontDownloadSubtitle) && !string.IsNullOrEmpty(id))
+			{
+				//----------下载字幕-----------
+				delegates.TipText(new ParaTipText(this.Info, "正在下载字幕文件"));
+				//字幕文件(on)地址
+				string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".xml");
+				Info.SubFilePath.Add(subfile);
+				//取得字幕文件(on)地址
+				string subUrl = "http://comment.bilibili.tv/dm," + id;
+				//下载字幕文件
+				try
+				{
+					Network.DownloadFile(new DownloadParameter()
+					{
+						Url = subUrl,
+						FilePath = subfile,
+						Proxy = Info.Proxy
+					});
+				}
+				catch
+				{
+					return false;
+				}
+			}
 			return true;
 		}
 

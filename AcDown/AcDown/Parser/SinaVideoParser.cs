@@ -35,7 +35,7 @@ namespace Kaedei.AcDown.Parser
 			pr.SpecificResult.Add("src", src);
 
 			//视频信息
-			Regex r = new Regex(@"<durl>.+<order>(?<order>\d+)</order>.+<length>(?<length>\d+)</length>.+<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+</durl>", RegexOptions.Singleline);
+			Regex r = new Regex(@"<durl>.+?<order>(?<order>\d+)</order>.+?<length>(?<length>\d+)</length>.+?<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+?</durl>", RegexOptions.Singleline);
 			MatchCollection matches = r.Matches(source);
 			foreach (Match item in matches)
 			{

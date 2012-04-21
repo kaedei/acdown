@@ -23,7 +23,7 @@ namespace Kaedei.AcDown.Interface
 		/// </summary>
 		public string Description { get; set; }
 
-        public AutoAnswer() { }
+		  public AutoAnswer() { }
 		public AutoAnswer(string prefix, string identify, string description)
 		{
 			Prefix = prefix;
