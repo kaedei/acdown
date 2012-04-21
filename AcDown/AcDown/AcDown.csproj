@@ -70,7 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcPlay\AcPlayConfiguration.cs" />
+    <Compile Include="Interface\AcPlay\AcPlayConfiguration.cs" />
     <Compile Include="AcPlay\FlvHelper.cs" />
     <Compile Include="Component\AcDownSettings.cs" />
     <Compile Include="Component\PluginManager.cs" />

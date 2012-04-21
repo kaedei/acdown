@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using Kaedei.AcDown.Interface;
 
-namespace Kaedei.AcPlay
+namespace Kaedei.AcDown.Interface.AcPlay
 {
 	[Serializable()]
 	public class AcPlayConfiguration
@@ -12,6 +12,7 @@ namespace Kaedei.AcPlay
 		public string StartupPath;
 
 		public string PlayerName;
+		public string PlayerUrl;
 		public int HttpServerPort;
 		public int ProxyServerPort;
 		[XmlArray("Videos")]

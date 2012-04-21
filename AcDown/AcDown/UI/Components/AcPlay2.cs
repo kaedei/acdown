@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Kaedei.AcDown.Component;
 using Kaedei.AcDown.Interface;
-using Kaedei.AcPlay;
+using Kaedei.AcDown.Interface.AcPlay;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -229,7 +229,7 @@ namespace Kaedei.AcDown.UI.Components
 			string file_acfun = Path.Combine(appdata, @"Kaedei\AcPlay\Acfun.swf");
 			string file_bilibili = Path.Combine(appdata, @"Kaedei\AcPlay\Bilibili.swf");
 			string swf_bilibili = "http://static.loli.my/play.swf";
-			string swf_acfun = @"http://www.acfun.tv/newflvplayer/playert.swf";
+			string swf_acfun = @"http://static.acfun.tv/player/ACFlashPlayer.artemis.20120418.swf";
 			//建立文件夹
 			string dir = Path.GetDirectoryName(file_acfun);
 			if (!Directory.Exists(dir))
@@ -256,16 +256,20 @@ namespace Kaedei.AcDown.UI.Components
 			//启动新线程
 			Thread t = new Thread(new ThreadStart(new MethodInvoker(() =>
 			{
-				r = Network.DownloadFile(new DownloadParameter()
+				try
 				{
-					Url = swf,
-					FilePath = file
-				});
-				//如果下载失败则删除文件
-				if (!r)
-				{
-					File.Delete(file);
+					r = Network.DownloadFile(new DownloadParameter()
+					{
+						Url = swf,
+						FilePath = file
+					});
+					//如果下载失败则删除文件
+					if (!r)
+					{
+						File.Delete(file);
+					}
 				}
+				catch { }
 				this.Invoke(new MethodInvoker(() =>
 				{
 					lnkPlayerCache.Enabled = true;
