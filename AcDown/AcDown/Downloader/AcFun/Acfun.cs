@@ -16,7 +16,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.5.421", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.5.422", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IAcdownPluginInfo
 	{
 		public AcFunPlugin()
@@ -270,7 +270,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace(" - Acfun", "");
+				string title = mTitle.Groups["title"].Value.Replace(" - Acfun", "").Replace(" - 天下漫友是一家", "");
 
 				//取得所有子标题
 				Regex rSubTitle = new Regex(@"<a class=""pager pager-article"" href=""(?<part>.+?)"">(?<content>.+?)</a>");

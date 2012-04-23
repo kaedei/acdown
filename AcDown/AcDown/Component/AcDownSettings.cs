@@ -22,7 +22,7 @@ namespace Kaedei.AcDown.Component
    public class AcDownSettings
    {
       //程序设置
-      public Size WindowSize = new Size(584, 513);
+      public Size WindowSize = new Size(634, 513);
       public bool WatchClipboardEnabled = true; //监视剪贴板
       public bool DownSub = true; //下载字幕
       public string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //保存文件夹

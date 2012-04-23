@@ -180,21 +180,37 @@ namespace Kaedei.AcDown.Interface
 					//如果服务器支持断点续传
 					if (enableResume)
 					{
-						//设置"已完成字节数"
-						para.DoneBytes = filelength;
 						//重新获取服务器回应
 						if (response != null)
 							response.Close();
 						//创建http请求
-						request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+						var newrequest = (HttpWebRequest)HttpWebRequest.Create(para.Url);
 						//设置超时
-						request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+						newrequest.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
 						//设置代理服务器
 						if (para.Proxy != null)
-							request.Proxy = para.Proxy;
+							newrequest.Proxy = para.Proxy;
 						//设置Range
-						request.AddRange(int.Parse(filelength.ToString()));
-						response = (HttpWebResponse)request.GetResponse();
+						newrequest.AddRange(int.Parse(filelength.ToString()));
+						var newresponse = (HttpWebResponse)newrequest.GetResponse();
+						//检测服务器是否存在欺诈（宣称支持断点续传且返回200 OK，但是内容为报错信息。经常出现在新浪视频服务器的返回信息中）
+						//判定为欺诈的条件为：返回的长度小于剩余(未下载的)文件长度的90%
+						if (newresponse.ContentLength < (para.TotalLength - filelength) * 9 / 10)
+						{
+							//重新获取文件
+							response = (HttpWebResponse)request.GetResponse();
+							//服务器不支持断点续传
+							enableResume = false;
+							//设置"已完成字节数"
+							para.DoneBytes = 0;
+						}
+						else
+						{
+							//服务器支持断点续传
+							para.DoneBytes = filelength;
+							//设置新连接
+							response = newresponse;
+						}
 					}
 
 				}

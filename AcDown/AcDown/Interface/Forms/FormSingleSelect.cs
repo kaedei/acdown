@@ -56,6 +56,9 @@ namespace Kaedei.AcDown.Interface.Forms
 				}
 			}
 
+			if (combo.SelectedIndex < 0)
+				combo.SelectedIndex = 0;
+
 			if (!string.IsNullOrEmpty(tip))
 				this.Text = tip;
 			formtitle = this.Text;

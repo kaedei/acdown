@@ -213,6 +213,8 @@ namespace Kaedei.AcDown.Interface
 			resourceDownloader = BasePlugin.CreateDownloader();
 			resourceDownloader.Info = this;
 			resourceDownloader.delegates = delegates;
+			this.PartialFinished = false;
+			this.PartialFinishedDetail = "";
 			return resourceDownloader.Download();
 		}
 
