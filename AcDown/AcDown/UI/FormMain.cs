@@ -922,12 +922,19 @@ namespace Kaedei.AcDown.UI
 
 		private void DeleteFile(bool deletefile)
 		{
+			//隐藏浮动工具栏
+			contextTool.Hide();
+			
 			Collection<TaskInfo> willbedeleted = new Collection<TaskInfo>();
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
 				TaskInfo task = GetTask(new Guid((string)item.Tag));
 				willbedeleted.Add(task);
 			}
+
+			//取消选中所有任务
+			lsv.SelectedItems.Clear();
+
 			foreach (TaskInfo item in willbedeleted)
 			{
 				taskMgr.DeleteTask(item, deletefile);

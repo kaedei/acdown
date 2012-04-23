@@ -238,7 +238,8 @@ namespace Kaedei.AcDown.Downloader
 				Dictionary<string, string> servers = new Dictionary<string, string>();
 				foreach (Match item in mServers)
 				{
-					servers.Add(item.Groups["ip"].Value, item.Groups["server"].Value);
+					if (!servers.ContainsKey(item.Groups["ip"].Value))
+						servers.Add(item.Groups["ip"].Value, item.Groups["server"].Value);
 				}
 
 				//选择服务器
@@ -297,7 +298,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 					else   //新版本
 					{
-						Regex rNewId = new Regex(@"'(?<id1>\d+)\|");
+						Regex rNewId = new Regex(@"JOJO_(?<id1>\d+)\|");
 						Match mNewId = rNewId.Match(source);
 						string id1 = mNewId.Groups["id1"].Value;
 						//取得var段

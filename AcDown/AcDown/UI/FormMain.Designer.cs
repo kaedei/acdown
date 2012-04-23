@@ -146,7 +146,7 @@
 			// 
 			this.headerName.Tag = "Name";
 			this.headerName.Text = "名称";
-			this.headerName.Width = 144;
+			this.headerName.Width = 275;
 			// 
 			// headerPart
 			// 

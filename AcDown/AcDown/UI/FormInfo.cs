@@ -60,7 +60,7 @@ namespace Kaedei.AcDown.UI
 				sb.AppendLine("未设置");
 			sb.AppendLine("注释: ");
 			sb.AppendLine(_task.Comment);
-
+			sb.AppendLine();
 			sb.AppendLine("文件: ");
 			if (_task.FilePath.Count > 0)
 			{
@@ -76,7 +76,7 @@ namespace Kaedei.AcDown.UI
 			{
 				sb.AppendLine("无");
 			}
-
+			sb.AppendLine();
 			sb.AppendLine("字幕文件: ");
 			if (_task.SubFilePath.Count > 0)
 			{
@@ -92,14 +92,14 @@ namespace Kaedei.AcDown.UI
 			{
 				sb.AppendLine("无");
 			}
-
+			sb.AppendLine();
 			if (_task.PartialFinished)
 			{
 				sb.AppendLine("下载成功完成但期间出现错误:");
 				sb.AppendLine(_task.PartialFinishedDetail);
 			}
 
-
+			sb.AppendLine();
 			sb.AppendLine("插件存储的设置: ");
 			if (_task.Settings.Count > 0)
 			{
@@ -113,7 +113,7 @@ namespace Kaedei.AcDown.UI
 			{
 				sb.AppendLine("无");
 			}
-
+			sb.AppendLine();
 			sb.AppendLine("自动应答设置: ");
 			if (_task.AutoAnswer != null)
 			{
@@ -130,6 +130,7 @@ namespace Kaedei.AcDown.UI
 					sb.AppendLine("无");
 				}
 			}
+			sb.AppendLine();
 			//sb.AppendLine("索引信息: ");
 			//sb.AppendLine(_task.ToString());
 			sb.AppendLine("最近一次发生的错误: ");
