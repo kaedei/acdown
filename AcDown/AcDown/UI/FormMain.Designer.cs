@@ -71,7 +71,7 @@
 			this.mnuConStop = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolDelete = new System.Windows.Forms.ToolStripSplitButton();
-			this.toolDeleteAndFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolCompetelyDeleteAndFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolOpenFolder = new System.Windows.Forms.ToolStripSplitButton();
 			this.toolOpenUrl = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,6 +95,7 @@
 			this.tabAcPlay = new System.Windows.Forms.TabPage();
 			this.acPlay = new Kaedei.AcDown.UI.Components.AcPlay2();
 			this.timerClipboard = new System.Windows.Forms.Timer(this.components);
+			this.toolCompletelyDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.mnuTray.SuspendLayout();
@@ -483,7 +484,7 @@
             this.mnuConMore});
 			this.contextTool.Location = new System.Drawing.Point(130, 63);
 			this.contextTool.Name = "contextTool";
-			this.contextTool.Size = new System.Drawing.Size(356, 48);
+			this.contextTool.Size = new System.Drawing.Size(456, 48);
 			this.contextTool.TabIndex = 22;
 			this.contextTool.Visible = false;
 			// 
@@ -516,7 +517,8 @@
 			// toolDelete
 			// 
 			this.toolDelete.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolDeleteAndFile});
+            this.toolCompletelyDelete,
+            this.toolCompetelyDeleteAndFile});
 			this.toolDelete.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripDelete;
 			this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolDelete.Name = "toolDelete";
@@ -525,12 +527,12 @@
 			this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.toolDelete.ButtonClick += new System.EventHandler(this.mnuConDelete_Click);
 			// 
-			// toolDeleteAndFile
+			// toolCompetelyDeleteAndFile
 			// 
-			this.toolDeleteAndFile.Name = "toolDeleteAndFile";
-			this.toolDeleteAndFile.Size = new System.Drawing.Size(184, 22);
-			this.toolDeleteAndFile.Text = "删除任务并删除文件";
-			this.toolDeleteAndFile.Click += new System.EventHandler(this.mnuConDeleteAndFile_Click);
+			this.toolCompetelyDeleteAndFile.Name = "toolCompetelyDeleteAndFile";
+			this.toolCompetelyDeleteAndFile.Size = new System.Drawing.Size(208, 22);
+			this.toolCompetelyDeleteAndFile.Text = "彻底删除任务并删除文件";
+			this.toolCompetelyDeleteAndFile.Click += new System.EventHandler(this.mnuConDeleteAndFile_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -809,6 +811,13 @@
 			this.timerClipboard.Interval = 500;
 			this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
 			// 
+			// toolCompletelyDelete
+			// 
+			this.toolCompletelyDelete.Name = "toolCompletelyDelete";
+			this.toolCompletelyDelete.Size = new System.Drawing.Size(208, 22);
+			this.toolCompletelyDelete.Text = "彻底删除任务";
+			this.toolCompletelyDelete.Click += new System.EventHandler(this.toolCompletelyDelete_Click);
+			// 
 			// FormMain
 			// 
 			this.AllowDrop = true;
@@ -894,7 +903,7 @@
 		  private System.Windows.Forms.ToolStripButton btnConfig;
 		  private System.Windows.Forms.ToolStripButton btnAbout;
 		  private System.Windows.Forms.ToolStripSplitButton toolDelete;
-		  private System.Windows.Forms.ToolStripMenuItem toolDeleteAndFile;
+		  private System.Windows.Forms.ToolStripMenuItem toolCompetelyDeleteAndFile;
 		  private System.Windows.Forms.ToolStripButton toolUpdate;
 		  private System.Windows.Forms.Timer timerClipboard;
 		  private System.Windows.Forms.ToolStripSplitButton toolOpenFolder;
@@ -917,6 +926,7 @@
 		  private System.Windows.Forms.ToolStripDropDownButton mnuConMore;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConExportUrlList;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConAcPlay;
+		  private System.Windows.Forms.ToolStripMenuItem toolCompletelyDelete;
 
 	 }
 }

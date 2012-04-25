@@ -19,9 +19,28 @@ namespace Kaedei.AcDown.Parser
 		public ParseResult Parse(ParseRequest request)
 		{
 			ParseResult pr = new ParseResult();
-
-			string url = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/timezone/+08/version/5/source/video?n=3&ran=4656&password=%PW%".Replace(@"%ID%", request.Id).Replace(@"%PW%", request.Password);
+			string urlpre = @"http://v.youku.com/player/getPlayList/VideoIDS/%ID%/timezone/+08/version/5/source/video?n=3&ran=4656&password=%PW%";
+			string url = urlpre.Replace(@"%ID%", request.Id).Replace(@"%PW%", request.Password);
 			string xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
+			//选择语言
+			Regex rLang = new Regex(@"(?<=""audiolang"":\[).+?(?=\])");
+			Match mLang = rLang.Match(xmldoc);
+			if (mLang.Success) //如果存在多种语言
+			{
+				string langs = mLang.Value;
+				Regex rLanguage = new Regex(@"""lang"":""(?<lang>.+?)"",""vid"":""(?<vid>.+?)""");
+				MatchCollection mcLanguages = rLanguage.Matches(langs);
+				Dictionary<string, string> langDict = new Dictionary<string, string>();
+				foreach (Match mLanguage in mcLanguages)
+				{
+					langDict.Add(mLanguage.Groups["vid"].Value, Tools.ReplaceUnicode2Str(mLanguage.Groups["lang"].Value));
+				}
+				string chosenId = ToolForm.CreateSingleSelectForm("您正在下载的视频有多种语言版本，请选择语言：", langDict, "", request.AutoAnswers, "youku");
+				request.Id = chosenId;
+				url = urlpre.Replace(@"%ID%", request.Id).Replace(@"%PW%", request.Password);
+				xmldoc = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
+			}
+
 			//正则表达式提取各个参数
 			string regexstring = "\"seed\":(?<seed>\\w+),.+\"key1\":\"(?<key1>\\w+)\",\"key2\":\"(?<key2>\\w+)\".+\"streamfileids\":{\"(?<fileposfix>\\w+)\":\"(?<fileID>[0-9\\*]+)";
 			Regex r = new Regex(regexstring);

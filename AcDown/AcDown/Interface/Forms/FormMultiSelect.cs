@@ -39,7 +39,7 @@ namespace Kaedei.AcDown.Interface.Forms
 				}
 			}
 			if (s.Count > 0)
-				this.Close();
+				return;
 
 			this.SuspendLayout();
 			foreach (var item in keyValueContent.Keys)

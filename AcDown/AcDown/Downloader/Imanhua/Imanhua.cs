@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Kaedei.AcDown.Interface;
-using System.Text.RegularExpressions;
-using System.IO;
-using Kaedei.AcDown.Parser;
-using Kaedei.AcDown.Interface.Forms;
-using System.Net;
-using System.Collections;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using Kaedei.AcDown.Interface;
+using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
 	/// <summary>
 	/// 爱漫画下载插件
 	/// </summary>
-	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.10.0.0", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.11.5.425", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class ImanhuaPlugin : IAcdownPluginInfo
 	{
 
@@ -28,7 +26,16 @@ namespace Kaedei.AcDown.Downloader
 				"http://www.imanhua.com/comic/120/",
 				"http://www.imanhua.com/comic/120/list_55010.html",
 			});
-			//AutoAnswer(不支持)
+			//AutoAnswer
+			Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			{
+				new AutoAnswer("imanhua","http://t5.imanhua.com","电信①"),
+				new AutoAnswer("imanhua","http://t4.imanhua.com","电信②"),
+				new AutoAnswer("imanhua","http://t6.imanhua.com","电信③"),
+				new AutoAnswer("imanhua","http://t5.imanhua.com","江苏电信"),
+				new AutoAnswer("imanhua","http://t4.imanhua.com","浙江电信"),
+				new AutoAnswer("imanhua","http://c3.imanhua.com","网通")
+			});
 			//ConfigurationForm(不支持)
 
 		}
@@ -229,9 +236,9 @@ namespace Kaedei.AcDown.Downloader
 				#region 选择服务器
 
 
-				//取得配置文件
+				//取得服务器配置文件
 				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), Info.Proxy);
-				Regex rServer = new Regex(@"\['(?<server>.+?)[ ,']+(?<ip>.+?)'\]");
+				Regex rServer = new Regex(@"arrHost\[\d+\] = \[""(?<server>.+?)"" , ""(?<ip>.+?)""\]");
 				MatchCollection mServers = rServer.Matches(serverjs);
 
 				//添加到数组中
@@ -245,7 +252,6 @@ namespace Kaedei.AcDown.Downloader
 				//选择服务器
 				string serverName = ToolForm.CreateSingleSelectForm("", servers, "", Info.AutoAnswer, "imanhua");
 
-
 				#endregion
 
 				#region 下载漫画
@@ -254,13 +260,20 @@ namespace Kaedei.AcDown.Downloader
 				string mainDir = Info.SaveDirectory + (Info.SaveDirectory.ToString().EndsWith(@"\") ? "" : @"\") + Info.Title;
 				//确定漫画共有几个段落
 				Info.PartCount = subUrls.Count;
+				int i = 0;
 
 				//分段落下载
-				for (int i = 0; i < Info.PartCount; i++)
+				foreach (string surl in subUrls)
 				{
 					Info.CurrentPart = i + 1;
 					//提示更换新Part
 					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
+
+					//分析漫画id和lid
+					Regex rSubUrl = new Regex(@"http://(www\.|)imanhua\.com/comic/(?<bid>\d+)(/list_(?<cid>\d+)\.html|)");
+					Match mSubUrl = rSubUrl.Match(surl);
+					string bookId = mSubUrl.Groups["bid"].Value;
+					string chapterId = mSubUrl.Groups["cid"].Value;
 
 					//地址数组
 					List<string> fileUrls = new List<string>();
@@ -271,7 +284,7 @@ namespace Kaedei.AcDown.Downloader
 						wc.Proxy = Info.Proxy;
 
 					//取得源代码
-					byte[] buff = wc.DownloadData(subUrls[i]);
+					byte[] buff = wc.DownloadData(surl);
 					string cookie = wc.ResponseHeaders.Get("Set-Cookie");
 					string source = Encoding.GetEncoding("GB2312").GetString(buff);
 					//取得标题
@@ -285,36 +298,45 @@ namespace Kaedei.AcDown.Downloader
 					//创建文件夹
 					Directory.CreateDirectory(subDir);
 
+
+
 					//检查是否是老版本
-					Regex rOld = new Regex(@"/Files/Images/\d+/\d+/\w+\.\w+");
-					MatchCollection mOlds = rOld.Matches(source);
-					if (mOlds.Count > 0) //老版本
+					if (int.Parse(chapterId) > 7910) //7910之后为新版本
 					{
-						//添加url到数组
-						foreach (Match item in mOlds)
+						//如果使用动态生成
+						if (source.Contains(@"eval(function"))
 						{
-							fileUrls.Add(serverName + item.ToString());
+							//获取所有文件名
+							Regex rFileName = new Regex(@"(?<=eval\(function.+)\w+_\d+(_\d+|)(?=.+core\.bind)");
+							MatchCollection mcFileNames = rFileName.Matches(source);
+							foreach (Match file in mcFileNames)
+							{
+								fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".jpg");
+								fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".png");
+							}
+						}
+						else
+						{
+							//获取所有文件名
+							Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
+							Match mFileName = rFileName.Match(source);
+							string[] files = mFileName.Value.Replace("\"", "").Split(',');
+							//组合文件名
+							foreach (string file in files)
+							{
+								fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file);
+							}
 						}
 					}
-					else   //新版本
+					else //老版本
 					{
-						Regex rNewId = new Regex(@"JOJO_(?<id1>\d+)\|");
-						Match mNewId = rNewId.Match(source);
-						string id1 = mNewId.Groups["id1"].Value;
-						//取得var段
-						Regex rSubSource = new Regex(@"var.*split");
-						Match mSubSource = rSubSource.Match(source);
-						string subsource = mSubSource.ToString();
-						Regex rNewFile = new Regex(@"\|(?<file>\w+[^pic,sid,var,len,\|,'])");
-						MatchCollection mNewFiles = rNewFile.Matches(subsource);
-
-						//添加url到数组
-						foreach (Match item in mNewFiles)
+						//获取所有文件名
+						Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
+						Match mFileName = rFileName.Match(source);
+						string[] files = mFileName.Value.Replace("\"", "").Split(',');
+						foreach (string file in files)
 						{
-							fileUrls.Add(serverName + "/Pictures/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".jpg");
-							fileUrls.Add(serverName + "/Pictures/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".png");
-							fileUrls.Add(serverName + "/Files/Images/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".jpg");
-							fileUrls.Add(serverName + "/Files/Images/" + id + "/" + id1 + "/" + item.Groups["file"].Value + ".png");
+							fileUrls.Add(serverName + file);
 						}
 					}
 
@@ -341,7 +363,8 @@ namespace Kaedei.AcDown.Downloader
 						currentParameter.DoneBytes = j;
 					} // end for
 
-				}//end for
+					i++;
+				}//end foreach
 			}//end try
 			catch (Exception ex) //出现错误即下载失败
 			{
@@ -350,6 +373,16 @@ namespace Kaedei.AcDown.Downloader
 
 
 				#endregion
+
+			//输出真实地址
+			if (Info.Settings.ContainsKey("ExportUrl"))
+			{
+				//Info.Settings["ExportUrl"] =
+			}
+			else
+			{
+
+			}
 
 			//下载成功完成
 			currentParameter.DoneBytes = currentParameter.TotalLength;

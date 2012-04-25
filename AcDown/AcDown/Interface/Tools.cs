@@ -48,7 +48,7 @@ namespace Kaedei.AcDown.Interface
       }
 
       /// <summary>
-      /// 将Unicode字符转换为String(转换类似于/u1234的字符串)
+      /// 将Unicode字符转换为String(转换类似于\u1234的字符串)
       /// </summary>
       /// <param name="input"></param>
       /// <returns></returns>

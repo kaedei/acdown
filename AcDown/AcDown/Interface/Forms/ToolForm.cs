@@ -18,7 +18,8 @@ namespace Kaedei.AcDown.Interface.Forms
 		{
 			Collection<string> c = new Collection<string>();
 			FormMultiSelect form = new FormMultiSelect(ref c, keyValueContent, autoAnswers, autoAnswerPrefix);
-			form.ShowDialog();
+			if (c.Count <= 0)
+				form.ShowDialog();
 			return c;
 		}
 
@@ -36,7 +37,8 @@ namespace Kaedei.AcDown.Interface.Forms
 		{
 			string[] index = new string[1];
 			FormSingleSelect frm = new FormSingleSelect(ref index, tip, keyValueContent, defaultKey, autoAnswers, autoAnswerPrefix);
-			frm.ShowDialog();
+			if (string.IsNullOrEmpty(index[0]))
+				frm.ShowDialog();
 			return index[0];
 		}
 

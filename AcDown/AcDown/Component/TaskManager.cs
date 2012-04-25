@@ -209,7 +209,7 @@ namespace Kaedei.AcDown.Component
 		/// 删除任务(自动终止未停止的任务)
 		/// </summary>
 		/// <param name="task"></param>
-		public void DeleteTask(TaskInfo task, bool deleteFile)
+		public void DeleteTask(TaskInfo task, bool deleteFile, bool removeToRecyclebin)
 		{
 			//停止任务
 			StopTask(task);
@@ -258,11 +258,10 @@ namespace Kaedei.AcDown.Component
 				}
 
 				//从任务列表中删除任务
-				//如果任务正在运行
-				if (task.Status != DownloadStatus.已删除)
+				if (task.Status != DownloadStatus.已删除 && removeToRecyclebin)
 				{
-					//移动到已删除
-					task.Status = DownloadStatus.已删除;
+						//移动到回收站
+						task.Status = DownloadStatus.已删除;
 				}
 				else //如果任务已经删除至回收站
 				{

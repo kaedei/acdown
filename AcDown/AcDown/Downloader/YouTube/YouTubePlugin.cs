@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("YouTubeDownloader", "YouTube下载插件", "Kaedei", "3.10.0.0", "YouTube下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("YouTubeDownloader", "YouTube下载插件", "Kaedei", "3.11.5.425", "YouTube下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class YouTubePlugin : IAcdownPluginInfo
 	{
 		public YouTubePlugin()

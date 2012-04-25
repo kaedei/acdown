@@ -101,7 +101,7 @@ namespace Kaedei.AcDown.Downloader
 
 				string allResSrc = mMulti.Value;
 				//获取url和名称
-				Regex rGetAllRes = new Regex(@"<a href=""(?<url>.+?)"">.+?<B>(?<mode>.+?)</B>");
+				Regex rGetAllRes = new Regex(@"<a href=""(?<url>.+?)"".+?<B>(?<mode>.+?)</B>");
 				MatchCollection mGetAllRes = rGetAllRes.Matches(allResSrc);
 				if (mGetAllRes.Count > 1)
 				{
@@ -110,7 +110,7 @@ namespace Kaedei.AcDown.Downloader
 					dict.Add(url, "默认清晰度");
 					foreach (Match item in mGetAllRes)
 					{
-						dict.Add(item.Groups["url"].Value, item.Groups["mode"].Value);
+						dict.Add("http://www.flvcd.com/" + item.Groups["url"].Value, item.Groups["mode"].Value);
 					}
 					//用户选择清晰度
 					url = ToolForm.CreateSingleSelectForm("在线解析引擎可以解析此视频的多种清晰度模式，\n请选择您需要的视频清晰度：", dict, url, Info.AutoAnswer, "flvcd");
@@ -136,6 +136,14 @@ namespace Kaedei.AcDown.Downloader
 				if (string.IsNullOrEmpty(content))
 				{
 					throw new Exception("FLVCD插件暂时不支持此URL的解析\n" + Info.Url);
+				}
+
+				//重新设置保存目录（生成子文件夹）
+				if (!Info.SaveDirectory.ToString().EndsWith(title))
+				{
+					string newdir = Path.Combine(Info.SaveDirectory.ToString(), title);
+					if (!Directory.Exists(newdir)) Directory.CreateDirectory(newdir);
+					Info.SaveDirectory = new DirectoryInfo(newdir);
 				}
 
 				//清空地址
