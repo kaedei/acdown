@@ -38,8 +38,8 @@ namespace Kaedei.AcDown.Interface.Forms
 							if (i.Key.Equals(item.Identify, StringComparison.CurrentCultureIgnoreCase))
 							{
 								s[0] = i.Key;
-								this.Close();
-								break;
+								//this.Close();
+								return;
 							}
 						}
 					}
@@ -60,7 +60,7 @@ namespace Kaedei.AcDown.Interface.Forms
 				combo.SelectedIndex = 0;
 
 			if (!string.IsNullOrEmpty(tip))
-				this.Text = tip;
+				lblTip.Text = tip;
 			formtitle = this.Text;
 		}
 

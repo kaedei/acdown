@@ -676,7 +676,7 @@ namespace Kaedei.AcDown.UI
 				}
 			}
 			catch { }
-			
+
 		}
 
 
@@ -898,33 +898,44 @@ namespace Kaedei.AcDown.UI
 		//删除任务
 		private void mnuConDelete_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("是否要删除选定的下载任务?", "删除下载任务",
+			if (MessageBox.Show("是否删除选定的下载任务？", "删除下载任务",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
 				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
 			{
 				return;
 			}
-			DeleteFile(Config.setting.DeleteTaskAndFile);
+			DeleteTask(Config.setting.DeleteTaskAndFile, true);
 		}
 
-		//删除任务及文件
+		//彻底删除任务
+		private void toolCompletelyDelete_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("是否彻底删除选定的下载任务？", "删除下载任务",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+			{
+				return;
+			}
+			DeleteTask(Config.setting.DeleteTaskAndFile, false);
+		}
+
+		//彻底删除任务及文件
 		private void mnuConDeleteAndFile_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("是否要删除选定的下载任务及已下载的文件?", "删除选定任务和文件",
+			if (MessageBox.Show("是否要彻底删除选定的下载任务，\n并移除及已下载的所有文件？", "彻底删除选定任务和文件",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
 				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
 			{
 				return;
 			}
-			DeleteFile(true);
-
+			DeleteTask(true, false);
 		}
 
-		private void DeleteFile(bool deletefile)
+		private void DeleteTask(bool deletefile, bool removeToRecyclebin)
 		{
 			//隐藏浮动工具栏
 			contextTool.Hide();
-			
+
 			Collection<TaskInfo> willbedeleted = new Collection<TaskInfo>();
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
@@ -937,7 +948,7 @@ namespace Kaedei.AcDown.UI
 
 			foreach (TaskInfo item in willbedeleted)
 			{
-				taskMgr.DeleteTask(item, deletefile);
+				taskMgr.DeleteTask(item, deletefile, removeToRecyclebin);
 			}
 
 		}
@@ -1581,6 +1592,8 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
+
+
 
 	}//end class
 

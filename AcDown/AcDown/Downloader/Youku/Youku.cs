@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Kaedei.AcDown.Interface;
-using System.Text.RegularExpressions;
 using System.IO;
-using Kaedei.AcDown.Parser;
+using System.Text;
+using System.Text.RegularExpressions;
+using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Interface.Forms;
+using Kaedei.AcDown.Parser;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -24,10 +24,10 @@ namespace Kaedei.AcDown.Downloader
 				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html密码",
 				"http://v.youku.com/v_playlist/f5656465o1p0.html密码",
 			});
-            //AutoAnswer
-            Feature.Add("AutoAnswer", new List<AutoAnswer>()
+				//AutoAnswer
+				Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-                new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+					 new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
 				new AutoAnswer("youku","hd2","优酷 超清(HD)"),
 				new AutoAnswer("youku","flv","优酷 标清(Flv)")
 			});
@@ -160,7 +160,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace(" - 在线观看","");
+				string title = mTitle.Groups["title"].Value.Replace(" - 在线观看", "").Replace(" - 视频", "").Replace(" - 优酷视频", "");
 
 				Info.Title = title;
 				//过滤非法字符

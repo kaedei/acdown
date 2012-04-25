@@ -280,16 +280,6 @@ namespace Kaedei.AcDown.Downloader
 				//如果存在下拉列表框
 				if (mSubTitles.Count > 0)
 				{
-					//确定当前视频的子标题
-					//foreach (Match item in mSubTitles)
-					//{
-					//   if (suburl == item.Groups["part"].Value)
-					//   {
-					//      title = title + " - " + item.Groups["content"].Value;
-					//      break;
-					//   }
-					//}
-
 					//解析关联项需要同时满足的条件：
 					//1.这个任务不是被其他任务所添加的
 					//2.用户设置了“解析关联项”
@@ -301,11 +291,8 @@ namespace Kaedei.AcDown.Downloader
 							var dict = new Dictionary<string, string>();
 							foreach (Match item in mSubTitles)
 							{
-								//if (suburl != item.Groups["part"].Value)
-								//{
-									dict.Add(url.Replace(suburl, item.Groups["part"].Value),
-												item.Groups["content"].Value);
-								//}
+								dict.Add(url.Replace(suburl, item.Groups["part"].Value),
+											item.Groups["content"].Value);
 							}
 							//用户选择任务
 							var ba = new Collection<string>();
