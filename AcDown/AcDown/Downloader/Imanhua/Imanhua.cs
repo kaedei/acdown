@@ -238,7 +238,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//取得服务器配置文件
 				string serverjs = Network.GetHtmlSource(@"http://www.imanhua.com/v2/config/config.js", Encoding.GetEncoding("GB2312"), Info.Proxy);
-				Regex rServer = new Regex(@"arrHost\[\d+\] = \[""(?<server>.+?)"" , ""(?<ip>.+?)""\]");
+				Regex rServer = new Regex(@"arrHost\[\d+\][ =""'\[]+(?<server>.+?)[""', ]+(?<ip>.+?)[""']\]");
 				MatchCollection mServers = rServer.Matches(serverjs);
 
 				//添加到数组中
