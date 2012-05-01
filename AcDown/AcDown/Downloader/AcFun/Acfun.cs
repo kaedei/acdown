@@ -209,13 +209,28 @@ namespace Kaedei.AcDown.Downloader
 				//string ot = ""; //视频子id
 
 				//取得embed块的源代码
-				Regex rEmbed = new Regex(@"\<div id=""area-player""\>.+?\</div\>");
+				Regex rEmbed = new Regex(@"\<div id=""area-player""\>.+?\</div\>", RegexOptions.Singleline);
 				Match mEmbed = rEmbed.Match(src);
-				string embedSrc = mEmbed.ToString(); //.Replace("type=\"application/x-shockwave-flash\"", "");
+				string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
 
 				//检查是否为Flash游戏
 				Regex rFlash = new Regex(@"src=""(?<player>.+?)\.swf""");
 				Match mFlash = rFlash.Match(embedSrc);
+
+				#region 取得当前Flash播放器地址
+				//脚本地址
+				string playerScriptUrl = "http:" + Regex.Match(src, @"(?<=<script src="")//static\.acfun\.tv/dotnet/\d+/script/article\.js(?="">)").Value + @"?_version=12289360";
+				//脚本源代码
+				string playerScriptSrc = Network.GetHtmlSource(playerScriptUrl, Encoding.UTF8, Info.Proxy);
+				//swf文件地址
+				string playerUrl = Regex.Match(playerScriptSrc, @"http://.+?swf").Value;
+				//添加到插件设置中
+				if (Info.Settings.ContainsKey("PlayerUrl"))
+					Info.Settings["PlayerUrl"] = playerUrl;
+				else
+					Info.Settings.Add("PlayerUrl", playerUrl);
+
+				#endregion
 
 
 				//如果是Flash游戏
@@ -225,46 +240,52 @@ namespace Kaedei.AcDown.Downloader
 				}
 				else
 				{
-					//取得播放器地址
-					Regex rPlayer = new Regex(@"http://.+?\.swf");
-					if (Info.Settings.ContainsKey("PlayerUrl"))
-						Info.Settings["PlayerUrl"] = rPlayer.Match(embedSrc).Value;
-					else
-						Info.Settings.Add("PlayerUrl", rPlayer.Match(embedSrc).Value);
-
-					//取得acfun id值
-					Regex rAcfunId = new Regex(@"'id':'(?<id>\d+)");
-					Match mAcfunId = rAcfunId.Match(embedSrc);
-					string acfunid = mAcfunId.Groups["id"].Value;
-
-					//获取跳转
-					string getvideobyid = Network.GetHtmlSource("http://www.acfun.tv/api/getVideoByID.aspx?vid=" + acfunid, Encoding.UTF8);
-
-					//将信息添加到Setting中
-					Regex rVideoInfo = new Regex(@"""(?<key>.+?)"":(""|)(?<value>.+?)(""|)[,|}]");
-					MatchCollection mcVideoInfo = rVideoInfo.Matches(getvideobyid);
-					foreach (Match mVideoInfo in mcVideoInfo)
-					{
-						string key = mVideoInfo.Groups["key"].Value;
-						string value = mVideoInfo.Groups["value"].Value;
-						if (Info.Settings.ContainsKey(key))
-							Info.Settings[key] = value;
+					if (embedSrc.Contains(@"/newflvplayer/")) //旧版本
+					{						
+						//获取ID
+						Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
+						Match mId = rId.Match(embedSrc);
+						id = mId.Groups["id"].Value;
+						if (Info.Settings.ContainsKey("cid"))
+							Info.Settings["cid"] = id;
 						else
-							Info.Settings.Add(key, value);
+							Info.Settings.Add("cid", id);
+
+
+						//取得type值
+						Regex rType = new Regex(@"type(|\w)=(?<type>\w*)");
+						Match mType = rType.Match(embedSrc);
+						type = mType.Groups["type"].Value;
+						if (type.Equals("video", StringComparison.CurrentCultureIgnoreCase))
+							type = "sina";
 					}
+					else
+					{
+						//取得acfun id值
+						Regex rAcfunId = new Regex(@"'id':'(?<id>\d+)");
+						Match mAcfunId = rAcfunId.Match(embedSrc);
+						string acfunid = mAcfunId.Groups["id"].Value;
 
-					//获取ID
-					//Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
-					//Match mId = rId.Match(embedSrc);
-					id = Info.Settings["vid"];
-					//mId.Groups["id"].Value;
-					//ot = mId.Groups["ot"].Value;
+						//获取跳转
+						string getvideobyid = Network.GetHtmlSource("http://www.acfun.tv/api/getVideoByID.aspx?vid=" + acfunid, Encoding.UTF8);
 
-					//取得type值
-					//Regex rType = new Regex(@"type(|\w)=(?<type>\w*)");
-					//Match mType = rType.Match(embedSrc);
-					type = Info.Settings["vtype"];
-					//mType.Groups["type"].Value;
+						//将信息添加到Setting中
+						Regex rVideoInfo = new Regex(@"""(?<key>.+?)"":(""|)(?<value>.+?)(""|)[,|}]");
+						MatchCollection mcVideoInfo = rVideoInfo.Matches(getvideobyid);
+						foreach (Match mVideoInfo in mcVideoInfo)
+						{
+							string key = mVideoInfo.Groups["key"].Value;
+							string value = mVideoInfo.Groups["value"].Value;
+							if (Info.Settings.ContainsKey(key))
+								Info.Settings[key] = value;
+							else
+								Info.Settings.Add(key, value);
+						}
+
+						id = Info.Settings["vid"];
+						type = Info.Settings["vtype"];
+
+					}
 				}
 
 				//取得视频标题

@@ -11,6 +11,7 @@ using System.Xml.Serialization;
 using Kaedei.AcDown.Component;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Interface.AcPlay;
+using System.Text;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -72,9 +73,12 @@ namespace Kaedei.AcDown.UI.Components
 			//设置下拉列表
 			switch (config.PlayerName)
 			{
-				//case "bilibili":
-				//   cboPlayer.SelectedIndex = 1;
-				//   break;
+				case "acfun":
+					cboPlayer.SelectedIndex = 0;
+					break;
+				case "bilibili":
+				   cboPlayer.SelectedIndex = 1;
+				   break;
 				default:
 					cboPlayer.SelectedIndex = 0;
 					break;
@@ -226,12 +230,10 @@ namespace Kaedei.AcDown.UI.Components
 		private void lnkPlayerCache_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			string file_acfun = Path.Combine(appdata, @"Kaedei\AcPlay\Acfun.swf");
-			string file_bilibili = Path.Combine(appdata, @"Kaedei\AcPlay\Bilibili.swf");
-			string swf_bilibili = "http://static.loli.my/play.swf";
-			string swf_acfun = @"http://static.acfun.tv/player/ACFlashPlayer.artemis.20120418.swf";
+			string player = "acfun";
+
 			//建立文件夹
-			string dir = Path.GetDirectoryName(file_acfun);
+			string dir = Path.GetDirectoryName(Path.Combine(appdata, @"Kaedei\AcPlay\Cache\"));
 			if (!Directory.Exists(dir))
 				Directory.CreateDirectory(dir);
 
@@ -242,12 +244,10 @@ namespace Kaedei.AcDown.UI.Components
 			switch (cboPlayer.SelectedIndex)
 			{
 				case 0:
-					file = file_acfun;
-					swf = swf_acfun;
+					player = "acfun";
 					break;
 				case 1:
-					file = file_bilibili;
-					swf = swf_bilibili;
+					player = "bilibili";
 					break;
 			}
 
@@ -258,11 +258,32 @@ namespace Kaedei.AcDown.UI.Components
 			{
 				try
 				{
+					//播放器地址
+					if (player == "acfun")
+					{
+						//页面地址
+						string src = Network.GetHtmlSource("http://www.acfun.tv/v/ac10000", Encoding.UTF8);
+						//脚本地址
+						string playerScriptUrl = "http:" + Regex.Match(src, @"(?<=<script src="")//static\.acfun\.tv/dotnet/\d+/script/article\.js(?="">)").Value + @"?_version=12289360";
+						//脚本源代码
+						string playerScriptSrc = Network.GetHtmlSource(playerScriptUrl, Encoding.UTF8);
+						//swf文件地址
+						swf = Regex.Match(playerScriptSrc, @"http://.+?swf").Value;
+					}
+					else if (player == "bilibili")
+					{
+						swf = "http://static.loli.my/play.swf";
+					}
+
+					//播放器缓存位置
+					file = Path.Combine(dir, Path.GetFileNameWithoutExtension(swf) + ".swf");
+
 					r = Network.DownloadFile(new DownloadParameter()
 					{
 						Url = swf,
 						FilePath = file
 					});
+
 					//如果下载失败则删除文件
 					if (!r)
 					{
