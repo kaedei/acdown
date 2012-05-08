@@ -180,9 +180,11 @@ namespace Kaedei.AcDown.UI.Components
 			{
 				case 1:
 					config.PlayerName = "bilibili";
+					config.PlayerUrl = "http://static.loli.my/play.swf";
 					break;
 				default:
 					config.PlayerName = "acfun";
+					config.PlayerUrl = "http://static.acfun.tv/player/ACFlashPlayer.artemis.20120422.swf";
 					break;
 			}
 
