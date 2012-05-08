@@ -116,7 +116,7 @@ namespace Kaedei.AcDown.Component
 							//AcDown规范:仅有TaskManager及插件本身有权修改其所属TaskInfo对象的Status属性
 							task.Status = DownloadStatus.正在下载;
 							delegates.Start(new ParaStart(task));
-							
+
 							//下载视频
 							bool finished = task.Start(delegates);
 
@@ -260,8 +260,8 @@ namespace Kaedei.AcDown.Component
 				//从任务列表中删除任务
 				if (task.Status != DownloadStatus.已删除 && removeToRecyclebin)
 				{
-						//移动到回收站
-						task.Status = DownloadStatus.已删除;
+					//移动到回收站
+					task.Status = DownloadStatus.已删除;
 				}
 				else //如果任务已经删除至回收站
 				{
@@ -401,28 +401,31 @@ namespace Kaedei.AcDown.Component
 
 			lock (saveTaskLock)
 			{
-				//序列化至临时文件
-				string tempfilename = path + "Task_" + new Random().Next(10000).ToString() + ".xml";
-				using (FileStream fs = new FileStream(tempfilename, FileMode.Create))
+				//序列化至内存流
+				using (MemoryStream ms = new MemoryStream())
 				{
 					try
 					{
 						XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
-						formatter.Serialize(fs, TaskInfos);
-						//拷贝临时文件到任务文件
-						File.Copy(tempfilename, path + @"Task.xml", true);
+						formatter.Serialize(ms, TaskInfos);
+						//将内存流复制到文件
+						using (FileStream fs = new FileStream(path + @"Task.xml", FileMode.Create))
+						{
+							byte[] buffer= new byte[500*1024];
+							int read = 0;
+							read = ms.Read(buffer, 0, buffer.Length);
+							while (read > 0)
+							{
+								fs.Write(buffer, 0, read);
+								read = ms.Read(buffer, 0, buffer.Length);
+							}
+						}
 					}
 					catch (Exception ex)
 					{
 						Logging.Add(ex);
 					}
 				}
-				//删除临时文件
-				try
-				{
-					File.Delete(tempfilename);
-				}
-				catch { }
 				//保证TaskInfos对象不会被意外回收
 				GC.KeepAlive(TaskInfos);
 			}
