@@ -411,6 +411,7 @@ namespace Kaedei.AcDown.Component
 						//将内存流复制到文件
 						using (FileStream fs = new FileStream(path + @"Task.xml", FileMode.Create))
 						{
+							ms.Position = 0;
 							byte[] buffer= new byte[500*1024];
 							int read = 0;
 							read = ms.Read(buffer, 0, buffer.Length);
