@@ -79,12 +79,12 @@
 			// columnHeader7
 			// 
 			this.columnHeader7.Text = "插件名称";
-			this.columnHeader7.Width = 117;
+			this.columnHeader7.Width = 147;
 			// 
 			// columnHeader2
 			// 
 			this.columnHeader2.Text = "版本";
-			this.columnHeader2.Width = 65;
+			this.columnHeader2.Width = 120;
 			// 
 			// columnHeader8
 			// 

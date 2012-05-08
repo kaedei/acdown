@@ -16,7 +16,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.5.422", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.5.508", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IAcdownPluginInfo
 	{
 		public AcFunPlugin()
@@ -240,7 +240,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 				else
 				{
-					if (embedSrc.Contains(@"/newflvplayer/")) //旧版本
+					if (!embedSrc.Contains(@"text/javascript")) //旧版本
 					{						
 						//获取ID
 						Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
