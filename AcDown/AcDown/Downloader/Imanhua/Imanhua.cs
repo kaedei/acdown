@@ -13,7 +13,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// 爱漫画下载插件
 	/// </summary>
-	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.11.5.425", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.11.7.521", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class ImanhuaPlugin : IAcdownPluginInfo
 	{
 
@@ -288,9 +288,9 @@ namespace Kaedei.AcDown.Downloader
 					string cookie = wc.ResponseHeaders.Get("Set-Cookie");
 					string source = Encoding.GetEncoding("GB2312").GetString(buff);
 					//取得标题
-					Regex rTitle = new Regex(@">> <a href=$.+?$>(?<title>\w+)</a></span>".Replace("$", "\""));
+					Regex rTitle = new Regex(@"<span id=""position"">.+?>> <a href="".+?"">(?<title>.+?)</a> >> <a href="".+?"">(?<subtitle>.+?)</a></span>");
 					Match mTitle = rTitle.Match(source);
-					string subTitle = mTitle.Groups["title"].Value;
+					string subTitle = mTitle.Groups["subtitle"].Value;
 					//过滤子标题中的非法字符
 					subTitle = Tools.InvalidCharacterFilter(subTitle, "");
 					//合并本地路径(文件夹)

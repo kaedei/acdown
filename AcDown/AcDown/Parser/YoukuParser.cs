@@ -114,7 +114,7 @@ namespace Kaedei.AcDown.Parser
 
 			//修正高清
 			if (fileposfix == "hd2") fileposfix = "flv";
-			
+
 
 			//取得FileID
 			Regex rFileID = new Regex(@"""" + strSelect + @""":""(?<fileid>.+?)""");
@@ -139,7 +139,6 @@ namespace Kaedei.AcDown.Parser
 			Regex rSegsSub = new Regex(@"""" + strSelect + @""":\[(?<segssub>.+?)\]");
 			Match mSegsSub = rSegsSub.Match(segs);
 			string segssub = mSegsSub.Groups["segssub"].Value;
-
 
 
 			string regexKey = @"""k"":""(?<k>\w+)"",""k2"":""(?<k2>\w+)""";
@@ -167,6 +166,27 @@ namespace Kaedei.AcDown.Parser
 				//添加地址
 				pr.Items.Add(new ParseResultItem(new Uri(u)));
 			}
+
+			//提取各项详细信息
+			MatchCollection mcSegs = Regex.Matches(segssub, @"{.+?}");
+			for (int i = 0; i < mcSegs.Count; i++)
+			{
+				MatchCollection mcKeys = Regex.Matches(mcSegs[i].Value, @"""(?<key>\w+)"":""(?<value>\w+)""");
+				foreach (Match mkey in mcKeys)
+				{
+					string k = mkey.Groups["key"].Value;
+					string v = mkey.Groups["value"].Value;
+					//修正length和order
+					if (k.Equals("seconds"))
+					{
+						k = "length";
+						v = (Int32.Parse(v) * 1000).ToString();
+					}
+					if (k.Equals("no")) k = "order";
+					pr.Items[i].Information.Add(k, v);
+				}
+			}
+
 			return pr;
 		}
 		#endregion

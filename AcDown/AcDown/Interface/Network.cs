@@ -163,62 +163,63 @@ namespace Kaedei.AcDown.Interface
 				}
 				#endregion
 
+				//建立文件夹
+				string dir = Directory.GetParent(para.FilePath).ToString();
+				if (!Directory.Exists(dir))
+					Directory.CreateDirectory(dir);
+
 				//如果要下载的文件存在
 				long filelength = 0;
 				if (File.Exists(para.FilePath))
 				{
 					filelength = new FileInfo(para.FilePath).Length;
-					//如果文件长度相同
-					if (filelength == para.TotalLength)
+					if (filelength > 0)
 					{
-						//返回下载成功
-						return true;
-					}
-					//如果【已有文件长度小于网络文件总长度】且【服务器支持断点续传】才启用断点续传功能
-					enableResume = (filelength < para.TotalLength) && supportrange;
-
-					//如果服务器支持断点续传
-					if (enableResume)
-					{
-						//重新获取服务器回应
-						if (response != null)
-							response.Close();
-						//创建http请求
-						var newrequest = (HttpWebRequest)HttpWebRequest.Create(para.Url);
-						//设置超时
-						newrequest.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
-						//设置代理服务器
-						if (para.Proxy != null)
-							newrequest.Proxy = para.Proxy;
-						//设置Range
-						newrequest.AddRange(int.Parse(filelength.ToString()));
-						var newresponse = (HttpWebResponse)newrequest.GetResponse();
-						//检测服务器是否存在欺诈（宣称支持断点续传且返回200 OK，但是内容为报错信息。经常出现在新浪视频服务器的返回信息中）
-						//判定为欺诈的条件为：返回的长度小于剩余(未下载的)文件长度的90%
-						if (newresponse.ContentLength < (para.TotalLength - filelength) * 9 / 10)
+						//如果文件长度相同
+						if (filelength == para.TotalLength)
 						{
-							//重新获取文件
-							response = (HttpWebResponse)request.GetResponse();
-							//服务器不支持断点续传
-							enableResume = false;
-							//设置"已完成字节数"
-							para.DoneBytes = 0;
+							//返回下载成功
+							return true;
 						}
-						else
+						//如果【已有文件长度小于网络文件总长度】且【服务器支持断点续传】才启用断点续传功能
+						enableResume = (filelength < para.TotalLength) && supportrange;
+
+						//如果服务器支持断点续传
+						if (enableResume)
 						{
-							//服务器支持断点续传
-							para.DoneBytes = filelength;
-							//设置新连接
-							response = newresponse;
+							//重新获取服务器回应
+							if (response != null)
+								response.Close();
+							//创建http请求
+							var newrequest = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+							//设置超时
+							newrequest.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
+							//设置代理服务器
+							if (para.Proxy != null)
+								newrequest.Proxy = para.Proxy;
+							//设置Range
+							newrequest.AddRange(int.Parse(filelength.ToString()));
+							var newresponse = (HttpWebResponse)newrequest.GetResponse();
+							//检测服务器是否存在欺诈（宣称支持断点续传且返回200 OK，但是内容为报错信息。经常出现在新浪视频服务器的返回信息中）
+							//判定为欺诈的条件为：返回的长度小于剩余(未下载的)文件长度的90%
+							if (newresponse.ContentLength < (para.TotalLength - filelength) * 9 / 10)
+							{
+								//重新获取文件
+								response = (HttpWebResponse)request.GetResponse();
+								//服务器不支持断点续传
+								enableResume = false;
+								//设置"已完成字节数"
+								para.DoneBytes = 0;
+							}
+							else
+							{
+								//服务器支持断点续传
+								para.DoneBytes = filelength;
+								//设置新连接
+								response = newresponse;
+							}
 						}
 					}
-
-				}
-				else //如果不存在则建立文件夹
-				{
-					string dir = Directory.GetParent(para.FilePath).ToString();
-					if (!Directory.Exists(dir))
-						Directory.CreateDirectory(dir);
 				}
 
 				#endregion

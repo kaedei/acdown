@@ -9,7 +9,7 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "3.10.0.0", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "3.11.7.527", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TudouPlugin : IAcdownPluginInfo
 	{
 
@@ -28,10 +28,10 @@ namespace Kaedei.AcDown.Downloader
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-                new AutoAnswer("tudou","3","土豆 高清(720P)"),
+					 new AutoAnswer("tudou","3","土豆 高清(720P)"),
 				new AutoAnswer("tudou","99","土豆 原画"),
 				new AutoAnswer("tudou","2","土豆 清晰(360P)"),
-                new AutoAnswer("tudou","1","土豆 流畅(256P)")
+					 new AutoAnswer("tudou","1","土豆 流畅(256P)")
 			});
 			//ConfigurationForm(不支持)
 		}
@@ -43,7 +43,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*)|playlist/p/(?<id3>\w+)\.html)");
+			Regex r = new Regex(@"^http://www\.tudou\.com/(playlist(/p/(?<id1>\w+)|/playindex\.do\?lid=(?<id2>\w+))|listplay/(.+?/|)(?<id3>.+?)(?=\.html)|programs/view/(?<id4>[\w+\-]+))");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -61,7 +61,7 @@ namespace Kaedei.AcDown.Downloader
 		/// </summary>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*)|playlist/p/(?<id3>\w+)\.html)");
+			Regex r = new Regex(@"(?<=http://www\.tudou\.com/)(playlist(/p/(?<id1>\w+)|/playindex\.do\?lid=(?<id2>\w+))|listplay/(.+?/|)(?<id3>.+?)(?=\.html)|programs/view/(?<id4>[\w+\-]+))");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -74,6 +74,10 @@ namespace Kaedei.AcDown.Downloader
 				else if (!string.IsNullOrEmpty(m.Groups["id3"].ToString()))
 				{
 					return "tudou" + m.Groups["id3"].ToString();
+				}
+				else if (!string.IsNullOrEmpty(m.Groups["id4"].ToString()))
+				{
+					return "tudou" + m.Groups["id4"].ToString();
 				}
 			}
 			return null;
@@ -169,12 +173,9 @@ namespace Kaedei.AcDown.Downloader
 
 				//分析视频iid
 				string iid = "";
-				////确定URL类型
-				//Regex r = new Regex(@"http://www\.tudou\.com/(programs/view/(?<id1>.*)/|playlist/playindex.do\?lid=(?<id2>\d*))");
-				//Match m = r.Match(Url);
 
 				//取得iid
-				Regex rlist = new Regex(@"(a|l)(?<aid>\d+)(i(?<iid>\d+)|)");
+				Regex rlist = new Regex(@"(a|l)(?<aid>\d+)(i(?<iid>\d+)|)(?=\.html)");
 				Match mlist = rlist.Match(Info.Url);
 				if (mlist.Success) //如果是列表中的视频
 				{
@@ -186,11 +187,29 @@ namespace Kaedei.AcDown.Downloader
 					Match m1 = r1.Match(src);
 					iid = m1.Groups["iid"].ToString();
 				}
-				else //如果是普通视频
+				else //如果是普通视频(或新列表视频)
 				{
-					Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
-					Match m1 = r1.Match(src);
-					iid = m1.Groups["iid"].ToString();
+					//URL中获取id
+					var mIdInUrl = Regex.Match(Info.Url, @"listplay/(?<l>.+?)/(?<i>.+?)(?=\.html)");
+					if (mIdInUrl.Success)
+					{
+						iid = mIdInUrl.Groups["i"].Value;
+					}
+					else
+					{
+						
+						var mIdInSrc = Regex.Match(src, @"(?<=listData = \[{\niid:)\w+");
+						if (mIdInSrc.Success)
+						{
+							iid = mIdInSrc.Value;
+						}
+						else
+						{
+							Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
+							Match m1 = r1.Match(src);
+							iid = m1.Groups["iid"].ToString();
+						}
+					}
 				}
 
 				//取得视频标题

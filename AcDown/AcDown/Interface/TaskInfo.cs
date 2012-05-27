@@ -426,17 +426,12 @@ namespace Kaedei.AcDown.Interface
 
 				//Progress
 				reader.ReadStartElement("Progress");
-				try
-				{
-					_progress = double.Parse((string)s.Deserialize(reader));
-					if (_progress > 1.0) _progress = 1.0;
-					if (_progress < 0.0) _progress = 0;
-				}
-				catch
-				{
-				}
-				if (double.IsNaN(_progress))
-					_progress = 0.0;
+
+				if (!double.TryParse((string)s.Deserialize(reader), out _progress))
+					_progress = 0;
+				if (_progress > 1.0) _progress = 1.0;
+				if (_progress < 0.0) _progress = 0;
+				if (double.IsNaN(_progress)) _progress = 0;
 				reader.ReadEndElement();
 
 				//settings
