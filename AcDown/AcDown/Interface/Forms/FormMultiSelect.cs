@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Collections;
 using System.Collections.ObjectModel;
+using System.Windows.Forms;
 
 namespace Kaedei.AcDown.Interface.Forms
 {
@@ -94,30 +88,14 @@ namespace Kaedei.AcDown.Interface.Forms
 			this.Close();
 		}
 
-		private void FormSelect_Load(object sender, EventArgs e)
-		{
-			////设置已选择的项
-			//for (int i = 0; i < lst.Items.Count; i++)
-			//{
-			//   if (i < s.Count)
-			//   {
-			//      lst.SetItemChecked(i, s[i]);
-			//   }
-			//}
-		}
-
-		private void lst_SelectedIndexChanged(object sender, EventArgs e)
-		{
-
-		}
-
+		//右键显示菜单
 		private void lst_MouseUp(object sender, MouseEventArgs e)
 		{
 			if (e.Button == System.Windows.Forms.MouseButtons.Right)
 			{
 				if (lsv.SelectedIndices.Count > 0)
 				{
-					mnu.Show();
+					mnu.Show(lsv, e.Location);
 				}
 			}
 		}
@@ -135,6 +113,7 @@ namespace Kaedei.AcDown.Interface.Forms
 			}
 		}
 
+		//取消选中上方所有
 		private void mnuDeselectUp_Click(object sender, EventArgs e)
 		{
 			if (lsv.SelectedIndices.Count > 0)

@@ -19,11 +19,8 @@ namespace Kaedei.AcDown.Parser
 		public ParseResult Parse(ParseRequest request)
 		{
 			ParseResult pr = new ParseResult();
-			try //测试iid是否是真实的(应该为数字)
-			{
-				int t = int.Parse(request.Id);
-			}
-			catch
+			int t;
+			if(!int.TryParse(request.Id,out t)) //测试iid是否是真实的(应该为数字)
 			{
 				//取得土豆网页面源代码
 				string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + request.Id + "/", Encoding.GetEncoding("GB2312"), request.Proxy);
@@ -32,6 +29,7 @@ namespace Kaedei.AcDown.Parser
 				Match m1 = r1.Match(tudousource);
 				request.Id = m1.Groups["iid"].ToString();
 			}
+			
 			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + request.Id + "&pw=" + request.Password;
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, request.Proxy);
 			Regex rVideo = new Regex("<f [^>]+brt=\"(?<brt>\\d+)\">(?<url>[^<]+)</f>");
