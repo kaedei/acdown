@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Interface.AcPlay;
 using System.Text;

@@ -14,7 +14,7 @@ using System.Net;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 
-namespace Kaedei.AcDown.Component
+namespace Kaedei.AcDown.Core
 {
 
 	/// <summary>
@@ -26,7 +26,7 @@ namespace Kaedei.AcDown.Component
 		/// 新建TaskManager类的实例
 		/// </summary>
 		/// <param name="delegatesCon"></param>
-		public TaskManager(DelegateContainer delegatesCon, PluginManager pluginManager)
+		public TaskManager(UIDelegateContainer delegatesCon, PluginManager pluginManager)
 		{
 			delegates = delegatesCon;
 			_pluginMgr = pluginManager;
@@ -63,7 +63,7 @@ namespace Kaedei.AcDown.Component
 		}
 
 		//委托
-		private DelegateContainer delegates;
+		private UIDelegateContainer delegates;
 
 		/// <summary>
 		/// 添加任务
@@ -73,7 +73,7 @@ namespace Kaedei.AcDown.Component
 		/// <param name="proxySetting">代理服务器设置</param>
 		/// <param name="downSub">下载字幕文件设置</param>
 		/// <returns></returns>
-		public TaskInfo AddTask(IAcdownPluginInfo plugin, string url, WebProxy proxySetting)
+		public TaskInfo AddTask(IPlugin plugin, string url, WebProxy proxySetting)
 		{
 			//新建TaskInfo对象
 			TaskInfo task = new TaskInfo();

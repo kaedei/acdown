@@ -14,7 +14,7 @@ namespace Kaedei.AcDown.Downloader
 	/// 爱漫画下载插件
 	/// </summary>
 	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.11.7.521", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
-	public class ImanhuaPlugin : IAcdownPluginInfo
+	public class ImanhuaPlugin : IPlugin
 	{
 
 		public ImanhuaPlugin()
@@ -359,7 +359,7 @@ namespace Kaedei.AcDown.Downloader
 							string fn = Path.GetFileName(fileUrls[j]);
 							File.WriteAllBytes(Path.Combine(subDir, fn), content);
 						}
-						catch (Exception ex) { } //end try
+						catch  { } //end try
 						currentParameter.DoneBytes = j;
 					} // end for
 

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 using System.IO;
 
 namespace Kaedei.AcDown.UI

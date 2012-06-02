@@ -16,7 +16,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Kaedei.AcDown.Component
+namespace Kaedei.AcDown.Core
 {
    [Serializable]
    public class AcDownSettings

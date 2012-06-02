@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// AcFun下载支持插件
 	/// </summary>
 	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.5.508", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
-	public class AcFunPlugin : IAcdownPluginInfo
+	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
 		{

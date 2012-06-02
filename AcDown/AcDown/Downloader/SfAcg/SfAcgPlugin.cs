@@ -10,7 +10,7 @@ namespace Kaedei.AcDown.Downloader
 	/// SFACG漫画下载插件
 	/// </summary>
 	[AcDownPluginInformation("SfAcgDownloader","SF互动传媒网下载插件","Kaedei","3.10.0.0","SF互动传媒网下载插件","http://blog.sina.com.cn/kaedei")]
-	public class SfAcgPlugin : IAcdownPluginInfo
+	public class SfAcgPlugin : IPlugin
 	{
 		public SfAcgPlugin()
 		{

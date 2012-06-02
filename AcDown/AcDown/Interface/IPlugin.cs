@@ -6,7 +6,7 @@ using Kaedei.AcDown.Interface;
 namespace Kaedei.AcDown.Interface
 {
 
-	public interface IAcdownPluginInfo
+	public interface IPlugin
 	{
 		IDownloader CreateDownloader();
 		bool CheckUrl(string url);

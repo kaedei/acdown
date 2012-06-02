@@ -4,7 +4,7 @@ using Kaedei.AcDown.Properties;
 using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI

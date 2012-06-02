@@ -10,7 +10,7 @@ using Kaedei.AcDown.Interface.Forms;
 namespace Kaedei.AcDown.Downloader
 {
 	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "3.11.7.527", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
-	public class TudouPlugin : IAcdownPluginInfo
+	public class TudouPlugin : IPlugin
 	{
 
 		public TudouPlugin()

@@ -8,9 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 
-namespace Kaedei.AcDown.Component
+namespace Kaedei.AcDown.Core
 {
 	 public static class Logging 
 	 {

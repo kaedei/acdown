@@ -15,7 +15,7 @@ namespace Kaedei.AcDown.Downloader
 	/// 贴吧相册下载插件
 	/// </summary>
 	[AcDownPluginInformation("TiebaAlbumDownloader", "百度贴吧相册下载插件", "Kaedei", "3.10.0.0", "百度贴吧相册下载插件", "http://blog.sina.com.cn/kaedei")]
-	public class TiebaAlbumPlugin : IAcdownPluginInfo
+	public class TiebaAlbumPlugin : IPlugin
 	{
 
 
@@ -224,7 +224,7 @@ namespace Kaedei.AcDown.Downloader
 						byte[] content = wc.DownloadData(item);
 						File.WriteAllBytes(Path.Combine(mainDir, fileUrls[item] + ".jpg"), content);
 					}
-					catch (Exception ex) { } //end try
+					catch { } //end try
 					j++;
 					currentParameter.DoneBytes = j;
 				} // end for
