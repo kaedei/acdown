@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 using System.Reflection;
 using System.Diagnostics;
 using System.Text;

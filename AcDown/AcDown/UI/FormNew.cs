@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface.Forms;
 using System.Collections.Generic;
 using System.IO;
@@ -123,7 +123,7 @@ namespace Kaedei.AcDown.UI
 
 
 		//候选插件列表
-		private List<IAcdownPluginInfo> supportedPlugins = new List<IAcdownPluginInfo>();
+		private List<IPlugin> supportedPlugins = new List<IPlugin>();
 		//检查输入的Url
 		private void txtInput_TextChanged(object sender, EventArgs e)
 		{
@@ -209,7 +209,7 @@ namespace Kaedei.AcDown.UI
 			string url = txtInput.Text;
 			this.Cursor = Cursors.WaitCursor;
 
-			IAcdownPluginInfo selectedPlugin = null;
+			IPlugin selectedPlugin = null;
 
 			//如果有可用插件
 			if (supportedPlugins.Count > 0)

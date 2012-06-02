@@ -10,7 +10,7 @@ using Kaedei.AcDown.Parser;
 namespace Kaedei.AcDown.Downloader
 {
 	[AcDownPluginInformation("YoukuDownloader","优酷网下载插件","Kaedei","3.10.0.0","优酷网下载插件","http://blog.sina.com.cn/kaedei")]
-	public class YoukuPlugin : IAcdownPluginInfo
+	public class YoukuPlugin : IPlugin
 	{
 		public YoukuPlugin()
 		{

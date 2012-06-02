@@ -15,7 +15,7 @@ namespace Kaedei.AcDown.Downloader
 {
 
 	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.11.5.508", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
-	public class BilibiliPlugin : IAcdownPluginInfo
+	public class BilibiliPlugin : IPlugin
 	{
 
 		public BilibiliPlugin()

@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
 using Kaedei.AcDown.UI;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 

@@ -70,10 +70,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\UIDelegateContainer.cs" />
     <Compile Include="Interface\AcPlay\AcPlayConfiguration.cs" />
     <Compile Include="AcPlay\FlvHelper.cs" />
-    <Compile Include="Component\AcDownSettings.cs" />
-    <Compile Include="Component\PluginManager.cs" />
+    <Compile Include="Core\Config.cs" />
+    <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
     <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />
     <Compile Include="Interface\AutoAnswer.cs" />
@@ -91,7 +92,7 @@
     </Compile>
     <Compile Include="Interface\SerializableDictionary.cs" />
     <Compile Include="Interface\TaskInfo.cs" />
-    <Compile Include="Component\Updater.cs" />
+    <Compile Include="Core\Updater.cs" />
     <Compile Include="Downloader\AcFun\Acfun.cs" />
     <Compile Include="Downloader\Bilibili\Bilibili.cs" />
     <Compile Include="Downloader\Flvcd\FlvcdDownloader.cs" />
@@ -117,8 +118,9 @@
     <Compile Include="Downloader\Imanhua\Imanhua.cs" />
     <Compile Include="Downloader\Tudou\Tudou.cs" />
     <Compile Include="Downloader\Youku\Youku.cs" />
-    <Compile Include="Interface\Delegates.cs" />
+    <Compile Include="Interface\DelegatesContainer.cs" />
     <Compile Include="Interface\Tools.cs" />
+    <Compile Include="Interface\Update.cs" />
     <Compile Include="Parser\FlvcdParser.cs" />
     <Compile Include="UI\Components\AcPlay2.cs">
       <SubType>UserControl</SubType>
@@ -146,7 +148,7 @@
     </Compile>
     <Compile Include="UI\DwmApi.cs" />
     <Compile Include="Interface\GlobalSettings.cs" />
-    <Compile Include="Interface\IAcdownPluginInfo.cs" />
+    <Compile Include="Interface\IPlugin.cs" />
     <Compile Include="Interface\Network.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Parser\QQVideoParser.cs" />
@@ -214,7 +216,7 @@
       <DependentUpon>FormShutdown.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface\IDownloader.cs" />
-    <Compile Include="Component\Logging.cs" />
+    <Compile Include="Core\Logging.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Interface\Forms\FormLogin.resx">
@@ -315,7 +317,7 @@
       <DependentUpon>FormWebbrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Shutdown.cs" />
-    <Compile Include="Component\TaskManager.cs" />
+    <Compile Include="Core\TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\1.GIF" />
@@ -392,6 +394,9 @@
     <EmbeddedResource Include="UI\Components\FlvCombine\FlvBind.exe" />
     <EmbeddedResource Include="UI\Components\FlvCombine\FLVLib.dll" />
     <EmbeddedResource Include="AcPlay\acplay.exe" />
+    <None Include="bin\Debug\AcDown.exe" />
+    <None Include="bin\Debug\AcDown.pdb" />
+    <None Include="bin\Release\AcDown.exe" />
     <Content Include="ChangeLog.txt" />
     <None Include="Resources\feedback.png" />
     <None Include="Resources\remind.wav" />

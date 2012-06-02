@@ -18,7 +18,7 @@ namespace _30edu.Common
 		{
 			get
 			{
-				int time = 0;
+				//int time = 0;
 				//foreach (FLVTag tag in this.TagList.Where(p=>p.Type)) 
 				//{  
 				//    byte[] tmp = new byte[4]; 

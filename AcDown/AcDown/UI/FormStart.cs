@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 
 namespace Kaedei.AcDown.UI
 {

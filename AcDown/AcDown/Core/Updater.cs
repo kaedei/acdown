@@ -5,7 +5,7 @@ using System.IO;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 
-namespace Kaedei.AcDown.Component
+namespace Kaedei.AcDown.Core
 {
    /// <summary>
    /// 控制应用程序升级过程的类

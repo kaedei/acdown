@@ -234,7 +234,7 @@ namespace Kaedei.AcDown.Downloader
 							byte[] content = wc.DownloadData(key);
 							File.WriteAllBytes(files[key], content);
 						}
-						catch (Exception ex) { } //end try
+						catch{ } //end try
 						currentParameter.DoneBytes += 1;
 					} // end foreach
 

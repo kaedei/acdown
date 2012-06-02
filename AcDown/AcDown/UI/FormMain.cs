@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Kaedei.AcDown.Properties;
 using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
-using Kaedei.AcDown.Component;
+using Kaedei.AcDown.Core;
 using System.Threading;
 using System.Text;
 using System.Collections.ObjectModel;
@@ -168,7 +168,7 @@ namespace Kaedei.AcDown.UI
 		//插件管理器
 		private PluginManager pluginMgr;
 		//包装委托的类
-		private DelegateContainer deles;
+		private UIDelegateContainer deles;
 
 		//是否退出程序
 		private bool exitapp = false;
@@ -183,10 +183,10 @@ namespace Kaedei.AcDown.UI
 			//记录
 			Logging.Initialize();
 			//插件管理器
-			pluginMgr = new PluginManager();
+			pluginMgr = new PluginManager(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcDown\Plugin"));
 			pluginMgr.LoadPlugins();
 			//委托
-			deles = new DelegateContainer(
+			deles = new UIDelegateContainer(
 				new AcTaskDelegate(Start),
 				new AcTaskDelegate(NewPart),
 				new AcTaskDelegate(RefreshTask),
@@ -212,6 +212,12 @@ namespace Kaedei.AcDown.UI
 			Initialize();
 			//初始化窗体
 			InitializeComponent();
+		}
+
+
+		//窗体加载
+		private void FormMain_Load(object sender, EventArgs e)
+		{
 			//设置窗口大小
 			this.Size = Config.setting.WindowSize;
 			//设置窗体标题和文字
@@ -244,13 +250,7 @@ namespace Kaedei.AcDown.UI
 				}
 			}
 			txtExample.Text = sb.ToString();
-
-		}
-
-
-		//窗体加载
-		private void FormMain_Load(object sender, EventArgs e)
-		{
+			//初始化AERO特效
 			if (Config.IsWindowsVistaOrHigher())
 			{
 				if (Config.IsWindows7OrHigher())
@@ -403,7 +403,7 @@ namespace Kaedei.AcDown.UI
 								int second = (int)(remain % 3600 % 60);
 								item.SubItems[GetColumn("RemainTime")].Text = string.Format("{0:D2}:{1:D2}:{2:D2}", hour, minute, second);
 							}
-							catch (Exception ex) { }
+							catch { }
 						}
 					}
 					catch
@@ -715,7 +715,7 @@ namespace Kaedei.AcDown.UI
 				switch (Config.setting.SearchQuery)
 				{
 					case "Acfun站内搜索":
-						q = @"http://search.acfun.tv/search.aspx?q=%TEST%&order=088d7595-3b27-46c6-a7c5-0cb1bb5dbcff&group=-1".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+						q = @"http://www.acfun.tv/search.aspx?q=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "Bilibili站内搜索":
 						q = @"http://www.bilibili.tv/search?keyword=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
@@ -1071,7 +1071,7 @@ namespace Kaedei.AcDown.UI
 
 			ParaRefresh r = (ParaRefresh)e;
 			ListViewItem item; //= GetLsvItem(r.TaskId);
-			TaskInfo task = r.Task;
+			TaskInfo task = r.SourceTask;
 
 			//如果任务被删除
 			if (!taskMgr.TaskInfos.Contains(task))
@@ -1144,7 +1144,7 @@ namespace Kaedei.AcDown.UI
 			//转换参数
 			ParaStart p = (ParaStart)e;
 			//取得指定任务
-			TaskInfo task = p.Task;
+			TaskInfo task = p.SourceTask;
 			if (task == null)
 				return;
 
@@ -1163,7 +1163,7 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			ParaNewPart p = (ParaNewPart)e;
-			TaskInfo task = p.Task;
+			TaskInfo task = p.SourceTask;
 			ListViewItem item = (ListViewItem)task.UIItem;
 			//视频标题
 			item.SubItems[GetColumn("Name")].Text = task.Title;
@@ -1191,7 +1191,7 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			ParaTipText p = (ParaTipText)e;
-			TaskInfo ac = p.Task;
+			TaskInfo ac = p.SourceTask;
 			ListViewItem item = (ListViewItem)ac.UIItem;
 			//设置提示信息
 			item.SubItems[GetColumn("Name")].Text = p.TipText;
@@ -1210,7 +1210,7 @@ namespace Kaedei.AcDown.UI
 			}
 
 			ParaFinish p = (ParaFinish)e;
-			TaskInfo task = p.Task;
+			TaskInfo task = p.SourceTask;
 			ListViewItem item = (ListViewItem)task.UIItem;
 
 			//设置完成时间
@@ -1287,7 +1287,7 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			ParaError p = (ParaError)e;
-			TaskInfo task = p.Task;
+			TaskInfo task = p.SourceTask;
 			ListViewItem item = (ListViewItem)task.UIItem;
 			//添加到日志
 			Logging.Add(p.E);
@@ -1332,7 +1332,7 @@ namespace Kaedei.AcDown.UI
 			}
 			ParaNewTask p = (ParaNewTask)e;
 			TaskInfo sourcetask = p.SourceTask;
-			IAcdownPluginInfo plugin = p.Plugin;
+			IPlugin plugin = p.Plugin;
 			string url = p.Url;
 
 			//检查参数有效性

@@ -48,7 +48,7 @@ namespace Kaedei.AcDown.Interface
 		/// <summary>
 		/// Downloader所属插件
 		/// </summary>
-		public IAcdownPluginInfo BasePlugin { get; set; }
+		public IPlugin BasePlugin { get; set; }
 
 
 		private IDownloader resourceDownloader;
