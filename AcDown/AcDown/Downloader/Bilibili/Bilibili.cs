@@ -14,7 +14,7 @@ using Kaedei.AcDown.Parser;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.11.5.508", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.11.7.611", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -212,7 +212,7 @@ namespace Kaedei.AcDown.Downloader
 				#region 登录并重新获取网页源文件
 
 				//检查是否需要登录
-				if (src.Contains("你没有权限浏览")) //需要登录
+				if (src.Contains("您无权访问本页面")) //需要登录
 				{
 					CookieContainer cookies = new CookieContainer();
 					//登录Bilibili
@@ -255,7 +255,7 @@ namespace Kaedei.AcDown.Downloader
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
 				//文件名称！
-				string title = mTitle.Groups["title"].Value.Replace("- 嗶哩嗶哩", "").Replace("- ( ゜- ゜)つロ 乾杯~", "").Trim();
+				string title = mTitle.Groups["title"].Value.Replace("- 嗶哩嗶哩", "").Replace("- ( ゜- ゜)つロ 乾杯~", "").Replace("- bilibili.tv", "").Trim();
 
 				//取得子标题
 				Regex rSubTitle = new Regex(@"<option value='(?<part>.+?\.html)'(| selected)>(?<content>.+?)</option>");
