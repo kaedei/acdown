@@ -97,7 +97,7 @@ namespace Kaedei.AcDown.Downloader
 
 		//下载参数
 		DownloadParameter currentParameter;
-		
+
 		public DelegateContainer delegates { get; set; }
 
 		//文件总长度
@@ -181,11 +181,15 @@ namespace Kaedei.AcDown.Downloader
 				{
 					//尝试取得url中的iid
 					if (!string.IsNullOrEmpty(mlist.Groups["iid"].Value))
+					{
 						iid = mlist.Groups["iid"].Value;
-					//否则取得源文件中的iid
-					Regex r1 = new Regex(@"defaultIid = (?<iid>\d.*)");
-					Match m1 = r1.Match(src);
-					iid = m1.Groups["iid"].ToString();
+					}
+					else	//否则取得源文件中的iid
+					{
+						Regex r1 = new Regex(@"defaultIid = (?<iid>\d.*)");
+						Match m1 = r1.Match(src);
+						iid = m1.Groups["iid"].ToString();
+					}
 				}
 				else //如果是普通视频(或新列表视频)
 				{
@@ -197,7 +201,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 					else
 					{
-						
+
 						var mIdInSrc = Regex.Match(src, @"(?<=listData = \[{\niid:)\w+");
 						if (mIdInSrc.Success)
 						{

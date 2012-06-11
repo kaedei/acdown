@@ -16,7 +16,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.5.508", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.7.611", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -234,7 +234,7 @@ namespace Kaedei.AcDown.Downloader
 
 
 				//如果是Flash游戏
-				if (mFlash.Success)
+				if (mFlash.Success && !mFlash.Value.Contains("newflvplayer"))
 				{
 					type = "game";
 				}
