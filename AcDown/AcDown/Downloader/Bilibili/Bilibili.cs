@@ -216,7 +216,22 @@ namespace Kaedei.AcDown.Downloader
 				{
 					CookieContainer cookies = new CookieContainer();
 					//登录Bilibili
-					var user = ToolForm.CreateLoginForm("https://secure.bilibili.tv/member/index_do.php?fmdo=user&dopost=regnew");
+					UserLoginInfo user;
+					//检查插件配置
+					try
+					{
+						user = new UserLoginInfo();
+						user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.Settings["user"]));
+						user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Info.Settings["password"]));
+						if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+							throw new Exception();
+					}
+					catch
+					{
+						user = ToolForm.CreateLoginForm("https://secure.bilibili.tv/member/index_do.php?fmdo=user&dopost=regnew");
+						Info.Settings["user"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Username));
+						Info.Settings["password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Password));
+					}
 					//Post的数据
 					string postdata = "fmdo=login&dopost=login&refurl=http%%3A%%2F%%2Fbilibili.tv%%2F&keeptime=604800&userid=" + user.Username + "&pwd=" + user.Password + "&keeptime=604800";
 					byte[] data = Encoding.UTF8.GetBytes(postdata);
@@ -254,7 +269,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				//文件名称！
+				//文件名称
 				string title = mTitle.Groups["title"].Value.Replace("- 嗶哩嗶哩", "").Replace("- ( ゜- ゜)つロ 乾杯~", "").Replace("- bilibili.tv", "").Trim();
 
 				//取得子标题
@@ -515,6 +530,8 @@ namespace Kaedei.AcDown.Downloader
 			}
 			catch (Exception ex)
 			{
+				Info.Settings["user"] = "";
+				Info.Settings["password"] = "";
 				throw ex;
 			}
 
