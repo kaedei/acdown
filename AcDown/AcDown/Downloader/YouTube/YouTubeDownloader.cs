@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Kaedei.AcDown.Downloader
 {
-	public class YouTubeDownloader: IDownloader
+	public class YouTubeDownloader : IDownloader
 	{
 		public TaskInfo Info { get; set; }
 
@@ -76,7 +76,7 @@ namespace Kaedei.AcDown.Downloader
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
 			try
 			{
-			  
+
 				//取得网页源文件
 				string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
 
@@ -118,13 +118,21 @@ namespace Kaedei.AcDown.Downloader
 				string fmtlist = mFmtList.Groups["fmt"].Value;
 
 				Regex rFmts = new Regex(@"(?<fmtid>\d+)/(?<fmtres>\d+x\d+)/\d+/\d+/\d+");
-				MatchCollection mFmts = rFmts.Matches(fmtlist);
+				MatchCollection mcFmts = rFmts.Matches(fmtlist);
 
-				List<string> resolutions = new List<string>();
-				foreach (Match fmt in mFmts)
+				//分辨率列表
+				var resolutions = new List<string>();
+				//FMT列表
+				var fmtids = new List<string>();
+				//视频地址列表
+				var videoUrls = new List<string>();
+
+				foreach (Match mFmt in mcFmts)
 				{
 					string describe = "";
-					switch (fmt.Groups["fmtid"].Value)
+					//添加到FMT列表
+					fmtids.Add(mFmt.Groups["fmtid"].Value);
+					switch (mFmt.Groups["fmtid"].Value)
 					{
 						#region "FMT列表"
 						case "0":
@@ -176,7 +184,8 @@ namespace Kaedei.AcDown.Downloader
 							break;
 						#endregion
 					}
-					resolutions.Add(fmt.Groups["fmtres"].Value + " " + describe /*+ " [fmt=" + fmt.Groups["fmtid"].Value + "]" */);
+					//添加到分辨率列表
+					resolutions.Add(mFmt.Groups["fmtres"].Value + " " + describe /*+ " [fmt=" + fmt.Groups["fmtid"].Value + "]" */);
 				}
 
 				//获取下载地址
@@ -185,24 +194,35 @@ namespace Kaedei.AcDown.Downloader
 				string urls = src.Substring(index1, index2 - index1);
 				Regex rUrls = new Regex(@"url=(?<url>http://.+?)&quality=");
 				MatchCollection mUrls = rUrls.Matches(urls);
-				List<string> videoUrls = new List<string>();
+				//添加到视频地址列表
 				foreach (Match item in mUrls)
 				{
 					videoUrls.Add(item.Groups["url"].Value);
 				}
 
 
-				//添加(地址-清晰度)字典
+				//添加(FMT-清晰度)字典
 				var dict = new Dictionary<string, string>();
 				for (int i = 0; i < videoUrls.Count; i++)
 				{
-					dict.Add(videoUrls[i], resolutions[i]);
+					dict.Add(fmtids[i], resolutions[i]);
 				}
 
+				//用户选择清晰度(获取一个FMT值)
+				string chosenFmt;
+				if (Info.Settings.ContainsKey("FMT"))
+				{
+					chosenFmt = Info.Settings["FMT"];
+				}
+				else
+				{
+					chosenFmt = ToolForm.CreateSingleSelectForm("您正在下载YouTube视频，请选择视频清晰度:", dict, "", Info.AutoAnswer, "youtube");
+					Info.Settings["FMT"] = chosenFmt;
+				}
 
-				//用户选择清晰度
+				//设置真实地址
 				videos = new string[1];
-				videos[0] = ToolForm.CreateSingleSelectForm("您正在下载YouTube视频，请选择视频清晰度:", dict, "", Info.AutoAnswer, "youtube");
+				videos[0] = videoUrls[fmtids.FindIndex(new Predicate<string>((s) => { if (chosenFmt.Equals(s)) return true; else return false; }))];
 
 				//下载视频
 				//确定视频共有几个段落
@@ -214,7 +234,7 @@ namespace Kaedei.AcDown.Downloader
 					Info.CurrentPart = i + 1;
 
 					//取得文件后缀名
-					string ext = Tools.GetExtension(videos[i]);
+					//string ext = Tools.GetExtension(videos[i]);
 					//设置当前DownloadParameter
 					if (Info.PartCount == 1) //如果只有一段
 					{
@@ -247,7 +267,7 @@ namespace Kaedei.AcDown.Downloader
 					Info.FilePath.Add(currentParameter.FilePath);
 					//下载文件
 					bool success;
-					
+
 					//提示更换新Part
 					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 

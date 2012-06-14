@@ -307,9 +307,10 @@ namespace Kaedei.AcDown.UI
 			config.Dispose();
 			//重新加载某些项目
 			//检查更新
-			//检查更新
 			if (Config.setting.EnableCheckUpdate)
 				CheckUpdate();
+			//刷新“同时进行的任务数”设置
+			taskMgr.ContinueNext();
 		}
 
 		private void btnNew_Click(object sender, EventArgs e)

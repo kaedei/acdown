@@ -10,7 +10,7 @@ namespace Kaedei.AcDown.Interface
    /// <summary>
    /// 其他工具
    /// </summary>
-   public class Tools
+   public static class Tools
    {
       /// <summary>
       /// 无效字符过滤
@@ -117,7 +117,6 @@ namespace Kaedei.AcDown.Interface
          Byte[] codeBytes = { b1, b2 };
          return ecode.GetChars(codeBytes)[0].ToString();
       }
-
 
 
    }
