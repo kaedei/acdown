@@ -29,10 +29,13 @@ namespace Kaedei.AcDown.Parser
 			string framecount = Regex.Match(source, @"<framecount>(?<framecount>\d+)</framecount>").Groups["framecount"].Value;
 			//src
 			string src = Regex.Match(source, @"<src>(?<src>\d+)</src>").Groups["src"].Value;
-
+			
 			pr.SpecificResult.Add("totallength", totallength);
 			pr.SpecificResult.Add("framecount", framecount);
 			pr.SpecificResult.Add("src", src);
+
+			//vstr
+			string vstr = Regex.Match(source, @"(?<=<vstr><!\[CDATA\[)\w+").Value;
 
 			//视频信息
 			Regex r = new Regex(@"<durl>.+?<order>(?<order>\d+)</order>.+?<length>(?<length>\d+)</length>.+?<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+?</durl>", RegexOptions.Singleline);
@@ -40,7 +43,8 @@ namespace Kaedei.AcDown.Parser
 			foreach (Match item in matches)
 			{
 				var pri = new ParseResultItem();
-				pri.RealAddress = new Uri(item.Groups["url"].Value);
+				pri.RealAddress = new Uri(item.Groups["url"].Value +
+					(string.IsNullOrEmpty(vstr) ? "" : "?vstr=" + vstr));
 				pri.Information.Add("order", item.Groups["order"].Value);
 				pri.Information.Add("length", item.Groups["length"].Value);
 				pr.Items.Add(pri);
