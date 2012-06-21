@@ -117,7 +117,7 @@ namespace Kaedei.AcDown.UI.Components
 					{
 						lvi.SubItems.Add("Acfun弹幕文件");
 					}
-					else if (File.OpenText(file).ReadLine().StartsWith(@"<?xml version=""1.0"" encoding=""UTF-8""?><i><chatserver>chat.bilibili.tv</chatserver>"))
+					else if (File.OpenText(file).ReadToEnd().Contains(@"<chatserver>chat.bilibili.tv</chatserver>"))
 					{
 						lvi.SubItems.Add("Bilibili弹幕文件");
 					}
@@ -366,7 +366,7 @@ namespace Kaedei.AcDown.UI.Components
 					{
 						lvi.SubItems.Add("Acfun弹幕文件");
 					}
-					else if (File.OpenText(file).ReadLine().StartsWith(@"<?xml version=""1.0"" encoding=""UTF-8""?><i><chatserver>chat.bilibili.tv</chatserver>"))
+					else if (File.OpenText(file).ReadToEnd().Contains(@"<chatserver>chat.bilibili.tv</chatserver>"))
 					{
 						lvi.SubItems.Add("Bilibili弹幕文件");
 					}
