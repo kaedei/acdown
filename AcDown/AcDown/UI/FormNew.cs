@@ -252,7 +252,7 @@ namespace Kaedei.AcDown.UI
 							if (aa.Count > 0)
 							{
 								FormAutoAnswer faa = new FormAutoAnswer(aa);
-                                faa.TopMost = this.TopMost;
+										  faa.TopMost = this.TopMost;
 								var result = faa.ShowDialog();
 								if (result == System.Windows.Forms.DialogResult.Cancel)
 								{

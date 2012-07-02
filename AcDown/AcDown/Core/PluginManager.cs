@@ -34,9 +34,10 @@ namespace Kaedei.AcDown.Core
 		public void LoadPlugins()
 		{
 			//AddPlugins
+			_plugins.Add(new AcFunPlugin());
 			_plugins.Add(new YoukuPlugin());
 			_plugins.Add(new YouTubePlugin());
-			_plugins.Add(new AcFunPlugin());
+			_plugins.Add(new NicoPlugin());
 			_plugins.Add(new BilibiliPlugin());
 			_plugins.Add(new TudouPlugin());
 			_plugins.Add(new ImanhuaPlugin());

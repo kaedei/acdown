@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Globalization;
 using Kaedei.AcDown.Interface;
 using System.IO;
 using System.Net;
@@ -14,7 +13,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// 贴吧相册下载插件
 	/// </summary>
-	[AcDownPluginInformation("TiebaAlbumDownloader", "百度贴吧相册下载插件", "Kaedei", "3.10.0.0", "百度贴吧相册下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TiebaAlbumDownloader", "百度贴吧相册下载插件", "Kaedei", "3.12.0.701", "百度贴吧相册下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TiebaAlbumPlugin : IPlugin
 	{
 
@@ -173,8 +172,8 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				Random rnd = new Random();
-
 				//分析各个子页面的源文件
+				var sb = new StringBuilder();
 				foreach (string item in subUrls)
 				{
 					//取得源代码
@@ -186,9 +185,15 @@ namespace Kaedei.AcDown.Downloader
 					{
 						//string fName = Tools.InvalidCharacterFilter(item2.Groups["des"].Value + " [" + rnd.Next(1000).ToString() + "]", "");
 						string fName = item2.Groups["id"].Value + ".jpg";
+						//支持导出地址列表
+						sb.Append("http://imgsrc.baidu.com/forum/pic/item/" + fName + "|");
 						fileUrls.Add("http://imgsrc.baidu.com/forum/pic/item/" + fName, fName);
 					}
 				}
+				Info.Settings["ExportUrl"] = sb.ToString();
+
+
+
 
 				#region 下载图片
 

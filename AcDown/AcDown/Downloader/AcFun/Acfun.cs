@@ -16,7 +16,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.11.7.611", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.12.0.701", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -384,6 +384,14 @@ namespace Kaedei.AcDown.Downloader
 							break;
 					}
 
+					//下载弹幕
+					bool comment = DownloadComment(title);
+					if (!comment)
+					{
+						Info.PartialFinished = true;
+						Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
+					}
+
 					//下载视频
 					//确定视频共有几个段落
 					Info.PartCount = videos.Length;
@@ -474,16 +482,9 @@ namespace Kaedei.AcDown.Downloader
 					} //end for
 				}//end 判断是否下载视频
 
-				//下载弹幕
-				bool comment = DownloadComment(title);
+				
 				//生成AcPlay文件
 				string acplay = GenerateAcplayConfig(pr, title);
-
-				if (!comment)
-				{
-					Info.PartialFinished = true;
-					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
-				}
 
 				//支持导出列表
 				StringBuilder sb = new StringBuilder(videos.Length * 2);
