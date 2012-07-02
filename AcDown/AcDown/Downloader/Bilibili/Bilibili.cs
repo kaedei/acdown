@@ -14,7 +14,7 @@ using Kaedei.AcDown.Parser;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.11.7.621", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.12.0.701", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -212,7 +212,7 @@ namespace Kaedei.AcDown.Downloader
 				#region 登录并重新获取网页源文件
 
 				//检查是否需要登录
-				if (src.Contains("您无权访问本页面")) //需要登录
+				if (src.Contains("无权访问")) //需要登录
 				{
 					CookieContainer cookies = new CookieContainer();
 					//登录Bilibili
@@ -412,6 +412,13 @@ namespace Kaedei.AcDown.Downloader
 						videos = new string[] { flashurl };
 					}
 
+					//下载弹幕
+					bool comment = DownloadComment(title, id);
+					if (!comment)
+					{
+						Info.PartialFinished = true;
+						Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
+					}
 
 					//下载视频
 					//确定视频共有几个段落
@@ -499,16 +506,9 @@ namespace Kaedei.AcDown.Downloader
 					} //end for
 				}//end 判断是否下载视频
 
-				//下载弹幕
-				bool comment = DownloadComment(title, id);
+				
 				//生成AcPlay文件
 				string acplay = GenerateAcplayConfig(pr, title);
-
-				if (!comment)
-				{
-					Info.PartialFinished = true;
-					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
-				}
 
 				//支持导出列表
 				StringBuilder sb = new StringBuilder(videos.Length * 2);

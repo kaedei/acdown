@@ -78,6 +78,9 @@ namespace Kaedei.AcDown.Interface
 					//设置代理服务器
 					if (para.Proxy != null)
 						request.Proxy = para.Proxy;
+					//设置Cookie
+					if (para.Cookies != null)
+						request.CookieContainer = para.Cookies;
 					request.AllowAutoRedirect = false;
 					//获取服务器回应
 					response = (HttpWebResponse)request.GetResponse();
@@ -197,6 +200,9 @@ namespace Kaedei.AcDown.Interface
 							//设置代理服务器
 							if (para.Proxy != null)
 								newrequest.Proxy = para.Proxy;
+							//设置Cookie
+							if (para.Cookies != null)
+								request.CookieContainer = para.Cookies;
 							//设置Range
 							newrequest.AddRange(int.Parse(filelength.ToString()));
 							var newresponse = (HttpWebResponse)newrequest.GetResponse();
@@ -511,6 +517,10 @@ namespace Kaedei.AcDown.Interface
 		/// 读取或设置使用的代理服务器设置
 		/// </summary>
 		public WebProxy Proxy { get; set; }
+		/// <summary>
+		/// 读取或设置发出请求时使用的Cookie
+		/// </summary>
+		public CookieContainer Cookies { get; set; }
 		/// <summary>
 		/// 读取或设置一个值，指示下载时是否直接提取系统缓存
 		/// </summary>

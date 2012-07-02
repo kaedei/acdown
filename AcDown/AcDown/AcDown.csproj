@@ -70,7 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\CoreManager.cs" />
     <Compile Include="Core\UIDelegateContainer.cs" />
+    <Compile Include="Downloader\Nico\NicoDownloader.cs" />
+    <Compile Include="Downloader\Nico\NicoPlugin.cs" />
     <Compile Include="Interface\AcPlay\AcPlayConfiguration.cs" />
     <Compile Include="AcPlay\FlvHelper.cs" />
     <Compile Include="Core\Config.cs" />
@@ -78,6 +81,7 @@
     <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
     <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />
     <Compile Include="Interface\AutoAnswer.cs" />
+    <Compile Include="Interface\CommonDownloader.cs" />
     <Compile Include="Interface\Forms\FormMultiSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +126,7 @@
     <Compile Include="Interface\Tools.cs" />
     <Compile Include="Interface\Update.cs" />
     <Compile Include="Parser\FlvcdParser.cs" />
+    <Compile Include="UI\AssociateRegistrar.cs" />
     <Compile Include="UI\Components\AcPlay2.cs">
       <SubType>UserControl</SubType>
     </Compile>
