@@ -26,11 +26,15 @@ namespace Kaedei.AcDown.Core
 		/// 新建TaskManager类的实例
 		/// </summary>
 		/// <param name="delegatesCon"></param>
-		public TaskManager(UIDelegateContainer delegatesCon, PluginManager pluginManager)
+		public TaskManager(UIDelegateContainer delegatesCon, PluginManager pluginManager, string startupPath)
 		{
 			delegates = delegatesCon;
 			_pluginMgr = pluginManager;
+			_startupPath = startupPath;
 		}
+
+		//启动路径
+		string _startupPath;
 
 		//插件管理器
 		PluginManager _pluginMgr;
@@ -110,37 +114,37 @@ namespace Kaedei.AcDown.Core
 			{
 				//启动新线程下载文件
 				Thread t = new Thread(() =>
+				{
+					try
 					{
-						try
+						//AcDown规范:仅有TaskManager及插件本身有权修改其所属TaskInfo对象的Status属性
+						task.Status = DownloadStatus.正在下载;
+						delegates.Start(new ParaStart(task));
+
+						//下载视频
+						bool finished = task.Start(delegates);
+
+						if (finished)
 						{
-							//AcDown规范:仅有TaskManager及插件本身有权修改其所属TaskInfo对象的Status属性
-							task.Status = DownloadStatus.正在下载;
-							delegates.Start(new ParaStart(task));
-
-							//下载视频
-							bool finished = task.Start(delegates);
-
-							if (finished)
-							{
-								//设置完成状态
-								if (task.PartialFinished)
-									task.Status = DownloadStatus.部分完成;
-								else
-									task.Status = DownloadStatus.下载完成;
-							}
+							//设置完成状态
+							if (task.PartialFinished)
+								task.Status = DownloadStatus.部分完成;
 							else
-							{
-								task.Status = DownloadStatus.已经停止;
-							}
-							delegates.Finish(new ParaFinish(task, finished));
+								task.Status = DownloadStatus.下载完成;
 						}
-						catch (Exception ex) //如果出现错误
+						else
 						{
-							task.Status = DownloadStatus.出现错误;
-							delegates.Error.Invoke(new ParaError(task, ex));
+							task.Status = DownloadStatus.已经停止;
 						}
+						delegates.Finish(new ParaFinish(task, finished));
+					}
+					catch (Exception ex) //如果出现错误
+					{
+						task.Status = DownloadStatus.出现错误;
+						delegates.Error.Invoke(new ParaError(task, ex));
+					}
 
-					});
+				});
 				t.IsBackground = true;
 				//开始下载
 				t.Start();
@@ -389,16 +393,6 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		public void SaveAllTasks()
 		{
-			//取得APPDATA路径名称
-			string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			path = Path.Combine(path, @"Kaedei\AcDown\");
-
-			if (!Directory.Exists(path))
-			{
-				//如果目录不存在则创建
-				Directory.CreateDirectory(path);
-			}
-
 			lock (saveTaskLock)
 			{
 				//序列化至内存流
@@ -409,10 +403,10 @@ namespace Kaedei.AcDown.Core
 						XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
 						formatter.Serialize(ms, TaskInfos);
 						//将内存流复制到文件
-						using (FileStream fs = new FileStream(path + @"Task.xml", FileMode.Create))
+						using (FileStream fs = new FileStream(Path.Combine(_startupPath, "Task.xml"), FileMode.Create))
 						{
 							ms.Position = 0;
-							byte[] buffer= new byte[500*1024];
+							byte[] buffer = new byte[500 * 1024];
 							int read = 0;
 							read = ms.Read(buffer, 0, buffer.Length);
 							while (read > 0)
@@ -438,9 +432,8 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		public void LoadAllTasks()
 		{
-			//取得APPDATA路径名称
-			string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			path = Path.Combine(path, @"Kaedei\AcDown\Task.xml");
+			//取得文件路径名称
+			string path = Path.Combine(_startupPath, "Task.xml");
 			//如果文件存在
 			if (File.Exists(path))
 			{

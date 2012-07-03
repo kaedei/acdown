@@ -5,6 +5,7 @@ using Kaedei.AcDown.UI;
 using Kaedei.AcDown.Core;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Kaedei.AcDown
 {
@@ -39,12 +40,21 @@ namespace Kaedei.AcDown
 					//退出当前程序
 					return;
 				}
-				else //如果参数为"updated"，删除临时文件
+				else if (firstarg.Equals("updated", StringComparison.CurrentCultureIgnoreCase))
 				{
-					if (firstarg == "updated")
-					{
-						upd.DeleteTempFile();
-					}
+					//如果参数为"updated"，删除临时文件
+					upd.DeleteTempFile();
+				}
+				else if (firstarg.Equals("regasso", StringComparison.CurrentCultureIgnoreCase))
+				{
+					//注册.acplay关联
+					AssociateRegistrar.CreateAssociate(
+						 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+						 @"Kaedei\AcPlay\acplay.exe"),
+						 ".acplay", "AcPlayFile", "弹幕播放快捷方式", "");
+					//注册.acp关联
+					AssociateRegistrar.CreateAssociate(Application.ExecutablePath,
+						 ".acp", "AcDownPlugin", "AcDown插件", "");
 				}
 
 			}
@@ -84,7 +94,8 @@ namespace Kaedei.AcDown
 			base.OnStartupNextInstance(e);
 			if (AcPlayStartup.IsPlaying)
 			{
-				MessageBox.Show("AcPlay is running...", "AcPlay", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("AcPlay is running...", "AcPlay", MessageBoxButtons.OK,
+						  MessageBoxIcon.Information);
 				return;
 			}
 			//set acplay
@@ -102,7 +113,7 @@ namespace Kaedei.AcDown
 		}
 	}
 
-	public class AcPlayStartup
+	public static class AcPlayStartup
 	{
 		public static bool IsHandled = true;
 		public static string FilePath;

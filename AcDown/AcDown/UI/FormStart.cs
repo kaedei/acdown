@@ -5,19 +5,20 @@ using System.Threading;
 using Kaedei.AcDown.Core;
 using System.Diagnostics;
 using System.IO;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI
 {
 	public partial class FormStart : Form
 	{
-		DwmApi.MARGINS marg; 
+		DwmApi.MARGINS marg;
 
 		public FormStart()
 		{
 			InitializeComponent();
 		}
 
-		
+
 		private void FormStart_Load(object sender, EventArgs e)
 		{
 			//设置AERO效果
@@ -31,6 +32,10 @@ namespace Kaedei.AcDown.UI
 					DwmApi.DwmExtendFrameIntoClientArea(this.Handle, marg);
 				}
 			}
+
+			//启动新窗体进行加载
+			Thread t = new Thread(LoadData);
+			t.Start();
 		}
 
 		//窗体重绘事件
@@ -41,7 +46,7 @@ namespace Kaedei.AcDown.UI
 				//定义重绘的矩形范围
 				Rectangle rect = new Rectangle(0, 0, this.ClientRectangle.Width, this.ClientRectangle.Height);
 				//如果操作系统dwm启用
-				if (DwmApi.DwmIsCompositionEnabled()) 
+				if (DwmApi.DwmIsCompositionEnabled())
 				{
 					//使用黑色画刷进行重绘
 					using (SolidBrush blackbrush = new SolidBrush(Color.Black))
@@ -52,16 +57,24 @@ namespace Kaedei.AcDown.UI
 			}
 		}
 
-		//窗体显示时
-		private void FormStart_Shown(object sender, EventArgs e)
+		//初始化数据
+		private void LoadData()
 		{
-			//加载FormMain窗体
-			Application.DoEvents();
 			try
 			{
-				Program.frmMain = new FormMain();
+				//初始化核心
+				CoreManager.Initialize(
+					 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcDown\"),
+					 new UIDelegateContainer(null, null, null, null, null, null, null));
+				this.Invoke(new MethodInvoker(() =>
+				{
+					//加载主窗体
+					Program.frmMain = new FormMain();
+					Program.frmMain.Show();
+					this.Hide();
+				}));
 			}
-			catch (System.UnauthorizedAccessException uex) //权限不足（无法读写任务文件）时尝试提升权限
+			catch (UnauthorizedAccessException uex) //权限不足（无法读写任务文件）时尝试提升权限
 			{
 				Process p = new Process();
 				p.StartInfo = new ProcessStartInfo()
@@ -69,11 +82,13 @@ namespace Kaedei.AcDown.UI
 					FileName = Application.ExecutablePath,
 					Verb = "runas"
 				};
-				p.Start();
+				try
+				{
+					p.Start();
+				}
+				catch { }
 				Application.Exit();
 			}
-			Program.frmMain.Show();
-			this.Hide();
 		}
 	}
 }

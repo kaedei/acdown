@@ -62,7 +62,6 @@
          this.Text = "AcDown 正在启动...";
          this.TopMost = true;
          this.Load += new System.EventHandler(this.FormStart_Load);
-         this.Shown += new System.EventHandler(this.FormStart_Shown);
          this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormStart_Paint);
          ((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
          this.ResumeLayout(false);

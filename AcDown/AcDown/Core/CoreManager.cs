@@ -1,4 +1,5 @@
 ﻿
+using System.IO;
 namespace Kaedei.AcDown.Core
 {
 	/// <summary>
@@ -6,29 +7,39 @@ namespace Kaedei.AcDown.Core
 	/// </summary>
 	public class CoreManager
 	{
-		public UIDelegateContainer UIDelegates { get; private set; }
-		public PluginManager PluginManager { get; private set; }
-		public TaskManager TaskManager { get; private set; }
+		private CoreManager() { }
+
+		public static UIDelegateContainer UIDelegates { get; private set; }
+		public static PluginManager PluginManager { get; private set; }
+		public static TaskManager TaskManager { get; private set; }
+		public static ConfigManager ConfigManager { get; private set; }
 
 		/// <summary>
 		/// 初始化AcDown核心
 		/// </summary>
-		/// <param name="pluginsFolderPath"></param>
+		/// <param name="startupFolderPath"></param>
 		/// <param name="taskFilePath"></param>
 		/// <param name="uiDelegates"></param>
-		public void Initialize(string pluginsFolderPath, string taskFilePath, UIDelegateContainer uiDelegates)
+		public static void Initialize(string startupFolderPath, UIDelegateContainer uiDelegates)
 		{
+			//如果目录不存在则创建
+			if (!Directory.Exists(startupFolderPath))
+			{
+				Directory.CreateDirectory(startupFolderPath);
+			}
+
 			//全局设置
-			Config.LoadSettings();
+			ConfigManager = new ConfigManager(startupFolderPath);
+			ConfigManager.LoadSettings();
 			//记录
 			Logging.Initialize();
 			//插件管理器
-			PluginManager = new PluginManager(pluginsFolderPath);
+			PluginManager = new PluginManager(startupFolderPath);
 			PluginManager.LoadPlugins();
 			//委托
 			UIDelegates = uiDelegates;
 			//任务管理器
-			TaskManager = new TaskManager(UIDelegates, PluginManager);
+			TaskManager = new TaskManager(UIDelegates, PluginManager, startupFolderPath);
 			TaskManager.LoadAllTasks();
 		}
 
