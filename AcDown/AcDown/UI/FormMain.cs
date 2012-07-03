@@ -48,8 +48,8 @@ namespace Kaedei.AcDown.UI
 			// ITaskbarList2
 			[PreserveSig]
 			void MarkFullscreenWindow(
-				 IntPtr hwnd,
-				 [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+				  IntPtr hwnd,
+				  [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
 
 			// ITaskbarList3
 			void SetProgressValue(IntPtr hwnd, UInt64 ullCompleted, UInt64 ullTotal);
@@ -59,23 +59,23 @@ namespace Kaedei.AcDown.UI
 			void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
 			void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, TBATFLAG tbatFlags);
 			void ThumbBarAddButtons(
-				 IntPtr hwnd,
-				 uint cButtons,
-				 [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
+				  IntPtr hwnd,
+				  uint cButtons,
+				  [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
 			void ThumbBarUpdateButtons(
-				 IntPtr hwnd,
-				 uint cButtons,
-				 [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
+				  IntPtr hwnd,
+				  uint cButtons,
+				  [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
 			void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
 			void SetOverlayIcon(
 			  IntPtr hwnd,
 			  IntPtr hIcon,
 			  [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
 			void SetThumbnailTooltip(
-				 IntPtr hwnd,
-				 [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+				  IntPtr hwnd,
+				  [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
 			void SetThumbnailClip(
-				 IntPtr hwnd,
+				  IntPtr hwnd,
 				/*[MarshalAs(UnmanagedType.LPStruct)]*/ ref RECT prcClip);
 		}
 
@@ -178,25 +178,19 @@ namespace Kaedei.AcDown.UI
 
 		private void Initialize()
 		{
-			//全局设置
-			Config.LoadSettings();
-			//记录
-			Logging.Initialize();
-			//插件管理器
-			pluginMgr = new PluginManager(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcDown\Plugin"));
-			pluginMgr.LoadPlugins();
-			//委托
-			deles = new UIDelegateContainer(
-				new AcTaskDelegate(Start),
-				new AcTaskDelegate(NewPart),
-				new AcTaskDelegate(RefreshTask),
-				new AcTaskDelegate(TipText),
-				new AcTaskDelegate(Finish),
-				new AcTaskDelegate(Error),
-				new AcTaskDelegate(NewTask));
-			//任务管理器
-			taskMgr = new TaskManager(deles, pluginMgr);
-			taskMgr.LoadAllTasks();
+			//UI委托
+			CoreManager.UIDelegates.Start = new AcTaskDelegate(Start);
+			CoreManager.UIDelegates.NewPart = new AcTaskDelegate(NewPart);
+			CoreManager.UIDelegates.Refresh = new AcTaskDelegate(RefreshTask);
+			CoreManager.UIDelegates.TipText = new AcTaskDelegate(TipText);
+			CoreManager.UIDelegates.Finish = new AcTaskDelegate(Finish);
+			CoreManager.UIDelegates.Error = new AcTaskDelegate(Error);
+			CoreManager.UIDelegates.NewTask = new AcTaskDelegate(NewTask);
+
+			pluginMgr = CoreManager.PluginManager;
+			deles = CoreManager.UIDelegates;
+			taskMgr = CoreManager.TaskManager;
+
 			//"新建任务"窗体初始化
 			FormNew.Initialize(pluginMgr, taskMgr);
 		}
@@ -223,8 +217,8 @@ namespace Kaedei.AcDown.UI
 			//设置窗体标题和文字
 			this.Icon = Resources.Ac;
 			this.Text = Application.ProductName +
-							" v" + new Version(Application.ProductVersion).Major + "." +
-							new Version(Application.ProductVersion).Minor;
+								 " v" + new Version(Application.ProductVersion).Major + "." +
+								 new Version(Application.ProductVersion).Minor;
 			//设置托盘文字
 			notifyIcon.Text = this.Text;
 			//显示托盘图标
@@ -283,7 +277,7 @@ namespace Kaedei.AcDown.UI
 			}
 			//程序文件名中有acplay
 			if (Path.GetFileNameWithoutExtension(Application.ExecutablePath)
-				.IndexOf("acplay", StringComparison.CurrentCultureIgnoreCase) >= 0)
+				 .IndexOf("acplay", StringComparison.CurrentCultureIgnoreCase) >= 0)
 			{
 				tabMain.SelectedTab = tabAcPlay;
 			}
@@ -593,8 +587,8 @@ namespace Kaedei.AcDown.UI
 		private void mnuConStop_Click(object sender, EventArgs e)
 		{
 			if (MessageBox.Show("是否要停止选定的下载任务?", "停止下载",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+				 MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				 MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
 			{
 				return;
 			}
@@ -900,8 +894,8 @@ namespace Kaedei.AcDown.UI
 		private void mnuConDelete_Click(object sender, EventArgs e)
 		{
 			if (MessageBox.Show("是否删除选定的下载任务？", "删除下载任务",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+				 MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				 MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
 			{
 				return;
 			}
@@ -912,8 +906,8 @@ namespace Kaedei.AcDown.UI
 		private void toolCompletelyDelete_Click(object sender, EventArgs e)
 		{
 			if (MessageBox.Show("是否彻底删除选定的下载任务？", "删除下载任务",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+				 MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				 MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
 			{
 				return;
 			}
@@ -924,8 +918,8 @@ namespace Kaedei.AcDown.UI
 		private void mnuConDeleteAndFile_Click(object sender, EventArgs e)
 		{
 			if (MessageBox.Show("是否要彻底删除选定的下载任务，\n并移除及已下载的所有文件？", "彻底删除选定任务和文件",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-				MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+				 MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				 MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
 			{
 				return;
 			}
@@ -996,13 +990,13 @@ namespace Kaedei.AcDown.UI
 				if (Config.IsWindows7OrHigher() && Config.setting.EnableWindows7Feature)
 				{
 					newbtn = new THUMBBUTTON()
-						 {
-							 iId = 1001,
-							 szTip = "新建下载任务",
-							 dwFlags = THBFLAGS.THBF_ENABLED,
-							 dwMask = THBMASK.THB_FLAGS | THBMASK.THB_ICON | THBMASK.THB_TOOLTIP,
-							 hIcon = ((Bitmap)btnNew.Image).GetHicon()
-						 };
+					{
+						iId = 1001,
+						szTip = "新建下载任务",
+						dwFlags = THBFLAGS.THBF_ENABLED,
+						dwMask = THBMASK.THB_FLAGS | THBMASK.THB_ICON | THBMASK.THB_TOOLTIP,
+						hIcon = ((Bitmap)btnNew.Image).GetHicon()
+					};
 					taskbarList.ThumbBarAddButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
 				}
 
@@ -1306,14 +1300,14 @@ namespace Kaedei.AcDown.UI
 			if (p.E.Message == "Plugin Not Found")
 			{
 				MessageBox.Show("AcDown希望使用这个插件来下载此任务:\n" + task.PluginName +
-										"\n遗憾的是，您好像并未启用它。", "未加载指定的插件",
-										MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+												"\n遗憾的是，您好像并未启用它。", "未加载指定的插件",
+												MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 			//显示ToolTip
 			if (errorTip)
 			{
 				toolTip.Show("下载出现问题了？点这里", this, this.Width - toolHelpCenter.Width + 10
-					, this.Height - toolHelpCenter.Height + 5);
+					 , this.Height - toolHelpCenter.Height + 5);
 				errorTip = false;
 			}
 			//继续下一任务或关机
@@ -1349,8 +1343,8 @@ namespace Kaedei.AcDown.UI
 					//如果有则不新建此任务
 					//将状态由停止或删除修改为开始
 					if (t.Status == DownloadStatus.出现错误 ||
-						t.Status == DownloadStatus.已经停止 ||
-						t.Status == DownloadStatus.已删除)
+						 t.Status == DownloadStatus.已经停止 ||
+						 t.Status == DownloadStatus.已删除)
 						taskMgr.StartTask(t);
 					return;
 				}
@@ -1580,8 +1574,8 @@ namespace Kaedei.AcDown.UI
 					//设置焦点并显示提示
 					txtSearch.Focus();
 					toolTip.Show("输入文字,搜索已有任务", this,
-									this.ClientSize.Width - btnSearch.Width - 20,
-									this.Size.Height - this.ClientSize.Height + txtSearch.Height, 3500);
+										 this.ClientSize.Width - btnSearch.Width - 20,
+										 this.Size.Height - this.ClientSize.Height + txtSearch.Height, 3500);
 				}
 				else
 					SetTaskFilter(rdo.Tag.ToString().Split('|'));

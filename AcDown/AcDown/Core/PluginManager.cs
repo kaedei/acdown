@@ -12,7 +12,6 @@ namespace Kaedei.AcDown.Core
 {
 	public class PluginManager
 	{
-
 		private string _startupPath;
 		public PluginManager(string startupPath)
 		{
@@ -45,7 +44,7 @@ namespace Kaedei.AcDown.Core
 			_plugins.Add(new SfAcgPlugin());
 			_plugins.Add(new TucaoPlugin());
 			_plugins.Add(new FlvcdPlugin());
-			
+
 			//add extenal plugins
 			//LoadPlugins(_startupPath);
 
@@ -76,15 +75,16 @@ namespace Kaedei.AcDown.Core
 			try
 			{
 				//取得APPDATA路径名称
-				string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-				path = Path.Combine(path, @"Kaedei\AcDown\Plugins\");
+				string path = Path.Combine(_startupPath, @"Plugins\");
 				//建立文件夹
 				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 				//反射属性
 				object[] types = plugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
 				var attrib = (AcDownPluginInformationAttribute)types[0];
-				//取得完整文件名
-				path = Path.Combine(path, attrib.Name + ".xml"); //%appdata%\acdown\plugins\acfundownloader.xml
+				//取得完整文件名（4.0后生效）
+				//例如 C:\xxxx\acdown\Plugin\Kaedei\AcfunDownloader\4.0\settings.xml
+				path = Path.Combine(path, attrib.Author + @"\" + attrib.Name + @"\" +
+					 attrib.Version.Major.ToString() + @"." + attrib.Version.Minor.ToString() + @"\settings.xml");
 
 				//反序列化插件设置
 				XmlSerializer s = new XmlSerializer(typeof(SerializableDictionary<string, string>));
