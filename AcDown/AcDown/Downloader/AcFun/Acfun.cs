@@ -16,7 +16,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.12.0.701", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.12.0.708", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -241,7 +241,7 @@ namespace Kaedei.AcDown.Downloader
 				else
 				{
 					if (!embedSrc.Contains(@"text/javascript")) //旧版本
-					{						
+					{
 						//获取ID
 						Regex rId = new Regex(@"(\?|amp;|"")id=(?<id>\w+)(?<ot>(-\w*|))");
 						Match mId = rId.Match(embedSrc);
@@ -347,6 +347,15 @@ namespace Kaedei.AcDown.Downloader
 				Info.FilePath.Clear();
 				Info.SubFilePath.Clear();
 
+
+				//下载弹幕
+				bool comment = DownloadComment(title);
+				if (!comment)
+				{
+					Info.PartialFinished = true;
+					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
+				}
+
 				//解析器的解析结果
 				ParseResult pr = null;
 
@@ -382,14 +391,6 @@ namespace Kaedei.AcDown.Downloader
 						case "game": //flash游戏
 							videos = new string[] { mFlash.Groups["player"].Value };
 							break;
-					}
-
-					//下载弹幕
-					bool comment = DownloadComment(title);
-					if (!comment)
-					{
-						Info.PartialFinished = true;
-						Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
 					}
 
 					//下载视频
@@ -482,21 +483,24 @@ namespace Kaedei.AcDown.Downloader
 					} //end for
 				}//end 判断是否下载视频
 
-				
+
 				//生成AcPlay文件
 				string acplay = GenerateAcplayConfig(pr, title);
 
 				//支持导出列表
-				StringBuilder sb = new StringBuilder(videos.Length * 2);
-				foreach (string item in videos)
+				if (videos != null)
 				{
-					sb.Append(item);
-					sb.Append("|");
+					StringBuilder sb = new StringBuilder(videos.Length * 2);
+					foreach (string item in videos)
+					{
+						sb.Append(item);
+						sb.Append("|");
+					}
+					if (Info.Settings.ContainsKey("ExportUrl"))
+						Info.Settings["ExportUrl"] = sb.ToString();
+					else
+						Info.Settings.Add("ExportUrl", sb.ToString());
 				}
-				if (Info.Settings.ContainsKey("ExportUrl"))
-					Info.Settings["ExportUrl"] = sb.ToString();
-				else
-					Info.Settings.Add("ExportUrl", sb.ToString());
 				//支持AcPlay
 				if (Info.Settings.ContainsKey("AcPlay"))
 					Info.Settings["AcPlay"] = acplay;

@@ -49,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\AcDown.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -179,6 +180,12 @@
     <Compile Include="UI\FormAutoAnswer.Designer.cs">
       <DependentUpon>FormAutoAnswer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FormPlugins.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormPlugins.Designer.cs">
+      <DependentUpon>FormPlugins.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FormSingle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +286,9 @@
     <EmbeddedResource Include="UI\FormNew.resx">
       <DependentUpon>FormNew.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormPlugins.resx">
+      <DependentUpon>FormPlugins.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormShutdown.resx">
       <DependentUpon>FormShutdown.cs</DependentUpon>
@@ -397,12 +407,14 @@
     <None Include="Resources\Weibo.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Plugin.png" />
     <EmbeddedResource Include="UI\Components\FlvCombine\FlvBind.exe" />
     <EmbeddedResource Include="UI\Components\FlvCombine\FLVLib.dll" />
     <EmbeddedResource Include="AcPlay\acplay.exe" />
     <None Include="bin\Debug\AcDown.exe" />
     <None Include="bin\Debug\AcDown.pdb" />
     <None Include="bin\Release\AcDown.exe" />
+    <Content Include="bin\Debug\AcDown.XML" />
     <Content Include="ChangeLog.txt" />
     <None Include="Resources\feedback.png" />
     <None Include="Resources\remind.wav" />

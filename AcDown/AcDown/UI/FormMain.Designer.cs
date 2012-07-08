@@ -48,6 +48,7 @@
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.btnNew = new System.Windows.Forms.ToolStripButton();
 			this.btnConfig = new System.Windows.Forms.ToolStripButton();
+			this.btnPlugin = new System.Windows.Forms.ToolStripButton();
 			this.btnAbout = new System.Windows.Forms.ToolStripButton();
 			this.btnSearch = new System.Windows.Forms.ToolStripSplitButton();
 			this.searchCustom = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,6 +72,7 @@
 			this.mnuConStop = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolDelete = new System.Windows.Forms.ToolStripSplitButton();
+			this.toolCompletelyDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolCompetelyDeleteAndFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolOpenFolder = new System.Windows.Forms.ToolStripSplitButton();
@@ -95,7 +97,6 @@
 			this.tabAcPlay = new System.Windows.Forms.TabPage();
 			this.acPlay = new Kaedei.AcDown.UI.Components.AcPlay2();
 			this.timerClipboard = new System.Windows.Forms.Timer(this.components);
-			this.toolCompletelyDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.mnuTray.SuspendLayout();
@@ -130,7 +131,7 @@
 			this.lsv.Location = new System.Drawing.Point(94, 6);
 			this.lsv.Name = "lsv";
 			this.lsv.ShowItemToolTips = true;
-			this.lsv.Size = new System.Drawing.Size(513, 377);
+			this.lsv.Size = new System.Drawing.Size(545, 377);
 			this.lsv.TabIndex = 0;
 			this.lsv.UseCompatibleStateImageBehavior = false;
 			this.lsv.View = System.Windows.Forms.View.Details;
@@ -196,7 +197,7 @@
             this.toolHelpCenter});
 			this.statusStrip.Location = new System.Drawing.Point(0, 450);
 			this.statusStrip.Name = "statusStrip";
-			this.statusStrip.Size = new System.Drawing.Size(618, 25);
+			this.statusStrip.Size = new System.Drawing.Size(650, 25);
 			this.statusStrip.TabIndex = 6;
 			// 
 			// lblSpeed
@@ -211,7 +212,7 @@
 			// lblBlank
 			// 
 			this.lblBlank.Name = "lblBlank";
-			this.lblBlank.Size = new System.Drawing.Size(202, 20);
+			this.lblBlank.Size = new System.Drawing.Size(234, 20);
 			this.lblBlank.Spring = true;
 			// 
 			// toolQuestionnaire
@@ -258,13 +259,14 @@
 			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnNew,
             this.btnConfig,
+            this.btnPlugin,
             this.btnAbout,
             this.btnSearch,
             this.txtSearch,
             this.toolUpdate});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.Size = new System.Drawing.Size(618, 31);
+			this.toolStrip.Size = new System.Drawing.Size(650, 31);
 			this.toolStrip.TabIndex = 7;
 			// 
 			// btnNew
@@ -286,6 +288,15 @@
 			this.btnConfig.Text = "设置(&C)";
 			this.btnConfig.ToolTipText = "调整下载器设置";
 			this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+			// 
+			// btnPlugin
+			// 
+			this.btnPlugin.Image = global::Kaedei.AcDown.Properties.Resources.Plugin;
+			this.btnPlugin.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnPlugin.Name = "btnPlugin";
+			this.btnPlugin.Size = new System.Drawing.Size(75, 28);
+			this.btnPlugin.Text = "插件(&P)";
+			this.btnPlugin.Click += new System.EventHandler(this.btnPlugin_Click);
 			// 
 			// btnAbout
 			// 
@@ -484,7 +495,7 @@
             this.mnuConMore});
 			this.contextTool.Location = new System.Drawing.Point(130, 63);
 			this.contextTool.Name = "contextTool";
-			this.contextTool.Size = new System.Drawing.Size(456, 48);
+			this.contextTool.Size = new System.Drawing.Size(356, 48);
 			this.contextTool.TabIndex = 22;
 			this.contextTool.Visible = false;
 			// 
@@ -526,6 +537,13 @@
 			this.toolDelete.Text = "删除任务";
 			this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.toolDelete.ButtonClick += new System.EventHandler(this.mnuConDelete_Click);
+			// 
+			// toolCompletelyDelete
+			// 
+			this.toolCompletelyDelete.Name = "toolCompletelyDelete";
+			this.toolCompletelyDelete.Size = new System.Drawing.Size(208, 22);
+			this.toolCompletelyDelete.Text = "彻底删除任务";
+			this.toolCompletelyDelete.Click += new System.EventHandler(this.toolCompletelyDelete_Click);
 			// 
 			// toolCompetelyDeleteAndFile
 			// 
@@ -617,7 +635,7 @@
 			this.tabMain.Location = new System.Drawing.Point(0, 31);
 			this.tabMain.Name = "tabMain";
 			this.tabMain.SelectedIndex = 0;
-			this.tabMain.Size = new System.Drawing.Size(618, 419);
+			this.tabMain.Size = new System.Drawing.Size(650, 419);
 			this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tabMain.TabIndex = 23;
 			// 
@@ -629,7 +647,7 @@
 			this.tabDownload.Location = new System.Drawing.Point(4, 29);
 			this.tabDownload.Name = "tabDownload";
 			this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-			this.tabDownload.Size = new System.Drawing.Size(610, 386);
+			this.tabDownload.Size = new System.Drawing.Size(642, 386);
 			this.tabDownload.TabIndex = 0;
 			this.tabDownload.Text = "任务";
 			this.tabDownload.UseVisualStyleBackColor = true;
@@ -731,7 +749,7 @@
 			this.tabConfig.Location = new System.Drawing.Point(4, 29);
 			this.tabConfig.Name = "tabConfig";
 			this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
-			this.tabConfig.Size = new System.Drawing.Size(610, 386);
+			this.tabConfig.Size = new System.Drawing.Size(642, 386);
 			this.tabConfig.TabIndex = 1;
 			this.tabConfig.Text = "下载选项";
 			this.tabConfig.UseVisualStyleBackColor = true;
@@ -742,7 +760,7 @@
 			this.tabExample.Location = new System.Drawing.Point(4, 29);
 			this.tabExample.Name = "tabExample";
 			this.tabExample.Padding = new System.Windows.Forms.Padding(3);
-			this.tabExample.Size = new System.Drawing.Size(610, 386);
+			this.tabExample.Size = new System.Drawing.Size(642, 386);
 			this.tabExample.TabIndex = 5;
 			this.tabExample.Text = "网址示例";
 			this.tabExample.UseVisualStyleBackColor = true;
@@ -757,7 +775,7 @@
 			this.txtExample.Name = "txtExample";
 			this.txtExample.ReadOnly = true;
 			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtExample.Size = new System.Drawing.Size(604, 380);
+			this.txtExample.Size = new System.Drawing.Size(636, 380);
 			this.txtExample.TabIndex = 0;
 			// 
 			// tabFlvCombine
@@ -766,7 +784,7 @@
 			this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
 			this.tabFlvCombine.Name = "tabFlvCombine";
 			this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFlvCombine.Size = new System.Drawing.Size(610, 386);
+			this.tabFlvCombine.Size = new System.Drawing.Size(642, 386);
 			this.tabFlvCombine.TabIndex = 3;
 			this.tabFlvCombine.Text = "视频合并";
 			this.tabFlvCombine.UseVisualStyleBackColor = true;
@@ -779,7 +797,7 @@
 			this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
 			this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.flvCombineControl1.Name = "flvCombineControl1";
-			this.flvCombineControl1.Size = new System.Drawing.Size(604, 380);
+			this.flvCombineControl1.Size = new System.Drawing.Size(636, 380);
 			this.flvCombineControl1.TabIndex = 0;
 			// 
 			// tabAcPlay
@@ -789,7 +807,7 @@
 			this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
 			this.tabAcPlay.Name = "tabAcPlay";
 			this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
-			this.tabAcPlay.Size = new System.Drawing.Size(610, 386);
+			this.tabAcPlay.Size = new System.Drawing.Size(642, 386);
 			this.tabAcPlay.TabIndex = 4;
 			this.tabAcPlay.Text = "弹幕播放";
 			this.tabAcPlay.UseVisualStyleBackColor = true;
@@ -802,7 +820,7 @@
 			this.acPlay.Location = new System.Drawing.Point(3, 3);
 			this.acPlay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.acPlay.Name = "acPlay";
-			this.acPlay.Size = new System.Drawing.Size(604, 380);
+			this.acPlay.Size = new System.Drawing.Size(636, 380);
 			this.acPlay.TabIndex = 0;
 			// 
 			// timerClipboard
@@ -811,19 +829,12 @@
 			this.timerClipboard.Interval = 500;
 			this.timerClipboard.Tick += new System.EventHandler(this.timerClipboard_Tick);
 			// 
-			// toolCompletelyDelete
-			// 
-			this.toolCompletelyDelete.Name = "toolCompletelyDelete";
-			this.toolCompletelyDelete.Size = new System.Drawing.Size(208, 22);
-			this.toolCompletelyDelete.Text = "彻底删除任务";
-			this.toolCompletelyDelete.Click += new System.EventHandler(this.toolCompletelyDelete_Click);
-			// 
 			// FormMain
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(618, 475);
+			this.ClientSize = new System.Drawing.Size(650, 475);
 			this.Controls.Add(this.tabMain);
 			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.statusStrip);
@@ -927,6 +938,7 @@
 		  private System.Windows.Forms.ToolStripMenuItem mnuConExportUrlList;
 		  private System.Windows.Forms.ToolStripMenuItem mnuConAcPlay;
 		  private System.Windows.Forms.ToolStripMenuItem toolCompletelyDelete;
+		  private System.Windows.Forms.ToolStripButton btnPlugin;
 
 	 }
 }
