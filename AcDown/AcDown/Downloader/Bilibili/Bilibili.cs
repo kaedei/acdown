@@ -14,7 +14,7 @@ using Kaedei.AcDown.Parser;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.12.0.701", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "3.12.0.708", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -361,6 +361,14 @@ namespace Kaedei.AcDown.Downloader
 				//取得type值
 				type = mId.Groups["idname"].Value;
 
+				//下载弹幕
+				bool comment = DownloadComment(title, id);
+				if (!comment)
+				{
+					Info.PartialFinished = true;
+					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
+				}
+
 				//解析器的解析结果
 				ParseResult pr = null;
 
@@ -412,13 +420,7 @@ namespace Kaedei.AcDown.Downloader
 						videos = new string[] { flashurl };
 					}
 
-					//下载弹幕
-					bool comment = DownloadComment(title, id);
-					if (!comment)
-					{
-						Info.PartialFinished = true;
-						Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
-					}
+					
 
 					//下载视频
 					//确定视频共有几个段落
@@ -511,16 +513,19 @@ namespace Kaedei.AcDown.Downloader
 				string acplay = GenerateAcplayConfig(pr, title);
 
 				//支持导出列表
-				StringBuilder sb = new StringBuilder(videos.Length * 2);
-				foreach (string item in videos)
+				if (videos != null)
 				{
-					sb.Append(item);
-					sb.Append("|");
+					StringBuilder sb = new StringBuilder(videos.Length * 2);
+					foreach (string item in videos)
+					{
+						sb.Append(item);
+						sb.Append("|");
+					}
+					if (Info.Settings.ContainsKey("ExportUrl"))
+						Info.Settings["ExportUrl"] = sb.ToString();
+					else
+						Info.Settings.Add("ExportUrl", sb.ToString());
 				}
-				if (Info.Settings.ContainsKey("ExportUrl"))
-					Info.Settings["ExportUrl"] = sb.ToString();
-				else
-					Info.Settings.Add("ExportUrl", sb.ToString());
 				//支持AcPlay
 				if (Info.Settings.ContainsKey("AcPlay"))
 					Info.Settings["AcPlay"] = acplay;

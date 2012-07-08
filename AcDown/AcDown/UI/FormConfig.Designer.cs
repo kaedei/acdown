@@ -60,8 +60,6 @@
 			this.chkHideWhenClose = new System.Windows.Forms.CheckBox();
 			this.chkEnableWin7 = new System.Windows.Forms.CheckBox();
 			this.chkWatch = new System.Windows.Forms.CheckBox();
-			this.pagePlugin = new System.Windows.Forms.TabPage();
-			this.pluginSettings1 = new Kaedei.AcDown.UI.Components.PluginSettings();
 			this.pageProxy = new System.Windows.Forms.TabPage();
 			this.btnProxyDelete = new System.Windows.Forms.Button();
 			this.btnProxyModify = new System.Windows.Forms.Button();
@@ -99,7 +97,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.udToolFormTimeout)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.udRefreshInfo)).BeginInit();
-			this.pagePlugin.SuspendLayout();
 			this.pageProxy.SuspendLayout();
 			this.tabUpdate.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -140,7 +137,6 @@
 			// 
 			this.tab.Controls.Add(this.pageDownload);
 			this.tab.Controls.Add(this.pageUI);
-			this.tab.Controls.Add(this.pagePlugin);
 			this.tab.Controls.Add(this.pageProxy);
 			this.tab.Controls.Add(this.tabUpdate);
 			this.tab.Controls.Add(this.pageDebug);
@@ -504,7 +500,7 @@
 			this.chkHideWhenClose.AutoSize = true;
 			this.chkHideWhenClose.Location = new System.Drawing.Point(29, 72);
 			this.chkHideWhenClose.Name = "chkHideWhenClose";
-			this.chkHideWhenClose.Size = new System.Drawing.Size(204, 15);
+			this.chkHideWhenClose.Size = new System.Drawing.Size(204, 16);
 			this.chkHideWhenClose.TabIndex = 3;
 			this.chkHideWhenClose.Text = "点击\"关闭\"时隐藏程序到系统托盘";
 			this.tip.SetToolTip(this.chkHideWhenClose, "点击“关闭”按钮时，隐藏程序到系统托盘而不是退出程序");
@@ -515,7 +511,7 @@
 			this.chkEnableWin7.AutoSize = true;
 			this.chkEnableWin7.Location = new System.Drawing.Point(29, 28);
 			this.chkEnableWin7.Name = "chkEnableWin7";
-			this.chkEnableWin7.Size = new System.Drawing.Size(126, 15);
+			this.chkEnableWin7.Size = new System.Drawing.Size(126, 16);
 			this.chkEnableWin7.TabIndex = 0;
 			this.chkEnableWin7.Text = "启用Windows 7特性";
 			this.tip.SetToolTip(this.chkEnableWin7, "在Windows 7(及更高版本的)操作系统下，启用超级任务栏特性");
@@ -526,30 +522,11 @@
 			this.chkWatch.AutoSize = true;
 			this.chkWatch.Location = new System.Drawing.Point(29, 50);
 			this.chkWatch.Name = "chkWatch";
-			this.chkWatch.Size = new System.Drawing.Size(84, 15);
+			this.chkWatch.Size = new System.Drawing.Size(84, 16);
 			this.chkWatch.TabIndex = 2;
 			this.chkWatch.Text = "监视剪贴板";
 			this.tip.SetToolTip(this.chkWatch, "监视剪贴板并自动显示“新建任务”窗口");
 			this.chkWatch.UseVisualStyleBackColor = true;
-			// 
-			// pagePlugin
-			// 
-			this.pagePlugin.Controls.Add(this.pluginSettings1);
-			this.pagePlugin.Location = new System.Drawing.Point(4, 22);
-			this.pagePlugin.Name = "pagePlugin";
-			this.pagePlugin.Padding = new System.Windows.Forms.Padding(3);
-			this.pagePlugin.Size = new System.Drawing.Size(386, 312);
-			this.pagePlugin.TabIndex = 4;
-			this.pagePlugin.Text = "插件";
-			this.pagePlugin.UseVisualStyleBackColor = true;
-			// 
-			// pluginSettings1
-			// 
-			this.pluginSettings1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pluginSettings1.Location = new System.Drawing.Point(3, 3);
-			this.pluginSettings1.Name = "pluginSettings1";
-			this.pluginSettings1.Size = new System.Drawing.Size(380, 306);
-			this.pluginSettings1.TabIndex = 0;
 			// 
 			// pageProxy
 			// 
@@ -683,7 +660,7 @@
 			this.rdoChannelStable.AutoSize = true;
 			this.rdoChannelStable.Location = new System.Drawing.Point(21, 30);
 			this.rdoChannelStable.Name = "rdoChannelStable";
-			this.rdoChannelStable.Size = new System.Drawing.Size(71, 15);
+			this.rdoChannelStable.Size = new System.Drawing.Size(71, 16);
 			this.rdoChannelStable.TabIndex = 3;
 			this.rdoChannelStable.TabStop = true;
 			this.rdoChannelStable.Text = "稳定版本";
@@ -694,7 +671,7 @@
 			this.rdoChannelCustom.AutoSize = true;
 			this.rdoChannelCustom.Location = new System.Drawing.Point(21, 74);
 			this.rdoChannelCustom.Name = "rdoChannelCustom";
-			this.rdoChannelCustom.Size = new System.Drawing.Size(59, 15);
+			this.rdoChannelCustom.Size = new System.Drawing.Size(59, 16);
 			this.rdoChannelCustom.TabIndex = 5;
 			this.rdoChannelCustom.TabStop = true;
 			this.rdoChannelCustom.Text = "自定义";
@@ -721,7 +698,7 @@
 			this.rdoChannelDevelop.AutoSize = true;
 			this.rdoChannelDevelop.Location = new System.Drawing.Point(21, 52);
 			this.rdoChannelDevelop.Name = "rdoChannelDevelop";
-			this.rdoChannelDevelop.Size = new System.Drawing.Size(71, 15);
+			this.rdoChannelDevelop.Size = new System.Drawing.Size(71, 16);
 			this.rdoChannelDevelop.TabIndex = 4;
 			this.rdoChannelDevelop.TabStop = true;
 			this.rdoChannelDevelop.Text = "开发版本";
@@ -732,7 +709,7 @@
 			this.chkEnableCheckUpdate.AutoSize = true;
 			this.chkEnableCheckUpdate.Location = new System.Drawing.Point(32, 32);
 			this.chkEnableCheckUpdate.Name = "chkEnableCheckUpdate";
-			this.chkEnableCheckUpdate.Size = new System.Drawing.Size(96, 15);
+			this.chkEnableCheckUpdate.Size = new System.Drawing.Size(96, 16);
 			this.chkEnableCheckUpdate.TabIndex = 0;
 			this.chkEnableCheckUpdate.Text = "自动检查更新";
 			this.tip.SetToolTip(this.chkEnableCheckUpdate, "启动程序时自动检查是否有更新版本的AcDown");
@@ -868,7 +845,7 @@
 			this.chkEnableLog.AutoSize = true;
 			this.chkEnableLog.Location = new System.Drawing.Point(37, 33);
 			this.chkEnableLog.Name = "chkEnableLog";
-			this.chkEnableLog.Size = new System.Drawing.Size(216, 15);
+			this.chkEnableLog.Size = new System.Drawing.Size(216, 16);
 			this.chkEnableLog.TabIndex = 0;
 			this.chkEnableLog.Text = "启用错误日志（重启下载器后生效）";
 			this.tip.SetToolTip(this.chkEnableLog, "启用下载日志，下载日志可以帮助确认下载时出现的问题");
@@ -921,7 +898,6 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.udRefreshInfo)).EndInit();
-			this.pagePlugin.ResumeLayout(false);
 			this.pageProxy.ResumeLayout(false);
 			this.pageProxy.PerformLayout();
 			this.tabUpdate.ResumeLayout(false);
@@ -948,7 +924,6 @@
 		  private System.Windows.Forms.CheckBox chkOpenFolder;
 		  private System.Windows.Forms.CheckBox chkDownSub;
 		  private System.Windows.Forms.TabPage pageUI;
-		  private System.Windows.Forms.TabPage pagePlugin;
 		  private System.Windows.Forms.Label label1;
 		  private System.Windows.Forms.NumericUpDown numCacheSize;
 		  private System.Windows.Forms.Label label4;
@@ -990,7 +965,6 @@
 		  private System.Windows.Forms.GroupBox groupBox1;
 		  private System.Windows.Forms.LinkLabel lnkOpenConfig;
 		  private System.Windows.Forms.ComboBox txtUpdateDocument;
-		  private Components.PluginSettings pluginSettings1;
 		  private System.Windows.Forms.NumericUpDown udRetryWatingTime;
 		  private System.Windows.Forms.Label label10;
 		  private System.Windows.Forms.NumericUpDown udRetryTimes;

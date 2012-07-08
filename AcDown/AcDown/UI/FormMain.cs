@@ -293,10 +293,17 @@ namespace Kaedei.AcDown.UI
 			about.Dispose();
 		}
 
+		//插件
+		private void btnPlugin_Click(object sender, EventArgs e)
+		{
+			FormPlugins p = new FormPlugins(this.pluginMgr.Plugins);
+			p.ShowDialog();
+		}
+
 		//设置
 		private void btnConfig_Click(object sender, EventArgs e)
 		{
-			FormConfig config = new FormConfig(this.pluginMgr);
+			FormConfig config = new FormConfig();
 			config.ShowDialog();
 			config.Dispose();
 			//重新加载某些项目
@@ -1587,6 +1594,7 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
+
 
 
 
