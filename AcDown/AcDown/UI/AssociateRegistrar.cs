@@ -43,6 +43,10 @@ namespace Kaedei.AcDown.UI
 				key = Registry.ClassesRoot.CreateSubKey(extension);
 				key.SetValue("", typeName);
 
+
+				//刷新Explorer
+				DwmApi.RefreshNotify();
+
 				return true;
 			}
 			catch

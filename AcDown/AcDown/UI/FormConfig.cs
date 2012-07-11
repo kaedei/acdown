@@ -31,6 +31,11 @@ namespace Kaedei.AcDown.UI
 
 		private void FormConfig_Load(object sender, EventArgs e)
 		{
+			//视觉效果
+            DwmApi.SetListViewVisualEffect(this.lsvProxy);
+			DwmApi.SetShieldIcon(btnSetFileAsso);
+
+			//设置控件状态
 			chkDownSub.Checked = Config.setting.DownSub;
 			chkOpenFolder.Checked = Config.setting.OpenFolderAfterComplete;
 			chkPlaySound.Checked = Config.setting.PlaySound;
@@ -311,6 +316,22 @@ namespace Kaedei.AcDown.UI
 		private void rdoChannelCustom_CheckedChanged(object sender, EventArgs e)
 		{
 			txtUpdateDocument.Enabled = rdoChannelCustom.Checked;
+		}
+
+		private void btnSetFileAsso_Click(object sender, EventArgs e)
+		{
+			Process p = new Process();
+			p.StartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ExecutablePath,
+				Arguments = "regasso",
+				Verb = "runas"
+			};
+			try
+			{
+				p.Start();
+			}
+			catch { }
 		}
 
 	}

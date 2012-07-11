@@ -56,7 +56,6 @@ namespace Kaedei.AcDown
 					AssociateRegistrar.CreateAssociate(Application.ExecutablePath,
 						 ".acp", "AcDownPlugin", "AcDown插件", "");
 				}
-
 			}
 			//启动单实例管理器
 			SingleInstanceManager manager = new SingleInstanceManager();//单实例管理器

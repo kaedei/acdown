@@ -51,8 +51,8 @@ namespace Kaedei.AcDown.Interface
 			if (task != null)
 				extractcache = para.ExtractCache;
 			//修正代理服务器
-			if (para.Proxy == null)
-				para.Proxy = new WebProxy();
+			//if (para.Proxy == null)
+			//    para.Proxy = new WebProxy();
 
 			//初始化重试管理器
 			bool needRedownload = false; //需要重试下载
@@ -471,10 +471,10 @@ namespace Kaedei.AcDown.Interface
 		public static string GetHtmlSource(string url, System.Text.Encoding encode, WebProxy proxy)
 		{
 			HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
-			if (proxy == null)
-				req.Proxy = new WebProxy();
-			else
-				req.Proxy = proxy;
+			//if (proxy == null)
+			//    req.Proxy = new WebProxy();
+			//else
+			req.Proxy = proxy;
 			return GetHtmlSource(req, encode);
 		}
 	}
