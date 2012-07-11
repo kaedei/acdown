@@ -99,9 +99,7 @@ namespace Kaedei.AcDown.Downloader
 			video = video.Replace("%3A", ":").Replace("%2F", "/").Replace("%3F", "?").Replace("%3D", "=");
 
 			//下载视频
-			Info.PartCount = 1;
-			Info.CurrentPart = 1;
-			NewPart(1);
+			NewPart(1, 1);
 
 			//设置下载参数
 			currentParameter = new DownloadParameter()

@@ -8,11 +8,13 @@ using System.Windows.Forms;
 using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace Kaedei.AcDown.UI.Components
 {
 	public partial class PluginSettings : UserControl
 	{
+
 		public PluginSettings()
 		{
 			InitializeComponent();
@@ -45,6 +47,11 @@ namespace Kaedei.AcDown.UI.Components
 			}
 			lsv.ResumeLayout();
 		}
+
+        private void PluginSettings_Load(object sender, EventArgs e)
+        {
+            DwmApi.SetListViewVisualEffect(this.lsv);
+        }
 
 	}
 }

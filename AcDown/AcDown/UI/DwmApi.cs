@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using Kaedei.AcDown.Core;
 
 namespace Kaedei.AcDown.UI
 {
 
-	internal class DwmApi
+	internal static class DwmApi
 	{
 		[DllImport("dwmapi.dll", PreserveSig = false)]
 		public static extern void DwmEnableBlurBehindWindow(
@@ -99,6 +101,70 @@ namespace Kaedei.AcDown.UI
 				this.left = left; this.top = top;
 				this.right = right; this.bottom = bottom;
 			}
+		}
+
+		[DllImport("shell32.dll", EntryPoint = "#680", CharSet = CharSet.Unicode)]
+		static extern bool IsUserAnAdmin();
+		[DllImport("user32.dll", CharSet = CharSet.Unicode)]
+		private static extern IntPtr SendMessage(HandleRef hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+		const int BCM_SETSHIELD = 0x0000160C;
+
+		const int LVM_FIRST = 0x1000;
+		const int LVM_SETEXTENDEDLISTVIEWSTYLE = LVM_FIRST + 54;
+		const int LVS_EX_FULLROWSELECT = 0x00000020;
+		const int LVS_EX_DOUBLEBUFFER = 0x00010000;
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
+		[DllImport("uxtheme", CharSet = CharSet.Unicode)]
+		extern static Int32 SetWindowTheme(IntPtr hWnd, String textSubAppName, String textSubIdList);
+
+		[DllImport("shell32.dll")]
+static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
+
+		/// <summary>
+		/// 设置ListView控件的特殊效果（仅Vista或更高版本的Windows系统）
+		/// </summary>
+		/// <param name="lsv"></param>
+		public static void SetListViewVisualEffect(ListView lsv)
+		{
+			//设置vista效果
+			if (Config.IsWindowsVistaOrHigher())
+			{
+				SetWindowTheme(lsv.Handle, "explorer", null);
+				SendMessage(lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
+			}
+		}
+
+		/// <summary>
+		/// 判断当前用户是否为管理员
+		/// </summary>
+		/// <returns></returns>
+		public static bool IsAdmin()
+		{
+			return IsUserAnAdmin();
+		}
+
+		/// <summary>
+		/// 为按钮设置UAC盾牌图标
+		/// </summary>
+		/// <param name="btn"></param>
+		public static void SetShieldIcon(Button btn)
+		{
+			//设置vista效果
+			if (Config.IsWindowsVistaOrHigher())
+			{
+				btn.FlatStyle = FlatStyle.System;
+				SendMessage(new HandleRef(btn, btn.Handle), BCM_SETSHIELD, IntPtr.Zero, IsUserAnAdmin() ? new IntPtr(0) : new IntPtr(1));
+			}
+		}
+
+		/// <summary>
+		/// 刷新桌面
+		/// </summary>
+		public static void RefreshNotify()
+		{
+			SHChangeNotify(0x8000000, 0, IntPtr.Zero, IntPtr.Zero);
 		}
 	}
 }

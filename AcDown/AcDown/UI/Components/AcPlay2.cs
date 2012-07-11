@@ -20,14 +20,8 @@ namespace Kaedei.AcDown.UI.Components
 		private string lastSelectDirectory;
 
 		#region 控件加载
-		public const int LVM_FIRST = 0x1000;
-		public const int LVM_SETEXTENDEDLISTVIEWSTYLE = LVM_FIRST + 54;
-		public const int LVS_EX_FULLROWSELECT = 0x00000020;
-		public const int LVS_EX_DOUBLEBUFFER = 0x00010000;
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
-		[DllImport("uxtheme", CharSet = CharSet.Unicode)]
-		public extern static Int32 SetWindowTheme(IntPtr hWnd, String textSubAppName, String textSubIdList);
+
+
 
 		public AcPlay2()
 		{
@@ -37,11 +31,9 @@ namespace Kaedei.AcDown.UI.Components
 		private void AcPlay2_Load(object sender, EventArgs e)
 		{
 			//设置vista效果
-			if (Config.IsWindowsVistaOrHigher())
-			{
-				SetWindowTheme(lsv.Handle, "explorer", null);
-				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
-			}
+			DwmApi.SetListViewVisualEffect(lsv);
+			//设置盾牌图标
+			DwmApi.SetShieldIcon(btnStart);
 			//选择下拉列表框
 			cboPlayer.SelectedIndex = 0;
 		}
@@ -77,8 +69,8 @@ namespace Kaedei.AcDown.UI.Components
 					cboPlayer.SelectedIndex = 0;
 					break;
 				case "bilibili":
-				   cboPlayer.SelectedIndex = 1;
-				   break;
+					cboPlayer.SelectedIndex = 1;
+					break;
 				default:
 					cboPlayer.SelectedIndex = 0;
 					break;
@@ -562,7 +554,7 @@ namespace Kaedei.AcDown.UI.Components
 		#endregion
 
 		#region 链接到帮助页面
-		
+
 		private void lnkAbout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			try

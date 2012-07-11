@@ -6,6 +6,7 @@ using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface.Forms;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 
 namespace Kaedei.AcDown.UI
 {
@@ -110,7 +111,8 @@ namespace Kaedei.AcDown.UI
 		private void LoadProxys()
 		{
 			cboProxy.Items.Clear();
-			cboProxy.Items.Add("不使用");
+			cboProxy.Items.Add("使用Internet Explorer设置");
+			cboProxy.Items.Add("直接连接");
 			if (Config.setting.Proxy_Settings != null)
 			{
 				foreach (AcDownProxy item in Config.setting.Proxy_Settings)
@@ -232,13 +234,23 @@ namespace Kaedei.AcDown.UI
 				try
 				{
 					//取得[代理设置]
-					AcDownProxy selectedProxy = null;
-					if (Config.setting.Proxy_Settings != null)
+					WebProxy selectedProxy = null;
+					if (cboProxy.SelectedIndex == 0) //IE设置
+						//将WebProxy设置为null可以使用默认IE设置
+						//与WebRequest.DefaultWebProxy的区别在于设置为null时不会自动检测代理设置
+						//详情请见 http://msdn.microsoft.com/en-us/library/fze2ytx2.aspx
+						selectedProxy = null;
+					else if (cboProxy.SelectedIndex == 1) //直接连接
+						selectedProxy = new WebProxy();
+					else if (Config.setting.Proxy_Settings != null)
 					{
 						foreach (AcDownProxy item in Config.setting.Proxy_Settings)
 						{
 							if (item.Name == cboProxy.SelectedItem.ToString())
-								selectedProxy = item;
+							{
+								selectedProxy = item.ToWebProxy();
+								break;
+							}
 						}
 					}
 
@@ -252,7 +264,7 @@ namespace Kaedei.AcDown.UI
 							if (aa.Count > 0)
 							{
 								FormAutoAnswer faa = new FormAutoAnswer(aa);
-										  faa.TopMost = this.TopMost;
+								faa.TopMost = this.TopMost;
 								var result = faa.ShowDialog();
 								if (result == System.Windows.Forms.DialogResult.Cancel)
 								{
@@ -264,9 +276,7 @@ namespace Kaedei.AcDown.UI
 					}
 
 					//添加任务
-					TaskInfo task = _taskMgr.AddTask(selectedPlugin,
-																url,
-																(selectedProxy == null) ? null : selectedProxy.ToWebProxy());
+					TaskInfo task = _taskMgr.AddTask(selectedPlugin, url, selectedProxy);
 					//设置[保存目录]
 					task.SaveDirectory = new DirectoryInfo(txtPath.Text);
 					//设置[字幕]

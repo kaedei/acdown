@@ -22,8 +22,10 @@ namespace Kaedei.AcDown.Interface
 		/// <summary>
 		/// 更换为新Part
 		/// </summary>
-		protected void NewPart(Int32 partNumber)
+		protected void NewPart(Int32 partNumber,Int32 totalCount)
 		{
+			Info.PartCount = totalCount;
+			Info.CurrentPart = partNumber;
 			delegates.NewPart(new ParaNewPart(this.Info, partNumber));
 		}
 		/// <summary>

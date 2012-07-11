@@ -149,15 +149,6 @@ namespace Kaedei.AcDown.UI
 
 		[DllImport("user32.dll", EntryPoint = "SendMessageA")]
 		public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, Byte[] lParam);
-		public const int LVM_FIRST = 0x1000; //Value from http://www.winehq.org/pipermail/wine-devel/2002-October/009527.html
-		public const int LVM_SETEXTENDEDLISTVIEWSTYLE = LVM_FIRST + 54;
-		public const int LVS_EX_FULLROWSELECT = 0x00000020;
-		public const int LVS_EX_DOUBLEBUFFER = 0x00010000;
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
-		//Imports the UXTheme DLL
-		[DllImport("uxtheme", CharSet = CharSet.Unicode)]
-		public extern static Int32 SetWindowTheme(IntPtr hWnd, String textSubAppName, String textSubIdList);
 
 		#endregion
 
@@ -256,8 +247,7 @@ namespace Kaedei.AcDown.UI
 				//设置提示文字
 				SendMessage(txtSearch.TextBox.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"即时搜索"));
 				//设置listview效果
-				SetWindowTheme(this.lsv.Handle, "explorer", null); //Explorer style 
-				SendMessage(this.lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
+                DwmApi.SetListViewVisualEffect(this.lsv);
 			}
 			else  //如果是XP系统
 			{
