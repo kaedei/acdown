@@ -84,7 +84,7 @@ namespace Kaedei.AcDown.UI
 		private void FormShutdown_Load(object sender, EventArgs e)
 		{
 			//防止AcDown阻止系统关机
-			Program.frmMain.Hide();
+			//Program.frmMain.Hide();
 		}
 	}
 

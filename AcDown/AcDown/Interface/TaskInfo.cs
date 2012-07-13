@@ -237,7 +237,7 @@ namespace Kaedei.AcDown.Interface
 		}
 
 
-		private double _progress;
+		internal double _progress;
 		/// <summary>
 		/// 任务下载进度
 		/// </summary>

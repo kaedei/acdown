@@ -17,6 +17,7 @@ Acfun与Bilibili任务会在下载视频前下载弹幕文件
 修复:
 修复了Bilibili无法下载会员视频的问题
 修复了Acfun和Bilibili插件设置"只下载弹幕"出错的问题
+修复了在某些情况下会阻止Windows关机的问题
 
 
 v3.11.7

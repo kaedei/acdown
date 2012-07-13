@@ -83,7 +83,8 @@
     <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
     <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />
     <Compile Include="Interface\AutoAnswer.cs" />
-    <Compile Include="Interface\CommonDownloader.cs" />
+    <Compile Include="Interface\Downloader\CommonDownloader.cs" />
+    <Compile Include="Interface\Downloader\ComicDownloader.cs" />
     <Compile Include="Interface\Forms\FormMultiSelect.cs">
       <SubType>Form</SubType>
     </Compile>

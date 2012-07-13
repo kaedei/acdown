@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kaedei.AcDown.Interface
+namespace Kaedei.AcDown.Interface.Downloader
 {
 	/// <summary>
-	/// 公共下载器，此类继承自IDownloader接口并提供了常用的方法与类成员实现
+	/// 公共下载器，此类实现了IDownloader接口并提供了常用的方法与类成员实现
 	/// </summary>
 	public abstract class CommonDownloader : IDownloader
 	{
@@ -13,6 +13,17 @@ namespace Kaedei.AcDown.Interface
 		/// 与此任务相关联的信息
 		/// </summary>
 		public TaskInfo Info { get; set; }
+
+		/// <summary>
+		/// 与此任务相关联的设置
+		/// </summary>
+		protected IDictionary<string, string> Settings
+		{
+			get
+			{
+				return Info.Settings;
+			}
+		}
 
 		/// <summary>
 		/// 下载参数

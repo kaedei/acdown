@@ -161,8 +161,6 @@ namespace Kaedei.AcDown.UI
 		//包装委托的类
 		private UIDelegateContainer deles;
 
-		//是否退出程序
-		private bool exitapp = false;
 		#endregion
 
 		#region ——————初始化——————
@@ -498,20 +496,23 @@ namespace Kaedei.AcDown.UI
 		}// end timerClipboard_Tick
 
 
+		private bool exitapp = false;
 
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			e.Cancel = !exitapp;
-			if (!exitapp && Config.setting.HideWhenClose)
+			
+			if (e.CloseReason == CloseReason.UserClosing && Config.setting.HideWhenClose)
 			{
+				e.Cancel = true;
 				this.Hide();
 			}
 			else
 			{
 				mnuTrayExit_Click(sender, EventArgs.Empty);
+				if (!exitapp)
+					e.Cancel = true;
 			}
-
 		}
 
 		private bool alreayTipMinimize = false;
@@ -861,9 +862,11 @@ namespace Kaedei.AcDown.UI
 				DialogResult r = MessageBox.Show("有" + c.ToString() + "个任务正在运行，是否退出？", "AcDown动漫下载器", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 				if (r != DialogResult.Yes) //取消关闭
 				{
+					exitapp = false;
 					return;
 				}
 			}
+			exitapp = true;
 			this.Cursor = Cursors.WaitCursor;
 			//终止自动保存线程
 			taskMgr.EndSaveBackgroundWorker();
@@ -876,8 +879,8 @@ namespace Kaedei.AcDown.UI
 			//关闭日志文件
 			Logging.Exit();
 			//退出程序
-			exitapp = true;
-			Program.frmStart.Close();
+			Application.Exit();
+			//Program.frmStart.Close();
 		}
 
 		//xp下搜索框失去焦点
