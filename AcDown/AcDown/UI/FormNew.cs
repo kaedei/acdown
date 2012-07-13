@@ -111,7 +111,7 @@ namespace Kaedei.AcDown.UI
 		private void LoadProxys()
 		{
 			cboProxy.Items.Clear();
-			cboProxy.Items.Add("使用Internet Explorer设置");
+			cboProxy.Items.Add("使用IE设置(兼容网络视频加速器)");
 			cboProxy.Items.Add("直接连接");
 			if (Config.setting.Proxy_Settings != null)
 			{

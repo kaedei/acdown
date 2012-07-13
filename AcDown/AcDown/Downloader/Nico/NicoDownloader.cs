@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using Kaedei.AcDown.Interface.Forms;
 using System.IO;
+using Kaedei.AcDown.Interface.Downloader;
 
 namespace Kaedei.AcDown.Downloader
 {
