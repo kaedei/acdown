@@ -32,7 +32,7 @@ namespace Kaedei.AcDown.UI
 		private void FormConfig_Load(object sender, EventArgs e)
 		{
 			//视觉效果
-            DwmApi.SetListViewVisualEffect(this.lsvProxy);
+				DwmApi.SetListViewVisualEffect(this.lsvProxy);
 			DwmApi.SetShieldIcon(btnSetFileAsso);
 
 			//设置控件状态
@@ -318,6 +318,7 @@ namespace Kaedei.AcDown.UI
 			txtUpdateDocument.Enabled = rdoChannelCustom.Checked;
 		}
 
+		//设置文件关联
 		private void btnSetFileAsso_Click(object sender, EventArgs e)
 		{
 			Process p = new Process();

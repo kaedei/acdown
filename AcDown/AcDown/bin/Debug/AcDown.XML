@@ -389,61 +389,6 @@
             </summary>
             <param name="writer"></param>
         </member>
-        <member name="T:Kaedei.AcDown.Interface.CommonDownloader">
-            <summary>
-            公共下载器，此类继承自IDownloader接口并提供了常用的方法与类成员实现
-            </summary>
-        </member>
-        <member name="F:Kaedei.AcDown.Interface.CommonDownloader.currentParameter">
-            <summary>
-            下载参数
-            </summary>
-        </member>
-        <member name="M:Kaedei.AcDown.Interface.CommonDownloader.NewPart(System.Int32)">
-            <summary>
-            更换为新Part
-            </summary>
-        </member>
-        <member name="M:Kaedei.AcDown.Interface.CommonDownloader.Refresh">
-            <summary>
-            刷新UI
-            </summary>
-        </member>
-        <member name="M:Kaedei.AcDown.Interface.CommonDownloader.NewTask(System.String)">
-            <summary>
-            创建新任务
-            </summary>
-        </member>
-        <member name="M:Kaedei.AcDown.Interface.CommonDownloader.TipText(System.String)">
-            <summary>
-            更改提示信息
-            </summary>
-        </member>
-        <member name="M:Kaedei.AcDown.Interface.CommonDownloader.StopDownload">
-            <summary>
-            停止下载
-            </summary>
-        </member>
-        <member name="P:Kaedei.AcDown.Interface.CommonDownloader.Info">
-            <summary>
-            与此任务相关联的信息
-            </summary>
-        </member>
-        <member name="P:Kaedei.AcDown.Interface.CommonDownloader.TotalLength">
-            <summary>
-            文件总长度
-            </summary>
-        </member>
-        <member name="P:Kaedei.AcDown.Interface.CommonDownloader.DoneBytes">
-            <summary>
-            已完成的长度
-            </summary>
-        </member>
-        <member name="P:Kaedei.AcDown.Interface.CommonDownloader.LastTick">
-            <summary>
-            最后一次Tick时的值
-            </summary>
-        </member>
         <member name="M:Kaedei.AcDown.Downloader.NicoPlugin.GetHash(System.String)">
             <summary>
             规则为 sm+数字。例如sm1234567
@@ -546,6 +491,71 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Kaedei.AcDown.Interface.Downloader.ComicDownloader">
+            <summary>
+            漫画下载器，此类继承自CommonDownloader类并实现了IDownloader接口
+            </summary>
+        </member>
+        <member name="T:Kaedei.AcDown.Interface.Downloader.CommonDownloader">
+            <summary>
+            公共下载器，此类实现了IDownloader接口并提供了常用的方法与类成员实现
+            </summary>
+        </member>
+        <member name="F:Kaedei.AcDown.Interface.Downloader.CommonDownloader.currentParameter">
+            <summary>
+            下载参数
+            </summary>
+        </member>
+        <member name="M:Kaedei.AcDown.Interface.Downloader.CommonDownloader.NewPart(System.Int32,System.Int32)">
+            <summary>
+            更换为新Part
+            </summary>
+        </member>
+        <member name="M:Kaedei.AcDown.Interface.Downloader.CommonDownloader.Refresh">
+            <summary>
+            刷新UI
+            </summary>
+        </member>
+        <member name="M:Kaedei.AcDown.Interface.Downloader.CommonDownloader.NewTask(System.String)">
+            <summary>
+            创建新任务
+            </summary>
+        </member>
+        <member name="M:Kaedei.AcDown.Interface.Downloader.CommonDownloader.TipText(System.String)">
+            <summary>
+            更改提示信息
+            </summary>
+        </member>
+        <member name="M:Kaedei.AcDown.Interface.Downloader.CommonDownloader.StopDownload">
+            <summary>
+            停止下载
+            </summary>
+        </member>
+        <member name="P:Kaedei.AcDown.Interface.Downloader.CommonDownloader.Info">
+            <summary>
+            与此任务相关联的信息
+            </summary>
+        </member>
+        <member name="P:Kaedei.AcDown.Interface.Downloader.CommonDownloader.Settings">
+            <summary>
+            与此任务相关联的设置
+            </summary>
+        </member>
+        <member name="P:Kaedei.AcDown.Interface.Downloader.CommonDownloader.TotalLength">
+            <summary>
+            文件总长度
+            </summary>
+        </member>
+        <member name="P:Kaedei.AcDown.Interface.Downloader.CommonDownloader.DoneBytes">
+            <summary>
+            已完成的长度
+            </summary>
+        </member>
+        <member name="P:Kaedei.AcDown.Interface.Downloader.CommonDownloader.LastTick">
+            <summary>
+            最后一次Tick时的值
             </summary>
         </member>
         <member name="T:Kaedei.AcDown.Interface.DownloadStatus">
@@ -945,6 +955,29 @@
         <member name="T:Kaedei.AcDown.Downloader.TiebaAlbumDownloader">
             <summary>
             贴吧相册下载器
+            </summary>
+        </member>
+        <member name="M:Kaedei.AcDown.UI.DwmApi.SetListViewVisualEffect(System.Windows.Forms.ListView)">
+            <summary>
+            设置ListView控件的特殊效果（仅Vista或更高版本的Windows系统）
+            </summary>
+            <param name="lsv"></param>
+        </member>
+        <member name="M:Kaedei.AcDown.UI.DwmApi.IsAdmin">
+            <summary>
+            判断当前用户是否为管理员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kaedei.AcDown.UI.DwmApi.SetShieldIcon(System.Windows.Forms.Button)">
+            <summary>
+            为按钮设置UAC盾牌图标
+            </summary>
+            <param name="btn"></param>
+        </member>
+        <member name="M:Kaedei.AcDown.UI.DwmApi.RefreshNotify">
+            <summary>
+            刷新桌面
             </summary>
         </member>
         <member name="M:Kaedei.AcDown.Parser.FlvcdParser.Parse(Kaedei.AcDown.Parser.ParseRequest)">
