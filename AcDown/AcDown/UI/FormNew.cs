@@ -276,7 +276,7 @@ namespace Kaedei.AcDown.UI
 					}
 
 					//添加任务
-					TaskInfo task = _taskMgr.AddTask(selectedPlugin, url, selectedProxy);
+					TaskInfo task = _taskMgr.AddTask(selectedPlugin, url.Trim(), selectedProxy);
 					//设置[保存目录]
 					task.SaveDirectory = new DirectoryInfo(txtPath.Text);
 					//设置[字幕]

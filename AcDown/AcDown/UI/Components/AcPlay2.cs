@@ -96,12 +96,15 @@ namespace Kaedei.AcDown.UI.Components
 				lsv.Items.Add(lvi);
 			}
 			//设置弹幕
-			foreach (string file in config.Subtitles)
+			foreach (string filename in config.Subtitles)
 			{
 				//填充listviewitem
 				var lvi = new ListViewItem();
 				//文件名
-				lvi.Text = Path.GetFileName(file);
+				lvi.Text = Path.GetFileName(filename);
+				string file = filename;
+				if (!File.Exists((file)))
+					file = Path.Combine(Path.GetDirectoryName(filePath), file);
 				//弹幕文件
 				try
 				{

@@ -245,7 +245,7 @@ namespace Kaedei.AcDown.UI
 				//设置提示文字
 				SendMessage(txtSearch.TextBox.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"即时搜索"));
 				//设置listview效果
-                DwmApi.SetListViewVisualEffect(this.lsv);
+				DwmApi.SetListViewVisualEffect(this.lsv);
 			}
 			else  //如果是XP系统
 			{
@@ -501,7 +501,7 @@ namespace Kaedei.AcDown.UI
 		//程序正在退出
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			
+
 			if (e.CloseReason == CloseReason.UserClosing && Config.setting.HideWhenClose)
 			{
 				e.Cancel = true;
@@ -879,8 +879,8 @@ namespace Kaedei.AcDown.UI
 			//关闭日志文件
 			Logging.Exit();
 			//退出程序
-			Application.Exit();
-			//Program.frmStart.Close();
+			//Application.Exit();
+			Program.frmStart.Close();
 		}
 
 		//xp下搜索框失去焦点

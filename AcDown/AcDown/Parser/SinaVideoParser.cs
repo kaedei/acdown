@@ -43,8 +43,17 @@ namespace Kaedei.AcDown.Parser
 			foreach (Match item in matches)
 			{
 				var pri = new ParseResultItem();
-				pri.RealAddress = new Uri(item.Groups["url"].Value +
-					(string.IsNullOrEmpty(vstr) ? "" : "?vstr=" + vstr));
+				string real = item.Groups["url"].Value;
+				if (real.EndsWith(".flv", StringComparison.CurrentCultureIgnoreCase) ||
+					real.EndsWith(".hlv", StringComparison.CurrentCultureIgnoreCase) ||
+					real.EndsWith(".mp4", StringComparison.CurrentCultureIgnoreCase))
+				{
+					if (!string.IsNullOrEmpty(vstr))
+					{
+						real = real + "?vstr=" + vstr;
+					}
+				}
+				pri.RealAddress = new Uri(real);
 				pri.Information.Add("order", item.Groups["order"].Value);
 				pri.Information.Add("length", item.Groups["length"].Value);
 				pr.Items.Add(pri);
