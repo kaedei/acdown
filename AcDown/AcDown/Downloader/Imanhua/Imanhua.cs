@@ -13,7 +13,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// 爱漫画下载插件
 	/// </summary>
-	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.11.7.521", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.12.0.726", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class ImanhuaPlugin : IPlugin
 	{
 
@@ -29,12 +29,11 @@ namespace Kaedei.AcDown.Downloader
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-				new AutoAnswer("imanhua","http://t5.imanhua.com","电信①"),
-				new AutoAnswer("imanhua","http://t4.imanhua.com","电信②"),
-				new AutoAnswer("imanhua","http://t6.imanhua.com","电信③"),
-				new AutoAnswer("imanhua","http://t5.imanhua.com","江苏电信"),
-				new AutoAnswer("imanhua","http://t4.imanhua.com","浙江电信"),
-				new AutoAnswer("imanhua","http://c3.imanhua.com","网通")
+				new AutoAnswer("imanhua","http://c4.mangafiles.com","网通①"),
+				new AutoAnswer("imanhua","http://c5.mangafiles.com","网通②"),
+				new AutoAnswer("imanhua","http://c4.mangafiles.com","网通③"),
+				new AutoAnswer("imanhua","http://t4.mangafiles.com","电信①"),
+				new AutoAnswer("imanhua","http://t5.mangafiles.com","电信②")
 			});
 			//ConfigurationForm(不支持)
 
@@ -60,7 +59,7 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 		/// <summary>
-		/// 规则为 Imanhua + 漫画ID 或 漫画ID+漫画某一话ID(list后的数字)
+		/// 规则为 Imanhua+漫画ID+随机数字 或 漫画ID+漫画某一话ID(list后的数字)
 		/// 如 "Imanhua120"或"Imanhua12048848"
 		/// </summary>
 		public string GetHash(string url)
@@ -71,7 +70,8 @@ namespace Kaedei.AcDown.Downloader
 			{
 				if (string.IsNullOrEmpty(m.Groups["lid"].Value))
 				{
-					return "Imanhua" + m.Groups["id"].Value;
+					Random ran = new Random();
+					return "Imanhua" + m.Groups["id"].Value + (ran.NextDouble() * 1000).ToString();
 				}
 				else
 				{
@@ -196,7 +196,18 @@ namespace Kaedei.AcDown.Downloader
 					}
 
 					//选择下载哪部漫画
-					subUrls = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "imanhua");
+					//提取用户上次选择的章节 如果配置中有Chosen项
+					if (Info.Settings.ContainsKey("Chosen") && !string.IsNullOrEmpty(Info.Settings["Chosen"]))
+					{
+						foreach (var u in Info.Settings["Chosen"].Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries))
+						{
+							subUrls.Add(u);
+						}
+					}
+					else
+					{
+						subUrls = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "imanhua");
+					}
 
 					//如果用户没有选择任何章节
 					if (subUrls.Count == 0)
@@ -232,6 +243,14 @@ namespace Kaedei.AcDown.Downloader
 				} //end if
 
 				#endregion
+
+				//将用户选择的漫画章节存入配置
+				var sbChosen = new StringBuilder();
+				foreach (var suburl in subUrls)
+				{
+					sbChosen.Append(suburl + "|");
+				}
+				Info.Settings["Chosen"] = sbChosen.ToString();
 
 				#region 选择服务器
 
@@ -299,46 +318,69 @@ namespace Kaedei.AcDown.Downloader
 					Directory.CreateDirectory(subDir);
 
 
-
-					//检查是否是老版本
-					if (int.Parse(chapterId) > 7910) //7910之后为新版本
-					{
-						//如果使用动态生成
-						if (source.Contains(@"eval(function"))
-						{
-							//获取所有文件名
-							Regex rFileName = new Regex(@"(?<=eval\(function.+)\w+_\d+(_\d+|)(?=.+core\.bind)");
-							MatchCollection mcFileNames = rFileName.Matches(source);
-							foreach (Match file in mcFileNames)
-							{
-								fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".jpg");
-								fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".png");
-							}
-						}
-						else
-						{
-							//获取所有文件名
-							Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
-							Match mFileName = rFileName.Match(source);
-							string[] files = mFileName.Value.Replace("\"", "").Split(',');
-							//组合文件名
-							foreach (string file in files)
-							{
-								fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file);
-							}
-						}
-					}
-					else //老版本
+					////检查是否是老版本
+					//if (int.Parse(chapterId) > 7910) //7910之后为新版本
+					//{
+					//如果使用动态生成
+					if (source.Contains(@"eval(function"))
 					{
 						//获取所有文件名
-						Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
-						Match mFileName = rFileName.Match(source);
-						string[] files = mFileName.Value.Replace("\"", "").Split(',');
-						foreach (string file in files)
+						Regex rFileName = new Regex(@"(?<=eval\(function.+)\w+_\d+(_\d+|)(?=.+split)");
+						MatchCollection mcFileNames = rFileName.Matches(source);
+						foreach (Match file in mcFileNames)
 						{
-							fileUrls.Add(serverName + file);
+							fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".jpg");
+							fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".png");
 						}
 					}
+					else
+					{
+						//获取所有文件名
+						//获取页面HTML中的js段
+						Regex rJsFiles = new Regex(@"(?<=var pic=\[).+?(?=\])");
+						string jsFiles = rJsFiles.Match(source).Value;
+
+						//获取所有图片文件
+						Regex rFileName = new Regex(@"(?<="")[^,]+(?="")");
+						MatchCollection mcFileNames = rFileName.Matches(jsFiles);
+						foreach (Match file in mcFileNames)
+						{
+							fileUrls.Add(serverName + file.Value);
+						}
+					}
+					////获取所有文件名
+					//Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
+					//Match mFileName = rFileName.Match(source);
+					//string[] files = mFileName.Value.Replace("\"", "").Split(',');
+					////组合文件名
+					//foreach (string file in files)
+					//{
+					//   fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file);
+					//}
+					//}
+					//}
+					//else //老版本
+					//{
+					//   //获取所有文件名
+					//   Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
+					//   Match mFileName = rFileName.Match(source);
+					//   string[] files = mFileName.Value.Replace("\"", "").Split(',');
+					//   foreach (string file in files)
+					//   {
+					//      fileUrls.Add(serverName + file);
+					//   }
+					//}
+
+
+					//输出真实地址
+					StringBuilder sb = new StringBuilder(fileUrls.Count);
+					foreach (var file in fileUrls)
+					{
+						sb.Append(file + "|");
+					}
+					Info.Settings["ExportUrl"] = sb.ToString();
+					sb = null;
+
 
 					//设置下载长度
 					currentParameter.TotalLength = fileUrls.Count;
@@ -359,7 +401,7 @@ namespace Kaedei.AcDown.Downloader
 							string fn = Path.GetFileName(fileUrls[j]);
 							File.WriteAllBytes(Path.Combine(subDir, fn), content);
 						}
-						catch  { } //end try
+						catch { } //end try
 						currentParameter.DoneBytes = j;
 					} // end for
 
@@ -374,15 +416,7 @@ namespace Kaedei.AcDown.Downloader
 
 				#endregion
 
-			//输出真实地址
-			if (Info.Settings.ContainsKey("ExportUrl"))
-			{
-				//Info.Settings["ExportUrl"] =
-			}
-			else
-			{
 
-			}
 
 			//下载成功完成
 			currentParameter.DoneBytes = currentParameter.TotalLength;
