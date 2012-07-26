@@ -720,7 +720,7 @@ namespace Kaedei.AcDown.UI
 						q = @"http://www.soku.com/search_video/q_%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "漫画搜索(爱漫画)":
-						q = @"http://www.imanhua.com/v2/user/search.aspx?key=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+						q = @"http://www.imanhua.com/v2/user/search.aspx?key=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text, Encoding.GetEncoding("GB2312")));
 						break;
 					default:
 						q = Config.setting.SearchQuery.Replace(@"%TEST%", Tools.UrlEncode(txtSearch.Text));

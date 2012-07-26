@@ -1461,9 +1461,17 @@
         </member>
         <member name="M:Kaedei.AcDown.Interface.Tools.UrlEncode(System.String)">
             <summary>
+            Url编码(转换为%AF这样的字符)，默认使用UTF8编码
+            </summary>
+            <param name="str">待转换的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kaedei.AcDown.Interface.Tools.UrlEncode(System.String,System.Text.Encoding)">
+            <summary>
             Url编码(转换为%AF这样的字符)
             </summary>
-            <param name="str"></param>
+            <param name="str">待转换的字符串</param>
+            <param name="encoding">使用的编码</param>
             <returns></returns>
         </member>
         <member name="M:Kaedei.AcDown.Interface.Tools.UrlDecode(System.String)">
@@ -1590,7 +1598,7 @@
         </member>
         <member name="M:Kaedei.AcDown.Downloader.ImanhuaPlugin.GetHash(System.String)">
             <summary>
-            规则为 Imanhua + 漫画ID 或 漫画ID+漫画某一话ID(list后的数字)
+            规则为 Imanhua+漫画ID+随机数字 或 漫画ID+漫画某一话ID(list后的数字)
             如 "Imanhua120"或"Imanhua12048848"
             </summary>
         </member>
