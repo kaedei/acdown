@@ -23,7 +23,7 @@ namespace Kaedei.AcDown.UI
 		{
 			//设置AERO效果
 			marg = new DwmApi.MARGINS(this.Width, this.Height, this.Width, this.Height);
-			if (Config.IsWindowsVistaOrHigher()) //如果是vista以上
+			if (DwmApi.IsWindowsVistaOrHigher()) //如果是vista以上
 			{
 				if (DwmApi.DwmIsCompositionEnabled()) //如果dwm被启用了（有AERO效果）
 				{
@@ -41,7 +41,7 @@ namespace Kaedei.AcDown.UI
 		//窗体重绘事件
 		private void FormStart_Paint(object sender, PaintEventArgs e)
 		{
-			if (Config.IsWindowsVistaOrHigher())
+			if (DwmApi.IsWindowsVistaOrHigher())
 			{
 				//定义重绘的矩形范围
 				Rectangle rect = new Rectangle(0, 0, this.ClientRectangle.Width, this.ClientRectangle.Height);

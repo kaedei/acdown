@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Kaedei.AcDown.Core;
+using System.Diagnostics;
 
 namespace Kaedei.AcDown.UI
 {
@@ -119,8 +118,46 @@ namespace Kaedei.AcDown.UI
 		extern static Int32 SetWindowTheme(IntPtr hWnd, String textSubAppName, String textSubIdList);
 
 		[DllImport("shell32.dll")]
-static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+		static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
+		/// <summary>
+		/// 判断当前系统是否为Windows 7或更高版本的操作系统
+		/// </summary>
+		/// <returns></returns>
+		[DebuggerNonUserCode()]
+		public static bool IsWindows7OrHigher()
+		{
+			if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 1)
+				return true;
+			else
+				return false;
+		}
+
+		/// <summary>
+		/// 判断当前系统是否为Windows Vista
+		/// </summary>
+		/// <returns></returns>
+		[DebuggerNonUserCode()]
+		public static bool IsWindowsVista()
+		{
+			if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0)
+				return true;
+			else
+				return false;
+		}
+
+		/// <summary>
+		/// 判断当前系统是否为Windows Vista或更高版本的操作系统
+		/// </summary>
+		/// <returns></returns>
+		[DebuggerNonUserCode()]
+		public static bool IsWindowsVistaOrHigher()
+		{
+			if (Environment.OSVersion.Version.Major >= 6)
+				return true;
+			else
+				return false;
+		}
 
 		/// <summary>
 		/// 设置ListView控件的特殊效果（仅Vista或更高版本的Windows系统）
@@ -129,7 +166,7 @@ static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, In
 		public static void SetListViewVisualEffect(ListView lsv)
 		{
 			//设置vista效果
-			if (Config.IsWindowsVistaOrHigher())
+			if (IsWindowsVistaOrHigher())
 			{
 				SetWindowTheme(lsv.Handle, "explorer", null);
 				SendMessage(lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
@@ -152,7 +189,7 @@ static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, In
 		public static void SetShieldIcon(Button btn)
 		{
 			//设置vista效果
-			if (Config.IsWindowsVistaOrHigher())
+			if (IsWindowsVistaOrHigher())
 			{
 				btn.FlatStyle = FlatStyle.System;
 				SendMessage(new HandleRef(btn, btn.Handle), BCM_SETSHIELD, IntPtr.Zero, IsUserAnAdmin() ? new IntPtr(0) : new IntPtr(1));

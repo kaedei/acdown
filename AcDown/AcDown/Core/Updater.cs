@@ -48,7 +48,7 @@ namespace Kaedei.AcDown.Core
       {
          try
          {
-            string url = Config.setting.CheckUpdateDocument;
+            string url = CoreManager.ConfigManager.Settings.CheckUpdateDocument;
             if (url == "stable")
                url = "http://acdown.codeplex.com/wikipage?title=AutoUpdate";
             if (url == "develop")

@@ -82,9 +82,9 @@ namespace Kaedei.AcDown.Core
 				object[] types = plugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
 				var attrib = (AcDownPluginInformationAttribute)types[0];
 				//取得完整文件名（4.0后生效）
-				//例如 C:\xxxx\acdown\Plugin\Kaedei\AcfunDownloader\4.0\settings.xml
-				path = Path.Combine(path, attrib.Author + @"\" + attrib.Name + @"\" +
-					 attrib.Version.Major.ToString() + @"." + attrib.Version.Minor.ToString() + @"\settings.xml");
+				//例如 C:\xxxx\acdown\Plugin\Kaedei\AcfunDownloader\settings.xml
+				path = Path.Combine(path, attrib.Author + @"\" + attrib.Name + @"\" + @"settings.xml");
+				//attrib.Version.Major.ToString() + @"." + attrib.Version.Minor.ToString() + 
 
 				//反序列化插件设置
 				XmlSerializer s = new XmlSerializer(typeof(SerializableDictionary<string, string>));
@@ -106,7 +106,7 @@ namespace Kaedei.AcDown.Core
 			try
 			{
 				//取得完整文件名（4.0后生效）
-				//例如 C:\xxxx\acdown\Plugin\Kaedei\AcfunDownloader\4.0\settings.xml
+				//例如 C:\xxxx\acdown\Plugin\Kaedei\AcfunDownloader\settings.xml
 				string path = Path.Combine(startupPath, "settings.xml");
 
 				//反序列化插件设置

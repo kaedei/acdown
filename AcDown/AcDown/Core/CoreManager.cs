@@ -9,17 +9,27 @@ namespace Kaedei.AcDown.Core
 	{
 		private CoreManager() { }
 
+		/// <summary>
+		/// UI委托
+		/// </summary>
 		public static UIDelegateContainer UIDelegates { get; private set; }
+		/// <summary>
+		/// 插件管理器
+		/// </summary>
 		public static PluginManager PluginManager { get; private set; }
+		/// <summary>
+		/// 任务管理器
+		/// </summary>
 		public static TaskManager TaskManager { get; private set; }
+		/// <summary>
+		/// 配置管理器
+		/// </summary>
 		public static ConfigManager ConfigManager { get; private set; }
 
 		/// <summary>
 		/// 初始化AcDown核心
 		/// </summary>
 		/// <param name="startupFolderPath"></param>
-		/// <param name="taskFilePath"></param>
-		/// <param name="uiDelegates"></param>
 		public static void Initialize(string startupFolderPath, UIDelegateContainer uiDelegates)
 		{
 			//如果目录不存在则创建
@@ -32,7 +42,7 @@ namespace Kaedei.AcDown.Core
 			ConfigManager = new ConfigManager(startupFolderPath);
 			ConfigManager.LoadSettings();
 			//记录
-			Logging.Initialize();
+			Logging.Initialize(startupFolderPath);
 			//插件管理器
 			PluginManager = new PluginManager(startupFolderPath);
 			PluginManager.LoadPlugins();

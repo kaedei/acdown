@@ -22,8 +22,19 @@ namespace Kaedei.AcDown.Core
 			Error += errorDele;
 		}
 
+		/// <summary>
+		/// 任务开始
+		/// </summary>
 		public AcTaskDelegate Start { get; set; }
+
+		/// <summary>
+		/// 任务完成
+		/// </summary>
 		public AcTaskDelegate Finish { get; set; }
+
+		/// <summary>
+		/// 任务出现错误
+		/// </summary>
 		public AcTaskDelegate Error { get; set; }
 
 	}

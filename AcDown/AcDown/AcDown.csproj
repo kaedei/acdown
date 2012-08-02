@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AcDownSettings.cs" />
     <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Core\CoreManager.cs" />
     <Compile Include="Core\UIDelegateContainer.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Downloader\Nico\NicoPlugin.cs" />
     <Compile Include="Interface\AcPlay\AcPlayConfiguration.cs" />
     <Compile Include="AcPlay\FlvHelper.cs" />
-    <Compile Include="Core\Config.cs" />
     <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
     <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />

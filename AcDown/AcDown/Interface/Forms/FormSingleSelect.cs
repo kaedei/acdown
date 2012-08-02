@@ -27,24 +27,33 @@ namespace Kaedei.AcDown.Interface.Forms
 				combo.Items.Add(item);
 			}
 
-			if (autoAnswers != null)
+			//检查自动应答设置
+			foreach (KeyValueItem i in combo.Items)
 			{
-				foreach (AutoAnswer item in autoAnswers)
+				if (AutoAnswer.IsInAutoAnswers(autoAnswers, autoAnswerPrefix, i.Key))
 				{
-					if (item.Prefix.Equals(autoAnswerPrefix, StringComparison.CurrentCultureIgnoreCase))
-					{
-						foreach (KeyValueItem i in combo.Items)
-						{
-							if (i.Key.Equals(item.Identify, StringComparison.CurrentCultureIgnoreCase))
-							{
-								s[0] = i.Key;
-								//this.Close();
-								return;
-							}
-						}
-					}
+					s[0] = i.Key;
+					return;
 				}
 			}
+			//if (autoAnswers != null)
+			//{
+			//    foreach (AutoAnswer item in autoAnswers)
+			//    {
+			//        if (item.Prefix.Equals(autoAnswerPrefix, StringComparison.CurrentCultureIgnoreCase))
+			//        {
+			//            foreach (KeyValueItem i in combo.Items)
+			//            {
+			//                if (i.Key.Equals(item.Identify, StringComparison.CurrentCultureIgnoreCase))
+			//                {
+			//                    s[0] = i.Key;
+			//                    //this.Close();
+			//                    return;
+			//                }
+			//            }
+			//        }
+			//    }
+			//}
 
 			//find defaultitem
 			foreach (var item in contents)

@@ -75,7 +75,7 @@ namespace Kaedei.AcDown.UI
 
 		private void FormNew_Load(object sender, EventArgs e)
 		{
-			if (Config.IsWindowsVistaOrHigher())
+			if (DwmApi.IsWindowsVistaOrHigher())
 			{
 				//设置提示文字
 				SendMessage(txtInput.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"将网页地址粘贴或填写到此处"));
@@ -85,23 +85,23 @@ namespace Kaedei.AcDown.UI
 			{
 				txtInput.Text = u;
 			}
-			txtPath.Text = Config.setting.SavePath;
+			txtPath.Text = CoreManager.ConfigManager.Settings.SavePath;
 			//填充代理服务器
 			LoadProxys();
 
 			//显示下载弹幕/字幕选项
-			if (Config.setting.DownSub)
+			if (CoreManager.ConfigManager.Settings.DownSub)
 				cboDownSub.SelectedIndex = 0;
 			else
 				cboDownSub.SelectedIndex = 1;
 
 			//解析关联的下载项
-			chkParseRelated.Checked = Config.setting.ParseRelated;
+			chkParseRelated.Checked = CoreManager.ConfigManager.Settings.ParseRelated;
 
 			//自动应答
-			chkAutoAnswer.Checked = Config.setting.EnableAutoAnswer;
+			chkAutoAnswer.Checked = CoreManager.ConfigManager.Settings.EnableAutoAnswer;
 			//缓存提取
-			chkExtractCache.Checked = Config.setting.EnableExtractCache;
+			chkExtractCache.Checked = CoreManager.ConfigManager.Settings.EnableExtractCache;
 
 			//设置焦点
 			btnAdd.Focus();
@@ -113,9 +113,9 @@ namespace Kaedei.AcDown.UI
 			cboProxy.Items.Clear();
 			cboProxy.Items.Add("使用IE设置(兼容网络视频加速器)");
 			cboProxy.Items.Add("直接连接");
-			if (Config.setting.Proxy_Settings != null)
+			if (CoreManager.ConfigManager.Settings.Proxy_Settings != null)
 			{
-				foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+				foreach (AcDownProxy item in CoreManager.ConfigManager.Settings.Proxy_Settings)
 				{
 					cboProxy.Items.Add(item.Name);
 				}
@@ -242,9 +242,9 @@ namespace Kaedei.AcDown.UI
 						selectedProxy = null;
 					else if (cboProxy.SelectedIndex == 1) //直接连接
 						selectedProxy = new WebProxy();
-					else if (Config.setting.Proxy_Settings != null)
+					else if (CoreManager.ConfigManager.Settings.Proxy_Settings != null)
 					{
-						foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+						foreach (AcDownProxy item in CoreManager.ConfigManager.Settings.Proxy_Settings)
 						{
 							if (item.Name == cboProxy.SelectedItem.ToString())
 							{
