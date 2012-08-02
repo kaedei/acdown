@@ -32,7 +32,7 @@ namespace Kaedei.AcDown.UI.Components
 			ofd.Multiselect = true;
 
 			if (lstCombine.Items.Count == 0)
-				ofd.InitialDirectory = Config.setting.SavePath;
+				ofd.InitialDirectory = CoreManager.ConfigManager.Settings.SavePath;
 			else
 			{
 				ofd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
@@ -78,7 +78,7 @@ namespace Kaedei.AcDown.UI.Components
 			else if (!string.IsNullOrEmpty(txtCombineOutput.Text)) //以前设置的输出文件所在的文件夹
 				sfd.InitialDirectory = Path.GetDirectoryName(txtCombineOutput.Text);
 			else //默认保存的文件夹
-				sfd.InitialDirectory = Config.setting.SavePath;
+				sfd.InitialDirectory = CoreManager.ConfigManager.Settings.SavePath;
 
 			sfd.Filter = "Flv视频文件(*.flv)|*.flv";
 			DialogResult result = sfd.ShowDialog();

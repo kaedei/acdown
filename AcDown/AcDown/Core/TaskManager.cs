@@ -91,7 +91,7 @@ namespace Kaedei.AcDown.Core
 			task.CreateTime = DateTime.Now;
 			task.Status = DownloadStatus.等待开始;
 			if (task.SaveDirectory == null)
-				task.SaveDirectory = new DirectoryInfo(Config.setting.SavePath);
+				task.SaveDirectory = new DirectoryInfo(CoreManager.ConfigManager.Settings.SavePath);
 			//向集合中添加对象
 			TaskInfos.Add(task);
 			//提示UI刷新信息
@@ -110,7 +110,7 @@ namespace Kaedei.AcDown.Core
 			if (task.Status == DownloadStatus.正在停止 || task.Status == DownloadStatus.正在下载)
 				return;
 			//如果队列未满则开始下载
-			if (GetRunningCount() < Config.setting.MaxRunningTaskCount)
+			if (GetRunningCount() < CoreManager.ConfigManager.Settings.MaxRunningTaskCount)
 			{
 				//启动新线程下载文件
 				Thread t = new Thread(() =>
@@ -331,7 +331,7 @@ namespace Kaedei.AcDown.Core
 		public void ContinueNext()
 		{
 			//计算可以开始的任务数量
-			int canStart = Config.setting.MaxRunningTaskCount - GetRunningCount();
+			int canStart = CoreManager.ConfigManager.Settings.MaxRunningTaskCount - GetRunningCount();
 			if (canStart > 0)
 			{
 				//所有等待的任务尝试开始

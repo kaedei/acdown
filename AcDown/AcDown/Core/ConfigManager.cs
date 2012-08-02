@@ -7,22 +7,23 @@ using System.IO;
 
 namespace Kaedei.AcDown.Core
 {
-
+	/// <summary>
+	/// 配置管理器
+	/// </summary>
 	public class ConfigManager
 	{
-		public string _pluginsFolderPath;
+		private string _pluginsFolderPath;
+
+		/// <summary>
+		/// 初始化配置管理器的实例
+		/// </summary>
+		/// <param name="pluginsFolderPath"></param>
 		public ConfigManager(string pluginsFolderPath)
 		{
 			_pluginsFolderPath = pluginsFolderPath;
 		}
 
-		public AcDownSettings Settings
-		{
-			get
-			{
-				return Config.setting;
-			}
-		}
+		public AcDownSettings Settings { get; set; }
 
 		/// <summary>
 		/// 保存设置
@@ -39,13 +40,13 @@ namespace Kaedei.AcDown.Core
 			using (FileStream fs = new FileStream(Path.Combine(_pluginsFolderPath, "config.xml"), FileMode.Create))
 			{
 				XmlSerializer formatter = new XmlSerializer(typeof(AcDownSettings));
-				formatter.Serialize(fs, Config.setting);
+				formatter.Serialize(fs, CoreManager.ConfigManager.Settings);
 			}
-			GlobalSettings.GetSettings().CacheSize = Config.setting.CacheSize;
-			GlobalSettings.GetSettings().NetworkTimeout = Config.setting.NetworkTimeout;
-			GlobalSettings.GetSettings().RetryTimes = Config.setting.RetryTimes;
-			GlobalSettings.GetSettings().RetryWaitingTime = Config.setting.RetryWaitingTime;
-			GlobalSettings.GetSettings().ToolFormTimeout = Config.setting.ToolFormTimeout;
+			GlobalSettings.GetSettings().CacheSize = CoreManager.ConfigManager.Settings.CacheSize;
+			GlobalSettings.GetSettings().NetworkTimeout = CoreManager.ConfigManager.Settings.NetworkTimeout;
+			GlobalSettings.GetSettings().RetryTimes = CoreManager.ConfigManager.Settings.RetryTimes;
+			GlobalSettings.GetSettings().RetryWaitingTime = CoreManager.ConfigManager.Settings.RetryWaitingTime;
+			GlobalSettings.GetSettings().ToolFormTimeout = CoreManager.ConfigManager.Settings.ToolFormTimeout;
 		}
 
 		/// <summary>
@@ -65,23 +66,24 @@ namespace Kaedei.AcDown.Core
 				}
 
 				if (s != null)
-					Config.setting = s;
+					CoreManager.ConfigManager.Settings = s;
 				else
 					throw new Exception();
 			}
 			catch
 			{
-				Config.setting = new AcDownSettings();
+				CoreManager.ConfigManager.Settings = new AcDownSettings();
 				SaveSettings();
 			}
 			finally
 			{
-				GlobalSettings.GetSettings().NetworkTimeout = Config.setting.NetworkTimeout;
-				GlobalSettings.GetSettings().RetryTimes = Config.setting.RetryTimes;
-				GlobalSettings.GetSettings().RetryWaitingTime = Config.setting.RetryWaitingTime;
-				GlobalSettings.GetSettings().ToolFormTimeout = Config.setting.ToolFormTimeout;
+				GlobalSettings.GetSettings().CacheSize = CoreManager.ConfigManager.Settings.CacheSize;
+				GlobalSettings.GetSettings().NetworkTimeout = CoreManager.ConfigManager.Settings.NetworkTimeout;
+				GlobalSettings.GetSettings().RetryTimes = CoreManager.ConfigManager.Settings.RetryTimes;
+				GlobalSettings.GetSettings().RetryWaitingTime = CoreManager.ConfigManager.Settings.RetryWaitingTime;
+				GlobalSettings.GetSettings().ToolFormTimeout = CoreManager.ConfigManager.Settings.ToolFormTimeout;
 			}
-			return Config.setting;
+			return CoreManager.ConfigManager.Settings;
 		}
 	}
 }

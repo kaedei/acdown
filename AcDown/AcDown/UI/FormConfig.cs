@@ -36,47 +36,47 @@ namespace Kaedei.AcDown.UI
 			DwmApi.SetShieldIcon(btnSetFileAsso);
 
 			//设置控件状态
-			chkDownSub.Checked = Config.setting.DownSub;
-			chkOpenFolder.Checked = Config.setting.OpenFolderAfterComplete;
-			chkPlaySound.Checked = Config.setting.PlaySound;
-			if (!string.IsNullOrEmpty(Config.setting.SoundFile))
+			chkDownSub.Checked = CoreManager.ConfigManager.Settings.DownSub;
+			chkOpenFolder.Checked = CoreManager.ConfigManager.Settings.OpenFolderAfterComplete;
+			chkPlaySound.Checked = CoreManager.ConfigManager.Settings.PlaySound;
+			if (!string.IsNullOrEmpty(CoreManager.ConfigManager.Settings.SoundFile))
 			{
 				chkCustomSound.Checked = true;
-				txtCustomSound.Text = Config.setting.SoundFile;
+				txtCustomSound.Text = CoreManager.ConfigManager.Settings.SoundFile;
 			}
-			chkParseRelated.Checked = Config.setting.ParseRelated;
-			chkEnableExtractCache.Checked = Config.setting.EnableExtractCache;
-			numCacheSize.Value = Config.setting.CacheSize;
-			txtSavePath.Text = Config.setting.SavePath;
-			chkEnableLog.Checked = Config.setting.EnableLog;
-			chkWatch.Checked = Config.setting.WatchClipboardEnabled;
-			chkDeleteFile.Checked = Config.setting.DeleteTaskAndFile;
-			if (!Config.IsWindows7OrHigher()) chkEnableWin7.Enabled = false;
-			chkEnableWin7.Checked = Config.setting.EnableWindows7Feature;
-			chkHideWhenClose.Checked = Config.setting.HideWhenClose;
-			cboMaxRunningCount.SelectedIndex = Config.setting.MaxRunningTaskCount - 1;
-			txtSearchText.Text = Config.setting.SearchQuery;
-			udRefreshInfo.Value = Config.setting.RefreshInfoInterval;
-			udToolFormTimeout.Value = Config.setting.ToolFormTimeout;
-			chkEnableCheckUpdate.Checked = Config.setting.EnableCheckUpdate;
-			udNetworkTimeout.Value = Config.setting.NetworkTimeout;
+			chkParseRelated.Checked = CoreManager.ConfigManager.Settings.ParseRelated;
+			chkEnableExtractCache.Checked = CoreManager.ConfigManager.Settings.EnableExtractCache;
+			numCacheSize.Value = CoreManager.ConfigManager.Settings.CacheSize;
+			txtSavePath.Text = CoreManager.ConfigManager.Settings.SavePath;
+			chkEnableLog.Checked = CoreManager.ConfigManager.Settings.EnableLog;
+			chkWatch.Checked = CoreManager.ConfigManager.Settings.WatchClipboardEnabled;
+			chkDeleteFile.Checked = CoreManager.ConfigManager.Settings.DeleteTaskAndFile;
+			if (!DwmApi.IsWindows7OrHigher()) chkEnableWin7.Enabled = false;
+			chkEnableWin7.Checked = CoreManager.ConfigManager.Settings.EnableWindows7Feature;
+			chkHideWhenClose.Checked = CoreManager.ConfigManager.Settings.HideWhenClose;
+			cboMaxRunningCount.SelectedIndex = CoreManager.ConfigManager.Settings.MaxRunningTaskCount - 1;
+			txtSearchText.Text = CoreManager.ConfigManager.Settings.SearchQuery;
+			udRefreshInfo.Value = CoreManager.ConfigManager.Settings.RefreshInfoInterval;
+			udToolFormTimeout.Value = CoreManager.ConfigManager.Settings.ToolFormTimeout;
+			chkEnableCheckUpdate.Checked = CoreManager.ConfigManager.Settings.EnableCheckUpdate;
+			udNetworkTimeout.Value = CoreManager.ConfigManager.Settings.NetworkTimeout;
 			
-			if (Config.setting.CheckUpdateDocument == "stable")
+			if (CoreManager.ConfigManager.Settings.CheckUpdateDocument == "stable")
 				rdoChannelStable.Checked = true;
-			else if (Config.setting.CheckUpdateDocument == "develop")
+			else if (CoreManager.ConfigManager.Settings.CheckUpdateDocument == "develop")
 				rdoChannelDevelop.Checked = true;
 			else
 			{
 				rdoChannelCustom.Checked = true;
-				txtUpdateDocument.Text = Config.setting.CheckUpdateDocument;
+				txtUpdateDocument.Text = CoreManager.ConfigManager.Settings.CheckUpdateDocument;
 			}
-			udRetryTimes.Value = Config.setting.RetryTimes;
-			udRetryWatingTime.Value = Config.setting.RetryWaitingTime / 1000;
+			udRetryTimes.Value = CoreManager.ConfigManager.Settings.RetryTimes;
+			udRetryWatingTime.Value = CoreManager.ConfigManager.Settings.RetryWaitingTime / 1000;
 
 			//代理服务器设置
-			if (Config.setting.Proxy_Settings != null)
+			if (CoreManager.ConfigManager.Settings.Proxy_Settings != null)
 			{
-				foreach (AcDownProxy item in Config.setting.Proxy_Settings)
+				foreach (AcDownProxy item in CoreManager.ConfigManager.Settings.Proxy_Settings)
 				{
 					lsvProxy.Items.Add(new ListViewItem(new string[] 
 					{
@@ -93,40 +93,40 @@ namespace Kaedei.AcDown.UI
 		private void btnOK_Click(object sender, EventArgs e)
 		{
 			//保存设置
-			Config.setting.DownSub = chkDownSub.Checked;
-			Config.setting.OpenFolderAfterComplete = chkOpenFolder.Checked;
-			Config.setting.PlaySound = chkPlaySound.Checked;
+			CoreManager.ConfigManager.Settings.DownSub = chkDownSub.Checked;
+			CoreManager.ConfigManager.Settings.OpenFolderAfterComplete = chkOpenFolder.Checked;
+			CoreManager.ConfigManager.Settings.PlaySound = chkPlaySound.Checked;
 			if (chkCustomSound.Checked)
 			{
-				Config.setting.SoundFile = txtCustomSound.Text;
+				CoreManager.ConfigManager.Settings.SoundFile = txtCustomSound.Text;
 			}
 			else
 			{
-				Config.setting.SoundFile = "";
+				CoreManager.ConfigManager.Settings.SoundFile = "";
 			}
-			Config.setting.ParseRelated = chkParseRelated.Checked;
-			Config.setting.CacheSize = (Int32)numCacheSize.Value;
-			Config.setting.SavePath = txtSavePath.Text;
-			Config.setting.EnableLog = chkEnableLog.Checked;
-			Config.setting.WatchClipboardEnabled = chkWatch.Checked;
-			Config.setting.DeleteTaskAndFile = chkDeleteFile.Checked;
-			Config.setting.EnableExtractCache = chkEnableExtractCache.Checked;
-			Config.setting.EnableWindows7Feature = chkEnableWin7.Checked;
-			Config.setting.HideWhenClose = chkHideWhenClose.Checked;
-			Config.setting.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
-			Config.setting.SearchQuery = txtSearchText.Text;
-			Config.setting.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
-			Config.setting.ToolFormTimeout = (Int32)udToolFormTimeout.Value;
-			Config.setting.NetworkTimeout = (Int32)udNetworkTimeout.Value;
-			Config.setting.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
+			CoreManager.ConfigManager.Settings.ParseRelated = chkParseRelated.Checked;
+			CoreManager.ConfigManager.Settings.CacheSize = (Int32)numCacheSize.Value;
+			CoreManager.ConfigManager.Settings.SavePath = txtSavePath.Text;
+			CoreManager.ConfigManager.Settings.EnableLog = chkEnableLog.Checked;
+			CoreManager.ConfigManager.Settings.WatchClipboardEnabled = chkWatch.Checked;
+			CoreManager.ConfigManager.Settings.DeleteTaskAndFile = chkDeleteFile.Checked;
+			CoreManager.ConfigManager.Settings.EnableExtractCache = chkEnableExtractCache.Checked;
+			CoreManager.ConfigManager.Settings.EnableWindows7Feature = chkEnableWin7.Checked;
+			CoreManager.ConfigManager.Settings.HideWhenClose = chkHideWhenClose.Checked;
+			CoreManager.ConfigManager.Settings.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
+			CoreManager.ConfigManager.Settings.SearchQuery = txtSearchText.Text;
+			CoreManager.ConfigManager.Settings.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
+			CoreManager.ConfigManager.Settings.ToolFormTimeout = (Int32)udToolFormTimeout.Value;
+			CoreManager.ConfigManager.Settings.NetworkTimeout = (Int32)udNetworkTimeout.Value;
+			CoreManager.ConfigManager.Settings.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
 			if (rdoChannelStable.Checked)
-				Config.setting.CheckUpdateDocument = "stable";
+				CoreManager.ConfigManager.Settings.CheckUpdateDocument = "stable";
 			if (rdoChannelDevelop.Checked)
-				Config.setting.CheckUpdateDocument = "develop";
+				CoreManager.ConfigManager.Settings.CheckUpdateDocument = "develop";
 			if (rdoChannelCustom.Checked)
-				Config.setting.CheckUpdateDocument = txtUpdateDocument.Text;
-			Config.setting.RetryTimes = (Int32)udRetryTimes.Value;
-			Config.setting.RetryWaitingTime = (Int32)udRetryWatingTime.Value * 1000;
+				CoreManager.ConfigManager.Settings.CheckUpdateDocument = txtUpdateDocument.Text;
+			CoreManager.ConfigManager.Settings.RetryTimes = (Int32)udRetryTimes.Value;
+			CoreManager.ConfigManager.Settings.RetryWaitingTime = (Int32)udRetryWatingTime.Value * 1000;
 			
 
 			//插件设置
@@ -143,9 +143,9 @@ namespace Kaedei.AcDown.UI
 				proxy.Password = item.SubItems[4].Text;
 				proxys.Add(proxy);
 			}
-			Config.setting.Proxy_Settings = proxys.ToArray();
+			CoreManager.ConfigManager.Settings.Proxy_Settings = proxys.ToArray();
 			//保存设置
-			Config.SaveSettings();
+			CoreManager.ConfigManager.SaveSettings();
 			this.Close();
 		}
 
@@ -172,7 +172,7 @@ namespace Kaedei.AcDown.UI
 
 		private void lnkLog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			if (Config.setting.EnableLog)
+			if (CoreManager.ConfigManager.Settings.EnableLog)
 			{
 				if (File.Exists(Logging.LogFilePath))
 				{
@@ -274,8 +274,8 @@ namespace Kaedei.AcDown.UI
 			}
 			//保存新设置
 			AcDownSettings s = new AcDownSettings();
-			Config.setting = s;
-			Config.SaveSettings();
+			CoreManager.ConfigManager.Settings = s;
+			CoreManager.ConfigManager.SaveSettings();
 			//关闭窗体
 			this.Close();
 		}

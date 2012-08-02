@@ -17,15 +17,13 @@ namespace Kaedei.AcDown.Core
 		public static string LogFilePath { get; set; }
 		private static DateTime time = DateTime.Now;
 		private static StreamWriter writer;
-		public static void Initialize()
+		public static void Initialize(string startupPath)
 		{
 			//如果禁止记录日志则返回
-			if (!Config.setting.EnableLog)
+			if (!CoreManager.ConfigManager.Settings.EnableLog)
 				return;
 			//日志文件路径
-			string path = Path.Combine(
-				 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-				 @"Kaedei\AcDown\Log\");
+			string path = Path.Combine(startupPath, @"Log\");
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 			string t = string.Concat(time.Year.ToString(), time.Month.ToString(), time.Day.ToString(),
@@ -45,7 +43,7 @@ namespace Kaedei.AcDown.Core
 		public static void Add(Exception e)
 		{
 			//如果禁止记录日志则返回
-			if (!Config.setting.EnableLog)
+			if (!CoreManager.ConfigManager.Settings.EnableLog)
 				return;
 
 			writer.WriteLine();
@@ -73,7 +71,7 @@ namespace Kaedei.AcDown.Core
 		{
 			try
 			{
-				if (Config.setting.EnableLog)
+				if (CoreManager.ConfigManager.Settings.EnableLog)
 				{
 					writer.Close();
 					writer.Dispose();
