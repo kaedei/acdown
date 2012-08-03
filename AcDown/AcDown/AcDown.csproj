@@ -14,7 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <StartupObject>Kaedei.AcDown.Program</StartupObject>
     <ApplicationIcon>Resources\Ac.ico</ApplicationIcon>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>AcDown.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -71,83 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\AcDownSettings.cs" />
-    <Compile Include="Core\ConfigManager.cs" />
-    <Compile Include="Core\CoreManager.cs" />
-    <Compile Include="Core\UIDelegateContainer.cs" />
-    <Compile Include="Downloader\Nico\NicoDownloader.cs" />
-    <Compile Include="Downloader\Nico\NicoPlugin.cs" />
-    <Compile Include="Interface\AcPlay\AcPlayConfiguration.cs" />
-    <Compile Include="AcPlay\FlvHelper.cs" />
-    <Compile Include="Core\PluginManager.cs" />
-    <Compile Include="Downloader\YouTube\YouTubeDownloader.cs" />
-    <Compile Include="Downloader\YouTube\YouTubePlugin.cs" />
-    <Compile Include="Interface\AutoAnswer.cs" />
-    <Compile Include="Interface\Downloader\CommonDownloader.cs" />
-    <Compile Include="Interface\Downloader\ComicDownloader.cs" />
-    <Compile Include="Interface\Forms\FormMultiSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interface\Forms\FormMultiSelect.Designer.cs">
-      <DependentUpon>FormMultiSelect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interface\Forms\FormSingleSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interface\Forms\FormSingleSelect.Designer.cs">
-      <DependentUpon>FormSingleSelect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interface\SerializableDictionary.cs" />
-    <Compile Include="Interface\TaskInfo.cs" />
-    <Compile Include="Core\Updater.cs" />
-    <Compile Include="Downloader\AcFun\Acfun.cs" />
-    <Compile Include="Downloader\Bilibili\Bilibili.cs" />
-    <Compile Include="Downloader\Flvcd\FlvcdDownloader.cs" />
-    <Compile Include="Downloader\Flvcd\FlvcdPlugin.cs" />
-    <Compile Include="Downloader\SfAcg\SfAcgComicDownloader.cs" />
-    <Compile Include="Downloader\SfAcg\SfAcgPlugin.cs" />
-    <Compile Include="Downloader\Tieba\TiebaAlbum.cs" />
-    <Compile Include="Downloader\Tucao\TucaoDownloader.cs" />
-    <Compile Include="Downloader\Tucao\TucaoPlugin.cs" />
-    <Compile Include="Interface\Forms\FormLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interface\Forms\FormLogin.Designer.cs">
-      <DependentUpon>FormLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interface\Forms\FormPassword.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interface\Forms\FormPassword.Designer.cs">
-      <DependentUpon>FormPassword.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interface\Forms\ToolForm.cs" />
-    <Compile Include="Downloader\Imanhua\Imanhua.cs" />
-    <Compile Include="Downloader\Tudou\Tudou.cs" />
-    <Compile Include="Downloader\Youku\Youku.cs" />
-    <Compile Include="Interface\DelegatesContainer.cs" />
-    <Compile Include="Interface\Tools.cs" />
-    <Compile Include="Interface\Update.cs" />
-    <Compile Include="Parser\FlvcdParser.cs" />
     <Compile Include="UI\AssociateRegistrar.cs" />
-    <Compile Include="UI\Components\AcPlay2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Components\AcPlay2.Designer.cs">
-      <DependentUpon>AcPlay2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\AcPlayItem.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Components\AcPlayItem.Designer.cs">
-      <DependentUpon>AcPlayItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\FlvCombineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Components\FlvCombineControl.Designer.cs">
-      <DependentUpon>FlvCombineControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Components\PluginSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -155,14 +79,6 @@
       <DependentUpon>PluginSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\DwmApi.cs" />
-    <Compile Include="Interface\GlobalSettings.cs" />
-    <Compile Include="Interface\IPlugin.cs" />
-    <Compile Include="Interface\Network.cs" />
-    <Compile Include="Parser\IParser.cs" />
-    <Compile Include="Parser\QQVideoParser.cs" />
-    <Compile Include="Parser\SinaVideoParser.cs" />
-    <Compile Include="Parser\TudouParser.cs" />
-    <Compile Include="Parser\YoukuParser.cs" />
     <Compile Include="UI\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,34 +145,8 @@
     <Compile Include="UI\FormShutdown.Designer.cs">
       <DependentUpon>FormShutdown.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interface\IDownloader.cs" />
-    <Compile Include="Core\Logging.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Interface\Forms\FormLogin.resx">
-      <DependentUpon>FormLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\Forms\FormMultiSelect.resx">
-      <DependentUpon>FormMultiSelect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\Forms\FormPassword.resx">
-      <DependentUpon>FormPassword.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\Forms\FormSingleSelect.resx">
-      <DependentUpon>FormSingleSelect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Interface\Forms\FormWebbrowser.resx">
-      <DependentUpon>FormWebbrowser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Components\AcPlay2.resx">
-      <DependentUpon>AcPlay2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Components\AcPlayItem.resx">
-      <DependentUpon>AcPlayItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Components\FlvCombineControl.resx">
-      <DependentUpon>FlvCombineControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\PluginSettings.resx">
       <DependentUpon>PluginSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -312,6 +202,10 @@
       <DependentUpon>FormStart.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="AcDown.snk" />
+    <None Include="bin\Debug\AcDown.exe" />
+    <None Include="bin\Debug\AcDown.pdb" />
+    <None Include="bin\Release\AcDown.exe" />
+    <None Include="bin\Release\AcDown.vshost.exe.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -327,14 +221,7 @@
     <Compile Include="UI\FormStart.Designer.cs">
       <DependentUpon>FormStart.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interface\Forms\FormWebbrowser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Interface\Forms\FormWebbrowser.Designer.cs">
-      <DependentUpon>FormWebbrowser.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Shutdown.cs" />
-    <Compile Include="Core\TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\1.GIF" />
@@ -409,21 +296,64 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Plugin.png" />
-    <EmbeddedResource Include="UI\Components\FlvCombine\FlvBind.exe" />
-    <EmbeddedResource Include="UI\Components\FlvCombine\FLVLib.dll" />
-    <EmbeddedResource Include="AcPlay\acplay.exe" />
-    <None Include="bin\Debug\AcDown.exe" />
-    <None Include="bin\Debug\AcDown.pdb" />
-    <None Include="bin\Release\AcDown.exe" />
+    <Content Include="bin\Debug\AcDown.vshost.exe" />
     <Content Include="bin\Debug\AcDown.XML" />
+    <Content Include="bin\Debug\AcDownCore.dll" />
+    <Content Include="bin\Debug\AcDownCore.pdb" />
+    <Content Include="bin\Debug\AcDownCore.xml" />
+    <Content Include="bin\Debug\AcDownDownloader.dll" />
+    <Content Include="bin\Debug\AcDownDownloader.pdb" />
+    <Content Include="bin\Debug\AcDownDownloader.xml" />
+    <Content Include="bin\Debug\AcDownInterface.dll" />
+    <Content Include="bin\Debug\AcDownInterface.pdb" />
+    <Content Include="bin\Debug\AcDownInterface.xml" />
+    <Content Include="bin\Debug\AcDownParser.dll" />
+    <Content Include="bin\Debug\AcDownParser.pdb" />
+    <Content Include="bin\Debug\AcDownParser.xml" />
+    <Content Include="bin\Debug\AcPlay.dll" />
+    <Content Include="bin\Debug\AcPlay.pdb" />
+    <Content Include="bin\Debug\AcPlay.xml" />
+    <Content Include="bin\Debug\FlvCombine.dll" />
+    <Content Include="bin\Debug\FlvCombine.pdb" />
+    <Content Include="bin\Debug\FlvCombine.xml" />
+    <Content Include="bin\Release\AcDown.vshost.exe" />
+    <Content Include="bin\Release\AcDownCore.dll" />
+    <Content Include="bin\Release\AcDownDownloader.dll" />
+    <Content Include="bin\Release\AcDownInterface.dll" />
+    <Content Include="bin\Release\AcDownParser.dll" />
+    <Content Include="bin\Release\AcPlay.dll" />
     <Content Include="ChangeLog.txt" />
     <None Include="Resources\feedback.png" />
     <None Include="Resources\remind.wav" />
     <None Include="Resources\ToolStripControl.png" />
     <None Include="Resources\Update.png" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Downloader\AcDown\" />
+    <ProjectReference Include="..\AcDownCore\AcDownCore.csproj">
+      <Project>{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}</Project>
+      <Name>AcDownCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcDownDownloader\AcDownDownloader.csproj">
+      <Project>{43875C56-4142-4E71-8CC6-49BFC2C903C1}</Project>
+      <Name>AcDownDownloader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcDownInterface\AcDownInterface.csproj">
+      <Project>{AAB36442-C5D7-4580-A18A-62B6EB537F62}</Project>
+      <Name>AcDownInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcDownParser\AcDownParser.csproj">
+      <Project>{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}</Project>
+      <Name>AcDownParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcPlay\AcPlay.csproj">
+      <Project>{C0017FE4-9708-46F7-9D56-71340E2C181B}</Project>
+      <Name>AcPlay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlvCombine\FlvCombine.csproj">
+      <Project>{362A456F-8367-43EF-950D-5A2CDD502B92}</Project>
+      <Name>FlvCombine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
