@@ -8,15 +8,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ReadMe.txt = ReadMe.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownInterface", "AcDownInterface\AcDownInterface.csproj", "{AAB36442-C5D7-4580-A18A-62B6EB537F62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownParser", "AcDownParser\AcDownParser.csproj", "{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownCore", "AcDownCore\AcDownCore.csproj", "{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownDownloader", "AcDownDownloader\AcDownDownloader.csproj", "{43875C56-4142-4E71-8CC6-49BFC2C903C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcPlay", "AcPlay\AcPlay.csproj", "{C0017FE4-9708-46F7-9D56-71340E2C181B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlvCombine", "FlvCombine\FlvCombine.csproj", "{362A456F-8367-43EF-950D-5A2CDD502B92}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs18
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = AcDown\\AcDown.csproj
 		SccProjectName1 = AcDown
 		SccLocalPath1 = AcDown
+		SccProjectUniqueName2 = AcDownInterface\\AcDownInterface.csproj
+		SccProjectName2 = AcDownInterface
+		SccLocalPath2 = AcDownInterface
+		SccProjectUniqueName3 = AcDownParser\\AcDownParser.csproj
+		SccProjectName3 = AcDownParser
+		SccLocalPath3 = AcDownParser
+		SccProjectUniqueName4 = AcDownCore\\AcDownCore.csproj
+		SccProjectName4 = AcDownCore
+		SccLocalPath4 = AcDownCore
+		SccProjectUniqueName5 = AcDownDownloader\\AcDownDownloader.csproj
+		SccProjectName5 = AcDownDownloader
+		SccLocalPath5 = AcDownDownloader
+		SccProjectUniqueName6 = AcPlay\\AcPlay.csproj
+		SccProjectName6 = AcPlay
+		SccLocalPath6 = AcPlay
+		SccProjectUniqueName7 = FlvCombine\\FlvCombine.csproj
+		SccProjectName7 = FlvCombine
+		SccLocalPath7 = FlvCombine
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +57,30 @@ Global
 		{BCFD1289-87EC-49DC-BB85-30274BC1F546}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCFD1289-87EC-49DC-BB85-30274BC1F546}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCFD1289-87EC-49DC-BB85-30274BC1F546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAB36442-C5D7-4580-A18A-62B6EB537F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAB36442-C5D7-4580-A18A-62B6EB537F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAB36442-C5D7-4580-A18A-62B6EB537F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAB36442-C5D7-4580-A18A-62B6EB537F62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43875C56-4142-4E71-8CC6-49BFC2C903C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43875C56-4142-4E71-8CC6-49BFC2C903C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43875C56-4142-4E71-8CC6-49BFC2C903C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43875C56-4142-4E71-8CC6-49BFC2C903C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0017FE4-9708-46F7-9D56-71340E2C181B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0017FE4-9708-46F7-9D56-71340E2C181B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0017FE4-9708-46F7-9D56-71340E2C181B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0017FE4-9708-46F7-9D56-71340E2C181B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362A456F-8367-43EF-950D-5A2CDD502B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362A456F-8367-43EF-950D-5A2CDD502B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362A456F-8367-43EF-950D-5A2CDD502B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362A456F-8367-43EF-950D-5A2CDD502B92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
