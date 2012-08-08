@@ -7,6 +7,11 @@ using System.Xml.Schema;
 
 namespace Kaedei.AcDown.Interface
 {
+	/// <summary>
+	/// 可序列化的字典
+	/// </summary>
+	/// <typeparam name="TKey"></typeparam>
+	/// <typeparam name="TValue"></typeparam>
    public class SerializableDictionary<TKey, TValue>
            : Dictionary<TKey, TValue>, IXmlSerializable
    {
@@ -16,6 +21,13 @@ namespace Kaedei.AcDown.Interface
       {
          return null;
       }
+
+		private string _elementName = "AcDownPluginSettings";
+		public SerializableDictionary() { }
+		public SerializableDictionary(string elementName)
+		{
+			_elementName = elementName;
+		}
 
       /// <summary>
       /// 反序列化
@@ -31,7 +43,7 @@ namespace Kaedei.AcDown.Interface
          }
          while (reader.NodeType != XmlNodeType.EndElement)
          {
-            reader.ReadStartElement("AcDownPluginSettings");
+				reader.ReadStartElement(_elementName);
 
             reader.ReadStartElement("Key");
             TKey key = (TKey)keySerializer.Deserialize(reader);
@@ -58,7 +70,7 @@ namespace Kaedei.AcDown.Interface
 
          foreach (TKey key in this.Keys)
          {
-            writer.WriteStartElement("AcDownPluginSettings");
+				writer.WriteStartElement(_elementName);
 
             writer.WriteStartElement("Key");
             keySerializer.Serialize(writer, key);

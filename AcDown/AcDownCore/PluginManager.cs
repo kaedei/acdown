@@ -40,8 +40,13 @@ namespace Kaedei.AcDown.Core
 		/// <param name="plugin"></param>
 		public void LoadPlugin(IPlugin plugin)
 		{
-			if (plugin != null)
-				_plugins.Add(plugin);
+			if (plugin == null)
+				return;
+			//读取配置
+			LoadConfiguration(plugin);
+			//读取插件
+			_plugins.Add(plugin);
+
 		}
 
 		/// <summary>
@@ -65,6 +70,23 @@ namespace Kaedei.AcDown.Core
 		}
 
 		/// <summary>
+		/// 取得插件配置文件所在的地址
+		/// </summary>
+		/// <param name="plugin"></param>
+		/// <returns></returns>
+		private string GetSettingFilePath(IPlugin plugin)
+		{
+			//反射属性
+			object[] types = plugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
+			var attrib = (AcDownPluginInformationAttribute)types[0];
+			//取得完整文件名
+			//例如 %AppPath%\Plugin\Kaedei\AcfunDownloader\settings.xml
+			string path = Path.Combine(_startupPath, @"Plugins\");
+			path = Path.Combine(path, attrib.Author + @"\" + attrib.Name + @"\" + @"settings.xml");
+			return path;
+		}
+
+		/// <summary>
 		/// 保存插件配置
 		/// </summary>
 		/// <param name="plugin">需要保存配置的插件引用</param>
@@ -73,17 +95,9 @@ namespace Kaedei.AcDown.Core
 		{
 			try
 			{
-				//取得APPDATA路径名称
-				string path = Path.Combine(_startupPath, @"Plugins\");
+				string path = GetSettingFilePath(plugin);
 				//建立文件夹
-				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-				//反射属性
-				object[] types = plugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
-				var attrib = (AcDownPluginInformationAttribute)types[0];
-				//取得完整文件名（4.0后生效）
-				//例如 C:\xxxx\acdown\Plugin\Kaedei\AcfunDownloader\settings.xml
-				path = Path.Combine(path, attrib.Author + @"\" + attrib.Name + @"\" + @"settings.xml");
-				//attrib.Version.Major.ToString() + @"." + attrib.Version.Minor.ToString() + 
+				if (!Directory.Exists(path)) Directory.CreateDirectory(Path.GetDirectoryName(path));
 
 				//反序列化插件设置
 				XmlSerializer s = new XmlSerializer(typeof(SerializableDictionary<string, string>));
@@ -100,32 +114,38 @@ namespace Kaedei.AcDown.Core
 
 		}
 
-		private void LoadConfiguration(IPlugin plugin, string startupPath)
+		/// <summary>
+		/// 读取插件配置
+		/// </summary>
+		/// <param name="plugin"></param>
+		/// <param name="startupPath"></param>
+		private void LoadConfiguration(IPlugin plugin)
 		{
-			try
+			string path = GetSettingFilePath(plugin);
+			//如果文件存在则反序列化设置
+			if (File.Exists(path))
 			{
-				//取得完整文件名（4.0后生效）
-				//例如 C:\xxxx\acdown\Plugin\Kaedei\AcfunDownloader\settings.xml
-				string path = Path.Combine(startupPath, "settings.xml");
-
 				//反序列化插件设置
 				XmlSerializer s = new XmlSerializer(typeof(SerializableDictionary<string, string>));
 				using (FileStream fs = new FileStream(path, FileMode.Open))
 				{
-					plugin.Configuration = (SerializableDictionary<string, string>)s.Deserialize(fs);
+					try
+					{
+						plugin.Configuration = (SerializableDictionary<string, string>)s.Deserialize(fs);
+					}
+					catch { }
 				}
 			}
-			catch { }
-			finally
-			{
-				if (plugin.Configuration == null)
-					plugin.Configuration = new SerializableDictionary<string, string>();
-				//设置启动路径
-				plugin.Configuration["StartupPath"] = startupPath;
-			}
+			plugin.Configuration = plugin.Configuration ?? new SerializableDictionary<string, string>();
+			//设置启动路径
+			plugin.Configuration["StartupPath"] = Path.GetDirectoryName(path);
 		}
 
 
+		/// <summary>
+		/// 从指定位置加载插件
+		/// </summary>
+		/// <param name="appdir"></param>
 		private void LoadPlugins(string appdir)
 		{
 			//Current AcDown Core Version
@@ -204,7 +224,7 @@ namespace Kaedei.AcDown.Core
 								//load the plugin
 								var p = (IPlugin)Activator.CreateInstance(t);
 								//Load Plugin Configuration
-								LoadConfiguration(p, Path.GetDirectoryName(file));
+								LoadConfiguration(p);
 								//add the plugin to Collection
 								_plugins.Add(p);
 							}

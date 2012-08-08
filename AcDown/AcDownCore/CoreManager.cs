@@ -1,5 +1,7 @@
 ﻿
 using System.IO;
+using System.Collections.ObjectModel;
+using Kaedei.AcDown.Interface;
 namespace Kaedei.AcDown.Core
 {
 	/// <summary>
@@ -29,8 +31,21 @@ namespace Kaedei.AcDown.Core
 		/// <summary>
 		/// 初始化AcDown核心
 		/// </summary>
-		/// <param name="startupFolderPath"></param>
+		/// <param name="startupFolderPath">起始路径</param>
+		/// <param name="uiDelegates">UI委托</param>
 		public static void Initialize(string startupFolderPath, UIDelegateContainer uiDelegates)
+		{
+			Initialize(startupFolderPath, uiDelegates);
+		}
+
+		/// <summary>
+		/// 初始化AcDown核心
+		/// </summary>
+		/// <param name="startupFolderPath">起始路径</param>
+		/// <param name="uiDelegates">UI委托</param>
+		/// <param name="externalPlugins">额外加载的内部插件</param>
+		public static void Initialize(string startupFolderPath, UIDelegateContainer uiDelegates,
+			Collection<IPlugin> internalPlugins)
 		{
 			//如果目录不存在则创建
 			if (!Directory.Exists(startupFolderPath))
@@ -46,11 +61,16 @@ namespace Kaedei.AcDown.Core
 			//插件管理器
 			PluginManager = new PluginManager(startupFolderPath);
 			PluginManager.LoadPlugins();
+			foreach (IPlugin plugin in internalPlugins)
+			{
+				PluginManager.LoadPlugin(plugin);
+			}
 			//委托
 			UIDelegates = uiDelegates;
 			//任务管理器
 			TaskManager = new TaskManager(UIDelegates, PluginManager, startupFolderPath);
 			TaskManager.LoadAllTasks();
+
 		}
 
 	}
