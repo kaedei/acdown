@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Downloader;
+using System.Collections.ObjectModel;
 
 namespace Kaedei.AcDown.UI
 {
@@ -63,22 +64,27 @@ namespace Kaedei.AcDown.UI
 		{
 			try
 			{
+				//加载官方插件
+				var plugins = new Collection<IPlugin>() 
+				{ 
+					new AcFunPlugin(), 
+					new YoukuPlugin(),
+					new YouTubePlugin(),
+					new NicoPlugin(),
+					new BilibiliPlugin(),
+					new TudouPlugin(),
+					new ImanhuaPlugin(),
+					new TiebaAlbumPlugin(),
+					new SfAcgPlugin(),
+					new TucaoPlugin(),
+					new FlvcdPlugin()
+				};
+
 				//初始化核心
 				CoreManager.Initialize(
 					 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcDown\"),
-					 new UIDelegateContainer(null, null, null, null, null, null, null));
-				//加载官方插件
-				CoreManager.PluginManager.LoadPlugin(new AcFunPlugin());
-				CoreManager.PluginManager.LoadPlugin(new YoukuPlugin());
-				CoreManager.PluginManager.LoadPlugin(new YouTubePlugin());
-				CoreManager.PluginManager.LoadPlugin(new NicoPlugin());
-				CoreManager.PluginManager.LoadPlugin(new BilibiliPlugin());
-				CoreManager.PluginManager.LoadPlugin(new TudouPlugin());
-				CoreManager.PluginManager.LoadPlugin(new ImanhuaPlugin());
-				CoreManager.PluginManager.LoadPlugin(new TiebaAlbumPlugin());
-				CoreManager.PluginManager.LoadPlugin(new SfAcgPlugin());
-				CoreManager.PluginManager.LoadPlugin(new TucaoPlugin());
-				CoreManager.PluginManager.LoadPlugin(new FlvcdPlugin());
+					 new UIDelegateContainer(null, null, null, null, null, null, null), plugins);
+				
 
 				this.Invoke(new MethodInvoker(() =>
 				{

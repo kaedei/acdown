@@ -38,11 +38,26 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcFun\Acfun.cs" />
+    <Compile Include="AcFun\AcfunDownloaderConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcFun\AcfunDownloaderConfigurationForm.Designer.cs">
+      <DependentUpon>AcfunDownloaderConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Bilibili\BilibiliDownloaderConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bilibili\BilibiliDownloaderConfigurationForm.Designer.cs">
+      <DependentUpon>BilibiliDownloaderConfigurationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Bilibili\Bilibili.cs" />
+    <Compile Include="CustomFileNameHelper.cs" />
     <Compile Include="Flvcd\FlvcdDownloader.cs" />
     <Compile Include="Flvcd\FlvcdPlugin.cs" />
     <Compile Include="Imanhua\Imanhua.cs" />
@@ -68,6 +83,14 @@
       <Project>{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}</Project>
       <Name>AcDownParser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AcFun\AcfunDownloaderConfigurationForm.resx">
+      <DependentUpon>AcfunDownloaderConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bilibili\BilibiliDownloaderConfigurationForm.resx">
+      <DependentUpon>BilibiliDownloaderConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

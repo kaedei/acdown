@@ -4,8 +4,9 @@ using System.Text;
 using System.IO;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
+using Kaedei.AcDown.Core;
 
-namespace Kaedei.AcDown.Core
+namespace Kaedei.AcDown.UI
 {
    /// <summary>
    /// 控制应用程序升级过程的类

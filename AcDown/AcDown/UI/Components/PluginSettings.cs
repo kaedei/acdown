@@ -34,7 +34,7 @@ namespace Kaedei.AcDown.UI.Components
 				if (types.Length > 0)
 				{
 					var attrib = (AcDownPluginInformationAttribute)types[0];
-					lsv.Items.Add(new ListViewItem(new string[]
+					var lvi = new ListViewItem(new string[]
 						{
 							attrib.FriendlyName,
 							attrib.Version.ToString(),
@@ -42,16 +42,44 @@ namespace Kaedei.AcDown.UI.Components
 							attrib.Describe,
 							attrib.SupportUrl,
 							attrib.Name
-						}));
+						});
+					lvi.Tag = item;
+					lsv.Items.Add(lvi);
 				}
 			}
 			lsv.ResumeLayout();
 		}
 
-        private void PluginSettings_Load(object sender, EventArgs e)
-        {
-            DwmApi.SetListViewVisualEffect(this.lsv);
-        }
+		private void PluginSettings_Load(object sender, EventArgs e)
+		{
+			DwmApi.SetListViewVisualEffect(this.lsv);
+		}
+
+		//检查插件是否支持删除和属性
+		private void lsv_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			btnProperty.Enabled = false;
+			if (lsv.SelectedItems.Count == 1)
+			{
+				var lvi = lsv.SelectedItems[0];
+				var plugin = (IPlugin)lvi.Tag;
+				if (plugin.Feature.ContainsKey("ConfigForm"))
+				{
+					btnProperty.Enabled = true;
+				}
+			}
+		}
+
+		//属性
+		private void btnProperty_Click(object sender, EventArgs e)
+		{
+			var lvi = lsv.SelectedItems[0];
+			var plugin = (IPlugin)lvi.Tag;
+			var method = (Delegate)plugin.Feature["ConfigForm"];
+			this.Invoke(method);
+			//保存设置
+			CoreManager.PluginManager.SaveConfiguration(plugin);
+		}
 
 	}
 }

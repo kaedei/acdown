@@ -9,13 +9,15 @@ using System.Net;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using Kaedei.AcDown.Interface.AcPlay;
+using System.Windows.Forms;
+using Kaedei.AcDown.Interface.Downloader;
 
 namespace Kaedei.AcDown.Downloader
 {
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "3.12.0.708", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.0.0.0", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -42,7 +44,12 @@ namespace Kaedei.AcDown.Downloader
 				new AutoAnswer("tudou","1","土豆 流畅(256P)"),
 				new AutoAnswer("acfun","auto","保留此项可以禁止Acfun插件显示任何对话框")
 			});
-			//ConfigurationForm(不支持)
+			//ConfigForm 属性设置窗口
+			Feature.Add("ConfigForm", new MethodInvoker(() =>
+			{
+				new AcFun.AcfunDownloaderConfigurationForm(Configuration).ShowDialog();
+			}));
+
 		}
 
 		public IDownloader CreateDownloader()
@@ -86,79 +93,21 @@ namespace Kaedei.AcDown.Downloader
 		public Dictionary<string, object> Feature { get; private set; }
 
 		public SerializableDictionary<string, string> Configuration { get; set; }
+
+		public const string DefaultFileNameFormat = @"标题\标题(分段).扩展名";
 	}
 
 	/// <summary>
 	/// Acfun下载器
 	/// </summary>
-	public class AcfunDownloader : IDownloader
+	public class AcfunDownloader : CommonDownloader
 	{
 
-		public TaskInfo Info { get; set; }
-
-		//服务器IP地址
-		//private const string ServerIP = "124.228.254.229";
-		//下载参数
-		DownloadParameter currentParameter;
-
-		#region IDownloader 成员
-
-		public DelegateContainer delegates { get; set; }
-
-		//文件总长度
-		public long TotalLength
-		{
-			get
-			{
-				if (currentParameter != null)
-				{
-					return currentParameter.TotalLength;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-		//已完成的长度
-		public long DoneBytes
-		{
-			get
-			{
-				if (currentParameter != null)
-				{
-					return currentParameter.DoneBytes;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-		//最后一次Tick时的值
-		public long LastTick
-		{
-			get
-			{
-				if (currentParameter != null)
-				{
-					//将tick值更新为当前值
-					long tmp = currentParameter.LastTick;
-					currentParameter.LastTick = currentParameter.DoneBytes;
-					return tmp;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-
-		//下载视频
-		public bool Download()
+		/// <summary>
+		/// 下载视频
+		/// </summary>
+		/// <returns></returns>
+		public override bool Download()
 		{
 			//开始下载
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
@@ -181,6 +130,17 @@ namespace Kaedei.AcDown.Downloader
 			string url = Info.Url;
 			//取得子页面文件名（例如"index_123.html"）
 			string suburl = Regex.Match(Info.Url, @"ac\d+/(?<part>index\.html|index_\d+\.html)").Groups["part"].Value;
+
+			//取得AC号和子编号
+			Match mACNumber = Regex.Match(Info.Url, @"(?<ac>ac\d+)/index(_(?<sub>\d+)|)\.html");
+			Settings["ACNumber"] = mACNumber.Groups["ac"].Value;
+			Settings["ACSubNumber"] = mACNumber.Groups["sub"].Success ? mACNumber.Groups["sub"].Value : "1";
+			//设置自定义文件名
+			Settings["CustomFileName"] = AcFunPlugin.DefaultFileNameFormat;
+			if (Info.BasePlugin.Configuration.ContainsKey("CustomFileName"))
+			{
+				Settings["CustomFileName"] = Info.BasePlugin.Configuration["CustomFileName"];
+			}
 
 			//是否通过【自动应答】禁用对话框
 			bool disableDialog = false;
@@ -332,13 +292,6 @@ namespace Kaedei.AcDown.Downloader
 				Info.Title = title;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
-				//重新设置保存目录（生成子文件夹）
-				if (!Info.SaveDirectory.ToString().EndsWith(title))
-				{
-					string newdir = Path.Combine(Info.SaveDirectory.ToString(), title);
-					if (!Directory.Exists(newdir)) Directory.CreateDirectory(newdir);
-					Info.SaveDirectory = new DirectoryInfo(newdir);
-				}
 
 				//视频地址数组
 				string[] videos = null;
@@ -411,39 +364,32 @@ namespace Kaedei.AcDown.Downloader
 								ext = Path.GetExtension(videos[i]);
 						}
 						if (ext == ".hlv") ext = ".flv";
+
+						//设置文件名
+						var renamehelper = new CustomFileNameHelper();
+						string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
+										title, "", Info.PartCount == 1 ? "" : Info.PartCount.ToString(),
+										ext.Replace(".", ""), Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
+						filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+
+						//生成父文件夹
+						if (!Directory.Exists(Path.GetDirectoryName(filename)))
+							Directory.CreateDirectory(Path.GetDirectoryName(filename));
+
 						//设置当前DownloadParameter
-						if (Info.PartCount == 1)
+						currentParameter = new DownloadParameter()
 						{
-							currentParameter = new DownloadParameter()
-							{
-								//文件名 例: c:\123(1).flv
-								FilePath = Path.Combine(Info.SaveDirectory.ToString(),
-											title + ext),
-								//文件URL
-								Url = videos[i],
-								//代理服务器
-								Proxy = Info.Proxy,
-								//提取缓存
-								ExtractCache = Info.ExtractCache,
-								ExtractCachePattern = "fla*.tmp"
-							};
-						}
-						else
-						{
-							currentParameter = new DownloadParameter()
-							{
-								//文件名 例: c:\123(1).flv
-								FilePath = Path.Combine(Info.SaveDirectory.ToString(),
-											title + "(" + (i + 1).ToString() + ")" + ext),
-								//文件URL
-								Url = videos[i],
-								//代理服务器
-								Proxy = Info.Proxy,
-								//提取缓存
-								ExtractCache = Info.ExtractCache,
-								ExtractCachePattern = "fla*.tmp"
-							};
-						}
+							//文件名
+							FilePath = filename,
+							//文件URL
+							Url = videos[i],
+							//代理服务器
+							Proxy = Info.Proxy,
+							//提取缓存
+							ExtractCache = Info.ExtractCache,
+							ExtractCachePattern = "fla*.tmp"
+						};
+
 
 						//设置代理服务器
 						currentParameter.Proxy = Info.Proxy;
@@ -483,8 +429,15 @@ namespace Kaedei.AcDown.Downloader
 				}//end 判断是否下载视频
 
 
-				//生成AcPlay文件
-				string acplay = GenerateAcplayConfig(pr, title);
+				//如果插件设置中没有GenerateAcPlay项，或此项设置为true则生成.acplay快捷方式
+				if (!Info.BasePlugin.Configuration.ContainsKey("GenerateAcPlay") || 
+					Info.BasePlugin.Configuration["GenerateAcPlay"] == "true")
+				{
+					//生成AcPlay文件
+					string acplay = GenerateAcplayConfig(pr, title);
+					//支持AcPlay直接播放
+					Info.Settings["AcPlay"] = acplay;
+				}
 
 				//支持导出列表
 				if (videos != null)
@@ -500,12 +453,6 @@ namespace Kaedei.AcDown.Downloader
 					else
 						Info.Settings.Add("ExportUrl", sb.ToString());
 				}
-				//支持AcPlay
-				if (Info.Settings.ContainsKey("AcPlay"))
-					Info.Settings["AcPlay"] = acplay;
-				else
-					Info.Settings.Add("AcPlay", acplay);
-
 			}
 			catch (Exception ex)
 			{
@@ -516,21 +463,6 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 
-
-
-		//停止下载
-		public void StopDownload()
-		{
-			if (currentParameter != null)
-			{
-				//将停止flag设置为true
-				currentParameter.IsStop = true;
-			}
-		}
-
-
-		#endregion
-
 		/// <summary>
 		/// 下载弹幕
 		/// </summary>
@@ -540,11 +472,19 @@ namespace Kaedei.AcDown.Downloader
 		{
 			if (Info.DownSub != DownloadSubtitleType.DontDownloadSubtitle)
 			{
+				//设置文件名
+				var renamehelper = new CustomFileNameHelper();
+				
 				//----------下载字幕-----------
-				delegates.TipText(new ParaTipText(this.Info, "正在下载字幕文件"));
-				//字幕文件(on)地址
-				string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".json");
-				Info.SubFilePath.Add(subfile);
+				TipText("正在下载字幕文件");
+				//字幕文件(on)位置
+				string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
+								title, "", "", "json", Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
+				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+				//生成父文件夹
+				if (!Directory.Exists(Path.GetDirectoryName(filename)))
+					Directory.CreateDirectory(Path.GetDirectoryName(filename));
+				Info.SubFilePath.Add(filename);
 				//取得字幕文件(on)地址
 				string subUrl = @"http://comment.acfun.tv/" + Info.Settings["cid"] + ".json?clientID=0.46080235205590725";
 
@@ -553,16 +493,18 @@ namespace Kaedei.AcDown.Downloader
 					//下载字幕文件
 					string subcontent = Network.GetHtmlSource(subUrl, Encoding.UTF8, Info.Proxy);
 					//保存文件
-					File.WriteAllText(subfile, subcontent);
+					File.WriteAllText(filename, subcontent);
 				}
 				catch
 				{
 					return false;
 				}
 
-				////字幕文件(lock)地址
-				subfile = Path.Combine(Info.SaveDirectory.ToString(), title + "[锁定].json");
-				Info.SubFilePath.Add(subfile);
+				//字幕文件(lock)地址
+				filename = renamehelper.CombineFileName(Settings["CustomFileName"],
+								title, "", "", "[锁定].json", Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
+				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+				Info.SubFilePath.Add(filename);
 				//取得字幕文件(lock)地址
 				subUrl = @"http://comment.acfun.tv/" + Info.Settings["cid"] + "_lock.json?clientID=0.46080235205590725";
 				try
@@ -573,7 +515,7 @@ namespace Kaedei.AcDown.Downloader
 					byte[] data = wc.DownloadData(subUrl);
 					string subcontent = Encoding.UTF8.GetString(data);
 					//保存文件
-					File.WriteAllText(subfile, subcontent);
+					File.WriteAllText(filename, subcontent);
 				}
 				catch { }
 			}
@@ -630,14 +572,18 @@ namespace Kaedei.AcDown.Downloader
 						c.ExtraConfig.Add("framecount", pr.SpecificResult["framecount"]);
 
 				//配置文件的生成地址
-				string path = Path.Combine(Info.SaveDirectory.ToString(), title + ".acplay");
+				var renamehelper = new CustomFileNameHelper();
+				string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
+								title, "", "", "acplay", Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
+				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+				//string path = Path.Combine(Info.SaveDirectory.ToString(), title + ".acplay");
 				//序列化到文件中
-				using (var fs = new FileStream(path, FileMode.Create))
+				using (var fs = new FileStream(filename, FileMode.Create))
 				{
 					XmlSerializer s = new XmlSerializer(typeof(AcPlayConfiguration));
 					s.Serialize(fs, c);
 				}
-				return path;
+				return filename;
 			}
 			catch
 			{
