@@ -114,10 +114,9 @@ namespace Kaedei.AcDown.Interface
 
 
 		/// <summary>
-		/// 是否下载弹幕/字幕
-		/// 0-下载 1-不下载 2-只下载
+		/// 下载类型
 		/// </summary>
-		public DownloadSubtitleType DownSub { get; set; }
+		public DownloadType DownloadTypes { get; set; }
 
 		/// <summary>
 		/// 是否解析关联的任务
@@ -394,9 +393,9 @@ namespace Kaedei.AcDown.Interface
 
 
 
-				//downsub
-				reader.ReadStartElement("DownSub");
-				DownSub = (DownloadSubtitleType)Enum.Parse(typeof(DownloadSubtitleType), (string)s.Deserialize(reader), true);
+				//DownloadType
+				reader.ReadStartElement("DownloadType");
+				DownloadTypes = (DownloadType)Enum.Parse(typeof(DownloadType), (string)s.Deserialize(reader), true);
 				reader.ReadEndElement();
 
 				//proxy
@@ -564,9 +563,9 @@ namespace Kaedei.AcDown.Interface
 			}
 			writer.WriteEndElement();
 
-			//DownSub
-			writer.WriteStartElement("DownSub");
-			s.Serialize(writer, DownSub.ToString());
+			//DownloadType
+			writer.WriteStartElement("DownloadType");
+			s.Serialize(writer, DownloadTypes.ToString("D"));
 			writer.WriteEndElement();
 
 			//proxy

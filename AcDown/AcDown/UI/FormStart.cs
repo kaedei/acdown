@@ -62,10 +62,8 @@ namespace Kaedei.AcDown.UI
 		//初始化数据
 		private void LoadData()
 		{
-			try
-			{
-				//加载官方插件
-				var plugins = new Collection<IPlugin>() 
+			//官方插件
+			var plugins = new Collection<IPlugin>() 
 				{ 
 					new AcFunPlugin(), 
 					new YoukuPlugin(),
@@ -80,35 +78,21 @@ namespace Kaedei.AcDown.UI
 					new FlvcdPlugin()
 				};
 
-				//初始化核心
-				CoreManager.Initialize(
-					 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcDown\"),
-					 new UIDelegateContainer(null, null, null, null, null, null, null), plugins);
-				
+			//初始化核心
+			CoreManager.Initialize(
+				 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcDown\"),
+				 new UIDelegateContainer(null, null, null, null, null, null, null), 
+				 plugins);
 
-				this.Invoke(new MethodInvoker(() =>
-				{
-					//加载主窗体
-					Program.frmMain = new FormMain();
-					Program.frmMain.Show();
-					this.Hide();
-				}));
-			}
-			catch (UnauthorizedAccessException uex) //权限不足（无法读写任务文件）时尝试提升权限
+
+			this.Invoke(new MethodInvoker(() =>
 			{
-				Process p = new Process();
-				p.StartInfo = new ProcessStartInfo()
-				{
-					FileName = Application.ExecutablePath,
-					Verb = "runas"
-				};
-				try
-				{
-					p.Start();
-				}
-				catch { }
-				Application.Exit();
-			}
+				//加载主窗体
+				Program.frmMain = new FormMain();
+				Program.frmMain.Show();
+				this.Hide();
+			}));
 		}
 	}
 }
+

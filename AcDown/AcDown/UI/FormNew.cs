@@ -16,18 +16,9 @@ namespace Kaedei.AcDown.UI
 		private static FormNew instance;
 		//外部Url
 		private static string u;
-		//插件管理器
-		private static PluginManager _pluginMgr;
-		//任务管理器
-		private static TaskManager _taskMgr;
 
-		[DllImport("user32.dll", EntryPoint = "SendMessageA")]
-		public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, Byte[] lParam);
-
-		public static void Initialize(PluginManager pluginMgr, TaskManager taskMgr)
+		static FormNew()
 		{
-			_pluginMgr = pluginMgr;
-			_taskMgr = taskMgr;
 			instance = new FormNew();
 		}
 
@@ -54,14 +45,18 @@ namespace Kaedei.AcDown.UI
 		/// <returns></returns>
 		public static bool CheckUrl(string url)
 		{
-			if (instance != null)
+			if (instance != null && !string.IsNullOrEmpty(url))
 			{
-				foreach (var item in _pluginMgr.Plugins)
+				foreach (var item in CoreManager.PluginManager.Plugins)
 				{
-					if (item.CheckUrl(url)) //检查成功
+					try
 					{
-						return true;
+						if (item.CheckUrl(url)) //检查成功
+						{
+							return true;
+						}
 					}
+					catch { }
 				}
 			}
 			return false;
@@ -70,16 +65,16 @@ namespace Kaedei.AcDown.UI
 		private FormNew()
 		{
 			InitializeComponent();
+
+			this.Size = new System.Drawing.Size(440, 230);
 			this.Icon = Kaedei.AcDown.Properties.Resources.Ac;
 		}
 
 		private void FormNew_Load(object sender, EventArgs e)
 		{
-			if (DwmApi.IsWindowsVistaOrHigher())
-			{
-				//设置提示文字
-				SendMessage(txtInput.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"将网页地址粘贴或填写到此处"));
-			}
+
+			//设置提示文字
+			DwmApi.SetTextBoxTipText(txtInput.Handle, "将网页地址粘贴或填写到此处");
 			//显示默认文字
 			if (!string.IsNullOrEmpty(u))
 			{
@@ -89,29 +84,29 @@ namespace Kaedei.AcDown.UI
 			//填充代理服务器
 			LoadProxys();
 
-			//显示下载弹幕/字幕选项
-			if (CoreManager.ConfigManager.Settings.DownSub)
-				cboDownSub.SelectedIndex = 0;
-			else
-				cboDownSub.SelectedIndex = 1;
+			//下载类型
+			for (int i = 0; i < lstDownloadType.Items.Count; i++)
+			{
+				lstDownloadType.SetItemChecked(i, true);
+			}
 
 			//解析关联的下载项
 			chkParseRelated.Checked = CoreManager.ConfigManager.Settings.ParseRelated;
-
 			//自动应答
-			chkAutoAnswer.Checked = CoreManager.ConfigManager.Settings.EnableAutoAnswer;
+			chkAutoAnswer.Checked = CoreManager.ConfigManager.Settings.AutoAnswer;
 			//缓存提取
-			chkExtractCache.Checked = CoreManager.ConfigManager.Settings.EnableExtractCache;
+			chkExtractCache.Checked = CoreManager.ConfigManager.Settings.ExtractCache;
 
 			//设置焦点
 			btnAdd.Focus();
+
 		}
 
 		//读取代理服务器设置
 		private void LoadProxys()
 		{
 			cboProxy.Items.Clear();
-			cboProxy.Items.Add("使用IE设置(兼容网络视频加速器)");
+			cboProxy.Items.Add("使用IE设置");
 			cboProxy.Items.Add("直接连接");
 			if (CoreManager.ConfigManager.Settings.Proxy_Settings != null)
 			{
@@ -130,15 +125,16 @@ namespace Kaedei.AcDown.UI
 		private void txtInput_TextChanged(object sender, EventArgs e)
 		{
 			string t = txtInput.Text.Trim();  //去除空格
+			//清除已有列表
+			supportedPlugins.Clear();
+			cboPlugins.Items.Clear();
+			cboPlugins_SelectedIndexChanged(sender, EventArgs.Empty);
 
 			if (t.Length > 0) //如果文本不为空
 			{
 				picCheck.Visible = true;
-				//清除已有列表
-				supportedPlugins.Clear();
-				cboPlugins.Items.Clear();
 				//查找所有候选插件
-				foreach (var item in _pluginMgr.Plugins)
+				foreach (var item in CoreManager.PluginManager.Plugins)
 				{
 					if (item.CheckUrl(t))
 					{
@@ -159,15 +155,6 @@ namespace Kaedei.AcDown.UI
 					picCheck.Image = Properties.Resources._1;
 					//清除下拉列表的选择
 					cboPlugins.SelectedIndex = 0;
-					//支持的插件数量大于1个时才显示下拉列表
-					if (supportedPlugins.Count > 1)
-					{
-						panelSelectPlugin.Visible = true;
-					}
-					else
-					{
-						panelSelectPlugin.Visible = false;
-					}
 					//按钮可以按下
 					btnAdd.Enabled = true;
 				}
@@ -176,21 +163,15 @@ namespace Kaedei.AcDown.UI
 					//设置哭脸图片
 					picCheck.Image = Properties.Resources._2;
 					//清除下拉列表的选择
-					cboPlugins.SelectedIndex = -1;
-					//显示下拉列表
-					panelSelectPlugin.Visible = false;
+					//cboPlugins.SelectedIndex = -1;
 					//按钮不可按下
 					btnAdd.Enabled = false;
 				}
-
-				btnAdd.Text = "添加任务";
 			}
 			else
 			{
-				panelSelectPlugin.Visible = false;
 				picCheck.Visible = false;
 				btnAdd.Enabled = true;
-				btnAdd.Text = "粘贴并添加";
 			}
 		}
 
@@ -201,13 +182,6 @@ namespace Kaedei.AcDown.UI
 		/// <param name="e"></param>
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			//判断是否是“粘贴并添加”
-			if (txtInput.Text.Trim() == "" && Clipboard.ContainsText()) //如果文本框为空则为“粘贴并添加”
-			{
-				txtInput.Text = Clipboard.GetText();
-			}
-
-
 			string url = txtInput.Text;
 			this.Cursor = Cursors.WaitCursor;
 
@@ -222,7 +196,7 @@ namespace Kaedei.AcDown.UI
 				//取得此url的hash
 				string hash = selectedPlugin.GetHash(url);
 				//检查是否有已经在进行的相同任务
-				foreach (TaskInfo task in _taskMgr.TaskInfos)
+				foreach (TaskInfo task in CoreManager.TaskManager.TaskInfos)
 				{
 					if (hash.Equals(task.Hash, StringComparison.InvariantCultureIgnoreCase))
 					{
@@ -276,14 +250,24 @@ namespace Kaedei.AcDown.UI
 					}
 
 					//添加任务
-					TaskInfo task = _taskMgr.AddTask(selectedPlugin, url.Trim(), selectedProxy);
+					TaskInfo task = CoreManager.TaskManager.AddTask(selectedPlugin, url.Trim(), selectedProxy);
 					//设置[保存目录]
 					task.SaveDirectory = new DirectoryInfo(txtPath.Text);
-					//设置[字幕]
-					DownloadSubtitleType ds = DownloadSubtitleType.DownloadSubtitle;
-					if (cboDownSub.SelectedIndex == 1) ds = DownloadSubtitleType.DontDownloadSubtitle;
-					if (cboDownSub.SelectedIndex == 2) ds = DownloadSubtitleType.DownloadSubtitleOnly;
-					task.DownSub = ds;
+					//设置[下载类型]
+					DownloadType ds = DownloadType.None;
+					if (lstDownloadType.GetItemChecked(0))
+						ds = ds | DownloadType.Video;
+					if (lstDownloadType.GetItemChecked(1))
+						ds = ds | DownloadType.Audio;
+					if (lstDownloadType.GetItemChecked(2))
+						ds = ds | DownloadType.Picture;
+					if (lstDownloadType.GetItemChecked(3))
+						ds = ds | DownloadType.Text;
+					if (lstDownloadType.GetItemChecked(4))
+						ds = ds | DownloadType.Subtitle;
+					if (lstDownloadType.GetItemChecked(5))
+						ds = ds | DownloadType.Comment;
+					task.DownloadTypes = ds;
 					//设置[提取浏览器缓存]
 					task.ExtractCache = chkExtractCache.Checked;
 					//设置[解析关联视频]
@@ -295,7 +279,7 @@ namespace Kaedei.AcDown.UI
 
 
 					//开始下载
-					_taskMgr.StartTask(task);
+					CoreManager.TaskManager.StartTask(task);
 
 
 					this.Cursor = Cursors.Default;
@@ -328,20 +312,7 @@ namespace Kaedei.AcDown.UI
 			e.Cancel = true;
 			u = "";
 			txtInput.Text = "";
-			panelSelectPlugin.Hide();
 			this.Hide();
-		}
-
-		//选择保存文件夹
-		private void btnSelectDir_Click(object sender, EventArgs e)
-		{
-			//选择文件夹
-			FolderBrowserDialog fbd = new FolderBrowserDialog();
-			fbd.ShowNewFolderButton = true;
-			fbd.Description = "为您的下载选择一个目标文件夹：";
-			fbd.SelectedPath = this.txtPath.Text;
-			if (fbd.ShowDialog() == DialogResult.OK)
-				this.txtPath.Text = fbd.SelectedPath;
 		}
 
 		//设置代理服务器
@@ -354,6 +325,83 @@ namespace Kaedei.AcDown.UI
 			frm.Dispose();
 			LoadProxys();
 		}
+
+		/// <summary>
+		/// 选择保存文件夹
+		/// </summary>
+		private void lnkBrowseDir_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			//选择文件夹
+			FolderBrowserDialog fbd = new FolderBrowserDialog();
+			fbd.ShowNewFolderButton = true;
+			fbd.Description = "为您的下载选择一个目标文件夹：";
+			fbd.SelectedPath = this.txtPath.Text;
+			if (fbd.ShowDialog() == DialogResult.OK)
+				this.txtPath.Text = fbd.SelectedPath;
+		}
+
+		//切换状态
+		private void chkAdvance_CheckedChanged(object sender, EventArgs e)
+		{
+			if (chkAdvance.Checked)
+			{
+				this.Size = new System.Drawing.Size(440, 480);
+				chkAdvance.Text = "高级 <<";
+			}
+			else
+			{
+				this.Size = new System.Drawing.Size(440, 230);
+				chkAdvance.Text = "高级 >>";
+			}
+		}
+
+		private void cboPlugins_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			lnkPluginConfig.Enabled = false;
+			if (cboPlugins.Items.Count == 0)
+				return;
+			int index = cboPlugins.SelectedIndex;
+			var plugin = supportedPlugins[index];
+			if (plugin.Feature.ContainsKey("ConfigForm"))
+			{
+				var t = plugin.Feature["ConfigForm"].GetType();
+				if(t.IsSubclassOf(typeof(Delegate)) || t.IsSubclassOf(typeof(MulticastDelegate)))
+					lnkPluginConfig.Enabled = true;
+			}
+		}
+
+		//插件配置
+		private void lnkPluginConfig_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			int index = cboPlugins.SelectedIndex;
+			var plugin = supportedPlugins[index];
+			var method = (Delegate)plugin.Feature["ConfigForm"];
+			this.TopMost = false;
+			try
+			{
+				this.Invoke(method);
+			}
+			catch
+			{
+			}
+			this.TopMost = true;
+			//保存设置
+			CoreManager.PluginManager.SaveConfiguration(plugin);
+		}
+
+		//从剪贴板粘贴
+		private void lnkPaste_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			try
+			{
+				if (Clipboard.ContainsText())
+					txtInput.Text = Clipboard.GetText().Trim();
+			}
+			catch { }
+		}
+
+
+
 
 
 	}

@@ -326,8 +326,8 @@ namespace Kaedei.AcDown.Downloader
 				//解析器的解析结果
 				ParseResult pr = null;
 
-				//如果不是“仅下载字幕”
-				if (Info.DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
+				//如果允许下载视频
+				if ((Info.DownloadTypes & DownloadType.Video) != 0)
 				{
 					if (mFile.Success) //如果有file参数
 					{
@@ -569,7 +569,7 @@ namespace Kaedei.AcDown.Downloader
 		private bool DownloadComment(string title, string subtitle, string id)
 		{
 			//如果不是“不下载弹幕”且ID不为空
-			if ((Info.DownSub != DownloadSubtitleType.DontDownloadSubtitle) && !string.IsNullOrEmpty(id))
+			if (((Info.DownloadTypes & DownloadType.Subtitle) != 0) && (!string.IsNullOrEmpty(id)))
 			{
 				//设置文件名
 				var renamehelper = new CustomFileNameHelper();

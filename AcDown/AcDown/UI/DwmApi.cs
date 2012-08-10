@@ -112,8 +112,12 @@ namespace Kaedei.AcDown.UI
 		const int LVM_SETEXTENDEDLISTVIEWSTYLE = LVM_FIRST + 54;
 		const int LVS_EX_FULLROWSELECT = 0x00000020;
 		const int LVS_EX_DOUBLEBUFFER = 0x00010000;
+
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
+		[DllImport("user32.dll", EntryPoint = "SendMessageA")]
+		public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, Byte[] lParam);
+
 		[DllImport("uxtheme", CharSet = CharSet.Unicode)]
 		extern static Int32 SetWindowTheme(IntPtr hWnd, String textSubAppName, String textSubIdList);
 
@@ -171,6 +175,17 @@ namespace Kaedei.AcDown.UI
 				SetWindowTheme(lsv.Handle, "explorer", null);
 				SendMessage(lsv.Handle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT + LVS_EX_DOUBLEBUFFER);  //Blue selection
 			}
+		}
+
+		/// <summary>
+		/// 设置文本框的提示文字
+		/// </summary>
+		/// <param name="handle">文本框句柄</param>
+		/// <param name="text">提示文字</param>
+		public static void SetTextBoxTipText(IntPtr handle,string text)
+		{
+			if (IsWindowsVistaOrHigher())
+				SendMessage(handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(text));
 		}
 
 		/// <summary>

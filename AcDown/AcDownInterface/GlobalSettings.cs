@@ -113,12 +113,4 @@ namespace Kaedei.AcDown.Interface
 		
 
 	}
-
-	public enum DownloadSubtitleType
-	{
-		DownloadSubtitle,
-		DontDownloadSubtitle,
-		DownloadSubtitleOnly
-	}
-
 }

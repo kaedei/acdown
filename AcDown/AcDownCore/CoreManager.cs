@@ -12,6 +12,10 @@ namespace Kaedei.AcDown.Core
 		private CoreManager() { }
 
 		/// <summary>
+		/// 起始路径
+		/// </summary>
+		public static string StartupPath { get; private set; }
+		/// <summary>
 		/// UI委托
 		/// </summary>
 		public static UIDelegateContainer UIDelegates { get; private set; }
@@ -47,6 +51,7 @@ namespace Kaedei.AcDown.Core
 		public static void Initialize(string startupFolderPath, UIDelegateContainer uiDelegates,
 			Collection<IPlugin> internalPlugins)
 		{
+			StartupPath = startupFolderPath;
 			//如果目录不存在则创建
 			if (!Directory.Exists(startupFolderPath))
 			{
