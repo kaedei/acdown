@@ -36,7 +36,6 @@ namespace Kaedei.AcDown.UI
 			DwmApi.SetShieldIcon(btnSetFileAsso);
 
 			//设置控件状态
-			chkDownSub.Checked = CoreManager.ConfigManager.Settings.DownSub;
 			chkOpenFolder.Checked = CoreManager.ConfigManager.Settings.OpenFolderAfterComplete;
 			chkPlaySound.Checked = CoreManager.ConfigManager.Settings.PlaySound;
 			if (!string.IsNullOrEmpty(CoreManager.ConfigManager.Settings.SoundFile))
@@ -45,20 +44,21 @@ namespace Kaedei.AcDown.UI
 				txtCustomSound.Text = CoreManager.ConfigManager.Settings.SoundFile;
 			}
 			chkParseRelated.Checked = CoreManager.ConfigManager.Settings.ParseRelated;
-			chkEnableExtractCache.Checked = CoreManager.ConfigManager.Settings.EnableExtractCache;
+			chkEnableExtractCache.Checked = CoreManager.ConfigManager.Settings.ExtractCache;
 			numCacheSize.Value = CoreManager.ConfigManager.Settings.CacheSize;
 			txtSavePath.Text = CoreManager.ConfigManager.Settings.SavePath;
-			chkEnableLog.Checked = CoreManager.ConfigManager.Settings.EnableLog;
-			chkWatch.Checked = CoreManager.ConfigManager.Settings.WatchClipboardEnabled;
+			chkEnableLog.Checked = CoreManager.ConfigManager.Settings.Logging;
+			chkWatch.Checked = CoreManager.ConfigManager.Settings.WatchClipboard;
+			chkWatchShortUrl.Checked = CoreManager.ConfigManager.Settings.WatchClipboardShortUrl;
 			chkDeleteFile.Checked = CoreManager.ConfigManager.Settings.DeleteTaskAndFile;
 			if (!DwmApi.IsWindows7OrHigher()) chkEnableWin7.Enabled = false;
-			chkEnableWin7.Checked = CoreManager.ConfigManager.Settings.EnableWindows7Feature;
+			chkEnableWin7.Checked = CoreManager.ConfigManager.Settings.Windows7Feature;
 			chkHideWhenClose.Checked = CoreManager.ConfigManager.Settings.HideWhenClose;
 			cboMaxRunningCount.SelectedIndex = CoreManager.ConfigManager.Settings.MaxRunningTaskCount - 1;
 			txtSearchText.Text = CoreManager.ConfigManager.Settings.SearchQuery;
 			udRefreshInfo.Value = CoreManager.ConfigManager.Settings.RefreshInfoInterval;
 			udToolFormTimeout.Value = CoreManager.ConfigManager.Settings.ToolFormTimeout;
-			chkEnableCheckUpdate.Checked = CoreManager.ConfigManager.Settings.EnableCheckUpdate;
+			chkEnableCheckUpdate.Checked = CoreManager.ConfigManager.Settings.CheckUpdate;
 			udNetworkTimeout.Value = CoreManager.ConfigManager.Settings.NetworkTimeout;
 			
 			if (CoreManager.ConfigManager.Settings.CheckUpdateDocument == "stable")
@@ -93,7 +93,7 @@ namespace Kaedei.AcDown.UI
 		private void btnOK_Click(object sender, EventArgs e)
 		{
 			//保存设置
-			CoreManager.ConfigManager.Settings.DownSub = chkDownSub.Checked;
+			//CoreManager.ConfigManager.Settings.DownSub = chkDownSub.Checked;
 			CoreManager.ConfigManager.Settings.OpenFolderAfterComplete = chkOpenFolder.Checked;
 			CoreManager.ConfigManager.Settings.PlaySound = chkPlaySound.Checked;
 			if (chkCustomSound.Checked)
@@ -107,18 +107,19 @@ namespace Kaedei.AcDown.UI
 			CoreManager.ConfigManager.Settings.ParseRelated = chkParseRelated.Checked;
 			CoreManager.ConfigManager.Settings.CacheSize = (Int32)numCacheSize.Value;
 			CoreManager.ConfigManager.Settings.SavePath = txtSavePath.Text;
-			CoreManager.ConfigManager.Settings.EnableLog = chkEnableLog.Checked;
-			CoreManager.ConfigManager.Settings.WatchClipboardEnabled = chkWatch.Checked;
+			CoreManager.ConfigManager.Settings.Logging = chkEnableLog.Checked;
+			CoreManager.ConfigManager.Settings.WatchClipboard = chkWatch.Checked;
+			CoreManager.ConfigManager.Settings.WatchClipboardShortUrl = chkWatchShortUrl.Checked;
 			CoreManager.ConfigManager.Settings.DeleteTaskAndFile = chkDeleteFile.Checked;
-			CoreManager.ConfigManager.Settings.EnableExtractCache = chkEnableExtractCache.Checked;
-			CoreManager.ConfigManager.Settings.EnableWindows7Feature = chkEnableWin7.Checked;
+			CoreManager.ConfigManager.Settings.ExtractCache = chkEnableExtractCache.Checked;
+			CoreManager.ConfigManager.Settings.Windows7Feature = chkEnableWin7.Checked;
 			CoreManager.ConfigManager.Settings.HideWhenClose = chkHideWhenClose.Checked;
 			CoreManager.ConfigManager.Settings.MaxRunningTaskCount = cboMaxRunningCount.SelectedIndex + 1;
 			CoreManager.ConfigManager.Settings.SearchQuery = txtSearchText.Text;
 			CoreManager.ConfigManager.Settings.RefreshInfoInterval = (Int32)udRefreshInfo.Value;
 			CoreManager.ConfigManager.Settings.ToolFormTimeout = (Int32)udToolFormTimeout.Value;
 			CoreManager.ConfigManager.Settings.NetworkTimeout = (Int32)udNetworkTimeout.Value;
-			CoreManager.ConfigManager.Settings.EnableCheckUpdate = chkEnableCheckUpdate.Checked;
+			CoreManager.ConfigManager.Settings.CheckUpdate = chkEnableCheckUpdate.Checked;
 			if (rdoChannelStable.Checked)
 				CoreManager.ConfigManager.Settings.CheckUpdateDocument = "stable";
 			if (rdoChannelDevelop.Checked)
@@ -172,7 +173,7 @@ namespace Kaedei.AcDown.UI
 
 		private void lnkLog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			if (CoreManager.ConfigManager.Settings.EnableLog)
+			if (CoreManager.ConfigManager.Settings.Logging)
 			{
 				if (File.Exists(Logging.LogFilePath))
 				{
@@ -300,13 +301,9 @@ namespace Kaedei.AcDown.UI
 
 		private void lnkOpenConfig_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			//取得APPDATA路径名称
-			string path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			path = Path.Combine(path, @"Kaedei\AcDown\");
-
 			try
 			{
-				Process.Start(path);
+				Process.Start(CoreManager.StartupPath);
 			}
 			catch
 			{
@@ -328,11 +325,19 @@ namespace Kaedei.AcDown.UI
 				Arguments = "regasso",
 				Verb = "runas"
 			};
+			//WinXP不使用Verb
+			if (!DwmApi.IsWindowsVistaOrHigher())
+				p.StartInfo.Verb = "";
 			try
 			{
 				p.Start();
 			}
 			catch { }
+		}
+
+		private void chkWatch_CheckedChanged(object sender, EventArgs e)
+		{
+			chkWatchShortUrl.Enabled = chkWatch.Checked;
 		}
 
 	}

@@ -48,7 +48,7 @@ namespace Kaedei.AcDown.UI
 			sb.AppendLine("引用页: " + _task.SourceUrl);
 			sb.AppendLine("保存目录: " + _task.SaveDirectory.ToString());
 			sb.AppendLine("任务散列值: " + _task.Hash);
-			sb.AppendLine("字幕/弹幕下载设置: " + _task.DownSub.ToString());
+			sb.AppendLine("字幕/弹幕下载设置: " + _task.DownloadTypes.ToString());
 			sb.AppendLine("关联视频解析设置: " + (_task.ParseRelated ? "是" : "否"));
 			sb.AppendLine("被其他任务所添加: " + (_task.IsBeAdded ? "是" : "否"));
 			sb.Append("代理服务器: ");

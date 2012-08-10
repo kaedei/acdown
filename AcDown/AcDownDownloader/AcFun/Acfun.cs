@@ -301,7 +301,7 @@ namespace Kaedei.AcDown.Downloader
 
 
 				//下载弹幕
-				bool comment = DownloadComment(title);
+				bool comment = DownloadSubtitle(title);
 				if (!comment)
 				{
 					Info.PartialFinished = true;
@@ -311,8 +311,8 @@ namespace Kaedei.AcDown.Downloader
 				//解析器的解析结果
 				ParseResult pr = null;
 
-				//如果不是“仅下载字幕”
-				if (Info.DownSub != DownloadSubtitleType.DownloadSubtitleOnly)
+				//如果允许下载视频
+				if ((Info.DownloadTypes & DownloadType.Video) != 0)
 				{
 					//检查type值
 					switch (type)
@@ -430,7 +430,7 @@ namespace Kaedei.AcDown.Downloader
 
 
 				//如果插件设置中没有GenerateAcPlay项，或此项设置为true则生成.acplay快捷方式
-				if (!Info.BasePlugin.Configuration.ContainsKey("GenerateAcPlay") || 
+				if (!Info.BasePlugin.Configuration.ContainsKey("GenerateAcPlay") ||
 					Info.BasePlugin.Configuration["GenerateAcPlay"] == "true")
 				{
 					//生成AcPlay文件
@@ -468,13 +468,13 @@ namespace Kaedei.AcDown.Downloader
 		/// </summary>
 		/// <param name="title">文件名</param>
 		/// <returns>是否下载成功</returns>
-		private bool DownloadComment(string title)
+		private bool DownloadSubtitle(string title)
 		{
-			if (Info.DownSub != DownloadSubtitleType.DontDownloadSubtitle)
+			if ((Info.DownloadTypes & DownloadType.Subtitle)!= 0)
 			{
 				//设置文件名
 				var renamehelper = new CustomFileNameHelper();
-				
+
 				//----------下载字幕-----------
 				TipText("正在下载字幕文件");
 				//字幕文件(on)位置

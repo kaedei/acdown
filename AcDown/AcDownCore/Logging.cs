@@ -20,7 +20,7 @@ namespace Kaedei.AcDown.Core
 		public static void Initialize(string startupPath)
 		{
 			//如果禁止记录日志则返回
-			if (!CoreManager.ConfigManager.Settings.EnableLog)
+			if (!CoreManager.ConfigManager.Settings.Logging)
 				return;
 			//日志文件路径
 			string path = Path.Combine(startupPath, @"Log\");
@@ -43,7 +43,7 @@ namespace Kaedei.AcDown.Core
 		public static void Add(Exception e)
 		{
 			//如果禁止记录日志则返回
-			if (!CoreManager.ConfigManager.Settings.EnableLog)
+			if (!CoreManager.ConfigManager.Settings.Logging)
 				return;
 
 			writer.WriteLine();
@@ -71,7 +71,7 @@ namespace Kaedei.AcDown.Core
 		{
 			try
 			{
-				if (CoreManager.ConfigManager.Settings.EnableLog)
+				if (CoreManager.ConfigManager.Settings.Logging)
 				{
 					writer.Close();
 					writer.Dispose();

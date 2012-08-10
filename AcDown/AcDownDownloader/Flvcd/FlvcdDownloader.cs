@@ -5,81 +5,23 @@ using Kaedei.AcDown.Interface;
 using System.IO;
 using System.Text.RegularExpressions;
 using Kaedei.AcDown.Interface.Forms;
+using Kaedei.AcDown.Interface.Downloader;
 
 namespace Kaedei.AcDown.Downloader
 {
-	public class FlvcdDownloader : IDownloader
+	public class FlvcdDownloader : CommonDownloader
 	{
-		public TaskInfo Info { get; set; }
-
-		//下载参数
-		DownloadParameter currentParameter;
-
-		public DelegateContainer delegates { get; set; }
-
-		//文件总长度
-		public long TotalLength
-		{
-			get
-			{
-				if (currentParameter != null)
-				{
-					return currentParameter.TotalLength;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-		//已完成的长度
-		public long DoneBytes
-		{
-			get 
-			{
-				if (currentParameter != null)
-				{
-					return currentParameter.DoneBytes;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-		//最后一次Tick时的值
-		public long LastTick
-		{
-			get 
-			{
-				if (currentParameter != null)
-				{
-					//将tick值更新为当前值
-					long tmp = currentParameter.LastTick;
-					currentParameter.LastTick = currentParameter.DoneBytes;
-					return tmp;	
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
 
 		//下载视频
-		public bool Download()
+		public override bool Download()
 		{
 			//开始下载
-			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
+			TipText("正在分析视频地址");
 
 			//原始Url
 			Info.Url = Info.Url.TrimStart('+');
 			//修正url
 			string url = "http://www.flvcd.com/parse.php?kw=" + Tools.UrlEncode(Info.Url);
-
 
 			try
 			{
@@ -89,6 +31,7 @@ namespace Kaedei.AcDown.Downloader
 				//检查是否需要密码
 				if (src.Contains("请输入密码"))
 				{
+					TipText("等待输入密码");
 					string pw = ToolForm.CreatePasswordForm(true, "", "");
 					url = url + "&passwd=" + pw;
 					src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), Info.Proxy);
@@ -96,6 +39,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//获得所有清晰度
 				//获取需要的源代码部分
+				TipText("解析所有清晰度");
 				Regex rMulti = new Regex(@"用硕鼠下载.*?赞助商链接", RegexOptions.Singleline);
 				Match mMulti = rMulti.Match(src);
 
@@ -121,6 +65,7 @@ namespace Kaedei.AcDown.Downloader
 
 
 				//取得视频标题
+				TipText("正在解析视频");
 				Regex rTitle = new Regex(@"<input type=$hidden$ name=$name$ value=$(?<title>.+?)$>".Replace("$", "\""));
 				Match mTitle = rTitle.Match(src);
 				string title = mTitle.Groups["title"].Value;
@@ -203,21 +148,9 @@ namespace Kaedei.AcDown.Downloader
 					Info.FilePath.Add(currentParameter.FilePath);
 					//下载文件
 					bool success;
-					//添加断点续传段
-					//if (File.Exists(currentParameter.FilePath))
-					//{
-					//   //取得文件长度
-					//   int len = int.Parse(new FileInfo(currentParameter.FilePath).Length.ToString());
-					//   //设置RangeStart属性
-					//   currentParameter.RangeStart = len;
-					//   Info.Title = "[续传]" + Info.Title;
-					//}
-					//else
-					//{
-					//   Info.Title = Info.Title.Replace("[续传]", "");
-					//}
-
+					
 					//提示更换新Part
+					
 					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 					//下载视频
@@ -252,16 +185,5 @@ namespace Kaedei.AcDown.Downloader
 			//下载成功完成
 			return true;
 		}
-
-		//停止下载
-		public void StopDownload()
-		{
-			if (currentParameter != null)
-			{
-				//将停止flag设置为true
-				currentParameter.IsStop = true;
-			}
-		}
-
 	}
 }

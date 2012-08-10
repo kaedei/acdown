@@ -48,6 +48,7 @@
     <Compile Include="DelegatesContainer.cs" />
     <Compile Include="Downloader\ComicDownloader.cs" />
     <Compile Include="Downloader\CommonDownloader.cs" />
+    <Compile Include="DownloadType.cs" />
     <Compile Include="Forms\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>

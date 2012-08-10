@@ -226,7 +226,7 @@ namespace Kaedei.AcDown.UI.Components
 		#region 更新播放器缓存
 		private void lnkPlayerCache_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			string appdata = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			string player = "acfun";
 
 			//建立文件夹
@@ -444,7 +444,7 @@ namespace Kaedei.AcDown.UI.Components
 			//禁用面板
 			this.Enabled = false;
 			//释放AcPlay.exe文件
-			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcPlay\acplay.exe");
+			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcPlay\acplay.exe");
 			Assembly assembly = GetType().Assembly;
 			var stream = assembly.GetManifestResourceStream("Kaedei.AcPlay.acplay.exe");
 			if (!File.Exists(exeFile) || (new FileInfo(exeFile).Length != stream.Length))
@@ -474,10 +474,14 @@ namespace Kaedei.AcDown.UI.Components
 			Process p = new Process();
 			p.StartInfo = new ProcessStartInfo()
 			{
-				FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Kaedei\AcPlay\acplay.exe"),
+				FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcPlay\acplay.exe"),
 				Arguments = "\"" + path + "\"",
 				Verb = "runas"
 			};
+
+			//WinXP不使用Verb
+			if (!DwmApi.IsWindowsVistaOrHigher())
+				p.StartInfo.Verb = "";
 
 			new Thread(new ThreadStart(() =>
 			{

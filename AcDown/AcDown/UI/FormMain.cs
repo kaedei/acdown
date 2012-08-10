@@ -149,27 +149,45 @@ namespace Kaedei.AcDown.UI
 			public THBFLAGS dwFlags;
 		}
 
-		[DllImport("user32.dll", EntryPoint = "SendMessageA")]
-		public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, Byte[] lParam);
-
-		#endregion
-
-		#region ——————管理器——————
-
-		//任务管理器
-		private TaskManager taskMgr;
-		//插件管理器
-		private PluginManager pluginMgr;
-		//包装委托的类
-		private UIDelegateContainer deles;
-
-		#endregion
-
-		#region ——————初始化——————
-
-		private void Initialize()
+		/// <summary>
+		/// 禁用Win7缩略图按钮
+		/// </summary>
+		private void DisableThumbButton()
 		{
-			//UI委托
+			if (this.InvokeRequired)
+			{
+				this.Invoke(new MethodInvoker(DisableThumbButton));
+				return;
+			}
+			if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.Windows7Feature)
+			{
+				newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
+				taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
+			}
+		}
+		/// <summary>
+		/// 启用Win7缩略图按钮
+		/// </summary>
+		private void EnableThumbButton()
+		{
+			if (this.InvokeRequired)
+			{
+				this.Invoke(new MethodInvoker(EnableThumbButton));
+				return;
+			}
+			if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.Windows7Feature)
+			{
+				newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
+				taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
+			}
+		}
+		#endregion
+
+		#region ——————UI相关——————
+
+		public FormMain()
+		{
+			//设置UI委托
 			CoreManager.UIDelegates.Start = new AcTaskDelegate(Start);
 			CoreManager.UIDelegates.NewPart = new AcTaskDelegate(NewPart);
 			CoreManager.UIDelegates.Refresh = new AcTaskDelegate(RefreshTask);
@@ -178,23 +196,6 @@ namespace Kaedei.AcDown.UI
 			CoreManager.UIDelegates.Error = new AcTaskDelegate(Error);
 			CoreManager.UIDelegates.NewTask = new AcTaskDelegate(NewTask);
 
-			pluginMgr = CoreManager.PluginManager;
-			deles = CoreManager.UIDelegates;
-			taskMgr = CoreManager.TaskManager;
-
-			//"新建任务"窗体初始化
-			FormNew.Initialize(pluginMgr, taskMgr);
-		}
-
-		#endregion //初始化
-
-		#region ——————UI相关——————
-
-
-		public FormMain()
-		{
-			//初始化数据
-			Initialize();
 			//初始化窗体
 			InitializeComponent();
 		}
@@ -217,11 +218,11 @@ namespace Kaedei.AcDown.UI
 			//设置刷新频率
 			timer.Interval = CoreManager.ConfigManager.Settings.RefreshInfoInterval;
 			//设置是否监视剪贴板
-			watchClipboard = CoreManager.ConfigManager.Settings.WatchClipboardEnabled;
+			watchClipboard = CoreManager.ConfigManager.Settings.WatchClipboard;
 			//显示网址示例
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine("AcDown当前支持下载的网站:(网址举例)");
-			foreach (var item in pluginMgr.Plugins)
+			foreach (var item in CoreManager.PluginManager.Plugins)
 			{
 				if (item.Feature.ContainsKey("ExampleUrl"))
 				{
@@ -245,7 +246,7 @@ namespace Kaedei.AcDown.UI
 					taskbarList.HrInit();
 				}
 				//设置提示文字
-				SendMessage(txtSearch.TextBox.Handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(@"即时搜索"));
+				DwmApi.SetTextBoxTipText(txtSearch.TextBox.Handle, "即时搜索");
 				//设置listview效果
 				DwmApi.SetListViewVisualEffect(this.lsv);
 			}
@@ -253,26 +254,43 @@ namespace Kaedei.AcDown.UI
 			{
 				txtSearch.Text = "即时搜索";
 			}
-			//选中下拉列表框
+			//选中下拉列表框(下载完成后)
 			cboAfterComplete.SelectedIndex = 0;
 			//检查更新
-			if (CoreManager.ConfigManager.Settings.EnableCheckUpdate)
+			if (CoreManager.ConfigManager.Settings.CheckUpdate)
 				CheckUpdate();
 			//启动自动保存线程
-			taskMgr.StartSaveBackgroundWorker();
+			CoreManager.TaskManager.StartSaveBackgroundWorker();
 			//加载任务UI
-			foreach (TaskInfo task in taskMgr.TaskInfos)
+			foreach (TaskInfo task in CoreManager.TaskManager.TaskInfos)
 			{
 				RefreshTask(new ParaRefresh(task));
 			}
+			//启动监视剪贴板线程
+			StartWatchClipboard();
 			//程序文件名中有acplay
 			if (Path.GetFileNameWithoutExtension(Application.ExecutablePath)
 				 .IndexOf("acplay", StringComparison.CurrentCultureIgnoreCase) >= 0)
 			{
 				tabMain.SelectedTab = tabAcPlay;
 			}
-			//如果命令行中指定播放acplay
+
 			ShowFormToFront();
+			//如果命令行中指定播放acplay，开始播放AcPlay快捷方式
+			if (!AcPlayStartup.IsHandled)
+			{
+				AcPlayStartup.IsHandled = true;
+				tabMain.SelectedTab = tabAcPlay;
+				acPlay.PlayConfig(AcPlayStartup.FilePath);
+			}
+
+		}
+
+		//启动监视剪贴板的线程
+		private System.Threading.Timer clipboardWatcher;
+		private void StartWatchClipboard()
+		{
+			clipboardWatcher = new System.Threading.Timer(new TimerCallback(WatchClipboard), null, 5000, 500);
 		}
 
 		//关于
@@ -286,7 +304,7 @@ namespace Kaedei.AcDown.UI
 		//插件
 		private void btnPlugin_Click(object sender, EventArgs e)
 		{
-			FormPlugins p = new FormPlugins(this.pluginMgr.Plugins);
+			FormPlugins p = new FormPlugins(CoreManager.PluginManager.Plugins);
 			p.ShowDialog();
 		}
 
@@ -298,16 +316,16 @@ namespace Kaedei.AcDown.UI
 			config.Dispose();
 			//重新加载某些项目
 			//检查更新
-			if (CoreManager.ConfigManager.Settings.EnableCheckUpdate)
+			if (CoreManager.ConfigManager.Settings.CheckUpdate)
 				CheckUpdate();
 			//刷新“同时进行的任务数”设置
-			taskMgr.ContinueNext();
+			CoreManager.TaskManager.ContinueNext();
 		}
 
 		private void btnNew_Click(object sender, EventArgs e)
 		{
 			//禁用Win7缩略图按钮
-			if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.EnableWindows7Feature)
+			if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.Windows7Feature)
 			{
 				newbtn.dwFlags = THBFLAGS.THBF_DISABLED;
 				taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
@@ -317,7 +335,7 @@ namespace Kaedei.AcDown.UI
 			FormNew.ShowForm("");
 			watchClipboard = true;
 			//启用Win7缩略图按钮
-			if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.EnableWindows7Feature)
+			if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.Windows7Feature)
 			{
 				newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
 				taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
@@ -332,12 +350,8 @@ namespace Kaedei.AcDown.UI
 				txtSearch.SelectAll();
 		}
 
-		//上一次取得的URL
-		private string lastUrl;
-		//是否监视剪贴板
-		private bool watchClipboard;
 
-		//显示进度以及速度 & 监视剪贴板
+		//显示进度以及速度
 		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
@@ -349,12 +363,12 @@ namespace Kaedei.AcDown.UI
 			}
 			//设置限速
 			int sl = Convert.ToInt32(udSpeedLimit.Value);
-			taskMgr.SetSpeedLimitKb(sl);
+			CoreManager.TaskManager.SetSpeedLimitKb(sl);
 
 			//全局速度
 			double speed = 0;
 			//取得所有正在进行中的任务
-			foreach (TaskInfo task in taskMgr.TaskInfos)
+			foreach (TaskInfo task in CoreManager.TaskManager.TaskInfos)
 			{
 				//如果是正在下载的任务
 				if (task.Status == DownloadStatus.正在下载)
@@ -427,9 +441,9 @@ namespace Kaedei.AcDown.UI
 			//显示Win7任务栏特性
 			if (DwmApi.IsWindows7OrHigher())
 			{
-				if (CoreManager.ConfigManager.Settings.EnableWindows7Feature)
+				if (CoreManager.ConfigManager.Settings.Windows7Feature)
 				{
-					TaskInfo a = taskMgr.GetFirstRunning();
+					TaskInfo a = CoreManager.TaskManager.GetFirstRunning();
 					if (a != null) //如果有任务正在运行
 					{
 						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
@@ -460,42 +474,84 @@ namespace Kaedei.AcDown.UI
 			}
 		} // end Timer_Tick
 
-		//监视剪贴板
-		[DebuggerNonUserCode()]
-		private void timerClipboard_Tick(object sender, EventArgs e)
+
+		//上一次取得的URL
+		private string lastUrl;
+		//是否监视剪贴板
+		private bool watchClipboard;
+		//剪贴板中的文字
+		private string textInClipboard = "";
+		/// <summary>
+		/// 监视剪贴板
+		/// </summary>
+		private void WatchClipboard(object o)
 		{
-			//如果允许监视剪贴板
-			if (CoreManager.ConfigManager.Settings.WatchClipboardEnabled && watchClipboard)
+			//退出条件:
+			//不允许监视剪贴板
+			if (!CoreManager.ConfigManager.Settings.WatchClipboard)
+				return;
+			//其他组件暂时禁用监视剪贴板
+			if (!watchClipboard)
+				return;
+			//剪贴板中的文字(非UI线程无法访问剪贴板)
+			this.Invoke(new MethodInvoker(() => 
 			{
-				if (Clipboard.ContainsText())
+				try
 				{
-					if (Clipboard.GetText() != lastUrl && FormNew.CheckUrl(Clipboard.GetText()))
-					{
-						watchClipboard = false;
-						lastUrl = Clipboard.GetText();
-
-
-						//禁用Win7缩略图按钮
-						if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.EnableWindows7Feature)
-						{
-							newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
-							taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
-						}
-						//显示“新建”窗口
-						FormNew.ShowForm(Clipboard.GetText());
-
-						//启用Win7缩略图按钮
-						if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.EnableWindows7Feature)
-						{
-							newbtn.dwFlags = THBFLAGS.THBF_ENABLED;
-							taskbarList.ThumbBarUpdateButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
-						}
-						watchClipboard = true;
-
-					}
+					textInClipboard = Clipboard.ContainsText() ? Clipboard.GetText().Trim() : "";
 				}
+				catch
+				{
+					textInClipboard = "";
+				}
+			}));
+			//取得剪贴板中当前文字
+			string clipboardText = textInClipboard;
+			if (string.IsNullOrEmpty(textInClipboard))
+				return;
+			//剪贴板中文字无变化
+			if (clipboardText.Equals(lastUrl, StringComparison.CurrentCultureIgnoreCase))
+				return;
+
+			lastUrl = clipboardText;
+
+			//如果所有插件都支持此地址
+			if (FormNew.CheckUrl(clipboardText))
+			{
+				watchClipboard = false;
+				lastUrl = clipboardText;
+				DisableThumbButton();
+				//显示“新建”窗口
+				this.Invoke(new MethodInvoker(() => { FormNew.ShowForm(clipboardText); }));
+				EnableThumbButton();
+				watchClipboard = true;
+				return;
 			}
-		}// end timerClipboard_Tick
+
+			//尝试解析短网址
+			//如果不允许解析短网址
+			if (!CoreManager.ConfigManager.Settings.WatchClipboardShortUrl)
+				return;
+			//如果当前剪贴板中的网址不是短网址
+			if (!ShortUrlParser.CanParse(clipboardText))
+				return;
+			//解析跳转后的网址
+			string longUrl = ShortUrlParser.Parse(clipboardText);
+			//如果解析失败
+			if (String.IsNullOrEmpty(longUrl))
+				return;
+			//如果插件都不支持解析后的网址
+			if (!FormNew.CheckUrl(longUrl))
+				return;
+
+			watchClipboard = false;
+			DisableThumbButton();
+			//显示“新建”窗口
+			this.Invoke(new MethodInvoker(() => { FormNew.ShowForm(longUrl); }));
+			EnableThumbButton();
+			watchClipboard = true;
+
+		}// end WatchClipboard
 
 
 		private bool exitapp = false;
@@ -525,7 +581,7 @@ namespace Kaedei.AcDown.UI
 			{
 				if (!this.Visible)
 				{
-					notifyIcon.ShowBalloonTip(1500, "AcDown动漫下载器已经最小化到系统托盘", "您可以双击此图标以重新显示下载器", ToolTipIcon.Info);
+					notifyIcon.ShowBalloonTip(1500, "AcDown仍在运行", "您可以双击此图标以重新显示下载器，或点击右键菜单中的'退出'项彻底退出", ToolTipIcon.Info);
 					alreayTipMinimize = true;
 				}
 			}
@@ -579,7 +635,7 @@ namespace Kaedei.AcDown.UI
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
 				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
-				taskMgr.StartTask(downloader);
+				CoreManager.TaskManager.StartTask(downloader);
 			}
 		}
 
@@ -598,7 +654,7 @@ namespace Kaedei.AcDown.UI
 				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
 				if (downloader.Status == DownloadStatus.正在下载 || downloader.Status == DownloadStatus.等待开始)
 				{
-					taskMgr.StopTask(downloader);
+					CoreManager.TaskManager.StopTask(downloader);
 				}
 			}
 		}
@@ -791,7 +847,9 @@ namespace Kaedei.AcDown.UI
 			mnuTrayShowHide_Click(sender, EventArgs.Empty);
 		}
 
-		//将程序显示到前台
+		/// <summary>
+		/// 将程序显示到前台
+		/// </summary>
 		public void ShowFormToFront()
 		{
 			if (this.Visible == false)
@@ -808,15 +866,6 @@ namespace Kaedei.AcDown.UI
 				this.Activate();
 				this.TopMost = false;
 			}
-
-			//播放AcPlay配置文件
-			if (!AcPlayStartup.IsHandled)
-			{
-				AcPlayStartup.IsHandled = true;
-				tabMain.SelectedTab = tabAcPlay;
-				acPlay.PlayConfig(AcPlayStartup.FilePath);
-			}
-
 		}
 
 		//显示/隐藏窗口
@@ -858,7 +907,7 @@ namespace Kaedei.AcDown.UI
 		private void mnuTrayExit_Click(object sender, EventArgs e)
 		{
 			//正在进行的任务数量
-			Int32 c = taskMgr.GetRunningCount();
+			Int32 c = CoreManager.TaskManager.GetRunningCount();
 			if (c > 0)
 			{
 				DialogResult r = MessageBox.Show("有" + c.ToString() + "个任务正在运行，是否退出？", "AcDown动漫下载器", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
@@ -871,9 +920,9 @@ namespace Kaedei.AcDown.UI
 			exitapp = true;
 			this.Cursor = Cursors.WaitCursor;
 			//终止自动保存线程
-			taskMgr.EndSaveBackgroundWorker();
+			CoreManager.TaskManager.EndSaveBackgroundWorker();
 			//保存所有任务
-			Thread t = new Thread(new ThreadStart(new MethodInvoker(taskMgr.SaveAllTasks)));
+			Thread t = new Thread(new ThreadStart(new MethodInvoker(CoreManager.TaskManager.SaveAllTasks)));
 			t.Start();
 			this.Cursor = Cursors.Default;
 			//释放托盘图标
@@ -945,7 +994,7 @@ namespace Kaedei.AcDown.UI
 
 			foreach (TaskInfo item in willbedeleted)
 			{
-				taskMgr.DeleteTask(item, deletefile, removeToRecyclebin);
+				CoreManager.TaskManager.DeleteTask(item, deletefile, removeToRecyclebin);
 			}
 
 		}
@@ -979,7 +1028,7 @@ namespace Kaedei.AcDown.UI
 		//限速生效
 		private void btnSpeedlimitApply_Click(object sender, EventArgs e)
 		{
-			taskMgr.SetSpeedLimitKb((int)udSpeedLimit.Value);
+			CoreManager.TaskManager.SetSpeedLimitKb((int)udSpeedLimit.Value);
 		}
 
 		//获得win消息
@@ -989,7 +1038,7 @@ namespace Kaedei.AcDown.UI
 			base.WndProc(ref m);
 
 			if (m.Msg == (int)RegisterWindowMessage("TaskbarButtonCreated"))
-				if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.EnableWindows7Feature)
+				if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.Windows7Feature)
 				{
 					newbtn = new THUMBBUTTON()
 					{
@@ -1033,7 +1082,7 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		public TaskInfo GetTask(Guid guid)
 		{
-			foreach (var i in taskMgr.TaskInfos)
+			foreach (var i in CoreManager.TaskManager.TaskInfos)
 			{
 				if (i.TaskId == guid)
 					return i;
@@ -1071,7 +1120,7 @@ namespace Kaedei.AcDown.UI
 			TaskInfo task = r.SourceTask;
 
 			//如果任务被删除
-			if (!taskMgr.TaskInfos.Contains(task))
+			if (!CoreManager.TaskManager.TaskInfos.Contains(task))
 			{
 				//移除UI项
 				if (lsv.Items.Contains((ListViewItem)task.UIItem))
@@ -1338,7 +1387,7 @@ namespace Kaedei.AcDown.UI
 			//取得此url的hash
 			string hash = plugin.GetHash(url);
 			//检查是否有已经在进行的相同任务
-			foreach (TaskInfo t in taskMgr.TaskInfos)
+			foreach (TaskInfo t in CoreManager.TaskManager.TaskInfos)
 			{
 				if (hash == t.Hash)
 				{
@@ -1347,15 +1396,15 @@ namespace Kaedei.AcDown.UI
 					if (t.Status == DownloadStatus.出现错误 ||
 						 t.Status == DownloadStatus.已经停止 ||
 						 t.Status == DownloadStatus.已删除)
-						taskMgr.StartTask(t);
+						CoreManager.TaskManager.StartTask(t);
 					return;
 				}
 			}
 
 			//设置新任务
-			TaskInfo task = taskMgr.AddTask(plugin, url, sourcetask.Proxy);
+			TaskInfo task = CoreManager.TaskManager.AddTask(plugin, url, sourcetask.Proxy);
 			task.Settings = sourcetask.Settings;
-			task.DownSub = sourcetask.DownSub;
+			task.DownloadTypes = sourcetask.DownloadTypes;
 			task.Comment = sourcetask.Comment;
 			task.SaveDirectory = sourcetask.SaveDirectory;
 			task.AutoAnswer = sourcetask.AutoAnswer;
@@ -1363,7 +1412,7 @@ namespace Kaedei.AcDown.UI
 			//此任务由其他任务所添加
 			task.IsBeAdded = true;
 			//开始新任务
-			taskMgr.StartTask(task);
+			CoreManager.TaskManager.StartTask(task);
 
 		}
 
@@ -1373,10 +1422,10 @@ namespace Kaedei.AcDown.UI
 		public void ProcessNext()
 		{
 			//执行下一个可能开始的任务
-			taskMgr.ContinueNext();
+			CoreManager.TaskManager.ContinueNext();
 
 			//如果没有正在等待的任务了且正在运行的任务为0
-			if (taskMgr.GetNextWaiting() == null && taskMgr.GetRunningCount() == 0)
+			if (CoreManager.TaskManager.GetNextWaiting() == null && CoreManager.TaskManager.GetRunningCount() == 0)
 			{
 				ShutdownType action = ShutdownType.None;
 				//执行关机任务
@@ -1532,7 +1581,7 @@ namespace Kaedei.AcDown.UI
 			//清除当前所有
 			lsv.Items.Clear();
 			//查找所有任务
-			foreach (TaskInfo task in taskMgr.TaskInfos)
+			foreach (TaskInfo task in CoreManager.TaskManager.TaskInfos)
 			{
 				//如果符合过滤器
 				if (IsMatchCurrentFilter(task))

@@ -27,13 +27,12 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 				Configuration["CustomFileName"] : BilibiliPlugin.DefaultFileNameFormat;
 			//预览
 			txtFormat_TextChanged(this, EventArgs.Empty);
-
 		}
 
 		private void txtFormat_TextChanged(object sender, EventArgs e)
 		{
 			var helper = new CustomFileNameHelper();
-			txtPreview.Text = helper.CombineFileName(txtFormat.Text, "银魂", "第99话", "5", "flv", "ac54321", "2", "", "", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
+			txtPreview.Text = helper.CombineFileName(txtFormat.Text, "银魂", "第99话", "5", "flv", "av54321", "2", "", "", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
 		}
 
 		//添加变量文字到文本框
