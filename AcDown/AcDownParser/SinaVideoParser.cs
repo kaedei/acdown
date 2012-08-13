@@ -50,7 +50,7 @@ namespace Kaedei.AcDown.Interface
 				{
 					if (!string.IsNullOrEmpty(vstr))
 					{
-						real = real + "?vstr=" + vstr;
+						//real = real +"?vstr=" + vstr;
 					}
 				}
 				pri.RealAddress = new Uri(real);

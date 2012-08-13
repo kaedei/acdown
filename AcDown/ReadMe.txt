@@ -23,7 +23,6 @@ Visual Studio 2010 (包含C#组件)；
 源代码各个项目与目录的简单说明：
 AcDown - AcDown用户界面
 AcPlay - 与弹幕播放相关的代码，包括acplay可执行文件和Flv文件分析器
-bin - 编译后的AcDown应用程序，Debug为包含XML说明的调试版本，Release为编译优化的版本
 AcDownCore - AcDown任务控制核心，包括插件管理器、任务管理器、设置管理器、日志管理器等等
 AcDownDownloader - 官方插件
 AcDownInterface - 接口

@@ -13,6 +13,7 @@ using System.Threading;
 using System.Net;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Kaedei.AcDown.Core
 {
@@ -26,10 +27,22 @@ namespace Kaedei.AcDown.Core
 		/// 新建TaskManager类的实例
 		/// </summary>
 		/// <param name="delegatesCon"></param>
-		public TaskManager(UIDelegateContainer delegatesCon, PluginManager pluginManager, string startupPath)
+		public TaskManager(UIDelegateContainer delegatesCon, string startupPath)
 		{
-			delegates = delegatesCon;
-			_pluginMgr = pluginManager;
+			//保存UI委托
+			uiDelegates = delegatesCon;
+			//包装UI委托
+			preDelegates = new UIDelegateContainer(uiDelegates.Start,
+				uiDelegates.NewPart,
+				uiDelegates.Refresh,
+				uiDelegates.TipText,
+				this.FinishPreprocessor,
+				this.ErrorPreprocessor,
+				this.NewTaskPreprocessor,
+				this.AllFinishedPreprocessor
+				);
+
+			//起始位置
 			_startupPath = startupPath;
 		}
 
@@ -66,8 +79,10 @@ namespace Kaedei.AcDown.Core
 			}
 		}
 
-		//委托
-		private UIDelegateContainer delegates;
+		//UI委托的包装（预处理）
+		private UIDelegateContainer preDelegates;
+		//来自UI的委托
+		private UIDelegateContainer uiDelegates;
 
 		/// <summary>
 		/// 添加任务
@@ -119,10 +134,10 @@ namespace Kaedei.AcDown.Core
 					{
 						//AcDown规范:仅有TaskManager及插件本身有权修改其所属TaskInfo对象的Status属性
 						task.Status = DownloadStatus.正在下载;
-						delegates.Start(new ParaStart(task));
+						preDelegates.Start(new ParaStart(task));
 
 						//下载视频
-						bool finished = task.Start(delegates);
+						bool finished = task.Start(preDelegates);
 
 						if (finished)
 						{
@@ -136,12 +151,12 @@ namespace Kaedei.AcDown.Core
 						{
 							task.Status = DownloadStatus.已经停止;
 						}
-						delegates.Finish(new ParaFinish(task, finished));
+						preDelegates.Finish(new ParaFinish(task, finished));
 					}
 					catch (Exception ex) //如果出现错误
 					{
 						task.Status = DownloadStatus.出现错误;
-						delegates.Error.Invoke(new ParaError(task, ex));
+						preDelegates.Error(new ParaError(task, ex));
 					}
 
 				});
@@ -154,7 +169,7 @@ namespace Kaedei.AcDown.Core
 				task.Status = DownloadStatus.等待开始;
 			}
 			//刷新UI
-			delegates.Refresh(new ParaRefresh(task));
+			preDelegates.Refresh(new ParaRefresh(task));
 		}
 
 		/// <summary>
@@ -177,7 +192,7 @@ namespace Kaedei.AcDown.Core
 			}
 
 			//刷新信息
-			delegates.Refresh(new ParaRefresh(task));
+			preDelegates.Refresh(new ParaRefresh(task));
 			//停止任务
 			task.Stop();
 
@@ -200,7 +215,7 @@ namespace Kaedei.AcDown.Core
 						}
 					}
 					//刷新信息
-					delegates.Refresh(new ParaRefresh(task));
+					preDelegates.Refresh(new ParaRefresh(task));
 				}));
 				t.IsBackground = true;
 				t.Start();
@@ -274,7 +289,7 @@ namespace Kaedei.AcDown.Core
 				}
 
 				//刷新信息
-				delegates.Refresh(new ParaRefresh(task));
+				preDelegates.Refresh(new ParaRefresh(task));
 			}));
 			t.IsBackground = true;
 			t.Start();
@@ -456,10 +471,26 @@ namespace Kaedei.AcDown.Core
 				//寻找所需插件
 				if (task.BasePlugin == null)
 				{
-					task.BasePlugin = _pluginMgr.GetPlugin(task.PluginName);
+					task.BasePlugin = CoreManager.PluginManager.GetPlugin(task.PluginName);
 				}
 			}
 
+		}
+
+		/// <summary>
+		/// 根据GUID值寻找对应的任务
+		/// </summary>
+		/// <param name="guid"></param>
+		/// <returns></returns>
+		[DebuggerNonUserCode()]
+		public TaskInfo GetTask(Guid guid)
+		{
+			foreach (var i in CoreManager.TaskManager.TaskInfos)
+			{
+				if (i.TaskId == guid)
+					return i;
+			}
+			return null;
 		}
 
 
@@ -498,5 +529,111 @@ namespace Kaedei.AcDown.Core
 			}
 		}
 
+		#region 预处理
+
+		/// <summary>
+		/// NewTask委托的预处理
+		/// </summary>
+		private void NewTaskPreprocessor(object e)
+		{
+			ParaNewTask p = (ParaNewTask)e;
+			TaskInfo sourcetask = p.SourceTask;
+			IPlugin plugin = p.Plugin;
+			string url = p.Url;
+
+			//检查参数有效性
+			if (!plugin.CheckUrl(url) || sourcetask == null || plugin == null || string.IsNullOrEmpty(url))
+				return;
+			//取得此url的hash
+			string hash = plugin.GetHash(url);
+			//检查是否有已经在进行的相同任务
+			foreach (TaskInfo t in CoreManager.TaskManager.TaskInfos)
+			{
+				if (hash == t.Hash)
+				{
+					//如果有则不新建此任务
+					//将状态由停止或删除修改为开始
+					if (t.Status == DownloadStatus.出现错误 ||
+						 t.Status == DownloadStatus.已经停止 ||
+						 t.Status == DownloadStatus.已删除)
+						CoreManager.TaskManager.StartTask(t);
+					return;
+				}
+			}
+
+			//设置新任务
+			TaskInfo task = CoreManager.TaskManager.AddTask(plugin, url, sourcetask.Proxy);
+			task.Settings = sourcetask.Settings;
+			task.DownloadTypes = sourcetask.DownloadTypes;
+			task.Comment = sourcetask.Comment;
+			task.SaveDirectory = sourcetask.SaveDirectory;
+			task.AutoAnswer = sourcetask.AutoAnswer;
+			task.ExtractCache = sourcetask.ExtractCache;
+			//此任务由其他任务所添加
+			task.IsBeAdded = true;
+			//开始新任务
+			CoreManager.TaskManager.StartTask(task);
+
+			//调用UI层的NewTask委托
+			uiDelegates.NewTask(p);
+		}
+
+		/// <summary>
+		/// Finish委托的预处理
+		/// </summary>
+		private void FinishPreprocessor(object e)
+		{
+			ParaFinish p = (ParaFinish)e;
+			TaskInfo task = p.SourceTask;
+
+			//设置完成时间
+			task.FinishTime = DateTime.Now;
+			
+			//执行UI委托
+			uiDelegates.Finish(p);
+
+			//执行下一个可能开始的任务
+			CoreManager.TaskManager.ContinueNext();
+
+			//检查是否全部完成
+			AllFinishedPreprocessor(null);
+		}
+
+		/// <summary>
+		/// Error委托的预处理
+		/// </summary>
+		private void ErrorPreprocessor(object e)
+		{
+			ParaError p = (ParaError)e;
+			TaskInfo task = p.SourceTask;
+			//添加到日志
+			Logging.Add(p.E);
+			if (task != null)
+			{
+				//记录最后一次错误
+				task.LastError = p.E;
+			}
+
+			//执行UI委托
+			uiDelegates.Error(p);
+
+			//执行下一个可能开始的任务
+			CoreManager.TaskManager.ContinueNext();
+
+			//检查是否全部完成
+			AllFinishedPreprocessor(null);
+		}
+
+		/// <summary>
+		/// 检查当前下载任务是否全部结束
+		/// </summary>
+		private void AllFinishedPreprocessor(object e)
+		{
+			//如果没有正在等待的任务了且正在运行的任务为0
+			if (GetNextWaiting() == null && GetRunningCount() == 0)
+				uiDelegates.AllFinished(null);
+		}
+
+		#endregion
 	}//end class
 }//end namespace

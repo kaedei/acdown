@@ -15,7 +15,7 @@ using Kaedei.AcDown.Interface.Downloader;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili.tv下载插件", "Kaedei", "4.0.0.0", "Bilibili.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.0.0.0", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -27,8 +27,8 @@ namespace Kaedei.AcDown.Downloader
 				"Bilibili下载插件:",
 				"支持识别各Part名称、支持简写形式",
 				"av97834",
-				"http://www.bilibili.tv/video/av97834/",
-				"http://www.bilibili.tv/video/av70229/index_20.html",
+				"http://bilibili.kankanews.com//video/av97834/",
+				"http://bilibili.kankanews.com/video/av70229/index_20.html",
 			});
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
@@ -55,7 +55,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv)/video/|)av(?<av>\d{2,6})");
+			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv|kankanews\.com)/video/|)av(?<av>\d{1,6})");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -74,7 +74,7 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv)/video/|)av(?<av>\d{2,6})(/index_(?<subav>\d+)\.html|)");
+			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv|kankanews\.com)/video/|)av(?<av>\d{1,6})(/index_(?<subav>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -118,9 +118,12 @@ namespace Kaedei.AcDown.Downloader
 			Info.Url = Info.Url.TrimEnd('#');
 			//修正旧版URL
 			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
+			Info.Url = Info.Url.Replace("www.bilibili.tv", "bilibili.kankanews.com");
+			Info.Url = Info.Url.Replace("bilibili.tv", "bilibili.kankanews.com");
+
 			//修正简写URL
 			if (Regex.Match(Info.Url, @"^av\d{2,6}$").Success)
-				Info.Url = "http://www.bilibili.tv/video/" + Info.Url + "/";
+				Info.Url = "http://bilibili.kankanews.com/video/" + Info.Url + "/";
 			//修正index_1.html
 			if (!Info.Url.EndsWith(".html"))
 			{
@@ -132,7 +135,7 @@ namespace Kaedei.AcDown.Downloader
 
 			string url = Info.Url;
 			//取得子页面文件名（例如"/video/av12345/index_123.html"）
-			string suburl = Regex.Match(Info.Url, @"bilibili\.tv(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
+			string suburl = Regex.Match(Info.Url, @"bilibili\.kankanews\.com(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
 
 			//取得AV号和子编号
 			Match mAVNumber = Regex.Match(Info.Url, @"(?<av>av\d+)/index_(?<sub>\d+)\.html");

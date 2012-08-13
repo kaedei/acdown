@@ -81,7 +81,7 @@ namespace Kaedei.AcDown.UI
 			//初始化核心
 			CoreManager.Initialize(
 				 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcDown\"),
-				 new UIDelegateContainer(null, null, null, null, null, null, null), 
+				 new UIDelegateContainer(null, null, null, null, null, null, null, null),
 				 plugins);
 
 
