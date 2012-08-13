@@ -73,7 +73,7 @@ namespace Kaedei.AcDown.Core
 			//委托
 			UIDelegates = uiDelegates;
 			//任务管理器
-			TaskManager = new TaskManager(UIDelegates, PluginManager, startupFolderPath);
+			TaskManager = new TaskManager(UIDelegates, startupFolderPath);
 			TaskManager.LoadAllTasks();
 
 		}

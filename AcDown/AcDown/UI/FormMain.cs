@@ -195,6 +195,7 @@ namespace Kaedei.AcDown.UI
 			CoreManager.UIDelegates.Finish = new AcTaskDelegate(Finish);
 			CoreManager.UIDelegates.Error = new AcTaskDelegate(Error);
 			CoreManager.UIDelegates.NewTask = new AcTaskDelegate(NewTask);
+			CoreManager.UIDelegates.AllFinished = new AcTaskDelegate(AllFinished);
 
 			//初始化窗体
 			InitializeComponent();
@@ -1077,17 +1078,9 @@ namespace Kaedei.AcDown.UI
 		/// <summary>
 		/// 根据GUID值寻找对应的任务
 		/// </summary>
-		/// <param name="guid"></param>
-		/// <returns></returns>
-		[DebuggerNonUserCode()]
 		public TaskInfo GetTask(Guid guid)
 		{
-			foreach (var i in CoreManager.TaskManager.TaskInfos)
-			{
-				if (i.TaskId == guid)
-					return i;
-			}
-			return null;
+			return CoreManager.TaskManager.GetTask(guid);
 		}
 
 		/// <summary>
@@ -1237,8 +1230,7 @@ namespace Kaedei.AcDown.UI
 				return;
 			}
 			ParaTipText p = (ParaTipText)e;
-			TaskInfo ac = p.SourceTask;
-			ListViewItem item = (ListViewItem)ac.UIItem;
+			ListViewItem item = (ListViewItem)p.SourceTask.UIItem;
 			//设置提示信息
 			item.SubItems[GetColumn("Name")].Text = p.TipText;
 		}//end TipText
@@ -1258,10 +1250,7 @@ namespace Kaedei.AcDown.UI
 			ParaFinish p = (ParaFinish)e;
 			TaskInfo task = p.SourceTask;
 			ListViewItem item = (ListViewItem)task.UIItem;
-
-			//设置完成时间
-			task.FinishTime = DateTime.Now;
-
+			
 			//如果下载成功
 			if (p.Successed)
 			{
@@ -1316,9 +1305,6 @@ namespace Kaedei.AcDown.UI
 			if (lsv.Items.Contains(item))
 				if (!IsMatchCurrentFilter(task))
 					lsv.Items.Remove(item);
-
-			//继续下一任务或关机
-			ProcessNext();
 		}
 
 		bool errorTip = true;
@@ -1335,13 +1321,9 @@ namespace Kaedei.AcDown.UI
 			ParaError p = (ParaError)e;
 			TaskInfo task = p.SourceTask;
 			ListViewItem item = (ListViewItem)task.UIItem;
-			//添加到日志
-			Logging.Add(p.E);
 
 			if (task != null)
 			{
-				//记录最后一次错误
-				task.LastError = p.E;
 				//更新item
 				item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
 				item.SubItems[GetColumn("Name")].Text = task.Title;
@@ -1361,8 +1343,6 @@ namespace Kaedei.AcDown.UI
 					 , this.Height - toolHelpCenter.Height + 5);
 				errorTip = false;
 			}
-			//继续下一任务或关机
-			ProcessNext();
 		}
 
 		/// <summary>
@@ -1376,94 +1356,48 @@ namespace Kaedei.AcDown.UI
 				this.Invoke(new AcTaskDelegate(NewTask), e);
 				return;
 			}
-			ParaNewTask p = (ParaNewTask)e;
-			TaskInfo sourcetask = p.SourceTask;
-			IPlugin plugin = p.Plugin;
-			string url = p.Url;
-
-			//检查参数有效性
-			if (!plugin.CheckUrl(url) || sourcetask == null || plugin == null || string.IsNullOrEmpty(url))
-				return;
-			//取得此url的hash
-			string hash = plugin.GetHash(url);
-			//检查是否有已经在进行的相同任务
-			foreach (TaskInfo t in CoreManager.TaskManager.TaskInfos)
-			{
-				if (hash == t.Hash)
-				{
-					//如果有则不新建此任务
-					//将状态由停止或删除修改为开始
-					if (t.Status == DownloadStatus.出现错误 ||
-						 t.Status == DownloadStatus.已经停止 ||
-						 t.Status == DownloadStatus.已删除)
-						CoreManager.TaskManager.StartTask(t);
-					return;
-				}
-			}
-
-			//设置新任务
-			TaskInfo task = CoreManager.TaskManager.AddTask(plugin, url, sourcetask.Proxy);
-			task.Settings = sourcetask.Settings;
-			task.DownloadTypes = sourcetask.DownloadTypes;
-			task.Comment = sourcetask.Comment;
-			task.SaveDirectory = sourcetask.SaveDirectory;
-			task.AutoAnswer = sourcetask.AutoAnswer;
-			task.ExtractCache = sourcetask.ExtractCache;
-			//此任务由其他任务所添加
-			task.IsBeAdded = true;
-			//开始新任务
-			CoreManager.TaskManager.StartTask(task);
-
 		}
 
 		/// <summary>
-		/// 执行下一个任务，如果所有任务执行完毕则执行关机任务
+		/// 所有任务执行完毕:执行关机任务
 		/// </summary>
-		public void ProcessNext()
+		public void AllFinished(object e)
 		{
-			//执行下一个可能开始的任务
-			CoreManager.TaskManager.ContinueNext();
-
-			//如果没有正在等待的任务了且正在运行的任务为0
-			if (CoreManager.TaskManager.GetNextWaiting() == null && CoreManager.TaskManager.GetRunningCount() == 0)
+			ShutdownType action = ShutdownType.None;
+			//执行关机任务
+			switch (cboAfterComplete.SelectedIndex)
 			{
-				ShutdownType action = ShutdownType.None;
-				//执行关机任务
-				switch (cboAfterComplete.SelectedIndex)
-				{
-					case 0: //无动作
-						action = ShutdownType.None;
-						break;
-					case 1: //关机
-						action = ShutdownType.Shutdown;
-						break;
-					case 2: //待机
-						action = ShutdownType.Suspend;
-						break;
-					case 3: //休眠
-						action = ShutdownType.Hibernate;
-						break;
-					case 4: //注销
-						action = ShutdownType.Logoff;
-						break;
-					case 5: //重启
-						action = ShutdownType.Reboot;
-						break;
-					case 6: //退出程序
-						action = ShutdownType.ExitProgram;
-						break;
-				}
-				if (action == ShutdownType.ExitProgram)
-				{
-					mnuTrayExit_Click(this, EventArgs.Empty);
-				}
-				if (action != ShutdownType.None)
-				{
-					FormShutdown frm = new FormShutdown(action);
-					frm.ShowDialog();
-				}
+				case 0: //无动作
+					action = ShutdownType.None;
+					break;
+				case 1: //关机
+					action = ShutdownType.Shutdown;
+					break;
+				case 2: //待机
+					action = ShutdownType.Suspend;
+					break;
+				case 3: //休眠
+					action = ShutdownType.Hibernate;
+					break;
+				case 4: //注销
+					action = ShutdownType.Logoff;
+					break;
+				case 5: //重启
+					action = ShutdownType.Reboot;
+					break;
+				case 6: //退出程序
+					action = ShutdownType.ExitProgram;
+					break;
 			}
-
+			if (action == ShutdownType.ExitProgram)
+			{
+				mnuTrayExit_Click(this, EventArgs.Empty);
+			}
+			if (action != ShutdownType.None)
+			{
+				FormShutdown frm = new FormShutdown(action);
+				frm.ShowDialog();
+			}
 
 		}
 

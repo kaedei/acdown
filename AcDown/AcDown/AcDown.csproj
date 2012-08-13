@@ -204,9 +204,6 @@
     <EmbeddedResource Include="UI\FormStart.resx">
       <DependentUpon>FormStart.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="bin\Debug\AcDown.exe" />
-    <None Include="bin\Release\AcDown.exe" />
-    <None Include="bin\Release\AcDown.vshost.exe.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -297,37 +294,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Plugin.png" />
-    <Content Include="bin\Debug\AcDown.vshost.exe" />
-    <Content Include="bin\Debug\AcDownCore.dll" />
-    <Content Include="bin\Debug\AcDownCore.pdb" />
-    <Content Include="bin\Debug\AcDownCore.xml" />
-    <Content Include="bin\Debug\AcDownDownloader.dll" />
-    <Content Include="bin\Debug\AcDownDownloader.pdb" />
-    <Content Include="bin\Debug\AcDownDownloader.xml" />
-    <Content Include="bin\Debug\AcDownInterface.dll" />
-    <Content Include="bin\Debug\AcDownInterface.pdb" />
-    <Content Include="bin\Debug\AcDownInterface.xml" />
-    <Content Include="bin\Debug\AcDownParser.dll" />
-    <Content Include="bin\Debug\AcDownParser.pdb" />
-    <Content Include="bin\Debug\AcDownParser.xml" />
-    <Content Include="bin\Debug\AcPlay.dll" />
-    <Content Include="bin\Debug\AcPlay.pdb" />
-    <Content Include="bin\Debug\AcPlay.xml" />
-    <Content Include="bin\Debug\FlvCombine.dll" />
-    <Content Include="bin\Debug\FlvCombine.pdb" />
-    <Content Include="bin\Debug\FlvCombine.xml" />
-    <Content Include="bin\Release\AcDown.vshost.exe" />
-    <Content Include="bin\Release\AcDownCore.dll" />
-    <Content Include="bin\Release\AcDownDownloader.dll" />
-    <Content Include="bin\Release\AcDownInterface.dll" />
-    <Content Include="bin\Release\AcDownParser.dll" />
-    <Content Include="bin\Release\AcPlay.dll" />
     <None Include="Resources\feedback.png" />
     <None Include="Resources\remind.wav" />
     <None Include="Resources\ToolStripControl.png" />
     <None Include="Resources\Update.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bin\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcDownCore\AcDownCore.csproj">
       <Project>{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}</Project>

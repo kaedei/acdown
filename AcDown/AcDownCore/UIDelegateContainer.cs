@@ -14,12 +14,14 @@ namespace Kaedei.AcDown.Core
 							 AcTaskDelegate tipTextDele,
 							 AcTaskDelegate finishDele,
 							 AcTaskDelegate errorDele,
-							 AcTaskDelegate newTaskDele)
+							 AcTaskDelegate newTaskDele,
+							 AcTaskDelegate allFinishedDele)
 			: base(newPartDele, refreshDele, tipTextDele, newTaskDele)
 		{
 			Start += startDele;
 			Finish += finishDele;
 			Error += errorDele;
+			AllFinished += allFinishedDele;
 		}
 
 		/// <summary>
@@ -36,6 +38,11 @@ namespace Kaedei.AcDown.Core
 		/// 任务出现错误
 		/// </summary>
 		public AcTaskDelegate Error { get; set; }
+
+		/// <summary>
+		/// 当前所有任务结束
+		/// </summary>
+		public AcTaskDelegate AllFinished { get; set; }
 
 	}
 
@@ -55,4 +62,5 @@ namespace Kaedei.AcDown.Core
 	{
 		public ParaStart(TaskInfo task) { SourceTask = task; }
 	}
+
 }
