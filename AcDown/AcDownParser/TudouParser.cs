@@ -24,12 +24,45 @@ namespace Kaedei.AcDown.Interface
 			{
 				//取得土豆网页面源代码
 				string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + request.Id + "/", Encoding.GetEncoding("GB2312"), request.Proxy);
-				//取得iid
-				Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
-				Match m1 = r1.Match(tudousource);
-				request.Id = m1.Groups["iid"].ToString();
+				//取得iid列表
+				Regex rIid = new Regex(@"(?<=iid(:| = ))\d+", RegexOptions.Singleline);
+				MatchCollection mIids = rIid.Matches(tudousource);
+				List<string> iids = new List<string>();
+				foreach (Match mIid in mIids)
+				{
+					iids.Add(mIid.Value);
+				}
+				//取得icode列表
+				Regex rIcode = new Regex(@"(?<=icode(:| = )(""|'))[\w\-]+", RegexOptions.Singleline);
+				MatchCollection mIcodes = rIcode.Matches(tudousource);
+				List<string> icodes = new List<string>();
+				foreach (Match mIcode in mIcodes)
+				{
+					icodes.Add(mIcode.Value);
+				}
+				//取得标题列表
+				Regex rKw = new Regex(@"(?<=kw(:| = )(""|')).+?(?=(""|'))", RegexOptions.Singleline);
+				MatchCollection mKws = rKw.Matches(tudousource);
+				List<string> kws = new List<string>();
+				foreach (Match mKw in mKws)
+				{
+					kws.Add(mKw.Value);
+				}
+				
+				//检查需要的iid
+				for (int i = 0; i < icodes.Count; i++)
+				{
+					if (request.Id.Equals(icodes[i]))
+					{
+						request.Id = iids[i];
+						pr.SpecificResult["icode"] = icodes[i];
+						pr.SpecificResult["title"] = kws[i];
+						break;
+					}
+				}
 			}
-			
+			pr.SpecificResult["iid"] = request.Id;
+
 			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + request.Id + "&pw=" + request.Password;
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, request.Proxy);
 			Regex rVideo = new Regex("<f [^>]+brt=\"(?<brt>\\d+)\">(?<url>[^<]+)</f>");

@@ -39,6 +39,8 @@ namespace Kaedei.AcDown.Downloader
 				if (url.StartsWith(item))
 					return true;
 			}
+			//kankanews
+			if (url.Contains("kankanews.com/")) return true;
 			return false;
 		}
 

@@ -291,7 +291,7 @@ namespace Kaedei.AcDown.UI
 		private System.Threading.Timer clipboardWatcher;
 		private void StartWatchClipboard()
 		{
-			clipboardWatcher = new System.Threading.Timer(new TimerCallback(WatchClipboard), null, 5000, 500);
+			clipboardWatcher = new System.Threading.Timer(new TimerCallback(WatchClipboard), null, 1000, 500);
 		}
 
 		//关于
@@ -1355,6 +1355,11 @@ namespace Kaedei.AcDown.UI
 		/// </summary>
 		public void AllFinished(object e)
 		{
+			if (this.InvokeRequired)
+			{
+				this.Invoke(new AcTaskDelegate(AllFinished), e);
+				return;
+			}
 			ShutdownType action = ShutdownType.None;
 			//执行关机任务
 			switch (cboAfterComplete.SelectedIndex)
