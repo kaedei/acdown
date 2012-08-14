@@ -18,9 +18,9 @@ namespace Kaedei.AcDown.Core
 		/// 初始化配置管理器的实例
 		/// </summary>
 		/// <param name="pluginsFolderPath"></param>
-		public ConfigManager(string pluginsFolderPath)
+		public ConfigManager()
 		{
-			_pluginsFolderPath = pluginsFolderPath;
+			_pluginsFolderPath = CoreManager.StartupPath;
 		}
 
 		public AcDownSettings Settings { get; set; }

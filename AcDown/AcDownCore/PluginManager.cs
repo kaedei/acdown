@@ -12,9 +12,9 @@ namespace Kaedei.AcDown.Core
 	public class PluginManager
 	{
 		private string _startupPath;
-		public PluginManager(string startupPath)
+		public PluginManager()
 		{
-			_startupPath = startupPath;
+			_startupPath = CoreManager.StartupPath;
 		}
 
 		private Collection<IPlugin> _plugins = new Collection<IPlugin>();

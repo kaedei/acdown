@@ -17,8 +17,10 @@ namespace Kaedei.AcDown.Core
 		public static string LogFilePath { get; set; }
 		private static DateTime time = DateTime.Now;
 		private static StreamWriter writer;
-		public static void Initialize(string startupPath)
+		private static string startupPath;
+		public static void Initialize()
 		{
+			startupPath = CoreManager.StartupPath;
 			//如果禁止记录日志则返回
 			if (!CoreManager.ConfigManager.Settings.Logging)
 				return;
