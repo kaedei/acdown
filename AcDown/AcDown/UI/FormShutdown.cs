@@ -88,6 +88,9 @@ namespace Kaedei.AcDown.UI
 		}
 	}
 
+	/// <summary>
+	/// 关闭类型
+	/// </summary>
 	public enum ShutdownType
 	{
 		None,

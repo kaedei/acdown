@@ -59,12 +59,12 @@ namespace Kaedei.AcDown.Core
 			}
 
 			//全局设置
-			ConfigManager = new ConfigManager(startupFolderPath);
+			ConfigManager = new ConfigManager();
 			ConfigManager.LoadSettings();
 			//记录
-			Logging.Initialize(startupFolderPath);
+			Logging.Initialize();
 			//插件管理器
-			PluginManager = new PluginManager(startupFolderPath);
+			PluginManager = new PluginManager();
 			PluginManager.LoadPlugins();
 			foreach (IPlugin plugin in internalPlugins)
 			{
@@ -73,7 +73,7 @@ namespace Kaedei.AcDown.Core
 			//委托
 			UIDelegates = uiDelegates;
 			//任务管理器
-			TaskManager = new TaskManager(UIDelegates, startupFolderPath);
+			TaskManager = new TaskManager();
 			TaskManager.LoadAllTasks();
 
 		}

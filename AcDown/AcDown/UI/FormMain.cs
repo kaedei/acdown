@@ -495,6 +495,8 @@ namespace Kaedei.AcDown.UI
 			if (!watchClipboard)
 				return;
 			//剪贴板中的文字(非UI线程无法访问剪贴板)
+			if (this.IsDisposed)
+				return;
 			this.Invoke(new MethodInvoker(() => 
 			{
 				try
@@ -816,17 +818,12 @@ namespace Kaedei.AcDown.UI
 					btnSearch_ButtonClick(this, EventArgs.Empty);
 				}
 			}
-			else
+			else //没有按回车为即时搜索
 			{
+				//设置过滤
 				SetTaskFilter(new string[] { txtSearch.Text.Trim() });
 				rdoSearch.Checked = true;
 			}
-		}
-
-		private void lblSpeed_Click(object sender, EventArgs e)
-		{
-			tabMain.SelectTab("tabConfig");
-			udSpeedLimit.Select();
 		}
 
 		//点击"帮助中心"链接
@@ -834,12 +831,6 @@ namespace Kaedei.AcDown.UI
 		{
 			FormHelp frmHelp = new FormHelp();
 			frmHelp.ShowDialog();
-		}
-
-		//点击“常见问题”链接
-		private void toolQA_Click(object sender, EventArgs e)
-		{
-			ToolForm.CreateWebpageForm("http://blog.sina.com.cn/s/blog_58c506600100z40t.html", "常见问题", true);
 		}
 
 		//双击托盘图标
@@ -1031,6 +1022,7 @@ namespace Kaedei.AcDown.UI
 		{
 			CoreManager.TaskManager.SetSpeedLimitKb((int)udSpeedLimit.Value);
 		}
+
 
 		//获得win消息
 		[DebuggerNonUserCode()]
@@ -1534,7 +1526,6 @@ namespace Kaedei.AcDown.UI
 		/// <summary>
 		/// 判断所提供的任务是否符合当前过滤器
 		/// </summary>
-		/// <param name="infoToString"></param>
 		private bool IsMatchCurrentFilter(TaskInfo task)
 		{
 			string tmp = task.ToString();
@@ -1565,10 +1556,6 @@ namespace Kaedei.AcDown.UI
 				else
 					SetTaskFilter(rdo.Tag.ToString().Split('|'));
 			}
-			////隐藏浮动工具栏
-			//contextTool.Hide();
-			////取消选中所有任务
-			//lsv.SelectedItems.Clear();
 		}
 
 		#endregion

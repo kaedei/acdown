@@ -27,23 +27,20 @@ namespace Kaedei.AcDown.Core
 		/// 新建TaskManager类的实例
 		/// </summary>
 		/// <param name="delegatesCon"></param>
-		public TaskManager(UIDelegateContainer delegatesCon, string startupPath)
+		public TaskManager()
 		{
-			//保存UI委托
-			uiDelegates = delegatesCon;
-			//包装UI委托
-			preDelegates = new UIDelegateContainer(uiDelegates.Start,
-				uiDelegates.NewPart,
-				uiDelegates.Refresh,
-				uiDelegates.TipText,
+			//初始化预处理委托
+			preDelegates = new UIDelegateContainer(
+				this.StartPreprocessor,
+				this.NewPartPreprocessor,
+				this.RefreshPreprocessor,
+				this.TipTextPreprocessor,
 				this.FinishPreprocessor,
 				this.ErrorPreprocessor,
 				this.NewTaskPreprocessor,
-				this.AllFinishedPreprocessor
-				);
-
+				this.AllFinishedPreprocessor);
 			//起始位置
-			_startupPath = startupPath;
+			_startupPath = CoreManager.StartupPath;
 		}
 
 		//启动路径
@@ -82,7 +79,7 @@ namespace Kaedei.AcDown.Core
 		//UI委托的包装（预处理）
 		private UIDelegateContainer preDelegates;
 		//来自UI的委托
-		private UIDelegateContainer uiDelegates;
+		//private UIDelegateContainer uiDelegates;
 
 		/// <summary>
 		/// 添加任务
@@ -531,6 +528,39 @@ namespace Kaedei.AcDown.Core
 
 		#region 预处理
 
+
+		/// <summary>
+		/// Start委托的预处理
+		/// </summary>
+		private void StartPreprocessor(object e)
+		{
+			CoreManager.UIDelegates.Start((DelegateParameter)e);
+		}
+
+		/// <summary>
+		/// NewPart委托的预处理
+		/// </summary>
+		private void NewPartPreprocessor(object e)
+		{
+			CoreManager.UIDelegates.NewPart((DelegateParameter)e);
+		}
+
+		/// <summary>
+		/// Refresh委托的预处理
+		/// </summary>
+		private void RefreshPreprocessor(object e)
+		{
+			CoreManager.UIDelegates.Refresh((DelegateParameter)e);
+		}
+
+		/// <summary>
+		/// TipText委托的预处理
+		/// </summary>
+		private void TipTextPreprocessor(object e)
+		{
+			CoreManager.UIDelegates.TipText((DelegateParameter)e);
+		}
+
 		/// <summary>
 		/// NewTask委托的预处理
 		/// </summary>
@@ -575,7 +605,7 @@ namespace Kaedei.AcDown.Core
 			CoreManager.TaskManager.StartTask(task);
 
 			//调用UI层的NewTask委托
-			uiDelegates.NewTask(p);
+			CoreManager.UIDelegates.NewTask(p);
 		}
 
 		/// <summary>
@@ -588,9 +618,9 @@ namespace Kaedei.AcDown.Core
 
 			//设置完成时间
 			task.FinishTime = DateTime.Now;
-			
+
 			//执行UI委托
-			uiDelegates.Finish(p);
+			CoreManager.UIDelegates.Finish(p);
 
 			//执行下一个可能开始的任务
 			CoreManager.TaskManager.ContinueNext();
@@ -615,7 +645,7 @@ namespace Kaedei.AcDown.Core
 			}
 
 			//执行UI委托
-			uiDelegates.Error(p);
+			CoreManager.UIDelegates.Error(p);
 
 			//执行下一个可能开始的任务
 			CoreManager.TaskManager.ContinueNext();
@@ -631,7 +661,7 @@ namespace Kaedei.AcDown.Core
 		{
 			//如果没有正在等待的任务了且正在运行的任务为0
 			if (GetNextWaiting() == null && GetRunningCount() == 0)
-				uiDelegates.AllFinished(null);
+				CoreManager.UIDelegates.AllFinished(null);
 		}
 
 		#endregion
