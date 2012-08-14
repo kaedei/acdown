@@ -552,7 +552,7 @@ namespace Kaedei.AcDown.Interface
 		{
 			if (proxy != null)
 			{
-				this.Address = proxy.Address.Host;
+				this.Address = proxy.Address == null ? "" : proxy.Address.Host;
 				this.Port = proxy.Address.Port;
 				this.Username = ((NetworkCredential)proxy.Credentials).UserName;
 				this.Password = ((NetworkCredential)proxy.Credentials).Password;

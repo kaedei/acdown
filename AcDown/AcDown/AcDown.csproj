@@ -254,9 +254,6 @@
     <None Include="Resources\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Ac.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Add.png" />
   </ItemGroup>
   <ItemGroup>
@@ -327,6 +324,9 @@
       <Project>{362A456F-8367-43EF-950D-5A2CDD502B92}</Project>
       <Name>FlvCombine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ac.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

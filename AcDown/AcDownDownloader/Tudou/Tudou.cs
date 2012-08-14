@@ -8,7 +8,7 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "3.11.7.527", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "4.0.0.0", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TudouPlugin : IPlugin
 	{
 
@@ -42,7 +42,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^http://www\.tudou\.com/(playlist(/p/(?<id1>\w+)|/playindex\.do\?lid=(?<id2>\w+))|listplay/(.+?/|)(?<id3>.+?)(?=\.html)|programs/view/(?<id4>[\w+\-]+))");
+			Regex r = new Regex(@"^http://www\.tudou\.com/(playlist(/p/(?<id1>\w+)|/playindex\.do\?lid=(?<id2>\w+))|(listplay|albumplay)/(.+?/|)(?<id3>.+?)(?=\.html)|programs/view/(?<id4>[\w+\-]+))");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -60,7 +60,7 @@ namespace Kaedei.AcDown.Downloader
 		/// </summary>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"(?<=http://www\.tudou\.com/)(playlist(/p/(?<id1>\w+)|/playindex\.do\?lid=(?<id2>\w+))|listplay/(.+?/|)(?<id3>.+?)(?=\.html)|programs/view/(?<id4>[\w+\-]+))");
+			Regex r = new Regex(@"(?<=http://www\.tudou\.com/)(playlist(/p/(?<id1>\w+)|/playindex\.do\?lid=(?<id2>\w+))|(listplay|albumplay)/(.+?/|)(?<id3>.+?)(?=\.html)|programs/view/(?<id4>[\w+\-]+))");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -185,7 +185,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 					else	//否则取得源文件中的iid
 					{
-						Regex r1 = new Regex(@"defaultIid = (?<iid>\d.*)");
+						Regex r1 = new Regex(@"defaultIid = (?<iid>\d+)");
 						Match m1 = r1.Match(src);
 						iid = m1.Groups["iid"].ToString();
 					}
@@ -193,61 +193,28 @@ namespace Kaedei.AcDown.Downloader
 				else //如果是普通视频(或新列表视频)
 				{
 					//URL中获取id
-					var mIdInUrl = Regex.Match(Info.Url, @"listplay/(?<l>.+?)/(?<i>.+?)(?=\.html)");
+					var mIdInUrl = Regex.Match(Info.Url, @"(listplay|albumplay)/(?<l>.+?)/(?<i>.+?)(?=\.html)");
 					if (mIdInUrl.Success)
 					{
 						iid = mIdInUrl.Groups["i"].Value;
 					}
 					else
 					{
-
-						var mIdInSrc = Regex.Match(src, @"(?<=listData = \[{\niid:)\w+");
+						var mIdInSrc = Regex.Match(src, @"listData = \[{\niid.+?icode:""(?<icode>[\w\-]+)""", RegexOptions.Singleline);
 						if (mIdInSrc.Success)
 						{
-							iid = mIdInSrc.Value;
+							iid = mIdInSrc.Groups["icode"].Value;
 						}
 						else
 						{
-							Regex r1 = new Regex(@"(I|i)id = (?<iid>\d.*)");
+							Regex r1 = new Regex(@"(I|i)id = (?<iid>\d+)");
 							Match m1 = r1.Match(src);
 							iid = m1.Groups["iid"].ToString();
 						}
 					}
 				}
 
-				//取得视频标题
-				string title = "";
 
-				if (mlist.Success)
-				{
-					//取得aid/lid标题
-					string aid = mlist.Groups["aid"].Value;
-					Regex rlisttitle = null;
-					Match mlisttitle = null;
-					if (mlist.ToString().StartsWith("a")) //如果是a开头的列表
-					{
-						rlisttitle = new Regex(@"aid:" + aid + @"\n,name:""(?<title>.+?)""", RegexOptions.Singleline);
-						mlisttitle = rlisttitle.Match(src);
-					}
-					else if (mlist.ToString().StartsWith("l")) //如果是l开头的列表
-					{
-						rlisttitle = new Regex(@"ltitle = ""(?<title>.+?)""", RegexOptions.Singleline);
-						mlisttitle = rlisttitle.Match(src);
-					}
-					//取得iid标题
-					Regex rsubtitle = new Regex(@"iid:" + iid + @"\n(,cartoonType:\d+\n|),title:""(?<subtitle>.+?)""", RegexOptions.Singleline);
-					Match msubtitle = rsubtitle.Match(src);
-					title = mlisttitle.Groups["title"].Value + "-" + msubtitle.Groups["subtitle"].Value;
-				}
-				else
-				{
-					Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
-					Match mTitle = rTitle.Match(src);
-					title = mTitle.Groups["title"].Value;
-				}
-				Info.Title = title;
-				//过滤非法字符
-				title = Tools.InvalidCharacterFilter(title, "");
 
 				//视频地址数组
 				string[] videos = null;
@@ -256,7 +223,48 @@ namespace Kaedei.AcDown.Downloader
 
 				//调用内建的土豆视频解析器
 				TudouParser parserTudou = new TudouParser();
-				videos = parserTudou.Parse(new ParseRequest() { Id = iid, Password = password, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+				var pr = parserTudou.Parse(new ParseRequest() { Id = iid, Password = password, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+				videos = pr.ToArray();
+
+				//取得视频标题
+				string title = "";
+				if (pr.SpecificResult.ContainsKey("title"))
+				{
+					title = pr.SpecificResult["title"];
+				}
+				else
+				{
+					//if (mlist.Success)
+					//{
+					//   //取得aid/lid标题
+					//   string aid = mlist.Groups["aid"].Value;
+					//   Regex rlisttitle = null;
+					//   Match mlisttitle = null;
+					//   if (mlist.ToString().StartsWith("a")) //如果是a开头的列表
+					//   {
+					//      rlisttitle = new Regex(@"aid:" + aid + @"\n,name:""(?<title>.+?)""", RegexOptions.Singleline);
+					//      mlisttitle = rlisttitle.Match(src);
+					//   }
+					//   else if (mlist.ToString().StartsWith("l")) //如果是l开头的列表
+					//   {
+					//      rlisttitle = new Regex(@"ltitle = ""(?<title>.+?)""", RegexOptions.Singleline);
+					//      mlisttitle = rlisttitle.Match(src);
+					//   }
+					//   //取得iid标题
+					//   Regex rsubtitle = new Regex(@"iid:" + iid + @"\n(,cartoonType:\d+\n|),title:""(?<subtitle>.+?)""", RegexOptions.Singleline);
+					//   Match msubtitle = rsubtitle.Match(src);
+					//   title = mlisttitle.Groups["title"].Value + "-" + msubtitle.Groups["subtitle"].Value;
+					//}
+					//else
+					//{
+					Regex rTitle = new Regex(@"\<h1\>(?<title>.*)\<\/h1\>");
+					Match mTitle = rTitle.Match(src);
+					title = mTitle.Groups["title"].Value;
+					//}
+				}
+				Info.Title = title;
+				//过滤非法字符
+				title = Tools.InvalidCharacterFilter(title, "");
 
 				//下载视频
 				//确定视频共有几个段落
@@ -332,11 +340,29 @@ namespace Kaedei.AcDown.Downloader
 						}
 					}
 				}
+
+				//下载弹幕(dp)
+				if ((Info.DownloadTypes & DownloadType.Subtitle) != 0)
+				{
+					try
+					{
+						Network.DownloadFile(new DownloadParameter()
+						{
+							FilePath = Path.Combine(Info.SaveDirectory.ToString(), title + ".json"),
+							Url = "http://comment.dp.tudou.com/comment/get/" + pr.SpecificResult["iid"] + "/vdn12d/",
+							Proxy = Info.Proxy
+						});
+					}
+					catch { }
+				}
 			}
 			catch (Exception ex) //出现错误即下载失败
 			{
 				throw ex;
 			}
+
+
+
 			//下载成功完成
 			return true;
 
