@@ -31,7 +31,7 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		public void LoadPlugins()
 		{
-			LoadPlugins(_startupPath);
+			LoadPlugins(Path.Combine(_startupPath, @"Plugins\"));
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace Kaedei.AcDown.Core
 		private void LoadPlugins(string appdir)
 		{
 			//Current AcDown Core Version
-			var currentver = Assembly.GetExecutingAssembly().GetName().Version;
+			//var currentver = Assembly.GetExecutingAssembly().GetName().Version;
 			//all plugin assembly
 			var acdplugins = new List<string>();
 
@@ -159,53 +159,10 @@ namespace Kaedei.AcDown.Core
 				string[] plugins = Directory.GetDirectories(company, "*", SearchOption.TopDirectoryOnly);
 				foreach (string plugin in plugins) //插件
 				{
-					string[] versions = Directory.GetDirectories(plugin, "*.*", SearchOption.TopDirectoryOnly);
-					Version chosenVer = null; //已选择的版本
-					string chosenEntryFile = ""; //已选择的文件
-					foreach (string version in versions) //版本号
-					{
-						//如果update.XML文件存在
-						string xmlfile = Path.Combine(version, "update.xml");
-						if (File.Exists(xmlfile))
-						{
-							try
-							{
-								Update u;
-								//解析Update.XML文件
-								using (var fs = new FileStream(xmlfile, FileMode.Open))
-								{
-									XmlSerializer s = new XmlSerializer(typeof(Update));
-									u = (Update)s.Deserialize(fs);
-								}
-								//插件支持的最小版本和插件当前版本
-								var minver = new Version(u.MinSupportedVersion);
-								var pluginver = new Version(u.Version);
-
-								if (currentver > minver)
-								{
-									if (chosenVer == null || pluginver > chosenVer)
-									{
-										string entryfile = Path.Combine(version, u.EntryFile);
-										//Assembly.ReflectionOnlyLoadFrom(entryfile);
-										chosenVer = pluginver;
-										chosenEntryFile = entryfile;
-									}
-								}
-							}
-							catch
-							{
-
-							}//end try
-						}//end if Update.xml existed	
-					}//end foreach version in versions
-					//if doesn't have a chosen file
-					if (!string.IsNullOrEmpty(chosenEntryFile))
-					{
-						acdplugins.Add(chosenEntryFile);
-					}
+					string[] dlls = Directory.GetFiles(plugin, "*.dll.acp", SearchOption.TopDirectoryOnly);
+					acdplugins.AddRange(dlls);
 				}//end foreach plugin in plugins
 			}//end foreach company in companies
-
 
 			//Load All Plugins
 			foreach (string file in acdplugins)
