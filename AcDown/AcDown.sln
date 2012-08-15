@@ -21,9 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcPlay", "AcPlay\AcPlay.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlvCombine", "FlvCombine\FlvCombine.csproj", "{362A456F-8367-43EF-950D-5A2CDD502B92}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SampleDownloaderVB", "SampleDownloaderVB\SampleDownloaderVB.vbproj", "{81E5F6F3-AD28-4372-9D87-DF95821D5B62}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
+		SccNumberOfProjects = 9
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs18
 		SccLocalPath0 = .
@@ -48,6 +50,9 @@ Global
 		SccProjectUniqueName7 = FlvCombine\\FlvCombine.csproj
 		SccProjectName7 = FlvCombine
 		SccLocalPath7 = FlvCombine
+		SccProjectUniqueName8 = SampleDownloaderVB\\SampleDownloaderVB.vbproj
+		SccProjectName8 = SampleDownloaderVB
+		SccLocalPath8 = SampleDownloaderVB
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +87,10 @@ Global
 		{362A456F-8367-43EF-950D-5A2CDD502B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{362A456F-8367-43EF-950D-5A2CDD502B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{362A456F-8367-43EF-950D-5A2CDD502B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81E5F6F3-AD28-4372-9D87-DF95821D5B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81E5F6F3-AD28-4372-9D87-DF95821D5B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81E5F6F3-AD28-4372-9D87-DF95821D5B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81E5F6F3-AD28-4372-9D87-DF95821D5B62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

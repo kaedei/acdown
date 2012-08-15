@@ -225,6 +225,8 @@ namespace Kaedei.AcDown.UI
 			sb.AppendLine("AcDown当前支持下载的网站:(网址举例)");
 			foreach (var item in CoreManager.PluginManager.Plugins)
 			{
+				if (item.Feature == null)
+					continue;
 				if (item.Feature.ContainsKey("ExampleUrl"))
 				{
 					string[] tmp = (string[])item.Feature["ExampleUrl"];

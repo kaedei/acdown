@@ -362,6 +362,8 @@ namespace Kaedei.AcDown.UI
 				return;
 			int index = cboPlugins.SelectedIndex;
 			var plugin = supportedPlugins[index];
+			if (plugin.Feature == null)
+				return;
 			if (plugin.Feature.ContainsKey("ConfigForm"))
 			{
 				var t = plugin.Feature["ConfigForm"].GetType();
