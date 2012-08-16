@@ -28,9 +28,9 @@
       /// </summary>
       private void InitializeComponent()
       {
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("");
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("");
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("");
 			this.lsv = new System.Windows.Forms.ListView();
 			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -40,6 +40,7 @@
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label9 = new System.Windows.Forms.Label();
 			this.btnProperty = new System.Windows.Forms.Button();
+			this.btnSupport = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lsv
@@ -56,16 +57,16 @@
             this.columnHeader1});
 			this.lsv.FullRowSelect = true;
 			this.lsv.GridLines = true;
-			listViewItem1.Checked = true;
-			listViewItem1.StateImageIndex = 1;
-			listViewItem2.Checked = true;
-			listViewItem2.StateImageIndex = 1;
-			listViewItem3.Checked = true;
-			listViewItem3.StateImageIndex = 1;
+			listViewItem7.Checked = true;
+			listViewItem7.StateImageIndex = 1;
+			listViewItem8.Checked = true;
+			listViewItem8.StateImageIndex = 1;
+			listViewItem9.Checked = true;
+			listViewItem9.StateImageIndex = 1;
 			this.lsv.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
+            listViewItem7,
+            listViewItem8,
+            listViewItem9});
 			this.lsv.Location = new System.Drawing.Point(5, 42);
 			this.lsv.MultiSelect = false;
 			this.lsv.Name = "lsv";
@@ -97,7 +98,7 @@
 			// 
 			// columnHeader10
 			// 
-			this.columnHeader10.Text = "支持信息";
+			this.columnHeader10.Text = "插件网址";
 			this.columnHeader10.Width = 100;
 			// 
 			// columnHeader1
@@ -119,18 +120,30 @@
 			this.btnProperty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnProperty.Enabled = false;
 			this.btnProperty.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnProperty.Location = new System.Drawing.Point(333, 308);
+			this.btnProperty.Location = new System.Drawing.Point(301, 307);
 			this.btnProperty.Name = "btnProperty";
-			this.btnProperty.Size = new System.Drawing.Size(75, 25);
+			this.btnProperty.Size = new System.Drawing.Size(107, 27);
 			this.btnProperty.TabIndex = 10;
-			this.btnProperty.Text = "属性";
+			this.btnProperty.Text = "插件属性";
 			this.btnProperty.UseVisualStyleBackColor = true;
 			this.btnProperty.Click += new System.EventHandler(this.btnProperty_Click);
+			// 
+			// btnSupport
+			// 
+			this.btnSupport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSupport.Location = new System.Drawing.Point(188, 307);
+			this.btnSupport.Name = "btnSupport";
+			this.btnSupport.Size = new System.Drawing.Size(107, 27);
+			this.btnSupport.TabIndex = 11;
+			this.btnSupport.Text = "访问插件主页";
+			this.btnSupport.UseVisualStyleBackColor = true;
+			this.btnSupport.Click += new System.EventHandler(this.btnSupport_Click);
 			// 
 			// PluginSettings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.btnSupport);
 			this.Controls.Add(this.btnProperty);
 			this.Controls.Add(this.label9);
 			this.Controls.Add(this.lsv);
@@ -153,5 +166,6 @@
 		private System.Windows.Forms.ColumnHeader columnHeader1;
       private System.Windows.Forms.Button btnProperty;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
+		private System.Windows.Forms.Button btnSupport;
    }
 }
