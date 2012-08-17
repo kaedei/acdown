@@ -66,14 +66,14 @@ namespace Kaedei.AcDown.Interface
 	public class ParseResultItem
 	{
 		public ParseResultItem() { }
-		public ParseResultItem(Uri address)
+		public ParseResultItem(String address)
 		{
 			RealAddress = address;
 		}
 		/// <summary>
 		/// 真实地址
 		/// </summary>
-		public Uri RealAddress = null;
+		public String RealAddress = null;
 		/// <summary>
 		/// 相关信息字典
 		/// </summary>

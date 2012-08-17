@@ -53,7 +53,7 @@ namespace Kaedei.AcDown.Interface
 						//real = real +"?vstr=" + vstr;
 					}
 				}
-				pri.RealAddress = new Uri(real);
+				pri.RealAddress = real;
 				pri.Information.Add("order", item.Groups["order"].Value);
 				pri.Information.Add("length", item.Groups["length"].Value);
 				pr.Items.Add(pri);

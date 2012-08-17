@@ -509,7 +509,7 @@ namespace Kaedei.AcDown.Downloader
 				//播放器
 				c.PlayerName = "bilibili";
 				//播放器地址
-				c.PlayerUrl = "http://static.loli.my/play.swf";
+				c.PlayerUrl = "http://static.hdslb.com/play.swf";
 				//端口
 				c.HttpServerPort = 7776;
 				c.ProxyServerPort = 7777;
