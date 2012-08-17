@@ -150,6 +150,9 @@ namespace Kaedei.AcDown.Core
 		{
 			//Current AcDown Core Version
 			//var currentver = Assembly.GetExecutingAssembly().GetName().Version;
+
+			if (!Directory.Exists(appdir))
+				return;
 			//all plugin assembly
 			var acdplugins = new List<string>();
 

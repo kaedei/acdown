@@ -120,7 +120,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(TargetDir)
-ILMerge.exe /ndebug /target:winexe /attr:AcDown.exe /out:AcDownRelease.exe AcDown.exe AcDownCore.dll AcDownDownloader.dll AcDownInterface.dll AcDownParser.dll AcPlay.dll FlvCombine.dll</PostBuildEvent>
+ILMerge.exe /ndebug /target:winexe /targetplatform:v2 /attr:AcDown.exe /out:AcDownRelease.exe AcDown.exe AcDownCore.dll AcDownDownloader.dll AcDownInterface.dll AcDownParser.dll AcPlay.dll FlvCombine.dll</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
