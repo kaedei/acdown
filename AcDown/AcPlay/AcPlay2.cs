@@ -175,7 +175,7 @@ namespace Kaedei.AcDown.UI.Components
 			{
 				case 1:
 					config.PlayerName = "bilibili";
-					config.PlayerUrl = "http://static.loli.my/play.swf";
+					config.PlayerUrl = "http://static.hdslb.com/play.swf";
 					break;
 				default:
 					config.PlayerName = "acfun";
@@ -269,7 +269,7 @@ namespace Kaedei.AcDown.UI.Components
 					}
 					else if (player == "bilibili")
 					{
-						swf = "http://static.loli.my/play.swf";
+						swf = "http://static.hdslb.com/play.swf";
 					}
 
 					//播放器缓存位置

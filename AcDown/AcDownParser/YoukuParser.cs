@@ -164,7 +164,7 @@ namespace Kaedei.AcDown.Interface
 					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
 					+ fileid.Substring(10) + keys[i];
 				//添加地址
-				pr.Items.Add(new ParseResultItem(new Uri(u)));
+				pr.Items.Add(new ParseResultItem(u));
 			}
 
 			//提取各项详细信息

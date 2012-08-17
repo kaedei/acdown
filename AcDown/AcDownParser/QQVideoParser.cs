@@ -24,13 +24,13 @@ namespace Kaedei.AcDown.Interface
 			{
 				foreach (Match item in mc)
 				{
-					pr.Items.Add(new ParseResultItem() { RealAddress = new Uri(item.Groups[@"url"].Value) });
+					pr.Items.Add(new ParseResultItem() { RealAddress = item.Groups[@"url"].Value });
 				}
 				return pr;
 			}
 			else
 			{
-				pr.Items.Add(new ParseResultItem() { RealAddress = new Uri(@"http://web.qqvideo.tc.qq.com/" + request.Id + ".flv") });
+				pr.Items.Add(new ParseResultItem() { RealAddress = @"http://web.qqvideo.tc.qq.com/" + request.Id + ".flv" });
 				return pr;
 			}
 			

@@ -43,7 +43,7 @@ namespace Kaedei.AcDown.Interface
 			MatchCollection mcPartUrls = rPartUrls.Matches(content);
 			foreach (Match item in mcPartUrls)
 			{
-				pr.Items.Add(new ParseResultItem() { RealAddress = new Uri(item.Groups["url"].Value) });
+				pr.Items.Add(new ParseResultItem() { RealAddress = item.Groups["url"].Value });
 			}
 			return pr;
 		}

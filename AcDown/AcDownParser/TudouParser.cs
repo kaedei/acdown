@@ -106,7 +106,7 @@ namespace Kaedei.AcDown.Interface
 							{
 								if (videodict[u].Equals(answer))
 								{
-									pr.Items.Add(new ParseResultItem(new Uri(u)));
+									pr.Items.Add(new ParseResultItem(u));
 									return pr;
 								}
 							}
@@ -126,7 +126,7 @@ namespace Kaedei.AcDown.Interface
 				urladdress = defaultUrl;
 			}
 
-			pr.Items.Add(new ParseResultItem(new Uri(urladdress)));
+			pr.Items.Add(new ParseResultItem(urladdress));
 			return pr;
 		}
 
