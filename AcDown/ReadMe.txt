@@ -2,31 +2,39 @@
 您正在浏览的是[AcDown动漫下载器]源代码，如果您希望下载可执行文件(.exe)，请访问下列网址：
 http://acdown.codeplex.com/releases
 
+★此文件更新时间★
+2012-8-17
 
-此文件更新时间：2012-8-3
-
-系统需求：
+★系统需求★
 正常打开AcDown项目文件需要您的系统安装如下软件/程序：
-Visual Studio 2010 (包含C#组件)；
+至少Windows XP SP3
+Visual Studio 2010 至少Professional版本(必须包含C#组件)；
 .Net Framework 3.5 SDK；
 
-如果您使用的是Visual Studio 2008，也可以通过打开AcDown.csproj文件打开此工程
-
-正常运行AcDown可执行文件(.exe格式)需要:
-至少Windows XP SP3；
-系统中已安装.NET Framework 2.0；
-
+★如何打开项目文件★
 请双击AcDown.sln文件打开项目，如果您遇到有关"无法连接到团队资源管理器"和"项目将以脱机方式打开"的提示，请忽略它；
 如果您遇到"是否移除源代码控制"的询问，请选择任意一项。
 
-
-源代码各个项目与目录的简单说明：
+★源代码各个项目与目录的简单说明★
 AcDown - AcDown用户界面
-AcPlay - 与弹幕播放相关的代码，包括acplay可执行文件和Flv文件分析器
 AcDownCore - AcDown任务控制核心，包括插件管理器、任务管理器、设置管理器、日志管理器等等
 AcDownDownloader - 官方插件
 AcDownInterface - 接口
 AcDownParser - 部分视频网站的解析器
 FlvCombine - 视频合并组件
+AcPlay - 与弹幕播放相关的代码，包括acplay可执行文件和Flv文件分析器
+AcPlayCore - 弹幕播放核心程序
+Release - 将AcDown编译版本合并为单exe文件
+SampleDownloaderVB - 使用VB.NET开发的AcDown示例插件
 
+★如何生成项目★
+请在“解决方案资源管理器”中右键点击AcDown项目，在弹出菜单中选择“生成”
+
+★如何生成单EXE★
+Release项目使用ILMerge(http://research.microsoft.com/en-us/people/mbarnett/ilmerge.aspx)来合并程序集。
+请先在“生成”菜单-配置管理器 中将活动解决方案切换到“Release”，
+然后在“解决方案资源管理器”中右键点击Release项目，在弹出菜单中选择“生成”。
+合并后的EXE文件位置是【解决方案文件夹\Release\bin\Release\AcDownRelease.exe】
+
+★其他★
 如果遇到有关源代码的问题，欢迎来信向作者询问：kaedei@foxmail.com

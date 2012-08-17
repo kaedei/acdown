@@ -14,7 +14,7 @@ Public Class SampleDownloaderVBPlugin : Implements IPlugin '在此处按下回�
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function CheckUrl(url As String) As Boolean Implements Kaedei.AcDown.Interface.IPlugin.CheckUrl
-        '如果url以 http:// 开始并以 .png 结束则支持，否则不支持
+        '如果url以 http:// 开始并以 .jpg 结束则支持下载，否则不支持
         If url.StartsWith("http://") AndAlso url.EndsWith(".jpg", StringComparison.CurrentCultureIgnoreCase) Then
             Return True
         Else

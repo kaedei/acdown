@@ -232,18 +232,21 @@ namespace Kaedei.AcDown.UI
 					List<AutoAnswer> aa = new List<AutoAnswer>();
 					if (chkAutoAnswer.Checked)
 					{
-						if (selectedPlugin.Feature.ContainsKey("AutoAnswer"))
+						if (selectedPlugin.Feature != null)
 						{
-							aa = (List<AutoAnswer>)selectedPlugin.Feature["AutoAnswer"];
-							if (aa.Count > 0)
+							if (selectedPlugin.Feature.ContainsKey("AutoAnswer"))
 							{
-								FormAutoAnswer faa = new FormAutoAnswer(aa);
-								faa.TopMost = this.TopMost;
-								var result = faa.ShowDialog();
-								if (result == System.Windows.Forms.DialogResult.Cancel)
+								aa = (List<AutoAnswer>)selectedPlugin.Feature["AutoAnswer"];
+								if (aa.Count > 0)
 								{
-									this.Cursor = Cursors.Default;
-									return;
+									FormAutoAnswer faa = new FormAutoAnswer(aa);
+									faa.TopMost = this.TopMost;
+									var result = faa.ShowDialog();
+									if (result == System.Windows.Forms.DialogResult.Cancel)
+									{
+										this.Cursor = Cursors.Default;
+										return;
+									}
 								}
 							}
 						}
