@@ -28,9 +28,9 @@
       /// </summary>
       private void InitializeComponent()
       {
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("");
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("");
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("");
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("");
+			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("");
+			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("");
 			this.lsv = new System.Windows.Forms.ListView();
 			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -57,16 +57,16 @@
             this.columnHeader1});
 			this.lsv.FullRowSelect = true;
 			this.lsv.GridLines = true;
-			listViewItem7.Checked = true;
-			listViewItem7.StateImageIndex = 1;
-			listViewItem8.Checked = true;
-			listViewItem8.StateImageIndex = 1;
-			listViewItem9.Checked = true;
-			listViewItem9.StateImageIndex = 1;
+			listViewItem4.Checked = true;
+			listViewItem4.StateImageIndex = 1;
+			listViewItem5.Checked = true;
+			listViewItem5.StateImageIndex = 1;
+			listViewItem6.Checked = true;
+			listViewItem6.StateImageIndex = 1;
 			this.lsv.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7,
-            listViewItem8,
-            listViewItem9});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
 			this.lsv.Location = new System.Drawing.Point(5, 42);
 			this.lsv.MultiSelect = false;
 			this.lsv.Name = "lsv";
@@ -131,6 +131,8 @@
 			// btnSupport
 			// 
 			this.btnSupport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSupport.Enabled = false;
+			this.btnSupport.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnSupport.Location = new System.Drawing.Point(188, 307);
 			this.btnSupport.Name = "btnSupport";
 			this.btnSupport.Size = new System.Drawing.Size(107, 27);

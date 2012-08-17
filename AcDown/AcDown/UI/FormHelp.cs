@@ -96,6 +96,16 @@ namespace Kaedei.AcDown.UI
 		{
 			Process.Start("http://list.qq.com/cgi-bin/qf_invite?id=5cab5a4e51e84cbb0f6ce0eaed69fb5fed194bc4e52ba3b9");
 		}
+
+		private void lnkQA_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start(@"http://blog.sina.com.cn/s/blog_58c506600100z40t.html");
+		}
+
+		private void lnkQAAcplay_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start(@"http://blog.sina.com.cn/s/blog_58c5066001012xsd.html");
+		}
 		
 
 	}

@@ -8,10 +8,10 @@ Imports Kaedei.AcDown.Interface
 Public Class SampleDownloaderVB : Inherits CommonDownloader
 
     ''' <summary>
-    ''' 只需要继承Download方法即可
+    ''' 只需要重写Download()方法即可
     ''' </summary>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <returns>下载成功返回True，用户手动取消返回False</returns>
+    ''' <remarks>如果下载出现错误请直接抛出异常，AcDown会自动进行处理</remarks>
     Public Overrides Function Download() As Boolean
 
         '提示用户下载已经开始。使用TipText函数

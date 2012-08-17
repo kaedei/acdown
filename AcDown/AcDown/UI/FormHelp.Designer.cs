@@ -207,6 +207,7 @@
 			this.lnkQAAcplay.TabIndex = 12;
 			this.lnkQAAcplay.TabStop = true;
 			this.lnkQAAcplay.Text = "AcPlay常见问题&使用说明";
+			this.lnkQAAcplay.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkQAAcplay_LinkClicked);
 			// 
 			// label2
 			// 
@@ -226,6 +227,7 @@
 			this.lnkQA.TabIndex = 14;
 			this.lnkQA.TabStop = true;
 			this.lnkQA.Text = "AcDown常见问题";
+			this.lnkQA.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkQA_LinkClicked);
 			// 
 			// lnkProjectDiscussion
 			// 
