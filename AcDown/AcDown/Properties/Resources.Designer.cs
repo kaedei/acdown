@@ -150,6 +150,13 @@ namespace Kaedei.AcDown.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ToolstripAcPlay {
+            get {
+                object obj = ResourceManager.GetObject("ToolstripAcPlay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ToolStripControl {
             get {
                 object obj = ResourceManager.GetObject("ToolStripControl", resourceCulture);

@@ -55,6 +55,13 @@ namespace Kaedei.AcDown
 					//注册.acp关联
 					AssociateRegistrar.CreateAssociate(Application.ExecutablePath,
 						 ".acp", "AcDownPlugin", "AcDown插件", "");
+					return;
+				}
+				else if (firstarg.Equals("firstrun", StringComparison.CurrentCultureIgnoreCase))
+				{
+					var fr = new FirstrunHandler();
+					fr.RunFirstRun();
+					return;
 				}
 			}
 			//启动单实例管理器

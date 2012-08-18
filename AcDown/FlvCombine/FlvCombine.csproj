@@ -49,6 +49,7 @@
     <Compile Include="FlvCombineControl.Designer.cs">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="FlvCombineHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

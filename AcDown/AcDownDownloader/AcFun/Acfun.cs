@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.0.0.0", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.0.1.818", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -368,7 +368,7 @@ namespace Kaedei.AcDown.Downloader
 						//设置文件名
 						var renamehelper = new CustomFileNameHelper();
 						string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-										title, "", Info.PartCount == 1 ? "" : Info.PartCount.ToString(),
+										title, "", Info.PartCount == 1 ? "" : Info.CurrentPart.ToString(),
 										ext.Replace(".", ""), Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
 						filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 
