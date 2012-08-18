@@ -12,6 +12,7 @@ using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Interface.AcPlay;
 using System.Text;
+using Kaedei.AcPlay;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -48,8 +49,12 @@ namespace Kaedei.AcDown.UI.Components
 		/// <param name="path"></param>
 		public void PlayConfig(string filePath)
 		{
-			FillFromConfig(filePath);
-			Play(filePath);
+			try
+			{
+				FillFromConfig(filePath);
+				Play(filePath);
+			}
+			catch { }
 		}
 
 		/// <summary>
@@ -159,6 +164,7 @@ namespace Kaedei.AcDown.UI.Components
 			catch
 			{
 				MessageBox.Show("配置文件读取失败", "AcPlay", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				throw;
 			}
 		}
 
@@ -443,31 +449,13 @@ namespace Kaedei.AcDown.UI.Components
 		{
 			//禁用面板
 			this.Enabled = false;
-			//释放AcPlay.exe文件
+			
+			//如果AcPlay.exe文件不存在
 			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcPlay\acplay.exe");
-			Assembly assembly = GetType().Assembly;
-			var stream = assembly.GetManifestResourceStream("Kaedei.AcPlay.acplay.exe");
-			if (!File.Exists(exeFile) || (new FileInfo(exeFile).Length != stream.Length))
+			if (!File.Exists(exeFile))
 			{
-				//创建文件夹
-				if (!Directory.Exists(Path.GetDirectoryName(exeFile)))
-					Directory.CreateDirectory(Path.GetDirectoryName(exeFile));
-				using (var fs = new FileStream(exeFile, FileMode.Create))
-				{
-					byte[] bf = new byte[100 * 1024]; //100kb buffer
-					while (true)
-					{
-						int read = stream.Read(bf, 0, bf.Length);
-						if (read > 0)
-						{
-							fs.Write(bf, 0, read);
-						}
-						else
-						{
-							break;
-						}
-					}
-				}
+				var helper = new AcPlayHelper();
+				helper.ReleaseAcPlayFile();
 			}
 
 			//调用外部程序

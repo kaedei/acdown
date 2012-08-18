@@ -15,7 +15,7 @@ using Kaedei.AcDown.Interface.Downloader;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.0.0.0", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.0.1.818", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -402,7 +402,7 @@ namespace Kaedei.AcDown.Downloader
 						//设置文件名
 						var renamehelper = new CustomFileNameHelper();
 						string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-										title, subtitle, Info.PartCount == 1 ? "" : Info.PartCount.ToString(),
+										title, subtitle, Info.PartCount == 1 ? "" : Info.CurrentPart.ToString(),
 										ext.Replace(".", ""), Info.Settings["AVNumber"], Info.Settings["AVSubNumber"]);
 						filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 

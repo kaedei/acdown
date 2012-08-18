@@ -65,8 +65,8 @@
 			this.udSpeedLimit = new System.Windows.Forms.NumericUpDown();
 			this.cboAfterComplete = new System.Windows.Forms.ComboBox();
 			this.contextTool = new System.Windows.Forms.ToolStrip();
-			this.mnuConStart = new System.Windows.Forms.ToolStripButton();
-			this.mnuConStop = new System.Windows.Forms.ToolStripButton();
+			this.toolStart = new System.Windows.Forms.ToolStripButton();
+			this.toolStop = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolDelete = new System.Windows.Forms.ToolStripSplitButton();
 			this.toolCompletelyDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,11 +74,12 @@
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolOpenFolder = new System.Windows.Forms.ToolStripSplitButton();
 			this.toolOpenUrl = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolInfo = new System.Windows.Forms.ToolStripButton();
+			this.toolAcPlay = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.mnuConMore = new System.Windows.Forms.ToolStripDropDownButton();
-			this.mnuConExportUrlList = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuConAcPlay = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolMore = new System.Windows.Forms.ToolStripDropDownButton();
+			this.toolInfo = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolExportUrlList = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabMain = new System.Windows.Forms.TabControl();
 			this.tabDownload = new System.Windows.Forms.TabPage();
 			this.panelMain = new System.Windows.Forms.TableLayoutPanel();
@@ -453,41 +454,41 @@
 			this.contextTool.GripMargin = new System.Windows.Forms.Padding(4, 2, 2, 2);
 			this.contextTool.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.contextTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuConStart,
-            this.mnuConStop,
+            this.toolStart,
+            this.toolStop,
             this.toolStripSeparator1,
             this.toolDelete,
             this.toolStripSeparator2,
             this.toolOpenFolder,
-            this.toolInfo,
+            this.toolAcPlay,
             this.toolStripSeparator3,
-            this.mnuConMore});
+            this.toolMore});
 			this.contextTool.Location = new System.Drawing.Point(130, 63);
 			this.contextTool.Name = "contextTool";
-			this.contextTool.Size = new System.Drawing.Size(356, 48);
+			this.contextTool.Size = new System.Drawing.Size(456, 48);
 			this.contextTool.TabIndex = 22;
 			this.contextTool.Visible = false;
 			// 
-			// mnuConStart
+			// toolStart
 			// 
-			this.mnuConStart.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStart;
-			this.mnuConStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.mnuConStart.Name = "mnuConStart";
-			this.mnuConStart.Size = new System.Drawing.Size(60, 45);
-			this.mnuConStart.Text = "开始下载";
-			this.mnuConStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.mnuConStart.ToolTipText = "开始/重新下载选定的任务";
-			this.mnuConStart.Click += new System.EventHandler(this.mnuConStart_Click);
+			this.toolStart.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStart;
+			this.toolStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStart.Name = "toolStart";
+			this.toolStart.Size = new System.Drawing.Size(60, 45);
+			this.toolStart.Text = "开始下载";
+			this.toolStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.toolStart.ToolTipText = "开始/重新下载选定的任务";
+			this.toolStart.Click += new System.EventHandler(this.mnuConStart_Click);
 			// 
-			// mnuConStop
+			// toolStop
 			// 
-			this.mnuConStop.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStop;
-			this.mnuConStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.mnuConStop.Name = "mnuConStop";
-			this.mnuConStop.Size = new System.Drawing.Size(60, 45);
-			this.mnuConStop.Text = "停止下载";
-			this.mnuConStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.mnuConStop.Click += new System.EventHandler(this.mnuConStop_Click);
+			this.toolStop.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStop;
+			this.toolStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStop.Name = "toolStop";
+			this.toolStop.Size = new System.Drawing.Size(60, 45);
+			this.toolStop.Text = "停止下载";
+			this.toolStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.toolStop.Click += new System.EventHandler(this.mnuConStop_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -548,48 +549,54 @@
 			this.toolOpenUrl.ToolTipText = "打开任务所引用的网页";
 			this.toolOpenUrl.Click += new System.EventHandler(this.mnuConOpenUrl_Click);
 			// 
-			// toolInfo
+			// toolAcPlay
 			// 
-			this.toolInfo.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripInfo;
-			this.toolInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolInfo.Name = "toolInfo";
-			this.toolInfo.Size = new System.Drawing.Size(60, 45);
-			this.toolInfo.Text = "任务信息";
-			this.toolInfo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.toolInfo.ToolTipText = "查看任务信息";
-			this.toolInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
+			this.toolAcPlay.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripAcPlay;
+			this.toolAcPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolAcPlay.Name = "toolAcPlay";
+			this.toolAcPlay.Size = new System.Drawing.Size(60, 45);
+			this.toolAcPlay.Text = "弹幕播放";
+			this.toolAcPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.toolAcPlay.Click += new System.EventHandler(this.mnuConAcPlay_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 48);
 			// 
-			// mnuConMore
+			// toolMore
 			// 
-			this.mnuConMore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuConExportUrlList,
-            this.mnuConAcPlay});
-			this.mnuConMore.Image = global::Kaedei.AcDown.Properties.Resources.ToolStripControl;
-			this.mnuConMore.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.mnuConMore.Name = "mnuConMore";
-			this.mnuConMore.Size = new System.Drawing.Size(69, 45);
-			this.mnuConMore.Text = "更多操作";
-			this.mnuConMore.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.mnuConMore.Visible = false;
+			this.toolMore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolInfo,
+            this.toolStripMenuItem1,
+            this.toolExportUrlList});
+			this.toolMore.Image = global::Kaedei.AcDown.Properties.Resources.ToolStripControl;
+			this.toolMore.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolMore.Name = "toolMore";
+			this.toolMore.Size = new System.Drawing.Size(69, 45);
+			this.toolMore.Text = "更多操作";
+			this.toolMore.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.toolMore.Visible = false;
 			// 
-			// mnuConExportUrlList
+			// toolInfo
 			// 
-			this.mnuConExportUrlList.Name = "mnuConExportUrlList";
-			this.mnuConExportUrlList.Size = new System.Drawing.Size(214, 22);
-			this.mnuConExportUrlList.Text = "导出地址列表...";
-			this.mnuConExportUrlList.Click += new System.EventHandler(this.mnuConExportUrlList_Click);
+			this.toolInfo.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripInfo;
+			this.toolInfo.Name = "toolInfo";
+			this.toolInfo.Size = new System.Drawing.Size(157, 22);
+			this.toolInfo.Text = "任务详细信息...";
+			this.toolInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
 			// 
-			// mnuConAcPlay
+			// toolStripMenuItem1
 			// 
-			this.mnuConAcPlay.Name = "mnuConAcPlay";
-			this.mnuConAcPlay.Size = new System.Drawing.Size(214, 22);
-			this.mnuConAcPlay.Text = "使用AcPlay播放视频/弹幕";
-			this.mnuConAcPlay.Click += new System.EventHandler(this.mnuConAcPlay_Click);
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(154, 6);
+			// 
+			// toolExportUrlList
+			// 
+			this.toolExportUrlList.Name = "toolExportUrlList";
+			this.toolExportUrlList.Size = new System.Drawing.Size(157, 22);
+			this.toolExportUrlList.Text = "导出地址列表...";
+			this.toolExportUrlList.Click += new System.EventHandler(this.mnuConExportUrlList_Click);
 			// 
 			// tabMain
 			// 
@@ -912,7 +919,6 @@
 		  private System.Windows.Forms.ToolStrip contextTool;
 		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		  private System.Windows.Forms.ToolStripButton toolInfo;
 		  private System.Windows.Forms.TabControl tabMain;
 		  private System.Windows.Forms.TabPage tabDownload;
 		  private System.Windows.Forms.TabPage tabFlvCombine;
@@ -935,13 +941,12 @@
 		  private System.Windows.Forms.TabPage tabExample;
 		  private System.Windows.Forms.TextBox txtExample;
 		  private System.Windows.Forms.RadioButton rdoSearch;
-		  private System.Windows.Forms.ToolStripButton mnuConStart;
-		  private System.Windows.Forms.ToolStripButton mnuConStop;
+		  private System.Windows.Forms.ToolStripButton toolStart;
+		  private System.Windows.Forms.ToolStripButton toolStop;
 		  private Components.AcPlay2 acPlay;
 		  private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		  private System.Windows.Forms.ToolStripDropDownButton mnuConMore;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConExportUrlList;
-		  private System.Windows.Forms.ToolStripMenuItem mnuConAcPlay;
+		  private System.Windows.Forms.ToolStripDropDownButton toolMore;
+		  private System.Windows.Forms.ToolStripMenuItem toolExportUrlList;
 		  private System.Windows.Forms.ToolStripMenuItem toolCompletelyDelete;
 		  private System.Windows.Forms.ToolStripButton btnPlugin;
 		  private System.Windows.Forms.ToolStripStatusLabel toolHelpCenter;
@@ -954,6 +959,9 @@
 		  private System.Windows.Forms.Label label2;
 		  private System.Windows.Forms.TableLayoutPanel panelMain;
 		  private System.Windows.Forms.FlowLayoutPanel panelFilter;
+		  private System.Windows.Forms.ToolStripButton toolAcPlay;
+		  private System.Windows.Forms.ToolStripMenuItem toolInfo;
+		  private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 
 	 }
 }

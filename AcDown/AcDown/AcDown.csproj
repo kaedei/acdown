@@ -80,6 +80,7 @@
       <DependentUpon>PluginSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\DwmApi.cs" />
+    <Compile Include="UI\FirstrunHandler.cs" />
     <Compile Include="UI\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -327,6 +328,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Ac.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolstripAcPlay.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

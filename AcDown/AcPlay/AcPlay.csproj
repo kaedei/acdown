@@ -49,6 +49,7 @@
     <Compile Include="AcPlay2.Designer.cs">
       <DependentUpon>AcPlay2.cs</DependentUpon>
     </Compile>
+    <Compile Include="AcPlayHelper.cs" />
     <Compile Include="AcPlayItem.cs">
       <SubType>Form</SubType>
     </Compile>

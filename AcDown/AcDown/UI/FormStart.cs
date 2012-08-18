@@ -38,6 +38,7 @@ namespace Kaedei.AcDown.UI
 			//启动新窗体进行加载
 			Thread t = new Thread(LoadData);
 			t.Start();
+
 		}
 
 		//窗体重绘事件
@@ -84,6 +85,26 @@ namespace Kaedei.AcDown.UI
 				 new UIDelegateContainer(null, null, null, null, null, null, null, null),
 				 plugins);
 
+			//检查是否是首次运行
+			var firstrun = new FirstrunHandler();
+			if (firstrun.IsFirstRun())
+			{
+				Process p = new Process();
+				p.StartInfo = new ProcessStartInfo()
+				{
+					FileName = Application.ExecutablePath,
+					Arguments = "firstrun",
+					Verb = "runas"
+				};
+				//WinXP不使用Verb
+				if (!DwmApi.IsWindowsVistaOrHigher())
+					p.StartInfo.Verb = "";
+				try
+				{
+					p.Start();
+				}
+				catch { }
+			}
 
 			this.Invoke(new MethodInvoker(() =>
 			{

@@ -142,54 +142,11 @@ namespace Kaedei.AcDown.UI.Components
 			string file_flvbind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\FlvBind.exe");
 			string file_flvlib = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\FLVLib.dll");
 
-			Assembly assembly = GetType().Assembly;
-			//释放FlvBind.exe文件
-			var stream = assembly.GetManifestResourceStream("Kaedei.AcDown.UI.Components.FlvCombine.FlvBind.exe");
-			if (!File.Exists(file_flvbind) || (new FileInfo(file_flvbind).Length != stream.Length))
+			//如果文件不存在则释放文件
+			if (!File.Exists(file_flvbind) || !File.Exists(file_flvlib))
 			{
-				//创建文件夹
-				if (!Directory.Exists(Path.GetDirectoryName(file_flvbind)))
-					Directory.CreateDirectory(Path.GetDirectoryName(file_flvbind));
-				using (var fs = new FileStream(file_flvbind, FileMode.Create))
-				{
-					byte[] bf = new byte[100 * 1024]; //100kb buffer
-					while (true)
-					{
-						int read = stream.Read(bf, 0, bf.Length);
-						if (read > 0)
-						{
-							fs.Write(bf, 0, read);
-						}
-						else
-						{
-							break;
-						}
-					}
-				}
-			}
-
-			stream = assembly.GetManifestResourceStream("Kaedei.AcDown.UI.Components.FlvCombine.FLVLib.dll");
-			if (!File.Exists(file_flvlib) || (new FileInfo(file_flvlib).Length != stream.Length))
-			{
-				//创建文件夹
-				if (!Directory.Exists(Path.GetDirectoryName(file_flvlib)))
-					Directory.CreateDirectory(Path.GetDirectoryName(file_flvlib));
-				using (var fs = new FileStream(file_flvlib, FileMode.Create))
-				{
-					byte[] bf = new byte[100 * 1024]; //100kb buffer
-					while (true)
-					{
-						int read = stream.Read(bf, 0, bf.Length);
-						if (read > 0)
-						{
-							fs.Write(bf, 0, read);
-						}
-						else
-						{
-							break;
-						}
-					}
-				}
+				var helper = new FlvCombineHelper();
+				helper.ReleaseFlvCombineFile();
 			}
 
 			//生成ProcessStartInfo

@@ -609,21 +609,21 @@ namespace Kaedei.AcDown.UI
 					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 3;
 				}
 				//显示"更多"菜单
-				mnuConMore.Visible = false;
+				toolMore.Visible = false;
 				if (lsv.SelectedItems.Count == 1)
 				{
 					TaskInfo downloader = GetTask(new Guid((string)sItem.Tag));
 					if (downloader.Status == DownloadStatus.下载完成 || downloader.Status == DownloadStatus.部分完成)
 					{
-						mnuConMore.Visible = true;
+						toolMore.Visible = true;
 					}
 					//特性
 					if (downloader.Settings != null)
 					{
 						//导出地址
-						mnuConExportUrlList.Enabled = downloader.Settings.ContainsKey("ExportUrl");
+						toolExportUrlList.Enabled = downloader.Settings.ContainsKey("ExportUrl");
 						//AcPlay
-						mnuConAcPlay.Enabled = downloader.Settings.ContainsKey("AcPlay");
+						toolAcPlay.Enabled = downloader.Settings.ContainsKey("AcPlay");
 					}
 				}
 				contextTool.Visible = true;
