@@ -63,7 +63,7 @@
 			// txtInput
 			// 
 			this.txtInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.txtInput.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.txtInput.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.txtInput.Location = new System.Drawing.Point(66, 27);
 			this.txtInput.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.txtInput.Name = "txtInput";
@@ -77,7 +77,7 @@
 			// 
 			this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnAdd.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.btnAdd.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.btnAdd.Location = new System.Drawing.Point(326, 158);
 			this.btnAdd.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnAdd.Name = "btnAdd";
@@ -139,7 +139,7 @@
 			this.chkAutoAnswer.Name = "chkAutoAnswer";
 			this.chkAutoAnswer.Size = new System.Drawing.Size(134, 21);
 			this.chkAutoAnswer.TabIndex = 3;
-			this.chkAutoAnswer.Text = "启用自动应答";
+			this.chkAutoAnswer.Text = "挂机下载模式";
 			this.toolTip.SetToolTip(this.chkAutoAnswer, "启用自动应答后，下载时不再出现询问对话框。\r\n由此任务添加的其他任务也会继承此设置。");
 			this.chkAutoAnswer.UseVisualStyleBackColor = true;
 			// 
@@ -161,7 +161,7 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(47, 17);
 			this.label2.TabIndex = 8;
-			this.label2.Text = "存储到:";
+			this.label2.Text = "保存到:";
 			// 
 			// cboProxy
 			// 
@@ -357,7 +357,7 @@
 			this.Controls.Add(this.txtInput);
 			this.Controls.Add(this.picCheck);
 			this.Controls.Add(this.btnAdd);
-			this.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.MaximizeBox = false;

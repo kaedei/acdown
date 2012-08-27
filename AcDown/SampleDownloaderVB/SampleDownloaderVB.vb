@@ -35,16 +35,18 @@ Public Class SampleDownloaderVB : Inherits CommonDownloader
 
         '开始下载
         '设定一些下载的详细参数
-        Dim p = New DownloadParameter()
+        'p是当前下载的默认参数，是一个已经定义(实例化)好的DownloadParameter类型的变量，可以直接使用
         p.Url = Info.Url
         p.FilePath = filePath
-        '专业的插件肯定会支持代理服务器的
+        '支持用户所选择的代理服务器
         p.Proxy = Info.Proxy
 
-        '调用Network.DownloadFile()方法进行下载，具体下载过程不用理会
-        Dim success As Boolean = Network.DownloadFile(p)
+        '调用DownloadFile()方法进行下载，具体下载过程不用理会
+        'AcDown会自动显示下载进度与下载速度
+        Dim success As Boolean = DownloadFile()
 
         '下载完成后success如果为True证明下载成功，如果为False证明用户取消了下载
+        '如果出现了错误（如抛出网络异常），不需要使用try...catch块进行截获，请直接将异常抛给AcDown。
         '直接返回success即可
         Return success
 
