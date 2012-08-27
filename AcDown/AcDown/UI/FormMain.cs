@@ -609,14 +609,14 @@ namespace Kaedei.AcDown.UI
 					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 3;
 				}
 				//显示"更多"菜单
-				toolMore.Visible = false;
+				//toolMore.Visible = false;
 				if (lsv.SelectedItems.Count == 1)
 				{
 					TaskInfo downloader = GetTask(new Guid((string)sItem.Tag));
-					if (downloader.Status == DownloadStatus.下载完成 || downloader.Status == DownloadStatus.部分完成)
-					{
-						toolMore.Visible = true;
-					}
+					//if (downloader.Status == DownloadStatus.下载完成 || downloader.Status == DownloadStatus.部分完成)
+					//{
+					//   toolMore.Visible = true;
+					//}
 					//特性
 					if (downloader.Settings != null)
 					{
