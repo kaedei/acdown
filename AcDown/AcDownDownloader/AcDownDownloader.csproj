@@ -57,6 +57,7 @@
       <DependentUpon>BilibiliDownloaderConfigurationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Bilibili\Bilibili.cs" />
+    <Compile Include="Bilibili\BilibiliInterfaceParser.cs" />
     <Compile Include="CustomFileNameHelper.cs" />
     <Compile Include="Flvcd\FlvcdDownloader.cs" />
     <Compile Include="Flvcd\FlvcdPlugin.cs" />
