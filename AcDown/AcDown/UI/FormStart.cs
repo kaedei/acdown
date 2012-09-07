@@ -106,6 +106,8 @@ namespace Kaedei.AcDown.UI
 				catch { }
 			}
 
+			if (this.Disposing || this.IsDisposed) return;
+
 			this.Invoke(new MethodInvoker(() =>
 			{
 				//加载主窗体

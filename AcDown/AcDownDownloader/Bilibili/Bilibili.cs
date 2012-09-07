@@ -11,11 +11,12 @@ using Kaedei.AcDown.Interface.AcPlay;
 using Kaedei.AcDown.Interface.Forms;
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface.Downloader;
+using Kaedei.AcDown.Downloader.Bilibili;
 
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.0.1.818", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.1.0.907", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -342,6 +343,11 @@ namespace Kaedei.AcDown.Downloader
 						//检查外链
 						switch (type)
 						{
+							case "cid": //Bilibili接口 WorkItem #1412
+								BilibiliInterfaceParser parserBili = new BilibiliInterfaceParser();
+								pr = parserBili.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+								videos = pr.ToArray();
+								break;
 							case "qid": //QQ视频
 								//解析视频
 								QQVideoParser parserQQ = new QQVideoParser();
@@ -360,6 +366,7 @@ namespace Kaedei.AcDown.Downloader
 								pr = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
 								videos = pr.ToArray();
 								break;
+							
 							case "data": //Flash游戏
 								id = id.Replace("\"", "");
 								videos = new string[] { id };
@@ -587,8 +594,9 @@ namespace Kaedei.AcDown.Downloader
 				if (!Directory.Exists(Path.GetDirectoryName(filename)))
 					Directory.CreateDirectory(Path.GetDirectoryName(filename));
 				Info.SubFilePath.Add(filename);
-				//取得字幕文件(on)地址
-				string subUrl = "http://comment.bilibili.tv/dm," + id;
+				//取得字幕文件地址
+				string subUrl = "http://comment.bilibili.tv/" + id + ".xml"; //WorkItem #1410
+
 				//下载字幕文件
 				try
 				{
