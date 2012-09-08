@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-	public partial class FormAutoAnswer : Form
+	public partial class FormAutoAnswer : FormBase
 	{
 		MethodInvoker refresh;
 		private List<AutoAnswer> aa;

@@ -71,6 +71,8 @@
     <Compile Include="Tucao\TucaoDownloader.cs" />
     <Compile Include="Tucao\TucaoPlugin.cs" />
     <Compile Include="Tudou\Tudou.cs" />
+    <Compile Include="Xiami\XiamiDownloader.cs" />
+    <Compile Include="Xiami\XiamiPlugin.cs" />
     <Compile Include="Youku\Youku.cs" />
     <Compile Include="YouTube\YouTubeDownloader.cs" />
     <Compile Include="YouTube\YouTubePlugin.cs" />

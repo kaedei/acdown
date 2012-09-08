@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Kaedei.AcDown.Core;
 using System.Diagnostics;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI
 {
@@ -131,6 +132,8 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		public static bool IsWindows7OrHigher()
 		{
+			if (Tools.IsRunningOnMono)
+				return false;
 			if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 1)
 				return true;
 			else
@@ -144,6 +147,8 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		public static bool IsWindowsVista()
 		{
+			if (Tools.IsRunningOnMono)
+				return false;
 			if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0)
 				return true;
 			else
@@ -157,6 +162,8 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		public static bool IsWindowsVistaOrHigher()
 		{
+			if (Tools.IsRunningOnMono)
+				return false;
 			if (Environment.OSVersion.Version.Major >= 6)
 				return true;
 			else
@@ -182,7 +189,7 @@ namespace Kaedei.AcDown.UI
 		/// </summary>
 		/// <param name="handle">文本框句柄</param>
 		/// <param name="text">提示文字</param>
-		public static void SetTextBoxTipText(IntPtr handle,string text)
+		public static void SetTextBoxTipText(IntPtr handle, string text)
 		{
 			if (IsWindowsVistaOrHigher())
 				SendMessage(handle, 0x1501, IntPtr.Zero, System.Text.Encoding.Unicode.GetBytes(text));
@@ -194,6 +201,8 @@ namespace Kaedei.AcDown.UI
 		/// <returns></returns>
 		public static bool IsAdmin()
 		{
+			if (Tools.IsRunningOnMono)
+				return false;
 			return IsUserAnAdmin();
 		}
 

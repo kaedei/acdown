@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.Interface.Forms
 {
-	public partial class FormMultiSelect : System.Windows.Forms.Form
+	public partial class FormMultiSelect : FormBase
 	{
 
 		Collection<string> s;

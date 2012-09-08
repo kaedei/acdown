@@ -12,6 +12,16 @@ namespace Kaedei.AcDown.Interface
 	/// </summary>
 	public static class Tools
 	{
+		static Tools()
+		{
+			IsRunningOnMono = Type.GetType("Mono.Runtime") != null;
+		}
+
+		/// <summary>
+		/// 获取一个值，指示程序当前是否运行在Mono环境中
+		/// </summary>
+		public static bool IsRunningOnMono { get; private set; }
+
 		/// <summary>
 		/// 无效字符过滤
 		/// </summary>

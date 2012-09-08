@@ -105,12 +105,12 @@
 			this.lnkAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkAdd.AutoSize = true;
 			this.lnkAdd.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkAdd.Location = new System.Drawing.Point(3, 306);
+			this.lnkAdd.Location = new System.Drawing.Point(77, 42);
 			this.lnkAdd.Name = "lnkAdd";
-			this.lnkAdd.Size = new System.Drawing.Size(85, 17);
+			this.lnkAdd.Size = new System.Drawing.Size(145, 17);
 			this.lnkAdd.TabIndex = 4;
 			this.lnkAdd.TabStop = true;
-			this.lnkAdd.Text = "添加视频/弹幕";
+			this.lnkAdd.Text = "添加一个或多个视频/弹幕";
 			this.lnkAdd.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdd_LinkClicked);
 			// 
 			// lnkDelete
@@ -118,7 +118,7 @@
 			this.lnkDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkDelete.AutoSize = true;
 			this.lnkDelete.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkDelete.Location = new System.Drawing.Point(94, 306);
+			this.lnkDelete.Location = new System.Drawing.Point(3, 305);
 			this.lnkDelete.Name = "lnkDelete";
 			this.lnkDelete.Size = new System.Drawing.Size(68, 17);
 			this.lnkDelete.TabIndex = 5;
@@ -131,7 +131,7 @@
 			this.lnkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkClear.AutoSize = true;
 			this.lnkClear.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkClear.Location = new System.Drawing.Point(168, 306);
+			this.lnkClear.Location = new System.Drawing.Point(77, 305);
 			this.lnkClear.Name = "lnkClear";
 			this.lnkClear.Size = new System.Drawing.Size(56, 17);
 			this.lnkClear.TabIndex = 6;
@@ -180,10 +180,10 @@
 			this.lnkPlayerCache.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this.lnkPlayerCache.Location = new System.Drawing.Point(216, 12);
 			this.lnkPlayerCache.Name = "lnkPlayerCache";
-			this.lnkPlayerCache.Size = new System.Drawing.Size(92, 17);
+			this.lnkPlayerCache.Size = new System.Drawing.Size(104, 17);
 			this.lnkPlayerCache.TabIndex = 2;
 			this.lnkPlayerCache.TabStop = true;
-			this.lnkPlayerCache.Text = "更新播放器缓存";
+			this.lnkPlayerCache.Text = "更新此播放器缓存";
 			this.lnkPlayerCache.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPlayerCache_LinkClicked);
 			// 
 			// lnkImport
@@ -193,10 +193,10 @@
 			this.lnkImport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this.lnkImport.Location = new System.Drawing.Point(3, 329);
 			this.lnkImport.Name = "lnkImport";
-			this.lnkImport.Size = new System.Drawing.Size(92, 17);
+			this.lnkImport.Size = new System.Drawing.Size(115, 17);
 			this.lnkImport.TabIndex = 7;
 			this.lnkImport.TabStop = true;
-			this.lnkImport.Text = "从配置文件导入";
+			this.lnkImport.Text = "从.ACPLAY文件导入";
 			this.lnkImport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkImport_LinkClicked);
 			// 
 			// lnkExport
@@ -204,12 +204,12 @@
 			this.lnkExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkExport.AutoSize = true;
 			this.lnkExport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkExport.Location = new System.Drawing.Point(101, 329);
+			this.lnkExport.Location = new System.Drawing.Point(124, 329);
 			this.lnkExport.Name = "lnkExport";
-			this.lnkExport.Size = new System.Drawing.Size(80, 17);
+			this.lnkExport.Size = new System.Drawing.Size(103, 17);
 			this.lnkExport.TabIndex = 8;
 			this.lnkExport.TabStop = true;
-			this.lnkExport.Text = "导出配置文件";
+			this.lnkExport.Text = "导出.ACPLAY文件";
 			this.lnkExport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkExport_LinkClicked);
 			// 
 			// label2
@@ -225,7 +225,7 @@
 			// 
 			this.lnkAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkAbout.AutoSize = true;
-			this.lnkAbout.Location = new System.Drawing.Point(351, 12);
+			this.lnkAbout.Location = new System.Drawing.Point(353, 11);
 			this.lnkAbout.Name = "lnkAbout";
 			this.lnkAbout.Size = new System.Drawing.Size(114, 17);
 			this.lnkAbout.TabIndex = 11;

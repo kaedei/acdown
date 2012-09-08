@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.Downloader.AcFun
 {
-	public partial class AcfunDownloaderConfigurationForm : Form
+	public partial class AcfunDownloaderConfigurationForm : FormBase
 	{
 		private SerializableDictionary<string, string> Configuration;
 

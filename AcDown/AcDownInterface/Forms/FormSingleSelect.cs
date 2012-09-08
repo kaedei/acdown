@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.Interface.Forms
 {
-	public partial class FormSingleSelect : System.Windows.Forms.Form
+	public partial class FormSingleSelect : FormBase
 	{
 		string[] s = new string[1];
 

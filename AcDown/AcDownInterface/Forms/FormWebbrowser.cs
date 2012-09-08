@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.Interface.Forms
 {
-   public partial class FormWebbrowser : Form
+   public partial class FormWebbrowser : FormBase
    {
       private string u;
       private string t;

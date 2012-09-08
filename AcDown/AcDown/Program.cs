@@ -6,6 +6,7 @@ using Kaedei.AcDown.Core;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.IO;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown
 {
@@ -13,6 +14,7 @@ namespace Kaedei.AcDown
 	{
 		public static FormMain frmMain;
 		public static FormStart frmStart;
+
 		/// <summary>
 		/// 应用程序的主入口点。
 		/// </summary>
@@ -47,15 +49,23 @@ namespace Kaedei.AcDown
 				}
 				else if (firstarg.Equals("regasso", StringComparison.CurrentCultureIgnoreCase))
 				{
-					//注册.acplay关联
-					AssociateRegistrar.CreateAssociate(
-						 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-						 @"Kaedei\AcPlay\acplay.exe"),
-						 ".acplay", "AcPlayFile", "弹幕播放快捷方式", "");
-					//注册.acp关联
-					AssociateRegistrar.CreateAssociate(Application.ExecutablePath,
-						 ".acp", "AcDownPlugin", "AcDown插件", "");
-					return;
+					if (Tools.IsRunningOnMono)
+					{
+						MessageBox.Show("此功能暂时不能在非 Windows 上使用。");
+						return;
+					}
+					else
+					{
+						//注册.acplay关联
+						AssociateRegistrar.CreateAssociate(
+							 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+							 @"Kaedei\AcPlay\acplay.exe"),
+							 ".acplay", "AcPlayFile", "弹幕播放快捷方式", "");
+						//注册.acp关联
+						AssociateRegistrar.CreateAssociate(Application.ExecutablePath,
+							 ".acp", "AcDownPlugin", "AcDown插件", "");
+						return;
+					}
 				}
 				else if (firstarg.Equals("firstrun", StringComparison.CurrentCultureIgnoreCase))
 				{
@@ -65,8 +75,16 @@ namespace Kaedei.AcDown
 				}
 			}
 			//启动单实例管理器
-			SingleInstanceManager manager = new SingleInstanceManager();//单实例管理器
-			manager.Run(args);
+			if (Tools.IsRunningOnMono)
+			{
+				Program.frmStart = new FormStart();
+				Application.Run(Program.frmStart);
+			}
+			else
+			{
+				SingleInstanceManager manager = new SingleInstanceManager();//单实例管理器
+				manager.Run(args);
+			}
 		}
 	}
 

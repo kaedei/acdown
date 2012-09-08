@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-	public partial class FormHelp : Form
+	public partial class FormHelp : FormBase
 	{
 		public FormHelp()
 		{

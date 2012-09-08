@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface;
-using Kaedei.AcDown.Core;
 using System.IO;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-	public partial class FormInfo : Form
+	public partial class FormInfo : FormBase
 	{
 		TaskInfo _task;
 		public FormInfo(TaskInfo task)

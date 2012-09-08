@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Properties;
+using Kaedei.AcDown.Interface.UI;
 
 
 namespace Kaedei.AcDown.UI
@@ -19,7 +20,7 @@ namespace Kaedei.AcDown.UI
 	/// <summary>
 	/// AcDown主窗口
 	/// </summary>
-	public partial class FormMain : Form
+	public partial class FormMain : FormBase
 	{
 
 		#region ——————外部调用——————
@@ -207,14 +208,22 @@ namespace Kaedei.AcDown.UI
 			//设置窗口大小
 			this.Size = CoreManager.ConfigManager.Settings.WindowSize;
 			//设置窗体标题和文字
-			this.Icon = Resources.Ac;
+			if (!Tools.IsRunningOnMono)
+				this.Icon = Resources.Ac;
 			this.Text = Application.ProductName +
 								 " v" + new Version(Application.ProductVersion).Major + "." +
 								 new Version(Application.ProductVersion).Minor;
 			//设置托盘文字
 			notifyIcon.Text = this.Text;
 			//显示托盘图标
-			notifyIcon.Icon = Resources.Ac;
+			notifyIcon.Icon = this.Icon;
+			if (Tools.IsRunningOnMono)
+			{
+				foreach (ToolStripItem item in notifyIcon.ContextMenuStrip.Items)
+				{
+					item.Font = FormBase.MonoFont;
+				}
+			}
 			//设置刷新频率
 			timer.Interval = CoreManager.ConfigManager.Settings.RefreshInfoInterval;
 			//设置是否监视剪贴板
@@ -498,7 +507,7 @@ namespace Kaedei.AcDown.UI
 			//剪贴板中的文字(非UI线程无法访问剪贴板)
 			if (this.IsDisposed)
 				return;
-			this.Invoke(new MethodInvoker(() => 
+			this.Invoke(new MethodInvoker(() =>
 			{
 				try
 				{
@@ -1030,20 +1039,24 @@ namespace Kaedei.AcDown.UI
 		protected override void WndProc(ref Message m)
 		{
 			base.WndProc(ref m);
+			if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.Windows7Feature)
+				WndProcWindows7(ref m);
+		}
 
+		protected void WndProcWindows7(ref Message m)
+		{
 			if (m.Msg == (int)RegisterWindowMessage("TaskbarButtonCreated"))
-				if (DwmApi.IsWindows7OrHigher() && CoreManager.ConfigManager.Settings.Windows7Feature)
+			{
+				newbtn = new THUMBBUTTON()
 				{
-					newbtn = new THUMBBUTTON()
-					{
-						iId = 1001,
-						szTip = "新建下载任务",
-						dwFlags = THBFLAGS.THBF_ENABLED,
-						dwMask = THBMASK.THB_FLAGS | THBMASK.THB_ICON | THBMASK.THB_TOOLTIP,
-						hIcon = ((Bitmap)btnNew.Image).GetHicon()
-					};
-					taskbarList.ThumbBarAddButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
-				}
+					iId = 1001,
+					szTip = "新建下载任务",
+					dwFlags = THBFLAGS.THBF_ENABLED,
+					dwMask = THBMASK.THB_FLAGS | THBMASK.THB_ICON | THBMASK.THB_TOOLTIP,
+					hIcon = ((Bitmap)btnNew.Image).GetHicon()
+				};
+				taskbarList.ThumbBarAddButtons(this.Handle, 1, new THUMBBUTTON[1] { newbtn });
+			}
 
 			if (m.Msg == 0x0111) //thumbbutton clicked
 			{
@@ -1243,7 +1256,7 @@ namespace Kaedei.AcDown.UI
 			ParaFinish p = (ParaFinish)e;
 			TaskInfo task = p.SourceTask;
 			ListViewItem item = (ListViewItem)task.UIItem;
-			
+
 			//如果下载成功
 			if (p.Successed)
 			{
