@@ -8,10 +8,11 @@ using System.IO;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Downloader;
 using System.Collections.ObjectModel;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-	public partial class FormStart : Form
+	public partial class FormStart : FormBase
 	{
 		DwmApi.MARGINS marg;
 
@@ -76,6 +77,7 @@ namespace Kaedei.AcDown.UI
 					new TiebaAlbumPlugin(),
 					new SfAcgPlugin(),
 					new TucaoPlugin(),
+					new XiamiPlugin(),
 					new FlvcdPlugin()
 				};
 

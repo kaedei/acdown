@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Core;
-using Kaedei.AcDown.Interface.Forms;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-	public partial class FormNew : Form
+	public partial class FormNew : FormBase
 	{
 
 		private static FormNew instance;

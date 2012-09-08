@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
-using Kaedei.AcDown.Properties;
 using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-	public partial class FormConfig : Form
+	public partial class FormConfig : FormBase
 	{
 
 		public FormConfig()

@@ -5,10 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-   public partial class FormSingle : Form
+   public partial class FormSingle : FormBase
    {
       public FormSingle(string[] args)
       {

@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-   public partial class FormAddProxy : Form
+   public partial class FormAddProxy : FormBase
    {
       private AcDownProxy p;
       public FormAddProxy(AcDownProxy proxy)

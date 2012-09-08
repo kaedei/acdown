@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Kaedei.AcDown.UI;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI
 {
-	public partial class FormShutdown : Form
+	public partial class FormShutdown : FormBase
 	{
 		private int time = 0;
 		private ShutdownType action;
