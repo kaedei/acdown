@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.1.0.907", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.1.0.910", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -99,7 +99,7 @@ namespace Kaedei.AcDown.Downloader
 			set;
 		}
 
-		public const string DefaultFileNameFormat = @"标题\子标题(分段).扩展名";
+		public static readonly string DefaultFileNameFormat = "标题" + Path.DirectorySeparatorChar + "子标题(分段).扩展名";
 
 	} //end class
 

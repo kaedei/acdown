@@ -14,8 +14,8 @@ namespace Kaedei.AcDown.UI.Components
 		public void ReleaseFlvCombineFile()
 		{
 			string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			string file_flvbind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\FlvBind.exe");
-			string file_flvlib = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\FLVLib.dll");
+			string file_flvbind = Path.Combine(appdata, "Kaedei" + Path.DirectorySeparatorChar + "FlvCombine" + Path.DirectorySeparatorChar + "FlvBind.exe");
+			string file_flvlib = Path.Combine(appdata, "Kaedei" + Path.DirectorySeparatorChar + "FlvCombine" + Path.DirectorySeparatorChar + "FLVLib.dll");
 
 			Assembly assembly = GetType().Assembly;
 			//释放FlvBind.exe文件
