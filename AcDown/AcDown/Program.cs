@@ -59,7 +59,7 @@ namespace Kaedei.AcDown
 						//注册.acplay关联
 						AssociateRegistrar.CreateAssociate(
 							 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-							 @"Kaedei\AcPlay\acplay.exe"),
+							 "Kaedei" + Path.DirectorySeparatorChar + "AcPlay" + Path.DirectorySeparatorChar + "acplay.exe"),
 							 ".acplay", "AcPlayFile", "弹幕播放快捷方式", "");
 						//注册.acp关联
 						AssociateRegistrar.CreateAssociate(Application.ExecutablePath,

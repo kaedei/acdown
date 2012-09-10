@@ -105,7 +105,10 @@ namespace Kaedei.AcDown.UI
 		private void LoadProxys()
 		{
 			cboProxy.Items.Clear();
-			cboProxy.Items.Add("使用IE设置");
+			if (!AcDown.Interface.Tools.IsRunningOnMono)
+				cboProxy.Items.Add("使用IE设置");
+			else
+				cboProxy.Items.Add("使用系统设置");
 			cboProxy.Items.Add("直接连接");
 			if (CoreManager.ConfigManager.Settings.Proxy_Settings != null)
 			{
@@ -151,7 +154,8 @@ namespace Kaedei.AcDown.UI
 				if (supportedPlugins.Count > 0)
 				{
 					//设置笑脸图片
-					picCheck.Image = Properties.Resources._1;
+					if (!AcDown.Interface.Tools.IsRunningOnMono)
+						picCheck.Image = Properties.Resources._1;
 					//清除下拉列表的选择
 					cboPlugins.SelectedIndex = 0;
 					//按钮可以按下
@@ -160,7 +164,8 @@ namespace Kaedei.AcDown.UI
 				else
 				{
 					//设置哭脸图片
-					picCheck.Image = Properties.Resources._2;
+					if (!AcDown.Interface.Tools.IsRunningOnMono)
+						picCheck.Image = Properties.Resources._2;
 					//清除下拉列表的选择
 					//cboPlugins.SelectedIndex = -1;
 					//按钮不可按下

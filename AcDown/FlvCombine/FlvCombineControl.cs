@@ -139,8 +139,8 @@ namespace Kaedei.AcDown.UI.Components
 		public bool CombineFlvFile(string fileName, string[] fileParts)
 		{
 			string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			string file_flvbind = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\FlvBind.exe");
-			string file_flvlib = Path.Combine(appdata, @"Kaedei\AcDown\UIComponents\FlvCombine\FLVLib.dll");
+			string file_flvbind = Path.Combine(appdata, "Kaedei" + Path.DirectorySeparatorChar + "FlvCombine" + Path.DirectorySeparatorChar + "FlvBind.exe");
+			string file_flvlib = Path.Combine(appdata, "Kaedei" + Path.DirectorySeparatorChar + "FlvCombine" + Path.DirectorySeparatorChar + "FLVLib.dll");
 
 			//如果文件不存在则释放文件
 			if (!File.Exists(file_flvbind) || !File.Exists(file_flvlib))

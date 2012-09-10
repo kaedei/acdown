@@ -1461,27 +1461,40 @@ namespace Kaedei.AcDown.UI
 						if (success) //下载更新成功
 						{
 							Application.DoEvents();
-							bool isadmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-							ProcessStartInfo startInfo = new ProcessStartInfo();
-							startInfo.UseShellExecute = true;
-							startInfo.WorkingDirectory = Path.GetDirectoryName(upd.TempFile);
-							startInfo.FileName = upd.TempFile;
-							startInfo.Arguments = "\"" + Application.ExecutablePath + "\""; ;
-							if (!isadmin)
-								startInfo.Verb = "runas";
-							try
+							if (AcDown.Interface.Tools.IsRunningOnMono)
 							{
-								Process process = Process.Start(startInfo);
+								CoreManager.TaskManager.EndSaveBackgroundWorker();
+								CoreManager.TaskManager.SaveAllTasks();
+								Logging.Exit();
+
+								System.IO.File.Copy(upd.TempFileInUserAppData, Application.ExecutablePath, true);
+								Process.Start("mono", Application.ExecutablePath);
+								Process.GetCurrentProcess().Kill();
+								return;
 							}
-							catch (Win32Exception ex) //提升权限失败
+							else
 							{
-								startInfo.Verb = "";
-								Process process = Process.Start(startInfo);
+								ProcessStartInfo startInfo = new ProcessStartInfo();
+								startInfo.UseShellExecute = true;
+								startInfo.WorkingDirectory = Path.GetDirectoryName(upd.TempFileInUserAppData);
+								startInfo.FileName = upd.TempFileInUserAppData;
+								startInfo.Arguments = "\"" + Application.ExecutablePath + "\""; ;
+								if (!DwmApi.IsAdmin())
+									startInfo.Verb = "runas";
+								try
+								{
+									Process process = Process.Start(startInfo);
+								}
+								catch (Win32Exception ex) //提升权限失败
+								{
+									startInfo.Verb = "";
+									Process process = Process.Start(startInfo);
+								}
+								this.Invoke(new MethodInvoker(() =>
+								{
+									Program.frmStart.Close();
+								}));
 							}
-							this.Invoke(new MethodInvoker(() =>
-							{
-								Program.frmStart.Close();
-							}));
 						}
 						else//下载失败
 						{

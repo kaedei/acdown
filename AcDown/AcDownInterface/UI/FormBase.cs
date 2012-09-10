@@ -36,19 +36,21 @@ namespace Kaedei.AcDown.Interface.UI
 					{
 						familes.Add(item.GetName(0), item);
 					}
-					catch { }
+					catch
+					{
+					}
 				}
 				FontFamily family;
 				foreach (string name in fallback)
 				{
 					if (familes.TryGetValue(name, out family))
 					{
-						monoFont = new System.Drawing.Font(family, 11);
+						monoFont = new System.Drawing.Font(family, 9);
 						return monoFont;
 					}
 				}
 
-				monoFont = new System.Drawing.Font(System.Drawing.FontFamily.GenericSansSerif, 11);
+				monoFont = new System.Drawing.Font(System.Drawing.FontFamily.GenericSansSerif, 9);
 				return monoFont;
 			}
 		}
@@ -56,24 +58,33 @@ namespace Kaedei.AcDown.Interface.UI
 		protected override void OnControlAdded(ControlEventArgs e)
 		{
 			base.OnControlAdded(e);
-
 			if (Tools.IsRunningOnMono)
 			{
-				e.Control.Font = FormBase.MonoFont;
-				if (e.Control.ContextMenuStrip != null)
+				ApplyMonoStyle(e.Control);
+			}
+		}
+
+		protected void ApplyMonoStyle(System.Windows.Forms.Control control)
+		{
+			control.Font = new Font(FormBase.MonoFont.FontFamily, control.Font.Size);
+			if (control.ContextMenuStrip != null)
+			{
+				foreach (ToolStripItem item in control.ContextMenuStrip.Items)
 				{
-					foreach (ToolStripItem item in e.Control.ContextMenuStrip.Items)
-					{
-						item.Font = FormBase.MonoFont;
-					}
+					item.Font = new Font(FormBase.MonoFont.FontFamily, item.Font.Size);
 				}
-				if (e.Control is ToolStrip)
+			}
+			if (control is ToolStrip)
+			{
+				foreach (ToolStripItem item in (control as ToolStrip).Items)
 				{
-					foreach (ToolStripItem item in (e.Control as ToolStrip).Items)
-					{
-						item.Font = FormBase.MonoFont;
-					}
+					item.Font = new Font(FormBase.MonoFont.FontFamily, item.Font.Size);
 				}
+			}
+
+			foreach (System.Windows.Forms.Control item in control.Controls)
+			{
+				ApplyMonoStyle(item);
 			}
 		}
 	}

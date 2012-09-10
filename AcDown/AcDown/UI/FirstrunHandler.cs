@@ -11,12 +11,14 @@ namespace Kaedei.AcDown.UI
 {
 	public class FirstrunHandler
 	{
-		private string file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcDown\firstrun");
+		private string file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei" + Path.DirectorySeparatorChar + "AcDown" + Path.DirectorySeparatorChar + "firstrun");
 		/// <summary>
 		/// 判断此版本的程序是否是第一次运行
 		/// </summary>
 		public bool IsFirstRun()
 		{
+			if (Interface.Tools.IsRunningOnMono)
+				return false;
 			try
 			{
 				if (File.Exists(file))
@@ -52,7 +54,7 @@ namespace Kaedei.AcDown.UI
 				//注册.acplay关联
 				AssociateRegistrar.CreateAssociate(
 					 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-					 @"Kaedei\AcPlay\acplay.exe"),
+					 "Kaedei" + Path.DirectorySeparatorChar + "AcPlay" + Path.DirectorySeparatorChar + "acplay.exe"),
 					 ".acplay", "AcPlayFile", "弹幕播放快捷方式", "");
 				//注册.acp关联
 				AssociateRegistrar.CreateAssociate(Application.ExecutablePath,
