@@ -8,10 +8,11 @@ using System.Windows.Forms;
 using System.IO;
 using _30edu.Common;
 using Kaedei.AcDown.Interface.AcPlay;
+using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.UI.Components
 {
-	public partial class AcPlayItem : Form
+	public partial class AcPlayItem : FormBase
 	{
 		Video v;
 		public AcPlayItem(Video video)

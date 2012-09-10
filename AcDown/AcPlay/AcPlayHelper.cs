@@ -14,13 +14,23 @@ namespace Kaedei.AcPlay
 		public void ReleaseAcPlayFile()
 		{
 			//释放AcPlay.exe文件
-			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcPlay\acplay.exe");
+			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Kaedei" + Path.DirectorySeparatorChar + "AcPlay" + Path.DirectorySeparatorChar + "acplay.exe");
 			Assembly assembly = GetType().Assembly;
 			var stream = assembly.GetManifestResourceStream("Kaedei.AcPlay.acplay.exe");
 
 			//创建文件夹
 			if (!Directory.Exists(Path.GetDirectoryName(exeFile)))
 				Directory.CreateDirectory(Path.GetDirectoryName(exeFile));
+
+			//去除已有文件的只读属性
+			if (File.Exists(exeFile))
+			{
+				try
+				{
+					File.SetAttributes(exeFile, FileAttributes.Normal);
+				}
+				catch { }
+			}
 
 			//释放文件
 			using (var fs = new FileStream(exeFile, FileMode.Create))

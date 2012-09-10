@@ -13,32 +13,33 @@ namespace Kaedei.AcDown.UI
 	/// </summary>
 	public class Updater
 	{
-		private string tempFile = "";
+		private string tempFileInCommonAppData = "";
 
 		/// <summary>
 		/// 临时文件路径
 		/// </summary>
-		public string TempFile
+		public string TempFileInCommonAppData
 		{
-			get { return tempFile; }
+			get { return tempFileInCommonAppData; }
 		}
 
-		private string tempFile2 = "";
+		private string tempFileInUserAppData = "";
 		/// <summary>
 		/// 临时文件路径2(兼容旧版本)
 		/// </summary>
-		public string TempFile2
+		public string TempFileInUserAppData
 		{
-			get { return tempFile2; }
+			get { return tempFileInUserAppData; }
 		}
 
 		public Updater()
 		{
 			//取得临时文件的路径
-			tempFile = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			tempFile = Path.Combine(tempFile, @"Kaedei\AcDown\Update\AcDown.exe");
-			tempFile2 = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			tempFile2 = Path.Combine(tempFile2, @"Kaedei\AcDown\Update\AcDown.exe");
+			var c = System.IO.Path.DirectorySeparatorChar;
+			tempFileInCommonAppData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			tempFileInCommonAppData = Path.Combine(tempFileInCommonAppData, "Kaedei" + c + "AcDown" + c + "Update" + c + "AcDown.exe");
+			tempFileInUserAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			tempFileInUserAppData = Path.Combine(tempFileInUserAppData, @"Kaedei" + c + "AcDown" + c + "Update" + c + "AcDown.exe");
 		}
 
 		/// <summary>
@@ -93,7 +94,7 @@ namespace Kaedei.AcDown.UI
 				bool s = Network.DownloadFile(new DownloadParameter()
 				{
 					Url = url,
-					FilePath = tempFile
+					FilePath = tempFileInUserAppData
 				});
 				return s;
 			}
@@ -110,9 +111,9 @@ namespace Kaedei.AcDown.UI
 		/// <returns></returns>
 		public bool CheckIfUpdating(string path)
 		{
-			if (path.ToUpper() == tempFile.ToUpper())
+			if (path.ToUpper() == tempFileInCommonAppData.ToUpper())
 				return true;
-			if (path.ToUpper() == tempFile2.ToUpper())
+			if (path.ToUpper() == tempFileInUserAppData.ToUpper())
 				return true;
 			return false;
 		}
@@ -127,11 +128,11 @@ namespace Kaedei.AcDown.UI
 			//去除目标文件的各种属性
 			File.SetAttributes(filePath, FileAttributes.Normal);
 			//拷贝并覆盖同名文件
-			if (File.Exists(tempFile2))
-				File.Copy(tempFile2, file, true);
+			if (File.Exists(tempFileInUserAppData))
+				File.Copy(tempFileInUserAppData, file, true);
 			//拷贝并覆盖同名文件
-			if (File.Exists(tempFile))
-				File.Copy(tempFile, file, true);
+			if (File.Exists(tempFileInCommonAppData))
+				File.Copy(tempFileInCommonAppData, file, true);
 		}
 
 		/// <summary>
@@ -141,15 +142,15 @@ namespace Kaedei.AcDown.UI
 		{
 			try
 			{
-				if (File.Exists(tempFile))
+				if (File.Exists(tempFileInCommonAppData))
 				{
-					File.SetAttributes(tempFile, FileAttributes.Normal);
-					File.Delete(tempFile);
+					File.SetAttributes(tempFileInCommonAppData, FileAttributes.Normal);
+					File.Delete(tempFileInCommonAppData);
 				}
-				if (File.Exists(tempFile2))
+				if (File.Exists(tempFileInUserAppData))
 				{
-					File.SetAttributes(tempFile2, FileAttributes.Normal);
-					File.Delete(tempFile2);
+					File.SetAttributes(tempFileInUserAppData, FileAttributes.Normal);
+					File.Delete(tempFileInUserAppData);
 				}
 			}
 			catch { }

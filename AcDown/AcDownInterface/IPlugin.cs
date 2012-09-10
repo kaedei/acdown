@@ -5,13 +5,35 @@ using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Interface
 {
-
+	/// <summary>
+	/// AcDown插件
+	/// </summary>
 	public interface IPlugin
 	{
+		/// <summary>
+		/// 创建新的下载器实例
+		/// </summary>
+		/// <returns></returns>
 		IDownloader CreateDownloader();
+		/// <summary>
+		/// 检查指定的Url是否符合能够被当前插件解析
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
 		bool CheckUrl(string url);
+		/// <summary>
+		/// 取得指定Url的Hash值
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
 		string GetHash(string url);
-		Dictionary<String, Object> Feature { get; } //AutoAnswer(List<AutoAnswer>) ExampleUrl(String[]) ConfigurationForm(Form)
+		/// <summary>
+		/// 插件支持的UI特性
+		/// </summary>
+		Dictionary<String, Object> Feature { get; } //AutoAnswer(List<AutoAnswer>) ExampleUrl(String[]) ConfigurationForm(MethodInvoker)
+		/// <summary>
+		/// 插件独立存储
+		/// </summary>
 		SerializableDictionary<String, String> Configuration { get; set; }
 	}
 

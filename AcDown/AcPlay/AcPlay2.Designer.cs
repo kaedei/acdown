@@ -102,7 +102,6 @@
 			// 
 			// lnkAdd
 			// 
-			this.lnkAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkAdd.AutoSize = true;
 			this.lnkAdd.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this.lnkAdd.Location = new System.Drawing.Point(77, 42);

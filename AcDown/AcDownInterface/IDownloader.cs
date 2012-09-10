@@ -26,14 +26,35 @@ namespace Kaedei.AcDown.Interface
 	/// </summary>
 	public interface IDownloader
 	{
+		/// <summary>
+		/// 任务管理器委托
+		/// </summary>
 		DelegateContainer delegates{ get; set; }
+		/// <summary>
+		/// 获取或设置与此任务相关联的信息
+		/// </summary>
 		TaskInfo Info { get; set; }
-
+		/// <summary>
+		/// 此任务总长度
+		/// </summary>
 		long TotalLength{ get; }
+		/// <summary>
+		/// 此任务已经完成的长度
+		/// </summary>
 		long DoneBytes{ get; }
+		/// <summary>
+		/// 最后一次获取时的Tick值
+		/// </summary>
 		long LastTick { get; }
 
+		/// <summary>
+		/// 开始下载
+		/// </summary>
+		/// <returns></returns>
 		bool Download();
+		/// <summary>
+		/// 停止下载
+		/// </summary>
 		void StopDownload();
 	}
 

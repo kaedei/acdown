@@ -236,7 +236,7 @@ namespace Kaedei.AcDown.UI.Components
 			string player = "acfun";
 
 			//建立文件夹
-			string dir = Path.GetDirectoryName(Path.Combine(appdata, @"Kaedei\AcPlay\Cache\"));
+			string dir = Path.GetDirectoryName(Path.Combine(appdata, @"Kaedei" + Path.DirectorySeparatorChar + "AcPlay" + Path.DirectorySeparatorChar + "Cache" + Path.DirectorySeparatorChar));
 			if (!Directory.Exists(dir))
 				Directory.CreateDirectory(dir);
 
@@ -449,9 +449,9 @@ namespace Kaedei.AcDown.UI.Components
 		{
 			//禁用面板
 			this.Enabled = false;
-			
+
 			//如果AcPlay.exe文件不存在
-			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcPlay\acplay.exe");
+			string exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Kaedei" + Path.DirectorySeparatorChar + "AcPlay" + Path.DirectorySeparatorChar + "acplay.exe");
 			if (!File.Exists(exeFile))
 			{
 				var helper = new AcPlayHelper();
@@ -462,7 +462,7 @@ namespace Kaedei.AcDown.UI.Components
 			Process p = new Process();
 			p.StartInfo = new ProcessStartInfo()
 			{
-				FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Kaedei\AcPlay\acplay.exe"),
+				FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Kaedei" + Path.DirectorySeparatorChar + "AcPlay" + Path.DirectorySeparatorChar + "acplay.exe"),
 				Arguments = "\"" + path + "\"",
 				Verb = "runas"
 			};
