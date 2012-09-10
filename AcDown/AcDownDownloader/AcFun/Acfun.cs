@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.0.1.818", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.1.0.910", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -49,7 +49,6 @@ namespace Kaedei.AcDown.Downloader
 			{
 				new AcFun.AcfunDownloaderConfigurationForm(Configuration).ShowDialog();
 			}));
-
 		}
 
 		public IDownloader CreateDownloader()
@@ -94,7 +93,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public SerializableDictionary<string, string> Configuration { get; set; }
 
-		public const string DefaultFileNameFormat = @"标题\标题(分段).扩展名";
+		public static readonly string DefaultFileNameFormat = "标题" + Path.DirectorySeparatorChar + "标题(分段).扩展名";
 	}
 
 	/// <summary>

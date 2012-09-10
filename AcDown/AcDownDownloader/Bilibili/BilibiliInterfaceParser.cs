@@ -31,7 +31,8 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 			var src = Regex.Match(source, @"<src>(?<src>\d+)</src>").Groups["src"];
 			if (src != null) pr.SpecificResult.Add("src", src.Value);
 			//vstr
-			string vstr = Regex.Match(source, @"(?<=<vstr><!\[CDATA\[)\w+").Value;
+			var vstr = Regex.Match(source, @"(?<=<vstr><!\[CDATA\[)\w+");
+			if (vstr.Success) pr.SpecificResult.Add("vstr", vstr.Value);
 
 			//视频信息
 			Regex r = new Regex(@"<durl>.+?<order>(?<order>\d+)</order>.+?<length>(?<length>\d+)</length>.+?<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+?</durl>", RegexOptions.Singleline);
