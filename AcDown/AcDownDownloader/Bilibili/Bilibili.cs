@@ -197,15 +197,19 @@ namespace Kaedei.AcDown.Downloader
 						Info.Settings["password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Password));
 					}
 					//Post的数据
-					string postdata = "fmdo=login&dopost=login&refurl=http%%3A%%2F%%2Fbilibili.tv%%2F&keeptime=604800&userid=" + user.Username + "&pwd=" + user.Password + "&keeptime=604800";
+					string postdata = "act=login&gourl=http%%3A%%2F%%2Fbilibili.tv%%2F&userid=" + user.Username + "&pwd=" + user.Password + "&keeptime=604800";
 					byte[] data = Encoding.UTF8.GetBytes(postdata);
 					//生成请求
-					HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://secure.bilibili.tv/member/index_do.php");
+					//WorkItem #1441
+					HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://secure.bilibili.tv/login");
+					//修复不应用代理服务器的问题
+					req.Proxy = Info.Proxy;
 					req.Method = "POST";
 					req.Referer = "https://secure.bilibili.tv/login.php";
 					req.ContentType = "application/x-www-form-urlencoded";
 					req.ContentLength = data.Length;
-					req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0";
+					req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:15.0) Gecko/20100101 Firefox/15.0.1";
+					req.Referer = url;
 					req.CookieContainer = new CookieContainer();
 					//发送POST数据
 					using (var outstream = req.GetRequestStream())
@@ -216,12 +220,12 @@ namespace Kaedei.AcDown.Downloader
 					//关闭请求
 					req.GetResponse().Close();
 					cookies = req.CookieContainer; //保存cookies
-					string cookiesstr = req.CookieContainer.GetCookieHeader(req.RequestUri); //字符串形式的cookies
+					//string cookiesstr = req.CookieContainer.GetCookieHeader(req.RequestUri); //字符串形式的cookies
 
 					//重新请求网页
-					HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
-					if (Info.Proxy != null)
-						request.Proxy = Info.Proxy;
+					HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url.Replace("bilibili.kankanews.com", "www.bilibili.tv"));
+					//设置代理服务器
+					request.Proxy = Info.Proxy;
 					//设置cookies
 					request.CookieContainer = cookies;
 					//获取网页源代码
@@ -319,8 +323,20 @@ namespace Kaedei.AcDown.Downloader
 				//取得type值
 				type = mId.Groups["idname"].Value;
 
+
+				//解析Bilibili接口设置
+				string interfacexml =
+					type.Equals("cid") ?
+					Network.GetHtmlSource("http://interface.bilibili.tv/player?id=cid:" + id, Encoding.UTF8, Info.Proxy) :
+					Network.GetHtmlSource("http://interface.bilibili.tv/player?id=" + id, Encoding.UTF8, Info.Proxy);
+				MatchCollection mcInterfaceSettings = Regex.Matches(interfacexml, @"\<(?<key>\w+)>(?<value>.+?)\</\1\>");
+				foreach (Match mInterfaceSetting in mcInterfaceSettings)
+				{
+					Info.Settings[mInterfaceSetting.Groups["key"].Value] = mInterfaceSetting.Groups["value"].Value;
+				}
+
 				//下载弹幕
-				bool comment = DownloadComment(title, subtitle, id);
+				bool comment = DownloadComment(title, subtitle, Info.Settings["chatid"]);
 				if (!comment)
 				{
 					Info.PartialFinished = true;
@@ -366,10 +382,15 @@ namespace Kaedei.AcDown.Downloader
 								pr = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
 								videos = pr.ToArray();
 								break;
-							
 							case "data": //Flash游戏
 								id = id.Replace("\"", "");
 								videos = new string[] { id };
+								break;
+							case "rid": //六间房
+							//不支持
+							case "id": //Levelup视频 WorkItem #1442
+								string levelupUrl = @"http://pl.bilibili.tv/" + id.Replace("levelup", "/") + ".flv";
+								videos = new string[] { levelupUrl };
 								break;
 							default: //新浪视频
 								SinaVideoParser parserSina = new SinaVideoParser();
