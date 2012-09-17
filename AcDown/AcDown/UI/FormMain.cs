@@ -205,6 +205,13 @@ namespace Kaedei.AcDown.UI
 		//窗体加载
 		private void FormMain_Load(object sender, EventArgs e)
 		{
+			//禁用非Windows项(不考虑Windows版Mono)
+			if (Tools.IsRunningOnMono)
+			{
+				tabMain.TabPages.Remove(tabFlvCombine);
+				tabMain.TabPages.Remove(tabAcPlay);
+			}
+
 			//设置窗口大小
 			this.Size = CoreManager.ConfigManager.Settings.WindowSize;
 			//设置窗体标题和文字
@@ -632,6 +639,7 @@ namespace Kaedei.AcDown.UI
 						//导出地址
 						toolExportUrlList.Enabled = downloader.Settings.ContainsKey("ExportUrl");
 						//AcPlay
+						toolAcPlay.Visible = !Tools.IsRunningOnMono;
 						toolAcPlay.Enabled = downloader.Settings.ContainsKey("AcPlay");
 					}
 				}

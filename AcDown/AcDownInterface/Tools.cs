@@ -15,6 +15,8 @@ namespace Kaedei.AcDown.Interface
 		static Tools()
 		{
 			IsRunningOnMono = Type.GetType("Mono.Runtime") != null;
+			//For Testing
+			//IsRunningOnMono = true;
 		}
 
 		/// <summary>

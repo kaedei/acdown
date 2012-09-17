@@ -101,10 +101,6 @@
       <Project>{BCFD1289-87EC-49DC-BB85-30274BC1F546}</Project>
       <Name>AcDown</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AcPlayCore\AcPlayCore.csproj">
-      <Project>{777C76A0-570F-4069-A324-7CAA81B00BD5}</Project>
-      <Name>AcPlayCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AcPlay\AcPlay.csproj">
       <Project>{C0017FE4-9708-46F7-9D56-71340E2C181B}</Project>
       <Name>AcPlay</Name>
