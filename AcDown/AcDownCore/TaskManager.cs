@@ -52,6 +52,9 @@ namespace Kaedei.AcDown.Core
 		//所有任务
 		public List<TaskInfo> TaskInfos = new List<TaskInfo>();
 
+		//TaskInfos对象的全局锁
+		public object TaskInfosLock = new object();
+
 		//全局速度限制
 		private int _speedLimitGlobal = 0;
 		public int SpeedLimitGlobal
@@ -105,7 +108,9 @@ namespace Kaedei.AcDown.Core
 			if (task.SaveDirectory == null)
 				task.SaveDirectory = new DirectoryInfo(CoreManager.ConfigManager.Settings.SavePath);
 			//向集合中添加对象
+			Monitor.Enter(TaskInfosLock);
 			TaskInfos.Add(task);
+			Monitor.Exit(TaskInfosLock);
 			//提示UI刷新信息
 			//if (delegates.Refresh != null)
 			//	delegates.Refresh.Invoke(new ParaRefresh(task.TaskId));
@@ -231,7 +236,8 @@ namespace Kaedei.AcDown.Core
 			StopTask(task);
 
 			//启动新线程等待任务完全停止
-			Thread t = new Thread(new ThreadStart(() =>
+
+			ThreadPool.QueueUserWorkItem(new WaitCallback((o) =>
 			{
 				while (task.Status == DownloadStatus.正在停止 || task.Status == DownloadStatus.正在下载)
 				{
@@ -288,8 +294,6 @@ namespace Kaedei.AcDown.Core
 				//刷新信息
 				preDelegates.Refresh(new ParaRefresh(task));
 			}));
-			t.IsBackground = true;
-			t.Start();
 		}
 
 

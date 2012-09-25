@@ -5,6 +5,8 @@ using System.IO;
 using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
 using Kaedei.AcDown.Core;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace Kaedei.AcDown.UI
 {
@@ -13,40 +15,11 @@ namespace Kaedei.AcDown.UI
 	/// </summary>
 	public class Updater
 	{
-		private string tempFileInCommonAppData = "";
-
-		/// <summary>
-		/// 临时文件路径
-		/// </summary>
-		public string TempFileInCommonAppData
-		{
-			get { return tempFileInCommonAppData; }
-		}
-
-		private string tempFileInUserAppData = "";
-		/// <summary>
-		/// 临时文件路径2(兼容旧版本)
-		/// </summary>
-		public string TempFileInUserAppData
-		{
-			get { return tempFileInUserAppData; }
-		}
-
-		public Updater()
-		{
-			//取得临时文件的路径
-			var c = System.IO.Path.DirectorySeparatorChar;
-			tempFileInCommonAppData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			tempFileInCommonAppData = Path.Combine(tempFileInCommonAppData, "Kaedei" + c + "AcDown" + c + "Update" + c + "AcDown.exe");
-			tempFileInUserAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			tempFileInUserAppData = Path.Combine(tempFileInUserAppData, @"Kaedei" + c + "AcDown" + c + "Update" + c + "AcDown.exe");
-		}
-
 		/// <summary>
 		/// 检查程序是否有最新更新
 		/// </summary>
 		/// <returns></returns>
-		public string CheckUpdate(Version oldVersion)
+		public UpdateInformation CheckUpdate()
 		{
 			try
 			{
@@ -64,62 +37,58 @@ namespace Kaedei.AcDown.UI
 										mVersion.Groups["build"].ToString() + "." +
 										mVersion.Groups["revision"].ToString();
 				Version newVersion = new Version(verstring);
-				if (newVersion > oldVersion)
-				{
-					Regex rUrl = new Regex(@"{urlstart}URL=(?<url>.+?){urlend}");
-					Match mUrl = rUrl.Match(src);
-					if (mUrl.Success)
-					{
-						string u = mUrl.Groups["url"].Value.Replace("&amp;", "&");
-						return u;
-					}
-				}
+				Regex rUrl = new Regex(@"{urlstart}URL=(?<url>.+?){urlend}");
+				Match mUrl = rUrl.Match(src);
+				string u = mUrl.Groups["url"].Value.Replace("&amp;", "&");
+				return new UpdateInformation() { NewVersion = newVersion, Url = u };
 			}
 			catch
-			{ }
-			return "";
+			{
+				return new UpdateInformation() { NewVersion = new Version("0.0.0.1"), Url = "" };
+			}
 
 		}
 
 		/// <summary>
 		/// 下载最新更新至临时文件夹
 		/// </summary>
-		/// <param name="url">更新所在的Url</param>
-		/// <returns></returns>
-		public bool DownloadUpdate(string url)
+		/// <returns>新文件的完整路径</returns>
+		public string DownloadUpdate(UpdateInformation updateInfo)
 		{
 			try
 			{
+				string filename = Path.Combine(
+						CoreManager.StartupPath,
+						"Update" + Path.DirectorySeparatorChar + "AcDown" + updateInfo.NewVersion.ToString() + ".exe");
 				//下载文件
-				bool s = Network.DownloadFile(new DownloadParameter()
+				Network.DownloadFile(new DownloadParameter()
 				{
-					Url = url,
-					FilePath = tempFileInUserAppData
+					Url = updateInfo.Url,
+					FilePath = filename
 				});
-				return s;
+				return filename;
 			}
 			catch
 			{
-				return false;
+				return "";
 			}
 		}
 
 		/// <summary>
-		/// 取得一个值，指示当前程序是否正在更新过程中（运行在临时文件夹中）
+		/// 取得一个值，指示当前程序是否正在更新过程中（运行在StartupPath文件夹中）
 		/// </summary>
 		/// <param name="path">程序的映像路径</param>
 		/// <returns></returns>
 		public bool CheckIfUpdating(string path)
 		{
-			if (path.ToUpper() == tempFileInCommonAppData.ToUpper())
+			if (path.ToUpper().StartsWith(CoreManager.StartupPath.ToUpper()))
 				return true;
-			if (path.ToUpper() == tempFileInUserAppData.ToUpper())
-				return true;
-			return false;
+			else
+				return false;
 		}
 
 		/// <summary>
-		/// 将临时文件覆盖指定的文件
+		/// 拷贝自身覆盖指定的文件
 		/// </summary>
 		/// <param name="filePath">覆盖到的文件完整路径</param>
 		public void CopyTempFileToTargetFile(string filePath)
@@ -127,12 +96,8 @@ namespace Kaedei.AcDown.UI
 			string file = filePath.Replace("\"", "");
 			//去除目标文件的各种属性
 			File.SetAttributes(filePath, FileAttributes.Normal);
-			//拷贝并覆盖同名文件
-			if (File.Exists(tempFileInUserAppData))
-				File.Copy(tempFileInUserAppData, file, true);
-			//拷贝并覆盖同名文件
-			if (File.Exists(tempFileInCommonAppData))
-				File.Copy(tempFileInCommonAppData, file, true);
+			//拷贝自身并覆盖目标文件
+			File.Copy(Application.ExecutablePath, file, true);
 		}
 
 		/// <summary>
@@ -140,21 +105,43 @@ namespace Kaedei.AcDown.UI
 		/// </summary>
 		public void DeleteTempFile()
 		{
-			try
-			{
-				if (File.Exists(tempFileInCommonAppData))
+			ThreadPool.QueueUserWorkItem(new WaitCallback((o) =>
 				{
-					File.SetAttributes(tempFileInCommonAppData, FileAttributes.Normal);
-					File.Delete(tempFileInCommonAppData);
-				}
-				if (File.Exists(tempFileInUserAppData))
-				{
-					File.SetAttributes(tempFileInUserAppData, FileAttributes.Normal);
-					File.Delete(tempFileInUserAppData);
-				}
-			}
-			catch { }
+					DeleteTempFileAsync();
+				}));
 		}
 
+		private void DeleteTempFileAsync()
+		{
+			string updateFolder = Path.Combine(CoreManager.StartupPath, "Update");
+			for (int i = 0; i < 5; i++)
+			{
+				if (Directory.Exists(updateFolder))
+				{
+					try
+					{
+						Directory.Delete(updateFolder);
+						return;
+					}
+					catch
+					{
+						Thread.Sleep(1000);
+					}
+				}
+				else
+				{
+					return;
+				}
+			}
+
+		}
+	}
+
+
+	[Serializable]
+	public class UpdateInformation
+	{
+		public Version NewVersion;
+		public string Url;
 	}
 }

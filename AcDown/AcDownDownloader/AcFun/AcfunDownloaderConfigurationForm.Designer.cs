@@ -103,6 +103,7 @@
 			this.cboVar.FormattingEnabled = true;
 			this.cboVar.Items.AddRange(new object[] {
             "标题",
+            "子标题",
             "(分段)",
             "编号",
             "子编号",

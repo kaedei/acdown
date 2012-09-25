@@ -76,8 +76,8 @@ namespace Kaedei.AcDown.Interface
 					//设置超时
 					request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
 					//设置代理服务器
-					if (para.Proxy != null)
-						request.Proxy = para.Proxy;
+					//if (para.Proxy != null)  [WorkItem #1448]
+					request.Proxy = para.Proxy;
 					//设置Cookie
 					if (para.Cookies != null)
 						request.CookieContainer = para.Cookies;
@@ -198,8 +198,8 @@ namespace Kaedei.AcDown.Interface
 							//设置超时
 							newrequest.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
 							//设置代理服务器
-							if (para.Proxy != null)
-								newrequest.Proxy = para.Proxy;
+							//if (para.Proxy != null) [WorkItem #1448]
+							newrequest.Proxy = para.Proxy;
 							//设置Cookie
 							if (para.Cookies != null)
 								request.CookieContainer = para.Cookies;
