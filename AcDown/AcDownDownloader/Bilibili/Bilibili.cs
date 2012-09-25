@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.1.0.910", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.1.2.924", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -140,7 +140,7 @@ namespace Kaedei.AcDown.Downloader
 
 			//取得AV号和子编号
 			Match mAVNumber = Regex.Match(Info.Url, @"(?<av>av\d+)/index_(?<sub>\d+)\.html");
-			Settings["AVNumber"] = mAVNumber.Groups["ac"].Value;
+			Settings["AVNumber"] = mAVNumber.Groups["av"].Value;
 			Settings["AVSubNumber"] = mAVNumber.Groups["sub"].Value;
 			//设置自定义文件名
 			Settings["CustomFileName"] = AcFunPlugin.DefaultFileNameFormat;
@@ -150,19 +150,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 
 			//是否通过【自动应答】禁用对话框
-			bool disableDialog = false;
-			if (Info.AutoAnswer != null)
-			{
-				foreach (var item in Info.AutoAnswer)
-				{
-					if (item.Prefix == "bilibili")
-					{
-						if (item.Identify == "auto")
-							disableDialog = true;
-						break;
-					}
-				}
-			}
+			bool disableDialog = AutoAnswer.IsInAutoAnswers(Info.AutoAnswer, "bilibili", "auto");
 
 			//视频地址数组
 			string[] videos = null;
@@ -387,7 +375,8 @@ namespace Kaedei.AcDown.Downloader
 								videos = new string[] { id };
 								break;
 							case "rid": //六间房
-							//不支持
+								//不支持
+								break;
 							case "id": //Levelup视频 WorkItem #1442
 								string levelupUrl = @"http://pl.bilibili.tv/" + id.Replace("levelup", "/") + ".flv";
 								videos = new string[] { levelupUrl };

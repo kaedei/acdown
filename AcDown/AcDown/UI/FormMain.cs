@@ -292,16 +292,6 @@ namespace Kaedei.AcDown.UI
 			{
 				tabMain.SelectedTab = tabAcPlay;
 			}
-
-			ShowFormToFront();
-			//如果命令行中指定播放acplay，开始播放AcPlay快捷方式
-			if (!AcPlayStartup.IsHandled)
-			{
-				AcPlayStartup.IsHandled = true;
-				tabMain.SelectedTab = tabAcPlay;
-				acPlay.PlayConfig(AcPlayStartup.FilePath);
-			}
-
 		}
 
 		//启动监视剪贴板的线程
@@ -373,7 +363,7 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
-
+			
 			//设置刷新频率
 			if (CoreManager.ConfigManager.Settings.RefreshInfoInterval != timer.Interval)
 			{
@@ -386,6 +376,7 @@ namespace Kaedei.AcDown.UI
 			//全局速度
 			double speed = 0;
 			//取得所有正在进行中的任务
+			Monitor.Enter(CoreManager.TaskManager.TaskInfosLock);
 			foreach (TaskInfo task in CoreManager.TaskManager.TaskInfos)
 			{
 				//如果是正在下载的任务
@@ -444,6 +435,8 @@ namespace Kaedei.AcDown.UI
 
 				}
 			}
+			Monitor.Exit(CoreManager.TaskManager.TaskInfosLock);
+
 			//显示全局速度
 			if (speed != 0.0)
 			{
@@ -1365,11 +1358,11 @@ namespace Kaedei.AcDown.UI
 		/// <param name="e"></param>
 		public void NewTask(object e)
 		{
-			if (this.InvokeRequired)
-			{
-				this.Invoke(new AcTaskDelegate(NewTask), e);
-				return;
-			}
+			//if (this.InvokeRequired)
+			//{
+			//	this.Invoke(new AcTaskDelegate(NewTask), e);
+			//	return;
+			//}
 		}
 
 		/// <summary>
@@ -1424,7 +1417,7 @@ namespace Kaedei.AcDown.UI
 
 		#region ——————自动更新——————
 
-		string haveupdate = "";
+		UpdateInformation haveupdate;
 
 		/// <summary>
 		/// 检查是否有软件更新
@@ -1432,11 +1425,11 @@ namespace Kaedei.AcDown.UI
 		private void CheckUpdate()
 		{
 			toolUpdate.Visible = false;
-			Thread t = new Thread(new ThreadStart(() =>
+			ThreadPool.QueueUserWorkItem(new WaitCallback((o) =>
 			{
 				Updater upd = new Updater();
-				haveupdate = upd.CheckUpdate(new Version(Application.ProductVersion));
-				if (!string.IsNullOrEmpty(haveupdate))
+				haveupdate = upd.CheckUpdate();
+				if (haveupdate.NewVersion > new Version(Application.ProductVersion))
 				{
 					this.Invoke(new MethodInvoker(() =>
 					{
@@ -1445,9 +1438,6 @@ namespace Kaedei.AcDown.UI
 					}));
 				}
 			}));
-			t.IsBackground = true;
-			t.Start();
-
 		}
 
 
@@ -1465,17 +1455,17 @@ namespace Kaedei.AcDown.UI
 					try
 					{
 						Updater upd = new Updater();
-						bool success = upd.DownloadUpdate(haveupdate);
-						if (success) //下载更新成功
+						string newFile = upd.DownloadUpdate(haveupdate);
+						if (!string.IsNullOrEmpty(newFile)) //下载更新成功
 						{
 							Application.DoEvents();
-							if (AcDown.Interface.Tools.IsRunningOnMono)
+							if (Tools.IsRunningOnMono)
 							{
 								CoreManager.TaskManager.EndSaveBackgroundWorker();
 								CoreManager.TaskManager.SaveAllTasks();
 								Logging.Exit();
 
-								System.IO.File.Copy(upd.TempFileInUserAppData, Application.ExecutablePath, true);
+								System.IO.File.Copy(newFile, Application.ExecutablePath, true);
 								Process.Start("mono", Application.ExecutablePath);
 								Process.GetCurrentProcess().Kill();
 								return;
@@ -1484,11 +1474,13 @@ namespace Kaedei.AcDown.UI
 							{
 								ProcessStartInfo startInfo = new ProcessStartInfo();
 								startInfo.UseShellExecute = true;
-								startInfo.WorkingDirectory = Path.GetDirectoryName(upd.TempFileInUserAppData);
-								startInfo.FileName = upd.TempFileInUserAppData;
+								startInfo.WorkingDirectory = Path.GetDirectoryName(newFile);
+								startInfo.FileName = newFile;
 								startInfo.Arguments = "\"" + Application.ExecutablePath + "\""; ;
 								if (!DwmApi.IsAdmin())
 									startInfo.Verb = "runas";
+								if (!DwmApi.IsWindowsVistaOrHigher())
+									startInfo.Verb = "";
 								try
 								{
 									Process process = Process.Start(startInfo);

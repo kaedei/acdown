@@ -41,12 +41,16 @@ namespace Kaedei.AcDown.UI.Components
 		#endregion
 
 		#region 外部接口
-		private AcPlayConfiguration config = new AcPlayConfiguration() { HttpServerPort = 7776, ProxyServerPort = 7777 };
+		private AcPlayConfiguration config = new AcPlayConfiguration()
+		{
+			HttpServerPort = new Random().Next(1001, 60000),
+			ProxyServerPort = new Random().Next(1001, 60000)
+		};
 
 		/// <summary>
 		/// 直接播放指定的配置文件
 		/// </summary>
-		/// <param name="path"></param>
+		/// <param name="filePath">配置文件路径</param>
 		public void PlayConfig(string filePath)
 		{
 			try
