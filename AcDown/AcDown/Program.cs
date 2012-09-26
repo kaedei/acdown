@@ -22,14 +22,15 @@ namespace Kaedei.AcDown
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-
 			if (args.Length > 0)
 			{
 				string firstarg = "";
 				//检查第一个参数
 				firstarg = args[0];
+
+				//设置配置文件路径
+				CoreManager.StartupPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				 "Kaedei" + Path.DirectorySeparatorChar + "AcDown" + Path.DirectorySeparatorChar);
 
 				if (File.Exists(firstarg))
 				{
@@ -74,6 +75,7 @@ namespace Kaedei.AcDown
 					return;
 				}
 			}
+
 			bool isAcDownNotStarted = false;
 			Mutex mLocker = new Mutex(true, "AcDown", out isAcDownNotStarted);
 
@@ -86,6 +88,10 @@ namespace Kaedei.AcDown
 				if (MessageBox.Show("AcDown正在工作中，您是否希望运行一个新的AcDown实例?\r\n(同时打开多个AcDown容易出现不稳定的状况)", "启动多个AcDown", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
 					return;
 			}
+
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
 			Program.frmStart = new FormStart();
 			Application.Run(Program.frmStart);
 			mLocker.ReleaseMutex();

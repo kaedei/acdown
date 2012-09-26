@@ -120,7 +120,7 @@ namespace Kaedei.AcDown.UI
 				{
 					try
 					{
-						Directory.Delete(updateFolder);
+						Directory.Delete(updateFolder, true);
 						return;
 					}
 					catch

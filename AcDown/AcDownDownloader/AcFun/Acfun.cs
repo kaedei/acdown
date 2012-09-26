@@ -162,19 +162,12 @@ namespace Kaedei.AcDown.Downloader
 				Match mFlash = rFlash.Match(embedSrc);
 
 				#region 取得当前Flash播放器地址
-				TipText("正在分析播放器地址");
-				//脚本地址
-				string playerScriptUrl = Regex.Match(src, @"http://static\.acfun\.tv/dotnet/\d+/script/article\.js").Value + @"?_version=12289360";
-				//脚本源代码
-				string playerScriptSrc = Network.GetHtmlSource(playerScriptUrl, Encoding.UTF8, Info.Proxy);
-				//swf文件地址
-				string playerUrl = Regex.Match(playerScriptSrc, @"http://.+?swf").Value;
-				//添加到插件设置中
-				if (String.IsNullOrEmpty(playerUrl))
-					Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209240842.swf";
+				Match mFlashPlayer = Regex.Match(src, @"http://static.acfun.tv/player/.+?\.swf");
+				if (mFlashPlayer.Success)
+					Settings["PlayerUrl"] = mFlashPlayer.Value;
 				else
-					Settings["PlayerUrl"] = playerUrl;
-
+					Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209240842.swf";
+				
 				#endregion
 
 				TipText("正在获取视频详细信息");
@@ -222,7 +215,7 @@ namespace Kaedei.AcDown.Downloader
 						Settings["cid"] = vid;
 						Settings["vtype"] = "sina";
 					}
-					
+
 				}
 
 				//取得视频标题
@@ -231,7 +224,7 @@ namespace Kaedei.AcDown.Downloader
 				Match mTitle = rTitle.Match(src);
 				//Settings["Title"] = mTitle.Groups["title"].Value.Replace(" - acfun", "");
 				Settings["Title"] = mTitle.Value;
-				
+
 				//过滤非法字符
 				Settings["Title"] = Tools.InvalidCharacterFilter(Settings["Title"], "");
 
@@ -287,7 +280,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 
-				
+
 
 				//视频地址数组
 				string[] videos = null;

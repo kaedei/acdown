@@ -270,12 +270,11 @@ namespace Kaedei.AcDown.UI.Components
 					{
 						//页面地址
 						string src = Network.GetHtmlSource("http://www.acfun.tv/v/ac10000", Encoding.UTF8);
-						//脚本地址
-						string playerScriptUrl = "http:" + Regex.Match(src, @"(?<=<script src="")//static\.acfun\.tv/dotnet/\d+/script/article\.js(?="">)").Value + @"?_version=12289360";
-						//脚本源代码
-						string playerScriptSrc = Network.GetHtmlSource(playerScriptUrl, Encoding.UTF8);
-						//swf文件地址
-						swf = Regex.Match(playerScriptSrc, @"http://.+?swf").Value;
+						Match mFlashPlayer = Regex.Match(src, @"http://static.acfun.tv/player/.+?\.swf");
+						if (mFlashPlayer.Success)
+							swf = mFlashPlayer.Value;
+						else
+							swf = @"http://static.acfun.tv/player/ACFlashPlayer.201209240842.swf";
 					}
 					else if (player == "bilibili")
 					{
