@@ -1,7 +1,7 @@
-﻿
-using System.IO;
+﻿using System.IO;
 using System.Collections.ObjectModel;
 using Kaedei.AcDown.Interface;
+
 namespace Kaedei.AcDown.Core
 {
 	/// <summary>
@@ -14,7 +14,7 @@ namespace Kaedei.AcDown.Core
 		/// <summary>
 		/// 起始路径
 		/// </summary>
-		public static string StartupPath { get; private set; }
+		public static string StartupPath { get; set; }
 		/// <summary>
 		/// UI委托
 		/// </summary>
@@ -39,7 +39,7 @@ namespace Kaedei.AcDown.Core
 		/// <param name="uiDelegates">UI委托</param>
 		public static void Initialize(string startupFolderPath, UIDelegateContainer uiDelegates)
 		{
-			Initialize(startupFolderPath, uiDelegates);
+			Initialize(startupFolderPath, uiDelegates, new Collection<IPlugin>());
 		}
 
 		/// <summary>
