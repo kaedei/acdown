@@ -11,11 +11,6 @@ namespace Kaedei.AcDown.Core
 {
 	public class PluginManager
 	{
-		private string _startupPath;
-		public PluginManager()
-		{
-			_startupPath = CoreManager.StartupPath;
-		}
 
 		private Collection<IPlugin> _plugins = new Collection<IPlugin>();
 
@@ -31,7 +26,7 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		public void LoadPlugins()
 		{
-			LoadPlugins(Path.Combine(_startupPath, @"Plugins\"));
+			LoadPlugins(Path.Combine(CoreManager.StartupPath, "Plugins" + Path.DirectorySeparatorChar));
 		}
 
 		/// <summary>
@@ -58,13 +53,13 @@ namespace Kaedei.AcDown.Core
 		{
 			foreach (var item in _plugins)
 			{
-				object[] types = item.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
-				if (types.Length > 0)
+				try
 				{
-					var attrib = (AcDownPluginInformationAttribute)types[0];
+					var attrib = GetAttr(item);
 					if (attrib.Name == name)
 						return item;
 				}
+				catch { }
 			}
 			return null;
 		}
@@ -76,13 +71,12 @@ namespace Kaedei.AcDown.Core
 		/// <returns></returns>
 		private string GetSettingFilePath(IPlugin plugin)
 		{
-			//反射属性
-			object[] types = plugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
-			var attrib = (AcDownPluginInformationAttribute)types[0];
+			//取得插件属性
+			var attrib = GetAttr(plugin);
 			//取得完整文件名
 			//例如 %AppPath%\Plugin\Kaedei\AcfunDownloader\settings.xml
-			string path = Path.Combine(_startupPath, @"Plugins\");
-			path = Path.Combine(path, attrib.Author + @"\" + attrib.Name + @"\" + @"settings.xml");
+			string path = Path.Combine(CoreManager.StartupPath, "Plugins" + Path.DirectorySeparatorChar);
+			path = Path.Combine(path, attrib.Author + Path.DirectorySeparatorChar + attrib.Name + Path.DirectorySeparatorChar + @"settings.xml");
 			return path;
 		}
 
@@ -162,8 +156,17 @@ namespace Kaedei.AcDown.Core
 				string[] plugins = Directory.GetDirectories(company, "*", SearchOption.TopDirectoryOnly);
 				foreach (string plugin in plugins) //插件
 				{
-					string[] dlls = Directory.GetFiles(plugin, "*.dll.acp", SearchOption.TopDirectoryOnly);
-					acdplugins.AddRange(dlls);
+					//搜索此文件夹下与此文件夹同名的.acp文件，如 ABCDownloader\ABCDownloader.acp
+					string[] dlls = Directory.GetFiles(plugin, Path.GetFileName(plugin) + ".acp", SearchOption.TopDirectoryOnly);
+					//删除已经被卸载的插件
+					if (File.Exists(Path.Combine(plugin, "uninstall")))
+					{
+						Directory.Delete(plugin, true);
+					}
+					else
+					{
+						acdplugins.AddRange(dlls);
+					}
 				}//end foreach plugin in plugins
 			}//end foreach company in companies
 
@@ -199,6 +202,124 @@ namespace Kaedei.AcDown.Core
 			}//end load plugins
 		}//end private void LoadPlugins
 
+		/// <summary>
+		/// 安装插件
+		/// </summary>
+		/// <param name="pluginFile">插件Dll文件完整路径</param>
+		/// <exception cref="FileNotFoundException" />
+		/// <exception cref="PluginFileNotSupportedException" />
+		/// <returns>已加载类型的AcDownPluginInformationAttribute属性</returns>
+		public static AcDownPluginInformationAttribute InstallPlugin(string pluginFile)
+		{
+			//检查文件是否存在
+			if (!File.Exists(pluginFile))
+				throw new FileNotFoundException("File not found", pluginFile);
+			//检查文件是否是有效的插件
+			AcDownPluginInformationAttribute pluginInfo = null;
+			var assembly = Assembly.LoadFrom(pluginFile);
+			foreach (var t in assembly.GetExportedTypes())
+			{
+				//检查t类型是否实现了IPlugin
+				if (t.IsClass && typeof(IPlugin).IsAssignableFrom(t))
+				{
+					//检查t类型是否有AcDownPluginInformationAttribute属性
+					var attributes = t.GetCustomAttributes(typeof(AcDownPluginInformationAttribute), false);
+					if (attributes.Length > 0)
+					{
+						pluginInfo = attributes[0] as AcDownPluginInformationAttribute;
+						break;
+					}
+				}
+			}
 
+			//整个文件中都无法找到合适的插件类型
+			if (pluginInfo == null)
+				throw new PluginFileNotSupportedException();
+
+			//复制插件文件
+			string destinationFile = Path.Combine(Path.Combine(CoreManager.StartupPath, "Plugins"), pluginInfo.Author);
+			destinationFile = Path.Combine(destinationFile, pluginInfo.Name);
+			//建立目标文件夹
+			if (!Directory.Exists(destinationFile))
+				Directory.CreateDirectory(destinationFile);
+			//目标文件。完整路径为 \[Author]\[PluginName]\[PluginName].acp
+			destinationFile = Path.Combine(destinationFile, pluginInfo.Name + ".acp");
+			File.Copy(pluginFile, destinationFile, true);
+
+			return pluginInfo;
+		}
+
+		/// <summary>
+		/// 卸载指定的插件。插件将会在下一次AcDown启动时删除
+		/// </summary>
+		/// <param name="plugin">插件引用</param>
+		public void UninstallPlugin(IPlugin plugin)
+		{
+			var attrib = GetAttr(plugin);
+			//取得完整文件名
+			//例如 %AppPath%\Plugin\Kaedei\AcfunDownloader\uninstall
+			string path = Path.Combine(CoreManager.StartupPath, @"Plugins" + Path.DirectorySeparatorChar);
+			path = Path.Combine(path, attrib.Author + Path.DirectorySeparatorChar +
+				attrib.Name + Path.DirectorySeparatorChar + "uninstall");
+			//创建标识文件，下次启动acdown时会删除这个插件
+			File.WriteAllText(path, attrib.Version.ToString());
+		}
+
+		/// <summary>
+		/// 获取指定的插件是否将会在下次启动时被卸载
+		/// </summary>
+		/// <param name="plugin"></param>
+		/// <returns></returns>
+		public bool IsPluginWillBeUninstalled(IPlugin plugin)
+		{
+			if (File.Exists(Path.Combine(Path.GetDirectoryName(GetSettingFilePath(plugin)), "uninstall")))
+				return true;
+			else
+				return false;
+		}
+
+		/// <summary>
+		/// 判断指定的插件是否是内部插件
+		/// </summary>
+		/// <param name="plugin"></param>
+		/// <returns></returns>
+		public bool IsInnerPlugin(IPlugin plugin)
+		{
+			if (File.Exists(Path.Combine(Path.GetDirectoryName(GetSettingFilePath(plugin)), GetAttr(plugin).Name + ".acp")))
+				return true;
+			else
+				return false;
+		}
+
+		/// <summary>
+		/// 取得指定插件的AcDownPluginInformationAttribute属性
+		/// </summary>
+		/// <param name="plugin">插件引用</param>
+		/// <exception cref="AcDownAttributeNotImplementedException" />
+		/// <returns></returns>
+		public AcDownPluginInformationAttribute GetAttr(IPlugin plugin)
+		{
+			try
+			{
+				object[] types = plugin.GetType().GetCustomAttributes(typeof(AcDownPluginInformationAttribute), true);
+				var attrib = (AcDownPluginInformationAttribute)types[0];
+				return attrib;
+			}
+			catch
+			{
+				throw new AcDownAttributeNotImplementedException(plugin);
+			}
+		}
+	}
+
+	public class PluginFileNotSupportedException : Exception
+	{
+
+	}
+
+	public class AcDownAttributeNotImplementedException : Exception
+	{
+		public AcDownAttributeNotImplementedException(IPlugin plugin) { Plugin = plugin; }
+		public IPlugin Plugin { get; set; }
 	}
 }

@@ -20,14 +20,11 @@ namespace Kaedei.AcDown.UI
 		{
 			try
 			{
-				if (Registry.ClassesRoot.OpenSubKey(extension) != null)
-				{
-					return true;
-				}
-
 				RegistryKey key;
 				//设置自定义文件的双击打开
-				key = Registry.ClassesRoot.CreateSubKey(typeName);
+				key = Registry.ClassesRoot.OpenSubKey(typeName);
+				if (key == null)
+					key = Registry.ClassesRoot.CreateSubKey(typeName);
 				key.SetValue("", description);
 				key = key.CreateSubKey("shell");
 				key = key.CreateSubKey("open");
@@ -40,9 +37,10 @@ namespace Kaedei.AcDown.UI
 				//key.SetValue("", string.Format("{0},0", programFile));
 
 				//新增的扩展名和设置关联
-				key = Registry.ClassesRoot.CreateSubKey(extension);
+				key = Registry.ClassesRoot.OpenSubKey(extension);
+				if (key == null)
+					key = Registry.ClassesRoot.CreateSubKey(extension);
 				key.SetValue("", typeName);
-
 
 				//刷新Explorer
 				DwmApi.RefreshNotify();

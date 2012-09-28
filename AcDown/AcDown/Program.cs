@@ -34,17 +34,43 @@ namespace Kaedei.AcDown
 
 				if (File.Exists(firstarg))
 				{
-					Updater upd = new Updater();
-					//如果程序以临时文件启动
-					if (upd.CheckIfUpdating(Application.ExecutablePath))
+					string filename = new FileInfo(firstarg).FullName;
+					//安装插件
+					if (firstarg.EndsWith(".acp", StringComparison.CurrentCultureIgnoreCase))
 					{
-						//以自身覆盖目标文件
-						upd.CopyTempFileToTargetFile(firstarg);
-						//重新执行目标文件
-						Process.Start(firstarg, "updated");
-						//退出当前程序
-						return;
+						try
+						{
+							var attrib = PluginManager.InstallPlugin(filename);
+							MessageBox.Show("插件添加成功！" + Environment.NewLine + Environment.NewLine +
+									"名称: " + attrib.FriendlyName + Environment.NewLine +
+									"版本: " + attrib.Version.ToString() + Environment.NewLine +
+									"作者: " + attrib.Author + Environment.NewLine +
+									"来自: " + attrib.SupportUrl + Environment.NewLine + Environment.NewLine +
+									"这个插件会在您下一次启动AcDown之后被加载", "添加插件成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						}
+						catch (PluginFileNotSupportedException)
+						{
+							MessageBox.Show("未能成功加载此插件文件" + Environment.NewLine + "这个文件可能不是正确的AcDown插件", "插件加载失败", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+						}
+						catch (Exception)
+						{
+							MessageBox.Show("文件读取失败" + Environment.NewLine + "如果您想重新安装一个已有的插件，请退出所有正在运行中的AcDown后再安装", "插件加载失败", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+						}
 					}
+					else
+					{
+						Updater upd = new Updater();
+						//如果程序以临时文件启动
+						if (upd.CheckIfUpdating(Application.ExecutablePath))
+						{
+							//以自身覆盖目标文件
+							upd.CopyTempFileToTargetFile(filename);
+							//重新执行目标文件
+							Process.Start(filename, "updated");
+						}
+					}
+					//退出当前程序
+					return;
 				}
 				else if (firstarg.Equals("updated", StringComparison.CurrentCultureIgnoreCase))
 				{
@@ -85,7 +111,7 @@ namespace Kaedei.AcDown
 			}
 			else
 			{
-				if (MessageBox.Show("AcDown正在工作中，您是否希望运行一个新的AcDown实例?\r\n(同时打开多个AcDown容易出现不稳定的状况)", "启动多个AcDown", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+				if (MessageBox.Show("AcDown正在工作中，您是否希望运行一个新的AcDown实例?" + Environment.NewLine + "(同时打开多个AcDown容易出现不稳定的状况)", "启动多个AcDown", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
 					return;
 			}
 
