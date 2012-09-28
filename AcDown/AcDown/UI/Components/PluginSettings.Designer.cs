@@ -41,6 +41,8 @@
 			this.label9 = new System.Windows.Forms.Label();
 			this.btnProperty = new System.Windows.Forms.Button();
 			this.btnSupport = new System.Windows.Forms.Button();
+			this.btnAdd = new System.Windows.Forms.Button();
+			this.btnDelete = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lsv
@@ -111,9 +113,9 @@
 			this.label9.AutoSize = true;
 			this.label9.Location = new System.Drawing.Point(3, 13);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(270, 13);
+			this.label9.Size = new System.Drawing.Size(278, 26);
 			this.label9.TabIndex = 8;
-			this.label9.Text = "AcDown插件能够帮助你解析各种各样的网络地址：";
+			this.label9.Text = "AcDown插件能够帮助你解析各种各样的网络地址：\r\n(添加或删除插件后，需要重新启动AcDown才能生效)";
 			// 
 			// btnProperty
 			// 
@@ -141,10 +143,37 @@
 			this.btnSupport.UseVisualStyleBackColor = true;
 			this.btnSupport.Click += new System.EventHandler(this.btnSupport_Click);
 			// 
+			// btnAdd
+			// 
+			this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.btnAdd.Location = new System.Drawing.Point(6, 307);
+			this.btnAdd.Name = "btnAdd";
+			this.btnAdd.Size = new System.Drawing.Size(78, 27);
+			this.btnAdd.TabIndex = 12;
+			this.btnAdd.Text = "添加";
+			this.btnAdd.UseVisualStyleBackColor = true;
+			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+			// 
+			// btnDelete
+			// 
+			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnDelete.Enabled = false;
+			this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.btnDelete.Location = new System.Drawing.Point(90, 307);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(78, 27);
+			this.btnDelete.TabIndex = 13;
+			this.btnDelete.Text = "删除";
+			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			// 
 			// PluginSettings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.btnDelete);
+			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.btnSupport);
 			this.Controls.Add(this.btnProperty);
 			this.Controls.Add(this.label9);
@@ -169,5 +198,7 @@
       private System.Windows.Forms.Button btnProperty;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.Button btnSupport;
+		private System.Windows.Forms.Button btnAdd;
+		private System.Windows.Forms.Button btnDelete;
    }
 }

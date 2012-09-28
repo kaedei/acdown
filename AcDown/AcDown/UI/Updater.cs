@@ -81,6 +81,9 @@ namespace Kaedei.AcDown.UI
 		/// <returns></returns>
 		public bool CheckIfUpdating(string path)
 		{
+			//兼容3.7-3.12旧版本
+			if (path.ToUpper().StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).ToUpper()))
+				return true;
 			if (path.ToUpper().StartsWith(CoreManager.StartupPath.ToUpper()))
 				return true;
 			else
