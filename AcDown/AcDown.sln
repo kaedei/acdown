@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDown", "AcDown\AcDown.csproj", "{BCFD1289-87EC-49DC-BB85-30274BC1F546}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{27B26E98-F583-4D58-B970-1F5F8949D4DE}"
-	ProjectSection(SolutionItems) = preProject
-		ChangeLog.txt = ChangeLog.txt
-		ReadMe.txt = ReadMe.txt
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownInterface", "AcDownInterface\AcDownInterface.csproj", "{AAB36442-C5D7-4580-A18A-62B6EB537F62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownParser", "AcDownParser\AcDownParser.csproj", "{CDE31CEA-F6BB-4545-BFA8-77A7400D8A6A}"
@@ -25,9 +19,19 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SampleDownloaderVB", "Sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Release", "Release\Release.csproj", "{53877A3E-F046-439B-AA3D-3190B72D4CC7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Downloader", "Downloader", "{2E31CFF9-09DE-4A51-AB68-1190980BAE18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{95D942CD-3601-4B9C-8AC0-16BC0B1C7DEE}"
+	ProjectSection(SolutionItems) = preProject
+		ChangeLog.txt = ChangeLog.txt
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingEveryday", "BingEveryday\BingEveryday.csproj", "{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
+		SccNumberOfProjects = 11
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs18
 		SccLocalPath0 = .
@@ -53,11 +57,16 @@ Global
 		SccProjectName7 = FlvCombine
 		SccLocalPath7 = FlvCombine
 		SccProjectUniqueName8 = SampleDownloaderVB\\SampleDownloaderVB.vbproj
+		SccProjectTopLevelParentUniqueName8 = AcDown.sln
 		SccProjectName8 = SampleDownloaderVB
 		SccLocalPath8 = SampleDownloaderVB
 		SccProjectUniqueName9 = Release\\Release.csproj
 		SccProjectName9 = Release
 		SccLocalPath9 = Release
+		SccProjectUniqueName10 = BingEveryday\\BingEveryday.csproj
+		SccProjectTopLevelParentUniqueName10 = AcDown.sln
+		SccProjectName10 = BingEveryday
+		SccLocalPath10 = BingEveryday
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,8 +166,20 @@ Global
 		{53877A3E-F046-439B-AA3D-3190B72D4CC7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{53877A3E-F046-439B-AA3D-3190B72D4CC7}.Release|x86.ActiveCfg = Release|x86
 		{53877A3E-F046-439B-AA3D-3190B72D4CC7}.Release|x86.Build.0 = Release|x86
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81E5F6F3-AD28-4372-9D87-DF95821D5B62} = {2E31CFF9-09DE-4A51-AB68-1190980BAE18}
+		{39C1ED9B-C30D-47DA-83FA-14EBBA9432D0} = {2E31CFF9-09DE-4A51-AB68-1190980BAE18}
 	EndGlobalSection
 EndGlobal

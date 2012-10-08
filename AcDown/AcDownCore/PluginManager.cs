@@ -286,9 +286,9 @@ namespace Kaedei.AcDown.Core
 		public bool IsInnerPlugin(IPlugin plugin)
 		{
 			if (File.Exists(Path.Combine(Path.GetDirectoryName(GetSettingFilePath(plugin)), GetAttr(plugin).Name + ".acp")))
-				return true;
-			else
 				return false;
+			else
+				return true;
 		}
 
 		/// <summary>

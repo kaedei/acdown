@@ -69,7 +69,7 @@
 			this.txtInput.Name = "txtInput";
 			this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtInput.Size = new System.Drawing.Size(287, 27);
-			this.txtInput.TabIndex = 1;
+			this.txtInput.TabIndex = 2;
 			this.txtInput.TextChanged += new System.EventHandler(this.txtInput_TextChanged);
 			this.txtInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInput_KeyDown);
 			// 
@@ -115,7 +115,7 @@
 			this.btnSetProxy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnSetProxy.Name = "btnSetProxy";
 			this.btnSetProxy.Size = new System.Drawing.Size(67, 24);
-			this.btnSetProxy.TabIndex = 12;
+			this.btnSetProxy.TabIndex = 1;
 			this.btnSetProxy.Text = "编辑...";
 			this.toolTip.SetToolTip(this.btnSetProxy, "点击编辑代理服务器设置");
 			this.btnSetProxy.UseVisualStyleBackColor = true;
@@ -127,7 +127,7 @@
 			this.chkParseRelated.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.chkParseRelated.Name = "chkParseRelated";
 			this.chkParseRelated.Size = new System.Drawing.Size(147, 21);
-			this.chkParseRelated.TabIndex = 3;
+			this.chkParseRelated.TabIndex = 0;
 			this.chkParseRelated.Text = "解析所有关联的下载项";
 			this.toolTip.SetToolTip(this.chkParseRelated, "添加任务时，解析与此任务相关联的其他任务");
 			this.chkParseRelated.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@
 			this.chkAutoAnswer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.chkAutoAnswer.Name = "chkAutoAnswer";
 			this.chkAutoAnswer.Size = new System.Drawing.Size(134, 21);
-			this.chkAutoAnswer.TabIndex = 3;
+			this.chkAutoAnswer.TabIndex = 2;
 			this.chkAutoAnswer.Text = "挂机下载模式";
 			this.toolTip.SetToolTip(this.chkAutoAnswer, "启用自动应答后，下载时不再出现询问对话框。\r\n由此任务添加的其他任务也会继承此设置。");
 			this.chkAutoAnswer.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@
 			this.chkExtractCache.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.chkExtractCache.Name = "chkExtractCache";
 			this.chkExtractCache.Size = new System.Drawing.Size(147, 21);
-			this.chkExtractCache.TabIndex = 3;
+			this.chkExtractCache.TabIndex = 1;
 			this.chkExtractCache.Text = "提取浏览器缓存";
 			this.toolTip.SetToolTip(this.chkExtractCache, "允许自动提取已下载的文件，省却重新下载的过程");
 			this.chkExtractCache.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
 			this.label2.Location = new System.Drawing.Point(13, 120);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(47, 17);
-			this.label2.TabIndex = 8;
+			this.label2.TabIndex = 7;
 			this.label2.Text = "保存到:";
 			// 
 			// cboProxy
@@ -171,7 +171,7 @@
 			this.cboProxy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.cboProxy.Name = "cboProxy";
 			this.cboProxy.Size = new System.Drawing.Size(182, 25);
-			this.cboProxy.TabIndex = 3;
+			this.cboProxy.TabIndex = 0;
 			// 
 			// txtPath
 			// 
@@ -180,7 +180,7 @@
 			this.txtPath.Name = "txtPath";
 			this.txtPath.ReadOnly = true;
 			this.txtPath.Size = new System.Drawing.Size(287, 23);
-			this.txtPath.TabIndex = 1;
+			this.txtPath.TabIndex = 8;
 			// 
 			// cboPlugins
 			// 
@@ -191,18 +191,18 @@
 			this.cboPlugins.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.cboPlugins.Name = "cboPlugins";
 			this.cboPlugins.Size = new System.Drawing.Size(287, 25);
-			this.cboPlugins.TabIndex = 0;
+			this.cboPlugins.TabIndex = 5;
 			this.cboPlugins.SelectedIndexChanged += new System.EventHandler(this.cboPlugins_SelectedIndexChanged);
 			// 
 			// txtComment
 			// 
 			this.txtComment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtComment.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtComment.Location = new System.Drawing.Point(3, 16);
+			this.txtComment.Location = new System.Drawing.Point(3, 19);
 			this.txtComment.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.txtComment.Multiline = true;
 			this.txtComment.Name = "txtComment";
-			this.txtComment.Size = new System.Drawing.Size(194, 91);
+			this.txtComment.Size = new System.Drawing.Size(194, 88);
 			this.txtComment.TabIndex = 0;
 			// 
 			// label5
@@ -211,7 +211,7 @@
 			this.label5.Location = new System.Drawing.Point(25, 32);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(35, 17);
-			this.label5.TabIndex = 8;
+			this.label5.TabIndex = 1;
 			this.label5.Text = "网址:";
 			// 
 			// lnkPaste
@@ -220,7 +220,7 @@
 			this.lnkPaste.Location = new System.Drawing.Point(359, 32);
 			this.lnkPaste.Name = "lnkPaste";
 			this.lnkPaste.Size = new System.Drawing.Size(32, 17);
-			this.lnkPaste.TabIndex = 9;
+			this.lnkPaste.TabIndex = 3;
 			this.lnkPaste.TabStop = true;
 			this.lnkPaste.Text = "粘贴";
 			this.lnkPaste.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPaste_LinkClicked);
@@ -232,7 +232,7 @@
 			this.lnkPluginConfig.Location = new System.Drawing.Point(359, 76);
 			this.lnkPluginConfig.Name = "lnkPluginConfig";
 			this.lnkPluginConfig.Size = new System.Drawing.Size(32, 17);
-			this.lnkPluginConfig.TabIndex = 10;
+			this.lnkPluginConfig.TabIndex = 6;
 			this.lnkPluginConfig.TabStop = true;
 			this.lnkPluginConfig.Text = "配置";
 			this.lnkPluginConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPluginConfig_LinkClicked);
@@ -243,7 +243,7 @@
 			this.label1.Location = new System.Drawing.Point(25, 76);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(35, 17);
-			this.label1.TabIndex = 11;
+			this.label1.TabIndex = 4;
 			this.label1.Text = "插件:";
 			// 
 			// lnkBrowseDir
@@ -252,7 +252,7 @@
 			this.lnkBrowseDir.Location = new System.Drawing.Point(359, 121);
 			this.lnkBrowseDir.Name = "lnkBrowseDir";
 			this.lnkBrowseDir.Size = new System.Drawing.Size(41, 17);
-			this.lnkBrowseDir.TabIndex = 14;
+			this.lnkBrowseDir.TabIndex = 9;
 			this.lnkBrowseDir.TabStop = true;
 			this.lnkBrowseDir.Text = "选择...";
 			this.lnkBrowseDir.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBrowseDir_LinkClicked);
@@ -265,7 +265,7 @@
 			this.chkAdvance.Location = new System.Drawing.Point(19, 158);
 			this.chkAdvance.Name = "chkAdvance";
 			this.chkAdvance.Size = new System.Drawing.Size(96, 30);
-			this.chkAdvance.TabIndex = 15;
+			this.chkAdvance.TabIndex = 10;
 			this.chkAdvance.Text = "高级 >>";
 			this.chkAdvance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.chkAdvance.UseVisualStyleBackColor = false;
@@ -277,7 +277,7 @@
 			this.groupBox1.Location = new System.Drawing.Point(222, 329);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(200, 110);
-			this.groupBox1.TabIndex = 16;
+			this.groupBox1.TabIndex = 14;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "注释";
 			// 
@@ -289,7 +289,7 @@
 			this.groupBox2.Location = new System.Drawing.Point(222, 211);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(200, 112);
-			this.groupBox2.TabIndex = 17;
+			this.groupBox2.TabIndex = 12;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "高级";
 			// 
@@ -300,7 +300,7 @@
 			this.groupBox3.Location = new System.Drawing.Point(16, 213);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(200, 110);
-			this.groupBox3.TabIndex = 18;
+			this.groupBox3.TabIndex = 11;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "代理服务器";
 			// 
@@ -310,7 +310,7 @@
 			this.groupBox4.Location = new System.Drawing.Point(16, 329);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(200, 110);
-			this.groupBox4.TabIndex = 19;
+			this.groupBox4.TabIndex = 13;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "下载以下类型的文件";
 			// 
@@ -333,7 +333,7 @@
 			this.lstDownloadType.MultiColumn = true;
 			this.lstDownloadType.Name = "lstDownloadType";
 			this.lstDownloadType.Size = new System.Drawing.Size(194, 88);
-			this.lstDownloadType.TabIndex = 20;
+			this.lstDownloadType.TabIndex = 0;
 			// 
 			// FormNew
 			// 

@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.1.2.924", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.2.0.1008", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -109,7 +109,9 @@ namespace Kaedei.AcDown.Downloader
 	public class BilibiliDownloader : CommonDownloader
 	{
 
-		//下载视频
+		/// <summary>
+		/// 下载视频
+		/// </summary>
 		public override bool Download()
 		{
 			//开始下载
@@ -173,16 +175,16 @@ namespace Kaedei.AcDown.Downloader
 					try
 					{
 						user = new UserLoginInfo();
-						user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.Settings["user"]));
-						user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Info.Settings["password"]));
+						user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["user"]));
+						user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["password"]));
 						if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
 							throw new Exception();
 					}
 					catch
 					{
 						user = ToolForm.CreateLoginForm("https://secure.bilibili.tv/member/index_do.php?fmdo=user&dopost=regnew");
-						Info.Settings["user"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Username));
-						Info.Settings["password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Password));
+						Settings["user"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Username));
+						Settings["password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Password));
 					}
 					//Post的数据
 					string postdata = "act=login&gourl=http%%3A%%2F%%2Fbilibili.tv%%2F&userid=" + user.Username + "&pwd=" + user.Password + "&keeptime=604800";
@@ -226,7 +228,9 @@ namespace Kaedei.AcDown.Downloader
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
 				//文件名称
-				string title = mTitle.Groups["title"].Value.Replace("- 嗶哩嗶哩", "").Replace("- ( ゜- ゜)つロ", "").Replace("乾杯~", "").Replace("- bilibili.tv", "").Trim();
+				string title = mTitle.Groups["title"].Value.Replace("- 嗶哩嗶哩", "")
+					.Replace("- ( ゜- ゜)つロ", "").Replace("乾杯~", "").Replace("- bilibili.tv", "")
+					.Replace("(" + Settings["AVSubNumber"] + ")", "").Trim();
 				string subtitle = title;
 
 				//取得子标题
@@ -320,11 +324,11 @@ namespace Kaedei.AcDown.Downloader
 				MatchCollection mcInterfaceSettings = Regex.Matches(interfacexml, @"\<(?<key>\w+)>(?<value>.+?)\</\1\>");
 				foreach (Match mInterfaceSetting in mcInterfaceSettings)
 				{
-					Info.Settings[mInterfaceSetting.Groups["key"].Value] = mInterfaceSetting.Groups["value"].Value;
+					Settings[mInterfaceSetting.Groups["key"].Value] = mInterfaceSetting.Groups["value"].Value;
 				}
 
 				//下载弹幕
-				bool comment = DownloadComment(title, subtitle, Info.Settings["chatid"]);
+				bool comment = DownloadComment(title, subtitle, Settings["chatid"]);
 				if (!comment)
 				{
 					Info.PartialFinished = true;
@@ -420,7 +424,7 @@ namespace Kaedei.AcDown.Downloader
 						var renamehelper = new CustomFileNameHelper();
 						string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
 										title, subtitle, Info.PartCount == 1 ? "" : Info.CurrentPart.ToString(),
-										ext.Replace(".", ""), Info.Settings["AVNumber"], Info.Settings["AVSubNumber"]);
+										ext.Replace(".", ""), Settings["AVNumber"], Settings["AVSubNumber"]);
 						filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 
 						//生成父文件夹
@@ -483,7 +487,7 @@ namespace Kaedei.AcDown.Downloader
 					//生成AcPlay文件
 					string acplay = GenerateAcplayConfig(pr, title, subtitle);
 					//支持AcPlay直接播放
-					Info.Settings["AcPlay"] = acplay;
+					Settings["AcPlay"] = acplay;
 				}
 
 				//支持导出列表
@@ -495,16 +499,16 @@ namespace Kaedei.AcDown.Downloader
 						sb.Append(item);
 						sb.Append("|");
 					}
-					if (Info.Settings.ContainsKey("ExportUrl"))
-						Info.Settings["ExportUrl"] = sb.ToString();
+					if (Settings.ContainsKey("ExportUrl"))
+						Settings["ExportUrl"] = sb.ToString();
 					else
-						Info.Settings.Add("ExportUrl", sb.ToString());
+						Settings.Add("ExportUrl", sb.ToString());
 				}
 			}
 			catch (Exception ex)
 			{
-				Info.Settings["user"] = "";
-				Info.Settings["password"] = "";
+				Settings["user"] = "";
+				Settings["password"] = "";
 				throw ex;
 			}
 
@@ -564,7 +568,7 @@ namespace Kaedei.AcDown.Downloader
 				//配置文件的生成地址
 				var renamehelper = new CustomFileNameHelper();
 				string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-								title, subtitle, "", "acplay", Info.Settings["AVNumber"], Info.Settings["AVSubNumber"]);
+								title, subtitle, "", "acplay", Settings["AVNumber"], Settings["AVSubNumber"]);
 				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 				//序列化到文件中
 				using (var fs = new FileStream(filename, FileMode.Create))
@@ -598,7 +602,7 @@ namespace Kaedei.AcDown.Downloader
 				TipText("正在下载字幕文件");
 				//字幕文件(on)地址
 				string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-								title, subtitle, "", "xml", Info.Settings["AVNumber"], Info.Settings["AVSubNumber"]);
+								title, subtitle, "", "xml", Settings["AVNumber"], Settings["AVSubNumber"]);
 				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 				//生成父文件夹
 				if (!Directory.Exists(Path.GetDirectoryName(filename)))
