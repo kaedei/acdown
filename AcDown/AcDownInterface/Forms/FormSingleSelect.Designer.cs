@@ -42,7 +42,7 @@
 			this.combo.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.combo.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.combo.FormattingEnabled = true;
-			this.combo.Location = new System.Drawing.Point(74, 73);
+			this.combo.Location = new System.Drawing.Point(74, 79);
 			this.combo.Name = "combo";
 			this.combo.Size = new System.Drawing.Size(296, 29);
 			this.combo.TabIndex = 0;
@@ -53,9 +53,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblTip.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.lblTip.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblTip.Location = new System.Drawing.Point(12, 9);
+			this.lblTip.Location = new System.Drawing.Point(12, 10);
 			this.lblTip.Name = "lblTip";
-			this.lblTip.Size = new System.Drawing.Size(420, 61);
+			this.lblTip.Size = new System.Drawing.Size(420, 66);
 			this.lblTip.TabIndex = 1;
 			this.lblTip.Text = "下载时优先使用以下服务器:";
 			// 
@@ -64,9 +64,9 @@
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnOK.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnOK.Location = new System.Drawing.Point(324, 145);
+			this.btnOK.Location = new System.Drawing.Point(324, 157);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(108, 32);
+			this.btnOK.Size = new System.Drawing.Size(108, 35);
 			this.btnOK.TabIndex = 2;
 			this.btnOK.Text = "确定";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -81,14 +81,14 @@
 			// FormSingleSelect
 			// 
 			this.AcceptButton = this.btnOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(444, 189);
+			this.ClientSize = new System.Drawing.Size(444, 205);
 			this.ControlBox = false;
 			this.Controls.Add(this.combo);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.lblTip);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "FormSingleSelect";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

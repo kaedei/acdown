@@ -89,12 +89,9 @@ namespace Kaedei.AcDown.UI.Components
 						}
 					}
 
-					if (plugin.Configuration.ContainsKey("StartupPath"))
+					if (!CoreManager.PluginManager.IsInnerPlugin(plugin))
 					{
-						if (File.Exists(Path.Combine(plugin.Configuration["StartupPath"], attrib.Name + ".acp")))
-						{
-							btnDelete.Enabled = true;
-						}
+						btnDelete.Enabled = true;
 					}
 				}
 				catch { }
