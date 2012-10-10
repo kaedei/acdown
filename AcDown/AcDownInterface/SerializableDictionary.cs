@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Schema;
+using System.IO;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -84,5 +85,32 @@ namespace Kaedei.AcDown.Interface
 		}
 
 		#endregion
+
+		/// <summary>
+		/// 将字典中的内容序列化到一个字符串对象中
+		/// </summary>
+		public static string WriteToString(SerializableDictionary<TKey, TValue> dict)
+		{
+			var t = typeof(SerializableDictionary<TKey, TValue>);
+			var serializer = new XmlSerializer(t);
+			using (var ms = new MemoryStream())
+			{
+				serializer.Serialize(ms, dict);
+				return Encoding.UTF8.GetString(ms.ToArray());
+			}
+		}
+
+		/// <summary>
+		/// 将一个字符串对象反序列化为字典
+		/// </summary>
+		public static SerializableDictionary<TKey, TValue> LoadFromString(string content)
+		{
+			var t = typeof(SerializableDictionary<TKey, TValue>);
+			var serializer = new XmlSerializer(t);
+			using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(content)))
+			{
+				return (SerializableDictionary<TKey, TValue>)serializer.Deserialize(ms);
+			}
+		}
 	}
 }

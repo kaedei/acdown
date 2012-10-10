@@ -73,9 +73,10 @@ namespace Kaedei.AcDown.Interface
 
 			//将 数字-清晰度 存入到字典中
 			var resolutiondict = new Dictionary<string, string>();
-			resolutiondict.Add("1", "流畅 256P");
-			resolutiondict.Add("2", "清晰 360P");
-			resolutiondict.Add("3", "高清 720P");
+			resolutiondict.Add("1", "流畅");
+			resolutiondict.Add("2", "清晰");
+			resolutiondict.Add("3", "高清");
+			resolutiondict.Add("4", "超清");
 			resolutiondict.Add("99", "原画");
 
 			//将 清晰度-地址 存入到字典中

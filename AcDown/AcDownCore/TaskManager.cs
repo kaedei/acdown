@@ -26,7 +26,6 @@ namespace Kaedei.AcDown.Core
 		/// <summary>
 		/// 新建TaskManager类的实例
 		/// </summary>
-		/// <param name="delegatesCon"></param>
 		public TaskManager()
 		{
 			//初始化预处理委托
@@ -39,16 +38,8 @@ namespace Kaedei.AcDown.Core
 				this.ErrorPreprocessor,
 				this.NewTaskPreprocessor,
 				this.AllFinishedPreprocessor);
-			//起始位置
-			_startupPath = CoreManager.StartupPath;
 		}
-
-		//启动路径
-		string _startupPath;
-
-		//插件管理器
-		PluginManager _pluginMgr;
-
+		
 		//所有任务
 		public List<TaskInfo> TaskInfos = new List<TaskInfo>();
 
@@ -419,7 +410,7 @@ namespace Kaedei.AcDown.Core
 						XmlSerializer formatter = new XmlSerializer(typeof(List<TaskInfo>));
 						formatter.Serialize(ms, TaskInfos);
 						//将内存流复制到文件
-						using (FileStream fs = new FileStream(Path.Combine(_startupPath, "Task.xml"), FileMode.Create))
+						using (FileStream fs = new FileStream(Path.Combine(CoreManager.StartupPath, "Task.xml"), FileMode.Create))
 						{
 							ms.Position = 0;
 							byte[] buffer = new byte[500 * 1024];
@@ -449,7 +440,7 @@ namespace Kaedei.AcDown.Core
 		public void LoadAllTasks()
 		{
 			//取得文件路径名称
-			string path = Path.Combine(_startupPath, "Task.xml");
+			string path = Path.Combine(CoreManager.StartupPath, "Task.xml");
 			//如果文件存在
 			if (File.Exists(path))
 			{

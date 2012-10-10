@@ -363,7 +363,7 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			
+
 			//设置刷新频率
 			if (CoreManager.ConfigManager.Settings.RefreshInfoInterval != timer.Interval)
 			{
@@ -459,7 +459,14 @@ namespace Kaedei.AcDown.UI
 					{
 						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
 						//显示此任务的进度
-						taskbarList.SetProgressValue(this.Handle, (ulong)(a.GetProgress() * 10000), 10000);
+						ulong totalprogress = (ulong)(a.PartCount >= 1 ? a.PartCount : 1) * 10000;
+						ulong currentprogress = (ulong)(a.CurrentPart >= 1 ? a.CurrentPart - 1 : 0) * 10000 + (ulong)a.GetProgress() * 10000;
+						//当前进度
+						try
+						{
+							taskbarList.SetProgressValue(this.Handle, currentprogress, totalprogress);
+						}
+						catch { }
 					}
 					else
 					{
@@ -697,8 +704,12 @@ namespace Kaedei.AcDown.UI
 			ListViewItem item = lsv.SelectedItems[0];
 			if (item != null)
 			{
-				TaskInfo downloader = GetTask(new Guid((string)item.Tag));
-				Process.Start(downloader.Url);
+				try
+				{
+					TaskInfo downloader = GetTask(new Guid((string)item.Tag));
+					Process.Start(downloader.Url);
+				}
+				catch { }
 			}
 		}
 
