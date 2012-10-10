@@ -244,7 +244,11 @@ namespace Kaedei.AcDown.Interface
 		public double GetProgress()
 		{
 			if (resourceDownloader != null)
+			{
 				_progress = (double)resourceDownloader.DoneBytes / (double)resourceDownloader.TotalLength;
+				if (_progress < 0) _progress = 0.00;
+				else if (_progress > 1.00) _progress = 1.00;
+			}
 			return _progress;
 		}
 

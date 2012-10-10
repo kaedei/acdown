@@ -41,6 +41,10 @@ namespace Kaedei.AcDown.Interface.AcPlay
 		/// </summary>
 		public int SpeedLimit = 0;
 		/// <summary>
+		/// 连接互联网资源时使用的代理服务器
+		/// </summary>
+		public AcDownProxy Proxy;
+		/// <summary>
 		/// 额外信息
 		/// </summary>
 		public SerializableDictionary<string, string> ExtraConfig;
