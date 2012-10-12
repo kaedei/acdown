@@ -189,7 +189,7 @@ namespace Kaedei.AcDown.UI.Components
 					break;
 				default:
 					config.PlayerName = "acfun";
-					config.PlayerUrl = "http://static.acfun.tv/player/ACFlashPlayer.artemis.20120422.swf";
+					config.PlayerUrl = "http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
 					break;
 			}
 
@@ -244,9 +244,6 @@ namespace Kaedei.AcDown.UI.Components
 			if (!Directory.Exists(dir))
 				Directory.CreateDirectory(dir);
 
-			bool r;
-			string file = "";
-			string swf = "";
 			//更新播放器
 			switch (cboPlayer.SelectedIndex)
 			{
@@ -268,32 +265,48 @@ namespace Kaedei.AcDown.UI.Components
 					//播放器地址
 					if (player == "acfun")
 					{
-						//页面地址
-						string src = Network.GetHtmlSource("http://www.acfun.tv/v/ac10000", Encoding.UTF8);
-						Match mFlashPlayer = Regex.Match(src, @"http://static.acfun.tv/player/.+?\.swf");
-						if (mFlashPlayer.Success)
-							swf = mFlashPlayer.Value;
-						else
-							swf = @"http://static.acfun.tv/player/ACFlashPlayer.201209240842.swf";
+						//播放器文件
+						string swf = @"http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
+						string fileSwf = Path.Combine(dir, Path.GetFileNameWithoutExtension(swf) + ".swf");
+						bool r1 = Network.DownloadFile(new DownloadParameter()
+						{
+							Url = swf,
+							FilePath = fileSwf
+						});
+
+						//皮肤文件
+						string skin = @"http://static.acfun.tv/skin/20120927.zip";
+						string fileSkin = Path.Combine(dir, Path.GetFileName(skin));
+						bool r2 = Network.DownloadFile(new DownloadParameter()
+						{
+							Url = skin,
+							FilePath = fileSkin
+						});
+
+						//如果下载失败则删除文件
+						if (!r1 || !r2)
+						{
+							File.Delete(fileSwf);
+							File.Delete(fileSkin);
+						}
 					}
 					else if (player == "bilibili")
 					{
-						swf = "http://static.hdslb.com/play.swf";
-					}
+						string swf = "http://static.hdslb.com/play.swf";
+						//播放器缓存位置
+						string file = Path.Combine(dir, Path.GetFileNameWithoutExtension(swf) + ".swf");
 
-					//播放器缓存位置
-					file = Path.Combine(dir, Path.GetFileNameWithoutExtension(swf) + ".swf");
+						bool r = Network.DownloadFile(new DownloadParameter()
+						{
+							Url = swf,
+							FilePath = file
+						});
 
-					r = Network.DownloadFile(new DownloadParameter()
-					{
-						Url = swf,
-						FilePath = file
-					});
-
-					//如果下载失败则删除文件
-					if (!r)
-					{
-						File.Delete(file);
+						//如果下载失败则删除文件
+						if (!r)
+						{
+							File.Delete(file);
+						}
 					}
 				}
 				catch { }

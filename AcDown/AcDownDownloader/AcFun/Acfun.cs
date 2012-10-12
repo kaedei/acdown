@@ -166,7 +166,7 @@ namespace Kaedei.AcDown.Downloader
 				if (mFlashPlayer.Success)
 					Settings["PlayerUrl"] = mFlashPlayer.Value;
 				else
-					Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209240842.swf";
+					Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
 				
 				#endregion
 
