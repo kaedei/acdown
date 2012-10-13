@@ -72,7 +72,7 @@ namespace Kaedei.AcDown.Interface
 				do
 				{
 					//创建http请求
-					request = (HttpWebRequest)HttpWebRequest.Create(para.Url);
+					request = (HttpWebRequest)HttpWebRequest.Create(new Uri(para.Url));
 					//设置超时
 					request.Timeout = GlobalSettings.GetSettings().NetworkTimeout;
 					//设置代理服务器
@@ -82,6 +82,9 @@ namespace Kaedei.AcDown.Interface
 					if (para.Cookies != null)
 						request.CookieContainer = para.Cookies;
 					request.AllowAutoRedirect = false;
+					//设置Referer和UA
+					request.Referer = para.Referer;
+					request.UserAgent = para.UserAgent;
 					//获取服务器回应
 					response = (HttpWebResponse)request.GetResponse();
 					if (!string.IsNullOrEmpty(response.Headers["Location"]))
@@ -202,9 +205,12 @@ namespace Kaedei.AcDown.Interface
 							newrequest.Proxy = para.Proxy;
 							//设置Cookie
 							if (para.Cookies != null)
-								request.CookieContainer = para.Cookies;
+								newrequest.CookieContainer = para.Cookies;
 							//设置Range
 							newrequest.AddRange(int.Parse(filelength.ToString()));
+							//设置Referer和UA
+							newrequest.Referer = para.Referer;
+							newrequest.UserAgent = para.UserAgent;
 							var newresponse = (HttpWebResponse)newrequest.GetResponse();
 							//检测服务器是否存在欺诈（宣称支持断点续传且返回200 OK，但是内容为报错信息。经常出现在新浪视频服务器的返回信息中）
 							//判定为欺诈的条件为：返回的长度小于剩余(未下载的)文件长度的90%
@@ -529,6 +535,14 @@ namespace Kaedei.AcDown.Interface
 		/// 读取或设置一个值，指示提取缓存时所使用的文件名过滤器
 		/// </summary>
 		public string ExtractCachePattern { get; set; }
+		/// <summary>
+		/// 读取或设置下载请求所使用的Referer值
+		/// </summary>
+		public string Referer { get; set; }
+		/// <summary>
+		/// 读取或设置下载请求所使用的User-Agent值
+		/// </summary>
+		public string UserAgent { get; set; }
 	}
 
 	/// <summary>

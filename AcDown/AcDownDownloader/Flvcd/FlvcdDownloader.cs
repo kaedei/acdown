@@ -47,7 +47,7 @@ namespace Kaedei.AcDown.Downloader
 				//获取url和名称
 				Regex rGetAllRes = new Regex(@"<a href=""(?<url>.+?)"".+?<B>(?<mode>.+?)</B>");
 				MatchCollection mGetAllRes = rGetAllRes.Matches(allResSrc);
-				if (mGetAllRes.Count > 1)
+				if (mGetAllRes.Count >= 1)
 				{
 					//将url和名称填入字典中
 					var dict = new Dictionary<string, string>();
