@@ -39,7 +39,7 @@ namespace Kaedei.AcDown.Core
 				this.NewTaskPreprocessor,
 				this.AllFinishedPreprocessor);
 		}
-		
+
 		//所有任务
 		public List<TaskInfo> TaskInfos = new List<TaskInfo>();
 
@@ -529,7 +529,8 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		private void StartPreprocessor(object e)
 		{
-			CoreManager.UIDelegates.Start((DelegateParameter)e);
+			if (CoreManager.UIDelegates.Start != null)
+				CoreManager.UIDelegates.Start((DelegateParameter)e);
 		}
 
 		/// <summary>
@@ -537,7 +538,8 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		private void NewPartPreprocessor(object e)
 		{
-			CoreManager.UIDelegates.NewPart((DelegateParameter)e);
+			if (CoreManager.UIDelegates.NewPart != null)
+				CoreManager.UIDelegates.NewPart((DelegateParameter)e);
 		}
 
 		/// <summary>
@@ -545,7 +547,8 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		private void RefreshPreprocessor(object e)
 		{
-			CoreManager.UIDelegates.Refresh((DelegateParameter)e);
+			if (CoreManager.UIDelegates.Refresh != null)
+				CoreManager.UIDelegates.Refresh((DelegateParameter)e);
 		}
 
 		/// <summary>
@@ -553,7 +556,8 @@ namespace Kaedei.AcDown.Core
 		/// </summary>
 		private void TipTextPreprocessor(object e)
 		{
-			CoreManager.UIDelegates.TipText((DelegateParameter)e);
+			if (CoreManager.UIDelegates.TipText != null)
+				CoreManager.UIDelegates.TipText((DelegateParameter)e);
 		}
 
 		/// <summary>
@@ -600,7 +604,8 @@ namespace Kaedei.AcDown.Core
 			CoreManager.TaskManager.StartTask(task);
 
 			//调用UI层的NewTask委托
-			CoreManager.UIDelegates.NewTask(p);
+			if (CoreManager.UIDelegates.NewTask != null)
+				CoreManager.UIDelegates.NewTask(p);
 		}
 
 		/// <summary>
@@ -615,7 +620,8 @@ namespace Kaedei.AcDown.Core
 			task.FinishTime = DateTime.Now;
 
 			//执行UI委托
-			CoreManager.UIDelegates.Finish(p);
+			if (CoreManager.UIDelegates.Finish != null)
+				CoreManager.UIDelegates.Finish(p);
 
 			//执行下一个可能开始的任务
 			CoreManager.TaskManager.ContinueNext();
@@ -640,7 +646,8 @@ namespace Kaedei.AcDown.Core
 			}
 
 			//执行UI委托
-			CoreManager.UIDelegates.Error(p);
+			if (CoreManager.UIDelegates.Error != null)
+				CoreManager.UIDelegates.Error(p);
 
 			//执行下一个可能开始的任务
 			CoreManager.TaskManager.ContinueNext();
@@ -656,7 +663,8 @@ namespace Kaedei.AcDown.Core
 		{
 			//如果没有正在等待的任务了且正在运行的任务为0
 			if (GetNextWaiting() == null && GetRunningCount() == 0)
-				CoreManager.UIDelegates.AllFinished(null);
+				if (CoreManager.UIDelegates.AllFinished != null)
+					CoreManager.UIDelegates.AllFinished(null);
 		}
 
 		#endregion

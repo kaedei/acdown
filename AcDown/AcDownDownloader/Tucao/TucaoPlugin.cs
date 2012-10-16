@@ -6,7 +6,7 @@ using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("TucaoDownloader", "吐槽网下载插件", "Kaedei", "4.0.0.0", "吐槽网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TucaoDownloader", "吐槽网下载插件", "Kaedei", "4.2.1.1016", "吐槽网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TucaoPlugin : IPlugin
 	{
 		public TucaoPlugin()
@@ -22,13 +22,14 @@ namespace Kaedei.AcDown.Downloader
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-            new AutoAnswer("tudou","3","土豆 高清(720P)"),
-            new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+            new AutoAnswer("tudou","4","土豆 超清"),
+				new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+				new AutoAnswer("tudou","3","土豆 高清"),
 				new AutoAnswer("tudou","99","土豆 原画"),
-            new AutoAnswer("youku","hd2","优酷 超清(HD)"),
+				new AutoAnswer("youku","hd2","优酷 超清(HD)"),
 				new AutoAnswer("youku","flv","优酷 标清(Flv)"),
-            new AutoAnswer("tudou","2","土豆 清晰(360P)"),
-            new AutoAnswer("tudou","1","土豆 流畅(256P)")
+				new AutoAnswer("tudou","2","土豆 清晰"),
+				new AutoAnswer("tudou","1","土豆 流畅")
 			});
 			//ConfigurationForm(不支持)
 		}

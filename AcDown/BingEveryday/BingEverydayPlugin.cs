@@ -6,9 +6,19 @@ using System.Text.RegularExpressions;
 
 namespace Kaedei.BingEveryday
 {
-	[AcDownPluginInformation("BingEveryday", "Bing壁纸下载&更换插件", "Kaedei", "1.1.0.0", "每天换个好心情", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BingEveryday", "Bing壁纸下载&更换插件", "Kaedei", "1.2.0.0", "每天换个好心情", "http://blog.sina.com.cn/kaedei")]
 	public class BingEverydayPlugin : IPlugin
 	{
+
+		public BingEverydayPlugin()
+		{
+			Feature = new Dictionary<string, object>();
+			//GetExample
+			Feature.Add("ExampleUrl", new string[] { 
+				"Bing.com壁纸下载&更换插件:",
+				@"在地址栏中直接填写""bing""即可"
+			});
+		}
 
 		#region IPlugin 成员
 

@@ -8,7 +8,7 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "4.0.0.0", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "4.2.1.1016", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TudouPlugin : IPlugin
 	{
 
@@ -27,10 +27,11 @@ namespace Kaedei.AcDown.Downloader
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-					 new AutoAnswer("tudou","3","土豆 高清(720P)"),
+				new AutoAnswer("tudou","4","土豆 超清"),
 				new AutoAnswer("tudou","99","土豆 原画"),
-				new AutoAnswer("tudou","2","土豆 清晰(360P)"),
-					 new AutoAnswer("tudou","1","土豆 流畅(256P)")
+				new AutoAnswer("tudou","3","土豆 高清"),
+				new AutoAnswer("tudou","2","土豆 清晰"),
+				new AutoAnswer("tudou","1","土豆 流畅")
 			});
 			//ConfigurationForm(不支持)
 		}
