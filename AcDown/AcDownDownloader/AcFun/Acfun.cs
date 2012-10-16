@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.1.2.924", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.2.1.1016", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -35,13 +35,14 @@ namespace Kaedei.AcDown.Downloader
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-				new AutoAnswer("tudou","3","土豆 高清(720P)"),
+				new AutoAnswer("tudou","4","土豆 超清"),
 				new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
+				new AutoAnswer("tudou","3","土豆 高清"),
 				new AutoAnswer("tudou","99","土豆 原画"),
 				new AutoAnswer("youku","hd2","优酷 超清(HD)"),
 				new AutoAnswer("youku","flv","优酷 标清(Flv)"),
-				new AutoAnswer("tudou","2","土豆 清晰(360P)"),
-				new AutoAnswer("tudou","1","土豆 流畅(256P)"),
+				new AutoAnswer("tudou","2","土豆 清晰"),
+				new AutoAnswer("tudou","1","土豆 流畅"),
 				new AutoAnswer("acfun","auto","保留此项可以禁止Acfun插件显示任何对话框")
 			});
 			//ConfigForm 属性设置窗口
@@ -153,7 +154,7 @@ namespace Kaedei.AcDown.Downloader
 				string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
 
 				//取得embed块的源代码
-				Regex rEmbed = new Regex(@"\<div id=""area-player""\>.+?\</div\>", RegexOptions.Singleline);
+				Regex rEmbed = new Regex(@"\<div id=""area-player"".+?\</div\>", RegexOptions.Singleline);
 				Match mEmbed = rEmbed.Match(src);
 				string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
 
@@ -161,14 +162,14 @@ namespace Kaedei.AcDown.Downloader
 				Regex rFlash = new Regex(@"src=""(?<player>.+?)\.swf""");
 				Match mFlash = rFlash.Match(embedSrc);
 
-				#region 取得当前Flash播放器地址
-				Match mFlashPlayer = Regex.Match(src, @"http://static.acfun.tv/player/.+?\.swf");
-				if (mFlashPlayer.Success)
-					Settings["PlayerUrl"] = mFlashPlayer.Value;
-				else
-					Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
+				//#region 取得当前Flash播放器地址
+				//Match mFlashPlayer = Regex.Match(src, @"http://static.acfun.tv/player/.+?\.swf");
+				//if (mFlashPlayer.Success)
+				//	Settings["PlayerUrl"] = mFlashPlayer.Value;
+				//else
+				Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
 				
-				#endregion
+				//#endregion
 
 				TipText("正在获取视频详细信息");
 				//如果是Flash游戏
@@ -492,7 +493,6 @@ namespace Kaedei.AcDown.Downloader
 				filename = renamehelper.CombineFileName(Settings["CustomFileName"],
 								Settings["Title"], Settings["Subtitle"], "", "[锁定].json", Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
 				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
-				Info.SubFilePath.Add(filename);
 				//取得字幕文件(lock)地址
 				subUrl = @"http://comment.acfun.tv/" + Info.Settings["cid"] + "_lock.json?clientID=0.46080235205590725";
 				try
@@ -502,8 +502,13 @@ namespace Kaedei.AcDown.Downloader
 					wc.Proxy = Info.Proxy;
 					byte[] data = wc.DownloadData(subUrl);
 					string subcontent = Encoding.UTF8.GetString(data);
-					//保存文件
-					File.WriteAllText(filename, subcontent);
+					//检测【锁定】弹幕文件是否是正确的JSON格式
+					if (subcontent.StartsWith("[{"))
+					{
+						Info.SubFilePath.Add(filename);
+						//保存文件
+						File.WriteAllText(filename, subcontent);
+					}
 				}
 				catch { }
 			}

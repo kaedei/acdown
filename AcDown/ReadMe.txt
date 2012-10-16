@@ -23,9 +23,9 @@ AcDownInterface - 接口
 AcDownParser - 部分视频网站的解析器
 FlvCombine - 视频合并组件
 AcPlay - 与弹幕播放相关的代码，包括acplay可执行文件和Flv文件分析器
-AcPlayCore - 弹幕播放核心程序
 Release - 将AcDown编译版本合并为单exe文件
 SampleDownloaderVB - 使用VB.NET开发的AcDown示例插件
+BingEveryday - 使用C#开发的Bing壁纸下载插件，这个插件是一个外部插件，需要通过双击生成的.acp文件才可以被加载到AcDown中
 
 ★如何生成项目★
 请在“解决方案资源管理器”中右键点击AcDown项目，在弹出菜单中选择“生成”

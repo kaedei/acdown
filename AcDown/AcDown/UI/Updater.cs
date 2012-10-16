@@ -64,7 +64,9 @@ namespace Kaedei.AcDown.UI
 				Network.DownloadFile(new DownloadParameter()
 				{
 					Url = updateInfo.Url,
-					FilePath = filename
+					FilePath = filename,
+					Referer = @"http://acdown.codeplex.com/wikipage?title=AutoUpdate&referringTitle=For%20Developer",
+					UserAgent = @"Mozilla/5.0 (Windows NT 6.1; rv:16.0) Gecko/20100101 Firefox/16.0"
 				});
 				return filename;
 			}

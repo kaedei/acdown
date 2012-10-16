@@ -1278,7 +1278,7 @@ namespace Kaedei.AcDown.UI
 				item.SubItems[GetColumn("Progress")].Text = @"100%"; //下载进度
 				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				//打开文件夹
-				if (CoreManager.ConfigManager.Settings.OpenFolderAfterComplete)
+				if (CoreManager.ConfigManager.Settings.OpenFolderAfterComplete && !Tools.IsRunningOnMono)
 					Process.Start(CoreManager.ConfigManager.Settings.SavePath);
 				//播放声音
 				if (CoreManager.ConfigManager.Settings.PlaySound)
@@ -1416,7 +1416,7 @@ namespace Kaedei.AcDown.UI
 			{
 				mnuTrayExit_Click(this, EventArgs.Empty);
 			}
-			if (action != ShutdownType.None)
+			else if (action != ShutdownType.None && !Tools.IsRunningOnMono)
 			{
 				FormShutdown frm = new FormShutdown(action);
 				frm.ShowDialog();
