@@ -64,7 +64,7 @@ namespace Kaedei.AcDown.Interface.Downloader
 		/// </summary>
 		protected void NewTask(string newUrl)
 		{
-			delegates.Refresh(new ParaNewTask(this.Info.BasePlugin, newUrl, this.Info));
+			delegates.NewTask(new ParaNewTask(this.Info.BasePlugin, newUrl, this.Info));
 		}
 		/// <summary>
 		/// 更改提示信息

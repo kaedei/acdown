@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Interface.UI;
+using System.Text;
 
 namespace Kaedei.AcDown.Downloader.Bilibili
 {
@@ -23,6 +24,11 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 				Configuration["CustomFileName"] : BilibiliPlugin.DefaultFileNameFormat;
 			//预览
 			txtFormat_TextChanged(this, EventArgs.Empty);
+			//用户名密码
+			txtUsername.Text = Configuration.ContainsKey("Username") ?
+				Encoding.UTF8.GetString(Convert.FromBase64String(Configuration["Username"])) : "";
+			txtPassword.Text = Configuration.ContainsKey("Password") ?
+				Encoding.UTF8.GetString(Convert.FromBase64String(Configuration["Password"])) : "";
 		}
 
 		private void txtFormat_TextChanged(object sender, EventArgs e)
@@ -55,8 +61,10 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 			}
 
 			//保存设置
-			Configuration["CustomFileName"] = txtFormat.Text;
+			Configuration["CustomFileName"] = txtFormat.Text.Trim();
 			Configuration["GenerateAcPlay"] = chkGenerateAcPlay.Checked ? "true" : "false";
+			Configuration["Username"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(txtUsername.Text.Trim()));
+			Configuration["Password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(txtPassword.Text.Trim()));
 
 			//关闭窗体
 			this.Close();

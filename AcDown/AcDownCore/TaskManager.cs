@@ -21,7 +21,7 @@ namespace Kaedei.AcDown.Core
 	/// <summary>
 	/// 任务管理
 	/// </summary>
-	public class TaskManager
+	public class TaskManager : IDisposable
 	{
 		/// <summary>
 		/// 新建TaskManager类的实例
@@ -394,7 +394,7 @@ namespace Kaedei.AcDown.Core
 			return null;
 		}
 
-		private string saveTaskLock = "acdownsavetask";
+		private object saveTaskLock = new object();
 		/// <summary>
 		/// 保存所有任务到文件中
 		/// </summary>
@@ -665,6 +665,17 @@ namespace Kaedei.AcDown.Core
 			if (GetNextWaiting() == null && GetRunningCount() == 0)
 				if (CoreManager.UIDelegates.AllFinished != null)
 					CoreManager.UIDelegates.AllFinished(null);
+		}
+
+		#endregion
+
+		#region IDisposable 成员
+
+		void IDisposable.Dispose()
+		{
+			bgWorkerContinue = false;
+			if (bgWorker != null)
+				bgWorker.Dispose();
 		}
 
 		#endregion

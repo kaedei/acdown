@@ -312,11 +312,13 @@ namespace Kaedei.AcDown.Core
 		}
 	}
 
+	[Serializable]
 	public class PluginFileNotSupportedException : Exception
 	{
 
 	}
 
+	[Serializable]
 	public class AcDownAttributeNotImplementedException : Exception
 	{
 		public AcDownAttributeNotImplementedException(IPlugin plugin) { Plugin = plugin; }

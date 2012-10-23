@@ -277,6 +277,10 @@ namespace Kaedei.AcDown.UI
 			AcDownSettings s = new AcDownSettings();
 			CoreManager.ConfigManager.Settings = s;
 			CoreManager.ConfigManager.SaveSettings();
+			//删除Firstrun文件
+			FirstrunHandler fh = new FirstrunHandler();
+			fh.DeleteFirstRunFile();
+
 			//关闭窗体
 			this.Close();
 		}

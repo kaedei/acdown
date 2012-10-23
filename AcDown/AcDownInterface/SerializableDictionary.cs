@@ -13,6 +13,7 @@ namespace Kaedei.AcDown.Interface
 	/// </summary>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
+	[Serializable]
 	public class SerializableDictionary<TKey, TValue>
 			  : Dictionary<TKey, TValue>, IXmlSerializable
 	{

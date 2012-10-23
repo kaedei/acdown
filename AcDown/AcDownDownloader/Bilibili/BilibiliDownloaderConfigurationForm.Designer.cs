@@ -38,7 +38,15 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.chkGenerateAcPlay = new System.Windows.Forms.CheckBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.txtUsername = new System.Windows.Forms.TextBox();
+			this.txtPassword = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// txtFormat
@@ -58,9 +66,9 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(6, 32);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(142, 13);
+			this.label1.Size = new System.Drawing.Size(148, 13);
 			this.label1.TabIndex = 1;
-			this.label1.Text = "自定义视频&弹幕文件名称:";
+			this.label1.Text = "自定义视频&&弹幕文件名称:";
 			// 
 			// groupBox1
 			// 
@@ -137,7 +145,7 @@
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnSave.Location = new System.Drawing.Point(373, 223);
+			this.btnSave.Location = new System.Drawing.Point(373, 307);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(75, 29);
 			this.btnSave.TabIndex = 3;
@@ -148,20 +156,77 @@
 			// chkGenerateAcPlay
 			// 
 			this.chkGenerateAcPlay.AutoSize = true;
-			this.chkGenerateAcPlay.Location = new System.Drawing.Point(21, 200);
+			this.chkGenerateAcPlay.Location = new System.Drawing.Point(19, 33);
 			this.chkGenerateAcPlay.Name = "chkGenerateAcPlay";
 			this.chkGenerateAcPlay.Size = new System.Drawing.Size(155, 17);
 			this.chkGenerateAcPlay.TabIndex = 8;
 			this.chkGenerateAcPlay.Text = "生成AcPlay播放快捷方式";
 			this.chkGenerateAcPlay.UseVisualStyleBackColor = true;
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.chkGenerateAcPlay);
+			this.groupBox2.Location = new System.Drawing.Point(254, 200);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(194, 93);
+			this.groupBox2.TabIndex = 9;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "弹幕播放";
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.txtPassword);
+			this.groupBox3.Controls.Add(this.label5);
+			this.groupBox3.Controls.Add(this.txtUsername);
+			this.groupBox3.Controls.Add(this.label4);
+			this.groupBox3.Location = new System.Drawing.Point(12, 200);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(236, 93);
+			this.groupBox3.TabIndex = 10;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "登录到BiliBili";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(16, 34);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(46, 13);
+			this.label4.TabIndex = 9;
+			this.label4.Text = "用户名:";
+			// 
+			// txtUsername
+			// 
+			this.txtUsername.Location = new System.Drawing.Point(70, 31);
+			this.txtUsername.Name = "txtUsername";
+			this.txtUsername.Size = new System.Drawing.Size(131, 20);
+			this.txtUsername.TabIndex = 9;
+			// 
+			// txtPassword
+			// 
+			this.txtPassword.Location = new System.Drawing.Point(70, 57);
+			this.txtPassword.Name = "txtPassword";
+			this.txtPassword.PasswordChar = '●';
+			this.txtPassword.Size = new System.Drawing.Size(131, 20);
+			this.txtPassword.TabIndex = 10;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(28, 60);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(34, 13);
+			this.label5.TabIndex = 11;
+			this.label5.Text = "密码:";
+			// 
 			// BilibiliDownloaderConfigurationForm
 			// 
 			this.AcceptButton = this.btnSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(460, 264);
-			this.Controls.Add(this.chkGenerateAcPlay);
+			this.ClientSize = new System.Drawing.Size(460, 348);
+			this.Controls.Add(this.groupBox3);
+			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -169,12 +234,15 @@
 			this.MinimizeBox = false;
 			this.Name = "BilibiliDownloaderConfigurationForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Bilibili下载插件属性设置窗口";
+			this.Text = "Bilibili插件属性";
 			this.Load += new System.EventHandler(this.AcfunDownloaderConfigurationForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -190,5 +258,11 @@
 		private System.Windows.Forms.ComboBox cboVar;
 		private System.Windows.Forms.TextBox txtPreview;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.TextBox txtPassword;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.TextBox txtUsername;
+		private System.Windows.Forms.Label label4;
 	}
 }

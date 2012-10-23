@@ -5,7 +5,7 @@ using Microsoft.Win32;
 
 namespace Kaedei.AcDown.UI
 {
-	public class AssociateRegistrar
+	public static class AssociateRegistrar
 	{
 		/// <summary>
 		/// 创建文件关联
@@ -16,8 +16,9 @@ namespace Kaedei.AcDown.UI
 		/// <param name="description">文件类型描述</param>
 		/// <param name="argument">附加参数（不包括"%1"）</param>
 		/// <returns></returns>
-		public static bool CreateAssociate(string programFile, string extension, string typeName, string description, string argument = "")
+		public static bool CreateAssociate(string programFile, string extension, string typeName, string description, string argument)
 		{
+			argument = argument ?? "";
 			try
 			{
 				RegistryKey key;

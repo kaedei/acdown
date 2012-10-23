@@ -48,6 +48,18 @@
 			this.lnkExport = new System.Windows.Forms.LinkLabel();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lnkAbout = new System.Windows.Forms.LinkLabel();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.chkOptions = new System.Windows.Forms.CheckBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.chkDebug = new System.Windows.Forms.CheckBox();
+			this.cboProxy = new System.Windows.Forms.ComboBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.udSpeedLimit = new System.Windows.Forms.NumericUpDown();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lsv
@@ -68,10 +80,10 @@
             listViewGroup1,
             listViewGroup2});
 			this.lsv.LargeImageList = this.imageList1;
-			this.lsv.Location = new System.Drawing.Point(3, 63);
+			this.lsv.Location = new System.Drawing.Point(13, 60);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.lsv.Name = "lsv";
-			this.lsv.Size = new System.Drawing.Size(464, 234);
+			this.lsv.Size = new System.Drawing.Size(544, 335);
 			this.lsv.SmallImageList = this.imageList1;
 			this.lsv.TabIndex = 3;
 			this.lsv.TileSize = new System.Drawing.Size(220, 56);
@@ -104,7 +116,7 @@
 			// 
 			this.lnkAdd.AutoSize = true;
 			this.lnkAdd.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkAdd.Location = new System.Drawing.Point(77, 42);
+			this.lnkAdd.Location = new System.Drawing.Point(90, 39);
 			this.lnkAdd.Name = "lnkAdd";
 			this.lnkAdd.Size = new System.Drawing.Size(145, 17);
 			this.lnkAdd.TabIndex = 4;
@@ -117,7 +129,7 @@
 			this.lnkDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkDelete.AutoSize = true;
 			this.lnkDelete.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkDelete.Location = new System.Drawing.Point(3, 305);
+			this.lnkDelete.Location = new System.Drawing.Point(16, 399);
 			this.lnkDelete.Name = "lnkDelete";
 			this.lnkDelete.Size = new System.Drawing.Size(68, 17);
 			this.lnkDelete.TabIndex = 5;
@@ -130,7 +142,7 @@
 			this.lnkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkClear.AutoSize = true;
 			this.lnkClear.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkClear.Location = new System.Drawing.Point(77, 305);
+			this.lnkClear.Location = new System.Drawing.Point(90, 399);
 			this.lnkClear.Name = "lnkClear";
 			this.lnkClear.Size = new System.Drawing.Size(56, 17);
 			this.lnkClear.TabIndex = 6;
@@ -142,10 +154,10 @@
 			// 
 			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnStart.Location = new System.Drawing.Point(359, 305);
+			this.btnStart.Location = new System.Drawing.Point(454, 399);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(108, 41);
+			this.btnStart.Size = new System.Drawing.Size(105, 36);
 			this.btnStart.TabIndex = 9;
 			this.btnStart.Text = "播放";
 			this.btnStart.UseVisualStyleBackColor = true;
@@ -158,7 +170,7 @@
 			this.cboPlayer.Items.AddRange(new object[] {
             "AcFun播放器",
             "BiliBili播放器"});
-			this.cboPlayer.Location = new System.Drawing.Point(68, 8);
+			this.cboPlayer.Location = new System.Drawing.Point(81, 5);
 			this.cboPlayer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.cboPlayer.Name = "cboPlayer";
 			this.cboPlayer.Size = new System.Drawing.Size(140, 25);
@@ -167,7 +179,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 12);
+			this.label1.Location = new System.Drawing.Point(16, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(56, 17);
 			this.label1.TabIndex = 0;
@@ -177,7 +189,7 @@
 			// 
 			this.lnkPlayerCache.AutoSize = true;
 			this.lnkPlayerCache.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkPlayerCache.Location = new System.Drawing.Point(216, 12);
+			this.lnkPlayerCache.Location = new System.Drawing.Point(227, 9);
 			this.lnkPlayerCache.Name = "lnkPlayerCache";
 			this.lnkPlayerCache.Size = new System.Drawing.Size(104, 17);
 			this.lnkPlayerCache.TabIndex = 2;
@@ -190,7 +202,7 @@
 			this.lnkImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkImport.AutoSize = true;
 			this.lnkImport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkImport.Location = new System.Drawing.Point(3, 329);
+			this.lnkImport.Location = new System.Drawing.Point(16, 416);
 			this.lnkImport.Name = "lnkImport";
 			this.lnkImport.Size = new System.Drawing.Size(115, 17);
 			this.lnkImport.TabIndex = 7;
@@ -203,7 +215,7 @@
 			this.lnkExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkExport.AutoSize = true;
 			this.lnkExport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkExport.Location = new System.Drawing.Point(124, 329);
+			this.lnkExport.Location = new System.Drawing.Point(137, 416);
 			this.lnkExport.Name = "lnkExport";
 			this.lnkExport.Size = new System.Drawing.Size(103, 17);
 			this.lnkExport.TabIndex = 8;
@@ -214,7 +226,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(3, 42);
+			this.label2.Location = new System.Drawing.Point(16, 39);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(68, 17);
 			this.label2.TabIndex = 10;
@@ -224,7 +236,7 @@
 			// 
 			this.lnkAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkAbout.AutoSize = true;
-			this.lnkAbout.Location = new System.Drawing.Point(353, 11);
+			this.lnkAbout.Location = new System.Drawing.Point(434, 9);
 			this.lnkAbout.Name = "lnkAbout";
 			this.lnkAbout.Size = new System.Drawing.Size(114, 17);
 			this.lnkAbout.TabIndex = 11;
@@ -232,30 +244,136 @@
 			this.lnkAbout.Text = "使用方法&&常见问题";
 			this.lnkAbout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAbout_LinkClicked);
 			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
+			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.label1);
+			this.splitContainer1.Panel1.Controls.Add(this.lnkClear);
+			this.splitContainer1.Panel1.Controls.Add(this.lsv);
+			this.splitContainer1.Panel1.Controls.Add(this.lnkDelete);
+			this.splitContainer1.Panel1.Controls.Add(this.lnkAdd);
+			this.splitContainer1.Panel1.Controls.Add(this.lnkImport);
+			this.splitContainer1.Panel1.Controls.Add(this.chkOptions);
+			this.splitContainer1.Panel1.Controls.Add(this.cboPlayer);
+			this.splitContainer1.Panel1.Controls.Add(this.btnStart);
+			this.splitContainer1.Panel1.Controls.Add(this.lnkExport);
+			this.splitContainer1.Panel1.Controls.Add(this.lnkPlayerCache);
+			this.splitContainer1.Panel1.Controls.Add(this.lnkAbout);
+			this.splitContainer1.Panel1.Controls.Add(this.label2);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.label5);
+			this.splitContainer1.Panel2.Controls.Add(this.chkDebug);
+			this.splitContainer1.Panel2.Controls.Add(this.cboProxy);
+			this.splitContainer1.Panel2.Controls.Add(this.label4);
+			this.splitContainer1.Panel2.Controls.Add(this.label3);
+			this.splitContainer1.Panel2.Controls.Add(this.udSpeedLimit);
+			this.splitContainer1.Panel2Collapsed = true;
+			this.splitContainer1.Size = new System.Drawing.Size(571, 442);
+			this.splitContainer1.SplitterDistance = 338;
+			this.splitContainer1.TabIndex = 12;
+			// 
+			// chkOptions
+			// 
+			this.chkOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.chkOptions.AutoSize = true;
+			this.chkOptions.Location = new System.Drawing.Point(373, 408);
+			this.chkOptions.Name = "chkOptions";
+			this.chkOptions.Size = new System.Drawing.Size(75, 21);
+			this.chkOptions.TabIndex = 10;
+			this.chkOptions.Text = "高级选项";
+			this.chkOptions.UseVisualStyleBackColor = true;
+			this.chkOptions.CheckedChanged += new System.EventHandler(this.chkOptions_CheckedChanged);
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(111, 70);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(59, 17);
+			this.label5.TabIndex = 16;
+			this.label5.Text = "调试模式:";
+			// 
+			// chkDebug
+			// 
+			this.chkDebug.AutoSize = true;
+			this.chkDebug.Location = new System.Drawing.Point(176, 69);
+			this.chkDebug.Name = "chkDebug";
+			this.chkDebug.Size = new System.Drawing.Size(51, 21);
+			this.chkDebug.TabIndex = 15;
+			this.chkDebug.Text = "开启";
+			this.chkDebug.UseVisualStyleBackColor = true;
+			// 
+			// cboProxy
+			// 
+			this.cboProxy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboProxy.FormattingEnabled = true;
+			this.cboProxy.Location = new System.Drawing.Point(176, 38);
+			this.cboProxy.Name = "cboProxy";
+			this.cboProxy.Size = new System.Drawing.Size(155, 25);
+			this.cboProxy.TabIndex = 14;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(75, 41);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(95, 17);
+			this.label4.TabIndex = 13;
+			this.label4.Text = "使用代理服务器:";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(16, 11);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(154, 17);
+			this.label3.TabIndex = 12;
+			this.label3.Text = "缓冲本地文件时限速(KB/s):";
+			// 
+			// udSpeedLimit
+			// 
+			this.udSpeedLimit.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.udSpeedLimit.Location = new System.Drawing.Point(176, 9);
+			this.udSpeedLimit.Maximum = new decimal(new int[] {
+            10240,
+            0,
+            0,
+            0});
+			this.udSpeedLimit.Name = "udSpeedLimit";
+			this.udSpeedLimit.Size = new System.Drawing.Size(75, 23);
+			this.udSpeedLimit.TabIndex = 11;
+			this.udSpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
 			// AcPlay2
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.lnkAbout);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.lnkExport);
-			this.Controls.Add(this.lnkImport);
-			this.Controls.Add(this.lnkPlayerCache);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.cboPlayer);
-			this.Controls.Add(this.btnStart);
-			this.Controls.Add(this.lnkClear);
-			this.Controls.Add(this.lnkDelete);
-			this.Controls.Add(this.lnkAdd);
-			this.Controls.Add(this.lsv);
+			this.Controls.Add(this.splitContainer1);
 			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "AcPlay2";
-			this.Size = new System.Drawing.Size(471, 352);
+			this.Size = new System.Drawing.Size(571, 442);
 			this.Load += new System.EventHandler(this.AcPlay2_Load);
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel1.PerformLayout();
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
+			this.splitContainer1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -277,6 +395,14 @@
 		private System.Windows.Forms.LinkLabel lnkExport;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.LinkLabel lnkAbout;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.CheckBox chkOptions;
+		private System.Windows.Forms.ComboBox cboProxy;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.NumericUpDown udSpeedLimit;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.CheckBox chkDebug;
 
 	}
 }

@@ -29,22 +29,11 @@
       private void InitializeComponent()
       {
 			this.components = new System.ComponentModel.Container();
-			this.combo = new System.Windows.Forms.ComboBox();
 			this.lblTip = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.tmr = new System.Windows.Forms.Timer(this.components);
+			this.combo = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
-			// 
-			// combo
-			// 
-			this.combo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.combo.DropDownWidth = 365;
-			this.combo.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.combo.FormattingEnabled = true;
-			this.combo.Location = new System.Drawing.Point(58, 64);
-			this.combo.Name = "combo";
-			this.combo.Size = new System.Drawing.Size(296, 21);
-			this.combo.TabIndex = 0;
 			// 
 			// lblTip
 			// 
@@ -53,16 +42,16 @@
 			this.lblTip.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.lblTip.Location = new System.Drawing.Point(12, 9);
 			this.lblTip.Name = "lblTip";
-			this.lblTip.Size = new System.Drawing.Size(389, 52);
+			this.lblTip.Size = new System.Drawing.Size(335, 52);
 			this.lblTip.TabIndex = 1;
 			this.lblTip.Text = "下载时优先使用以下服务器:";
 			// 
 			// btnOK
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.Location = new System.Drawing.Point(301, 109);
+			this.btnOK.Location = new System.Drawing.Point(265, 109);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(100, 28);
+			this.btnOK.Size = new System.Drawing.Size(82, 28);
 			this.btnOK.TabIndex = 2;
 			this.btnOK.Text = "确定";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -74,12 +63,21 @@
 			this.tmr.Interval = 1000;
 			this.tmr.Tick += new System.EventHandler(this.tmr_Tick);
 			// 
+			// combo
+			// 
+			this.combo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.combo.FormattingEnabled = true;
+			this.combo.Location = new System.Drawing.Point(38, 64);
+			this.combo.Name = "combo";
+			this.combo.Size = new System.Drawing.Size(282, 21);
+			this.combo.TabIndex = 3;
+			// 
 			// FormSingleSelect
 			// 
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(413, 149);
+			this.ClientSize = new System.Drawing.Size(359, 149);
 			this.ControlBox = false;
 			this.Controls.Add(this.combo);
 			this.Controls.Add(this.btnOK);
@@ -97,9 +95,9 @@
 
       #endregion
 
-      private System.Windows.Forms.ComboBox combo;
-      private System.Windows.Forms.Label lblTip;
+		private System.Windows.Forms.Label lblTip;
       private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Timer tmr;
+		private System.Windows.Forms.ComboBox combo;
    }
 }

@@ -64,14 +64,12 @@ namespace Kaedei.AcDown.UI
 		private FormNew()
 		{
 			InitializeComponent();
-
 			this.Size = new System.Drawing.Size(440, 230);
 			this.Icon = Kaedei.AcDown.Properties.Resources.Ac;
 		}
 
 		private void FormNew_Load(object sender, EventArgs e)
 		{
-
 			//设置提示文字
 			DwmApi.SetTextBoxTipText(txtInput.Handle, "将网页地址粘贴或填写到此处");
 			//显示默认文字
@@ -364,7 +362,7 @@ namespace Kaedei.AcDown.UI
 
 		private void cboPlugins_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			lnkPluginConfig.Enabled = false;
+			lnkPluginConfig.Visible = false;
 			if (cboPlugins.Items.Count == 0)
 				return;
 			int index = cboPlugins.SelectedIndex;
@@ -374,8 +372,8 @@ namespace Kaedei.AcDown.UI
 			if (plugin.Feature.ContainsKey("ConfigForm"))
 			{
 				var t = plugin.Feature["ConfigForm"].GetType();
-				if(t.IsSubclassOf(typeof(Delegate)) || t.IsSubclassOf(typeof(MulticastDelegate)))
-					lnkPluginConfig.Enabled = true;
+				if (t.IsSubclassOf(typeof(Delegate)) || t.IsSubclassOf(typeof(MulticastDelegate)))
+					lnkPluginConfig.Visible = true;
 			}
 		}
 
