@@ -59,12 +59,11 @@ namespace Kaedei.AcDown
 					}
 					else
 					{
-						Updater upd = new Updater();
 						//如果程序以临时文件启动
-						if (upd.CheckIfUpdating(Application.ExecutablePath))
+						if (Updater.CheckIfUpdating(Application.ExecutablePath))
 						{
 							//以自身覆盖目标文件
-							upd.CopyTempFileToTargetFile(filename);
+							Updater.CopyTempFileToTargetFile(filename);
 							//重新执行目标文件
 							Process.Start(filename, "updated");
 						}
@@ -75,8 +74,7 @@ namespace Kaedei.AcDown
 				else if (firstarg.Equals("updated", StringComparison.CurrentCultureIgnoreCase))
 				{
 					//如果参数为"updated"，删除临时文件
-					Updater upd = new Updater();
-					upd.DeleteTempFile();
+					Updater.DeleteTempFile();
 				}
 				else if (firstarg.Equals("regasso", StringComparison.CurrentCultureIgnoreCase))
 				{

@@ -1438,8 +1438,7 @@ namespace Kaedei.AcDown.UI
 			toolUpdate.Visible = false;
 			ThreadPool.QueueUserWorkItem(new WaitCallback((o) =>
 			{
-				Updater upd = new Updater();
-				haveupdate = upd.CheckUpdate();
+				haveupdate = Updater.CheckUpdate();
 				if (haveupdate.NewVersion > new Version(Application.ProductVersion))
 				{
 					this.Invoke(new MethodInvoker(() =>
@@ -1465,8 +1464,7 @@ namespace Kaedei.AcDown.UI
 					//忽略任何未知的错误（如线程强制停止）
 					try
 					{
-						Updater upd = new Updater();
-						string newFile = upd.DownloadUpdate(haveupdate);
+						string newFile = Updater.DownloadUpdate(haveupdate);
 						if (!string.IsNullOrEmpty(newFile)) //下载更新成功
 						{
 							Application.DoEvents();

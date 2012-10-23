@@ -176,10 +176,17 @@ namespace Kaedei.AcDown.Downloader
 					try
 					{
 						user = new UserLoginInfo();
-						user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["user"]));
-						user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["password"]));
+						
+							user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["user"]));
+						
+							user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["password"]));
 						if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
-							throw new Exception();
+						{
+							user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Username"]));
+							user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Password"]));
+							if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+								throw new Exception("需要登录");
+						}
 					}
 					catch
 					{
@@ -468,7 +475,7 @@ namespace Kaedei.AcDown.Downloader
 							//如果此任务由一个视频组成,则报错（下载失败）
 							if (Info.PartCount == 1)
 							{
-								throw ex;
+								throw;
 							}
 							else //否则继续下载，设置“部分失败”状态
 							{
@@ -510,7 +517,7 @@ namespace Kaedei.AcDown.Downloader
 			{
 				Settings["user"] = "";
 				Settings["password"] = "";
-				throw ex;
+				throw;
 			}
 
 			return true;

@@ -228,13 +228,13 @@
 			// lnkPluginConfig
 			// 
 			this.lnkPluginConfig.AutoSize = true;
-			this.lnkPluginConfig.Enabled = false;
 			this.lnkPluginConfig.Location = new System.Drawing.Point(359, 76);
 			this.lnkPluginConfig.Name = "lnkPluginConfig";
 			this.lnkPluginConfig.Size = new System.Drawing.Size(32, 17);
 			this.lnkPluginConfig.TabIndex = 6;
 			this.lnkPluginConfig.TabStop = true;
 			this.lnkPluginConfig.Text = "配置";
+			this.lnkPluginConfig.Visible = false;
 			this.lnkPluginConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPluginConfig_LinkClicked);
 			// 
 			// label1

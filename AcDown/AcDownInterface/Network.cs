@@ -455,7 +455,7 @@ namespace Kaedei.AcDown.Interface
 					if (remainTimes < 0)
 					{
 						needRedownload = false;
-						throw ex;
+						throw;
 					}
 					else
 					{

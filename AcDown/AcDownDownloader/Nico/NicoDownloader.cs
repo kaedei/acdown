@@ -51,7 +51,7 @@ namespace Kaedei.AcDown.Downloader
 				Info.Settings["password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Password));
 			}
 			//Post的数据
-			string postdata = string.Format("next_url=&mail={1}&password={2}", sm, Tools.UrlEncode(user.Username), Tools.UrlEncode(user.Password));
+			string postdata = string.Format("next_url={0}&mail={1}&password={2}", sm, Tools.UrlEncode(user.Username), Tools.UrlEncode(user.Password));
 			byte[] data = Encoding.UTF8.GetBytes(postdata);
 			//生成请求
 			HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://secure.nicovideo.jp/secure/login?site=secniconico");

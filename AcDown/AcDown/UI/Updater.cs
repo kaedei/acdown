@@ -13,13 +13,13 @@ namespace Kaedei.AcDown.UI
 	/// <summary>
 	/// 控制应用程序升级过程的类
 	/// </summary>
-	public class Updater
+	public static class Updater
 	{
 		/// <summary>
 		/// 检查程序是否有最新更新
 		/// </summary>
 		/// <returns></returns>
-		public UpdateInformation CheckUpdate()
+		public static UpdateInformation CheckUpdate()
 		{
 			try
 			{
@@ -53,7 +53,7 @@ namespace Kaedei.AcDown.UI
 		/// 下载最新更新至临时文件夹
 		/// </summary>
 		/// <returns>新文件的完整路径</returns>
-		public string DownloadUpdate(UpdateInformation updateInfo)
+		public static string DownloadUpdate(UpdateInformation updateInfo)
 		{
 			try
 			{
@@ -81,7 +81,7 @@ namespace Kaedei.AcDown.UI
 		/// </summary>
 		/// <param name="path">程序的映像路径</param>
 		/// <returns></returns>
-		public bool CheckIfUpdating(string path)
+		public static bool CheckIfUpdating(string path)
 		{
 			//兼容3.7-3.12旧版本
 			if (path.ToUpper().StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).ToUpper()))
@@ -96,7 +96,7 @@ namespace Kaedei.AcDown.UI
 		/// 拷贝自身覆盖指定的文件
 		/// </summary>
 		/// <param name="filePath">覆盖到的文件完整路径</param>
-		public void CopyTempFileToTargetFile(string filePath)
+		public static void CopyTempFileToTargetFile(string filePath)
 		{
 			string file = filePath.Replace("\"", "");
 			//去除目标文件的各种属性
@@ -108,7 +108,7 @@ namespace Kaedei.AcDown.UI
 		/// <summary>
 		/// 删除临时文件
 		/// </summary>
-		public void DeleteTempFile()
+		public static void DeleteTempFile()
 		{
 			ThreadPool.QueueUserWorkItem(new WaitCallback((o) =>
 				{
@@ -116,7 +116,7 @@ namespace Kaedei.AcDown.UI
 				}));
 		}
 
-		private void DeleteTempFileAsync()
+		private static void DeleteTempFileAsync()
 		{
 			string updateFolder = Path.Combine(CoreManager.StartupPath, "Update");
 			for (int i = 0; i < 5; i++)

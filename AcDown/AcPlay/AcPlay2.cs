@@ -13,6 +13,7 @@ using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Interface.AcPlay;
 using System.Text;
 using Kaedei.AcPlay;
+using System.Net;
 
 namespace Kaedei.AcDown.UI.Components
 {
@@ -43,8 +44,8 @@ namespace Kaedei.AcDown.UI.Components
 		#region 外部接口
 		private AcPlayConfiguration config = new AcPlayConfiguration()
 		{
-			HttpServerPort = new Random().Next(1001, 60000),
-			ProxyServerPort = new Random().Next(1001, 60000)
+			HttpServerPort = new Random().Next(10001, 30000),
+			ProxyServerPort = new Random().Next(30001, 60000)
 		};
 
 		/// <summary>
@@ -125,6 +126,10 @@ namespace Kaedei.AcDown.UI.Components
 					{
 						lvi.SubItems.Add("Bilibili弹幕文件");
 					}
+					else if (File.OpenText(file).ReadToEnd().Contains(@"""status"":""OK"""))
+					{
+						lvi.SubItems.Add("豆泡弹幕文件");
+					}
 					else
 					{
 						lvi.SubItems.Add("未知格式弹幕文件");
@@ -192,6 +197,27 @@ namespace Kaedei.AcDown.UI.Components
 					config.PlayerUrl = "http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
 					break;
 			}
+
+			//代理设置
+			//取得[代理设置]
+			if (cboProxy.SelectedIndex == 0) //IE设置
+				config.Proxy = null;
+			else if (cboProxy.SelectedIndex == 1) //直接连接
+				config.Proxy = new AcDownProxy().FromWebProxy(new WebProxy());
+			else if (CoreManager.ConfigManager.Settings.Proxy_Settings != null)
+			{
+				foreach (AcDownProxy item in CoreManager.ConfigManager.Settings.Proxy_Settings)
+				{
+					if (item.Name == cboProxy.SelectedItem.ToString())
+					{
+						config.Proxy = item;
+						break;
+					}
+				}
+			}
+
+			//限速
+			config.SpeedLimit = int.Parse(udSpeedLimit.Value.ToString());
 
 			List<Video> videos = new List<Video>();
 			List<string> subtitles = new List<string>();
@@ -387,6 +413,10 @@ namespace Kaedei.AcDown.UI.Components
 					{
 						lvi.SubItems.Add("Bilibili弹幕文件");
 					}
+					else if (File.OpenText(file).ReadToEnd().Contains(@"""status"":""OK"""))
+					{
+						lvi.SubItems.Add("豆泡弹幕文件");
+					}
 					else
 					{
 						lvi.SubItems.Add("未知格式弹幕文件");
@@ -483,6 +513,10 @@ namespace Kaedei.AcDown.UI.Components
 				Verb = "runas"
 			};
 
+			//调试模式
+			if (chkDebug.Checked)
+				p.StartInfo.Arguments += " /debug";
+
 			//WinXP不使用Verb
 			if (!DwmApi.IsWindowsVistaOrHigher())
 				p.StartInfo.Verb = "";
@@ -570,11 +604,35 @@ namespace Kaedei.AcDown.UI.Components
 		{
 			try
 			{
-				Process.Start("http://blog.sina.com.cn/s/blog_58c5066001012xsd.html");
+				Process.Start("http://blog.sina.com.cn/s/blog_58c506600101b4xd.html");
 			}
 			catch { }
 		}
 		#endregion
+
+		private void chkOptions_CheckedChanged(object sender, EventArgs e)
+		{
+			splitContainer1.Panel2Collapsed = !chkOptions.Checked;
+			if (chkOptions.Checked)
+			{
+				udSpeedLimit.Value = 0;
+				cboProxy.Items.Clear();
+				if (!AcDown.Interface.Tools.IsRunningOnMono)
+					cboProxy.Items.Add("使用IE设置");
+				else
+					cboProxy.Items.Add("使用系统设置");
+				cboProxy.Items.Add("直接连接");
+				if (CoreManager.ConfigManager.Settings.Proxy_Settings != null)
+				{
+					foreach (AcDownProxy item in CoreManager.ConfigManager.Settings.Proxy_Settings)
+					{
+						cboProxy.Items.Add(item.Name);
+					}
+				}
+				cboProxy.SelectedIndex = 0;
+
+			}
+		}
 
 	}
 }

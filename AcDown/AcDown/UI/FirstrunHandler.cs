@@ -83,5 +83,20 @@ namespace Kaedei.AcDown.UI
 			catch { }
 
 		}
+
+
+		public void DeleteFirstRunFile()
+		{
+			if (File.Exists(file))
+			{
+				try
+				{
+					FileInfo fi = new FileInfo(file);
+					fi.Attributes = FileAttributes.Normal;
+					File.Delete(file);
+				}
+				catch { }
+			}
+		}
 	}
 }

@@ -407,7 +407,7 @@ namespace Kaedei.AcDown.Downloader
 							//如果此任务由一个视频组成,则报错（下载失败）
 							if (Info.PartCount == 1)
 							{
-								throw ex;
+								throw;
 							}
 							else //否则继续下载，设置“部分失败”状态
 							{
@@ -445,7 +445,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 			catch (Exception ex)
 			{
-				throw ex;
+				throw;
 			}
 			//下载成功完成
 			return true;
