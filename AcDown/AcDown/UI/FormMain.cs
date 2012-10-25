@@ -460,7 +460,7 @@ namespace Kaedei.AcDown.UI
 						taskbarList.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
 						//显示此任务的进度
 						ulong totalprogress = (ulong)(a.PartCount >= 1 ? a.PartCount : 1) * 10000;
-						ulong currentprogress = (ulong)(a.CurrentPart >= 1 ? a.CurrentPart - 1 : 0) * 10000 + (ulong)a.GetProgress() * 10000;
+						ulong currentprogress = (ulong)(a.CurrentPart >= 1 ? a.CurrentPart - 1 : 0) * 10000 + (ulong)(a.GetProgress() * 10000);
 						//当前进度
 						try
 						{

@@ -8,7 +8,7 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("YoukuDownloader","优酷网下载插件","Kaedei","3.10.0.0","优酷网下载插件","http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("YoukuDownloader","优酷网下载插件","Kaedei","4.2.2.1025","优酷网下载插件","http://blog.sina.com.cn/kaedei")]
 	public class YoukuPlugin : IPlugin
 	{
 		public YoukuPlugin()
@@ -159,7 +159,7 @@ namespace Kaedei.AcDown.Downloader
 				//取得视频标题
 				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace(" - 在线观看", "").Replace(" - 视频", "").Replace(" - 优酷视频", "");
+				string title = mTitle.Groups["title"].Value.Replace("—优酷网，视频高清在线观看", "").Replace("—在线播放", "").Replace("—电视剧", "").Replace("—电影", "").Replace("—综艺", "");
 
 				Info.Title = title;
 				//过滤非法字符
