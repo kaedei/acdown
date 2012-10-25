@@ -120,14 +120,16 @@ namespace Kaedei.AcDown.Downloader
 
 			//修正井号
 			Info.Url = Info.Url.TrimEnd('#');
-			//修正旧版URL
+			//修正旧版URL(?)
 			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
 			Info.Url = Info.Url.Replace("www.bilibili.tv", "bilibili.kankanews.com");
 			Info.Url = Info.Url.Replace("bilibili.tv", "bilibili.kankanews.com");
+			Info.Url = Info.Url.Replace("bilibili.kankanews.com", "www.bilibili.tv");
 
 			//修正简写URL
 			if (Regex.Match(Info.Url, @"^av\d{2,6}$").Success)
-				Info.Url = "http://bilibili.kankanews.com/video/" + Info.Url + "/";
+				//Info.Url = "http://bilibili.kankanews.com/video/" + Info.Url + "/";
+				Info.Url = "http://www.bilibili.tv/video/" + Info.Url + "/";
 			//修正index_1.html
 			if (!Info.Url.EndsWith(".html"))
 			{
@@ -139,8 +141,8 @@ namespace Kaedei.AcDown.Downloader
 
 			string url = Info.Url;
 			//取得子页面文件名（例如"/video/av12345/index_123.html"）
-			string suburl = Regex.Match(Info.Url, @"bilibili\.kankanews\.com(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
-
+			//string suburl = Regex.Match(Info.Url, @"bilibili\.kankanews\.com(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
+			string suburl = Regex.Match(Info.Url, @"www\.bilibili\.tv(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
 			//取得AV号和子编号
 			Match mAVNumber = Regex.Match(Info.Url, @"(?<av>av\d+)/index_(?<sub>\d+)\.html");
 			Settings["AVNumber"] = mAVNumber.Groups["av"].Value;
