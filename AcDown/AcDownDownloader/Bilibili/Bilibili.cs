@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.2.1.1016", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.2.2.1025", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -406,7 +406,20 @@ namespace Kaedei.AcDown.Downloader
 						videos = new string[] { flashurl };
 					}
 
-
+					//支持导出列表
+					if (videos != null)
+					{
+						StringBuilder sb = new StringBuilder(videos.Length * 2);
+						foreach (string item in videos)
+						{
+							sb.Append(item);
+							sb.Append("|");
+						}
+						if (Settings.ContainsKey("ExportUrl"))
+							Settings["ExportUrl"] = sb.ToString();
+						else
+							Settings.Add("ExportUrl", sb.ToString());
+					}
 
 					//下载视频
 					//确定视频共有几个段落
@@ -498,20 +511,6 @@ namespace Kaedei.AcDown.Downloader
 					Settings["AcPlay"] = acplay;
 				}
 
-				//支持导出列表
-				if (videos != null)
-				{
-					StringBuilder sb = new StringBuilder(videos.Length * 2);
-					foreach (string item in videos)
-					{
-						sb.Append(item);
-						sb.Append("|");
-					}
-					if (Settings.ContainsKey("ExportUrl"))
-						Settings["ExportUrl"] = sb.ToString();
-					else
-						Settings.Add("ExportUrl", sb.ToString());
-				}
 			}
 			catch (Exception ex)
 			{
