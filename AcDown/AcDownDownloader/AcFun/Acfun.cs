@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.2.1.1016", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.2.2.1025", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -336,6 +336,18 @@ namespace Kaedei.AcDown.Downloader
 							break;
 					}
 
+					//支持导出列表
+					if (videos != null)
+					{
+						StringBuilder sb = new StringBuilder();
+						foreach (string item in videos)
+						{
+							sb.Append(item);
+							sb.Append("|");
+						}
+						Settings["ExportUrl"] = sb.ToString();
+					}
+
 					//下载视频
 					TipText("正在开始下载视频文件");
 					//确定视频共有几个段落
@@ -431,17 +443,7 @@ namespace Kaedei.AcDown.Downloader
 					Settings["AcPlay"] = acplay;
 				}
 
-				//支持导出列表
-				if (videos != null)
-				{
-					StringBuilder sb = new StringBuilder(videos.Length * 2);
-					foreach (string item in videos)
-					{
-						sb.Append(item);
-						sb.Append("|");
-					}
-					Settings["ExportUrl"] = sb.ToString();
-				}
+				
 			}
 			catch (Exception ex)
 			{
