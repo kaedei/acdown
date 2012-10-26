@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.2.2.1025", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.2.2.1026", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -28,8 +28,8 @@ namespace Kaedei.AcDown.Downloader
 				"Bilibili下载插件:",
 				"支持识别各Part名称、支持简写形式",
 				"av97834",
-				"http://bilibili.kankanews.com//video/av97834/",
-				"http://bilibili.kankanews.com/video/av70229/index_20.html",
+				"http://www.bilibili.tv/video/av97834/",
+				"http://www.bilibili.tv/video/av70229/index_20.html",
 			});
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
@@ -57,7 +57,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv|kankanews\.com)/video/|)av(?<av>\d{1,6})");
+			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -76,7 +76,7 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv|kankanews\.com)/video/|)av(?<av>\d{1,6})(/index_(?<subav>\d+)\.html|)");
+			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})(/index_(?<subav>\d+)\.html|)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -122,8 +122,9 @@ namespace Kaedei.AcDown.Downloader
 			Info.Url = Info.Url.TrimEnd('#');
 			//修正旧版URL(?)
 			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
-			Info.Url = Info.Url.Replace("www.bilibili.tv", "bilibili.kankanews.com");
-			Info.Url = Info.Url.Replace("bilibili.tv", "bilibili.kankanews.com");
+			//Info.Url = Info.Url.Replace("www.bilibili.tv", "bilibili.kankanews.com");
+			//Info.Url = Info.Url.Replace("bilibili.tv", "bilibili.kankanews.com");
+			Info.Url = Info.Url.Replace("bilibili.smgbb.cn", "www.bilibili.tv");
 			Info.Url = Info.Url.Replace("bilibili.kankanews.com", "www.bilibili.tv");
 
 			//修正简写URL
