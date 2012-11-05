@@ -82,7 +82,7 @@ namespace Kaedei.AcDown.Interface
 			string strSelect = null;
 
 			//自动应答
-			if (request.AutoAnswers.Count > 0)
+			if (request.AutoAnswers != null && request.AutoAnswers.Count > 0)
 			{
 				foreach (var item in request.AutoAnswers)
 				{
@@ -161,7 +161,8 @@ namespace Kaedei.AcDown.Interface
 			{
 				//得到地址
 				string u = "http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +
-					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
+					//"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:D2}", i)
+					"/st/" + fileposfix + "/fileid/" + fileid.Substring(0, 8) + string.Format("{0:X2}", i)
 					+ fileid.Substring(10) + keys[i];
 				//添加地址
 				pr.Items.Add(new ParseResultItem(u));

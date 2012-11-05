@@ -77,7 +77,7 @@
     </None>
     <None Include="ILMerge License.rtf" />
     <None Include="ILMerge.doc" />
-    <None Include="AcDown.sh">
+    <None Include="Public\AcDown.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -120,18 +120,16 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="7z.dll">
+    <None Include="Public\7z.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="7z.exe">
+    <None Include="Public\7z.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Public\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="7z-License.txt" />
+    <Content Include="Public\7z-License.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
