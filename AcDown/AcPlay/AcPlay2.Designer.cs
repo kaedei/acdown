@@ -191,10 +191,10 @@
 			this.lnkPlayerCache.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this.lnkPlayerCache.Location = new System.Drawing.Point(227, 9);
 			this.lnkPlayerCache.Name = "lnkPlayerCache";
-			this.lnkPlayerCache.Size = new System.Drawing.Size(104, 17);
+			this.lnkPlayerCache.Size = new System.Drawing.Size(160, 17);
 			this.lnkPlayerCache.TabIndex = 2;
 			this.lnkPlayerCache.TabStop = true;
-			this.lnkPlayerCache.Text = "更新此播放器缓存";
+			this.lnkPlayerCache.Text = "(离线播放)更新此播放器缓存";
 			this.lnkPlayerCache.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPlayerCache_LinkClicked);
 			// 
 			// lnkImport

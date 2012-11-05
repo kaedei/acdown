@@ -17,15 +17,13 @@ namespace Kaedei.AcDown.Core
 		public static string LogFilePath { get; set; }
 		private static DateTime time = DateTime.Now;
 		private static StreamWriter writer;
-		private static string startupPath;
 		public static void Initialize()
 		{
-			startupPath = CoreManager.StartupPath;
 			//如果禁止记录日志则返回
 			if (!CoreManager.ConfigManager.Settings.Logging)
 				return;
 			//日志文件路径
-			string path = Path.Combine(startupPath, @"Log\");
+			string path = Path.Combine(CoreManager.StartupPath, @"Log");
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 			string t = string.Concat(time.Year.ToString(), time.Month.ToString(), time.Day.ToString(),

@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Net;
 using System.Collections.Specialized;
 using Kaedei.AcDown.Interface.Forms;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Kaedei.AcDown.Interface
 {
@@ -20,7 +22,7 @@ namespace Kaedei.AcDown.Interface
 		{
 			ParseResult pr = new ParseResult();
 			int t;
-			if(!int.TryParse(request.Id,out t)) //测试iid是否是真实的(应该为数字)
+			if (!int.TryParse(request.Id, out t)) //测试iid是否是真实的(应该为数字)
 			{
 				//取得土豆网页面源代码
 				string tudousource = Network.GetHtmlSource("http://www.tudou.com/programs/view/" + request.Id + "/", Encoding.GetEncoding("GB2312"), request.Proxy);
@@ -48,7 +50,7 @@ namespace Kaedei.AcDown.Interface
 				{
 					kws.Add(mKw.Value);
 				}
-				
+
 				//检查需要的iid
 				for (int i = 0; i < icodes.Count; i++)
 				{
@@ -65,8 +67,17 @@ namespace Kaedei.AcDown.Interface
 
 			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + request.Id + "&pw=" + request.Password;
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, request.Proxy);
-			Regex rVideo = new Regex("<f [^>]+brt=\"(?<brt>\\d+)\">(?<url>[^<]+)</f>");
-			MatchCollection mcVideo = rVideo.Matches(xmldoc);
+
+			//反序列化XML文档
+			TudouVideo tudou;
+			var serializer = new XmlSerializer(typeof(TudouVideo));
+			using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(xmldoc)))
+			{
+				tudou = (TudouVideo)serializer.Deserialize(ms);
+			}
+
+			//Regex rVideo = new Regex("<f [^>]+brt=\"(?<brt>\\d+)\">(?<url>[^<]+)</f>");
+			//MatchCollection mcVideo = rVideo.Matches(xmldoc);
 
 			//默认url
 			string defaultUrl = "";
@@ -81,10 +92,11 @@ namespace Kaedei.AcDown.Interface
 
 			//将 清晰度-地址 存入到字典中
 			var videodict = new Dictionary<string, string>();
-			foreach (Match item in mcVideo)
+			//foreach (Match item in mcVideo)
+			foreach (var info in tudou.videos)
 			{
-				string brt = item.Groups["brt"].Value;
-				string url = item.Groups["url"].Value;
+				string brt = info.brt; // item.Groups["brt"].Value;
+				string url = info.address; // item.Groups["url"].Value;
 				if (string.IsNullOrEmpty(defaultUrl))
 					defaultUrl = url;
 				brt = resolutiondict[brt];
@@ -93,7 +105,7 @@ namespace Kaedei.AcDown.Interface
 			}
 
 			//自动应答
-			if (request.AutoAnswers.Count > 0)
+			if (request.AutoAnswers != null && request.AutoAnswers.Count > 0)
 			{
 				string answer;
 				foreach (var item in request.AutoAnswers)
@@ -128,9 +140,57 @@ namespace Kaedei.AcDown.Interface
 			}
 
 			pr.Items.Add(new ParseResultItem(urladdress));
+			pr.Items[0].Information.Add("order", "1");
+			//写入视频时长
+			pr.Items[0].Information.Add("length", tudou.time);
+
 			return pr;
 		}
 
 		#endregion
+	}
+
+	[Serializable]
+	[XmlRoot("v")]
+	internal class TudouVideo
+	{
+		[XmlAttribute("cd")]
+		public string iid;
+
+		[XmlAttribute("ch")]
+		public string ch;
+
+		[XmlAttribute("lg")]
+		public string lg;
+
+		[XmlAttribute("tm")]
+		public string time;
+
+		[XmlAttribute("tt")]
+		public string title;
+
+		[XmlAttribute("vi")]
+		public string vi;
+
+		[XmlAttribute("wt")]
+		public string wt;
+
+		[XmlElement("f")]
+		public TudouVideoInfo[] videos;
+	}
+
+	[Serializable]
+	internal class TudouVideoInfo
+	{
+		[XmlAttribute("bc")]
+		public string bc;
+		[XmlAttribute("brt")]
+		public string brt;
+		[XmlAttribute("s1")]
+		public string s1;
+		[XmlAttribute("st")]
+		public string st;
+		[XmlText]
+		public string address;
 	}
 }

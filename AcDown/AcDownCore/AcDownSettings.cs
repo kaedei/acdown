@@ -8,6 +8,7 @@ using System;
 using System.Xml.Serialization;
 using Kaedei.AcDown.Interface;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace Kaedei.AcDown.Core
 {
@@ -41,7 +42,12 @@ namespace Kaedei.AcDown.Core
 		public bool ExtractCache = true; //默认启用缓存提取
 		public bool AutoAnswer = false; //默认启用自动应答
 		public int ToolFormTimeout = 90; //工具窗口默认超时时间
+		public string DefaultUserName = ""; //默认用户名
 		//public List<string> RecentSearch = new List<string>();
+
+		[XmlArray("Folders")]
+		[XmlArrayItem("Folder")]
+		public List<string> SaveFolders = new List<string>();
 
 		//代理设置
 		//[XmlElement(IsNullable = true)]

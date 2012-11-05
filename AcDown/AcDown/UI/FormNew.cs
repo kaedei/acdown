@@ -77,7 +77,10 @@ namespace Kaedei.AcDown.UI
 			{
 				txtInput.Text = u;
 			}
-			txtPath.Text = CoreManager.ConfigManager.Settings.SavePath;
+			cboPath.Items.Add(CoreManager.ConfigManager.Settings.SavePath);
+			cboPath.Items.AddRange(CoreManager.ConfigManager.Settings.SaveFolders.ToArray());
+			cboPath.Items.Add(CLEAR_HISTORY);
+			cboPath.SelectedIndex = 0;
 			//填充代理服务器
 			LoadProxys();
 
@@ -257,7 +260,7 @@ namespace Kaedei.AcDown.UI
 					//添加任务
 					TaskInfo task = CoreManager.TaskManager.AddTask(selectedPlugin, url.Trim(), selectedProxy);
 					//设置[保存目录]
-					task.SaveDirectory = new DirectoryInfo(txtPath.Text);
+					task.SaveDirectory = new DirectoryInfo(cboPath.Text);
 					//设置[下载类型]
 					DownloadType ds = DownloadType.None;
 					if (lstDownloadType.GetItemChecked(0))
@@ -340,9 +343,28 @@ namespace Kaedei.AcDown.UI
 			FolderBrowserDialog fbd = new FolderBrowserDialog();
 			fbd.ShowNewFolderButton = true;
 			fbd.Description = "为您的下载选择一个目标文件夹：";
-			fbd.SelectedPath = this.txtPath.Text;
+			fbd.SelectedPath = this.cboPath.Text;
 			if (fbd.ShowDialog() == DialogResult.OK)
-				this.txtPath.Text = fbd.SelectedPath;
+			{
+				if(fbd.SelectedPath.Equals(CoreManager.ConfigManager.Settings.SavePath))
+				{
+					cboPath.SelectedIndex = 0;
+				}
+				else if (CoreManager.ConfigManager.Settings.SaveFolders.Contains(fbd.SelectedPath))
+				{
+					cboPath.SelectedIndex = CoreManager.ConfigManager.Settings.SaveFolders.IndexOf(fbd.SelectedPath) + 1;
+				}
+				else
+				{
+					CoreManager.ConfigManager.Settings.SaveFolders.Add(fbd.SelectedPath);
+					CoreManager.ConfigManager.SaveSettings();
+					cboPath.Items.Clear();
+					cboPath.Items.Add(CoreManager.ConfigManager.Settings.SavePath);
+					cboPath.Items.AddRange(CoreManager.ConfigManager.Settings.SaveFolders.ToArray());
+					cboPath.Items.Add(CLEAR_HISTORY);
+					cboPath.SelectedIndex = cboPath.Items.Count - 2;
+				}
+			}
 		}
 
 		//切换状态
@@ -351,12 +373,12 @@ namespace Kaedei.AcDown.UI
 			if (chkAdvance.Checked)
 			{
 				this.Size = new System.Drawing.Size(440, 480);
-				chkAdvance.Text = "高级 <<";
+				chkAdvance.Text = "更多选项 <<";
 			}
 			else
 			{
 				this.Size = new System.Drawing.Size(440, 230);
-				chkAdvance.Text = "高级 >>";
+				chkAdvance.Text = "更多选项 >>";
 			}
 		}
 
@@ -405,6 +427,22 @@ namespace Kaedei.AcDown.UI
 					txtInput.Text = Clipboard.GetText().Trim();
 			}
 			catch { }
+		}
+
+		//清除历史纪录
+		private const string CLEAR_HISTORY = "清除历史记录";
+		private void cboPath_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (cboPath.Text.Equals(CLEAR_HISTORY))
+			{
+				CoreManager.ConfigManager.Settings.SaveFolders.Clear();
+				CoreManager.ConfigManager.SaveSettings();
+				cboPath.Items.Clear();
+				cboPath.Items.Add(CoreManager.ConfigManager.Settings.SavePath);
+				cboPath.Items.AddRange(CoreManager.ConfigManager.Settings.SaveFolders.ToArray());
+				cboPath.Items.Add(CLEAR_HISTORY);
+				cboPath.SelectedIndex = 0;
+			}
 		}
 
 

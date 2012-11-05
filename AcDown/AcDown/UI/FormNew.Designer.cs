@@ -39,7 +39,6 @@
 			this.chkExtractCache = new System.Windows.Forms.CheckBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.cboProxy = new System.Windows.Forms.ComboBox();
-			this.txtPath = new System.Windows.Forms.TextBox();
 			this.cboPlugins = new System.Windows.Forms.ComboBox();
 			this.txtComment = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
@@ -53,6 +52,7 @@
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.lstDownloadType = new System.Windows.Forms.CheckedListBox();
+			this.cboPath = new System.Windows.Forms.ComboBox();
 			((System.ComponentModel.ISupportInitialize)(this.picCheck)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -173,15 +173,6 @@
 			this.cboProxy.Size = new System.Drawing.Size(182, 25);
 			this.cboProxy.TabIndex = 0;
 			// 
-			// txtPath
-			// 
-			this.txtPath.Location = new System.Drawing.Point(66, 117);
-			this.txtPath.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.txtPath.Name = "txtPath";
-			this.txtPath.ReadOnly = true;
-			this.txtPath.Size = new System.Drawing.Size(287, 23);
-			this.txtPath.TabIndex = 8;
-			// 
 			// cboPlugins
 			// 
 			this.cboPlugins.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -190,7 +181,7 @@
 			this.cboPlugins.Location = new System.Drawing.Point(66, 73);
 			this.cboPlugins.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.cboPlugins.Name = "cboPlugins";
-			this.cboPlugins.Size = new System.Drawing.Size(287, 25);
+			this.cboPlugins.Size = new System.Drawing.Size(245, 25);
 			this.cboPlugins.TabIndex = 5;
 			this.cboPlugins.SelectedIndexChanged += new System.EventHandler(this.cboPlugins_SelectedIndexChanged);
 			// 
@@ -228,12 +219,12 @@
 			// lnkPluginConfig
 			// 
 			this.lnkPluginConfig.AutoSize = true;
-			this.lnkPluginConfig.Location = new System.Drawing.Point(359, 76);
+			this.lnkPluginConfig.Location = new System.Drawing.Point(320, 76);
 			this.lnkPluginConfig.Name = "lnkPluginConfig";
-			this.lnkPluginConfig.Size = new System.Drawing.Size(32, 17);
+			this.lnkPluginConfig.Size = new System.Drawing.Size(80, 17);
 			this.lnkPluginConfig.TabIndex = 6;
 			this.lnkPluginConfig.TabStop = true;
-			this.lnkPluginConfig.Text = "配置";
+			this.lnkPluginConfig.Text = "调整插件设置";
 			this.lnkPluginConfig.Visible = false;
 			this.lnkPluginConfig.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPluginConfig_LinkClicked);
 			// 
@@ -264,9 +255,9 @@
 			this.chkAdvance.FlatAppearance.BorderSize = 0;
 			this.chkAdvance.Location = new System.Drawing.Point(19, 158);
 			this.chkAdvance.Name = "chkAdvance";
-			this.chkAdvance.Size = new System.Drawing.Size(96, 30);
+			this.chkAdvance.Size = new System.Drawing.Size(106, 30);
 			this.chkAdvance.TabIndex = 10;
-			this.chkAdvance.Text = "高级 >>";
+			this.chkAdvance.Text = "更多选项 >>";
 			this.chkAdvance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.chkAdvance.UseVisualStyleBackColor = false;
 			this.chkAdvance.CheckedChanged += new System.EventHandler(this.chkAdvance_CheckedChanged);
@@ -312,7 +303,7 @@
 			this.groupBox4.Size = new System.Drawing.Size(200, 110);
 			this.groupBox4.TabIndex = 13;
 			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = "下载以下类型的文件";
+			this.groupBox4.Text = "允许下载以下类型的文件";
 			// 
 			// lstDownloadType
 			// 
@@ -335,12 +326,23 @@
 			this.lstDownloadType.Size = new System.Drawing.Size(194, 88);
 			this.lstDownloadType.TabIndex = 0;
 			// 
+			// cboPath
+			// 
+			this.cboPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPath.FormattingEnabled = true;
+			this.cboPath.Location = new System.Drawing.Point(66, 117);
+			this.cboPath.Name = "cboPath";
+			this.cboPath.Size = new System.Drawing.Size(287, 25);
+			this.cboPath.TabIndex = 15;
+			this.cboPath.SelectedIndexChanged += new System.EventHandler(this.cboPath_SelectedIndexChanged);
+			// 
 			// FormNew
 			// 
 			this.AcceptButton = this.btnAdd;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(434, 458);
+			this.Controls.Add(this.cboPath);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.groupBox2);
@@ -350,7 +352,6 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lnkPluginConfig);
 			this.Controls.Add(this.cboPlugins);
-			this.Controls.Add(this.txtPath);
 			this.Controls.Add(this.lnkPaste);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label2);
@@ -386,7 +387,6 @@
 		  private System.Windows.Forms.PictureBox picCheck;
         private System.Windows.Forms.ToolTip toolTip;
 		  private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtPath;
 		  private System.Windows.Forms.ComboBox cboProxy;
 		  private System.Windows.Forms.TextBox txtComment;
 		  private System.Windows.Forms.ComboBox cboPlugins;
@@ -405,5 +405,6 @@
 		  private System.Windows.Forms.GroupBox groupBox3;
 		  private System.Windows.Forms.GroupBox groupBox4;
 		  private System.Windows.Forms.CheckedListBox lstDownloadType;
+		  private System.Windows.Forms.ComboBox cboPath;
 	 }
 }
