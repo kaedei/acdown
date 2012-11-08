@@ -48,6 +48,8 @@ namespace Kaedei.AcDown.Downloader
 			//迅雷看看
 			if (url.StartsWith("http://vod.kankan.com/")) return true;
 			if (url.StartsWith("http://kankan.xunlei.com/")) return true;
+			//糖豆
+			if(Regex.IsMatch(url,@"^http://\w+\.tangdou\.com/\w+/")) return true;
 
 			return false;
 		}

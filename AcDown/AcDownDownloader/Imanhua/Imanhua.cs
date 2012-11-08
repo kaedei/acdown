@@ -13,7 +13,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// 爱漫画下载插件
 	/// </summary>
-	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "3.12.0.726", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("ImanhuaDownloader", "爱漫画下载插件", "Kaedei", "4.3.0.1106", "爱漫画网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class ImanhuaPlugin : IPlugin
 	{
 
@@ -29,11 +29,12 @@ namespace Kaedei.AcDown.Downloader
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
-				new AutoAnswer("imanhua","http://c4.mangafiles.com","网通①"),
-				new AutoAnswer("imanhua","http://c5.mangafiles.com","网通②"),
-				new AutoAnswer("imanhua","http://c4.mangafiles.com","网通③"),
-				new AutoAnswer("imanhua","http://t4.mangafiles.com","电信①"),
-				new AutoAnswer("imanhua","http://t5.mangafiles.com","电信②")
+				new AutoAnswer("imanhua","http://c3.imanhua.com","网通①"),
+				new AutoAnswer("imanhua","http://t5.imanhua.com","电信①"),
+				new AutoAnswer("imanhua","http://t4.imanhua.com","电信②"),
+				new AutoAnswer("imanhua","http://t6.imanhua.com","电信③"),
+				new AutoAnswer("imanhua","http://c4.imanhua.com","网通②"),
+				new AutoAnswer("imanhua","http://c5.imanhua.com","网通③"),
 			});
 			//ConfigurationForm(不支持)
 
@@ -299,17 +300,18 @@ namespace Kaedei.AcDown.Downloader
 
 					//分析源代码,取得下载地址
 					WebClient wc = new WebClient();
-					if (Info.Proxy != null)
-						wc.Proxy = Info.Proxy;
+					//if (Info.Proxy != null)
+					wc.Proxy = Info.Proxy;
 
 					//取得源代码
 					byte[] buff = wc.DownloadData(surl);
 					string cookie = wc.ResponseHeaders.Get("Set-Cookie");
 					string source = Encoding.GetEncoding("GB2312").GetString(buff);
 					//取得标题
-					Regex rTitle = new Regex(@"<span id=""position"">.+?>> <a href="".+?"">(?<title>.+?)</a> >> <a href="".+?"">(?<subtitle>.+?)</a></span>");
-					Match mTitle = rTitle.Match(source);
-					string subTitle = mTitle.Groups["subtitle"].Value;
+					//Regex rTitle = new Regex(@"<span id=""position"">.+?>> <a href="".+?"">(?<title>.+?)</a> >> <a href="".+?"">(?<subtitle>.+?)</a></span>");
+					//Match mTitle = rTitle.Match(source);
+					//string subTitle = mTitle.Groups["subtitle"].Value;
+					string subTitle = Regex.Match(source, @"(?<=<h2>).+?(?=</h2>)").Value;
 					//过滤子标题中的非法字符
 					subTitle = Tools.InvalidCharacterFilter(subTitle, "");
 					//合并本地路径(文件夹)
@@ -322,15 +324,21 @@ namespace Kaedei.AcDown.Downloader
 					//if (int.Parse(chapterId) > 7910) //7910之后为新版本
 					//{
 					//如果使用动态生成
-					if (source.Contains(@"eval(function"))
+					if (source.Contains(@"var cInfo={"))
 					{
 						//获取所有文件名
-						Regex rFileName = new Regex(@"(?<=eval\(function.+)\w+_\d+(_\d+|)(?=.+split)");
-						MatchCollection mcFileNames = rFileName.Matches(source);
+						Regex rFileName = new Regex(@"(?<="")[^,]+(?="")");
+						MatchCollection mcFileNames = rFileName.Matches(Regex.Match(source, @"(?<=""files"":\[).+?(?=\])").Value);
 						foreach (Match file in mcFileNames)
 						{
-							fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".jpg");
-							fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value + ".png");
+							if (file.Value.StartsWith("/"))
+							{
+								fileUrls.Add(serverName + file.Value);
+							}
+							else
+							{
+								fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file.Value);
+							}
 						}
 					}
 					else
@@ -345,32 +353,9 @@ namespace Kaedei.AcDown.Downloader
 						MatchCollection mcFileNames = rFileName.Matches(jsFiles);
 						foreach (Match file in mcFileNames)
 						{
-							fileUrls.Add(serverName + file.Value);
+							fileUrls.Add(serverName + (file.Value.StartsWith("/") ? file.Value : "/" + file.Value));
 						}
 					}
-					////获取所有文件名
-					//Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
-					//Match mFileName = rFileName.Match(source);
-					//string[] files = mFileName.Value.Replace("\"", "").Split(',');
-					////组合文件名
-					//foreach (string file in files)
-					//{
-					//   fileUrls.Add(serverName + "/Files/Images/" + bookId + "/" + chapterId + "/" + file);
-					//}
-					//}
-					//}
-					//else //老版本
-					//{
-					//   //获取所有文件名
-					//   Regex rFileName = new Regex(@"(?<=""images"":\[).+?(?=\])");
-					//   Match mFileName = rFileName.Match(source);
-					//   string[] files = mFileName.Value.Replace("\"", "").Split(',');
-					//   foreach (string file in files)
-					//   {
-					//      fileUrls.Add(serverName + file);
-					//   }
-					//}
-
 
 					//输出真实地址
 					StringBuilder sb = new StringBuilder(fileUrls.Count);

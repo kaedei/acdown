@@ -200,7 +200,7 @@ namespace Kaedei.AcDown.UI.Components
 
 			//代理设置
 			//取得[代理设置]
-			if (cboProxy.SelectedIndex == 0) //IE设置
+			if (cboProxy.SelectedIndex <= 0) //IE设置
 				config.Proxy = null;
 			else if (cboProxy.SelectedIndex == 1) //直接连接
 				config.Proxy = new AcDownProxy().FromWebProxy(new WebProxy());
@@ -339,7 +339,7 @@ namespace Kaedei.AcDown.UI.Components
 				this.Invoke(new MethodInvoker(() =>
 				{
 					lnkPlayerCache.Enabled = true;
-					lnkPlayerCache.Text = "更新播放器缓存";
+					lnkPlayerCache.Text = "(离线播放)更新此播放器缓存";
 				}));
 			})));
 			t.IsBackground = true;
