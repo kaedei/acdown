@@ -145,31 +145,19 @@ namespace Kaedei.AcDown.Interface
 		/// <summary>
 		/// 从适用于URL的Base64编码字符串转换为普通字符串
 		/// </summary>
-		/// <param name="base64String"></param>
-		/// <returns></returns>
 		public static string FromBase64StringForUrl(string base64String)
 		{
-			string temp = base64String.Replace('*', '+').Replace('-', '/');
-			switch (temp.Length % 3)
-			{
-				case 1:
-					temp += "==";
-					break;
-				case 2:
-					temp += "=";
-					break;
-			}
+			string temp = base64String.Replace('.', '=').Replace('*', '+').Replace('-', '/');
 			return Encoding.UTF8.GetString(Convert.FromBase64String(temp));
 		}
 
 		/// <summary>
 		/// 从普通字符串转换为适用于URL的Base64编码字符串
 		/// </summary>
-		/// <param name="normalString"></param>
-		/// <returns></returns>
 		public static string ToBase64StringForUrl(string normalString)
 		{
-			return Convert.ToBase64String(Encoding.UTF8.GetBytes(normalString)).Replace('+', '*').Replace('/', '-').TrimEnd('=');
+			string temp = Convert.ToBase64String(Encoding.UTF8.GetBytes(normalString));
+			return temp.Replace('+', '*').Replace('/', '-').Replace('=', '.');
 		}
 	}
 }
