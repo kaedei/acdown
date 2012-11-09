@@ -73,6 +73,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UI\AssociateRegistrar.cs" />
+    <Compile Include="UI\Components\Feedback.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\Feedback.Designer.cs">
+      <DependentUpon>Feedback.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\MyHelperLib.IE.cs" />
     <Compile Include="UI\Components\PluginSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,6 +158,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\ShortUrlParser.cs" />
     <Compile Include="UI\Updater.cs" />
+    <EmbeddedResource Include="UI\Components\Feedback.resx">
+      <DependentUpon>Feedback.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\PluginSettings.resx">
       <DependentUpon>PluginSettings.cs</DependentUpon>
     </EmbeddedResource>
