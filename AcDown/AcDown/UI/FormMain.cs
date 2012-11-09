@@ -13,6 +13,7 @@ using Kaedei.AcDown.Core;
 using Kaedei.AcDown.Interface;
 using Kaedei.AcDown.Properties;
 using Kaedei.AcDown.Interface.UI;
+using Kaedei.AcDown.UI.Components;
 
 
 namespace Kaedei.AcDown.UI
@@ -274,6 +275,8 @@ namespace Kaedei.AcDown.UI
 			}
 			//选中下拉列表框(下载完成后)
 			cboAfterComplete.SelectedIndex = 0;
+			//加载留言板
+			LoadFeedbackPanel();
 			//检查更新
 			if (CoreManager.ConfigManager.Settings.CheckUpdate)
 				CheckUpdate();
@@ -293,6 +296,28 @@ namespace Kaedei.AcDown.UI
 				tabMain.SelectedTab = tabAcPlay;
 			}
 		}
+
+		//加载"留言板"网页
+		private void LoadFeedbackPanel()
+		{
+			if (!Tools.IsRunningOnMono)
+			{
+				tabFeedback.SuspendLayout();
+				var fb = new Feedback();
+				fb.Dock = System.Windows.Forms.DockStyle.Fill;
+				this.acPlay.Name = "fb";
+				this.acPlay.TabIndex = 0;
+				tabFeedback.Controls.Add(fb);
+				tabFeedback.ResumeLayout();
+				//fb.SetProxy("127.0.0.1", 9666);
+				fb.Navigate();
+			}
+			else
+			{
+				tabMain.TabPages.Remove(tabFeedback);
+			}
+		}
+
 
 		//启动监视剪贴板的线程
 		private System.Threading.Timer clipboardWatcher;
@@ -1601,6 +1626,7 @@ namespace Kaedei.AcDown.UI
 
 		#endregion
 
+		
 	}//end class
 
 
