@@ -42,16 +42,15 @@
 			this.lblTip.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.lblTip.Location = new System.Drawing.Point(12, 9);
 			this.lblTip.Name = "lblTip";
-			this.lblTip.Size = new System.Drawing.Size(335, 52);
+			this.lblTip.Size = new System.Drawing.Size(370, 52);
 			this.lblTip.TabIndex = 1;
 			this.lblTip.Text = "下载时优先使用以下服务器:";
 			// 
 			// btnOK
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.Location = new System.Drawing.Point(265, 109);
+			this.btnOK.Location = new System.Drawing.Point(283, 127);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(82, 28);
+			this.btnOK.Size = new System.Drawing.Size(99, 35);
 			this.btnOK.TabIndex = 2;
 			this.btnOK.Text = "确定";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -67,7 +66,7 @@
 			// 
 			this.combo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.combo.FormattingEnabled = true;
-			this.combo.Location = new System.Drawing.Point(38, 64);
+			this.combo.Location = new System.Drawing.Point(50, 64);
 			this.combo.Name = "combo";
 			this.combo.Size = new System.Drawing.Size(282, 21);
 			this.combo.TabIndex = 3;
@@ -77,7 +76,7 @@
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(359, 149);
+			this.ClientSize = new System.Drawing.Size(394, 184);
 			this.ControlBox = false;
 			this.Controls.Add(this.combo);
 			this.Controls.Add(this.btnOK);

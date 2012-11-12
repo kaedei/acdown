@@ -112,12 +112,6 @@
     <Compile Include="UI\FormPlugins.Designer.cs">
       <DependentUpon>FormPlugins.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FormSingle.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\FormSingle.Designer.cs">
-      <DependentUpon>FormSingle.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\FormConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,9 +203,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\FormSingle.resx">
-      <DependentUpon>FormSingle.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\FormStart.resx">
       <DependentUpon>FormStart.cs</DependentUpon>
     </EmbeddedResource>

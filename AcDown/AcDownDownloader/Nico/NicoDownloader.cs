@@ -54,12 +54,14 @@ namespace Kaedei.AcDown.Downloader
 			string postdata = string.Format("next_url={0}&mail={1}&password={2}", sm, Tools.UrlEncode(user.Username), Tools.UrlEncode(user.Password));
 			byte[] data = Encoding.UTF8.GetBytes(postdata);
 			//生成请求
-			HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://secure.nicovideo.jp/secure/login?site=secniconico");
+			HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://secure.nicovideo.jp/secure/login?site=niconico");
+			req.Proxy = Info.Proxy;
+			req.AllowAutoRedirect = false;
 			req.Method = "POST";
 			req.Referer = loginUrl;
 			req.ContentType = "application/x-www-form-urlencoded";
 			req.ContentLength = data.Length;
-			req.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.56 Safari/536.5";
+			req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:16.0) Gecko/20100101 Firefox/16.0";
 			req.CookieContainer = new CookieContainer();
 			//发送POST数据
 			using (var outstream = req.GetRequestStream())
@@ -75,22 +77,22 @@ namespace Kaedei.AcDown.Downloader
 
 			//解析视频标题
 			HttpWebRequest reqTitle = (HttpWebRequest)HttpWebRequest.Create(Info.Url);
-			if (Info.Proxy != null)
-				reqTitle.Proxy = Info.Proxy;
+			reqTitle.Proxy = Info.Proxy;
 			//设置cookies
 			reqTitle.CookieContainer = cookies;
 			//获取视频信息
 			string srcTitle = Network.GetHtmlSource(reqTitle, Encoding.UTF8);
 			//视频标题
 			Info.Title = Regex.Match(srcTitle, @"(?<=<title>).+?(?=</title>)").Value.Replace("‐ ニコニコ動画(原宿)", "").Trim();
+			//Info.Title = Regex.Match(srcTitle, @"(?<=<span class=""videoHeaderTitle"">).+?(?=</span>)").Value;
 			string title = Tools.InvalidCharacterFilter(Info.Title, "");
 
 			TipText("正在分析视频地址");
 
 			//通过API获取视频信息
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://flapi.nicovideo.jp/api/getflv/" + sm);
-			if (Info.Proxy != null)
-				request.Proxy = Info.Proxy;
+			request.Method = "POST";
+			request.Proxy = Info.Proxy;
 			//设置cookies
 			request.CookieContainer = cookies;
 			//获取视频信息

@@ -16,7 +16,7 @@ namespace Kaedei.AcDown.Core
 	public class AcDownSettings
 	{
 		//程序设置
-		public Size WindowSize = new Size(634, 513);
+		public Size WindowSize = new Size(788, 577);
 		public bool WatchClipboard = true; //监视剪贴板
 		public bool WatchClipboardShortUrl = true; //监视剪贴板中的短网址
 		public string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //保存文件夹

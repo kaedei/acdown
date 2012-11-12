@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Kaedei.AcDown.Interface.Forms
 {
@@ -28,7 +29,7 @@ namespace Kaedei.AcDown.Interface.Forms
 		/// 创建[选择服务器]窗体
 		/// </summary>
 		/// <param name="tip">对话框中显示的文字提示</param>
-		/// <param name="tipValueContent">一个类型为string-string的字典对象，分别对应“关键字”和“提示语”</param>
+		/// <param name="keyValueContent">一个类型为string-string的字典对象，分别对应“关键字”和“提示语”</param>
 		/// <param name="defaultKey">默认选中的值</param>
 		/// <param name="autoAnswers">自动应答设置</param>
 		/// <param name="autoAnswerPrefix">自动应答的前缀</param>
@@ -73,8 +74,19 @@ namespace Kaedei.AcDown.Interface.Forms
 		/// <param name="url">需要加载的页面链接</param>
 		public static void CreateWebpageForm(string url, string formTitle, bool sizable)
 		{
-			FormWebbrowser frm = new FormWebbrowser(url, formTitle, sizable);
-			frm.ShowDialog();
+			if (!Tools.IsRunningOnMono)
+			{
+				FormWebbrowser frm = new FormWebbrowser(url, formTitle, sizable);
+				frm.ShowDialog();
+			}
+			else
+			{
+				try
+				{
+					Process.Start(url);
+				}
+				catch { }
+			}
 		}
 	}
 }

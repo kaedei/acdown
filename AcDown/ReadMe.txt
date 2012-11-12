@@ -3,7 +3,7 @@
 http://acdown.codeplex.com/releases
 
 ★此文件更新时间★
-2012-8-17
+2012-11-12
 
 ★系统需求★
 正常打开AcDown项目文件需要您的系统安装如下软件/程序：
@@ -34,7 +34,7 @@ BingEveryday - 使用C#开发的Bing壁纸下载插件，这个插件是一个�
 Release项目使用ILMerge(http://research.microsoft.com/en-us/people/mbarnett/ilmerge.aspx)来合并程序集。
 请先在“生成”菜单-配置管理器 中将活动解决方案切换到“Release”，
 然后在“解决方案资源管理器”中右键点击Release项目，在弹出菜单中选择“生成”。
-合并后的EXE文件位置是【解决方案文件夹\Release\bin\Release\AcDownRelease.exe】
+合并后的EXE文件位置是【解决方案文件夹\Release\bin\Release\Public\AcDown.exe】
 
 ★其他★
 如果遇到有关源代码的问题，欢迎来信向作者询问：kaedei@foxmail.com
