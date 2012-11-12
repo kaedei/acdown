@@ -375,7 +375,7 @@ namespace Kaedei.AcDown.UI.Components
 		#endregion
 
 		#region 添加视频/弹幕
-		private void lnkAdd_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			//选择文件
 			OpenFileDialog ofd = new OpenFileDialog();
@@ -462,7 +462,7 @@ namespace Kaedei.AcDown.UI.Components
 		#endregion
 
 		#region 删除
-		private void lnkDelete_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void btnDel_Click(object sender, EventArgs e)
 		{
 			foreach (ListViewItem item in lsv.SelectedItems)
 			{
@@ -472,7 +472,7 @@ namespace Kaedei.AcDown.UI.Components
 		#endregion
 
 		#region 清空
-		private void lnkClear_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void btnClear_Click(object sender, EventArgs e)
 		{
 			lsv.Items.Clear();
 		}
@@ -633,6 +633,11 @@ namespace Kaedei.AcDown.UI.Components
 
 			}
 		}
+
+
+		
+
+
 
 	}
 }

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("NicoDownloader", "Nicovideo.jp下载插件", "Kaedei", "3.12.0.701", "NicoNico下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("NicoDownloader", "Nicovideo.jp下载插件", "Kaedei", "4.3.0.1112", "NicoNico下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class NicoPlugin : IPlugin
 	{
 		public NicoPlugin()

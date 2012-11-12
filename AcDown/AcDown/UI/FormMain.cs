@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -309,7 +308,7 @@ namespace Kaedei.AcDown.UI
 				this.acPlay.TabIndex = 0;
 				tabFeedback.Controls.Add(fb);
 				tabFeedback.ResumeLayout();
-				//fb.SetProxy("127.0.0.1", 9666);
+				fb.SetProxy("127.0.0.1", 9666);
 				fb.Navigate();
 			}
 			else
@@ -1615,7 +1614,7 @@ namespace Kaedei.AcDown.UI
 				{
 					//设置焦点并显示提示
 					txtSearch.Focus();
-					toolTip.Show("输入文字,搜索已有任务", this,
+					toolTip.Show("输入文字,在已有任务中快速搜索。" + Environment.NewLine + "按下回车键搜索网络上的资源", this,
 										 this.ClientSize.Width - btnSearch.Width - 20,
 										 this.Size.Height - this.ClientSize.Height + txtSearch.Height, 3500);
 				}
@@ -1626,7 +1625,7 @@ namespace Kaedei.AcDown.UI
 
 		#endregion
 
-		
+
 	}//end class
 
 

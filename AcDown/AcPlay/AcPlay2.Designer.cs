@@ -37,9 +37,6 @@
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-			this.lnkAdd = new System.Windows.Forms.LinkLabel();
-			this.lnkDelete = new System.Windows.Forms.LinkLabel();
-			this.lnkClear = new System.Windows.Forms.LinkLabel();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.cboPlayer = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -49,6 +46,9 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.lnkAbout = new System.Windows.Forms.LinkLabel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.btnClear = new System.Windows.Forms.Button();
+			this.btnDel = new System.Windows.Forms.Button();
+			this.btnAdd = new System.Windows.Forms.Button();
 			this.chkOptions = new System.Windows.Forms.CheckBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.chkDebug = new System.Windows.Forms.CheckBox();
@@ -80,10 +80,10 @@
             listViewGroup1,
             listViewGroup2});
 			this.lsv.LargeImageList = this.imageList1;
-			this.lsv.Location = new System.Drawing.Point(13, 60);
+			this.lsv.Location = new System.Drawing.Point(121, 77);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.lsv.Name = "lsv";
-			this.lsv.Size = new System.Drawing.Size(544, 335);
+			this.lsv.Size = new System.Drawing.Size(446, 318);
 			this.lsv.SmallImageList = this.imageList1;
 			this.lsv.TabIndex = 3;
 			this.lsv.TileSize = new System.Drawing.Size(220, 56);
@@ -111,44 +111,6 @@
 			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
 			this.imageList1.Images.SetKeyName(0, "Video.png");
 			this.imageList1.Images.SetKeyName(1, "Xml.png");
-			// 
-			// lnkAdd
-			// 
-			this.lnkAdd.AutoSize = true;
-			this.lnkAdd.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkAdd.Location = new System.Drawing.Point(90, 39);
-			this.lnkAdd.Name = "lnkAdd";
-			this.lnkAdd.Size = new System.Drawing.Size(145, 17);
-			this.lnkAdd.TabIndex = 4;
-			this.lnkAdd.TabStop = true;
-			this.lnkAdd.Text = "添加一个或多个视频/弹幕";
-			this.lnkAdd.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAdd_LinkClicked);
-			// 
-			// lnkDelete
-			// 
-			this.lnkDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lnkDelete.AutoSize = true;
-			this.lnkDelete.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkDelete.Location = new System.Drawing.Point(16, 399);
-			this.lnkDelete.Name = "lnkDelete";
-			this.lnkDelete.Size = new System.Drawing.Size(68, 17);
-			this.lnkDelete.TabIndex = 5;
-			this.lnkDelete.TabStop = true;
-			this.lnkDelete.Text = "删除选中项";
-			this.lnkDelete.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDelete_LinkClicked);
-			// 
-			// lnkClear
-			// 
-			this.lnkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lnkClear.AutoSize = true;
-			this.lnkClear.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkClear.Location = new System.Drawing.Point(90, 399);
-			this.lnkClear.Name = "lnkClear";
-			this.lnkClear.Size = new System.Drawing.Size(56, 17);
-			this.lnkClear.TabIndex = 6;
-			this.lnkClear.TabStop = true;
-			this.lnkClear.Text = "清空列表";
-			this.lnkClear.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClear_LinkClicked);
 			// 
 			// btnStart
 			// 
@@ -202,7 +164,7 @@
 			this.lnkImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkImport.AutoSize = true;
 			this.lnkImport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkImport.Location = new System.Drawing.Point(16, 416);
+			this.lnkImport.Location = new System.Drawing.Point(16, 409);
 			this.lnkImport.Name = "lnkImport";
 			this.lnkImport.Size = new System.Drawing.Size(115, 17);
 			this.lnkImport.TabIndex = 7;
@@ -215,7 +177,7 @@
 			this.lnkExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkExport.AutoSize = true;
 			this.lnkExport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			this.lnkExport.Location = new System.Drawing.Point(137, 416);
+			this.lnkExport.Location = new System.Drawing.Point(137, 409);
 			this.lnkExport.Name = "lnkExport";
 			this.lnkExport.Size = new System.Drawing.Size(103, 17);
 			this.lnkExport.TabIndex = 8;
@@ -226,7 +188,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(16, 39);
+			this.label2.Location = new System.Drawing.Point(16, 42);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(68, 17);
 			this.label2.TabIndex = 10;
@@ -253,11 +215,11 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.btnClear);
+			this.splitContainer1.Panel1.Controls.Add(this.btnDel);
+			this.splitContainer1.Panel1.Controls.Add(this.btnAdd);
 			this.splitContainer1.Panel1.Controls.Add(this.label1);
-			this.splitContainer1.Panel1.Controls.Add(this.lnkClear);
 			this.splitContainer1.Panel1.Controls.Add(this.lsv);
-			this.splitContainer1.Panel1.Controls.Add(this.lnkDelete);
-			this.splitContainer1.Panel1.Controls.Add(this.lnkAdd);
 			this.splitContainer1.Panel1.Controls.Add(this.lnkImport);
 			this.splitContainer1.Panel1.Controls.Add(this.chkOptions);
 			this.splitContainer1.Panel1.Controls.Add(this.cboPlayer);
@@ -279,6 +241,36 @@
 			this.splitContainer1.Size = new System.Drawing.Size(571, 442);
 			this.splitContainer1.SplitterDistance = 338;
 			this.splitContainer1.TabIndex = 12;
+			// 
+			// btnClear
+			// 
+			this.btnClear.Location = new System.Drawing.Point(3, 149);
+			this.btnClear.Name = "btnClear";
+			this.btnClear.Size = new System.Drawing.Size(112, 30);
+			this.btnClear.TabIndex = 14;
+			this.btnClear.Text = "清空列表";
+			this.btnClear.UseVisualStyleBackColor = true;
+			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+			// 
+			// btnDel
+			// 
+			this.btnDel.Location = new System.Drawing.Point(3, 113);
+			this.btnDel.Name = "btnDel";
+			this.btnDel.Size = new System.Drawing.Size(112, 30);
+			this.btnDel.TabIndex = 13;
+			this.btnDel.Text = "删除选中项";
+			this.btnDel.UseVisualStyleBackColor = true;
+			this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
+			// 
+			// btnAdd
+			// 
+			this.btnAdd.Location = new System.Drawing.Point(3, 77);
+			this.btnAdd.Name = "btnAdd";
+			this.btnAdd.Size = new System.Drawing.Size(112, 30);
+			this.btnAdd.TabIndex = 12;
+			this.btnAdd.Text = "添加视频/弹幕";
+			this.btnAdd.UseVisualStyleBackColor = true;
+			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// chkOptions
 			// 
@@ -362,7 +354,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.splitContainer1);
-			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "AcPlay2";
 			this.Size = new System.Drawing.Size(571, 442);
@@ -384,9 +376,6 @@
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader3;
 		private System.Windows.Forms.ImageList imageList1;
-		private System.Windows.Forms.LinkLabel lnkAdd;
-		private System.Windows.Forms.LinkLabel lnkDelete;
-		private System.Windows.Forms.LinkLabel lnkClear;
 		private System.Windows.Forms.Button btnStart;
 		private System.Windows.Forms.ComboBox cboPlayer;
 		private System.Windows.Forms.Label label1;
@@ -403,6 +392,9 @@
 		private System.Windows.Forms.NumericUpDown udSpeedLimit;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.CheckBox chkDebug;
+		private System.Windows.Forms.Button btnClear;
+		private System.Windows.Forms.Button btnDel;
+		private System.Windows.Forms.Button btnAdd;
 
 	}
 }

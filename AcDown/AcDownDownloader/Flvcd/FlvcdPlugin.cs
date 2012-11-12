@@ -50,6 +50,8 @@ namespace Kaedei.AcDown.Downloader
 			if (url.StartsWith("http://kankan.xunlei.com/")) return true;
 			//糖豆
 			if(Regex.IsMatch(url,@"^http://\w+\.tangdou\.com/\w+/")) return true;
+			//风行 (例如http://www.funshion.com/subject/play/41694/1)
+			if (url.StartsWith("http://www.funshion.com/subject/play/")) return true;
 
 			return false;
 		}
