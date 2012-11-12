@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AcPlay2));
 			this.lsv = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -72,13 +72,13 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-			listViewGroup1.Header = "视频";
-			listViewGroup1.Name = "VideoGroup";
-			listViewGroup2.Header = "弹幕";
-			listViewGroup2.Name = "SubtitleGroup";
+			listViewGroup3.Header = "视频";
+			listViewGroup3.Name = "VideoGroup";
+			listViewGroup4.Header = "弹幕";
+			listViewGroup4.Name = "SubtitleGroup";
 			this.lsv.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
 			this.lsv.LargeImageList = this.imageList1;
 			this.lsv.Location = new System.Drawing.Point(121, 77);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -244,6 +244,7 @@
 			// 
 			// btnClear
 			// 
+			this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnClear.Location = new System.Drawing.Point(3, 149);
 			this.btnClear.Name = "btnClear";
 			this.btnClear.Size = new System.Drawing.Size(112, 30);
@@ -254,6 +255,7 @@
 			// 
 			// btnDel
 			// 
+			this.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnDel.Location = new System.Drawing.Point(3, 113);
 			this.btnDel.Name = "btnDel";
 			this.btnDel.Size = new System.Drawing.Size(112, 30);
@@ -264,6 +266,7 @@
 			// 
 			// btnAdd
 			// 
+			this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnAdd.Location = new System.Drawing.Point(3, 77);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(112, 30);

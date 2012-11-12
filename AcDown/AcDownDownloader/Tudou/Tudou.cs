@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.IO;
 using Kaedei.AcDown.Interface.Forms;
 using Kaedei.AcDown.Interface.Downloader;
+using Kaedei.AcDown.Interface.AcPlay;
+using System.Xml.Serialization;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -114,7 +116,7 @@ namespace Kaedei.AcDown.Downloader
 			TipText("正在解析视频地址");
 
 			//解析专辑
-			if(Regex.IsMatch(Info.Url, TudouPlugin.regAlbumcover, RegexOptions.IgnoreCase))
+			if (Regex.IsMatch(Info.Url, TudouPlugin.regAlbumcover, RegexOptions.IgnoreCase))
 			{
 				string source = Network.GetHtmlSource(Info.Url, Encoding.GetEncoding("GBK"), Info.Proxy);
 				MatchCollection mcAlbumPlays = Regex.Matches(source.Replace(" ", "").Replace("\t", "").Replace("\r\n", ""),
@@ -166,7 +168,7 @@ namespace Kaedei.AcDown.Downloader
 				Settings["title"] = Tools.InvalidCharacterFilter(Settings["AlbumTitle"], "")
 					+ Path.DirectorySeparatorChar + Settings["title"];
 			}
-			
+
 
 			//视频地址数组
 			string[] videos = null;
@@ -194,9 +196,12 @@ namespace Kaedei.AcDown.Downloader
 					TipText("正在下载弹幕文件");
 					try
 					{
+						var subfile = Path.Combine(Info.SaveDirectory.ToString(), Settings["title"] + ".json");
+						Info.SubFilePath.Clear();
+						Info.SubFilePath.Add(subfile);
 						Network.DownloadFile(new DownloadParameter()
 						{
-							FilePath = Path.Combine(Info.SaveDirectory.ToString(), Settings["title"] + ".json"),
+							FilePath = subfile,
 							Url = "http://comment.dp.tudou.com/comment/get/" + Settings["iid"] + "/vdn12d/",
 							Proxy = Info.Proxy
 						});
@@ -214,7 +219,7 @@ namespace Kaedei.AcDown.Downloader
 			//分段落下载
 			for (int i = 0; i < videos.Length; i++)
 			{
-				
+
 				//取得文件后缀名
 				string ext = Tools.GetExtension(videos[i]);
 				if (ext == ".f4v") ext = ".flv";
@@ -281,10 +286,81 @@ namespace Kaedei.AcDown.Downloader
 				}
 			}
 
-			
+			//生成.acplay文件
+			if (File.Exists(Path.Combine(Info.SaveDirectory.ToString(), Settings["title"] + ".json")))
+			{
+				var acplay = 	GenerateAcplayConfig(pr, Settings["title"]);
+				if (!string.IsNullOrEmpty(acplay))
+					Settings["AcPlay"] = acplay;
+			}
+
 
 			//下载成功完成
 			return true;
+
+		}
+
+
+		private string GenerateAcplayConfig(ParseResult pr, string title)
+		{
+			if (Tools.IsRunningOnMono)
+				return "";
+			try
+			{
+				//生成新的配置
+				AcPlayConfiguration c = new AcPlayConfiguration();
+				//播放器
+				c.PlayerName = "acfun";
+				//播放器地址 （使用acfun播放器）
+				c.PlayerUrl = "http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
+				//端口
+				c.HttpServerPort = 7776;
+				c.ProxyServerPort = 7777;
+				//视频
+				c.Videos = new Video[Info.FilePath.Count];
+				for (int i = 0; i < Info.FilePath.Count; i++)
+				{
+					c.Videos[i] = new Video();
+					c.Videos[i].FileName = Path.GetFileName(Info.FilePath[i]);
+					if (pr != null)
+						if (pr.Items[i].Information.ContainsKey("length"))
+							c.Videos[i].Length = int.Parse(pr.Items[i].Information["length"]);
+					if (pr != null)
+						if (pr.Items[i].Information.ContainsKey("order"))
+							c.Videos[i].Order = int.Parse(pr.Items[i].Information["order"]);
+				}
+				//弹幕
+				c.Subtitles = new string[Info.SubFilePath.Count];
+				for (int i = 0; i < Info.SubFilePath.Count; i++)
+				{
+					c.Subtitles[i] = Path.GetFileName(Info.SubFilePath[i]);
+				}
+				//其他
+				c.ExtraConfig = new SerializableDictionary<string, string>();
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("totallength")) //totallength
+						c.ExtraConfig.Add("totallength", pr.SpecificResult["totallength"]);
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("src")) //src
+						c.ExtraConfig.Add("src", pr.SpecificResult["src"]);
+				if (pr != null)
+					if (pr.SpecificResult.ContainsKey("framecount")) //framecount
+						c.ExtraConfig.Add("framecount", pr.SpecificResult["framecount"]);
+
+
+				string path = Path.Combine(Info.SaveDirectory.ToString(), title + ".acplay");
+				//序列化到文件中
+				using (var fs = new FileStream(path, FileMode.Create))
+				{
+					XmlSerializer s = new XmlSerializer(typeof(AcPlayConfiguration));
+					s.Serialize(fs, c);
+				}
+				return title;
+			}
+			catch
+			{
+				return "";
+			}
 
 		}
 	}
