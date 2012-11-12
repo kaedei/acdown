@@ -308,7 +308,7 @@ namespace Kaedei.AcDown.UI
 				this.acPlay.TabIndex = 0;
 				tabFeedback.Controls.Add(fb);
 				tabFeedback.ResumeLayout();
-				fb.SetProxy("127.0.0.1", 9666);
+				//fb.SetProxy("127.0.0.1", 9666);
 				fb.Navigate();
 			}
 			else
@@ -1518,7 +1518,7 @@ namespace Kaedei.AcDown.UI
 								{
 									Process process = Process.Start(startInfo);
 								}
-								catch (Win32Exception ex) //提升权限失败
+								catch (Win32Exception) //提升权限失败
 								{
 									startInfo.Verb = "";
 									Process process = Process.Start(startInfo);

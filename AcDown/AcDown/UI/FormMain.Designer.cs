@@ -52,6 +52,9 @@
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.btnSpeedlimitApply = new System.Windows.Forms.Button();
+			this.cboAfterComplete = new System.Windows.Forms.ComboBox();
+			this.udSpeedLimit = new System.Windows.Forms.NumericUpDown();
 			this.contextTool = new System.Windows.Forms.ToolStrip();
 			this.toolStart = new System.Windows.Forms.ToolStripButton();
 			this.toolStop = new System.Windows.Forms.ToolStripButton();
@@ -70,13 +73,14 @@
 			this.toolExportUrlList = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabMain = new System.Windows.Forms.TabControl();
 			this.tabDownload = new System.Windows.Forms.TabPage();
-			this.tabExample = new System.Windows.Forms.TabPage();
-			this.txtExample = new System.Windows.Forms.TextBox();
-			this.tabFlvCombine = new System.Windows.Forms.TabPage();
-			this.tabAcPlay = new System.Windows.Forms.TabPage();
-			this.tabFeedback = new System.Windows.Forms.TabPage();
-			this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
-			this.acPlay = new Kaedei.AcDown.UI.Components.AcPlay2();
+			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.rdoAll = new System.Windows.Forms.RadioButton();
+			this.rdoDownloading = new System.Windows.Forms.RadioButton();
+			this.rdoFinished = new System.Windows.Forms.RadioButton();
+			this.rdoDeleted = new System.Windows.Forms.RadioButton();
+			this.rdoSearch = new System.Windows.Forms.RadioButton();
+			this.splitContainerTask = new System.Windows.Forms.SplitContainer();
 			this.lsv = new System.Windows.Forms.ListView();
 			this.headerStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.headerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -88,34 +92,30 @@
 			this.headerSourceUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.btnSpeedlimitApply = new System.Windows.Forms.Button();
-			this.cboAfterComplete = new System.Windows.Forms.ComboBox();
-			this.udSpeedLimit = new System.Windows.Forms.NumericUpDown();
-			this.rdoSearch = new System.Windows.Forms.RadioButton();
-			this.rdoDeleted = new System.Windows.Forms.RadioButton();
-			this.rdoFinished = new System.Windows.Forms.RadioButton();
-			this.rdoDownloading = new System.Windows.Forms.RadioButton();
-			this.rdoAll = new System.Windows.Forms.RadioButton();
-			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
-			this.splitContainerTask = new System.Windows.Forms.SplitContainer();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.tabFlvCombine = new System.Windows.Forms.TabPage();
+			this.flvCombineControl1 = new Kaedei.AcDown.UI.Components.FlvCombineControl();
+			this.tabAcPlay = new System.Windows.Forms.TabPage();
+			this.acPlay = new Kaedei.AcDown.UI.Components.AcPlay2();
+			this.tabFeedback = new System.Windows.Forms.TabPage();
+			this.tabExample = new System.Windows.Forms.TabPage();
+			this.txtExample = new System.Windows.Forms.TextBox();
 			this.statusStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.mnuTray.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).BeginInit();
 			this.contextTool.SuspendLayout();
 			this.tabMain.SuspendLayout();
 			this.tabDownload.SuspendLayout();
-			this.tabExample.SuspendLayout();
-			this.tabFlvCombine.SuspendLayout();
-			this.tabAcPlay.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).BeginInit();
 			this.splitContainerMain.Panel1.SuspendLayout();
 			this.splitContainerMain.Panel2.SuspendLayout();
 			this.splitContainerMain.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.splitContainerTask.Panel1.SuspendLayout();
 			this.splitContainerTask.Panel2.SuspendLayout();
 			this.splitContainerTask.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
+			this.tabFlvCombine.SuspendLayout();
+			this.tabAcPlay.SuspendLayout();
+			this.tabExample.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip
@@ -183,7 +183,6 @@
             this.toolUpdate});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.toolStrip.Size = new System.Drawing.Size(772, 31);
 			this.toolStrip.TabIndex = 7;
 			// 
@@ -262,7 +261,7 @@
 			// 
 			// toolUpdate
 			// 
-			this.toolUpdate.ForeColor = System.Drawing.Color.Red;
+			this.toolUpdate.ForeColor = System.Drawing.Color.Crimson;
 			this.toolUpdate.Image = global::Kaedei.AcDown.Properties.Resources.Update;
 			this.toolUpdate.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolUpdate.Name = "toolUpdate";
@@ -326,6 +325,56 @@
 			// 
 			this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			this.toolTip.ToolTipTitle = "提示";
+			// 
+			// btnSpeedlimitApply
+			// 
+			this.btnSpeedlimitApply.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.btnSpeedlimitApply.Location = new System.Drawing.Point(188, 11);
+			this.btnSpeedlimitApply.Name = "btnSpeedlimitApply";
+			this.btnSpeedlimitApply.Size = new System.Drawing.Size(64, 26);
+			this.btnSpeedlimitApply.TabIndex = 31;
+			this.btnSpeedlimitApply.Text = "生效";
+			this.toolTip.SetToolTip(this.btnSpeedlimitApply, "点击使速度限制生效，设置为0可以取消限速。");
+			this.btnSpeedlimitApply.UseVisualStyleBackColor = true;
+			this.btnSpeedlimitApply.Click += new System.EventHandler(this.btnSpeedlimitApply_Click);
+			// 
+			// cboAfterComplete
+			// 
+			this.cboAfterComplete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboAfterComplete.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.cboAfterComplete.FormattingEnabled = true;
+			this.cboAfterComplete.Items.AddRange(new object[] {
+            "无动作",
+            "关机",
+            "待机",
+            "休眠",
+            "注销",
+            "重新启动",
+            "关闭程序"});
+			this.cboAfterComplete.Location = new System.Drawing.Point(400, 10);
+			this.cboAfterComplete.Name = "cboAfterComplete";
+			this.cboAfterComplete.Size = new System.Drawing.Size(116, 28);
+			this.cboAfterComplete.TabIndex = 27;
+			this.toolTip.SetToolTip(this.cboAfterComplete, "全部下载完成后执行的动作");
+			// 
+			// udSpeedLimit
+			// 
+			this.udSpeedLimit.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.udSpeedLimit.Location = new System.Drawing.Point(114, 11);
+			this.udSpeedLimit.Maximum = new decimal(new int[] {
+            40960,
+            0,
+            0,
+            0});
+			this.udSpeedLimit.Name = "udSpeedLimit";
+			this.udSpeedLimit.Size = new System.Drawing.Size(68, 26);
+			this.udSpeedLimit.TabIndex = 29;
+			this.udSpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.toolTip.SetToolTip(this.udSpeedLimit, "设置速度限制");
 			// 
 			// contextTool
 			// 
@@ -480,7 +529,6 @@
 			// tabMain
 			// 
 			this.tabMain.AllowDrop = true;
-			this.tabMain.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
 			this.tabMain.Controls.Add(this.tabDownload);
 			this.tabMain.Controls.Add(this.tabFlvCombine);
 			this.tabMain.Controls.Add(this.tabAcPlay);
@@ -490,6 +538,7 @@
 			this.tabMain.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tabMain.HotTrack = true;
 			this.tabMain.Location = new System.Drawing.Point(0, 31);
+			this.tabMain.Multiline = true;
 			this.tabMain.Name = "tabMain";
 			this.tabMain.SelectedIndex = 0;
 			this.tabMain.Size = new System.Drawing.Size(772, 483);
@@ -499,92 +548,178 @@
 			// tabDownload
 			// 
 			this.tabDownload.Controls.Add(this.splitContainerMain);
-			this.tabDownload.Location = new System.Drawing.Point(4, 32);
+			this.tabDownload.Location = new System.Drawing.Point(4, 29);
 			this.tabDownload.Name = "tabDownload";
 			this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-			this.tabDownload.Size = new System.Drawing.Size(764, 447);
+			this.tabDownload.Size = new System.Drawing.Size(764, 450);
 			this.tabDownload.TabIndex = 0;
 			this.tabDownload.Text = "下载";
 			this.tabDownload.UseVisualStyleBackColor = true;
 			// 
-			// tabExample
+			// splitContainerMain
 			// 
-			this.tabExample.Controls.Add(this.txtExample);
-			this.tabExample.Location = new System.Drawing.Point(4, 32);
-			this.tabExample.Name = "tabExample";
-			this.tabExample.Padding = new System.Windows.Forms.Padding(3);
-			this.tabExample.Size = new System.Drawing.Size(764, 447);
-			this.tabExample.TabIndex = 5;
-			this.tabExample.Text = "示例网址";
-			this.tabExample.UseVisualStyleBackColor = true;
+			this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainerMain.IsSplitterFixed = true;
+			this.splitContainerMain.Location = new System.Drawing.Point(3, 3);
+			this.splitContainerMain.Name = "splitContainerMain";
 			// 
-			// txtExample
+			// splitContainerMain.Panel1
 			// 
-			this.txtExample.BackColor = System.Drawing.SystemColors.Window;
-			this.txtExample.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.txtExample.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtExample.Location = new System.Drawing.Point(3, 3);
-			this.txtExample.Multiline = true;
-			this.txtExample.Name = "txtExample";
-			this.txtExample.ReadOnly = true;
-			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtExample.Size = new System.Drawing.Size(758, 441);
-			this.txtExample.TabIndex = 0;
+			this.splitContainerMain.Panel1.Controls.Add(this.flowLayoutPanel1);
 			// 
-			// tabFlvCombine
+			// splitContainerMain.Panel2
 			// 
-			this.tabFlvCombine.Controls.Add(this.flvCombineControl1);
-			this.tabFlvCombine.Location = new System.Drawing.Point(4, 32);
-			this.tabFlvCombine.Name = "tabFlvCombine";
-			this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFlvCombine.Size = new System.Drawing.Size(764, 447);
-			this.tabFlvCombine.TabIndex = 3;
-			this.tabFlvCombine.Text = "视频合并";
-			this.tabFlvCombine.UseVisualStyleBackColor = true;
+			this.splitContainerMain.Panel2.Controls.Add(this.splitContainerTask);
+			this.splitContainerMain.Size = new System.Drawing.Size(758, 444);
+			this.splitContainerMain.SplitterDistance = 91;
+			this.splitContainerMain.TabIndex = 35;
 			// 
-			// tabAcPlay
+			// flowLayoutPanel1
 			// 
-			this.tabAcPlay.AllowDrop = true;
-			this.tabAcPlay.Controls.Add(this.acPlay);
-			this.tabAcPlay.Location = new System.Drawing.Point(4, 32);
-			this.tabAcPlay.Name = "tabAcPlay";
-			this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
-			this.tabAcPlay.Size = new System.Drawing.Size(764, 447);
-			this.tabAcPlay.TabIndex = 4;
-			this.tabAcPlay.Text = "弹幕播放";
-			this.tabAcPlay.UseVisualStyleBackColor = true;
+			this.flowLayoutPanel1.Controls.Add(this.rdoAll);
+			this.flowLayoutPanel1.Controls.Add(this.rdoDownloading);
+			this.flowLayoutPanel1.Controls.Add(this.rdoFinished);
+			this.flowLayoutPanel1.Controls.Add(this.rdoDeleted);
+			this.flowLayoutPanel1.Controls.Add(this.rdoSearch);
+			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 444);
+			this.flowLayoutPanel1.TabIndex = 32;
 			// 
-			// tabFeedback
+			// rdoAll
 			// 
-			this.tabFeedback.Location = new System.Drawing.Point(4, 32);
-			this.tabFeedback.Name = "tabFeedback";
-			this.tabFeedback.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFeedback.Size = new System.Drawing.Size(764, 447);
-			this.tabFeedback.TabIndex = 6;
-			this.tabFeedback.Text = "留言板";
-			this.tabFeedback.UseVisualStyleBackColor = true;
+			this.rdoAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.rdoAll.Appearance = System.Windows.Forms.Appearance.Button;
+			this.rdoAll.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.rdoAll.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
+			this.rdoAll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+			this.rdoAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+			this.rdoAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.rdoAll.Location = new System.Drawing.Point(3, 3);
+			this.rdoAll.Name = "rdoAll";
+			this.rdoAll.Size = new System.Drawing.Size(82, 33);
+			this.rdoAll.TabIndex = 27;
+			this.rdoAll.Tag = "状态:";
+			this.rdoAll.Text = "所有任务";
+			this.rdoAll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.rdoAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.rdoAll.UseVisualStyleBackColor = true;
+			this.rdoAll.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
 			// 
-			// flvCombineControl1
+			// rdoDownloading
 			// 
-			this.flvCombineControl1.AutoScroll = true;
-			this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flvCombineControl1.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
-			this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.flvCombineControl1.Name = "flvCombineControl1";
-			this.flvCombineControl1.Size = new System.Drawing.Size(758, 441);
-			this.flvCombineControl1.TabIndex = 0;
+			this.rdoDownloading.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.rdoDownloading.Appearance = System.Windows.Forms.Appearance.Button;
+			this.rdoDownloading.Checked = true;
+			this.rdoDownloading.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.rdoDownloading.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
+			this.rdoDownloading.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+			this.rdoDownloading.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+			this.rdoDownloading.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.rdoDownloading.Location = new System.Drawing.Point(3, 42);
+			this.rdoDownloading.Name = "rdoDownloading";
+			this.rdoDownloading.Size = new System.Drawing.Size(82, 33);
+			this.rdoDownloading.TabIndex = 23;
+			this.rdoDownloading.TabStop = true;
+			this.rdoDownloading.Tag = "状态:正在下载|状态:等待开始|状态:正在停止|状态:出现错误|状态:已经停止";
+			this.rdoDownloading.Text = "正在下载";
+			this.rdoDownloading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.rdoDownloading.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.rdoDownloading.UseVisualStyleBackColor = true;
+			this.rdoDownloading.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
 			// 
-			// acPlay
+			// rdoFinished
 			// 
-			this.acPlay.AllowDrop = true;
-			this.acPlay.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.acPlay.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.acPlay.Location = new System.Drawing.Point(3, 3);
-			this.acPlay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.acPlay.Name = "acPlay";
-			this.acPlay.Size = new System.Drawing.Size(758, 441);
-			this.acPlay.TabIndex = 0;
+			this.rdoFinished.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.rdoFinished.Appearance = System.Windows.Forms.Appearance.Button;
+			this.rdoFinished.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.rdoFinished.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
+			this.rdoFinished.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+			this.rdoFinished.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+			this.rdoFinished.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.rdoFinished.Location = new System.Drawing.Point(3, 81);
+			this.rdoFinished.Name = "rdoFinished";
+			this.rdoFinished.Size = new System.Drawing.Size(82, 33);
+			this.rdoFinished.TabIndex = 24;
+			this.rdoFinished.Tag = "状态:下载完成|状态:部分完成";
+			this.rdoFinished.Text = "已完成";
+			this.rdoFinished.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.rdoFinished.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.rdoFinished.UseVisualStyleBackColor = true;
+			this.rdoFinished.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
+			// 
+			// rdoDeleted
+			// 
+			this.rdoDeleted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.rdoDeleted.Appearance = System.Windows.Forms.Appearance.Button;
+			this.rdoDeleted.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.rdoDeleted.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
+			this.rdoDeleted.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+			this.rdoDeleted.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+			this.rdoDeleted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.rdoDeleted.Location = new System.Drawing.Point(3, 120);
+			this.rdoDeleted.Name = "rdoDeleted";
+			this.rdoDeleted.Size = new System.Drawing.Size(82, 33);
+			this.rdoDeleted.TabIndex = 25;
+			this.rdoDeleted.Tag = "状态:已删除";
+			this.rdoDeleted.Text = "回收站";
+			this.rdoDeleted.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.rdoDeleted.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.rdoDeleted.UseVisualStyleBackColor = true;
+			this.rdoDeleted.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
+			// 
+			// rdoSearch
+			// 
+			this.rdoSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.rdoSearch.Appearance = System.Windows.Forms.Appearance.Button;
+			this.rdoSearch.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.rdoSearch.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
+			this.rdoSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+			this.rdoSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+			this.rdoSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.flowLayoutPanel1.SetFlowBreak(this.rdoSearch, true);
+			this.rdoSearch.Image = global::Kaedei.AcDown.Properties.Resources.bing;
+			this.rdoSearch.Location = new System.Drawing.Point(3, 159);
+			this.rdoSearch.Name = "rdoSearch";
+			this.rdoSearch.Size = new System.Drawing.Size(82, 33);
+			this.rdoSearch.TabIndex = 26;
+			this.rdoSearch.Tag = "CustomSearch";
+			this.rdoSearch.Text = "搜索";
+			this.rdoSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.rdoSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.rdoSearch.UseVisualStyleBackColor = true;
+			this.rdoSearch.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
+			// 
+			// splitContainerTask
+			// 
+			this.splitContainerTask.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainerTask.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainerTask.Location = new System.Drawing.Point(0, 0);
+			this.splitContainerTask.Name = "splitContainerTask";
+			this.splitContainerTask.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainerTask.Panel1
+			// 
+			this.splitContainerTask.Panel1.Controls.Add(this.contextTool);
+			this.splitContainerTask.Panel1.Controls.Add(this.lsv);
+			// 
+			// splitContainerTask.Panel2
+			// 
+			this.splitContainerTask.Panel2.Controls.Add(this.udSpeedLimit);
+			this.splitContainerTask.Panel2.Controls.Add(this.label2);
+			this.splitContainerTask.Panel2.Controls.Add(this.btnSpeedlimitApply);
+			this.splitContainerTask.Panel2.Controls.Add(this.label1);
+			this.splitContainerTask.Panel2.Controls.Add(this.cboAfterComplete);
+			this.splitContainerTask.Size = new System.Drawing.Size(663, 444);
+			this.splitContainerTask.SplitterDistance = 392;
+			this.splitContainerTask.TabIndex = 0;
 			// 
 			// lsv
 			// 
@@ -604,7 +739,7 @@
 			this.lsv.Location = new System.Drawing.Point(0, 0);
 			this.lsv.Name = "lsv";
 			this.lsv.ShowItemToolTips = true;
-			this.lsv.Size = new System.Drawing.Size(663, 389);
+			this.lsv.Size = new System.Drawing.Size(663, 392);
 			this.lsv.TabIndex = 0;
 			this.lsv.UseCompatibleStateImageBehavior = false;
 			this.lsv.View = System.Windows.Forms.View.Details;
@@ -677,219 +812,84 @@
 			this.label1.TabIndex = 28;
 			this.label1.Text = "全部下载完成后:";
 			// 
-			// btnSpeedlimitApply
+			// tabFlvCombine
 			// 
-			this.btnSpeedlimitApply.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnSpeedlimitApply.Location = new System.Drawing.Point(188, 11);
-			this.btnSpeedlimitApply.Name = "btnSpeedlimitApply";
-			this.btnSpeedlimitApply.Size = new System.Drawing.Size(64, 26);
-			this.btnSpeedlimitApply.TabIndex = 31;
-			this.btnSpeedlimitApply.Text = "生效";
-			this.toolTip.SetToolTip(this.btnSpeedlimitApply, "点击使速度限制生效，设置为0可以取消限速。");
-			this.btnSpeedlimitApply.UseVisualStyleBackColor = true;
-			this.btnSpeedlimitApply.Click += new System.EventHandler(this.btnSpeedlimitApply_Click);
+			this.tabFlvCombine.Controls.Add(this.flvCombineControl1);
+			this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
+			this.tabFlvCombine.Name = "tabFlvCombine";
+			this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
+			this.tabFlvCombine.Size = new System.Drawing.Size(764, 450);
+			this.tabFlvCombine.TabIndex = 3;
+			this.tabFlvCombine.Text = "视频合并";
+			this.tabFlvCombine.UseVisualStyleBackColor = true;
 			// 
-			// cboAfterComplete
+			// flvCombineControl1
 			// 
-			this.cboAfterComplete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboAfterComplete.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.cboAfterComplete.FormattingEnabled = true;
-			this.cboAfterComplete.Items.AddRange(new object[] {
-            "无动作",
-            "关机",
-            "待机",
-            "休眠",
-            "注销",
-            "重新启动",
-            "关闭程序"});
-			this.cboAfterComplete.Location = new System.Drawing.Point(400, 10);
-			this.cboAfterComplete.Name = "cboAfterComplete";
-			this.cboAfterComplete.Size = new System.Drawing.Size(116, 28);
-			this.cboAfterComplete.TabIndex = 27;
-			this.toolTip.SetToolTip(this.cboAfterComplete, "全部下载完成后执行的动作");
+			this.flvCombineControl1.AutoScroll = true;
+			this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flvCombineControl1.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
+			this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.flvCombineControl1.Name = "flvCombineControl1";
+			this.flvCombineControl1.Size = new System.Drawing.Size(758, 444);
+			this.flvCombineControl1.TabIndex = 0;
 			// 
-			// udSpeedLimit
+			// tabAcPlay
 			// 
-			this.udSpeedLimit.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.udSpeedLimit.Location = new System.Drawing.Point(114, 11);
-			this.udSpeedLimit.Maximum = new decimal(new int[] {
-            40960,
-            0,
-            0,
-            0});
-			this.udSpeedLimit.Name = "udSpeedLimit";
-			this.udSpeedLimit.Size = new System.Drawing.Size(68, 26);
-			this.udSpeedLimit.TabIndex = 29;
-			this.udSpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.toolTip.SetToolTip(this.udSpeedLimit, "设置速度限制");
+			this.tabAcPlay.AllowDrop = true;
+			this.tabAcPlay.Controls.Add(this.acPlay);
+			this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
+			this.tabAcPlay.Name = "tabAcPlay";
+			this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
+			this.tabAcPlay.Size = new System.Drawing.Size(764, 450);
+			this.tabAcPlay.TabIndex = 4;
+			this.tabAcPlay.Text = "弹幕播放";
+			this.tabAcPlay.UseVisualStyleBackColor = true;
 			// 
-			// rdoSearch
+			// acPlay
 			// 
-			this.rdoSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.rdoSearch.Appearance = System.Windows.Forms.Appearance.Button;
-			this.rdoSearch.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.rdoSearch.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-			this.rdoSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-			this.rdoSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-			this.rdoSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoSearch.Image = global::Kaedei.AcDown.Properties.Resources.bing;
-			this.rdoSearch.Location = new System.Drawing.Point(3, 159);
-			this.rdoSearch.Name = "rdoSearch";
-			this.rdoSearch.Size = new System.Drawing.Size(82, 33);
-			this.rdoSearch.TabIndex = 26;
-			this.rdoSearch.Tag = "CustomSearch";
-			this.rdoSearch.Text = "搜索";
-			this.rdoSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.rdoSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.rdoSearch.UseVisualStyleBackColor = true;
-			this.rdoSearch.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
+			this.acPlay.AllowDrop = true;
+			this.acPlay.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.acPlay.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.acPlay.Location = new System.Drawing.Point(3, 3);
+			this.acPlay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.acPlay.Name = "acPlay";
+			this.acPlay.Size = new System.Drawing.Size(758, 444);
+			this.acPlay.TabIndex = 0;
 			// 
-			// rdoDeleted
+			// tabFeedback
 			// 
-			this.rdoDeleted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.rdoDeleted.Appearance = System.Windows.Forms.Appearance.Button;
-			this.rdoDeleted.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.rdoDeleted.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-			this.rdoDeleted.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-			this.rdoDeleted.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-			this.rdoDeleted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoDeleted.Location = new System.Drawing.Point(3, 120);
-			this.rdoDeleted.Name = "rdoDeleted";
-			this.rdoDeleted.Size = new System.Drawing.Size(82, 33);
-			this.rdoDeleted.TabIndex = 25;
-			this.rdoDeleted.Tag = "状态:已删除";
-			this.rdoDeleted.Text = "回收站";
-			this.rdoDeleted.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.rdoDeleted.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.rdoDeleted.UseVisualStyleBackColor = true;
-			this.rdoDeleted.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
+			this.tabFeedback.Location = new System.Drawing.Point(4, 29);
+			this.tabFeedback.Name = "tabFeedback";
+			this.tabFeedback.Padding = new System.Windows.Forms.Padding(3);
+			this.tabFeedback.Size = new System.Drawing.Size(764, 450);
+			this.tabFeedback.TabIndex = 6;
+			this.tabFeedback.Text = "留言板";
+			this.tabFeedback.UseVisualStyleBackColor = true;
 			// 
-			// rdoFinished
+			// tabExample
 			// 
-			this.rdoFinished.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.rdoFinished.Appearance = System.Windows.Forms.Appearance.Button;
-			this.rdoFinished.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.rdoFinished.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-			this.rdoFinished.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-			this.rdoFinished.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-			this.rdoFinished.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoFinished.Location = new System.Drawing.Point(3, 81);
-			this.rdoFinished.Name = "rdoFinished";
-			this.rdoFinished.Size = new System.Drawing.Size(82, 33);
-			this.rdoFinished.TabIndex = 24;
-			this.rdoFinished.Tag = "状态:下载完成|状态:部分完成";
-			this.rdoFinished.Text = "已完成";
-			this.rdoFinished.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.rdoFinished.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.rdoFinished.UseVisualStyleBackColor = true;
-			this.rdoFinished.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
+			this.tabExample.Controls.Add(this.txtExample);
+			this.tabExample.Location = new System.Drawing.Point(4, 29);
+			this.tabExample.Name = "tabExample";
+			this.tabExample.Padding = new System.Windows.Forms.Padding(3);
+			this.tabExample.Size = new System.Drawing.Size(764, 450);
+			this.tabExample.TabIndex = 5;
+			this.tabExample.Text = "示例网址";
+			this.tabExample.UseVisualStyleBackColor = true;
 			// 
-			// rdoDownloading
+			// txtExample
 			// 
-			this.rdoDownloading.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.rdoDownloading.Appearance = System.Windows.Forms.Appearance.Button;
-			this.rdoDownloading.Checked = true;
-			this.rdoDownloading.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.rdoDownloading.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-			this.rdoDownloading.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-			this.rdoDownloading.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-			this.rdoDownloading.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoDownloading.Location = new System.Drawing.Point(3, 42);
-			this.rdoDownloading.Name = "rdoDownloading";
-			this.rdoDownloading.Size = new System.Drawing.Size(82, 33);
-			this.rdoDownloading.TabIndex = 23;
-			this.rdoDownloading.TabStop = true;
-			this.rdoDownloading.Tag = "状态:正在下载|状态:等待开始|状态:正在停止|状态:出现错误|状态:已经停止";
-			this.rdoDownloading.Text = "正在下载";
-			this.rdoDownloading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.rdoDownloading.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.rdoDownloading.UseVisualStyleBackColor = true;
-			this.rdoDownloading.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
-			// 
-			// rdoAll
-			// 
-			this.rdoAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.rdoAll.Appearance = System.Windows.Forms.Appearance.Button;
-			this.rdoAll.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.rdoAll.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-			this.rdoAll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-			this.rdoAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-			this.rdoAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoAll.Location = new System.Drawing.Point(3, 3);
-			this.rdoAll.Name = "rdoAll";
-			this.rdoAll.Size = new System.Drawing.Size(82, 33);
-			this.rdoAll.TabIndex = 27;
-			this.rdoAll.Tag = "状态:";
-			this.rdoAll.Text = "所有任务";
-			this.rdoAll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.rdoAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.rdoAll.UseVisualStyleBackColor = true;
-			this.rdoAll.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
-			// 
-			// splitContainerMain
-			// 
-			this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainerMain.IsSplitterFixed = true;
-			this.splitContainerMain.Location = new System.Drawing.Point(3, 3);
-			this.splitContainerMain.Name = "splitContainerMain";
-			// 
-			// splitContainerMain.Panel1
-			// 
-			this.splitContainerMain.Panel1.Controls.Add(this.flowLayoutPanel1);
-			// 
-			// splitContainerMain.Panel2
-			// 
-			this.splitContainerMain.Panel2.Controls.Add(this.splitContainerTask);
-			this.splitContainerMain.Size = new System.Drawing.Size(758, 441);
-			this.splitContainerMain.SplitterDistance = 91;
-			this.splitContainerMain.TabIndex = 35;
-			// 
-			// splitContainerTask
-			// 
-			this.splitContainerTask.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerTask.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-			this.splitContainerTask.Location = new System.Drawing.Point(0, 0);
-			this.splitContainerTask.Name = "splitContainerTask";
-			this.splitContainerTask.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainerTask.Panel1
-			// 
-			this.splitContainerTask.Panel1.Controls.Add(this.contextTool);
-			this.splitContainerTask.Panel1.Controls.Add(this.lsv);
-			// 
-			// splitContainerTask.Panel2
-			// 
-			this.splitContainerTask.Panel2.Controls.Add(this.udSpeedLimit);
-			this.splitContainerTask.Panel2.Controls.Add(this.label2);
-			this.splitContainerTask.Panel2.Controls.Add(this.btnSpeedlimitApply);
-			this.splitContainerTask.Panel2.Controls.Add(this.label1);
-			this.splitContainerTask.Panel2.Controls.Add(this.cboAfterComplete);
-			this.splitContainerTask.Size = new System.Drawing.Size(663, 441);
-			this.splitContainerTask.SplitterDistance = 389;
-			this.splitContainerTask.TabIndex = 0;
-			// 
-			// flowLayoutPanel1
-			// 
-			this.flowLayoutPanel1.Controls.Add(this.rdoAll);
-			this.flowLayoutPanel1.Controls.Add(this.rdoDownloading);
-			this.flowLayoutPanel1.Controls.Add(this.rdoFinished);
-			this.flowLayoutPanel1.Controls.Add(this.rdoDeleted);
-			this.flowLayoutPanel1.Controls.Add(this.rdoSearch);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 441);
-			this.flowLayoutPanel1.TabIndex = 32;
+			this.txtExample.BackColor = System.Drawing.SystemColors.Window;
+			this.txtExample.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.txtExample.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtExample.Location = new System.Drawing.Point(3, 3);
+			this.txtExample.Multiline = true;
+			this.txtExample.Name = "txtExample";
+			this.txtExample.ReadOnly = true;
+			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtExample.Size = new System.Drawing.Size(758, 444);
+			this.txtExample.TabIndex = 0;
 			// 
 			// FormMain
 			// 
@@ -914,24 +914,24 @@
 			this.toolStrip.ResumeLayout(false);
 			this.toolStrip.PerformLayout();
 			this.mnuTray.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).EndInit();
 			this.contextTool.ResumeLayout(false);
 			this.contextTool.PerformLayout();
 			this.tabMain.ResumeLayout(false);
 			this.tabDownload.ResumeLayout(false);
-			this.tabExample.ResumeLayout(false);
-			this.tabExample.PerformLayout();
-			this.tabFlvCombine.ResumeLayout(false);
-			this.tabAcPlay.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.udSpeedLimit)).EndInit();
 			this.splitContainerMain.Panel1.ResumeLayout(false);
 			this.splitContainerMain.Panel2.ResumeLayout(false);
 			this.splitContainerMain.ResumeLayout(false);
+			this.flowLayoutPanel1.ResumeLayout(false);
 			this.splitContainerTask.Panel1.ResumeLayout(false);
 			this.splitContainerTask.Panel1.PerformLayout();
 			this.splitContainerTask.Panel2.ResumeLayout(false);
 			this.splitContainerTask.Panel2.PerformLayout();
 			this.splitContainerTask.ResumeLayout(false);
-			this.flowLayoutPanel1.ResumeLayout(false);
+			this.tabFlvCombine.ResumeLayout(false);
+			this.tabAcPlay.ResumeLayout(false);
+			this.tabExample.ResumeLayout(false);
+			this.tabExample.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -524,6 +524,8 @@ namespace Kaedei.AcDown.Downloader
 		/// <param name="title">文件标题</param>
 		private string GenerateAcplayConfig(ParseResult pr)
 		{
+			if (Tools.IsRunningOnMono)
+				return "";
 			try
 			{
 				//生成新的配置
