@@ -1531,19 +1531,22 @@ namespace Kaedei.AcDown.UI
 						}
 						else//下载失败
 						{
-							this.Invoke(new MethodInvoker(() =>
-							{
-								MessageBox.Show("因为网络原因下载更新失败，请稍候重试", "更新AcDown", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-								toolUpdate.Text = "更新AcDown";
-								toolUpdate.Enabled = true;
-							}));
+							throw new Exception();
 						}
 					}
 					catch
 					{
 						this.Invoke(new MethodInvoker(() =>
 						{
-							MessageBox.Show("因为网络原因下载更新失败，请稍候重试", "更新AcDown", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							var result = MessageBox.Show("下载更新失败，是否将下载地址复制到剪贴板？", "自动更新", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+							if (result == System.Windows.Forms.DialogResult.OK)
+							{
+								try
+								{
+									Clipboard.SetText(haveupdate.Url);
+								}
+								catch { }
+							}
 							toolUpdate.Text = "更新AcDown";
 							toolUpdate.Enabled = true;
 						}));

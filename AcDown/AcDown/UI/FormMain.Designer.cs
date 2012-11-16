@@ -120,13 +120,13 @@
 			// 
 			// statusStrip
 			// 
-			this.statusStrip.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.statusStrip.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSpeed,
             this.lblBlank,
             this.toolQuestionnaire,
             this.toolHelpCenter});
-			this.statusStrip.Location = new System.Drawing.Point(0, 514);
+			this.statusStrip.Location = new System.Drawing.Point(0, 473);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(772, 25);
 			this.statusStrip.TabIndex = 6;
@@ -191,7 +191,7 @@
 			this.btnNew.Image = global::Kaedei.AcDown.Properties.Resources.Add;
 			this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnNew.Name = "btnNew";
-			this.btnNew.Size = new System.Drawing.Size(76, 28);
+			this.btnNew.Size = new System.Drawing.Size(78, 28);
 			this.btnNew.Text = "新建(&N)";
 			this.btnNew.ToolTipText = "新建下载任务";
 			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
@@ -201,7 +201,7 @@
 			this.btnConfig.Image = global::Kaedei.AcDown.Properties.Resources.Settings;
 			this.btnConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnConfig.Name = "btnConfig";
-			this.btnConfig.Size = new System.Drawing.Size(75, 28);
+			this.btnConfig.Size = new System.Drawing.Size(76, 28);
 			this.btnConfig.Text = "设置(&C)";
 			this.btnConfig.ToolTipText = "调整下载器设置";
 			this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
@@ -211,7 +211,7 @@
 			this.btnPlugin.Image = global::Kaedei.AcDown.Properties.Resources.Plugin;
 			this.btnPlugin.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnPlugin.Name = "btnPlugin";
-			this.btnPlugin.Size = new System.Drawing.Size(74, 28);
+			this.btnPlugin.Size = new System.Drawing.Size(75, 28);
 			this.btnPlugin.Text = "插件(&P)";
 			this.btnPlugin.Click += new System.EventHandler(this.btnPlugin_Click);
 			// 
@@ -220,7 +220,7 @@
 			this.btnAbout.Image = global::Kaedei.AcDown.Properties.Resources.About;
 			this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnAbout.Name = "btnAbout";
-			this.btnAbout.Size = new System.Drawing.Size(75, 28);
+			this.btnAbout.Size = new System.Drawing.Size(76, 28);
 			this.btnAbout.Text = "关于(&A)";
 			this.btnAbout.ToolTipText = "关于AcDown动漫下载器";
 			this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
@@ -241,7 +241,7 @@
 			// searchCustom
 			// 
 			this.searchCustom.Name = "searchCustom";
-			this.searchCustom.Size = new System.Drawing.Size(167, 22);
+			this.searchCustom.Size = new System.Drawing.Size(169, 22);
 			this.searchCustom.Text = "自定义搜索引擎...";
 			this.searchCustom.Click += new System.EventHandler(this.searchCustom_Click);
 			// 
@@ -265,7 +265,7 @@
 			this.toolUpdate.Image = global::Kaedei.AcDown.Properties.Resources.Update;
 			this.toolUpdate.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolUpdate.Name = "toolUpdate";
-			this.toolUpdate.Size = new System.Drawing.Size(104, 28);
+			this.toolUpdate.Size = new System.Drawing.Size(107, 28);
 			this.toolUpdate.Text = "更新AcDown";
 			this.toolUpdate.ToolTipText = "您使用的版本并非最新版本，\r\n点击此按钮进行自动更新";
 			this.toolUpdate.Click += new System.EventHandler(this.toolUpdate_Click);
@@ -329,9 +329,9 @@
 			// btnSpeedlimitApply
 			// 
 			this.btnSpeedlimitApply.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnSpeedlimitApply.Location = new System.Drawing.Point(188, 11);
+			this.btnSpeedlimitApply.Location = new System.Drawing.Point(188, 10);
 			this.btnSpeedlimitApply.Name = "btnSpeedlimitApply";
-			this.btnSpeedlimitApply.Size = new System.Drawing.Size(64, 26);
+			this.btnSpeedlimitApply.Size = new System.Drawing.Size(64, 24);
 			this.btnSpeedlimitApply.TabIndex = 31;
 			this.btnSpeedlimitApply.Text = "生效";
 			this.toolTip.SetToolTip(this.btnSpeedlimitApply, "点击使速度限制生效，设置为0可以取消限速。");
@@ -351,7 +351,7 @@
             "注销",
             "重新启动",
             "关闭程序"});
-			this.cboAfterComplete.Location = new System.Drawing.Point(400, 10);
+			this.cboAfterComplete.Location = new System.Drawing.Point(400, 9);
 			this.cboAfterComplete.Name = "cboAfterComplete";
 			this.cboAfterComplete.Size = new System.Drawing.Size(116, 28);
 			this.cboAfterComplete.TabIndex = 27;
@@ -364,7 +364,7 @@
             0,
             0,
             0});
-			this.udSpeedLimit.Location = new System.Drawing.Point(114, 11);
+			this.udSpeedLimit.Location = new System.Drawing.Point(114, 10);
 			this.udSpeedLimit.Maximum = new decimal(new int[] {
             40960,
             0,
@@ -392,9 +392,9 @@
             this.toolAcPlay,
             this.toolStripSeparator3,
             this.toolMore});
-			this.contextTool.Location = new System.Drawing.Point(32, 68);
+			this.contextTool.Location = new System.Drawing.Point(32, 63);
 			this.contextTool.Name = "contextTool";
-			this.contextTool.Size = new System.Drawing.Size(419, 46);
+			this.contextTool.Size = new System.Drawing.Size(425, 48);
 			this.contextTool.TabIndex = 22;
 			this.contextTool.Visible = false;
 			// 
@@ -403,7 +403,7 @@
 			this.toolStart.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStart;
 			this.toolStart.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStart.Name = "toolStart";
-			this.toolStart.Size = new System.Drawing.Size(59, 43);
+			this.toolStart.Size = new System.Drawing.Size(60, 45);
 			this.toolStart.Text = "开始下载";
 			this.toolStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.toolStart.ToolTipText = "开始/重新下载选定的任务";
@@ -414,7 +414,7 @@
 			this.toolStop.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripStop;
 			this.toolStop.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStop.Name = "toolStop";
-			this.toolStop.Size = new System.Drawing.Size(59, 43);
+			this.toolStop.Size = new System.Drawing.Size(60, 45);
 			this.toolStop.Text = "停止下载";
 			this.toolStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.toolStop.Click += new System.EventHandler(this.mnuConStop_Click);
@@ -422,7 +422,7 @@
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 46);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 48);
 			// 
 			// toolDelete
 			// 
@@ -432,7 +432,7 @@
 			this.toolDelete.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripDelete;
 			this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolDelete.Name = "toolDelete";
-			this.toolDelete.Size = new System.Drawing.Size(71, 43);
+			this.toolDelete.Size = new System.Drawing.Size(72, 45);
 			this.toolDelete.Text = "删除任务";
 			this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.toolDelete.ButtonClick += new System.EventHandler(this.mnuConDelete_Click);
@@ -440,21 +440,21 @@
 			// toolCompletelyDelete
 			// 
 			this.toolCompletelyDelete.Name = "toolCompletelyDelete";
-			this.toolCompletelyDelete.Size = new System.Drawing.Size(206, 22);
+			this.toolCompletelyDelete.Size = new System.Drawing.Size(208, 22);
 			this.toolCompletelyDelete.Text = "彻底删除任务";
 			this.toolCompletelyDelete.Click += new System.EventHandler(this.toolCompletelyDelete_Click);
 			// 
 			// toolCompetelyDeleteAndFile
 			// 
 			this.toolCompetelyDeleteAndFile.Name = "toolCompetelyDeleteAndFile";
-			this.toolCompetelyDeleteAndFile.Size = new System.Drawing.Size(206, 22);
+			this.toolCompetelyDeleteAndFile.Size = new System.Drawing.Size(208, 22);
 			this.toolCompetelyDeleteAndFile.Text = "彻底删除任务并删除文件";
 			this.toolCompetelyDeleteAndFile.Click += new System.EventHandler(this.mnuConDeleteAndFile_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 46);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 48);
 			// 
 			// toolOpenFolder
 			// 
@@ -463,7 +463,7 @@
 			this.toolOpenFolder.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripOpenFolder;
 			this.toolOpenFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolOpenFolder.Name = "toolOpenFolder";
-			this.toolOpenFolder.Size = new System.Drawing.Size(71, 43);
+			this.toolOpenFolder.Size = new System.Drawing.Size(72, 45);
 			this.toolOpenFolder.Text = "打开目录";
 			this.toolOpenFolder.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.toolOpenFolder.ToolTipText = "打开下载文件所在文件夹";
@@ -473,7 +473,7 @@
 			// 
 			this.toolOpenUrl.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripOpenWebpage;
 			this.toolOpenUrl.Name = "toolOpenUrl";
-			this.toolOpenUrl.Size = new System.Drawing.Size(154, 30);
+			this.toolOpenUrl.Size = new System.Drawing.Size(156, 30);
 			this.toolOpenUrl.Text = "打开原始网页";
 			this.toolOpenUrl.ToolTipText = "打开任务所引用的网页";
 			this.toolOpenUrl.Click += new System.EventHandler(this.mnuConOpenUrl_Click);
@@ -483,7 +483,7 @@
 			this.toolAcPlay.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripAcPlay;
 			this.toolAcPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolAcPlay.Name = "toolAcPlay";
-			this.toolAcPlay.Size = new System.Drawing.Size(59, 43);
+			this.toolAcPlay.Size = new System.Drawing.Size(60, 45);
 			this.toolAcPlay.Text = "弹幕播放";
 			this.toolAcPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.toolAcPlay.Click += new System.EventHandler(this.mnuConAcPlay_Click);
@@ -491,7 +491,7 @@
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 46);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 48);
 			// 
 			// toolMore
 			// 
@@ -502,7 +502,7 @@
 			this.toolMore.Image = global::Kaedei.AcDown.Properties.Resources.ToolStripControl;
 			this.toolMore.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolMore.Name = "toolMore";
-			this.toolMore.Size = new System.Drawing.Size(68, 43);
+			this.toolMore.Size = new System.Drawing.Size(69, 45);
 			this.toolMore.Text = "更多操作";
 			this.toolMore.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
@@ -510,19 +510,19 @@
 			// 
 			this.toolInfo.Image = global::Kaedei.AcDown.Properties.Resources.ToolstripInfo;
 			this.toolInfo.Name = "toolInfo";
-			this.toolInfo.Size = new System.Drawing.Size(187, 30);
+			this.toolInfo.Size = new System.Drawing.Size(181, 22);
 			this.toolInfo.Text = "查看任务详细信息...";
 			this.toolInfo.Click += new System.EventHandler(this.mnuConInfo_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(184, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(178, 6);
 			// 
 			// toolExportUrlList
 			// 
 			this.toolExportUrlList.Name = "toolExportUrlList";
-			this.toolExportUrlList.Size = new System.Drawing.Size(187, 30);
+			this.toolExportUrlList.Size = new System.Drawing.Size(181, 22);
 			this.toolExportUrlList.Text = "导出地址列表...";
 			this.toolExportUrlList.Click += new System.EventHandler(this.mnuConExportUrlList_Click);
 			// 
@@ -535,13 +535,13 @@
 			this.tabMain.Controls.Add(this.tabFeedback);
 			this.tabMain.Controls.Add(this.tabExample);
 			this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabMain.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tabMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tabMain.HotTrack = true;
 			this.tabMain.Location = new System.Drawing.Point(0, 31);
 			this.tabMain.Multiline = true;
 			this.tabMain.Name = "tabMain";
 			this.tabMain.SelectedIndex = 0;
-			this.tabMain.Size = new System.Drawing.Size(772, 483);
+			this.tabMain.Size = new System.Drawing.Size(772, 442);
 			this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tabMain.TabIndex = 23;
 			// 
@@ -551,7 +551,7 @@
 			this.tabDownload.Location = new System.Drawing.Point(4, 29);
 			this.tabDownload.Name = "tabDownload";
 			this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-			this.tabDownload.Size = new System.Drawing.Size(764, 450);
+			this.tabDownload.Size = new System.Drawing.Size(764, 409);
 			this.tabDownload.TabIndex = 0;
 			this.tabDownload.Text = "下载";
 			this.tabDownload.UseVisualStyleBackColor = true;
@@ -571,7 +571,7 @@
 			// splitContainerMain.Panel2
 			// 
 			this.splitContainerMain.Panel2.Controls.Add(this.splitContainerTask);
-			this.splitContainerMain.Size = new System.Drawing.Size(758, 444);
+			this.splitContainerMain.Size = new System.Drawing.Size(758, 403);
 			this.splitContainerMain.SplitterDistance = 91;
 			this.splitContainerMain.TabIndex = 35;
 			// 
@@ -585,7 +585,7 @@
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 444);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 403);
 			this.flowLayoutPanel1.TabIndex = 32;
 			// 
 			// rdoAll
@@ -600,7 +600,7 @@
 			this.rdoAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.rdoAll.Location = new System.Drawing.Point(3, 3);
 			this.rdoAll.Name = "rdoAll";
-			this.rdoAll.Size = new System.Drawing.Size(82, 33);
+			this.rdoAll.Size = new System.Drawing.Size(82, 30);
 			this.rdoAll.TabIndex = 27;
 			this.rdoAll.Tag = "状态:";
 			this.rdoAll.Text = "所有任务";
@@ -620,9 +620,9 @@
 			this.rdoDownloading.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
 			this.rdoDownloading.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
 			this.rdoDownloading.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoDownloading.Location = new System.Drawing.Point(3, 42);
+			this.rdoDownloading.Location = new System.Drawing.Point(3, 39);
 			this.rdoDownloading.Name = "rdoDownloading";
-			this.rdoDownloading.Size = new System.Drawing.Size(82, 33);
+			this.rdoDownloading.Size = new System.Drawing.Size(82, 30);
 			this.rdoDownloading.TabIndex = 23;
 			this.rdoDownloading.TabStop = true;
 			this.rdoDownloading.Tag = "状态:正在下载|状态:等待开始|状态:正在停止|状态:出现错误|状态:已经停止";
@@ -642,9 +642,9 @@
 			this.rdoFinished.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
 			this.rdoFinished.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
 			this.rdoFinished.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoFinished.Location = new System.Drawing.Point(3, 81);
+			this.rdoFinished.Location = new System.Drawing.Point(3, 75);
 			this.rdoFinished.Name = "rdoFinished";
-			this.rdoFinished.Size = new System.Drawing.Size(82, 33);
+			this.rdoFinished.Size = new System.Drawing.Size(82, 30);
 			this.rdoFinished.TabIndex = 24;
 			this.rdoFinished.Tag = "状态:下载完成|状态:部分完成";
 			this.rdoFinished.Text = "已完成";
@@ -663,9 +663,9 @@
 			this.rdoDeleted.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
 			this.rdoDeleted.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
 			this.rdoDeleted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.rdoDeleted.Location = new System.Drawing.Point(3, 120);
+			this.rdoDeleted.Location = new System.Drawing.Point(3, 111);
 			this.rdoDeleted.Name = "rdoDeleted";
-			this.rdoDeleted.Size = new System.Drawing.Size(82, 33);
+			this.rdoDeleted.Size = new System.Drawing.Size(82, 30);
 			this.rdoDeleted.TabIndex = 25;
 			this.rdoDeleted.Tag = "状态:已删除";
 			this.rdoDeleted.Text = "回收站";
@@ -686,9 +686,9 @@
 			this.rdoSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.flowLayoutPanel1.SetFlowBreak(this.rdoSearch, true);
 			this.rdoSearch.Image = global::Kaedei.AcDown.Properties.Resources.bing;
-			this.rdoSearch.Location = new System.Drawing.Point(3, 159);
+			this.rdoSearch.Location = new System.Drawing.Point(3, 147);
 			this.rdoSearch.Name = "rdoSearch";
-			this.rdoSearch.Size = new System.Drawing.Size(82, 33);
+			this.rdoSearch.Size = new System.Drawing.Size(82, 30);
 			this.rdoSearch.TabIndex = 26;
 			this.rdoSearch.Tag = "CustomSearch";
 			this.rdoSearch.Text = "搜索";
@@ -701,6 +701,7 @@
 			// 
 			this.splitContainerTask.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainerTask.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainerTask.IsSplitterFixed = true;
 			this.splitContainerTask.Location = new System.Drawing.Point(0, 0);
 			this.splitContainerTask.Name = "splitContainerTask";
 			this.splitContainerTask.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -717,8 +718,8 @@
 			this.splitContainerTask.Panel2.Controls.Add(this.btnSpeedlimitApply);
 			this.splitContainerTask.Panel2.Controls.Add(this.label1);
 			this.splitContainerTask.Panel2.Controls.Add(this.cboAfterComplete);
-			this.splitContainerTask.Size = new System.Drawing.Size(663, 444);
-			this.splitContainerTask.SplitterDistance = 392;
+			this.splitContainerTask.Size = new System.Drawing.Size(663, 403);
+			this.splitContainerTask.SplitterDistance = 351;
 			this.splitContainerTask.TabIndex = 0;
 			// 
 			// lsv
@@ -734,12 +735,12 @@
             this.headerPastTime,
             this.headerSourceUrl});
 			this.lsv.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lsv.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lsv.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lsv.FullRowSelect = true;
 			this.lsv.Location = new System.Drawing.Point(0, 0);
 			this.lsv.Name = "lsv";
 			this.lsv.ShowItemToolTips = true;
-			this.lsv.Size = new System.Drawing.Size(663, 392);
+			this.lsv.Size = new System.Drawing.Size(663, 351);
 			this.lsv.TabIndex = 0;
 			this.lsv.UseCompatibleStateImageBehavior = false;
 			this.lsv.View = System.Windows.Forms.View.Details;
@@ -797,7 +798,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(3, 13);
+			this.label2.Location = new System.Drawing.Point(3, 12);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(105, 20);
 			this.label2.TabIndex = 30;
@@ -806,7 +807,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(284, 13);
+			this.label1.Location = new System.Drawing.Point(284, 12);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(110, 20);
 			this.label1.TabIndex = 28;
@@ -818,7 +819,7 @@
 			this.tabFlvCombine.Location = new System.Drawing.Point(4, 29);
 			this.tabFlvCombine.Name = "tabFlvCombine";
 			this.tabFlvCombine.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFlvCombine.Size = new System.Drawing.Size(764, 450);
+			this.tabFlvCombine.Size = new System.Drawing.Size(764, 413);
 			this.tabFlvCombine.TabIndex = 3;
 			this.tabFlvCombine.Text = "视频合并";
 			this.tabFlvCombine.UseVisualStyleBackColor = true;
@@ -827,11 +828,11 @@
 			// 
 			this.flvCombineControl1.AutoScroll = true;
 			this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flvCombineControl1.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.flvCombineControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
 			this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.flvCombineControl1.Name = "flvCombineControl1";
-			this.flvCombineControl1.Size = new System.Drawing.Size(758, 444);
+			this.flvCombineControl1.Size = new System.Drawing.Size(758, 410);
 			this.flvCombineControl1.TabIndex = 0;
 			// 
 			// tabAcPlay
@@ -841,7 +842,7 @@
 			this.tabAcPlay.Location = new System.Drawing.Point(4, 29);
 			this.tabAcPlay.Name = "tabAcPlay";
 			this.tabAcPlay.Padding = new System.Windows.Forms.Padding(3);
-			this.tabAcPlay.Size = new System.Drawing.Size(764, 450);
+			this.tabAcPlay.Size = new System.Drawing.Size(764, 413);
 			this.tabAcPlay.TabIndex = 4;
 			this.tabAcPlay.Text = "弹幕播放";
 			this.tabAcPlay.UseVisualStyleBackColor = true;
@@ -850,11 +851,11 @@
 			// 
 			this.acPlay.AllowDrop = true;
 			this.acPlay.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.acPlay.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.acPlay.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.acPlay.Location = new System.Drawing.Point(3, 3);
 			this.acPlay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.acPlay.Name = "acPlay";
-			this.acPlay.Size = new System.Drawing.Size(758, 444);
+			this.acPlay.Size = new System.Drawing.Size(758, 410);
 			this.acPlay.TabIndex = 0;
 			// 
 			// tabFeedback
@@ -862,7 +863,7 @@
 			this.tabFeedback.Location = new System.Drawing.Point(4, 29);
 			this.tabFeedback.Name = "tabFeedback";
 			this.tabFeedback.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFeedback.Size = new System.Drawing.Size(764, 450);
+			this.tabFeedback.Size = new System.Drawing.Size(764, 413);
 			this.tabFeedback.TabIndex = 6;
 			this.tabFeedback.Text = "留言板";
 			this.tabFeedback.UseVisualStyleBackColor = true;
@@ -873,7 +874,7 @@
 			this.tabExample.Location = new System.Drawing.Point(4, 29);
 			this.tabExample.Name = "tabExample";
 			this.tabExample.Padding = new System.Windows.Forms.Padding(3);
-			this.tabExample.Size = new System.Drawing.Size(764, 450);
+			this.tabExample.Size = new System.Drawing.Size(764, 413);
 			this.tabExample.TabIndex = 5;
 			this.tabExample.Text = "示例网址";
 			this.tabExample.UseVisualStyleBackColor = true;
@@ -888,20 +889,20 @@
 			this.txtExample.Name = "txtExample";
 			this.txtExample.ReadOnly = true;
 			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtExample.Size = new System.Drawing.Size(758, 444);
+			this.txtExample.Size = new System.Drawing.Size(758, 410);
 			this.txtExample.TabIndex = 0;
 			// 
 			// FormMain
 			// 
 			this.AllowDrop = true;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(772, 539);
+			this.ClientSize = new System.Drawing.Size(772, 498);
 			this.Controls.Add(this.tabMain);
 			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.statusStrip);
 			this.KeyPreview = true;
-			this.MinimumSize = new System.Drawing.Size(666, 333);
+			this.MinimumSize = new System.Drawing.Size(666, 310);
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "AcDown动漫下载器";

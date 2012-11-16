@@ -143,7 +143,7 @@ namespace Kaedei.AcDown.Interface
 			pr.Items[0].Information.Add("order", "1");
 			//写入视频时长
 			pr.Items[0].Information.Add("length", tudou.time);
-
+			pr.SpecificResult.Add("totallength", tudou.time);
 			return pr;
 		}
 
@@ -152,7 +152,7 @@ namespace Kaedei.AcDown.Interface
 
 	[Serializable]
 	[XmlRoot("v")]
-	internal class TudouVideo
+	public class TudouVideo
 	{
 		[XmlAttribute("cd")]
 		public string iid;
@@ -180,7 +180,7 @@ namespace Kaedei.AcDown.Interface
 	}
 
 	[Serializable]
-	internal class TudouVideoInfo
+	public class TudouVideoInfo
 	{
 		[XmlAttribute("bc")]
 		public string bc;

@@ -28,15 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AcPlay2));
 			this.lsv = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.imageList1 = new System.Windows.Forms.ImageList();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.cboPlayer = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -72,13 +71,13 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-			listViewGroup3.Header = "视频";
-			listViewGroup3.Name = "VideoGroup";
-			listViewGroup4.Header = "弹幕";
-			listViewGroup4.Name = "SubtitleGroup";
+			listViewGroup1.Header = "视频";
+			listViewGroup1.Name = "VideoGroup";
+			listViewGroup2.Header = "弹幕";
+			listViewGroup2.Name = "SubtitleGroup";
 			this.lsv.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup1,
+            listViewGroup2});
 			this.lsv.LargeImageList = this.imageList1;
 			this.lsv.Location = new System.Drawing.Point(121, 77);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -209,6 +208,7 @@
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.IsSplitterFixed = true;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Name = "splitContainer1";
 			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -357,7 +357,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.splitContainer1);
-			this.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "AcPlay2";
 			this.Size = new System.Drawing.Size(571, 442);
