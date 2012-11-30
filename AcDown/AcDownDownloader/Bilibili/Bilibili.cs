@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.2.2.1026", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.3.1.1130", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -57,7 +57,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})");
+			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})", RegexOptions.IgnoreCase);
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -76,7 +76,7 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})(/index_(?<subav>\d+)\.html|)");
+			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})(/index_(?<subav>\d+)\.html|)", RegexOptions.IgnoreCase);
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -119,7 +119,7 @@ namespace Kaedei.AcDown.Downloader
 			TipText("正在分析视频地址");
 
 			//修正井号
-			Info.Url = Info.Url.TrimEnd('#');
+			Info.Url = Info.Url.ToLower().TrimEnd('#');
 			//修正旧版URL(?)
 			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
 			//Info.Url = Info.Url.Replace("www.bilibili.tv", "bilibili.kankanews.com");
@@ -307,10 +307,11 @@ namespace Kaedei.AcDown.Downloader
 				string id = "";
 
 				//分析id和视频存放站点(type)
-				//取得"bofqi块的源代码
-				Regex rEmbed = new Regex("<div class=\"scontent\" id=\"bofqi\">(?<content>.*?)</div>", RegexOptions.Singleline);
-				Match mEmbed = rEmbed.Match(src);
-				string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
+				//取得<Embed>块的源代码
+				//Regex rEmbed = new Regex("<div class=\"scontent\" id=\"bofqi\">(?<content>.*?)</div>", RegexOptions.Singleline);
+				//Match mEmbed = rEmbed.Match(src);
+				//string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
+				string embedSrc = new Regex("<embed[^>]*?>").Match(src).Value;
 
 				//检查"file"参数
 				Regex rFile = new Regex("file=(\"|)(?<file>.+?)(\"|&)");
