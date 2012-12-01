@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Kaedei.AcDown.Interface;
 using System.Text.RegularExpressions;
-using System.Net;
-using System.Collections.Specialized;
 using Kaedei.AcDown.Interface.Forms;
 using System.Xml.Serialization;
 using System.IO;
@@ -67,6 +64,7 @@ namespace Kaedei.AcDown.Interface
 
 			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + request.Id + "&pw=" + request.Password;
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, request.Proxy);
+			xmldoc = xmldoc.Replace("<a>", "").Replace("</a>", "").Replace("<b>", "").Replace("</b>", "");
 
 			//反序列化XML文档
 			TudouVideo tudou;
@@ -193,4 +191,5 @@ namespace Kaedei.AcDown.Interface
 		[XmlText]
 		public string address;
 	}
+
 }

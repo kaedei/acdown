@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.3.1.1130", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.3.1.1201", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -293,8 +293,10 @@ namespace Kaedei.AcDown.Downloader
 					}
 				}
 
-
-				Info.Title = title + " - " + subtitle;
+				if (title != subtitle)
+					Info.Title = title + " - " + subtitle;
+				else
+					Info.Title = title;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
 				subtitle = Tools.InvalidCharacterFilter(subtitle, "");
@@ -308,10 +310,10 @@ namespace Kaedei.AcDown.Downloader
 
 				//分析id和视频存放站点(type)
 				//取得<Embed>块的源代码
-				//Regex rEmbed = new Regex("<div class=\"scontent\" id=\"bofqi\">(?<content>.*?)</div>", RegexOptions.Singleline);
-				//Match mEmbed = rEmbed.Match(src);
-				//string embedSrc = mEmbed.Groups["content"].Value.Replace("type=\"application/x-shockwave-flash\"", "");
-				string embedSrc = new Regex("<embed[^>]*?>").Match(src).Value;
+				Regex rEmbed = new Regex(@"(?<=id=""bofqi"">).+(?=</div>\W+<div class=""s_center"")", RegexOptions.Singleline);
+				Match mEmbed = rEmbed.Match(src);
+				string embedSrc = mEmbed.Value.Trim().Replace("type=\"application/x-shockwave-flash\"", "");
+				//string embedSrc = new Regex("<embed[^>]*?>").Match(src).Value;
 
 				//检查"file"参数
 				Regex rFile = new Regex("file=(\"|)(?<file>.+?)(\"|&)");

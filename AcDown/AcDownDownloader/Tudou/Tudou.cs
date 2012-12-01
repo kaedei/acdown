@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "4.2.2.1022", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TudouDownloader", "土豆网下载插件", "Kaedei", "4.3.1.1201", "土豆网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TudouPlugin : IPlugin
 	{
 
@@ -161,7 +161,7 @@ namespace Kaedei.AcDown.Downloader
 			//取得专辑标题
 			Settings["AlbumTitle"] = Regex.Match(src, @"(?<=atitle="").+?(?="")").Value ?? "";
 			//视频标题
-			Info.Title = Regex.Match(src, @"(?<=kw:( |)"").+?(?="")").Value;
+			Info.Title = Regex.Match(src, @"(?<=kw:( |)(""|')).+?(?=(""|'))").Value;
 			Settings["title"] = Tools.InvalidCharacterFilter(Info.Title, "");
 			if (!string.IsNullOrEmpty(Settings["AlbumTitle"]))
 			{

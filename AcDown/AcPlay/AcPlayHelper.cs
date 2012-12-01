@@ -32,6 +32,18 @@ namespace Kaedei.AcPlay
 				catch { }
 			}
 
+			//删除位于CommonAppData目录的旧的Acplay.exe文件
+			try
+			{
+				string oldfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Kaedei" + Path.DirectorySeparatorChar + "acplay.exe");
+				if (File.Exists(oldfile))
+				{
+					File.SetAttributes(oldfile, FileAttributes.Normal);
+					File.Delete(oldfile);
+				}
+			}
+			catch { }
+
 			//释放文件
 			using (var fs = new FileStream(exeFile, FileMode.Create))
 			{

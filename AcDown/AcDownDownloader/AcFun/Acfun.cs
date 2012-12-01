@@ -154,7 +154,7 @@ namespace Kaedei.AcDown.Downloader
 				string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
 
 				//取得embed块的源代码
-				Regex rEmbed = new Regex(@"\<div id=""area-player"".+?\</div\>", RegexOptions.Singleline);
+				Regex rEmbed = new Regex(@"(?<=area-player).+?(?=area-article-bottom)", RegexOptions.Singleline);
 				Match mEmbed = rEmbed.Match(src);
 				string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
 
