@@ -8,7 +8,7 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("YoukuDownloader","优酷网下载插件","Kaedei","4.2.2.1025","优酷网下载插件","http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("YoukuDownloader","优酷网下载插件","Kaedei","4.3.2.1203","优酷网下载插件","http://blog.sina.com.cn/kaedei")]
 	public class YoukuPlugin : IPlugin
 	{
 		public YoukuPlugin()
@@ -40,7 +40,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^http://v\.youku\.com/\w+/(id_|id|)(?<id>\w+)\.html");
+			Regex r = new Regex(@"^http://v\.youku\.com/\w+/(id_|id|)(?<id>\w+)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
@@ -58,7 +58,7 @@ namespace Kaedei.AcDown.Downloader
 		/// </summary>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://v\.youku\.com/v_\w+/(id_|)(?<id>\w+)\.html");
+			Regex r = new Regex(@"http://v\.youku\.com/v_\w+/(id_|)(?<id>\w+)");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
