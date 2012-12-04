@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcDown\AcDownDownloader.cs" />
+    <Compile Include="AcDown\AcDownPlugin.cs" />
     <Compile Include="AcFun\Acfun.cs" />
     <Compile Include="AcFun\AcfunDownloaderConfigurationForm.cs">
       <SubType>Form</SubType>
