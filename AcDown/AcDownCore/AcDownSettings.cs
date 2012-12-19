@@ -44,7 +44,7 @@ namespace Kaedei.AcDown.Core
 		public int ToolFormTimeout = 90; //工具窗口默认超时时间
 		public string DefaultUserName = ""; //默认用户名
 		//public List<string> RecentSearch = new List<string>();
-
+		
 		[XmlArray("Folders")]
 		[XmlArrayItem("Folder")]
 		public List<string> SaveFolders = new List<string>();
@@ -53,5 +53,11 @@ namespace Kaedei.AcDown.Core
 		//[XmlElement(IsNullable = true)]
 		[XmlArray("Proxies")]
 		public AcDownProxy[] Proxy_Settings;
+
+
+		//视频合并
+		public string EncodeArg = @"-i {0} -f mpeg -sameq -y -r 29.97 {1}";
+		public string CombineArg = @"-i {0} -f mp4 -acodec libfaac -ab 94k -vcodec libx264 -y {1}";
+
 	}
 }

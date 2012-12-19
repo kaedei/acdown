@@ -1069,6 +1069,23 @@ namespace Kaedei.AcDown.UI
 			CoreManager.TaskManager.SetSpeedLimitKb((int)udSpeedLimit.Value);
 		}
 
+		//启用自动合并
+		private void chkAutoCombine_CheckedChanged(object sender, EventArgs e)
+		{
+			if (chkAutoCombine.Checked)
+			{
+				if (!VideoCombineHelper.CheckFileExists())
+				{
+					var result = MessageBox.Show("尚未安装视频合并所需要的插件，是否立即下载？", "视频合并插件",
+						MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+					if (result == System.Windows.Forms.DialogResult.Yes)
+					{
+						FormNew.ShowForm("视频合并插件");
+					}
+					chkAutoCombine.Checked = false;
+				}
+			}
+		}
 
 		//获得win消息
 		[DebuggerNonUserCode()]
@@ -1282,16 +1299,38 @@ namespace Kaedei.AcDown.UI
 		/// </summary>
 		public void Finish(object e)
 		{
+			//视频合并 - 不需要在UI线程中执行
+			ParaFinish p = (ParaFinish)e;
+			TaskInfo task = p.SourceTask;
+			ListViewItem item = (ListViewItem)task.UIItem;
+
+			if (p.Successed)
+			{
+				if (chkAutoCombine.Checked)
+				{
+					if (task.Settings.ContainsKey("VideoCombine"))
+					{
+						var arr = task.Settings["VideoCombine"].Split('|');
+						string output = arr[arr.Length - 1];
+						Array.Resize<string>(ref arr, arr.Length - 1);
+						var helper = new VideoCombineHelper();
+						helper.Combine(arr, output, (o) =>
+							{
+								this.Invoke(new Action<int>((progress) =>
+									{
+										item.SubItems[GetColumn("Name")].Text = "正在合并: " + progress.ToString() + "%";
+									}), o);
+							});
+					}
+				}
+			}
+
 			//如果需要在安全的线程上下文中执行
 			if (this.InvokeRequired)
 			{
 				this.Invoke(new AcTaskDelegate(Finish), e);
 				return;
 			}
-
-			ParaFinish p = (ParaFinish)e;
-			TaskInfo task = p.SourceTask;
-			ListViewItem item = (ListViewItem)task.UIItem;
 
 			//如果下载成功
 			if (p.Successed)
@@ -1627,6 +1666,8 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
+
+
 
 
 	}//end class
