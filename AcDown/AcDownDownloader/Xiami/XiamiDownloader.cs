@@ -200,7 +200,7 @@ namespace Kaedei.AcDown.Downloader
 				foreach (KeyValuePair<string, string> item in additionalFiles) {
 					p = new DownloadParameter();
 					p.Url = item.Value;
-					p.FilePath = System.IO.Path.Combine(localFolder, AcDown.Interface.Tools.InvalidCharacterFilter (item.Key, "_"));
+					p.FilePath = System.IO.Path.Combine(localFolder, Tools.InvalidCharacterFilter (item.Key, "_"));
 					p.Proxy = Info.Proxy;
 					try{
 						DownloadWithRescue(p);
@@ -210,7 +210,7 @@ namespace Kaedei.AcDown.Downloader
 			
 			int part = 1;
 			foreach (Track track in tracks) {
-				string filePath = System.IO.Path.Combine(localFolder, AcDown.Interface.Tools.InvalidCharacterFilter (track.Filename, "_"));
+				string filePath = System.IO.Path.Combine(localFolder, Tools.InvalidCharacterFilter (track.Filename, "_"));
 	
 				NewPart(part++, tracks.Length);
 	

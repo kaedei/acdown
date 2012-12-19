@@ -10,14 +10,6 @@ namespace Kaedei.AcDown.Interface.Downloader
 	public abstract class CommonDownloader : IDownloader
 	{
 		/// <summary>
-		/// 
-		/// </summary>
-		protected CommonDownloader()
-		{
-			p = currentParameter;
-		}
-
-		/// <summary>
 		/// 与此任务相关联的信息
 		/// </summary>
 		public TaskInfo Info { get; set; }
@@ -41,12 +33,12 @@ namespace Kaedei.AcDown.Interface.Downloader
 		/// <summary>
 		/// 下载参数(与currentParameter相同)
 		/// </summary>
-		protected DownloadParameter p;
+		protected DownloadParameter p { get { return currentParameter; } set { currentParameter = value; } }
 
 		/// <summary>
 		/// 更换为新Part
 		/// </summary>
-		protected void NewPart(Int32 partNumber,Int32 totalCount)
+		protected void NewPart(Int32 partNumber, Int32 totalCount)
 		{
 			Info.PartCount = totalCount;
 			Info.CurrentPart = partNumber;

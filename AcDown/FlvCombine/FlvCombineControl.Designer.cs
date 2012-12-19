@@ -56,14 +56,14 @@
 			this.panelCombine.Location = new System.Drawing.Point(0, 0);
 			this.panelCombine.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.panelCombine.Name = "panelCombine";
-			this.panelCombine.Size = new System.Drawing.Size(551, 303);
+			this.panelCombine.Size = new System.Drawing.Size(578, 350);
 			this.panelCombine.TabIndex = 12;
 			// 
 			// btnCombineClear
 			// 
 			this.btnCombineClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCombineClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCombineClear.Location = new System.Drawing.Point(457, 123);
+			this.btnCombineClear.Location = new System.Drawing.Point(484, 123);
 			this.btnCombineClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCombineClear.Name = "btnCombineClear";
 			this.btnCombineClear.Size = new System.Drawing.Size(87, 31);
@@ -84,14 +84,14 @@
 			this.lstCombine.Name = "lstCombine";
 			this.lstCombine.ScrollAlwaysVisible = true;
 			this.lstCombine.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-			this.lstCombine.Size = new System.Drawing.Size(438, 124);
+			this.lstCombine.Size = new System.Drawing.Size(465, 164);
 			this.lstCombine.TabIndex = 2;
 			// 
 			// btnCombineDelete
 			// 
 			this.btnCombineDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCombineDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCombineDelete.Location = new System.Drawing.Point(457, 82);
+			this.btnCombineDelete.Location = new System.Drawing.Point(484, 82);
 			this.btnCombineDelete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCombineDelete.Name = "btnCombineDelete";
 			this.btnCombineDelete.Size = new System.Drawing.Size(87, 31);
@@ -104,7 +104,7 @@
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(4, 176);
+			this.label4.Location = new System.Drawing.Point(4, 223);
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(65, 20);
@@ -115,11 +115,11 @@
 			// 
 			this.txtCombineOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtCombineOutput.Location = new System.Drawing.Point(11, 201);
+			this.txtCombineOutput.Location = new System.Drawing.Point(11, 248);
 			this.txtCombineOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.txtCombineOutput.Name = "txtCombineOutput";
 			this.txtCombineOutput.ReadOnly = true;
-			this.txtCombineOutput.Size = new System.Drawing.Size(416, 26);
+			this.txtCombineOutput.Size = new System.Drawing.Size(443, 26);
 			this.txtCombineOutput.TabIndex = 3;
 			// 
 			// btnCombineStart
@@ -127,10 +127,10 @@
 			this.btnCombineStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnCombineStart.Enabled = false;
 			this.btnCombineStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCombineStart.Location = new System.Drawing.Point(192, 237);
+			this.btnCombineStart.Location = new System.Drawing.Point(175, 310);
 			this.btnCombineStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCombineStart.Name = "btnCombineStart";
-			this.btnCombineStart.Size = new System.Drawing.Size(167, 50);
+			this.btnCombineStart.Size = new System.Drawing.Size(167, 35);
 			this.btnCombineStart.TabIndex = 7;
 			this.btnCombineStart.Text = "开始合并";
 			this.btnCombineStart.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@
 			// 
 			this.btnCombineChooseOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCombineChooseOutput.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCombineChooseOutput.Location = new System.Drawing.Point(435, 200);
+			this.btnCombineChooseOutput.Location = new System.Drawing.Point(462, 247);
 			this.btnCombineChooseOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCombineChooseOutput.Name = "btnCombineChooseOutput";
 			this.btnCombineChooseOutput.Size = new System.Drawing.Size(109, 29);
@@ -153,7 +153,7 @@
 			// 
 			this.btnCombineAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCombineAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCombineAdd.Location = new System.Drawing.Point(457, 41);
+			this.btnCombineAdd.Location = new System.Drawing.Point(484, 41);
 			this.btnCombineAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCombineAdd.Name = "btnCombineAdd";
 			this.btnCombineAdd.Size = new System.Drawing.Size(87, 31);
@@ -178,10 +178,10 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.Controls.Add(this.panelCombine);
-			this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "FlvCombineControl";
-			this.Size = new System.Drawing.Size(551, 303);
+			this.Size = new System.Drawing.Size(578, 351);
 			this.panelCombine.ResumeLayout(false);
 			this.panelCombine.PerformLayout();
 			this.ResumeLayout(false);

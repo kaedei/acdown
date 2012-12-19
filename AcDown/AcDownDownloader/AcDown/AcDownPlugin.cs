@@ -29,7 +29,7 @@ namespace Kaedei.AcDown.Downloader.AcDown
 			return url;
 		}
 
-		public Dictionary<string, object> Feature { get; }
+		public Dictionary<string, object> Feature { get; set; }
 
 		public SerializableDictionary<string, string> Configuration { get; set; }
 

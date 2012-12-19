@@ -78,7 +78,8 @@ namespace Kaedei.AcDown.UI
 					new SfAcgPlugin(),
 					new TucaoPlugin(),
 					new XiamiPlugin(),
-					new FlvcdPlugin()
+					new FlvcdPlugin(),
+					new AcDown.Downloader.AcDown.AcDownPlugin()
 				};
 
 			//初始化核心

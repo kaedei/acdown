@@ -145,7 +145,7 @@ namespace Kaedei.AcDown.UI.Components
 			//如果文件不存在则释放文件
 			if (!File.Exists(file_flvbind) || !File.Exists(file_flvlib))
 			{
-				var helper = new FlvCombineHelper();
+				var helper = new VideoCombineHelper();
 				helper.ReleaseFlvCombineFile();
 			}
 

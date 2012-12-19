@@ -49,17 +49,17 @@
     <Compile Include="FlvCombineControl.Designer.cs">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlvCombineHelper.cs" />
+    <Compile Include="VideoCombineHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FlvCombineControl.resx">
       <DependentUpon>FlvCombineControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FlvCombine\FlvBind.exe" />
+    <None Include="FlvCombine\FlvBind.exe" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FlvCombine\FLVLib.dll" />
+    <None Include="FlvCombine\FLVLib.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcDownCore\AcDownCore.csproj">
