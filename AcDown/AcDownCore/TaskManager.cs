@@ -619,12 +619,12 @@ namespace Kaedei.AcDown.Core
 			//设置完成时间
 			task.FinishTime = DateTime.Now;
 
+			//执行下一个可能开始的任务
+			CoreManager.TaskManager.ContinueNext();
+
 			//执行UI委托
 			if (CoreManager.UIDelegates.Finish != null)
 				CoreManager.UIDelegates.Finish(p);
-
-			//执行下一个可能开始的任务
-			CoreManager.TaskManager.ContinueNext();
 
 			//检查是否全部完成
 			AllFinishedPreprocessor(null);

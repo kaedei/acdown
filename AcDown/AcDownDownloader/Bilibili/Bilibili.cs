@@ -16,7 +16,7 @@ using Kaedei.AcDown.Downloader.Bilibili;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.3.1.1201", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.0.1220", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 
@@ -179,10 +179,10 @@ namespace Kaedei.AcDown.Downloader
 					try
 					{
 						user = new UserLoginInfo();
-						
-							user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["user"]));
-						
-							user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["password"]));
+
+						user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["user"]));
+
+						user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["password"]));
 						if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
 						{
 							user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Username"]));
@@ -342,12 +342,8 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				//下载弹幕
-				bool comment = DownloadComment(title, subtitle, Settings["chatid"]);
-				if (!comment)
-				{
-					Info.PartialFinished = true;
-					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
-				}
+				DownloadComment(title, subtitle, Settings["chatid"]);
+
 
 				//解析器的解析结果
 				ParseResult pr = null;
@@ -489,7 +485,7 @@ namespace Kaedei.AcDown.Downloader
 								return false;
 							}
 						}
-						catch (Exception ex) //下载文件时出现错误
+						catch //下载文件时出现错误
 						{
 							//如果此任务由一个视频组成,则报错（下载失败）
 							if (Info.PartCount == 1)
@@ -515,6 +511,27 @@ namespace Kaedei.AcDown.Downloader
 					string acplay = GenerateAcplayConfig(pr, title, subtitle);
 					//支持AcPlay直接播放
 					Settings["AcPlay"] = acplay;
+				}
+
+				//生成视频自动合并参数
+				if (Info.FilePath.Count > 1 && !Info.PartialFinished)
+				{
+					Info.Settings.Remove("VideoCombine");
+					var arg = new StringBuilder();
+					foreach (var item in Info.FilePath)
+					{
+						arg.Append(item);
+						arg.Append("|");
+					}
+
+					var renamehelper = new CustomFileNameHelper();
+					string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
+									Settings["Title"], Settings["Subtitle"], "",
+									"mp4", Info.Settings["AVNumber"], Info.Settings["AVSubNumber"]);
+					filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+
+					arg.Append(filename);
+					Info.Settings["VideoCombine"] = arg.ToString();
 				}
 
 			}

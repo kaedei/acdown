@@ -98,10 +98,11 @@ namespace Kaedei.AcDown.UI.Components
 
 			var tempfiles = new List<string>(inputFile.Length);
 			int pg = 0; //当前进度
-
+			progress(pg);
 			//转码
 			foreach (var file in inputFile)
 			{
+				pg += (30 / inputFile.Length / 2);
 				var tempfile = file + ".actemp";
 				tempfiles.Add(tempfile);
 				//生成ProcessStartInfo
@@ -114,7 +115,7 @@ namespace Kaedei.AcDown.UI.Components
 				Process p = Process.Start(pinfo);
 				p.WaitForExit();
 
-				pg += (30 / inputFile.Length);
+				pg += (30 / inputFile.Length / 2);
 				progress(pg);
 			}
 
@@ -126,6 +127,7 @@ namespace Kaedei.AcDown.UI.Components
 			{
 				foreach (var tempfile in tempfiles)
 				{
+					pg += (30 / tempfiles.Count / 2);
 					using (var fsInput = new FileStream(tempfile, FileMode.Open))
 					{
 						var buffer = new byte[10 * 1024 * 1024]; //10MB Buffer
@@ -138,7 +140,7 @@ namespace Kaedei.AcDown.UI.Components
 								break;
 						} while (true);
 					}
-					pg += (30 / tempfiles.Count);
+					pg += (30 / tempfiles.Count / 2);
 					progress(pg);
 				}
 			}
@@ -161,11 +163,20 @@ namespace Kaedei.AcDown.UI.Components
 			progress(90);
 
 			//删除临时文件
-			File.Delete(outputtemp);
+			try
+			{
+				File.Delete(outputtemp);
+			}
+			catch { }
 			foreach (var tempfile in tempfiles)
 			{
-				File.Delete(tempfile);
+				try
+				{
+					File.Delete(tempfile);
+				}
+				catch { }
 			}
+
 
 			progress(100);
 			return true;

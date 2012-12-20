@@ -96,13 +96,25 @@ namespace Kaedei.AcDown.UI
 		/// 拷贝自身覆盖指定的文件
 		/// </summary>
 		/// <param name="filePath">覆盖到的文件完整路径</param>
-		public static void CopyTempFileToTargetFile(string filePath)
+		public static bool CopyTempFileToTargetFile(string filePath)
 		{
-			string file = filePath.Replace("\"", "");
-			//去除目标文件的各种属性
-			File.SetAttributes(filePath, FileAttributes.Normal);
-			//拷贝自身并覆盖目标文件
-			File.Copy(Application.ExecutablePath, file, true);
+			for (int i = 0; i < 5; i++) //因为上一个实例可能并未退出所以尝试多次
+			{
+				try
+				{
+					string file = filePath.Replace("\"", "");
+					//去除目标文件的各种属性
+					File.SetAttributes(filePath, FileAttributes.Normal);
+					//拷贝自身并覆盖目标文件
+					File.Copy(Application.ExecutablePath, file, true);
+					return true;
+				}
+				catch
+				{
+					Thread.Sleep(2000);
+				}
+			}
+			return false;
 		}
 
 		/// <summary>

@@ -210,13 +210,16 @@ namespace Kaedei.AcDown.UI
 			{
 				tabMain.TabPages.Remove(tabFlvCombine);
 				tabMain.TabPages.Remove(tabAcPlay);
+				chkAutoCombine.Visible = false;
 			}
 
 			//设置窗口大小
 			this.Size = CoreManager.ConfigManager.Settings.WindowSize;
 			//设置窗体标题和文字
 			if (!Tools.IsRunningOnMono)
+			{
 				this.Icon = Resources.Ac;
+			}
 			this.Text = Application.ProductName +
 								 " v" + new Version(Application.ProductVersion).Major + "." +
 								 new Version(Application.ProductVersion).Minor;
@@ -233,8 +236,7 @@ namespace Kaedei.AcDown.UI
 			}
 			//设置刷新频率
 			timer.Interval = CoreManager.ConfigManager.Settings.RefreshInfoInterval;
-			//设置是否监视剪贴板
-			watchClipboard = CoreManager.ConfigManager.Settings.WatchClipboard;
+			
 			//显示网址示例
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine("AcDown当前支持下载的网站:(网址举例)");
@@ -286,6 +288,9 @@ namespace Kaedei.AcDown.UI
 			{
 				RefreshTask(new ParaRefresh(task));
 			}
+
+			//设置是否监视剪贴板
+			watchClipboard = CoreManager.ConfigManager.Settings.WatchClipboard;
 			//启动监视剪贴板线程
 			StartWatchClipboard();
 			//程序文件名中有acplay
@@ -322,7 +327,8 @@ namespace Kaedei.AcDown.UI
 		private System.Threading.Timer clipboardWatcher;
 		private void StartWatchClipboard()
 		{
-			clipboardWatcher = new System.Threading.Timer(new TimerCallback(WatchClipboard), null, 1000, 500);
+			if (!Tools.IsRunningOnMono)
+				clipboardWatcher = new System.Threading.Timer(new TimerCallback(WatchClipboard), null, 1000, 500);
 		}
 
 		//关于
@@ -649,22 +655,24 @@ namespace Kaedei.AcDown.UI
 					contextTool.Top = lsv.Top + lsv.Height - contextTool.Height * 3;
 				}
 				//显示"更多"菜单
-				//toolMore.Visible = false;
 				if (lsv.SelectedItems.Count == 1)
 				{
-					TaskInfo downloader = GetTask(new Guid((string)sItem.Tag));
-					//if (downloader.Status == DownloadStatus.下载完成 || downloader.Status == DownloadStatus.部分完成)
-					//{
-					//   toolMore.Visible = true;
-					//}
+					TaskInfo task = GetTask(new Guid((string)sItem.Tag));
 					//特性
-					if (downloader.Settings != null)
+					if (task.Settings != null)
 					{
 						//导出地址
-						toolExportUrlList.Enabled = downloader.Settings.ContainsKey("ExportUrl");
+						toolExportUrlList.Enabled = task.Settings.ContainsKey("ExportUrl");
 						//AcPlay
 						toolAcPlay.Visible = !Tools.IsRunningOnMono;
-						toolAcPlay.Enabled = downloader.Settings.ContainsKey("AcPlay");
+						toolAcPlay.Enabled = task.Settings.ContainsKey("AcPlay");
+						//合并视频
+						toolCombineVideo.Enabled =
+							task.Settings.ContainsKey("VideoCombine") &&
+							!task.Settings.ContainsKey("VideoCombineInProgress") &&
+							task.Status == DownloadStatus.下载完成 &&
+							!task.PartialFinished &&
+							!Tools.IsRunningOnMono;
 					}
 				}
 				contextTool.Visible = true;
@@ -794,6 +802,39 @@ namespace Kaedei.AcDown.UI
 				}
 			}
 			catch { }
+		}
+
+		//合并视频
+		private void toolCombineVideo_Click(object sender, EventArgs e)
+		{
+			ListViewItem item = lsv.SelectedItems[0];
+			TaskInfo task = GetTask(new Guid((string)item.Tag));
+			new Thread(new ThreadStart(() =>
+			{
+				var arr = task.Settings["VideoCombine"].Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+				if (arr.Length >= 3)
+				{
+					task.Settings["VideoCombineInProgress"] = "true";
+					string output = arr[arr.Length - 1];
+					Array.Resize<string>(ref arr, arr.Length - 1);
+					var helper = new VideoCombineHelper();
+					helper.Combine(arr, output, (o) =>
+					{
+						this.Invoke(new Action<int>((progress) =>
+						{
+							item.SubItems[GetColumn("Name")].Text = "正在合并: " + progress.ToString() + "%";
+						}), o);
+					});
+					task.Settings.Remove("VideoCombineInProgress");
+				}
+
+				//更新UI
+				this.Invoke(new MethodInvoker(() =>
+				{
+					item.SubItems[GetColumn("Name")].Text = task.Title;
+				}));
+			})).Start();
+			lsv.SelectedIndices.Clear();
 		}
 
 		//自定义搜索引擎
@@ -1299,18 +1340,30 @@ namespace Kaedei.AcDown.UI
 		/// </summary>
 		public void Finish(object e)
 		{
-			//视频合并 - 不需要在UI线程中执行
+			//非UI线程中执行
 			ParaFinish p = (ParaFinish)e;
 			TaskInfo task = p.SourceTask;
 			ListViewItem item = (ListViewItem)task.UIItem;
-
+			//如果下载成功
 			if (p.Successed)
 			{
-				if (chkAutoCombine.Checked)
+				this.Invoke(new MethodInvoker(() =>
 				{
-					if (task.Settings.ContainsKey("VideoCombine"))
+					item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
+					item.SubItems[GetColumn("Progress")].Text = @"100.00%"; //下载进度
+					item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
+				}));
+
+				//视频合并 - 
+				if (!Tools.IsRunningOnMono &&
+					chkAutoCombine.Checked &&
+					task.Settings.ContainsKey("VideoCombine"))
+				{
+					var arr = task.Settings["VideoCombine"].Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+					
+					if (arr.Length >= 3)
 					{
-						var arr = task.Settings["VideoCombine"].Split('|');
+						task.Settings["VideoCombineInProgress"] = "true";
 						string output = arr[arr.Length - 1];
 						Array.Resize<string>(ref arr, arr.Length - 1);
 						var helper = new VideoCombineHelper();
@@ -1321,25 +1374,16 @@ namespace Kaedei.AcDown.UI
 										item.SubItems[GetColumn("Name")].Text = "正在合并: " + progress.ToString() + "%";
 									}), o);
 							});
+						task.Settings.Remove("VideoCombineInProgress");
 					}
 				}
-			}
 
-			//如果需要在安全的线程上下文中执行
-			if (this.InvokeRequired)
-			{
-				this.Invoke(new AcTaskDelegate(Finish), e);
-				return;
-			}
+				//更新UI
+				this.Invoke(new MethodInvoker(() =>
+					{
+						item.SubItems[GetColumn("Name")].Text = task.Title;
+					}));
 
-			//如果下载成功
-			if (p.Successed)
-			{
-				//更新item
-				item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
-				item.SubItems[GetColumn("Name")].Text = task.Title;
-				item.SubItems[GetColumn("Progress")].Text = @"100%"; //下载进度
-				item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
 				//打开文件夹
 				if (CoreManager.ConfigManager.Settings.OpenFolderAfterComplete && !Tools.IsRunningOnMono)
 					Process.Start(CoreManager.ConfigManager.Settings.SavePath);
@@ -1378,14 +1422,20 @@ namespace Kaedei.AcDown.UI
 				if (item != null)
 				{
 					//更新item
-					item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
-					item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
+					this.Invoke(new MethodInvoker(() =>
+						{
+							item.SubItems[GetColumn("Status")].Text = task.Status.ToString();
+							item.SubItems[GetColumn("Speed")].Text = ""; //下载速度
+						}));
 				}
 			}
 			//移除item
-			if (lsv.Items.Contains(item))
-				if (!IsMatchCurrentFilter(task))
-					lsv.Items.Remove(item);
+			this.Invoke(new MethodInvoker(() =>
+					{
+						if (lsv.Items.Contains(item))
+							if (!IsMatchCurrentFilter(task))
+								lsv.Items.Remove(item);
+					}));
 		}
 
 		bool errorTip = true;
@@ -1666,6 +1716,8 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
+
+
 
 
 
