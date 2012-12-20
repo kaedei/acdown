@@ -92,8 +92,17 @@ namespace Kaedei.AcDown.UI.Components
 		//合并视频
 		private void btnCombineStart_Click(object sender, EventArgs e)
 		{
+			//检查文件是否存在
+			if (!VideoCombineHelper.CheckFileExists())
+			{
+				MessageBox.Show("尚未安装视频合并所需要的插件" +
+					Environment.NewLine +
+					"请在新建任务窗口中输入【视频合并插件】以下载视频合并插件", "视频合并插件");
+				Clipboard.SetText("视频合并插件");
+				return;
+			}
 			panelCombine.Enabled = false;
-			btnCombineStart.Text = "正在合并";
+			btnCombineStart.Text = "视频正在合并中，过一会儿再回来看看吧";
 			//数组参数
 			List<string> l = new List<string>();
 			foreach (string item in lstCombine.Items)
@@ -103,15 +112,19 @@ namespace Kaedei.AcDown.UI.Components
 			//使用新线程合并视频
 			Thread t = new Thread(() =>
 			{
-				bool result = CombineFlvFile(txtCombineOutput.Text, l.ToArray());
+				bool result = rdoFlv.Checked ?
+					CombineFlvFile(txtCombineOutput.Text, l.ToArray()) :
+					new VideoCombineHelper().Combine(l.ToArray(), txtCombineOutput.Text, null);
+
 				if (result) //合并成功
 				{
-					MessageBox.Show("视频合并成功:\n" + txtCombineOutput.Text, "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+					MessageBox.Show("视频合并成功ヾ(●゜ⅴ゜)ﾉ" + Environment.NewLine + txtCombineOutput.Text, "合并视频", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
 				}
 				else //合并失败
 				{
-					MessageBox.Show("视频合并失败。\n视频合并器暂时不能正确读取您所选择的文件。\n\n此问题可能是由于视频并未使用Flv编码所致", "合并FLV视频", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+					MessageBox.Show("啊喔，视频合并失败了ヾ(´･ω･｀)ﾉ。", "合并视频", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
 				}
+
 				//恢复控件的状态
 				this.Invoke(new MethodInvoker(() =>
 				{

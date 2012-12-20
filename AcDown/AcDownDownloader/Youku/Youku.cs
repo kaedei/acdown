@@ -8,7 +8,7 @@ using Kaedei.AcDown.Interface.Forms;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("YoukuDownloader","优酷网下载插件","Kaedei","4.3.2.1203","优酷网下载插件","http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("YoukuDownloader", "优酷网下载插件", "Kaedei", "4.4.0.1220", "优酷网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class YoukuPlugin : IPlugin
 	{
 		public YoukuPlugin()
@@ -23,8 +23,8 @@ namespace Kaedei.AcDown.Downloader
 				"http://v.youku.com/vshow/idXMjY3ODgyNTAw.html密码",
 				"http://v.youku.com/v_playlist/f5656465o1p0.html密码",
 			});
-				//AutoAnswer
-				Feature.Add("AutoAnswer", new List<AutoAnswer>()
+			//AutoAnswer
+			Feature.Add("AutoAnswer", new List<AutoAnswer>()
 			{
 					 new AutoAnswer("youku","mp4","优酷 高清(Mp4)"),
 				new AutoAnswer("youku","hd2","优酷 超清(HD)"),
@@ -141,114 +141,123 @@ namespace Kaedei.AcDown.Downloader
 		{
 			//开始下载
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
-			try
+
+			//获取密码
+			string password = "";
+			if (Info.Url.EndsWith("密码"))
+				password = ToolForm.CreatePasswordForm(true, "", "");
+
+			//取得网页源文件
+			string src = Network.GetHtmlSource(Info.Url.Replace("密码", ""), Encoding.UTF8, Info.Proxy);
+
+			//分析视频id
+			Regex r1 = new Regex(@"videoId = '(?<vid>\w+)'");
+			Match m1 = r1.Match(src);
+			string vid = m1.Groups["vid"].ToString();
+
+			//取得视频标题
+			Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
+			Match mTitle = rTitle.Match(src);
+			string title = mTitle.Groups["title"].Value.Replace("—优酷网，视频高清在线观看", "").Replace("—在线播放", "").Replace("—电视剧", "").Replace("—电影", "").Replace("—综艺", "");
+
+			Info.Title = title;
+			//过滤非法字符
+			title = Tools.InvalidCharacterFilter(title, "");
+
+			//视频地址数组
+			string[] videos = null;
+			//清空地址
+			Info.FilePath.Clear();
+
+			//调用内建的优酷视频解析器
+			YoukuParser parserYouku = new YoukuParser();
+			videos = parserYouku.Parse(new ParseRequest() { Id = vid, Password = password, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+
+			//下载视频
+			//确定视频共有几个段落
+			Info.PartCount = videos.Length;
+
+			//分段落下载
+			for (int i = 0; i < Info.PartCount; i++)
 			{
-				//获取密码
-				string password = "";
-				if (Info.Url.EndsWith("密码"))
-					password = ToolForm.CreatePasswordForm(true, "", "");
+				Info.CurrentPart = i + 1;
 
-				//取得网页源文件
-				string src = Network.GetHtmlSource(Info.Url.Replace("密码", ""), Encoding.UTF8, Info.Proxy);
+				//取得文件后缀名
+				//string ext = Tools.GetExtension(videos[i]);
+				//设置当前DownloadParameter
+				if (Info.PartCount == 1) //如果只有一段
+				{
+					currentParameter = new DownloadParameter()
+					{
+						//文件名 例: c:\123(1).flv
+						FilePath = Path.Combine(Info.SaveDirectory.ToString(),
+													  title + ".flv"),
+						//文件URL
+						Url = videos[i],
+						//代理服务器
+						Proxy = Info.Proxy
+					};
+				}
+				else //如果分段有多段
+				{
+					currentParameter = new DownloadParameter()
+					{
+						//文件名 例: c:\123(1).flv
+						FilePath = Path.Combine(Info.SaveDirectory.ToString(),
+													  title + "(" + (i + 1).ToString() + ")" + ".flv"),
+						//文件URL
+						Url = videos[i],
+						//代理服务器
+						Proxy = Info.Proxy
+					};
+				}
 
-				//分析视频id
-				Regex r1 = new Regex(@"videoId = '(?<vid>\w+)'");
-				Match m1 = r1.Match(src);
-				string vid = m1.Groups["vid"].ToString();
+				//添加文件路径到List<>中
+				Info.FilePath.Add(currentParameter.FilePath);
+				//下载文件
+				bool success;
 
-				//取得视频标题
-				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
-				Match mTitle = rTitle.Match(src);
-				string title = mTitle.Groups["title"].Value.Replace("—优酷网，视频高清在线观看", "").Replace("—在线播放", "").Replace("—电视剧", "").Replace("—电影", "").Replace("—综艺", "");
-
-				Info.Title = title;
-				//过滤非法字符
-				title = Tools.InvalidCharacterFilter(title, "");
-
-				//视频地址数组
-				string[] videos = null;
-				//清空地址
-				Info.FilePath.Clear();
-
-				//调用内建的优酷视频解析器
-				YoukuParser parserYouku = new YoukuParser();
-				videos = parserYouku.Parse(new ParseRequest() { Id = vid, Password = password, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
+				//提示更换新Part
+				delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 				//下载视频
-				//确定视频共有几个段落
-				Info.PartCount = videos.Length;
-
-				//分段落下载
-				for (int i = 0; i < Info.PartCount; i++)
+				try
 				{
-					Info.CurrentPart = i + 1;
-					
-					//取得文件后缀名
-					//string ext = Tools.GetExtension(videos[i]);
-					//设置当前DownloadParameter
-					if (Info.PartCount == 1) //如果只有一段
+					success = Network.DownloadFile(currentParameter, this.Info);
+					if (!success) //未出现错误即用户手动停止
 					{
-						currentParameter = new DownloadParameter()
-						{
-							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
-														  title + ".flv"),
-							//文件URL
-							Url = videos[i],
-							//代理服务器
-							Proxy = Info.Proxy
-						};
-					}
-					else //如果分段有多段
-					{
-						currentParameter = new DownloadParameter()
-						{
-							//文件名 例: c:\123(1).flv
-							FilePath = Path.Combine(Info.SaveDirectory.ToString(),
-														  title + "(" + (i + 1).ToString() + ")" + ".flv"),
-							//文件URL
-							Url = videos[i],
-							//代理服务器
-							Proxy = Info.Proxy
-						};
-					}
-
-					//添加文件路径到List<>中
-					Info.FilePath.Add(currentParameter.FilePath);
-					//下载文件
-					bool success;
-
-					//提示更换新Part
-					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
-				
-					//下载视频
-					try
-					{
-						success = Network.DownloadFile(currentParameter, this.Info);
-						if (!success) //未出现错误即用户手动停止
-						{
-							return false;
-						}
-					}
-					catch (Exception ex) //下载文件时出现错误
-					{
-						//如果此任务由一个视频组成,则报错（下载失败）
-						if (Info.PartCount == 1)
-						{
-							throw ex;
-						}
-						else //否则继续下载，设置“部分失败”状态
-						{
-							Info.PartialFinished = true;
-							Info.PartialFinishedDetail += "\r\n文件: " + currentParameter.Url + " 下载失败";
-						}
+						return false;
 					}
 				}
-			}
-			catch (Exception ex) //出现错误即下载失败
+				catch (Exception ex) //下载文件时出现错误
+				{
+					//如果此任务由一个视频组成,则报错（下载失败）
+					if (Info.PartCount == 1)
+					{
+						throw ex;
+					}
+					else //否则继续下载，设置“部分失败”状态
+					{
+						Info.PartialFinished = true;
+						Info.PartialFinishedDetail += "\r\n文件: " + currentParameter.Url + " 下载失败";
+					}
+				}
+			}//end for
+
+			//视频合并
+			if (Info.FilePath.Count > 1 && !Info.PartialFinished)
 			{
-				throw ex;
+				Info.Settings.Remove("VideoCombine");
+				var arg = new StringBuilder();
+				foreach (var item in Info.FilePath)
+				{
+					arg.Append(item);
+					arg.Append("|");
+				}
+				arg.Append(Path.Combine(Info.SaveDirectory.ToString(), title + ".mp4"));
+				Info.Settings["VideoCombine"] = arg.ToString();
 			}
+
 			//下载成功完成
 			return true;
 

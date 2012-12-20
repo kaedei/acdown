@@ -35,6 +35,14 @@ namespace Kaedei.AcDown.UI
 				DwmApi.SetListViewVisualEffect(this.lsvProxy);
 			DwmApi.SetShieldIcon(btnSetFileAsso);
 
+			//Mono
+			if (Tools.IsRunningOnMono)
+			{
+				chkWatch.Enabled = false;
+				chkWatchShortUrl.Enabled = false;
+				chkEnableWin7.Enabled = false;
+			}
+
 			//设置控件状态
 			chkOpenFolder.Checked = CoreManager.ConfigManager.Settings.OpenFolderAfterComplete;
 			chkPlaySound.Checked = CoreManager.ConfigManager.Settings.PlaySound;

@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.2.2.1025", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.4.0.1220", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -148,307 +148,315 @@ namespace Kaedei.AcDown.Downloader
 			bool disableDialog = false;
 			disableDialog = AutoAnswer.IsInAutoAnswers(Info.AutoAnswer, "acfun", "auto");
 
-			try
+
+			//取得网页源文件
+			string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
+
+			//取得embed块的源代码
+			Regex rEmbed = new Regex(@"(?<=area-player).+?(?=area-article-bottom)", RegexOptions.Singleline);
+			Match mEmbed = rEmbed.Match(src);
+			string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
+
+			//检查是否为Flash游戏
+			Regex rFlash = new Regex(@"src=""(?<player>.+?)\.swf""");
+			Match mFlash = rFlash.Match(embedSrc);
+
+			//#region 取得当前Flash播放器地址
+			Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
+
+			//#endregion
+
+			TipText("正在获取视频详细信息");
+			//如果是Flash游戏
+			if (mFlash.Success && !mFlash.Value.Contains("newflvplayer"))
 			{
-				//取得网页源文件
-				string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
-
-				//取得embed块的源代码
-				Regex rEmbed = new Regex(@"(?<=area-player).+?(?=area-article-bottom)", RegexOptions.Singleline);
-				Match mEmbed = rEmbed.Match(src);
-				string embedSrc = mEmbed.ToString().Replace("type=\"application/x-shockwave-flash\"", "");
-
-				//检查是否为Flash游戏
-				Regex rFlash = new Regex(@"src=""(?<player>.+?)\.swf""");
-				Match mFlash = rFlash.Match(embedSrc);
-
-				//#region 取得当前Flash播放器地址
-				//Match mFlashPlayer = Regex.Match(src, @"http://static.acfun.tv/player/.+?\.swf");
-				//if (mFlashPlayer.Success)
-				//	Settings["PlayerUrl"] = mFlashPlayer.Value;
-				//else
-				Settings["PlayerUrl"] = @"http://static.acfun.tv/player/ACFlashPlayer.201209271950.swf";
-				
-				//#endregion
-
-				TipText("正在获取视频详细信息");
-				//如果是Flash游戏
-				if (mFlash.Success && !mFlash.Value.Contains("newflvplayer"))
+				Settings["vtype"] = "game";
+			}
+			else
+			{
+				//取得acfun id值
+				Regex rAcfunId = new Regex(@"(?<=\[video\])\d+(?=\[/video\])", RegexOptions.IgnoreCase);
+				Match mAcfunId = rAcfunId.Match(embedSrc);
+				if (mAcfunId.Success)
 				{
-					Settings["vtype"] = "game";
+					Settings["acfunid"] = mAcfunId.Value;
+					//获取跳转
+					string getvideobyid = Network.GetHtmlSource("http://www.acfun.tv/api/getVideoByID.aspx?vid=" + Settings["acfunid"], Encoding.UTF8);
+
+					//将信息添加到Setting中
+					//Regex rVideoInfo = new Regex(@"""(?<key>.+?)"":(""|)(?<value>.+?)(""|)[,|}]");
+					//MatchCollection mcVideoInfo = rVideoInfo.Matches(getvideobyid);
+					//foreach (Match mVideoInfo in mcVideoInfo)
+					//{
+					//	string key = mVideoInfo.Groups["key"].Value;
+					//	string value = mVideoInfo.Groups["value"].Value;
+					//	if (Info.Settings.ContainsKey(key))
+					//		Info.Settings[key] = value;
+					//	else
+					//		Info.Settings.Add(key, value);
+					//}
+
+					Settings["uid"] = Regex.Match(getvideobyid, @"(?<=""uid"":)\d+").Value;
+					Settings["id"] = Regex.Match(getvideobyid, @"(?<=""id"":)\d+").Value;
+					Settings["vtype"] = Regex.Match(getvideobyid, @"(?<=""vtype"":"")\w+").Value;
+					Settings["aid"] = Regex.Match(getvideobyid, @"(?<=""aid"":)\d+").Value;
+					Settings["vid"] = Regex.Match(getvideobyid, @"(?<=""vid"":"")\w+").Value;
+					Settings["cid"] = Regex.Match(getvideobyid, @"(?<=""cid"":"")\w+").Value;
 				}
 				else
 				{
-					//取得acfun id值
-					Regex rAcfunId = new Regex(@"(?<=\[video\])\d+(?=\[/video\])", RegexOptions.IgnoreCase);
-					Match mAcfunId = rAcfunId.Match(embedSrc);
-					if (mAcfunId.Success)
-					{
-						Settings["acfunid"] = mAcfunId.Value;
-						//获取跳转
-						string getvideobyid = Network.GetHtmlSource("http://www.acfun.tv/api/getVideoByID.aspx?vid=" + Settings["acfunid"], Encoding.UTF8);
-
-						//将信息添加到Setting中
-						//Regex rVideoInfo = new Regex(@"""(?<key>.+?)"":(""|)(?<value>.+?)(""|)[,|}]");
-						//MatchCollection mcVideoInfo = rVideoInfo.Matches(getvideobyid);
-						//foreach (Match mVideoInfo in mcVideoInfo)
-						//{
-						//	string key = mVideoInfo.Groups["key"].Value;
-						//	string value = mVideoInfo.Groups["value"].Value;
-						//	if (Info.Settings.ContainsKey(key))
-						//		Info.Settings[key] = value;
-						//	else
-						//		Info.Settings.Add(key, value);
-						//}
-
-						Settings["uid"] = Regex.Match(getvideobyid, @"(?<=""uid"":)\d+").Value;
-						Settings["id"] = Regex.Match(getvideobyid, @"(?<=""id"":)\d+").Value;
-						Settings["vtype"] = Regex.Match(getvideobyid, @"(?<=""vtype"":"")\w+").Value;
-						Settings["aid"] = Regex.Match(getvideobyid, @"(?<=""aid"":)\d+").Value;
-						Settings["vid"] = Regex.Match(getvideobyid, @"(?<=""vid"":"")\w+").Value;
-						Settings["cid"] = Regex.Match(getvideobyid, @"(?<=""cid"":"")\w+").Value;
-					}
-					else
-					{
-						string vid = Regex.Match(embedSrc, @"(?<=id=)\w+").Value;
-						Settings["id"] = vid;
-						Settings["vid"] = vid;
-						Settings["cid"] = vid;
-						Settings["vtype"] = "sina";
-					}
-
+					string vid = Regex.Match(embedSrc, @"(?<=id=)\w+").Value;
+					Settings["id"] = vid;
+					Settings["vid"] = vid;
+					Settings["cid"] = vid;
+					Settings["vtype"] = "sina";
 				}
 
-				//取得视频标题
-				//Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
-				Regex rTitle = new Regex(@"(?<=system.title = "").+?(?="";)");
-				Match mTitle = rTitle.Match(src);
-				//Settings["Title"] = mTitle.Groups["title"].Value.Replace(" - acfun", "");
-				Settings["Title"] = mTitle.Value;
+			}
 
-				//过滤非法字符
-				Settings["Title"] = Tools.InvalidCharacterFilter(Settings["Title"], "");
+			//取得视频标题
+			//Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
+			Regex rTitle = new Regex(@"(?<=system.title = "").+?(?="";)");
+			Match mTitle = rTitle.Match(src);
+			//Settings["Title"] = mTitle.Groups["title"].Value.Replace(" - acfun", "");
+			Settings["Title"] = mTitle.Value;
 
-				//取得当前视频子标题
-				Match mSubtitle = Regex.Match(src, @"<a class=""pager active"" href=""(?<part>.+?)""><i.+?</i>(?<content>.+?)</a>");
-				if (mSubtitle.Success)
+			//过滤非法字符
+			Settings["Title"] = Tools.InvalidCharacterFilter(Settings["Title"], "");
+
+			//取得当前视频子标题
+			Match mSubtitle = Regex.Match(src, @"<a class=""pager active"" href=""(?<part>.+?)""><i.+?</i>(?<content>.+?)</a>");
+			if (mSubtitle.Success)
+			{
+				Settings["Subtitle"] = mSubtitle.Groups["content"].Value;
+				Settings["Subtitle"] = Tools.InvalidCharacterFilter(Settings["Subtitle"], "");
+				Info.Title = Settings["Title"] + " - " + Settings["Subtitle"];
+			}
+			else
+			{
+				Settings["Subtitle"] = Settings["Title"];
+				Info.Title = Settings["Title"];
+			}
+
+			TipText("正在分析关联视频");
+
+			//取得所有子标题
+			Regex rSubTitles = new Regex(@"<a class=""pager.*?"" href=""(?<part>.+?)""><i.+?</i>(?<content>.+?)</a>");
+			MatchCollection mSubTitles = rSubTitles.Matches(src);
+
+			//如果存在下拉列表框
+			if (mSubTitles.Count > 0)
+			{
+				//解析关联项需要同时满足的条件：
+				//1.这个任务不是被其他任务所添加的
+				//2.用户设置了“解析关联项”
+				if (!Info.IsBeAdded)
 				{
-					Settings["Subtitle"] = mSubtitle.Groups["content"].Value;
-					Settings["Subtitle"] = Tools.InvalidCharacterFilter(Settings["Subtitle"], "");
-					Info.Title = Settings["Title"] + " - " + Settings["Subtitle"];
-				}
-				else
-				{
-					Settings["Subtitle"] = Settings["Title"];
-					Info.Title = Settings["Title"];
-				}
-
-				TipText("正在分析关联视频");
-
-				//取得所有子标题
-				Regex rSubTitles = new Regex(@"<a class=""pager.*?"" href=""(?<part>.+?)""><i.+?</i>(?<content>.+?)</a>");
-				MatchCollection mSubTitles = rSubTitles.Matches(src);
-
-				//如果存在下拉列表框
-				if (mSubTitles.Count > 0)
-				{
-					//解析关联项需要同时满足的条件：
-					//1.这个任务不是被其他任务所添加的
-					//2.用户设置了“解析关联项”
-					if (!Info.IsBeAdded)
+					if (Info.ParseRelated)
 					{
-						if (Info.ParseRelated)
+						//准备(地址-标题)字典
+						var dict = new Dictionary<string, string>();
+						foreach (Match item in mSubTitles)
 						{
-							//准备(地址-标题)字典
-							var dict = new Dictionary<string, string>();
-							foreach (Match item in mSubTitles)
-							{
-								dict.Add("http://www.acfun.tv" + item.Groups["part"].Value,
-											item.Groups["content"].Value);
-							}
-							//用户选择任务
-							var ba = new Collection<string>();
-							if (!disableDialog)
-								ba = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "acfun");
-							//根据用户选择新建任务
-							foreach (string u in ba)
-							{
-								//新建任务
-								delegates.NewTask(new ParaNewTask(Info.BasePlugin, u, this.Info));
-							}
+							dict.Add("http://www.acfun.tv" + item.Groups["part"].Value,
+										item.Groups["content"].Value);
+						}
+						//用户选择任务
+						var ba = new Collection<string>();
+						if (!disableDialog)
+							ba = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "acfun");
+						//根据用户选择新建任务
+						foreach (string u in ba)
+						{
+							//新建任务
+							delegates.NewTask(new ParaNewTask(Info.BasePlugin, u, this.Info));
 						}
 					}
 				}
+			}
 
 
 
 
-				//视频地址数组
-				string[] videos = null;
-				//清空地址
-				Info.FilePath.Clear();
-				Info.SubFilePath.Clear();
+			//视频地址数组
+			string[] videos = null;
+			//清空地址
+			Info.FilePath.Clear();
+			Info.SubFilePath.Clear();
 
 
-				//下载弹幕
-				bool comment = DownloadSubtitle();
-				if (!comment)
+			//下载弹幕
+			DownloadSubtitle();
+
+
+			TipText("正在解析视频源地址");
+			//解析器的解析结果
+			ParseResult pr = null;
+
+			//如果允许下载视频
+			if ((Info.DownloadTypes & DownloadType.Video) != 0)
+			{
+				//检查type值
+				switch (Settings["vtype"])
 				{
-					Info.PartialFinished = true;
-					Info.PartialFinishedDetail += "\r\n弹幕文件文件下载失败";
+					case "sina": //新浪视频
+						//解析视频
+						SinaVideoParser parserSina = new SinaVideoParser();
+						pr = parserSina.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+						videos = pr.ToArray();
+						break;
+					case "qq": //QQ视频
+						//解析视频
+						QQVideoParser parserQQ = new QQVideoParser();
+						pr = parserQQ.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+						videos = pr.ToArray();
+						break;
+					case "youku": //优酷视频
+						//解析视频
+						YoukuParser parserYouKu = new YoukuParser();
+						pr = parserYouKu.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+						videos = pr.ToArray();
+						break;
+					case "tudou": //土豆视频
+						TudouParser parserTudou = new TudouParser();
+						pr = parserTudou.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
+						videos = pr.ToArray();
+						break;
+					case "game": //flash游戏
+						videos = new string[] { mFlash.Groups["player"].Value };
+						break;
 				}
 
-				TipText("正在解析视频源地址");
-				//解析器的解析结果
-				ParseResult pr = null;
-
-				//如果允许下载视频
-				if ((Info.DownloadTypes & DownloadType.Video) != 0)
+				//支持导出列表
+				if (videos != null)
 				{
-					//检查type值
-					switch (Settings["vtype"])
+					StringBuilder sb = new StringBuilder();
+					foreach (string item in videos)
 					{
-						case "sina": //新浪视频
-							//解析视频
-							SinaVideoParser parserSina = new SinaVideoParser();
-							pr = parserSina.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-							videos = pr.ToArray();
-							break;
-						case "qq": //QQ视频
-							//解析视频
-							QQVideoParser parserQQ = new QQVideoParser();
-							pr = parserQQ.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-							videos = pr.ToArray();
-							break;
-						case "youku": //优酷视频
-							//解析视频
-							YoukuParser parserYouKu = new YoukuParser();
-							pr = parserYouKu.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-							videos = pr.ToArray();
-							break;
-						case "tudou": //土豆视频
-							TudouParser parserTudou = new TudouParser();
-							pr = parserTudou.Parse(new ParseRequest() { Id = Info.Settings["vid"], Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-							videos = pr.ToArray();
-							break;
-						case "game": //flash游戏
-							videos = new string[] { mFlash.Groups["player"].Value };
-							break;
+						sb.Append(item);
+						sb.Append("|");
 					}
+					Settings["ExportUrl"] = sb.ToString();
+				}
 
-					//支持导出列表
-					if (videos != null)
+				//下载视频
+				TipText("正在开始下载视频文件");
+				//确定视频共有几个段落
+				Info.PartCount = videos.Length;
+
+				//------------分段落下载------------
+				for (int i = 0; i < Info.PartCount; i++)
+				{
+					Info.CurrentPart = i + 1;
+
+					//取得文件后缀名
+					string ext = Tools.GetExtension(videos[i]);
+					if (string.IsNullOrEmpty(ext))
 					{
-						StringBuilder sb = new StringBuilder();
-						foreach (string item in videos)
-						{
-							sb.Append(item);
-							sb.Append("|");
-						}
-						Settings["ExportUrl"] = sb.ToString();
+						if (string.IsNullOrEmpty(Path.GetExtension(videos[i])))
+							ext = ".flv";
+						else
+							ext = Path.GetExtension(videos[i]);
 					}
+					if (ext == ".hlv") ext = ".flv";
+
+					//设置文件名
+					var renamehelper = new CustomFileNameHelper();
+					string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
+									Settings["Title"], Settings["Subtitle"], Info.PartCount == 1 ? "" : Info.CurrentPart.ToString(),
+									ext.Replace(".", ""), Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
+					filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+
+					//添加文件名到文件列表中
+					Info.FilePath.Add(currentParameter.FilePath);
+
+					//生成父文件夹
+					if (!Directory.Exists(Path.GetDirectoryName(filename)))
+						Directory.CreateDirectory(Path.GetDirectoryName(filename));
+
+					//设置当前DownloadParameter
+					currentParameter = new DownloadParameter()
+					{
+						//文件名
+						FilePath = filename,
+						//文件URL
+						Url = videos[i],
+						//代理服务器
+						Proxy = Info.Proxy,
+						//提取缓存
+						ExtractCache = Info.ExtractCache,
+						ExtractCachePattern = "fla*.tmp"
+					};
+
+
+					//设置代理服务器
+					currentParameter.Proxy = Info.Proxy;
+
+					//下载文件
+					bool success = false;
+
+					//提示更换新Part
+					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 					//下载视频
-					TipText("正在开始下载视频文件");
-					//确定视频共有几个段落
-					Info.PartCount = videos.Length;
-
-					//------------分段落下载------------
-					for (int i = 0; i < Info.PartCount; i++)
+					try
 					{
-						Info.CurrentPart = i + 1;
-
-						//取得文件后缀名
-						string ext = Tools.GetExtension(videos[i]);
-						if (string.IsNullOrEmpty(ext))
+						success = Network.DownloadFile(currentParameter, this.Info);
+						if (!success) //未出现错误即用户手动停止
 						{
-							if (string.IsNullOrEmpty(Path.GetExtension(videos[i])))
-								ext = ".flv";
-							else
-								ext = Path.GetExtension(videos[i]);
+							return false;
 						}
-						if (ext == ".hlv") ext = ".flv";
-
-						//设置文件名
-						var renamehelper = new CustomFileNameHelper();
-						string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-										Settings["Title"], Settings["Subtitle"], Info.PartCount == 1 ? "" : Info.CurrentPart.ToString(),
-										ext.Replace(".", ""), Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
-						filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
-
-						//生成父文件夹
-						if (!Directory.Exists(Path.GetDirectoryName(filename)))
-							Directory.CreateDirectory(Path.GetDirectoryName(filename));
-
-						//设置当前DownloadParameter
-						currentParameter = new DownloadParameter()
+					}
+					catch //下载文件时出现错误
+					{
+						//如果此任务由一个视频组成,则报错（下载失败）
+						if (Info.PartCount == 1)
 						{
-							//文件名
-							FilePath = filename,
-							//文件URL
-							Url = videos[i],
-							//代理服务器
-							Proxy = Info.Proxy,
-							//提取缓存
-							ExtractCache = Info.ExtractCache,
-							ExtractCachePattern = "fla*.tmp"
-						};
-
-
-						//设置代理服务器
-						currentParameter.Proxy = Info.Proxy;
-						//添加文件路径到List<>中
-						Info.FilePath.Add(currentParameter.FilePath);
-						//下载文件
-						bool success = false;
-
-						//提示更换新Part
-						delegates.NewPart(new ParaNewPart(this.Info, i + 1));
-
-						//下载视频
-						try
-						{
-							success = Network.DownloadFile(currentParameter, this.Info);
-							if (!success) //未出现错误即用户手动停止
-							{
-								return false;
-							}
+							throw;
 						}
-						catch (Exception ex) //下载文件时出现错误
+						else //否则继续下载，设置“部分失败”状态
 						{
-							//如果此任务由一个视频组成,则报错（下载失败）
-							if (Info.PartCount == 1)
-							{
-								throw;
-							}
-							else //否则继续下载，设置“部分失败”状态
-							{
-								Info.PartialFinished = true;
-								Info.PartialFinishedDetail += "\r\n文件: " + currentParameter.Url + " 下载失败";
-							}
+							Info.PartialFinished = true;
+							Info.PartialFinishedDetail += "\r\n文件: " + currentParameter.Url + " 下载失败";
 						}
+					}
 
 
-					} //end for
-				}//end 判断是否下载视频
+				} //end for
+			}//end 判断是否下载视频
 
 
-				//如果插件设置中没有GenerateAcPlay项，或此项设置为true则生成.acplay快捷方式
-				if (!Info.BasePlugin.Configuration.ContainsKey("GenerateAcPlay") ||
-					Info.BasePlugin.Configuration["GenerateAcPlay"] == "true")
+			//如果插件设置中没有GenerateAcPlay项，或此项设置为true则生成.acplay快捷方式
+			if (!Info.BasePlugin.Configuration.ContainsKey("GenerateAcPlay") ||
+				Info.BasePlugin.Configuration["GenerateAcPlay"] == "true")
+			{
+				//生成AcPlay文件
+				string acplay = GenerateAcplayConfig(pr);
+				//支持AcPlay直接播放
+				Settings["AcPlay"] = acplay;
+			}
+
+			//生成视频自动合并参数
+			if (Info.FilePath.Count > 1 && !Info.PartialFinished)
+			{
+				Info.Settings.Remove("VideoCombine");
+				var arg = new StringBuilder();
+				foreach (var item in Info.FilePath)
 				{
-					//生成AcPlay文件
-					string acplay = GenerateAcplayConfig(pr);
-					//支持AcPlay直接播放
-					Settings["AcPlay"] = acplay;
+					arg.Append(item);
+					arg.Append("|");
 				}
 
-				
+				var renamehelper = new CustomFileNameHelper();
+				string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
+								Settings["Title"], Settings["Subtitle"], "",
+								"mp4", Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
+				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+
+				arg.Append(filename);
+				Info.Settings["VideoCombine"] = arg.ToString();
 			}
-			catch (Exception ex)
-			{
-				throw;
-			}
+
 			//下载成功完成
 			return true;
 		}

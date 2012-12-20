@@ -63,9 +63,9 @@ namespace Kaedei.AcDown
 						if (Updater.CheckIfUpdating(Application.ExecutablePath))
 						{
 							//以自身覆盖目标文件
-							Updater.CopyTempFileToTargetFile(filename);
-							//重新执行目标文件
-							Process.Start(filename, "updated");
+							if (!Updater.CopyTempFileToTargetFile(filename))
+								MessageBox.Show("自动更新失败: 旧版本的AcDown可能尚未完全退出", "AcDown自动更新", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+							Process.Start(filename, "updated");//重新执行目标文件
 						}
 					}
 					//退出当前程序

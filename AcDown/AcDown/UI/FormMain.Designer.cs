@@ -101,6 +101,7 @@
 			this.tabFeedback = new System.Windows.Forms.TabPage();
 			this.tabExample = new System.Windows.Forms.TabPage();
 			this.txtExample = new System.Windows.Forms.TextBox();
+			this.toolCombineVideo = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.mnuTray.SuspendLayout();
@@ -422,6 +423,7 @@
 			this.toolStop.Size = new System.Drawing.Size(59, 43);
 			this.toolStop.Text = "停止下载";
 			this.toolStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.toolStop.ToolTipText = "停止下载选定的任务";
 			this.toolStop.Click += new System.EventHandler(this.mnuConStop_Click);
 			// 
 			// toolStripSeparator1
@@ -440,6 +442,7 @@
 			this.toolDelete.Size = new System.Drawing.Size(71, 43);
 			this.toolDelete.Text = "删除任务";
 			this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.toolDelete.ToolTipText = "删除选定的任务至回收站";
 			this.toolDelete.ButtonClick += new System.EventHandler(this.mnuConDelete_Click);
 			// 
 			// toolCompletelyDelete
@@ -491,6 +494,7 @@
 			this.toolAcPlay.Size = new System.Drawing.Size(59, 43);
 			this.toolAcPlay.Text = "弹幕播放";
 			this.toolAcPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.toolAcPlay.ToolTipText = "使用AcPlay播放视频和弹幕";
 			this.toolAcPlay.Click += new System.EventHandler(this.mnuConAcPlay_Click);
 			// 
 			// toolStripSeparator3
@@ -503,7 +507,8 @@
 			this.toolMore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolInfo,
             this.toolStripMenuItem1,
-            this.toolExportUrlList});
+            this.toolExportUrlList,
+            this.toolCombineVideo});
 			this.toolMore.Image = global::Kaedei.AcDown.Properties.Resources.ToolStripControl;
 			this.toolMore.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolMore.Name = "toolMore";
@@ -691,13 +696,14 @@
 			this.rdoSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.flowLayoutPanel1.SetFlowBreak(this.rdoSearch, true);
 			this.rdoSearch.Image = global::Kaedei.AcDown.Properties.Resources.bing;
+			this.rdoSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.rdoSearch.Location = new System.Drawing.Point(3, 159);
 			this.rdoSearch.Name = "rdoSearch";
 			this.rdoSearch.Size = new System.Drawing.Size(82, 33);
 			this.rdoSearch.TabIndex = 26;
 			this.rdoSearch.Tag = "CustomSearch";
 			this.rdoSearch.Text = "搜索";
-			this.rdoSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.rdoSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.rdoSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.rdoSearch.UseVisualStyleBackColor = true;
 			this.rdoSearch.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
@@ -805,7 +811,7 @@
 			// 
 			this.lnkAutoCombineSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkAutoCombineSettings.AutoSize = true;
-			this.lnkAutoCombineSettings.Location = new System.Drawing.Point(205, 45);
+			this.lnkAutoCombineSettings.Location = new System.Drawing.Point(275, 45);
 			this.lnkAutoCombineSettings.Name = "lnkAutoCombineSettings";
 			this.lnkAutoCombineSettings.Size = new System.Drawing.Size(47, 20);
 			this.lnkAutoCombineSettings.TabIndex = 33;
@@ -819,9 +825,9 @@
 			this.chkAutoCombine.AutoSize = true;
 			this.chkAutoCombine.Location = new System.Drawing.Point(7, 44);
 			this.chkAutoCombine.Name = "chkAutoCombine";
-			this.chkAutoCombine.Size = new System.Drawing.Size(192, 24);
+			this.chkAutoCombine.Size = new System.Drawing.Size(262, 24);
 			this.chkAutoCombine.TabIndex = 32;
-			this.chkAutoCombine.Text = "自动合并分段视频(测试版)";
+			this.chkAutoCombine.Text = "下载成功后自动合并分段视频(测试版)";
 			this.chkAutoCombine.UseVisualStyleBackColor = true;
 			this.chkAutoCombine.CheckedChanged += new System.EventHandler(this.chkAutoCombine_CheckedChanged);
 			// 
@@ -923,6 +929,13 @@
 			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtExample.Size = new System.Drawing.Size(758, 445);
 			this.txtExample.TabIndex = 0;
+			// 
+			// toolCombineVideo
+			// 
+			this.toolCombineVideo.Name = "toolCombineVideo";
+			this.toolCombineVideo.Size = new System.Drawing.Size(187, 30);
+			this.toolCombineVideo.Text = "合并分段视频";
+			this.toolCombineVideo.Click += new System.EventHandler(this.toolCombineVideo_Click);
 			// 
 			// FormMain
 			// 
@@ -1044,6 +1057,7 @@
 		  private System.Windows.Forms.ComboBox cboAfterComplete;
 		  private System.Windows.Forms.LinkLabel lnkAutoCombineSettings;
 		  private System.Windows.Forms.CheckBox chkAutoCombine;
+		  private System.Windows.Forms.ToolStripMenuItem toolCombineVideo;
 
 	 }
 }
