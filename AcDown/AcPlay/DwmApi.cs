@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Kaedei.AcDown.Core;
 using System.Diagnostics;
+using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.UI
 {
@@ -153,6 +154,8 @@ namespace Kaedei.AcDown.UI
 		[DebuggerNonUserCode()]
 		public static bool IsWindowsVistaOrHigher()
 		{
+			if (Tools.IsRunningOnMono)
+				return false;
 			if (Environment.OSVersion.Version.Major >= 6)
 				return true;
 			else
