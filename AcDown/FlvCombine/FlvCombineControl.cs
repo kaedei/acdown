@@ -97,7 +97,8 @@ namespace Kaedei.AcDown.UI.Components
 			{
 				MessageBox.Show("尚未安装视频合并所需要的插件" +
 					Environment.NewLine +
-					"请在新建任务窗口中输入【视频合并插件】以下载视频合并插件", "视频合并插件");
+					"请在新建任务窗口的地址栏中输入【视频合并插件】以下载所需要的文件", "视频合并插件"
+					, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				Clipboard.SetText("视频合并插件");
 				return;
 			}

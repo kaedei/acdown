@@ -62,14 +62,6 @@ namespace Kaedei.AcDown.UI
 			}
 			catch { }
 
-			//释放FlvCombine文件
-			try
-			{
-				var flvhelper = new VideoCombineHelper();
-				flvhelper.ReleaseFlvCombineFile();
-			}
-			catch { }
-
 			//写入Firstrun文件
 			try
 			{
