@@ -8,7 +8,7 @@ http://acdown.codeplex.com/releases
 ★系统需求★
 正常打开AcDown项目文件需要您的系统安装如下软件/程序：
 至少Windows XP SP3
-Visual Studio 2010 至少Professional版本(必须包含C#组件)；
+Visual Studio 2010 SP1 至少Professional版本(必须包含C#组件)；
 .Net Framework 3.5 SDK；
 
 ★如何打开项目文件★

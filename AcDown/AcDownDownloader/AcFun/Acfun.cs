@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.4.0.1220", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.4.1.1225", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -368,7 +368,7 @@ namespace Kaedei.AcDown.Downloader
 					filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 
 					//添加文件名到文件列表中
-					Info.FilePath.Add(currentParameter.FilePath);
+					Info.FilePath.Add(filename);
 
 					//生成父文件夹
 					if (!Directory.Exists(Path.GetDirectoryName(filename)))

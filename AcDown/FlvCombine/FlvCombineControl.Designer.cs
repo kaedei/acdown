@@ -29,6 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.panelCombine = new System.Windows.Forms.Panel();
+			this.rdoFfmpeg = new System.Windows.Forms.RadioButton();
+			this.rdoFlv = new System.Windows.Forms.RadioButton();
 			this.btnCombineClear = new System.Windows.Forms.Button();
 			this.lstCombine = new System.Windows.Forms.ListBox();
 			this.btnCombineDelete = new System.Windows.Forms.Button();
@@ -38,8 +40,6 @@
 			this.btnCombineChooseOutput = new System.Windows.Forms.Button();
 			this.btnCombineAdd = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
-			this.rdoFlv = new System.Windows.Forms.RadioButton();
-			this.rdoFfmpeg = new System.Windows.Forms.RadioButton();
 			this.panelCombine.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -60,8 +60,32 @@
 			this.panelCombine.Location = new System.Drawing.Point(0, 0);
 			this.panelCombine.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.panelCombine.Name = "panelCombine";
-			this.panelCombine.Size = new System.Drawing.Size(533, 448);
+			this.panelCombine.Size = new System.Drawing.Size(533, 392);
 			this.panelCombine.TabIndex = 12;
+			// 
+			// rdoFfmpeg
+			// 
+			this.rdoFfmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.rdoFfmpeg.AutoSize = true;
+			this.rdoFfmpeg.Location = new System.Drawing.Point(11, 305);
+			this.rdoFfmpeg.Name = "rdoFfmpeg";
+			this.rdoFfmpeg.Size = new System.Drawing.Size(265, 24);
+			this.rdoFfmpeg.TabIndex = 12;
+			this.rdoFfmpeg.Text = "高级版（支持多种格式，合并速度慢）";
+			this.rdoFfmpeg.UseVisualStyleBackColor = true;
+			// 
+			// rdoFlv
+			// 
+			this.rdoFlv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.rdoFlv.AutoSize = true;
+			this.rdoFlv.Checked = true;
+			this.rdoFlv.Location = new System.Drawing.Point(11, 275);
+			this.rdoFlv.Name = "rdoFlv";
+			this.rdoFlv.Size = new System.Drawing.Size(278, 24);
+			this.rdoFlv.TabIndex = 11;
+			this.rdoFlv.TabStop = true;
+			this.rdoFlv.Text = "快速版 （仅支持FLV格式，合并速度快）";
+			this.rdoFlv.UseVisualStyleBackColor = true;
 			// 
 			// btnCombineClear
 			// 
@@ -88,7 +112,7 @@
 			this.lstCombine.Name = "lstCombine";
 			this.lstCombine.ScrollAlwaysVisible = true;
 			this.lstCombine.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-			this.lstCombine.Size = new System.Drawing.Size(420, 184);
+			this.lstCombine.Size = new System.Drawing.Size(420, 164);
 			this.lstCombine.TabIndex = 2;
 			// 
 			// btnCombineDelete
@@ -108,7 +132,7 @@
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(7, 236);
+			this.label4.Location = new System.Drawing.Point(7, 218);
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(65, 20);
@@ -119,7 +143,7 @@
 			// 
 			this.txtCombineOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtCombineOutput.Location = new System.Drawing.Point(11, 261);
+			this.txtCombineOutput.Location = new System.Drawing.Point(11, 243);
 			this.txtCombineOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.txtCombineOutput.Name = "txtCombineOutput";
 			this.txtCombineOutput.ReadOnly = true;
@@ -131,7 +155,7 @@
 			this.btnCombineStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnCombineStart.Enabled = false;
 			this.btnCombineStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCombineStart.Location = new System.Drawing.Point(124, 394);
+			this.btnCombineStart.Location = new System.Drawing.Point(124, 338);
 			this.btnCombineStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCombineStart.Name = "btnCombineStart";
 			this.btnCombineStart.Size = new System.Drawing.Size(307, 49);
@@ -144,7 +168,7 @@
 			// 
 			this.btnCombineChooseOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCombineChooseOutput.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCombineChooseOutput.Location = new System.Drawing.Point(417, 260);
+			this.btnCombineChooseOutput.Location = new System.Drawing.Point(417, 242);
 			this.btnCombineChooseOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCombineChooseOutput.Name = "btnCombineChooseOutput";
 			this.btnCombineChooseOutput.Size = new System.Drawing.Size(109, 29);
@@ -176,30 +200,6 @@
 			this.label3.TabIndex = 5;
 			this.label3.Text = "选取要合并的视频文件：";
 			// 
-			// rdoFlv
-			// 
-			this.rdoFlv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.rdoFlv.AutoSize = true;
-			this.rdoFlv.Checked = true;
-			this.rdoFlv.Location = new System.Drawing.Point(11, 293);
-			this.rdoFlv.Name = "rdoFlv";
-			this.rdoFlv.Size = new System.Drawing.Size(278, 24);
-			this.rdoFlv.TabIndex = 11;
-			this.rdoFlv.TabStop = true;
-			this.rdoFlv.Text = "快速版 （仅支持FLV格式，合并速度快）";
-			this.rdoFlv.UseVisualStyleBackColor = true;
-			// 
-			// rdoFfmpeg
-			// 
-			this.rdoFfmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.rdoFfmpeg.AutoSize = true;
-			this.rdoFfmpeg.Location = new System.Drawing.Point(11, 323);
-			this.rdoFfmpeg.Name = "rdoFfmpeg";
-			this.rdoFfmpeg.Size = new System.Drawing.Size(265, 24);
-			this.rdoFfmpeg.TabIndex = 12;
-			this.rdoFfmpeg.Text = "高级版（支持多种格式，合并速度慢）";
-			this.rdoFfmpeg.UseVisualStyleBackColor = true;
-			// 
 			// FlvCombineControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -209,7 +209,7 @@
 			this.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "FlvCombineControl";
-			this.Size = new System.Drawing.Size(533, 448);
+			this.Size = new System.Drawing.Size(533, 397);
 			this.panelCombine.ResumeLayout(false);
 			this.panelCombine.PerformLayout();
 			this.ResumeLayout(false);
