@@ -535,7 +535,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 			}
-			catch (Exception ex)
+			catch
 			{
 				Settings["user"] = "";
 				Settings["password"] = "";
