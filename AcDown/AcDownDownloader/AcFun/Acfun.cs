@@ -387,11 +387,7 @@ namespace Kaedei.AcDown.Downloader
 						ExtractCache = Info.ExtractCache,
 						ExtractCachePattern = "fla*.tmp"
 					};
-
-
-					//设置代理服务器
-					currentParameter.Proxy = Info.Proxy;
-
+                    
 					//下载文件
 					bool success = false;
 

@@ -396,9 +396,9 @@ namespace Kaedei.AcDown.UI.Components
 		private void AddFile(string file)
 		{
 			var lvi = new ListViewItem();
-
+			file = file.ToUpper();
 			//判断文件格式
-			if (file.EndsWith(".xml") || file.EndsWith(".json")) //如果是弹幕文件
+			if (file.EndsWith(".XML") || file.EndsWith(".JSON")) //如果是弹幕文件
 			{
 				//文件名
 				lvi.Text = Path.GetFileName(file);
@@ -432,7 +432,7 @@ namespace Kaedei.AcDown.UI.Components
 				//设置图标
 				lvi.ImageIndex = 1;
 			}
-			else if (file.EndsWith(".flv") || file.EndsWith(".mp4") || file.EndsWith(".hlv") || file.EndsWith(".f4v")) //如果是视频文件
+			else if (file.EndsWith(".FLV") || file.EndsWith(".MP4") || file.EndsWith(".HLV") || file.EndsWith(".F4V")) //如果是视频文件
 			{
 				Video v = new Video();
 				v.FileName = file;

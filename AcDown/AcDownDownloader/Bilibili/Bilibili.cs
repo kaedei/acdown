@@ -526,7 +526,7 @@ namespace Kaedei.AcDown.Downloader
 
 					var renamehelper = new CustomFileNameHelper();
 					string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-									Settings["Title"], Settings["Subtitle"], "",
+									title, subtitle, "",
 									"mp4", Info.Settings["AVNumber"], Info.Settings["AVSubNumber"]);
 					filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 
