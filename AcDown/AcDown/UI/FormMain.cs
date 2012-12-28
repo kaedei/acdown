@@ -807,6 +807,16 @@ namespace Kaedei.AcDown.UI
 		//合并视频
 		private void toolCombineVideo_Click(object sender, EventArgs e)
 		{
+			if (!VideoCombineHelper.CheckFileExists())
+			{
+				var result = MessageBox.Show("尚未安装视频合并所需要的插件，是否立即下载？", "视频合并插件",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (result == System.Windows.Forms.DialogResult.Yes)
+				{
+					FormNew.ShowForm("视频合并插件");
+				}
+				return;
+			}
 			ListViewItem item = lsv.SelectedItems[0];
 			TaskInfo task = GetTask(new Guid((string)item.Tag));
 			new Thread(new ThreadStart(() =>
