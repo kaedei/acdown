@@ -12,13 +12,18 @@ using Kaedei.AcDown.Interface.Forms;
 using System.Windows.Forms;
 using Kaedei.AcDown.Interface.Downloader;
 using Kaedei.AcDown.Downloader.Bilibili;
+using System.Xml;
 
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.0.1220", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.2.427", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
+		//地址解析正则表达式
+		public static Regex RegexBili = new Regex(@"(http://www\.bilibili\.tv/video\/)?av([0-9]+)(?:index_([0-9]+)\.html)?", RegexOptions.IgnoreCase);
+		public static Regex RegexAcg = new Regex(@"(http://acg\.tv/)?av([0-9]+)(?:,([0-9]+))?", RegexOptions.IgnoreCase);
+		public static String AppKey = @"876fe0ebd0e67a0f";
 
 		public BilibiliPlugin()
 		{
@@ -28,8 +33,11 @@ namespace Kaedei.AcDown.Downloader
 				"Bilibili下载插件:",
 				"支持识别各Part名称、支持简写形式",
 				"av97834",
+				"av97834,2",
 				"http://www.bilibili.tv/video/av97834/",
 				"http://www.bilibili.tv/video/av70229/index_20.html",
+				"http://acg.tv/av97834/",
+				"http://acg.tv/av70229/index_20.html"
 			});
 			//AutoAnswer
 			Feature.Add("AutoAnswer", new List<AutoAnswer>()
@@ -57,15 +65,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})", RegexOptions.IgnoreCase);
-			if (r.Match(url).Success)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return RegexBili.IsMatch(url) || RegexAcg.IsMatch(url);
 		}
 
 		/// <summary>
@@ -76,16 +76,21 @@ namespace Kaedei.AcDown.Downloader
 		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"(http://(www\.|)bilibili\.(us|tv|kankanews\.com|smgbb\.cn)/video/|)av(?<av>\d{1,6})(/index_(?<subav>\d+)\.html|)", RegexOptions.IgnoreCase);
-			Match m = r.Match(url);
-			if (m.Success)
+			String id = "";
+			String page = "";
+			var b = RegexBili.Match(url);
+			var acg = RegexAcg.Match(url);
+			if (b.Success)
 			{
-				return "bilibili" + m.Groups["av"].Value + "_" + (String.IsNullOrEmpty(m.Groups["subav"].Value) ? "1" : m.Groups["subav"].Value);
+				id = b.Groups[2].Value;
+				page = b.Groups[3].Value;
 			}
-			else
+			else if (acg.Success)
 			{
-				return null;
+				id = acg.Groups[2].Value;
+				page = acg.Groups[3].Value;
 			}
+			return "bilibili" + id + "_" + (String.IsNullOrEmpty(page) ? "1" : page);
 		}
 
 		public Dictionary<string, object> Feature
@@ -120,16 +125,13 @@ namespace Kaedei.AcDown.Downloader
 
 			//修正井号
 			Info.Url = Info.Url.ToLower().TrimEnd('#');
-			//修正旧版URL(?)
+			//修正旧版URL
 			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
-			//Info.Url = Info.Url.Replace("www.bilibili.tv", "bilibili.kankanews.com");
-			//Info.Url = Info.Url.Replace("bilibili.tv", "bilibili.kankanews.com");
 			Info.Url = Info.Url.Replace("bilibili.smgbb.cn", "www.bilibili.tv");
 			Info.Url = Info.Url.Replace("bilibili.kankanews.com", "www.bilibili.tv");
 
 			//修正简写URL
 			if (Regex.Match(Info.Url, @"^av\d{2,6}$").Success)
-				//Info.Url = "http://bilibili.kankanews.com/video/" + Info.Url + "/";
 				Info.Url = "http://www.bilibili.tv/video/" + Info.Url + "/";
 			//修正index_1.html
 			if (!Info.Url.EndsWith(".html"))
@@ -145,11 +147,13 @@ namespace Kaedei.AcDown.Downloader
 			//string suburl = Regex.Match(Info.Url, @"bilibili\.kankanews\.com(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
 			string suburl = Regex.Match(Info.Url, @"www\.bilibili\.tv(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
 			//取得AV号和子编号
-			Match mAVNumber = Regex.Match(Info.Url, @"(?<av>av\d+)/index_(?<sub>\d+)\.html");
-			Settings["AVNumber"] = mAVNumber.Groups["av"].Value;
-			Settings["AVSubNumber"] = mAVNumber.Groups["sub"].Value;
+			//Match mAVNumber = Regex.Match(Info.Url, @"(?<av>av\d+)/index_(?<sub>\d+)\.html");
+			Match mAVNumber = BilibiliPlugin.RegexBili.Match(Info.Url);
+			if (!mAVNumber.Success) mAVNumber = BilibiliPlugin.RegexAcg.Match(Info.Url);
+			Settings["AVNumber"] = mAVNumber.Groups[2].Value;
+			Settings["AVSubNumber"] = mAVNumber.Groups[3].Value;
 			//设置自定义文件名
-			Settings["CustomFileName"] = AcFunPlugin.DefaultFileNameFormat;
+			Settings["CustomFileName"] = BilibiliPlugin.DefaultFileNameFormat;
 			if (Info.BasePlugin.Configuration.ContainsKey("CustomFileName"))
 			{
 				Settings["CustomFileName"] = Info.BasePlugin.Configuration["CustomFileName"];
@@ -163,187 +167,80 @@ namespace Kaedei.AcDown.Downloader
 
 			try
 			{
-				//取得网页源文件
-				string src = Network.GetHtmlSource(url, Encoding.UTF8, Info.Proxy);
-				//type值
-				string type = "";
-				#region 登录并重新获取网页源文件
-
-				//检查是否需要登录
-				if (src.Contains("无权访问")) //需要登录
+				//解析关联项需要同时满足的条件：
+				//1.这个任务不是被其他任务所添加的
+				//2.用户设置了“解析关联项”
+				if (!Info.IsBeAdded || Info.ParseRelated)
 				{
-					CookieContainer cookies = new CookieContainer();
-					//登录Bilibili
-					UserLoginInfo user;
-					//检查插件配置
-					try
+
+					//取得网页源文件
+					string src = Network.GetHtmlSource(url, Encoding.UTF8, Info.Proxy);
+					string subtitle = "";
+					//取得子标题
+					Regex rSubTitle = new Regex(@"<option value='(?<part>.+?\.html)'(| selected)>(?<content>.+?)</option>");
+					MatchCollection mSubTitles = rSubTitle.Matches(src);
+
+					//如果存在下拉列表框
+					if (mSubTitles.Count > 0)
 					{
-						user = new UserLoginInfo();
-
-						user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["user"]));
-
-						user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Settings["password"]));
-						if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+						//确定当前视频的子标题
+						foreach (Match item in mSubTitles)
 						{
-							user.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Username"]));
-							user.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Password"]));
-							if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
-								throw new Exception("需要登录");
-						}
-					}
-					catch
-					{
-						user = ToolForm.CreateLoginForm("https://secure.bilibili.tv/member/index_do.php?fmdo=user&dopost=regnew");
-						Settings["user"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Username));
-						Settings["password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Password));
-					}
-					//Post的数据
-					string postdata = "act=login&gourl=http%%3A%%2F%%2Fbilibili.tv%%2F&userid=" + user.Username + "&pwd=" + user.Password + "&keeptime=604800";
-					byte[] data = Encoding.UTF8.GetBytes(postdata);
-					//生成请求
-					//WorkItem #1441
-					HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://secure.bilibili.tv/login");
-					//修复不应用代理服务器的问题
-					req.Proxy = Info.Proxy;
-					req.Method = "POST";
-					req.Referer = "https://secure.bilibili.tv/login.php";
-					req.ContentType = "application/x-www-form-urlencoded";
-					req.ContentLength = data.Length;
-					req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:15.0) Gecko/20100101 Firefox/15.0.1";
-					req.Referer = url;
-					req.CookieContainer = new CookieContainer();
-					//发送POST数据
-					using (var outstream = req.GetRequestStream())
-					{
-						outstream.Write(data, 0, data.Length);
-						outstream.Flush();
-					}
-					//关闭请求
-					req.GetResponse().Close();
-					cookies = req.CookieContainer; //保存cookies
-					//string cookiesstr = req.CookieContainer.GetCookieHeader(req.RequestUri); //字符串形式的cookies
-
-					//重新请求网页
-					HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url.Replace("bilibili.kankanews.com", "www.bilibili.tv"));
-					//设置代理服务器
-					request.Proxy = Info.Proxy;
-					//设置cookies
-					request.CookieContainer = cookies;
-					//获取网页源代码
-					src = Network.GetHtmlSource(request, Encoding.UTF8);
-				}
-
-				#endregion
-
-				//取得视频标题
-				Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
-				Match mTitle = rTitle.Match(src);
-				//文件名称
-				string title = mTitle.Groups["title"].Value.Replace("- 嗶哩嗶哩", "")
-					.Replace("- ( ゜- ゜)つロ", "").Replace("乾杯~", "").Replace("- bilibili.tv", "")
-					.Replace("(" + Settings["AVSubNumber"] + ")", "").Trim();
-				string subtitle = title;
-
-				//取得子标题
-				Regex rSubTitle = new Regex(@"<option value='(?<part>.+?\.html)'(| selected)>(?<content>.+?)</option>");
-				MatchCollection mSubTitles = rSubTitle.Matches(src);
-
-				//如果存在下拉列表框
-				if (mSubTitles.Count > 0)
-				{
-					//确定当前视频的子标题
-					foreach (Match item in mSubTitles)
-					{
-						if (suburl == item.Groups["part"].Value)
-						{
-							subtitle = item.Groups["content"].Value;
-							break;
-						}
-					}
-
-					//如果需要解析关联下载项
-					//解析关联项需要同时满足的条件：
-					//1.这个任务不是被其他任务所添加的
-					//2.用户设置了“解析关联项”
-					if (!Info.IsBeAdded)
-					{
-						if (Info.ParseRelated)
-						{
-							//准备(地址-标题)字典
-							var dict = new Dictionary<string, string>();
-							foreach (Match item in mSubTitles)
+							if (suburl == item.Groups["part"].Value)
 							{
-								if (suburl != item.Groups["part"].Value)
-								{
-									dict.Add(url.Replace(suburl, item.Groups["part"].Value),
-												item.Groups["content"].Value);
-								}
-							}
-							//用户选择任务
-							var ba = new Collection<string>();
-							if (!disableDialog)
-								ba = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "bilibili");
-							//根据用户选择新建任务
-							foreach (string u in ba)
-							{
-								//新建任务
-								delegates.NewTask(new ParaNewTask(Info.BasePlugin, u, this.Info));
+								subtitle = item.Groups["content"].Value;
+								break;
 							}
 						}
+
+						//准备(地址-标题)字典
+						var dict = new Dictionary<string, string>();
+						foreach (Match item in mSubTitles)
+						{
+							if (suburl != item.Groups["part"].Value)
+							{
+								dict.Add(url.Replace(suburl, item.Groups["part"].Value),
+											item.Groups["content"].Value);
+							}
+						}
+						//用户选择任务
+						var ba = new Collection<string>();
+						if (!disableDialog)
+							ba = ToolForm.CreateMultiSelectForm(dict, Info.AutoAnswer, "bilibili");
+						//根据用户选择新建任务
+						foreach (string u in ba)
+						{
+							NewTask(u);
+						}
+
 					}
 				}
 
-				if (title != subtitle)
-					Info.Title = title + " - " + subtitle;
-				else
+				//获取视频信息API
+				var viewSrc = Network.GetHtmlSource(@"http://api.bilibili.tv/view?type=xml&appkey=" + BilibiliPlugin.AppKey + "&id=" + Settings["AVNumber"] + "&page=" + Settings["AVSubNumber"], Encoding.UTF8);
+				var viewDoc = new XmlDocument();
+				viewDoc.LoadXml(viewSrc);
+				//视频标题和子标题
+				string title = viewDoc.SelectSingleNode(@"/info/title").InnerText.Replace("&amp;", "&");
+				string stitle = viewDoc.SelectSingleNode(@"/info/partname").InnerText;
+
+				if (String.IsNullOrEmpty(stitle))
 					Info.Title = title;
+				else
+					Info.Title = title + " - " + stitle;
 				//过滤非法字符
 				title = Tools.InvalidCharacterFilter(title, "");
-				subtitle = Tools.InvalidCharacterFilter(subtitle, "");
+				stitle = Tools.InvalidCharacterFilter(stitle, "");
 
 				//清空地址
 				Info.FilePath.Clear();
 				Info.SubFilePath.Clear();
 
-				//视频id
-				string id = "";
-
-				//分析id和视频存放站点(type)
-				//取得<Embed>块的源代码
-				Regex rEmbed = new Regex(@"(?<=id=""bofqi"">).+(?=</div>\W+<div class=""s_center"")", RegexOptions.Singleline);
-				Match mEmbed = rEmbed.Match(src);
-				string embedSrc = mEmbed.Value.Trim().Replace("type=\"application/x-shockwave-flash\"", "");
-				//string embedSrc = new Regex("<embed[^>]*?>").Match(src).Value;
-
-				//检查"file"参数
-				Regex rFile = new Regex("file=(\"|)(?<file>.+?)(\"|&)");
-				Match mFile = rFile.Match(embedSrc);
-				//取得Flash地址
-				Regex rFlash = new Regex("src=\"(?<flash>.*?\\.swf)\"");
-				Match mFlash = rFlash.Match(embedSrc);
-				//取得id值
-				Regex rId = new Regex(@"(?<idname>(\w{0,2}id|data))=(?<id>([\w\-]+|$http://.+?$))".Replace("$", "\""));
-				Match mId = rId.Match(embedSrc);
-				//取得ID
-				id = mId.Groups["id"].Value;
-				//取得type值
-				type = mId.Groups["idname"].Value;
-
-
-				//解析Bilibili接口设置
-				string interfacexml =
-					type.Equals("cid") ?
-					Network.GetHtmlSource("http://interface.bilibili.tv/player?id=cid:" + id, Encoding.UTF8, Info.Proxy) :
-					Network.GetHtmlSource("http://interface.bilibili.tv/player?id=" + id, Encoding.UTF8, Info.Proxy);
-				MatchCollection mcInterfaceSettings = Regex.Matches(interfacexml, @"\<(?<key>\w+)>(?<value>.+?)\</\1\>");
-				foreach (Match mInterfaceSetting in mcInterfaceSettings)
-				{
-					Settings[mInterfaceSetting.Groups["key"].Value] = mInterfaceSetting.Groups["value"].Value;
-				}
-
+				//CID
+				Settings["chatid"] = Regex.Match(viewSrc, @"(?<=\<cid\>)\d+(?=\</cid\>)", RegexOptions.IgnoreCase).Value;
+				
 				//下载弹幕
-				DownloadComment(title, subtitle, Settings["chatid"]);
-
+				DownloadComment(title, stitle, Settings["chatid"]);
 
 				//解析器的解析结果
 				ParseResult pr = null;
@@ -351,62 +248,19 @@ namespace Kaedei.AcDown.Downloader
 				//如果允许下载视频
 				if ((Info.DownloadTypes & DownloadType.Video) != 0)
 				{
-					if (mFile.Success) //如果有file参数
-					{
-						string fileurl = mFile.Groups["file"].Value;
-						videos = new string[] { fileurl };
-					}
-					else if (mId.Success)//如果是普通的外链
-					{
-						//检查外链
-						switch (type)
+					//var playurlSrc = Network.GetHtmlSource(@"http://interface.bilibili.tv/playurl?otype=xml&cid=" + Settings["chatid"] + "&type=flv", Encoding.UTF8);
+					//var playurlDoc = new XmlDocument();
+					//playurlDoc.LoadXml(playurlSrc);
+
+					//获得视频列表
+					var prRequest = new ParseRequest()
 						{
-							case "cid": //Bilibili接口 WorkItem #1412
-								BilibiliInterfaceParser parserBili = new BilibiliInterfaceParser();
-								pr = parserBili.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-								videos = pr.ToArray();
-								break;
-							case "qid": //QQ视频
-								//解析视频
-								QQVideoParser parserQQ = new QQVideoParser();
-								pr = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-								videos = pr.ToArray();
-								break;
-							case "ykid": //优酷视频
-								//解析视频
-								YoukuParser parserYouKu = new YoukuParser();
-								pr = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-								videos = pr.ToArray();
-								break;
-							case "uid": //土豆视频
-								//解析视频
-								TudouParser parserTudou = new TudouParser();
-								pr = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-								videos = pr.ToArray();
-								break;
-							case "data": //Flash游戏
-								id = id.Replace("\"", "");
-								videos = new string[] { id };
-								break;
-							case "rid": //六间房
-								//不支持
-								break;
-							case "id": //Levelup视频 WorkItem #1442
-								string levelupUrl = @"http://pl.bilibili.tv/" + id.Replace("levelup", "/") + ".flv";
-								videos = new string[] { levelupUrl };
-								break;
-							default: //新浪视频
-								SinaVideoParser parserSina = new SinaVideoParser();
-								pr = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer });
-								videos = pr.ToArray();
-								break;
-						}
-					}
-					else //如果是游戏
-					{
-						string flashurl = mFlash.Groups["flash"].Value;
-						videos = new string[] { flashurl };
-					}
+							Id = Settings["chatid"],
+							Proxy = Info.Proxy,
+							AutoAnswers = Info.AutoAnswer
+						};
+					pr = new BilibiliInterfaceParser().Parse(prRequest);
+					videos = pr.ToArray();
 
 					//支持导出列表
 					if (videos != null)
@@ -446,7 +300,7 @@ namespace Kaedei.AcDown.Downloader
 						//设置文件名
 						var renamehelper = new CustomFileNameHelper();
 						string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-										title, subtitle, Info.PartCount == 1 ? "" : Info.CurrentPart.ToString(),
+										title, stitle, Info.PartCount == 1 ? "" : Info.CurrentPart.ToString(),
 										ext.Replace(".", ""), Settings["AVNumber"], Settings["AVSubNumber"]);
 						filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 
@@ -508,7 +362,7 @@ namespace Kaedei.AcDown.Downloader
 					Info.BasePlugin.Configuration["GenerateAcPlay"] == "true")
 				{
 					//生成AcPlay文件
-					string acplay = GenerateAcplayConfig(pr, title, subtitle);
+					string acplay = GenerateAcplayConfig(pr, title, stitle);
 					//支持AcPlay直接播放
 					Settings["AcPlay"] = acplay;
 				}
@@ -526,7 +380,7 @@ namespace Kaedei.AcDown.Downloader
 
 					var renamehelper = new CustomFileNameHelper();
 					string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
-									title, subtitle, "",
+									title, stitle, "",
 									"mp4", Info.Settings["AVNumber"], Info.Settings["AVSubNumber"]);
 					filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
 

@@ -1131,7 +1131,8 @@ namespace Kaedei.AcDown.UI
 						MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 					if (result == System.Windows.Forms.DialogResult.Yes)
 					{
-						FormNew.ShowForm("视频合并插件");
+						//FormNew.ShowForm("视频合并插件");
+						Process.Start("https://acdown.codeplex.com/wikipage?title=%e8%a7%86%e9%a2%91%e5%90%88%e5%b9%b6%e6%8f%92%e4%bb%b6");
 					}
 					chkAutoCombine.Checked = false;
 				}

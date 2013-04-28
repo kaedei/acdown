@@ -1,0 +1,8 @@
+﻿Bilibili.tv API:
+Public-Key: f487b808dc82abb7464a00935d4bb247
+App-Key *注意保密: 876fe0ebd0e67a0f
+
+
+API使用方法请参阅 http://www.bilibili.tv/api.txt
+
+请勿在AcDown应用程序以外的范围使用此API
