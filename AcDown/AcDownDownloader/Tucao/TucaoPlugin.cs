@@ -6,7 +6,7 @@ using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("TucaoDownloader", "吐槽网下载插件", "Kaedei", "4.4.0.1220", "吐槽网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TucaoDownloader", "吐槽网下载插件", "Kaedei", "4.4.1.427", "吐槽网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TucaoPlugin : IPlugin
 	{
 		public TucaoPlugin()

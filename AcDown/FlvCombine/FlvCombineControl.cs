@@ -95,11 +95,15 @@ namespace Kaedei.AcDown.UI.Components
 			//检查文件是否存在
 			if (!VideoCombineHelper.CheckFileExists())
 			{
-				MessageBox.Show("尚未安装视频合并所需要的插件" +
+				if (MessageBox.Show("尚未安装视频合并所需要的插件，" +
 					Environment.NewLine +
-					"请在新建任务窗口的地址栏中输入【视频合并插件】以下载所需要的文件", "视频合并插件"
-					, MessageBoxButtons.OK, MessageBoxIcon.Information);
-				Clipboard.SetText("视频合并插件");
+					"是否立即下载？", "视频合并插件"
+					, MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+					== DialogResult.Yes)
+				{
+					Process.Start(@"https://acdown.codeplex.com/wikipage?title=%e8%a7%86%e9%a2%91%e5%90%88%e5%b9%b6%e6%8f%92%e4%bb%b6");
+				}
+				//Clipboard.SetText("视频合并插件");
 				return;
 			}
 			panelCombine.Enabled = false;

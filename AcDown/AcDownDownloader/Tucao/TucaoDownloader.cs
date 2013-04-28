@@ -6,75 +6,17 @@ using System.Text.RegularExpressions;
 using System.IO;
 using Kaedei.AcDown.Interface.Forms;
 using System.Net;
+using Kaedei.AcDown.Interface.Downloader;
 
 namespace Kaedei.AcDown.Downloader
 {
 	/// <summary>
 	/// Tucao下载器
 	/// </summary>
-	public class TucaoDownloader : IDownloader
+	public class TucaoDownloader : CommonDownloader
 	{
-		public TaskInfo Info { get; set; }
-
-		//下载参数
-		DownloadParameter currentParameter;
-
-		public DelegateContainer delegates { get; set; }
-
-		//文件总长度
-		public long TotalLength
-		{
-			get
-			{
-				if (currentParameter != null)
-				{
-					return currentParameter.TotalLength;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-		//已完成的长度
-		public long DoneBytes
-		{
-			get
-			{
-				if (currentParameter != null)
-				{
-					return currentParameter.DoneBytes;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-		//最后一次Tick时的值
-		public long LastTick
-		{
-			get
-			{
-				if (currentParameter != null)
-				{
-					//将tick值更新为当前值
-					long tmp = currentParameter.LastTick;
-					currentParameter.LastTick = currentParameter.DoneBytes;
-					return tmp;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-
 		//下载视频
-		public bool Download()
+		public override bool Download()
 		{
 			//开始下载
 			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
@@ -90,6 +32,8 @@ namespace Kaedei.AcDown.Downloader
 			string id = "";
 			//type值
 			string type = "";
+			//子标题
+			string subtitle = "";
 			//player id
 			string playerId = "";
 			//选择的视频（下拉列表）
@@ -102,70 +46,62 @@ namespace Kaedei.AcDown.Downloader
 			Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
 			Match mTitle = rTitle.Match(src);
 
-			//分析id和视频存放站点(type)
-			//取得"mplayer块的源代码
-			Regex rEmbed = new Regex(@"<div id=""mplayer"">.+?</embed>", RegexOptions.Singleline);
-			Match mEmbed = rEmbed.Match(src);
-			string embedSrc = mEmbed.Value;
-
-			//取得id值
-			Regex rId = new Regex(@"\w+id=(?<id>\w+)");
-			MatchCollection mIds = rId.Matches(embedSrc);
-
-			//取得type值
-			Regex rType = new Regex(@"type=(?<type>\w+)");
-			MatchCollection mTypes = rType.Matches(embedSrc);
 			//取得PlayerID值
-			Regex rPlayerid = new Regex(@"<li>(?<playerid>content.+?)</li>");
-			Match mPlayerid = rPlayerid.Match(embedSrc);
+			Regex rPlayerid = new Regex(@"playerID=(?<playerid>[0-9-]+)");
+			Match mPlayerid = rPlayerid.Match(src);
 			playerId = mPlayerid.Groups["playerid"].Value;
-			//取得所有子标题
-			Regex rSubTitle = new Regex(@"\|(?<subtitle>.*?)(\*\*|</li>)");
-			MatchCollection mSubTitles = rSubTitle.Matches(embedSrc);
-			Match mId = null;
-			Match mType = null;
-			Match mSubTitle = null;
 
-			if (mIds.Count > 1) //如果数量大于一个
+			////分析id和视频存放站点(type)
+			////取得"mplayer块的源代码
+			//Regex rEmbed = new Regex(@"<div id=""mplayer"">.+?</embed>", RegexOptions.Singleline);
+			//Match mEmbed = rEmbed.Match(src);
+			//string embedSrc = mEmbed.Value;
+
+			////取得id值
+			//Regex rId = new Regex(@"\w+id=(?<id>\w+)");
+			//MatchCollection mIds = rId.Matches(embedSrc);
+
+			////取得type值
+			//Regex rType = new Regex(@"type=(?<type>\w+)");
+			//MatchCollection mTypes = rType.Matches(embedSrc);
+
+			//取得所有子标题
+			Regex rSubTitle = new Regex(@"type=(?<type>\w+)&vid=(?<vid>\d+)\|(?<subtitle>.*?)(\*\*|</li>)");
+			MatchCollection mSubTitles = rSubTitle.Matches(src);
+
+			if (mSubTitles.Count > 1) //如果数量大于一个
 			{
 				//定义字典
 				var dict = new Dictionary<string, string>();
-				for (int i = 0; i < mIds.Count; i++)
+				for (int i = 0; i < mSubTitles.Count; i++)
 				{
 					dict.Add(i.ToString(), (i + 1).ToString() + "、" + mSubTitles[i].Groups["subtitle"].Value);
 				}
 				//用户选择下载哪一个视频
-				selectedvideo = int.Parse(ToolForm.CreateSingleSelectForm("请选择视频：", dict, "", Info.AutoAnswer, "tucao"));
-				mId = mIds[selectedvideo];
-				mType = mTypes[selectedvideo];
-				mSubTitle = mSubTitles[selectedvideo];
+				selectedvideo = int.Parse(ToolForm.CreateSingleSelectForm("请选择视频：", dict, "0", Info.AutoAnswer, "tucao"));
+				id = mSubTitles[selectedvideo].Groups["vid"].Value;
+				type = mSubTitles[selectedvideo].Groups["type"].Value;
+				subtitle = mSubTitles[selectedvideo].Groups["subtitle"].Value;
 			}
 			else
 			{
-				mId = mIds[0];
-				mType = mTypes[0];
-				mSubTitle = mSubTitles[0];
+				id = mSubTitles[0].Groups["vid"].Value;
+				type = mSubTitles[0].Groups["type"].Value;
 			}
 
 			//设置标题
 			string title = mTitle.Groups["title"].Value.Replace("- 吐槽 - tucao.cc", "");
-			string subTitle = mSubTitle.Groups["subtitle"].Value;
-			if (!string.IsNullOrEmpty(subTitle)) //如果存在子标题（视频为合集）
+			if (!string.IsNullOrEmpty(subtitle)) //如果存在子标题（视频为合集）
 			{
 				//更改标题
-				title = title + " - " + subTitle;
+				title = title + " - " + subtitle;
 				//更改URL防止hash时出错
-				Info.Url = Info.Url + "#" + subTitle;
+				Info.Url = Info.Url + "#" + subtitle;
 
 			}
 			//过滤非法字符
 			Info.Title = title;
 			title = Tools.InvalidCharacterFilter(title, "");
-
-			//取得ID
-			id = mId.Groups["id"].Value;
-			//取得type值
-			type = mType.Groups["type"].Value;
 
 			//如果允许下载视频
 			if ((Info.DownloadTypes & DownloadType.Video) != 0)
@@ -316,16 +252,6 @@ namespace Kaedei.AcDown.Downloader
 
 			//下载成功完成
 			return true;
-		}
-
-		//停止下载
-		public void StopDownload()
-		{
-			if (currentParameter != null)
-			{
-				//将停止flag设置为true
-				currentParameter.IsStop = true;
-			}
 		}
 
 	}

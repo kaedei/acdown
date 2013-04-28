@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{362A456F-8367-43EF-950D-5A2CDD502B92}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{7FDA5619-461A-4272-9078-3B354A27238E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kaedei.AcDown.UI.Components</RootNamespace>
-    <AssemblyName>FlvCombine</AssemblyName>
+    <RootNamespace>Kaedei.AcDown.VideoCombineInstaller</RootNamespace>
+    <AssemblyName>VideoCombineInstaller</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\FlvCombine.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,33 +34,36 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Kaedei.AcDown.VideoCombineInstaller.VideoCombineInstaller</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FlvCombineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FlvCombineControl.Designer.cs">
-      <DependentUpon>FlvCombineControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VideoCombineHelper.cs" />
+    <Compile Include="VideoCombineInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FlvCombineControl.resx">
-      <DependentUpon>FlvCombineControl.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AcDownCore\AcDownCore.csproj">
-      <Project>{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}</Project>
-      <Name>AcDownCore</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="FFMpeg\ffmpeg.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FFMpeg\libfaac.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FlvCombine\FlvBind.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FlvCombine\FLVLib.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
