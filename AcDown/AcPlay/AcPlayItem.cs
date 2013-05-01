@@ -24,19 +24,20 @@ namespace Kaedei.AcDown.UI.Components
 		private void AcPlayItem_Load(object sender, EventArgs e)
 		{
 			txtFile.Text = v.FileName;
-			TimeSpan ts = new TimeSpan(0, 0, 0, 0, v.Length > 1 ? v.Length : 1);
-
+			//TimeSpan ts = new TimeSpan(0, 0, 0, 0, v.Length > 1 ? v.Length : 1);
+			TimeSpan ts;
 			//获取视频时长
 			try
 			{
-				if (ts.TotalMilliseconds <= 0)
-				{
-					FlvInfo fi = FlvInfoHelper.Read(v.FileName);
-					if (fi.Time.TotalMilliseconds > 0)
-						ts = fi.Time;
-				}
+				ts = FlvInfoHelper.GetVideoDuration(v.FileName,
+					Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+					"Kaedei" + Path.DirectorySeparatorChar + "FlvCombine" + Path.DirectorySeparatorChar + "ffmpeg.exe"));
+
 			}
-			catch { }
+			catch
+			{
+				ts = new TimeSpan(0, 0, 0, 0, 1);
+			}
 
 			udMin.Value = ts.Hours * 60 + ts.Minutes;
 			udSec.Value = ts.Seconds;

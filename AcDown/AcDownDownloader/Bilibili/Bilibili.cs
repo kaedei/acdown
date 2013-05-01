@@ -17,12 +17,12 @@ using System.Xml;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.2.427", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.2.501", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 		//地址解析正则表达式
-		public static Regex RegexBili = new Regex(@"(http://www\.bilibili\.tv/video\/)?av([0-9]+)(?:index_([0-9]+)\.html)?", RegexOptions.IgnoreCase);
-		public static Regex RegexAcg = new Regex(@"(http://acg\.tv/)?av([0-9]+)(?:,([0-9]+))?", RegexOptions.IgnoreCase);
+		public static Regex RegexBili = new Regex(@"(http://www\.bilibili\.tv/video\/)?av(?<id>[0-9]+)(/index_(?<page>[0-9]+)\.html)?", RegexOptions.IgnoreCase);
+		public static Regex RegexAcg = new Regex(@"(http://acg\.tv/)?av(?<id>[0-9]+)(,(?<page>[0-9]+))?", RegexOptions.IgnoreCase);
 		public static String AppKey = @"876fe0ebd0e67a0f";
 
 		public BilibiliPlugin()
@@ -82,13 +82,13 @@ namespace Kaedei.AcDown.Downloader
 			var acg = RegexAcg.Match(url);
 			if (b.Success)
 			{
-				id = b.Groups[2].Value;
-				page = b.Groups[3].Value;
+				id = b.Groups["id"].Value;
+				page = b.Groups["page"].Value;
 			}
 			else if (acg.Success)
 			{
-				id = acg.Groups[2].Value;
-				page = acg.Groups[3].Value;
+				id = acg.Groups["id"].Value;
+				page = acg.Groups["page"].Value;
 			}
 			return "bilibili" + id + "_" + (String.IsNullOrEmpty(page) ? "1" : page);
 		}
@@ -150,8 +150,8 @@ namespace Kaedei.AcDown.Downloader
 			//Match mAVNumber = Regex.Match(Info.Url, @"(?<av>av\d+)/index_(?<sub>\d+)\.html");
 			Match mAVNumber = BilibiliPlugin.RegexBili.Match(Info.Url);
 			if (!mAVNumber.Success) mAVNumber = BilibiliPlugin.RegexAcg.Match(Info.Url);
-			Settings["AVNumber"] = mAVNumber.Groups[2].Value;
-			Settings["AVSubNumber"] = mAVNumber.Groups[3].Value;
+			Settings["AVNumber"] = mAVNumber.Groups["id"].Value;
+			Settings["AVSubNumber"] = mAVNumber.Groups["page"].Value;
 			//设置自定义文件名
 			Settings["CustomFileName"] = BilibiliPlugin.DefaultFileNameFormat;
 			if (Info.BasePlugin.Configuration.ContainsKey("CustomFileName"))
@@ -222,10 +222,13 @@ namespace Kaedei.AcDown.Downloader
 				viewDoc.LoadXml(viewSrc);
 				//视频标题和子标题
 				string title = viewDoc.SelectSingleNode(@"/info/title").InnerText.Replace("&amp;", "&");
-				string stitle = viewDoc.SelectSingleNode(@"/info/partname").InnerText;
+				string stitle = viewDoc.SelectSingleNode(@"/info/partname").InnerText.Replace("&amp;", "&");
 
 				if (String.IsNullOrEmpty(stitle))
+				{
 					Info.Title = title;
+					stitle = title;
+				}
 				else
 					Info.Title = title + " - " + stitle;
 				//过滤非法字符

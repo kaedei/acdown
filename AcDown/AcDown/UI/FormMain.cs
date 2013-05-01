@@ -542,7 +542,7 @@ namespace Kaedei.AcDown.UI
 			if (!watchClipboard)
 				return;
 			//剪贴板中的文字(非UI线程无法访问剪贴板)
-			if (this.IsDisposed)
+			if (this.IsDisposed || this.Disposing)
 				return;
 			this.Invoke(new MethodInvoker(() =>
 			{

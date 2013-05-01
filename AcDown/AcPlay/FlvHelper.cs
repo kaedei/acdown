@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace _30edu.Common
 {
@@ -165,6 +167,50 @@ namespace _30edu.Common
 
 				}
 				return aFlvInfo;
+			}
+		}
+
+		//获取视频长度
+		public static TimeSpan GetVideoDuration(string filePath, string ffmpegExePath)
+		{
+			try
+			{
+				string output = "";
+				if (File.Exists(ffmpegExePath))
+				{
+					//视频长度
+					Process p = new Process();//建立外部调用线程
+					p.StartInfo.FileName = ffmpegExePath;
+					p.StartInfo.Arguments = string.Format(@"-i ""{0}""", filePath);
+					p.StartInfo.UseShellExecute = false;//不使用操作系统外壳程序启动线程
+					p.StartInfo.RedirectStandardError = true;//把外部程序错误输出写到StandardError流中
+					p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+					p.StartInfo.CreateNoWindow = true;//不创建进程窗口
+					p.Start();//启动线程
+					p.WaitForExit(2500);//等待完成
+					output = p.StandardError.ReadToEnd();//开始同步读取
+					p.Close();//关闭进程
+					p.Dispose();//释放资源
+				}
+				var reg = new Regex(@"Duration: (?<h>\d+):(?<m>\d+):(?<s>\d+)\.(?<ms>\d+)");
+				var match = reg.Match(output);
+
+				if (!match.Success)
+				{
+					var info = Read(filePath);
+					return info.Time;
+				}
+				else
+				{
+					return new TimeSpan(0, int.Parse(match.Groups["h"].Value),
+						int.Parse(match.Groups["m"].Value),
+						int.Parse(match.Groups["s"].Value),
+						int.Parse(match.Groups["ms"].Value));
+				}
+			}
+			catch
+			{
+				return new TimeSpan(0, 0, 1);
 			}
 		}
 	}
