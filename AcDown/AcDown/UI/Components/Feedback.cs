@@ -29,16 +29,7 @@ namespace Kaedei.AcDown.UI.Components
 
 		private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
 		{
-			try
-			{
-				var a = webBrowser1.Document.GetElementById("lo");
-				if(a!=null)
-					a.InnerHtml = @"<a href=""http://acplay.loushao.net/"">点击这里刷新页面</a>(´・ω・｀)";
-				var b = webBrowser1.Document.GetElementById("foot");
-				if (b != null)
-					b.Style = "display:none; height:0px;";
-			}
-			catch { }
+			
 		}
 	}
 }

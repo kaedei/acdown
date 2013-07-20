@@ -60,10 +60,10 @@ namespace Kaedei.AcDown.Interface.Forms
 		/// </summary>
 		/// <param name="registerUrl">注册新用户的链接，传递空字符串可以隐藏界面上的[]注册]按钮</param>
 		/// <returns>返回一个包含用户登录数据的UserLoginInfo对象</returns>
-		public static UserLoginInfo CreateLoginForm(string registerUrl)
+		public static UserLoginInfo CreateLoginForm(UserLoginInfo loginInfo, string registerUrl, string captchaFile="")
 		{
-			UserLoginInfo info = new UserLoginInfo();
-			FormLogin frm = new FormLogin(info, registerUrl);
+			var info = loginInfo ?? new UserLoginInfo();
+			FormLogin frm = new FormLogin(info, registerUrl, captchaFile);
 			frm.ShowDialog();
 			return info;
 		}
