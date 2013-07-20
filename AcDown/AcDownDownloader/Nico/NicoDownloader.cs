@@ -46,7 +46,7 @@ namespace Kaedei.AcDown.Downloader
 			}
 			catch
 			{
-				user = ToolForm.CreateLoginForm("https://secure.nicovideo.jp/secure/register");
+				user = ToolForm.CreateLoginForm(null,"https://secure.nicovideo.jp/secure/register");
 				Info.Settings["user"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Username));
 				Info.Settings["password"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Password));
 			}

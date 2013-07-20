@@ -17,7 +17,7 @@ using System.Xml;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.2.501", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.3.720", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 		//地址解析正则表达式
@@ -217,7 +217,14 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				//获取视频信息API
-				var viewSrc = Network.GetHtmlSource(@"http://api.bilibili.tv/view?type=xml&appkey=" + BilibiliPlugin.AppKey + "&id=" + Settings["AVNumber"] + "&page=" + Settings["AVSubNumber"], Encoding.UTF8);
+				var apiAddress = @"http://api.bilibili.tv/view?type=xml&appkey=" + BilibiliPlugin.AppKey + "&id=" +
+				                 Settings["AVNumber"] + "&page=" + Settings["AVSubNumber"];
+				var viewSrc = Network.GetHtmlSource(apiAddress, Encoding.UTF8, Info.Proxy);
+				//登录获取API结果
+				if (viewSrc.Contains("<code>-403</code>"))
+				{
+					viewSrc = LoginApi(url, apiAddress);
+				}
 				var viewDoc = new XmlDocument();
 				viewDoc.LoadXml(viewSrc);
 				//视频标题和子标题
@@ -400,6 +407,84 @@ namespace Kaedei.AcDown.Downloader
 			}
 
 			return true;
+		}
+
+		private string LoginApi(string url, string apiAddress)
+		{
+			string xmlSrc;
+			var LOGIN_PAGE = "https://secure.bilibili.tv/login";
+			//获取登录页Cookie
+			var loginPageRequest = (HttpWebRequest) WebRequest.Create(LOGIN_PAGE);
+			loginPageRequest.Proxy = Info.Proxy;
+			loginPageRequest.Referer = @"http://www.bilibili.tv/";
+			loginPageRequest.UserAgent = @"Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0";
+			loginPageRequest.Accept = @"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+			CookieContainer loginPageCookieContainer;
+			string loginPageCookie;
+			using (var resp = loginPageRequest.GetResponse())
+			{
+				loginPageCookieContainer = new CookieContainer();
+				var sid = Regex.Match(resp.Headers["Set-Cookie"], @"(?<=sid=)\w+").Value;
+				loginPageCookieContainer.Add(new Cookie("sid", sid, "/", ".bilibili.tv"));
+				loginPageCookie = loginPageCookieContainer.GetCookieHeader(new Uri(LOGIN_PAGE));
+			}
+			//获取验证码图片
+			var loginInfo = new UserLoginInfo
+				{
+					Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Username"])),
+					Password = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Password"]))
+				};
+			if (Settings.ContainsKey("Username"))
+				loginInfo.Username = Settings["Username"];
+			if (Settings.ContainsKey("Password"))
+				loginInfo.Password = Settings["Password"];
+
+			var captchaUrl = @"https://secure.bilibili.tv/captcha?r=" +
+			                 new Random(Environment.TickCount).NextDouble().ToString();
+			var captchaFile = Path.GetTempFileName() + ".png";
+			var captchaClient = new WebClient {Proxy = Info.Proxy};
+			captchaClient.Headers.Add(HttpRequestHeader.Cookie, loginPageCookie);
+			captchaClient.DownloadFile(captchaUrl, captchaFile);
+			loginInfo = ToolForm.CreateLoginForm(loginInfo, @"https://secure.bilibili.tv/register", captchaFile);
+
+			//保存到设置
+			Settings["Username"] = loginInfo.Username;
+			Settings["Password"] = loginInfo.Password;
+
+
+			string postString = @"act=login&gourl=http%%3A%%2F%%2Fbilibili.tv%%2F&userid=" + loginInfo.Username + "&pwd=" +
+			                    loginInfo.Password +
+			                    "&vdcode=" + loginInfo.Captcha.ToUpper() + "&keeptime=2592000";
+			byte[] data = Encoding.UTF8.GetBytes(postString);
+
+			var loginRequest = (HttpWebRequest) WebRequest.Create(@"https://secure.bilibili.tv/login");
+			loginRequest.Proxy = Info.Proxy;
+			loginRequest.Method = "POST";
+			loginRequest.Referer = "https://secure.bilibili.tv/login";
+			loginRequest.ContentType = "application/x-www-form-urlencoded";
+			loginRequest.ContentLength = data.Length;
+			loginRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0";
+			loginRequest.Referer = url;
+			loginRequest.CookieContainer = loginPageCookieContainer;
+
+			//发送POST数据
+			using (var outstream = loginRequest.GetRequestStream())
+			{
+				outstream.Write(data, 0, data.Length);
+				outstream.Flush();
+			}
+			//关闭请求
+			loginRequest.GetResponse().Close();
+			var cookies = loginRequest.CookieContainer.GetCookieHeader(new Uri(LOGIN_PAGE));
+
+			var client = new WebClient {Proxy = Info.Proxy};
+			client.Headers.Add(HttpRequestHeader.Cookie, cookies);
+
+			var apiRequest = (HttpWebRequest) WebRequest.Create(apiAddress);
+			apiRequest.Proxy = Info.Proxy;
+			apiRequest.Headers.Add(HttpRequestHeader.Cookie, cookies);
+			xmlSrc = Network.GetHtmlSource(apiRequest, Encoding.UTF8);
+			return xmlSrc;
 		}
 
 

@@ -33,24 +33,25 @@
 			// 
 			// webBrowser1
 			// 
+			this.webBrowser1.AllowWebBrowserDrop = false;
 			this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.webBrowser1.IsWebBrowserContextMenuEnabled = false;
 			this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 18);
 			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(633, 485);
+			this.webBrowser1.ScriptErrorsSuppressed = true;
+			this.webBrowser1.Size = new System.Drawing.Size(633, 448);
 			this.webBrowser1.TabIndex = 0;
 			this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
-			this.webBrowser1.WebBrowserShortcutsEnabled = false;
 			this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
 			// 
 			// Feedback
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.webBrowser1);
 			this.Name = "Feedback";
-			this.Size = new System.Drawing.Size(633, 485);
+			this.Size = new System.Drawing.Size(633, 448);
 			this.ResumeLayout(false);
 
 		}
