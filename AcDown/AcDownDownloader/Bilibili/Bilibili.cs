@@ -500,16 +500,16 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//生成新的配置
-				AcPlayConfiguration c = new AcPlayConfiguration();
-				//播放器
-				c.PlayerName = "bilibili";
-				//播放器地址
-				c.PlayerUrl = "http://static.hdslb.com/play.swf";
-				//端口
-				c.HttpServerPort = 7776;
-				c.ProxyServerPort = 7777;
+				var c = new AcPlayConfiguration
+					{
+						PlayerName = "bilibili",
+						PlayerUrl = "http://static.hdslb.com/play.swf",
+						HttpServerPort = 7776,
+						ProxyServerPort = 7777,
+						Videos = new Video[Info.FilePath.Count],
+					    WebUrl = Info.Url
+					};
 				//视频
-				c.Videos = new Video[Info.FilePath.Count];
 				for (int i = 0; i < Info.FilePath.Count; i++)
 				{
 					c.Videos[i] = new Video();

@@ -387,7 +387,7 @@ namespace Kaedei.AcDown.Downloader
 						ExtractCache = Info.ExtractCache,
 						ExtractCachePattern = "fla*.tmp"
 					};
-                    
+
 					//下载文件
 					bool success = false;
 
@@ -533,16 +533,15 @@ namespace Kaedei.AcDown.Downloader
 			try
 			{
 				//生成新的配置
-				AcPlayConfiguration c = new AcPlayConfiguration();
-				//播放器
-				c.PlayerName = "acfun";
-				//播放器地址
-				c.PlayerUrl = Info.Settings["PlayerUrl"];
-				//端口
-				c.HttpServerPort = 7776;
-				c.ProxyServerPort = 7777;
-				//视频
-				c.Videos = new Video[Info.FilePath.Count];
+				var c = new AcPlayConfiguration
+					{
+						PlayerName = "acfun",
+						PlayerUrl = Info.Settings["PlayerUrl"],
+						HttpServerPort = 7776,
+						ProxyServerPort = 7777,
+						Videos = new Video[Info.FilePath.Count],
+						WebUrl=Info.Url
+					};
 				for (int i = 0; i < Info.FilePath.Count; i++)
 				{
 					c.Videos[i] = new Video();

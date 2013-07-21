@@ -80,7 +80,7 @@
 			this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
 			this.txtUserName.Name = "txtUserName";
 			this.txtUserName.Size = new System.Drawing.Size(163, 21);
-			this.txtUserName.TabIndex = 3;
+			this.txtUserName.TabIndex = 1;
 			this.txtUserName.TextChanged += new System.EventHandler(this.txtUserName_TextChanged);
 			// 
 			// txtPassword
@@ -90,7 +90,7 @@
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '●';
 			this.txtPassword.Size = new System.Drawing.Size(163, 21);
-			this.txtPassword.TabIndex = 4;
+			this.txtPassword.TabIndex = 2;
 			// 
 			// btnCancel
 			// 
@@ -112,7 +112,7 @@
 			this.btnOK.Margin = new System.Windows.Forms.Padding(2);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(81, 30);
-			this.btnOK.TabIndex = 6;
+			this.btnOK.TabIndex = 4;
 			this.btnOK.Text = "登录";
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -124,7 +124,7 @@
 			this.lnkRegister.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lnkRegister.Name = "lnkRegister";
 			this.lnkRegister.Size = new System.Drawing.Size(29, 12);
-			this.lnkRegister.TabIndex = 7;
+			this.lnkRegister.TabIndex = 6;
 			this.lnkRegister.TabStop = true;
 			this.lnkRegister.Text = "注册";
 			this.lnkRegister.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRegister_LinkClicked);
@@ -158,7 +158,7 @@
 			this.txtCaptcha.Location = new System.Drawing.Point(80, 122);
 			this.txtCaptcha.Name = "txtCaptcha";
 			this.txtCaptcha.Size = new System.Drawing.Size(90, 21);
-			this.txtCaptcha.TabIndex = 10;
+			this.txtCaptcha.TabIndex = 3;
 			// 
 			// FormLogin
 			// 

@@ -19,6 +19,10 @@ namespace Kaedei.AcDown.Interface.AcPlay
 		/// </summary>
 		public string PlayerUrl;
 		/// <summary>
+		/// 原网页地址
+		/// </summary>
+		public string WebUrl;
+		/// <summary>
 		/// 本地HTTP服务器端口
 		/// </summary>
 		public int HttpServerPort;

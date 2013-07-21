@@ -23,7 +23,7 @@ namespace Kaedei.AcDown.Downloader
 				Info.Url = "http://www.nicovideo.jp/watch/" + Info.Url;
 
 			//获取网页源代码
-			string src = Network.GetHtmlSource(Info.Url, Encoding.ASCII, Info.Proxy);
+			string src = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
 			//匹配登录按钮
 			Match mLoginButton = Regex.Match(src, "(?<=アカウント新規登録へ.+?<a href=\").+?(?=\">.+?ログイン画面へ)");
 			//获取登录地址
