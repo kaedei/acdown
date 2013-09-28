@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace Kaedei.AcDown.UI.Components
 
 		public void Navigate()
 		{
-			webBrowser1.Navigate("http://acplay.loushao.net/");
+			webBrowser1.Navigate("http://acplay.loushao.net/?ver=" + Application.ProductVersion);
 		}
 
 		private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)

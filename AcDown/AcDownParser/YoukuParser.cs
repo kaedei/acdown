@@ -157,7 +157,7 @@ namespace Kaedei.AcDown.Interface
 			//string key = genKey(key1, key2);
 			//添加各个地址
 			List<string> lst = new List<string>();
-			for (int i = 0; i < flv_no; i++)
+			for (int i = 0; i < keys.Count; i++)
 			{
 				//得到地址
 				string u = "http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + string.Format("{0:D2}", i) +

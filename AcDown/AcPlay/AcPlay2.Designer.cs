@@ -28,14 +28,15 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
+			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("视频", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("弹幕", System.Windows.Forms.HorizontalAlignment.Left);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AcPlay2));
 			this.lsv = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.imageList1 = new System.Windows.Forms.ImageList();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.btnStart = new System.Windows.Forms.Button();
 			this.cboPlayer = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -55,6 +56,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.udSpeedLimit = new System.Windows.Forms.NumericUpDown();
+			this.lnkDandanplay = new System.Windows.Forms.LinkLabel();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -71,18 +73,18 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-			listViewGroup1.Header = "视频";
-			listViewGroup1.Name = "VideoGroup";
-			listViewGroup2.Header = "弹幕";
-			listViewGroup2.Name = "SubtitleGroup";
+			listViewGroup3.Header = "视频";
+			listViewGroup3.Name = "VideoGroup";
+			listViewGroup4.Header = "弹幕";
+			listViewGroup4.Name = "SubtitleGroup";
 			this.lsv.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
 			this.lsv.LargeImageList = this.imageList1;
 			this.lsv.Location = new System.Drawing.Point(121, 77);
 			this.lsv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.lsv.Name = "lsv";
-			this.lsv.Size = new System.Drawing.Size(446, 318);
+			this.lsv.Size = new System.Drawing.Size(536, 318);
 			this.lsv.SmallImageList = this.imageList1;
 			this.lsv.TabIndex = 3;
 			this.lsv.TileSize = new System.Drawing.Size(220, 56);
@@ -115,7 +117,7 @@
 			// 
 			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnStart.Location = new System.Drawing.Point(454, 399);
+			this.btnStart.Location = new System.Drawing.Point(544, 399);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(105, 36);
@@ -197,7 +199,7 @@
 			// 
 			this.lnkAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkAbout.AutoSize = true;
-			this.lnkAbout.Location = new System.Drawing.Point(434, 9);
+			this.lnkAbout.Location = new System.Drawing.Point(524, 9);
 			this.lnkAbout.Name = "lnkAbout";
 			this.lnkAbout.Size = new System.Drawing.Size(114, 17);
 			this.lnkAbout.TabIndex = 11;
@@ -215,6 +217,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.lnkDandanplay);
 			this.splitContainer1.Panel1.Controls.Add(this.btnClear);
 			this.splitContainer1.Panel1.Controls.Add(this.btnDel);
 			this.splitContainer1.Panel1.Controls.Add(this.btnAdd);
@@ -238,7 +241,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.label3);
 			this.splitContainer1.Panel2.Controls.Add(this.udSpeedLimit);
 			this.splitContainer1.Panel2Collapsed = true;
-			this.splitContainer1.Size = new System.Drawing.Size(571, 442);
+			this.splitContainer1.Size = new System.Drawing.Size(661, 442);
 			this.splitContainer1.SplitterDistance = 338;
 			this.splitContainer1.TabIndex = 12;
 			// 
@@ -279,7 +282,7 @@
 			// 
 			this.chkOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkOptions.AutoSize = true;
-			this.chkOptions.Location = new System.Drawing.Point(373, 408);
+			this.chkOptions.Location = new System.Drawing.Point(463, 408);
 			this.chkOptions.Name = "chkOptions";
 			this.chkOptions.Size = new System.Drawing.Size(75, 21);
 			this.chkOptions.TabIndex = 10;
@@ -351,6 +354,18 @@
 			this.udSpeedLimit.TabIndex = 11;
 			this.udSpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
+			// lnkDandanplay
+			// 
+			this.lnkDandanplay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lnkDandanplay.AutoSize = true;
+			this.lnkDandanplay.Location = new System.Drawing.Point(474, 9);
+			this.lnkDandanplay.Name = "lnkDandanplay";
+			this.lnkDandanplay.Size = new System.Drawing.Size(44, 17);
+			this.lnkDandanplay.TabIndex = 15;
+			this.lnkDandanplay.TabStop = true;
+			this.lnkDandanplay.Text = "高级版";
+			this.lnkDandanplay.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDandanplay_LinkClicked);
+			// 
 			// AcPlay2
 			// 
 			this.AllowDrop = true;
@@ -360,7 +375,7 @@
 			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "AcPlay2";
-			this.Size = new System.Drawing.Size(571, 442);
+			this.Size = new System.Drawing.Size(661, 442);
 			this.Load += new System.EventHandler(this.AcPlay2_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.PerformLayout();
@@ -398,6 +413,7 @@
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.Button btnDel;
 		private System.Windows.Forms.Button btnAdd;
+		private System.Windows.Forms.LinkLabel lnkDandanplay;
 
 	}
 }

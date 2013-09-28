@@ -634,6 +634,15 @@ namespace Kaedei.AcDown.UI.Components
 			}
 		}
 
+		private void lnkDandanplay_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			try
+			{
+				Process.Start("http://www.dandanplay.com/");
+			}
+			catch { }
+		}
+
 
 		
 
