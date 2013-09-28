@@ -17,7 +17,7 @@ using System.Xml;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.4.3.720", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.5.0.928", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 		//地址解析正则表达式
@@ -219,7 +219,10 @@ namespace Kaedei.AcDown.Downloader
 				//获取视频信息API
 				var apiAddress = @"http://api.bilibili.tv/view?type=xml&appkey=" + BilibiliPlugin.AppKey + "&id=" +
 				                 Settings["AVNumber"] + "&page=" + Settings["AVSubNumber"];
-				var viewSrc = Network.GetHtmlSource(apiAddress, Encoding.UTF8, Info.Proxy);
+				var webrequest = (HttpWebRequest) WebRequest.Create(apiAddress);
+				webrequest.UserAgent = "AcDown/" + Application.ProductVersion + " (kaedei@foxmail.com)";
+				webrequest.Proxy = Info.Proxy;
+				var viewSrc = Network.GetHtmlSource(webrequest, Encoding.UTF8);
 				//登录获取API结果
 				if (viewSrc.Contains("<code>-403</code>"))
 				{
