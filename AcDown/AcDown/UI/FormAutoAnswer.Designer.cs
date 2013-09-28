@@ -46,9 +46,9 @@
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(429, 62);
+			this.label1.Size = new System.Drawing.Size(429, 67);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "    \"自动应答\"功能能够帮助您决定下载过程中可能出现的各种选项，从而达到自动化下载的目的。\r\n    请在下方调整您所倾向的应答顺序，排序越靠前，该选项的优先" +
     "级别越高。\r\n    *被此任务添加的其他任务也会继承您所选择的\"自动应答\"设置";
@@ -58,18 +58,17 @@
 			this.lsv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.lsv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lsv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
 			this.lsv.FullRowSelect = true;
 			this.lsv.GridLines = true;
-			this.lsv.Location = new System.Drawing.Point(15, 73);
+			this.lsv.Location = new System.Drawing.Point(15, 79);
 			this.lsv.MultiSelect = false;
 			this.lsv.Name = "lsv";
 			this.lsv.ShowItemToolTips = true;
-			this.lsv.Size = new System.Drawing.Size(380, 166);
+			this.lsv.Size = new System.Drawing.Size(380, 180);
 			this.lsv.TabIndex = 1;
 			this.lsv.UseCompatibleStateImageBehavior = false;
 			this.lsv.View = System.Windows.Forms.View.Details;
@@ -92,10 +91,9 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnCancel.Location = new System.Drawing.Point(366, 258);
+			this.btnCancel.Location = new System.Drawing.Point(366, 280);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(75, 25);
+			this.btnCancel.Size = new System.Drawing.Size(75, 27);
 			this.btnCancel.TabIndex = 2;
 			this.btnCancel.Text = "取消";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -104,10 +102,9 @@
 			// btnOK
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnOK.Location = new System.Drawing.Point(285, 258);
+			this.btnOK.Location = new System.Drawing.Point(285, 280);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(75, 25);
+			this.btnOK.Size = new System.Drawing.Size(75, 27);
 			this.btnOK.TabIndex = 3;
 			this.btnOK.Text = "确定";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -117,10 +114,9 @@
 			// 
 			this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnUp.Enabled = false;
-			this.btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnUp.Location = new System.Drawing.Point(405, 73);
+			this.btnUp.Location = new System.Drawing.Point(405, 79);
 			this.btnUp.Name = "btnUp";
-			this.btnUp.Size = new System.Drawing.Size(36, 33);
+			this.btnUp.Size = new System.Drawing.Size(36, 36);
 			this.btnUp.TabIndex = 4;
 			this.btnUp.Text = "∧";
 			this.btnUp.UseVisualStyleBackColor = true;
@@ -130,10 +126,9 @@
 			// 
 			this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnDown.Enabled = false;
-			this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnDown.Location = new System.Drawing.Point(405, 112);
+			this.btnDown.Location = new System.Drawing.Point(405, 121);
 			this.btnDown.Name = "btnDown";
-			this.btnDown.Size = new System.Drawing.Size(36, 33);
+			this.btnDown.Size = new System.Drawing.Size(36, 36);
 			this.btnDown.TabIndex = 5;
 			this.btnDown.Text = "∨";
 			this.btnDown.UseVisualStyleBackColor = true;
@@ -149,10 +144,9 @@
 			// 
 			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnDelete.Enabled = false;
-			this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnDelete.Location = new System.Drawing.Point(405, 151);
+			this.btnDelete.Location = new System.Drawing.Point(405, 164);
 			this.btnDelete.Name = "btnDelete";
-			this.btnDelete.Size = new System.Drawing.Size(36, 33);
+			this.btnDelete.Size = new System.Drawing.Size(36, 36);
 			this.btnDelete.TabIndex = 6;
 			this.btnDelete.Text = "×";
 			this.btnDelete.UseVisualStyleBackColor = true;
@@ -161,11 +155,10 @@
 			// FormAutoAnswer
 			// 
 			this.AcceptButton = this.btnOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(453, 294);
-			this.ControlBox = false;
+			this.ClientSize = new System.Drawing.Size(453, 319);
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.btnDown);
 			this.Controls.Add(this.btnUp);
@@ -176,8 +169,10 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(334, 262);
+			this.MinimumSize = new System.Drawing.Size(334, 281);
 			this.Name = "FormAutoAnswer";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "自动应答设置";
 			this.Load += new System.EventHandler(this.FormAutoAnswer_Load);

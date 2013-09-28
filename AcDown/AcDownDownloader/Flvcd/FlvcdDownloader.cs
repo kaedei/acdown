@@ -75,13 +75,13 @@ namespace Kaedei.AcDown.Downloader
 				title = Tools.InvalidCharacterFilter(title, "");
 
 				//取得内容
-				Regex rContent = new Regex("<input type=\"hidden\" name=\"inf\".+\">", RegexOptions.Singleline);
-				Match mContent = rContent.Match(src);
-				string content = mContent.Value;
-				if (string.IsNullOrEmpty(content))
+				var urlMatch = Regex.Match(src, @"<input type=#hidden# name=#inf# value=#(?<urls>.+?)#".Replace('#', '"'));
+				if (!urlMatch.Success)
 				{
-					throw new Exception("FLVCD插件暂时不支持此URL的解析\n" + Info.Url);
+					throw new Exception("FLVCD插件暂时不支持此URL的解析" + Environment.NewLine + Info.Url);
 				}
+				string content = urlMatch.Groups["urls"].Value;
+				List<string> partUrls = new List<string>(content.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
 
 				//重新设置保存目录（生成子文件夹）
 				if (!Info.SaveDirectory.ToString().EndsWith(title))
@@ -93,25 +93,6 @@ namespace Kaedei.AcDown.Downloader
 
 				//清空地址
 				Info.FilePath.Clear();
-
-				//取得各个Part名称
-				List<string> partNames = new List<string>();
-				Regex rPartNames = new Regex(@"<N>(?<name>.+)");
-				MatchCollection mcPartNames = rPartNames.Matches(content);
-				foreach (Match item in mcPartNames)
-				{
-					string pn = Tools.InvalidCharacterFilter(item.Groups["name"].Value, "");
-					partNames.Add(pn);
-				}
-
-				//取得各Part下载地址
-				List<string> partUrls = new List<string>();
-				Regex rPartUrls = new Regex(@"<U>(?<url>.+)");
-				MatchCollection mcPartUrls = rPartUrls.Matches(content);
-				foreach (Match item in mcPartUrls)
-				{
-					partUrls.Add(item.Groups["url"].Value.Replace("&amp;", "&"));
-				}
 
 				//下载视频
 				//确定视频共有几个段落
@@ -137,7 +118,7 @@ namespace Kaedei.AcDown.Downloader
 					{
 						//文件名
 						FilePath = Path.Combine(Info.SaveDirectory.ToString(),
-									partNames[i] + ext),
+							title + "-" + string.Format("{0:00}", i) + ext),
 						//文件URL
 						Url = partUrls[i],
 						//代理服务器
@@ -148,9 +129,9 @@ namespace Kaedei.AcDown.Downloader
 					Info.FilePath.Add(currentParameter.FilePath);
 					//下载文件
 					bool success;
-					
+
 					//提示更换新Part
-					
+
 					delegates.NewPart(new ParaNewPart(this.Info, i + 1));
 
 					//下载视频

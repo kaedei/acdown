@@ -21,7 +21,7 @@ namespace Kaedei.AcDown.Interface
 		{
 			ParseResult pr = new ParseResult();
 			//合并完整url
-			string url = @"http://v.iask.com/v_play.php?vid=" + request.Id;
+			string url = @"http://sex.acfun.tv/Home/Sina?app_key=1917945218&vid=" + request.Id;
 			string source = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
 			//视频总长度
 			string totallength = Regex.Match(source, @"<timelength>(?<timelength>\d+)</timelength>").Groups["timelength"].Value;

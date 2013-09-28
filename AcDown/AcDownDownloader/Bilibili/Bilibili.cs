@@ -429,11 +429,11 @@ namespace Kaedei.AcDown.Downloader
 				loginPageCookie = loginPageCookieContainer.GetCookieHeader(new Uri(LOGIN_PAGE));
 			}
 			//获取验证码图片
-			var loginInfo = new UserLoginInfo
-				{
-					Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Username"])),
-					Password = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Password"]))
-				};
+			var loginInfo = new UserLoginInfo();
+			if (Info.BasePlugin.Configuration.ContainsKey("Username"))
+				loginInfo.Username = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Username"]));
+			if (Info.BasePlugin.Configuration.ContainsKey("Password"))
+				loginInfo.Password = Encoding.UTF8.GetString(Convert.FromBase64String(Info.BasePlugin.Configuration["Password"]));
 			if (Settings.ContainsKey("Username"))
 				loginInfo.Username = Settings["Username"];
 			if (Settings.ContainsKey("Password"))
