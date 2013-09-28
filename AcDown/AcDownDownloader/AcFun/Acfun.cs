@@ -17,7 +17,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.4.1.1225", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.4.4.928", "Acfun.tv下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
@@ -225,7 +225,7 @@ namespace Kaedei.AcDown.Downloader
 			Settings["Title"] = Tools.InvalidCharacterFilter(Settings["Title"], "");
 
 			//取得当前视频子标题
-			Match mSubtitle = Regex.Match(src, @"<a class=""pager active"" href=""(?<part>.+?)""><i.+?</i>(?<content>.+?)</a>");
+			Match mSubtitle = Regex.Match(src, @"<a class=""pager.*?"" href=""(?<part>.+?)""( title="".+?"")?><i.+?</i>(?<content>.+?)</a>");
 			if (mSubtitle.Success)
 			{
 				Settings["Subtitle"] = mSubtitle.Groups["content"].Value;
@@ -241,7 +241,8 @@ namespace Kaedei.AcDown.Downloader
 			TipText("正在分析关联视频");
 
 			//取得所有子标题
-			Regex rSubTitles = new Regex(@"<a class=""pager.*?"" href=""(?<part>.+?)""><i.+?</i>(?<content>.+?)</a>");
+			Regex rSubTitles =
+				new Regex(@"<a class=""pager.*?"" href=""(?<part>.+?)""( title="".+?"")?><i.+?</i>(?<content>.+?)</a>");
 			MatchCollection mSubTitles = rSubTitles.Matches(src);
 
 			//如果存在下拉列表框
@@ -258,8 +259,9 @@ namespace Kaedei.AcDown.Downloader
 						var dict = new Dictionary<string, string>();
 						foreach (Match item in mSubTitles)
 						{
-							dict.Add("http://www.acfun.tv" + item.Groups["part"].Value,
-										item.Groups["content"].Value);
+							if (!item.Groups["content"].Value.Equals(Settings["Subtitle"]))
+								dict.Add("http://www.acfun.tv" + item.Groups["part"].Value,
+									item.Groups["content"].Value);
 						}
 						//用户选择任务
 						var ba = new Collection<string>();

@@ -69,15 +69,16 @@ namespace Kaedei.AcDown.UI
 				{ 
 					new AcFunPlugin(), 
 					new YoukuPlugin(),
-					new YouTubePlugin(),
+					//new YouTubePlugin(),
 					new NicoPlugin(),
 					new BilibiliPlugin(),
 					new TudouPlugin(),
 					new ImanhuaPlugin(),
-					new TiebaAlbumPlugin(),
+					//new TiebaAlbumPlugin(),
 					new SfAcgPlugin(),
 					new TucaoPlugin(),
 					new XiamiPlugin(),
+					new GoodmangaPlugin(),
 					new FlvcdPlugin()
 					//new AcDown.Downloader.AcDown.AcDownPlugin()
 				};

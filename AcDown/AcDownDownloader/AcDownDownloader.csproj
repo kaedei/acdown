@@ -63,6 +63,8 @@
     <Compile Include="CustomFileNameHelper.cs" />
     <Compile Include="Flvcd\FlvcdDownloader.cs" />
     <Compile Include="Flvcd\FlvcdPlugin.cs" />
+    <Compile Include="GoodManga\GoodmangaDownloader.cs" />
+    <Compile Include="GoodManga\GoodmangaPlugin.cs" />
     <Compile Include="Imanhua\Imanhua.cs" />
     <Compile Include="Nico\NicoDownloader.cs" />
     <Compile Include="Nico\NicoPlugin.cs" />

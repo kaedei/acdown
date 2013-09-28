@@ -110,7 +110,11 @@ namespace Kaedei.AcDown.Downloader
 
 					foreach (Match item in mcAllComics)
 					{
-						dict.Add(item.Groups["page"].Value, item.Groups["title"].Value);
+						string comicPage = item.Groups["page"].Value;
+						string comicTitle = item.Groups["title"].Value;
+						if (Regex.IsMatch(comicTitle, @"(?<=<(\w+) .*?>).+?(?=</\1>)"))
+							comicTitle = Regex.Match(comicTitle, @"(?<=<(\w+) .*?>).+?(?=</\1>)").Value;
+						dict.Add(comicPage, comicTitle);
 					}
 
 					//选择下载哪部漫画
@@ -126,9 +130,7 @@ namespace Kaedei.AcDown.Downloader
 					}
 
 					//取得漫画标题
-					Regex rTitle = new Regex(@"<title>(?<title>.+?),(\<title>)漫画在线观看_SF在线漫画</title>");
-					Match mTitle = rTitle.Match(src);
-					string title = mTitle.Groups["title"].Value;
+					string title = Regex.Match(src, @"(?<=<title>).+?(?=,)").Value;
 					//过滤标题中的非法字符
 					title = Tools.InvalidCharacterFilter(title, "");
 					Info.Title = title;

@@ -50,56 +50,56 @@
 			this.label1.Location = new System.Drawing.Point(7, 5);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(245, 12);
+			this.label1.Size = new System.Drawing.Size(247, 13);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "当前下载需要您输入用户名和密码才能继续：";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(21, 39);
+			this.label2.Location = new System.Drawing.Point(21, 42);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(41, 12);
+			this.label2.Size = new System.Drawing.Size(43, 13);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "用户名";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(21, 76);
+			this.label3.Location = new System.Drawing.Point(21, 82);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(29, 12);
+			this.label3.Size = new System.Drawing.Size(31, 13);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "密码";
 			// 
 			// txtUserName
 			// 
-			this.txtUserName.Location = new System.Drawing.Point(80, 36);
+			this.txtUserName.Location = new System.Drawing.Point(80, 39);
 			this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
 			this.txtUserName.Name = "txtUserName";
-			this.txtUserName.Size = new System.Drawing.Size(163, 21);
+			this.txtUserName.Size = new System.Drawing.Size(163, 20);
 			this.txtUserName.TabIndex = 1;
 			this.txtUserName.TextChanged += new System.EventHandler(this.txtUserName_TextChanged);
 			// 
 			// txtPassword
 			// 
-			this.txtPassword.Location = new System.Drawing.Point(80, 73);
+			this.txtPassword.Location = new System.Drawing.Point(80, 79);
 			this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '●';
-			this.txtPassword.Size = new System.Drawing.Size(163, 21);
+			this.txtPassword.Size = new System.Drawing.Size(163, 20);
 			this.txtPassword.TabIndex = 2;
 			// 
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnCancel.Location = new System.Drawing.Point(203, 164);
+			this.btnCancel.Location = new System.Drawing.Point(203, 178);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(73, 30);
+			this.btnCancel.Size = new System.Drawing.Size(73, 33);
 			this.btnCancel.TabIndex = 5;
 			this.btnCancel.Text = "取消";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -108,10 +108,10 @@
 			// btnOK
 			// 
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnOK.Location = new System.Drawing.Point(118, 164);
+			this.btnOK.Location = new System.Drawing.Point(118, 178);
 			this.btnOK.Margin = new System.Windows.Forms.Padding(2);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(81, 30);
+			this.btnOK.Size = new System.Drawing.Size(81, 33);
 			this.btnOK.TabIndex = 4;
 			this.btnOK.Text = "登录";
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -120,10 +120,10 @@
 			// lnkRegister
 			// 
 			this.lnkRegister.AutoSize = true;
-			this.lnkRegister.Location = new System.Drawing.Point(247, 39);
+			this.lnkRegister.Location = new System.Drawing.Point(247, 42);
 			this.lnkRegister.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lnkRegister.Name = "lnkRegister";
-			this.lnkRegister.Size = new System.Drawing.Size(29, 12);
+			this.lnkRegister.Size = new System.Drawing.Size(31, 13);
 			this.lnkRegister.TabIndex = 6;
 			this.lnkRegister.TabStop = true;
 			this.lnkRegister.Text = "注册";
@@ -138,36 +138,35 @@
 			// lblCaptcha
 			// 
 			this.lblCaptcha.AutoSize = true;
-			this.lblCaptcha.Location = new System.Drawing.Point(21, 125);
+			this.lblCaptcha.Location = new System.Drawing.Point(21, 135);
 			this.lblCaptcha.Name = "lblCaptcha";
-			this.lblCaptcha.Size = new System.Drawing.Size(41, 12);
+			this.lblCaptcha.Size = new System.Drawing.Size(43, 13);
 			this.lblCaptcha.TabIndex = 8;
 			this.lblCaptcha.Text = "验证码";
 			// 
 			// picCaptcha
 			// 
-			this.picCaptcha.Location = new System.Drawing.Point(176, 109);
+			this.picCaptcha.Location = new System.Drawing.Point(176, 118);
 			this.picCaptcha.Name = "picCaptcha";
-			this.picCaptcha.Size = new System.Drawing.Size(100, 50);
+			this.picCaptcha.Size = new System.Drawing.Size(100, 54);
 			this.picCaptcha.TabIndex = 9;
 			this.picCaptcha.TabStop = false;
 			this.picCaptcha.Click += new System.EventHandler(this.picCaptcha_Click);
 			// 
 			// txtCaptcha
 			// 
-			this.txtCaptcha.Location = new System.Drawing.Point(80, 122);
+			this.txtCaptcha.Location = new System.Drawing.Point(80, 132);
 			this.txtCaptcha.Name = "txtCaptcha";
-			this.txtCaptcha.Size = new System.Drawing.Size(90, 21);
+			this.txtCaptcha.Size = new System.Drawing.Size(90, 20);
 			this.txtCaptcha.TabIndex = 3;
 			// 
 			// FormLogin
 			// 
 			this.AcceptButton = this.btnOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(291, 206);
-			this.ControlBox = false;
+			this.ClientSize = new System.Drawing.Size(291, 223);
 			this.Controls.Add(this.txtCaptcha);
 			this.Controls.Add(this.picCaptcha);
 			this.Controls.Add(this.lblCaptcha);
@@ -180,6 +179,8 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "FormLogin";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;

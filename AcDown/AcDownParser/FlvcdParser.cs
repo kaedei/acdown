@@ -31,19 +31,16 @@ namespace Kaedei.AcDown.Interface
 				url = url + "&passwd=" + request.Password;
 				src = Network.GetHtmlSource(url, Encoding.GetEncoding("GB2312"), request.Proxy);
 			}
+			
 
-			//取得内容
-			Regex rContent = new Regex("<input type=\"hidden\" name=\"inf\".+\">", RegexOptions.Singleline);
-			Match mContent = rContent.Match(src);
-			string content = mContent.Value;
 
-			//取得各Part下载地址
-			List<string> partUrls = new List<string>();
-			Regex rPartUrls = new Regex(@"<U>(?<url>.+)");
-			MatchCollection mcPartUrls = rPartUrls.Matches(content);
-			foreach (Match item in mcPartUrls)
+			var urlMatch = Regex.Match(src, @"<input type=#hidden# name=#inf# value=#(?<urls>.+?)#".Replace('#', '"'));
+			string content = urlMatch.Groups["urls"].Value;
+			List<string> partUrls = new List<string>(content.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+
+			foreach (string partUrl in partUrls)
 			{
-				pr.Items.Add(new ParseResultItem() { RealAddress = item.Groups["url"].Value });
+				pr.Items.Add(new ParseResultItem() { RealAddress = partUrl });
 			}
 			return pr;
 		}
