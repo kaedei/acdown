@@ -592,7 +592,7 @@ namespace Kaedei.AcDown.Core
 
 			//设置新任务
 			TaskInfo task = CoreManager.TaskManager.AddTask(plugin, url, sourcetask.Proxy);
-			task.Settings = sourcetask.Settings;
+			task.Settings = CloneDictionary(sourcetask.Settings);
 			task.DownloadTypes = sourcetask.DownloadTypes;
 			task.Comment = sourcetask.Comment;
 			task.SaveDirectory = sourcetask.SaveDirectory;
@@ -606,6 +606,16 @@ namespace Kaedei.AcDown.Core
 			//调用UI层的NewTask委托
 			if (CoreManager.UIDelegates.NewTask != null)
 				CoreManager.UIDelegates.NewTask(p);
+		}
+
+		private SerializableDictionary<string, string> CloneDictionary(SerializableDictionary<string, string> settings)
+		{
+			var newDictionary = new SerializableDictionary<string, string>();
+			foreach (var setting in settings)
+			{
+				newDictionary[setting.Key] = setting.Value;
+			}
+			return newDictionary;
 		}
 
 		/// <summary>

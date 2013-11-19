@@ -1670,10 +1670,10 @@ namespace Kaedei.AcDown.UI
 		private void SetTaskFilter(string[] filter)
 		{
 			_filter = filter;
-			//临时挂起listview布局
-			lsv.SuspendLayout();
 			//清除当前所有
 			lsv.Items.Clear();
+			//临时挂起listview布局
+			lsv.SuspendLayout();
 			//查找所有任务
 			foreach (TaskInfo task in CoreManager.TaskManager.TaskInfos)
 			{
