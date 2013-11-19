@@ -38,7 +38,7 @@ namespace Kaedei.AcDown.UI.Components
 				ofd.InitialDirectory = Path.GetDirectoryName(lstCombine.Items[lstCombine.Items.Count - 1].ToString());
 			}
 			//选择文件
-			if (ofd.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+			if (ofd.ShowDialog() != DialogResult.Cancel)
 			{
 				//去除重复文件
 				foreach (string item in ofd.FileNames)
@@ -47,7 +47,8 @@ namespace Kaedei.AcDown.UI.Components
 						lstCombine.Items.Add(item);
 				}
 				//设置"保存到"文本框
-				txtCombineOutput.Text = Path.Combine(Path.GetDirectoryName(ofd.FileNames[0]), "合并.flv");
+				txtCombineOutput.Text = Path.Combine(Path.GetDirectoryName(ofd.FileNames[0]),
+					Path.GetFileNameWithoutExtension(ofd.FileNames[0]) + "_合并.flv");
 			}
 			//如果视频多余一个才可以合并
 			btnCombineStart.Enabled = (lstCombine.Items.Count > 1);

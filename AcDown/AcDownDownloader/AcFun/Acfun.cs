@@ -578,6 +578,7 @@ namespace Kaedei.AcDown.Downloader
 				string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
 								Settings["Title"], Settings["Subtitle"], "", "acplay", Info.Settings["ACNumber"], Info.Settings["ACSubNumber"]);
 				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+				Info.FilePath.Add(filename);
 				//string path = Path.Combine(Info.SaveDirectory.ToString(), title + ".acplay");
 				//序列化到文件中
 				using (var fs = new FileStream(filename, FileMode.Create))

@@ -9,7 +9,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// SFACG漫画下载插件
 	/// </summary>
-	[AcDownPluginInformation("SfAcgDownloader","SF互动传媒网下载插件","Kaedei","3.10.0.0","SF互动传媒网下载插件","http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("SfAcgDownloader","SF互动传媒网下载插件","Kaedei","4.5.1.1119","SF互动传媒网下载插件","http://blog.sina.com.cn/kaedei")]
 	public class SfAcgPlugin : IPlugin
 	{
 		public SfAcgPlugin()
@@ -17,8 +17,8 @@ namespace Kaedei.AcDown.Downloader
 			Feature = new Dictionary<string,object>();
 			Feature.Add("ExampleUrl", new string[] { 
 				"SF互动传媒网(SfAcg.com)漫画下载插件:",
-				"http://comic.sfacg.com/HTML/WXSN/",
-				"http://coldpic.sfacg.com/AllComic/495/001/",
+				"http://comic.sfacg.com/HTML/GamesKing/",
+				"http://comic.sfacg.com/HTML/GamesKing/001j/"
 			});
 			//AutoAnswer(不支持)
 			//ConfigurationForm(不支持)

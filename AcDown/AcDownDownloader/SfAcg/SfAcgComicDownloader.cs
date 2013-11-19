@@ -88,13 +88,11 @@ namespace Kaedei.AcDown.Downloader
 				//要下载的Url列表（页面）
 				List<string> subUrls = new List<string>();
 
-				//分析漫画id
-				Regex r = new Regex(@"http://\w+\.sfacg\.com/AllComic/(?<id>.+)");
-				Match m = r.Match(Info.Url);
-				string id = m.Groups["id"].Value;
+				//漫画id
+				int comicId;
 
 				//是否为漫画的介绍页面
-				bool isIntroPage = string.IsNullOrEmpty(id);
+				bool isIntroPage = !Regex.IsMatch(Info.Url, @"/HTML/\w+/\w+", RegexOptions.IgnoreCase);
 
 				#region 确定是整部漫画还是单独一话
 
@@ -102,7 +100,7 @@ namespace Kaedei.AcDown.Downloader
 				if (isIntroPage)
 				{
 					//取得所有漫画的列表
-					Regex rAllComics = new Regex(@"<li><a href=""(?<page>http://\w+\.sfacg\.com/AllComic/.+?)"" target=""_blank"">(?<title>.+?)</a>");
+					Regex rAllComics = new Regex(@"<li><a href=""(?<page>(http://\w+\.sfacg\.com/AllComic/)?.+?)"" target=""_blank"">(?<title>.+?)</a>");
 					MatchCollection mcAllComics = rAllComics.Matches(src);
 
 					//新建（url-标题）字典
@@ -111,6 +109,8 @@ namespace Kaedei.AcDown.Downloader
 					foreach (Match item in mcAllComics)
 					{
 						string comicPage = item.Groups["page"].Value;
+						if (comicPage.StartsWith("/"))
+							comicPage = "http://comic.sfacg.com" + comicPage;
 						string comicTitle = item.Groups["title"].Value;
 						if (Regex.IsMatch(comicTitle, @"(?<=<(\w+) .*?>).+?(?=</\1>)"))
 							comicTitle = Regex.Match(comicTitle, @"(?<=<(\w+) .*?>).+?(?=</\1>)").Value;
@@ -134,6 +134,8 @@ namespace Kaedei.AcDown.Downloader
 					//过滤标题中的非法字符
 					title = Tools.InvalidCharacterFilter(title, "");
 					Info.Title = title;
+					//获取漫画ID
+					comicId = int.Parse(Regex.Match(src, @"(?<=var comicCounterID = )\d+", RegexOptions.IgnoreCase).Value);
 				}
 				else //如果不是整部漫画则添加此单话url
 				{
@@ -142,12 +144,14 @@ namespace Kaedei.AcDown.Downloader
 					//取得源代码并分析
 					string pSrc = Network.GetHtmlSource(Info.Url, Encoding.UTF8, Info.Proxy);
 					//取得漫画标题
-					Regex rTitle = new Regex(@"&gt;&gt; <a href="".+?"">(?<title>.+?)</a> &gt;&gt;");
+					Regex rTitle = new Regex(@"> > <a href=""http://comic.sfacg.com/HTML/.+>(?<title>.+?)</a>");
 					Match mTitle = rTitle.Match(pSrc);
 					string title = mTitle.Groups["title"].Value;
 					//过滤标题中的非法字符
 					title = Tools.InvalidCharacterFilter(title, "");
 					Info.Title = title;
+					//获取漫画ID
+					comicId = int.Parse(Regex.Match(pSrc, @"(?<=var c = )\d+", RegexOptions.IgnoreCase).Value);
 				} //end if
 
 				#endregion
@@ -180,7 +184,7 @@ namespace Kaedei.AcDown.Downloader
 					string cookie = wc.ResponseHeaders.Get("Set-Cookie");
 					string source = Encoding.UTF8.GetString(buff);
 					//取得标题
-					Regex rTitle = new Regex(@"&gt;&gt;.+?&gt;&gt; (?<title>.+?)</li>");
+					Regex rTitle = new Regex(@"> > (?<title>\S+?)</div>");
 					Match mTitle = rTitle.Match(source);
 					string subTitle = mTitle.Groups["title"].Value;
 					//过滤子标题中的非法字符
@@ -193,14 +197,15 @@ namespace Kaedei.AcDown.Downloader
 
 					#region 取得js文件
 
+
 					//取得js文件路径
 					string urljs = subUrls[i];
 					//分析漫画id
-					Regex rjs = new Regex(@"(?<server>http://\w+\.sfacg\.com/)AllComic/(?<id>.+)");
+					Regex rjs = new Regex(@"(?<server>http://\w+\.sfacg\.com/)HTML/\w+/(?<id>.+)");
 					Match mjs = rjs.Match(urljs);
 					string jsserver = mjs.Groups["server"].Value;
 					string jsid = mjs.Groups["id"].Value.TrimEnd('/');
-					urljs = jsserver + "Utility/" + jsid + ".js";
+					urljs = jsserver + "Utility/" + comicId + "/" + jsid + ".js";
 
 					#endregion
 
@@ -215,7 +220,8 @@ namespace Kaedei.AcDown.Downloader
 					foreach (Match item in mFiles)
 					{
 						//将 url - 本地文件 添加到字典中
-						files.Add(item.Groups["file"].Value, Path.Combine(subDir, item.Groups["no"].Value + "." + item.Groups["ext"].Value));
+						files.Add("http://comic.sfacg.com/" + item.Groups["file"].Value,
+							Path.Combine(subDir, item.Groups["no"].Value + "." + item.Groups["ext"].Value));
 					}
 
 					//设置下载长度

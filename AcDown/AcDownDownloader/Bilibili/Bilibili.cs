@@ -547,6 +547,7 @@ namespace Kaedei.AcDown.Downloader
 				string filename = renamehelper.CombineFileName(Settings["CustomFileName"],
 								title, subtitle, "", "acplay", Settings["AVNumber"], Settings["AVSubNumber"]);
 				filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+				Info.FilePath.Add(filename);
 				//序列化到文件中
 				using (var fs = new FileStream(filename, FileMode.Create))
 				{
