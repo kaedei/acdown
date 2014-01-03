@@ -638,7 +638,7 @@ namespace Kaedei.AcDown.UI.Components
 		{
 			try
 			{
-				Process.Start("http://www.dandanplay.com/");
+				Process.Start("http://www.dandanplay.com/?from=acdown");
 			}
 			catch { }
 		}

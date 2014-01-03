@@ -1139,6 +1139,25 @@ namespace Kaedei.AcDown.UI
 			}
 		}
 
+		private void toolXml2Ass_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Process.Start("http://danmu2ass.codeplex.com/");
+			}
+			catch { }
+		}
+
+		private void toolDandanplay_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Process.Start("http://www.dandanplay.com/?from=acdown");
+			}
+			catch { }
+
+		}
+
 		//获得win消息
 		[DebuggerNonUserCode()]
 		protected override void WndProc(ref Message m)
@@ -1727,6 +1746,8 @@ namespace Kaedei.AcDown.UI
 		}
 
 		#endregion
+
+		
 
 
 
