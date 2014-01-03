@@ -102,6 +102,8 @@
 			this.tabFeedback = new System.Windows.Forms.TabPage();
 			this.tabExample = new System.Windows.Forms.TabPage();
 			this.txtExample = new System.Windows.Forms.TextBox();
+			this.toolXml2Ass = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolDandanplay = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.mnuTray.SuspendLayout();
@@ -123,11 +125,13 @@
 			// 
 			// statusStrip
 			// 
-			this.statusStrip.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.statusStrip.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSpeed,
             this.lblBlank,
             this.toolQuestionnaire,
+            this.toolXml2Ass,
+            this.toolDandanplay,
             this.toolHelpCenter});
 			this.statusStrip.Location = new System.Drawing.Point(0, 515);
 			this.statusStrip.Name = "statusStrip";
@@ -143,7 +147,7 @@
 			// lblBlank
 			// 
 			this.lblBlank.Name = "lblBlank";
-			this.lblBlank.Size = new System.Drawing.Size(435, 20);
+			this.lblBlank.Size = new System.Drawing.Size(174, 20);
 			this.lblBlank.Spring = true;
 			// 
 			// toolQuestionnaire
@@ -151,8 +155,8 @@
 			this.toolQuestionnaire.Image = global::Kaedei.AcDown.Properties.Resources.feedback;
 			this.toolQuestionnaire.IsLink = true;
 			this.toolQuestionnaire.Name = "toolQuestionnaire";
-			this.toolQuestionnaire.Size = new System.Drawing.Size(208, 20);
-			this.toolQuestionnaire.Text = "参与AcDown用户满意度调查";
+			this.toolQuestionnaire.Size = new System.Drawing.Size(151, 20);
+			this.toolQuestionnaire.Text = "参与用户满意度调查";
 			this.toolQuestionnaire.ToolTipText = "点击参与AcDown用户满意度及需求调查";
 			this.toolQuestionnaire.Click += new System.EventHandler(this.toolQuestionnaire_Click);
 			// 
@@ -161,8 +165,8 @@
 			this.toolHelpCenter.Image = global::Kaedei.AcDown.Properties.Resources.Help;
 			this.toolHelpCenter.IsLink = true;
 			this.toolHelpCenter.Name = "toolHelpCenter";
-			this.toolHelpCenter.Size = new System.Drawing.Size(67, 20);
-			this.toolHelpCenter.Text = "万事屋";
+			this.toolHelpCenter.Size = new System.Drawing.Size(95, 20);
+			this.toolHelpCenter.Text = "问题与反馈";
 			this.toolHelpCenter.ToolTipText = "打开帮助中心";
 			this.toolHelpCenter.Click += new System.EventHandler(this.toolHelpCenter_Click);
 			// 
@@ -552,7 +556,7 @@
 			this.tabMain.Controls.Add(this.tabFeedback);
 			this.tabMain.Controls.Add(this.tabExample);
 			this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tabMain.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tabMain.HotTrack = true;
 			this.tabMain.Location = new System.Drawing.Point(0, 31);
 			this.tabMain.Multiline = true;
@@ -754,7 +758,7 @@
             this.headerPastTime,
             this.headerSourceUrl});
 			this.lsv.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lsv.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lsv.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lsv.FullRowSelect = true;
 			this.lsv.Location = new System.Drawing.Point(0, 0);
 			this.lsv.Name = "lsv";
@@ -873,7 +877,7 @@
 			// 
 			this.flvCombineControl1.AutoScroll = true;
 			this.flvCombineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flvCombineControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.flvCombineControl1.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.flvCombineControl1.Location = new System.Drawing.Point(3, 3);
 			this.flvCombineControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.flvCombineControl1.Name = "flvCombineControl1";
@@ -896,7 +900,7 @@
 			// 
 			this.acPlay.AllowDrop = true;
 			this.acPlay.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.acPlay.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.acPlay.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.acPlay.Location = new System.Drawing.Point(3, 3);
 			this.acPlay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.acPlay.Name = "acPlay";
@@ -936,6 +940,23 @@
 			this.txtExample.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtExample.Size = new System.Drawing.Size(758, 445);
 			this.txtExample.TabIndex = 0;
+			// 
+			// toolXml2Ass
+			// 
+			this.toolXml2Ass.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolXml2Ass.IsLink = true;
+			this.toolXml2Ass.Name = "toolXml2Ass";
+			this.toolXml2Ass.Size = new System.Drawing.Size(140, 20);
+			this.toolXml2Ass.Text = "★弹幕转Ass字幕工具";
+			this.toolXml2Ass.Click += new System.EventHandler(this.toolXml2Ass_Click);
+			// 
+			// toolDandanplay
+			// 
+			this.toolDandanplay.IsLink = true;
+			this.toolDandanplay.Name = "toolDandanplay";
+			this.toolDandanplay.Size = new System.Drawing.Size(133, 20);
+			this.toolDandanplay.Text = "☆全格式弹幕播放器";
+			this.toolDandanplay.Click += new System.EventHandler(this.toolDandanplay_Click);
 			// 
 			// FormMain
 			// 
@@ -1058,6 +1079,8 @@
 		  private System.Windows.Forms.LinkLabel lnkAutoCombineSettings;
 		  private System.Windows.Forms.CheckBox chkAutoCombine;
 		  private System.Windows.Forms.ToolStripMenuItem toolCombineVideo;
+		  private System.Windows.Forms.ToolStripStatusLabel toolXml2Ass;
+		  private System.Windows.Forms.ToolStripStatusLabel toolDandanplay;
 
 	 }
 }
