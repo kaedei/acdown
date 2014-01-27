@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kaedei")]
 [assembly: AssemblyProduct("AcDown动漫下载器")]
-[assembly: AssemblyCopyright("Copyright © Kaedei 2010-2012")]
+[assembly: AssemblyCopyright("Copyright © Kaedei 2010-2014")]
 [assembly: AssemblyTrademark("http://acdown.codeplex.com/")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.5.0.928")]
-[assembly: AssemblyFileVersion("4.5.0.928")]
+[assembly: AssemblyVersion("4.5.3.127")]
+[assembly: AssemblyFileVersion("4.5.3.127")]
