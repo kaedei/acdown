@@ -18,39 +18,43 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun.tv下载插件", "Kaedei", "4.5.2.103", "Acfun.tv下载插件",
+	[AcDownPluginInformation("AcfunDownloader", "Acfun下载插件", "Kaedei", "4.5.4.402", "Acfun下载插件",
 		"http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
 		public AcFunPlugin()
 		{
-			Feature = new Dictionary<string, object>();
-			//GetExample
-			Feature.Add("ExampleUrl", new string[]
+			Feature = new Dictionary<string, object>
 			{
-				"AcFun.tv下载插件:",
-				"支持识别各Part名称、支持简写形式",
-				"ac206020",
-				"http://acfun.tv/v/ac206020",
-				"http://www.acfun.tv/v/ac206020",
-				"http://124.228.254.229/v/ac206020 (IP地址形式)"
-			});
-			//AutoAnswer
-			Feature.Add("AutoAnswer", new List<AutoAnswer>()
-			{
-				new AutoAnswer("tudou", "4", "土豆 超清"),
-				new AutoAnswer("youku", "mp4", "优酷 高清(Mp4)"),
-				new AutoAnswer("tudou", "3", "土豆 高清"),
-				new AutoAnswer("tudou", "99", "土豆 原画"),
-				new AutoAnswer("youku", "hd2", "优酷 超清(HD)"),
-				new AutoAnswer("youku", "flv", "优酷 标清(Flv)"),
-				new AutoAnswer("tudou", "2", "土豆 清晰"),
-				new AutoAnswer("tudou", "1", "土豆 流畅"),
-				new AutoAnswer("acfun", "auto", "保留此项可以禁止Acfun插件显示任何对话框")
-			});
-			//ConfigForm 属性设置窗口
-			Feature.Add("ConfigForm",
-				new MethodInvoker(() => { new AcFun.AcfunDownloaderConfigurationForm(Configuration).ShowDialog(); }));
+				{//GetExample
+					"ExampleUrl", new[]
+					{
+						"AcFun下载插件:",
+						"支持识别各Part名称、支持简写形式",
+						"ac206020",
+						"http://www.acfun.tv/v/ac206020",
+						"http://www.acfun.com/v/ac206020"
+					}
+				},
+				{//AutoAnswer
+					"AutoAnswer", new List<AutoAnswer>
+					{
+						new AutoAnswer("tudou", "4", "土豆 超清"),
+						new AutoAnswer("youku", "mp4", "优酷 高清(Mp4)"),
+						new AutoAnswer("tudou", "3", "土豆 高清"),
+						new AutoAnswer("tudou", "99", "土豆 原画"),
+						new AutoAnswer("youku", "hd2", "优酷 超清(HD)"),
+						new AutoAnswer("youku", "flv", "优酷 标清(Flv)"),
+						new AutoAnswer("tudou", "2", "土豆 清晰"),
+						new AutoAnswer("tudou", "1", "土豆 流畅"),
+						new AutoAnswer("acfun", "auto", "保留此项可以禁止Acfun插件显示任何对话框")
+					}
+				},
+				{//ConfigForm 属性设置窗口
+					"ConfigForm", new MethodInvoker(
+						() => new AcFun.AcfunDownloaderConfigurationForm(Configuration).ShowDialog())
+				}
+			};
 		}
 
 		public IDownloader CreateDownloader()
@@ -60,7 +64,7 @@ namespace Kaedei.AcDown.Downloader
 
 		public bool CheckUrl(string url)
 		{
-			Regex r = new Regex(@"^((http://|)(www\.|)acfun.tv/v/|)ac\d+(_\d+|/index(_\d+|)\.html|)");
+			Regex r = new Regex(@"^((http://)?www\.acfun.(tv|com)/v/)?ac\d+(_\d+|/index(_\d+)?\.html|)");
 			if (r.Match(url).Success)
 			{
 				return true;
@@ -132,11 +136,11 @@ namespace Kaedei.AcDown.Downloader
 
 			//修正简写URL
 			if (Regex.Match(Info.Url, @"^ac\d+$").Success)
-				Info.Url = "http://www.acfun.tv/v/" + Info.Url;
+				Info.Url = "http://www.acfun.com/v/" + Info.Url;
 			else if (!Info.Url.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase))
 				Info.Url = "http://" + Info.Url;
 
-			//修正URL为 http://www.acfun.tv/v/ac12345_67 形式
+			//修正URL为 http://www.acfun.com/v/ac12345_67 形式
 			Info.Url = Info.Url.Replace(".html", "").Replace("/index", "");
 			if (!Info.Url.Contains("_"))
 			{
@@ -169,7 +173,7 @@ namespace Kaedei.AcDown.Downloader
 
 			TipText("正在获取视频详细信息");
 			var videoIdCollection = Regex.Matches(src,
-				@"<a .+? data-vid=""(?<vid>\d+)"" href=""(?<url>.+?)"".+?>(?<name>.+?)</a>",
+				@"<a.+?data-vid=""(?<vid>\d+)"" href=""(?<url>.+?)"".+?>(?<name>.+?)</a>",
 				RegexOptions.IgnoreCase);
 			foreach (Match mVideoId in videoIdCollection)
 			{
@@ -181,7 +185,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 				else //其他标题
 				{
-					relatedVideoList.Add("http://www.acfun.tv" + mVideoId.Groups["url"].Value, mVideoId.Groups["name"].Value);
+					relatedVideoList.Add("http://www.acfun.com" + mVideoId.Groups["url"].Value, mVideoId.Groups["name"].Value);
 				}
 			}
 
@@ -220,7 +224,7 @@ namespace Kaedei.AcDown.Downloader
 
 
 			//获取视频信息
-			var videoInfo = Network.GetHtmlSource(@"http://www.acfun.tv/video/getVideo.aspx?id=" + m_currentPartVideoId,
+			var videoInfo = Network.GetHtmlSource(@"http://www.acfun.com/video/getVideo.aspx?id=" + m_currentPartVideoId,
 				Encoding.UTF8, Info.Proxy);
 			//视频源网站类型和Id
 			m_sourceType = Regex.Match(videoInfo, @"(?<=""sourceType"":"")\w+", RegexOptions.IgnoreCase).Value;
