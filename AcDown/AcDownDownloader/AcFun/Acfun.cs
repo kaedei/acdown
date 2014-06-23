@@ -248,34 +248,48 @@ namespace Kaedei.AcDown.Downloader
 				switch (m_sourceType)
 				{
 					case "qq": //QQ视频
-						//解析视频
+					{
 						var parserQQ = new QQVideoParser();
 						pr = parserQQ.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
 						break;
+					}
+					//case "youku": //优酷视频
+					//	//解析视频
+					//	var parserYouKu = new YoukuParser();
+					//	pr = parserYouKu.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
+					//	break;
+					//case "tudou": //土豆视频
+					//	//解析视频
+					//	var parserTudou = new TudouParser();
+					//	pr = parserTudou.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
+					//	break;
 					case "youku": //优酷视频
-						//解析视频
-						var parserYouKu = new YoukuParser();
-						pr = parserYouKu.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
-						break;
 					case "tudou": //土豆视频
-						//解析视频
-						var parserTudou = new TudouParser();
-						pr = parserTudou.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
+					{
+						//累觉不爱
+						var parserFlvcd = new FlvcdParser();
+						pr = parserFlvcd.Parse(new ParseRequest {Id = Info.Url, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
 						break;
+						
+					}
 					case "sina": //新浪视频
+					{
 						var parserSina = new SinaVideoParser();
 						pr = parserSina.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
 						break;
+					}
 					case "pps": //PPS,爱奇艺视频
+					{
 						var parserFlvcd = new FlvcdParser();
 						pr = parserFlvcd.Parse(new ParseRequest
-							{
-								Id = "http://v.pps.tv/play_" + m_sourceId + ".html",
-								Proxy = Info.Proxy,
-								AutoAnswers = Info.AutoAnswer
-							});
+						{
+							Id = "http://v.pps.tv/play_" + m_sourceId + ".html",
+							Proxy = Info.Proxy,
+							AutoAnswers = Info.AutoAnswer
+						});
 
 						break;
+					}
 				}
 
 				//视频地址列表
