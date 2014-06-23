@@ -18,7 +18,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun下载插件", "Kaedei", "4.5.4.402", "Acfun下载插件",
+	[AcDownPluginInformation("AcfunDownloader", "Acfun下载插件", "Kaedei", "4.5.5.623", "Acfun下载插件",
 		"http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
@@ -265,6 +265,16 @@ namespace Kaedei.AcDown.Downloader
 					case "sina": //新浪视频
 						var parserSina = new SinaVideoParser();
 						pr = parserSina.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
+						break;
+					case "pps": //PPS,爱奇艺视频
+						var parserFlvcd = new FlvcdParser();
+						pr = parserFlvcd.Parse(new ParseRequest
+							{
+								Id = "http://v.pps.tv/play_" + m_sourceId + ".html",
+								Proxy = Info.Proxy,
+								AutoAnswers = Info.AutoAnswer
+							});
+
 						break;
 				}
 
