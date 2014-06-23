@@ -62,10 +62,14 @@ namespace Kaedei.AcDown.Interface
 			}
 			pr.SpecificResult["iid"] = request.Id;
 
-			string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + request.Id + "&pw=" + request.Password;
+			//string xmlurl = @"http://v2.tudou.com/v?st=1%2C2%2C3%2C4%2C99&it=" + request.Id + "&pw=" + request.Password;
+			string xmlurl = @"http://v2.tudou.com/f?sender=pepper&v=4.2.2&sj=1&id=" + request.Id + "&sid=10000&r=6226";
 			string xmldoc = Network.GetHtmlSource(xmlurl, Encoding.UTF8, request.Proxy);
 			xmldoc = xmldoc.Replace("<a>", "").Replace("</a>", "").Replace("<b>", "").Replace("</b>", "");
-
+			if (xmldoc.StartsWith("<f"))
+			{
+				xmldoc = "<v>" + xmldoc + "</v>";
+			}
 			//反序列化XML文档
 			TudouVideo tudou;
 			var serializer = new XmlSerializer(typeof(TudouVideo));
@@ -93,7 +97,7 @@ namespace Kaedei.AcDown.Interface
 			//foreach (Match item in mcVideo)
 			foreach (var info in tudou.videos)
 			{
-				string brt = info.brt; // item.Groups["brt"].Value;
+				string brt = info.brt ?? "1"; // item.Groups["brt"].Value;
 				string url = info.address; // item.Groups["url"].Value;
 				if (string.IsNullOrEmpty(defaultUrl))
 					defaultUrl = url;
