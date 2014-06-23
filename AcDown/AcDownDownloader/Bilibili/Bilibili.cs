@@ -17,11 +17,11 @@ using System.Xml;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.5.0.928", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.5.5.623", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 		//地址解析正则表达式
-		public static Regex RegexBili = new Regex(@"(http://www\.bilibili\.tv/video\/)?av(?<id>[0-9]+)(/index_(?<page>[0-9]+)\.html)?", RegexOptions.IgnoreCase);
+		public static Regex RegexBili = new Regex(@"(http://www\.bilibili\.(tv|com)/video\/)?av(?<id>[0-9]+)(/index_(?<page>[0-9]+)\.html)?", RegexOptions.IgnoreCase);
 		public static Regex RegexAcg = new Regex(@"(http://acg\.tv/)?av(?<id>[0-9]+)(,(?<page>[0-9]+))?", RegexOptions.IgnoreCase);
 		public static String AppKey = @"876fe0ebd0e67a0f";
 
@@ -34,8 +34,8 @@ namespace Kaedei.AcDown.Downloader
 				"支持识别各Part名称、支持简写形式",
 				"av97834",
 				"av97834,2",
-				"http://www.bilibili.tv/video/av97834/",
-				"http://www.bilibili.tv/video/av70229/index_20.html",
+				"http://www.bilibili.com/video/av97834/",
+				"http://www.bilibili.com/video/av70229/index_20.html",
 				"http://acg.tv/av97834/",
 				"http://acg.tv/av70229/index_20.html"
 			});
@@ -126,13 +126,14 @@ namespace Kaedei.AcDown.Downloader
 			//修正井号
 			Info.Url = Info.Url.ToLower().TrimEnd('#');
 			//修正旧版URL
-			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.tv");
-			Info.Url = Info.Url.Replace("bilibili.smgbb.cn", "www.bilibili.tv");
-			Info.Url = Info.Url.Replace("bilibili.kankanews.com", "www.bilibili.tv");
+			Info.Url = Info.Url.Replace("bilibili.tv", "bilibili.com");
+			Info.Url = Info.Url.Replace("bilibili.us", "bilibili.com");
+			Info.Url = Info.Url.Replace("bilibili.smgbb.cn", "www.bilibili.com");
+			Info.Url = Info.Url.Replace("bilibili.kankanews.com", "www.bilibili.com");
 
 			//修正简写URL
 			if (Regex.Match(Info.Url, @"^av\d{2,6}$").Success)
-				Info.Url = "http://www.bilibili.tv/video/" + Info.Url + "/";
+				Info.Url = "http://www.bilibili.com/video/" + Info.Url + "/";
 			//修正index_1.html
 			if (!Info.Url.EndsWith(".html"))
 			{
@@ -145,7 +146,7 @@ namespace Kaedei.AcDown.Downloader
 			string url = Info.Url;
 			//取得子页面文件名（例如"/video/av12345/index_123.html"）
 			//string suburl = Regex.Match(Info.Url, @"bilibili\.kankanews\.com(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
-			string suburl = Regex.Match(Info.Url, @"www\.bilibili\.tv(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
+			string suburl = Regex.Match(Info.Url, @"www\.bilibili\.com(?<part>/video/av\d+/index_\d+\.html)").Groups["part"].Value;
 			//取得AV号和子编号
 			//Match mAVNumber = Regex.Match(Info.Url, @"(?<av>av\d+)/index_(?<sub>\d+)\.html");
 			Match mAVNumber = BilibiliPlugin.RegexBili.Match(Info.Url);
@@ -217,7 +218,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				//获取视频信息API
-				var apiAddress = @"http://api.bilibili.tv/view?type=xml&appkey=" + BilibiliPlugin.AppKey + "&id=" +
+				var apiAddress = @"http://api.bilibili.cn/view?type=xml&appkey=" + BilibiliPlugin.AppKey + "&id=" +
 				                 Settings["AVNumber"] + "&page=" + Settings["AVSubNumber"];
 				var webrequest = (HttpWebRequest) WebRequest.Create(apiAddress);
 				webrequest.UserAgent = "AcDown/" + Application.ProductVersion + " (kaedei@foxmail.com)";
@@ -415,12 +416,12 @@ namespace Kaedei.AcDown.Downloader
 		private string LoginApi(string url, string apiAddress)
 		{
 			string xmlSrc;
-			var LOGIN_PAGE = "https://secure.bilibili.tv/login";
+			var LOGIN_PAGE = "https://secure.bilibili.com/login";
 			//获取登录页Cookie
 			var loginPageRequest = (HttpWebRequest) WebRequest.Create(LOGIN_PAGE);
 			loginPageRequest.Proxy = Info.Proxy;
-			loginPageRequest.Referer = @"http://www.bilibili.tv/";
-			loginPageRequest.UserAgent = @"Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0";
+			loginPageRequest.Referer = @"http://www.bilibili.com/";
+			loginPageRequest.UserAgent = @"Mozilla/5.0 (Windows NT 6.1; rv:25.0) Gecko/20100101 Firefox/25.0";
 			loginPageRequest.Accept = @"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
 			CookieContainer loginPageCookieContainer;
 			string loginPageCookie;
@@ -428,7 +429,7 @@ namespace Kaedei.AcDown.Downloader
 			{
 				loginPageCookieContainer = new CookieContainer();
 				var sid = Regex.Match(resp.Headers["Set-Cookie"], @"(?<=sid=)\w+").Value;
-				loginPageCookieContainer.Add(new Cookie("sid", sid, "/", ".bilibili.tv"));
+				loginPageCookieContainer.Add(new Cookie("sid", sid, "/", ".bilibili.com"));
 				loginPageCookie = loginPageCookieContainer.GetCookieHeader(new Uri(LOGIN_PAGE));
 			}
 			//获取验证码图片
@@ -442,31 +443,31 @@ namespace Kaedei.AcDown.Downloader
 			if (Settings.ContainsKey("Password"))
 				loginInfo.Password = Settings["Password"];
 
-			var captchaUrl = @"https://secure.bilibili.tv/captcha?r=" +
+			var captchaUrl = @"https://secure.bilibili.com/captcha?r=" +
 			                 new Random(Environment.TickCount).NextDouble().ToString();
 			var captchaFile = Path.GetTempFileName() + ".png";
 			var captchaClient = new WebClient {Proxy = Info.Proxy};
 			captchaClient.Headers.Add(HttpRequestHeader.Cookie, loginPageCookie);
 			captchaClient.DownloadFile(captchaUrl, captchaFile);
-			loginInfo = ToolForm.CreateLoginForm(loginInfo, @"https://secure.bilibili.tv/register", captchaFile);
+			loginInfo = ToolForm.CreateLoginForm(loginInfo, @"https://secure.bilibili.com/register", captchaFile);
 
 			//保存到设置
 			Settings["Username"] = loginInfo.Username;
 			Settings["Password"] = loginInfo.Password;
 
 
-			string postString = @"act=login&gourl=http%%3A%%2F%%2Fbilibili.tv%%2F&userid=" + loginInfo.Username + "&pwd=" +
+			string postString = @"act=login&gourl=http%%3A%%2F%%2Fbilibili.com%%2F&userid=" + loginInfo.Username + "&pwd=" +
 			                    loginInfo.Password +
 			                    "&vdcode=" + loginInfo.Captcha.ToUpper() + "&keeptime=2592000";
 			byte[] data = Encoding.UTF8.GetBytes(postString);
 
-			var loginRequest = (HttpWebRequest) WebRequest.Create(@"https://secure.bilibili.tv/login");
+			var loginRequest = (HttpWebRequest) WebRequest.Create(@"https://secure.bilibili.com/login");
 			loginRequest.Proxy = Info.Proxy;
 			loginRequest.Method = "POST";
-			loginRequest.Referer = "https://secure.bilibili.tv/login";
+			loginRequest.Referer = "https://secure.bilibili.com/login";
 			loginRequest.ContentType = "application/x-www-form-urlencoded";
 			loginRequest.ContentLength = data.Length;
-			loginRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0";
+			loginRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; rv:25.0) Gecko/20100101 Firefox/25.0";
 			loginRequest.Referer = url;
 			loginRequest.CookieContainer = loginPageCookieContainer;
 
@@ -587,7 +588,7 @@ namespace Kaedei.AcDown.Downloader
 					Directory.CreateDirectory(Path.GetDirectoryName(filename));
 				Info.SubFilePath.Add(filename);
 				//取得字幕文件地址
-				string subUrl = "http://comment.bilibili.tv/" + id + ".xml"; //WorkItem #1410
+				string subUrl = "http://comment.bilibili.com/" + id + ".xml"; //WorkItem #1410
 
 				//下载字幕文件
 				try

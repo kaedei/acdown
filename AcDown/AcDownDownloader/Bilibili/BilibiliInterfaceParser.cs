@@ -20,7 +20,7 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 
 			//合并完整url
 
-			string url = @"http://interface.bilibili.tv/playurl?otype=xml&cid=" + request.Id + "&type=flv";
+			string url = @"http://interface.bilibili.com/playurl?cid=" + request.Id;
 			string source = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
 			//视频总长度
 			var totallength = Regex.Match(source, @"<timelength>(?<timelength>\d+)</timelength>").Groups["timelength"];
@@ -38,6 +38,10 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 			//视频信息
 			Regex r = new Regex(@"<durl>.+?<order>(?<order>\d+)</order>.+?<length>(?<length>\d+)</length>.+?<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+?</durl>", RegexOptions.Singleline);
 			MatchCollection matches = r.Matches(source);
+			if (matches.Count <= 0)
+			{
+				throw new Exception("BiliBili Interface Parser Error: " + url);
+			}
 			foreach (Match item in matches)
 			{
 				var pri = new ParseResultItem();
