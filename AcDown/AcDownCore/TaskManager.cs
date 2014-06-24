@@ -268,6 +268,20 @@ namespace Kaedei.AcDown.Core
 							}
 						}
 					}
+
+					//检查视频文件所在文件夹，如果文件夹中是空的，那么就删除这个文件夹
+					if (task.FilePath.Count > 0)
+					{
+						var dir = Path.GetDirectoryName(task.FilePath[0]);
+						try
+						{
+							Directory.Delete(dir, false);
+						}
+						catch (Exception ex)
+						{
+							Logging.Add(ex);
+						}
+					}
 				}
 
 				//从任务列表中删除任务
