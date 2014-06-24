@@ -26,8 +26,11 @@ namespace Kaedei.AcDown.Downloader
 		/// </summary>
 		public string CombineFileName(string input, string title = "", string subtitle = "",
 			string part = "", string ext = "", string num = "", string subnum = "",
-			string author = "", string url = "", string date = "", string time = "")
+			string author = "", string url = "", string date = null, string time = null)
 		{
+			date = date ?? DateTime.Now.ToString("yyyyMMdd");
+			time = time ?? DateTime.Now.ToString("hhmmss");
+
 			input = input.Replace(SUBTITLE, subtitle).Replace(TITLE, title)
 				.Replace(PART, string.IsNullOrEmpty(part) ? "" : "(" + part + ")") //分段
 				.Replace(EXT, ext)

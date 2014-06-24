@@ -34,7 +34,8 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 		private void txtFormat_TextChanged(object sender, EventArgs e)
 		{
 			var helper = new CustomFileNameHelper();
-			txtPreview.Text = helper.CombineFileName(txtFormat.Text, "银魂", "第99话", "5", "flv", "av54321", "2", "", "", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
+			txtPreview.Text = helper.CombineFileName(txtFormat.Text, "银魂", "第99话", "5", "flv", "av54321", "2", "", "",
+				DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("hhmmss"));
 		}
 
 		//添加变量文字到文本框
