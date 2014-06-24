@@ -46,7 +46,7 @@
 			this.txtFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtFormat.Location = new System.Drawing.Point(9, 48);
+			this.txtFormat.Location = new System.Drawing.Point(9, 44);
 			this.txtFormat.Name = "txtFormat";
 			this.txtFormat.Size = new System.Drawing.Size(421, 24);
 			this.txtFormat.TabIndex = 0;
@@ -56,9 +56,9 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(6, 32);
+			this.label1.Location = new System.Drawing.Point(6, 30);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(142, 13);
+			this.label1.Size = new System.Drawing.Size(143, 12);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "自定义视频&弹幕文件名称:";
 			// 
@@ -73,27 +73,27 @@
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.txtFormat);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
+			this.groupBox1.Location = new System.Drawing.Point(12, 11);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(436, 182);
+			this.groupBox1.Size = new System.Drawing.Size(436, 168);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "自定义文件名称";
 			// 
 			// txtPreview
 			// 
-			this.txtPreview.Location = new System.Drawing.Point(46, 143);
+			this.txtPreview.Location = new System.Drawing.Point(46, 132);
 			this.txtPreview.Name = "txtPreview";
 			this.txtPreview.ReadOnly = true;
-			this.txtPreview.Size = new System.Drawing.Size(384, 20);
+			this.txtPreview.Size = new System.Drawing.Size(384, 21);
 			this.txtPreview.TabIndex = 9;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(6, 146);
+			this.label3.Location = new System.Drawing.Point(6, 135);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(34, 13);
+			this.label3.Size = new System.Drawing.Size(35, 12);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "预览:";
 			// 
@@ -107,18 +107,20 @@
             "(分段)",
             "编号",
             "子编号",
-            "扩展名"});
-			this.cboVar.Location = new System.Drawing.Point(9, 106);
+            "扩展名",
+            "日期",
+            "时间"});
+			this.cboVar.Location = new System.Drawing.Point(9, 98);
 			this.cboVar.Name = "cboVar";
-			this.cboVar.Size = new System.Drawing.Size(155, 21);
+			this.cboVar.Size = new System.Drawing.Size(155, 20);
 			this.cboVar.TabIndex = 7;
 			// 
 			// btnAdd
 			// 
 			this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnAdd.Location = new System.Drawing.Point(170, 101);
+			this.btnAdd.Location = new System.Drawing.Point(170, 93);
 			this.btnAdd.Name = "btnAdd";
-			this.btnAdd.Size = new System.Drawing.Size(75, 28);
+			this.btnAdd.Size = new System.Drawing.Size(75, 26);
 			this.btnAdd.TabIndex = 6;
 			this.btnAdd.Text = "添加";
 			this.btnAdd.UseVisualStyleBackColor = true;
@@ -127,9 +129,9 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(6, 90);
+			this.label2.Location = new System.Drawing.Point(6, 83);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(82, 13);
+			this.label2.Size = new System.Drawing.Size(83, 12);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "可选用的变量:";
 			// 
@@ -137,9 +139,9 @@
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnSave.Location = new System.Drawing.Point(373, 223);
+			this.btnSave.Location = new System.Drawing.Point(373, 206);
 			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(75, 29);
+			this.btnSave.Size = new System.Drawing.Size(75, 27);
 			this.btnSave.TabIndex = 3;
 			this.btnSave.Text = "保存";
 			this.btnSave.UseVisualStyleBackColor = true;
@@ -148,9 +150,9 @@
 			// chkGenerateAcPlay
 			// 
 			this.chkGenerateAcPlay.AutoSize = true;
-			this.chkGenerateAcPlay.Location = new System.Drawing.Point(21, 200);
+			this.chkGenerateAcPlay.Location = new System.Drawing.Point(21, 185);
 			this.chkGenerateAcPlay.Name = "chkGenerateAcPlay";
-			this.chkGenerateAcPlay.Size = new System.Drawing.Size(155, 17);
+			this.chkGenerateAcPlay.Size = new System.Drawing.Size(156, 16);
 			this.chkGenerateAcPlay.TabIndex = 8;
 			this.chkGenerateAcPlay.Text = "生成AcPlay播放快捷方式";
 			this.chkGenerateAcPlay.UseVisualStyleBackColor = true;
@@ -158,9 +160,9 @@
 			// AcfunDownloaderConfigurationForm
 			// 
 			this.AcceptButton = this.btnSave;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(460, 264);
+			this.ClientSize = new System.Drawing.Size(460, 244);
 			this.Controls.Add(this.chkGenerateAcPlay);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.groupBox1);
