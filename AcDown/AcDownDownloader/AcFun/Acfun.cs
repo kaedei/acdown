@@ -18,7 +18,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun下载插件", "Kaedei", "4.5.5.623", "Acfun下载插件",
+	[AcDownPluginInformation("AcfunDownloader", "Acfun下载插件", "Kaedei", "4.5.6.722", "Acfun下载插件",
 		"http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
@@ -32,8 +32,7 @@ namespace Kaedei.AcDown.Downloader
 						"AcFun下载插件:",
 						"支持识别各Part名称、支持简写形式",
 						"ac206020",
-						"http://www.acfun.tv/v/ac206020",
-						"http://www.acfun.com/v/ac206020"
+						"http://www.acfun.tv/v/ac206020"
 					}
 				},
 				{//AutoAnswer
@@ -136,11 +135,11 @@ namespace Kaedei.AcDown.Downloader
 
 			//修正简写URL
 			if (Regex.Match(Info.Url, @"^ac\d+$").Success)
-				Info.Url = "http://www.acfun.com/v/" + Info.Url;
+				Info.Url = "http://www.acfun.tv/v/" + Info.Url;
 			else if (!Info.Url.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase))
 				Info.Url = "http://" + Info.Url;
 
-			//修正URL为 http://www.acfun.com/v/ac12345_67 形式
+			//修正URL为 http://www.acfun.tv/v/ac12345_67 形式
 			Info.Url = Info.Url.Replace(".html", "").Replace("/index", "");
 			if (!Info.Url.Contains("_"))
 			{
@@ -185,7 +184,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 				else //其他标题
 				{
-					relatedVideoList.Add("http://www.acfun.com" + mVideoId.Groups["url"].Value, mVideoId.Groups["name"].Value);
+					relatedVideoList.Add("http://www.acfun.tv" + mVideoId.Groups["url"].Value, mVideoId.Groups["name"].Value);
 				}
 			}
 
@@ -224,7 +223,7 @@ namespace Kaedei.AcDown.Downloader
 
 
 			//获取视频信息
-			var videoInfo = Network.GetHtmlSource(@"http://www.acfun.com/video/getVideo.aspx?id=" + m_currentPartVideoId,
+			var videoInfo = Network.GetHtmlSource(@"http://www.acfun.tv/video/getVideo.aspx?id=" + m_currentPartVideoId,
 				Encoding.UTF8, Info.Proxy);
 			//视频源网站类型和Id
 			m_sourceType = Regex.Match(videoInfo, @"(?<=""sourceType"":"")\w+", RegexOptions.IgnoreCase).Value;
