@@ -112,7 +112,7 @@ namespace Kaedei.AcDown.Downloader
 	public class AcfunDownloader : CommonDownloader
 	{
 		private string m_currentPartVideoId;
-		private string m_currentPartTitle;
+		private string m_currentPartTitle = "";
 		private string m_videoTitle;
 		private string m_customFileName;
 		private string m_acNumber;
@@ -190,7 +190,13 @@ namespace Kaedei.AcDown.Downloader
 
 
 			//取得视频标题
-			m_videoTitle = Regex.Match(src, @"(?<=system\.title = \$\.parseSafe\(')(.+?)(?='\))", RegexOptions.IgnoreCase).Value;
+			var videoTitleMatchResult = Regex.Match(src, @"(?<=system\.title = \$\.parseSafe\(')(.+?)(?='\))", RegexOptions.IgnoreCase);
+			if (!videoTitleMatchResult.Success)
+			{
+				videoTitleMatchResult = Regex.Match(src, @"(?<=<title>).+?(?=</title>)", RegexOptions.IgnoreCase);	
+			}
+			m_videoTitle = videoTitleMatchResult.Value;
+			m_currentPartTitle = string.IsNullOrEmpty(m_currentPartTitle) ? m_videoTitle : m_currentPartTitle;
 
 			//取得当前视频完整标题
 			Info.Title = m_videoTitle + " - " + m_currentPartTitle;
@@ -221,18 +227,28 @@ namespace Kaedei.AcDown.Downloader
 			Info.FilePath.Clear();
 			Info.SubFilePath.Clear();
 
+			if (videoIdCollection.Count > 0) //如果是站内视频
+			{
+				//获取视频信息
+				var videoInfo = Network.GetHtmlSource(@"http://www.acfun.tv/video/getVideo.aspx?id=" + m_currentPartVideoId,
+					Encoding.UTF8,
+					Info.Proxy);
+				//视频源网站类型和Id
+				m_sourceType = Regex.Match(videoInfo, @"(?<=""sourceType"":"")\w+", RegexOptions.IgnoreCase).Value;
+				m_sourceId = Regex.Match(videoInfo, @"(?<=""sourceId"":"")\w+", RegexOptions.IgnoreCase).Value;
+				//弹幕Id
+				m_danmakuId = Regex.Match(videoInfo, @"(?<=""danmakuId"":"")\w+", RegexOptions.IgnoreCase).Value;
+				//下载弹幕
+				DownloadSubtitle();
+			}
+			else //外链视频
+			{
+				var playerMatch = Regex.Match(src, @"autocompletion_player\('?(?<vid>\w+)'?,'(?<source>\w+)");
+				m_sourceType = playerMatch.Groups["source"].Value;
+				m_sourceId = playerMatch.Groups["vid"].Value;
 
-			//获取视频信息
-			var videoInfo = Network.GetHtmlSource(@"http://www.acfun.tv/video/getVideo.aspx?id=" + m_currentPartVideoId,
-				Encoding.UTF8, Info.Proxy);
-			//视频源网站类型和Id
-			m_sourceType = Regex.Match(videoInfo, @"(?<=""sourceType"":"")\w+", RegexOptions.IgnoreCase).Value;
-			m_sourceId = Regex.Match(videoInfo, @"(?<=""sourceId"":"")\w+", RegexOptions.IgnoreCase).Value;
-			//弹幕Id
-			m_danmakuId = Regex.Match(videoInfo, @"(?<=""danmakuId"":"")\w+", RegexOptions.IgnoreCase).Value;
-
-			//下载弹幕
-			DownloadSubtitle();
+				DownloadSubtitle(m_sourceType, m_sourceId);
+			}
 
 
 			TipText("正在解析视频源地址");
@@ -420,7 +436,42 @@ namespace Kaedei.AcDown.Downloader
 			//下载成功完成
 			return true;
 		}
-		
+
+		private void DownloadSubtitle(string sourceType, string sourceId)
+		{
+			if ((Info.DownloadTypes & DownloadType.Subtitle) == 0)
+				return;
+			//设置文件名
+			var renamehelper = new CustomFileNameHelper();
+
+			//----------下载字幕-----------
+			TipText("正在下载弹幕文件");
+			//字幕文件(on)位置
+			string filename = renamehelper.CombineFileName(m_customFileName,
+				m_videoTitle, m_currentPartTitle, "", "json", m_acNumber, m_acSubNumber);
+			filename = Path.Combine(Info.SaveDirectory.ToString(), filename);
+			//生成父文件夹
+			if (!Directory.Exists(Path.GetDirectoryName(filename)))
+				Directory.CreateDirectory(Path.GetDirectoryName(filename));
+			Info.SubFilePath.Add(filename);
+			//取得字幕文件(on)地址
+			string subUrl = @"http://static.comment.acfun.tv/" + sourceType + sourceId;
+
+			try
+			{
+				//下载字幕文件
+				string commentString = Network.GetHtmlSource(subUrl, Encoding.UTF8, Info.Proxy);
+				commentString = commentString.Replace("],[],[", ",").Trim();
+				commentString = commentString.Substring(1, commentString.Length - 2); //将弹幕修正为站内视频的格式
+				//保存文件
+				File.WriteAllText(filename, commentString);
+			}
+			catch
+			{
+				return;
+			}
+		}
+
 
 		/// <summary>
 		/// 下载弹幕
