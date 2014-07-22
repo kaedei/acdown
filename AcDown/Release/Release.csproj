@@ -107,9 +107,9 @@
       <Project>{BCFD1289-87EC-49DC-BB85-30274BC1F546}</Project>
       <Name>AcDown</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AcPlay\AcPlay.csproj">
+    <ProjectReference Include="..\AcPlayControls\AcPlayControls.csproj">
       <Project>{C0017FE4-9708-46F7-9D56-71340E2C181B}</Project>
-      <Name>AcPlay</Name>
+      <Name>AcPlayControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\FlvCombine\FlvCombine.csproj">
       <Project>{362A456F-8367-43EF-950D-5A2CDD502B92}</Project>

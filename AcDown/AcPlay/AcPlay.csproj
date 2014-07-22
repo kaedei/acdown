@@ -2,14 +2,14 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C0017FE4-9708-46F7-9D56-71340E2C181B}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{C8E7E270-1775-491B-B5E2-E38C022E1FAB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kaedei.AcPlay</RootNamespace>
-    <AssemblyName>AcPlay</AssemblyName>
+    <AssemblyName>Kaedei.AcPlay</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -17,7 +17,8 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,9 +26,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\AcPlay.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,49 +36,153 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Kaedei.AcPlay.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\acplay.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Kaedei.AcPlay.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;D:\Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;D:\Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Kaedei.AcPlay.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;D:\Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;D:\Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AcPlay.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcPlay2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="AcPlay2.Designer.cs">
-      <DependentUpon>AcPlay2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AcPlayHelper.cs" />
-    <Compile Include="AcPlayItem.cs">
+    <Compile Include="AcDownProxy.cs" />
+    <Compile Include="AcPlayConfiguration.cs" />
+    <Compile Include="Combiner\AcfunCombiner.cs" />
+    <Compile Include="Combiner\BilibiliCombiner.cs" />
+    <Compile Include="Combiner\ICombiner.cs" />
+    <Compile Include="Debug2.cs" />
+    <Compile Include="Formatter\AcfunFormatter.cs" />
+    <Compile Include="Formatter\BilibiliFormatter.cs" />
+    <Compile Include="Formatter\DoupaoFormatter.cs" />
+    <Compile Include="Formatter\IFormatter.cs" />
+    <Compile Include="FormDebug.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AcPlayItem.Designer.cs">
-      <DependentUpon>AcPlayItem.cs</DependentUpon>
+    <Compile Include="FormDebug.Designer.cs">
+      <DependentUpon>FormDebug.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlvHelper.cs" />
-    <Compile Include="DwmApi.cs" />
+    <Compile Include="FormPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPlayer.Designer.cs">
+      <DependentUpon>FormPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Redirector\AcfunRedirector.cs" />
+    <Compile Include="Redirector\acplayres.Designer.cs" />
+    <Compile Include="Redirector\ActionResult.cs" />
+    <Compile Include="Redirector\BilibiliRedirector.cs" />
+    <Compile Include="Redirector\MukioRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MukioRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Redirector\MukioRedirector.cs" />
+    <Compile Include="Redirector\HttpResponse.cs" />
+    <Compile Include="Redirector\IRedirector.cs" />
+    <Compile Include="Redirector\RequestNotHandledException.cs" />
+    <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="ServerStartStatus.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\AcplayHttpProxy.cs" />
+    <Compile Include="Proxy\MyHelperLib.IE.cs" />
+    <Compile Include="StandardItem.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="Utility\CommentIdentifier.cs" />
+    <Compile Include="Utility\ExtensionAttribute.cs" />
+    <Compile Include="Utility\FlvHelper.cs" />
+    <EmbeddedResource Include="FormDebug.resx">
+      <DependentUpon>FormDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPlayer.resx">
+      <DependentUpon>FormPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Redirector\acplayres.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Redirector\MukioRes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MukioRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="AcPlay.snk" />
+    <None Include="app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AcPlay2.resx">
-      <DependentUpon>AcPlay2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AcPlayItem.resx">
-      <DependentUpon>AcPlayItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="acplay.exe" />
+    <None Include="Resources\blank.swf" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\loading.gif" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AcDownCore\AcDownCore.csproj">
-      <Project>{27A7DE57-9B5C-4462-BB1B-F5A6B3249B3B}</Project>
-      <Name>AcDownCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AcDownInterface\AcDownInterface.csproj">
-      <Project>{AAB36442-C5D7-4580-A18A-62B6EB537F62}</Project>
-      <Name>AcDownInterface</Name>
-    </ProjectReference>
+    <None Include="Resources\acplay.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
