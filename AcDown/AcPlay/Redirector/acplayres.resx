@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="acfunban" xml:space="preserve">
+    <value>["acplay","acdown"]</value>
+  </data>
+  <data name="acfungetvideobyid" xml:space="preserve">
+    <value>{"uid":10000,"id":10000,"lasttime":-555980,"vtype":"sina","aid":10000,"comment":0,"vurl":"10000","vid":"10000","cid":"10000","success":true,"info":"视频获取成功"}</value>
+  </data>
+  <data name="acfunhtml" xml:space="preserve">
+    <value>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+&lt;title&gt;AcPlay&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;embed width="100%" height="100%" id="ACFlashPlayer" 
+	pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" 
+	src="{PLAYER}?vid=10000&amp;type=video&amp;sort=new" 
+	type="application/x-shockwave-flash" 
+	allowscriptaccess="always" 
+	quality="high" 
+	allowfullscreen="true"
+	allowFullscreenInteractive="true"
+	wmode="direct"
+	/&gt;
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="acfunnewad" xml:space="preserve">
+    <value>{"y":1,"height":1,"x":1,"width":1,"url":""}</value>
+  </data>
+  <data name="acfunu" xml:space="preserve">
+    <value>["sc3yk793ea976","200108","2qo5k6f00ed8f","41ak1916930066"]</value>
+  </data>
+  <data name="acfunupdatevideobycontentid" xml:space="preserve">
+    <value>[]</value>
+  </data>
+  <data name="bilibiliadvancecomment" xml:space="preserve">
+    <value>&lt;hasBuy&gt;true&lt;/hasBuy&gt;&lt;accept&gt;true&lt;/accept&gt;</value>
+  </data>
+  <data name="bilibilicatalogy" xml:space="preserve">
+    <value>{"t":{"keyword":[{"value":"heizi","cnt":"1"},{"value":"xpkzxycy","cnt":"1"},{"value":"saddddddddddddddddd","cnt":"1"},{"value":"saddasdsad","cnt":"1"},{"value":"sadasdas","cnt":"1"},{"value":"yoooo","cnt":"79"},{"value":"FFFFF","cnt":"24"},{"value":"12dora","cnt":"15"},{"value":"Minecraft","cnt":"4"},{"value":"0000FF","cnt":"3"},{"value":"GUNDAM","cnt":"2"},{"value":"10086","cnt":"2"},{"value":"aaaaa","cnt":"1"},{"value":"333333","cnt":"1"},{"value":"sakura","cnt":"1"},{"value":"FREEDOM","cnt":"1"},{"value":"madao","cnt":"1"},{"value":"dc9343ea","cnt":"1"},{"value":"YOOOOOOOOOOOOOOOOO","cnt":"1"},{"value":"0xccffdd","cnt":"1"},{"value":"hahahaha","cnt":"1"},{"value":"12DOG","cnt":"124"},{"value":"yoooo","cnt":"92"},{"value":"FFFFF","cnt":"31"},{"value":"JOKER","cnt":"13"},{"value":"YYYYYY","cnt":"8"},{"value":"12DOGE","cnt":"7"},{"value":"MADAO","cnt":"7"},{"value":"3e1f4e11","cnt":"6"},{"value":"10086","cnt":"5"},{"value":"GEASS","cnt":"4"},{"value":"GARRY","cnt":"4"},{"value":"whosyourdaddy","cnt":"4"},{"value":"daddy","cnt":"4"},{"value":"Clanad","cnt":"3"},{"value":"12god","cnt":"3"},{"value":"stein","cnt":"3"},{"value":"00FF00","cnt":"3"},{"value":"WARNING","cnt":"3"},{"value":"clann","cnt":"3"},{"value":"zzzzzzz","cnt":"3"},{"value":"jutou","cnt":"3"},{"value":"wwwwwwwww","cnt":"2"},{"value":"650841b","cnt":"2"},{"value":"3880a118","cnt":"2"},{"value":"oooooooooooooo","cnt":"2"},{"value":"D3ac1e54","cnt":"2"},{"value":"Yooooooooooooooooooooo","cnt":"2"},{"value":"12dora","cnt":"2"},{"value":"waring","cnt":"2"},{"value":"9999999999999","cnt":"2"},{"value":"oooooooooooooooooooooo","cnt":"1"},{"value":"whosyour","cnt":"1"},{"value":"---------","cnt":"1"},{"value":"D75fa5f9","cnt":"1"},{"value":"5235235232","cnt":"1"},{"value":"black","cnt":"1"},{"value":"wwwwwwww","cnt":"1"},{"value":"5623523552","cnt":"1"},{"value":"hhhhhhhhhhh","cnt":"1"},{"value":"482d630e","cnt":"1"},{"value":"retoruto","cnt":"1"},{"value":"badend","cnt":"1"},{"value":"www.20ph.com","cnt":"1"},{"value":"000000000000000000","cnt":"1"},{"value":"333333333333","cnt":"1"},{"value":"ooooooooooo","cnt":"1"},{"value":"523532627","cnt":"1"},{"value":"D25ac6ea","cnt":"1"},{"value":"greed","cnt":"1"},{"value":"423523523","cnt":"1"},{"value":"12dog","cnt":"84"},{"value":"YOOOO","cnt":"75"},{"value":"FFFFF","cnt":"20"},{"value":"china","cnt":"14"},{"value":"12dora","cnt":"8"},{"value":"6acd2caf","cnt":"7"},{"value":"10086","cnt":"5"},{"value":"SYDSYD","cnt":"5"},{"value":"HAHAHA","cnt":"4"},{"value":"papapa","cnt":"4"},{"value":"FF0000","cnt":"3"},{"value":"MADAO","cnt":"2"},{"value":"b3f47990","cnt":"1"},{"value":"yooooooooooooooooooo","cnt":"1"},{"value":"wocao","cnt":"1"},{"value":"lalalla","cnt":"1"},{"value":"YOOOOOOOOOOOOOOOOO","cnt":"1"},{"value":"D6aa82aa","cnt":"1"},{"value":"warning","cnt":"1"},{"value":"yoooooooooooooooooooooooooooooooooo","cnt":"1"},{"value":"function","cnt":"1"},{"value":"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX","cnt":"1"},{"value":"CC3300","cnt":"1"},{"value":"YOOOOOOOOOOOOOOOOOOOOOOO","cnt":"1"},{"value":"11111","cnt":"1"},{"value":"wwwwwwwwwww","cnt":"1"},{"value":"yoooo","cnt":"79"},{"value":"12DOG","cnt":"77"},{"value":"fafafafafa","cnt":"2"},{"value":"FAFAFA","cnt":"2"},{"value":"fufufufufu","cnt":"1"},{"value":"OHOHOHOH","cnt":"1"},{"value":"jjjjjjjjjjjjjjjjjjjj","cnt":"1"},{"value":"JJJJJJJ","cnt":"1"},{"value":"biubiu","cnt":"1"},{"value":"HOHOHOHOHOHOHO","cnt":"1"},{"value":"3333333","cnt":"1"},{"value":"ppppp","cnt":"1"},{"value":"Yoooo","cnt":"74"},{"value":"FFFFFFFFFFFF","cnt":"2"},{"value":"javis","cnt":"1"},{"value":"yoooo","cnt":"84"},{"value":"FFFFF","cnt":"13"},{"value":"clannad","cnt":"7"},{"value":"BBBBB","cnt":"5"},{"value":"23333","cnt":"5"},{"value":"2333333","cnt":"4"},{"value":"10086","cnt":"4"},{"value":"papapa","cnt":"3"},{"value":"D0159fc7","cnt":"3"},{"value":"BBBBBBBB","cnt":"2"},{"value":"ff0000","cnt":"2"},{"value":"Lelouch","cnt":"2"},{"value":"hallelujah","cnt":"2"},{"value":"93a865e0","cnt":"2"},{"value":"DO159fc7","cnt":"2"},{"value":"hhz0916","cnt":"1"},{"value":"14807e9a","cnt":"1"},{"value":"wower","cnt":"1"},{"value":"FFFFFFFFFFFF","cnt":"1"},{"value":"..................","cnt":"1"},{"value":"q1308898977","cnt":"1"},{"value":"333333333","cnt":"1"},{"value":"XDDDDD","cnt":"1"},{"value":"D8d44fbf","cnt":"1"},{"value":"heyhey","cnt":"1"},{"value":"13800","cnt":"1"},{"value":"welcome","cnt":"1"},{"value":"wwwwwww","cnt":"1"},{"value":"HEROHERO","cnt":"1"},{"value":"transformation","cnt":"1"},{"value":"aviAVI","cnt":"1"},{"value":"~~~~~~~~~~~~~~~~~~~~","cnt":"1"},{"value":"WWWWWW","cnt":"1"},{"value":"clanned","cnt":"1"},{"value":"0123456789","cnt":"1"},{"value":"retake","cnt":"1"},{"value":"ea1402af","cnt":"1"},{"value":"Lelou","cnt":"1"},{"value":"18da2b76","cnt":"1"},{"value":"wow~wow~wow~wow~wow~","cnt":"1"},{"value":"ffffffffffffffff","cnt":"1"},{"value":"0.0.0.0.0.0.0.0.0.0.0","cnt":"1"},{"value":"re-take","cnt":"1"},{"value":"480d630e","cnt":"1"},{"value":"xsdsd","cnt":"1"},{"value":"YYYYYY","cnt":"8"},{"value":"qnmlgb","cnt":"1"},{"value":"99FF00","cnt":"1"},{"value":"FFFF00","cnt":"1"},{"value":"FF0000","cnt":"1"},{"value":"wavefile","cnt":"1"},{"value":"cf7981d3","cnt":"1"},{"value":"VVVVVVVVVVV","cnt":"1"},{"value":"CCFF00","cnt":"1"},{"value":"FFFFF","cnt":"11"},{"value":"YYYYYYYYYYYYYY","cnt":"3"},{"value":"yyyyyyyyyyyyyyyy","cnt":"2"},{"value":"kaudsfygioasdufyg983wq74","cnt":"1"},{"value":"aaaaa","cnt":"1"},{"value":"IIIIIIII","cnt":"1"},{"value":"Atmosphere","cnt":"1"},{"value":"VVVVVV","cnt":"1"},{"value":"aaaaaaa","cnt":"1"},{"value":"YOOOO","cnt":"86"},{"value":"12dog","cnt":"65"},{"value":"fffff","cnt":"26"},{"value":"GEASS","cnt":"6"},{"value":"10086","cnt":"6"},{"value":"bbbbb","cnt":"5"},{"value":"aaaaa","cnt":"5"},{"value":"aaaaaaa","cnt":"3"},{"value":"bbbbbbbb","cnt":"2"},{"value":"CCCCC","cnt":"2"},{"value":"ff0000","cnt":"2"},{"value":"papapa","cnt":"2"},{"value":"00FF00","cnt":"2"},{"value":"AAAAAAAAAAAA","cnt":"2"},{"value":"BBBBBBBBBBB","cnt":"2"},{"value":"aaaaaaaaa","cnt":"2"},{"value":"sherlock","cnt":"1"},{"value":"2222222222","cnt":"1"},{"value":"00CC33","cnt":"1"},{"value":"yoooooooooooooooooo","cnt":"1"},{"value":"qianpai","cnt":"1"},{"value":"caonima","cnt":"1"},{"value":"papapapapapapa","cnt":"1"},{"value":"AAAAAAAAAAAAAAA","cnt":"1"},{"value":"WWWWW","cnt":"1"},{"value":"990000","cnt":"1"},{"value":"BBBBBBBBBBBBB","cnt":"1"},{"value":"~~~~~~~~~~~~~~","cnt":"1"},{"value":"dplqfd06","cnt":"1"},{"value":"TOOOOO","cnt":"1"},{"value":"3333333","cnt":"1"},{"value":"nimabi","cnt":"1"},{"value":"00d038f4","cnt":"1"},{"value":"~~~~~~~~","cnt":"1"},{"value":"clannd","cnt":"1"},{"value":"yoooo","cnt":"50"},{"value":"BBBBB","cnt":"7"},{"value":"AAAAA","cnt":"6"},{"value":"10086","cnt":"4"},{"value":"CCCCC","cnt":"3"},{"value":"bbbbbbbbb","cnt":"2"},{"value":"gundam","cnt":"2"},{"value":"aaaaaaaaaa","cnt":"2"},{"value":"FFFFFFFFFFFFFFFF","cnt":"2"},{"value":"kendie","cnt":"1"},{"value":"ABABABABBABA","cnt":"1"},{"value":"e9cf6ea","cnt":"1"},{"value":"www.bilibili","cnt":"1"},{"value":"32154","cnt":"1"},{"value":"BBBBBBBBBB","cnt":"1"},{"value":"heyheyhey","cnt":"1"},{"value":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","cnt":"1"},{"value":"dhiea","cnt":"1"},{"value":"shikisama","cnt":"1"},{"value":"23333333333333","cnt":"1"},{"value":"CCCCCCCCCC","cnt":"1"},{"value":"onepiece","cnt":"1"},{"value":"12345","cnt":"1"},{"value":"BBBBBBB","cnt":"1"},{"value":"ffffffffffffffffffffffffffffffffffffffffff","cnt":"1"},{"value":"AAAAAAAAA","cnt":"1"},{"value":"ccccccccc","cnt":"1"},{"value":"lalalala","cnt":"1"},{"value":"11111","cnt":"1"},{"value":"TOEFL","cnt":"2"},{"value":"fffff","cnt":"21"},{"value":"yyyyyy","cnt":"9"},{"value":"yoooooooooooooooooooooooo","cnt":"4"},{"value":"happy","cnt":"3"},{"value":"yyyyyyyyyyyyyy","cnt":"3"},{"value":"YYYYYYYYYYYY","cnt":"3"},{"value":"aaaaa","cnt":"3"},{"value":"kaito","cnt":"2"},{"value":"WWWWWW","cnt":"2"},{"value":"yyyyyyyyy","cnt":"2"},{"value":"ZZZZZZ","cnt":"1"},{"value":"55CCFF","cnt":"1"},{"value":"yyyyyyyyyy","cnt":"1"},{"value":"niconico","cnt":"1"},{"value":"66ccff","cnt":"1"},{"value":"yoooo","cnt":"17"},{"value":"clannad","cnt":"3"},{"value":"11111","cnt":"1"},{"value":"riben","cnt":"1"},{"value":"AAAAAAAAAAAAAAAA","cnt":"1"},{"value":"japannes","cnt":"1"},{"value":"aaaaaaaaaaaa","cnt":"1"},{"value":"JAPANESE","cnt":"1"},{"value":"12dora","cnt":"1"},{"value":"yaaaaaaaa","cnt":"1"},{"value":"JAPANES","cnt":"1"},{"value":"111111","cnt":"1"},{"value":"taylor","cnt":"1"},{"value":"YOOOO","cnt":"78"},{"value":"FFFFF","cnt":"23"},{"value":"dollars","cnt":"8"},{"value":"10086","cnt":"3"},{"value":"hahaha","cnt":"3"},{"value":"fffffffffffff","cnt":"2"},{"value":"XINBA","cnt":"2"},{"value":"n-t-r","cnt":"2"},{"value":"Madao","cnt":"2"},{"value":"D00af7cd","cnt":"1"},{"value":"clannad","cnt":"1"},{"value":"EMCNCJH47","cnt":"1"},{"value":"caobi","cnt":"1"},{"value":"e7iych3l","cnt":"1"},{"value":"yooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo","cnt":"1"},{"value":"3300CC","cnt":"1"},{"value":"Yoooo","cnt":"154"},{"value":"fffff","cnt":"69"},{"value":"12DOG","cnt":"67"},{"value":"PAPAPA","cnt":"20"},{"value":"geass","cnt":"16"},{"value":"12dora","cnt":"14"},{"value":"23333","cnt":"12"},{"value":"YYYYYY","cnt":"10"},{"value":"hahaha","cnt":"8"},{"value":"10086","cnt":"8"},{"value":"S.A.O","cnt":"7"},{"value":"CHINA","cnt":"7"},{"value":"SYDSYD","cnt":"7"},{"value":"FFFFFFFFFFF","cnt":"7"},{"value":"233333","cnt":"6"},{"value":"aaaaa","cnt":"5"},{"value":"WARNING","cnt":"5"},{"value":".hack","cnt":"5"},{"value":"wwwww","cnt":"5"},{"value":"another","cnt":"5"},{"value":"YOOOOOOOOOOOOOOOOOOOO","cnt":"4"},{"value":"hentai","cnt":"4"},{"value":"FFFFFFFFFFFFF","cnt":"4"},{"value":"SYDSYDSYD","cnt":"4"},{"value":"FFFFFFFFFFFF","cnt":"4"},{"value":"YOOOOOOOOOOOOOOOOOOOOOOOO","cnt":"4"},{"value":"233333333","cnt":"4"},{"value":"YYYYYYYYY","cnt":"4"},{"value":"cccccc","cnt":"3"},{"value":"FFFFFFFFFFFFFF","cnt":"3"},{"value":"Y000000","cnt":"3"},{"value":"ccccc","cnt":"3"},{"value":"caution","cnt":"3"},{"value":"00000","cnt":"3"},{"value":"ffffffffffffffffffffffff","cnt":"3"},{"value":"FFFFFFFFFFFFFFFF","cnt":"3"},{"value":"HHHHHH","cnt":"3"},{"value":"2eb0098d","cnt":"3"},{"value":"Da219f1c","cnt":"3"},{"value":"hhhhh","cnt":"3"},{"value":"wocao","cnt":"2"},{"value":"6400c042","cnt":"2"},{"value":"oooooooooo","cnt":"2"},{"value":"12GOD","cnt":"2"},{"value":"23333333","cnt":"2"},{"value":"tibet","cnt":"2"},{"value":"2222222222","cnt":"2"},{"value":"shiki","cnt":"2"},{"value":"Marvel","cnt":"2"},{"value":"weigou","cnt":"2"},{"value":"Yoooo","cnt":"64"},{"value":"China","cnt":"17"},{"value":"00000","cnt":"5"},{"value":"10086","cnt":"5"},{"value":"friends","cnt":"4"},{"value":"FFFFFFFFFFFFFFFFFF","cnt":"2"},{"value":"sheldon","cnt":"1"},{"value":"chian","cnt":"1"},{"value":"2222222222","cnt":"1"},{"value":"fffffffffffffffffff","cnt":"1"},{"value":"yooooooooooooooooooooo","cnt":"1"},{"value":"wocao","cnt":"1"},{"value":"Yoooo","cnt":"73"},{"value":"AVIavi","cnt":"1"},{"value":"steinsgate","cnt":"1"},{"value":"shabi","cnt":"1"},{"value":"party","cnt":"1"}]}}</value>
+  </data>
+  <data name="bilibilifilter" xml:space="preserve">
+    <value>{"up":{"keyword":[],"user":[],"rank":null}}</value>
+  </data>
+  <data name="bilibiliglobal" xml:space="preserve">
+    <value>{"user":[],"keyword":[{"value":"Yoooo","cnt":"1339"},{"value":"12dog","cnt":"630"},{"value":"fffff","cnt":"431"},{"value":"12dora","cnt":"86"},{"value":"PAPAPA","cnt":"83"},{"value":"10086","cnt":"74"},{"value":"china","cnt":"70"},{"value":"geass","cnt":"67"},{"value":"yyyyyy","cnt":"64"},{"value":"aaaaa","cnt":"58"},{"value":"BBBBB","cnt":"43"},{"value":"23333","cnt":"39"},{"value":"Madao","cnt":"39"},{"value":"hahaha","cnt":"38"},{"value":"JOKER","cnt":"33"},{"value":"clannad","cnt":"31"},{"value":"SYDSYD","cnt":"27"},{"value":"WARNING","cnt":"27"},{"value":"YYYYYYYYY","cnt":"25"},{"value":"CCCCC","cnt":"25"},{"value":"00000","cnt":"23"},{"value":"another","cnt":"23"},{"value":"FFFFFFFFFFFF","cnt":"22"},{"value":"fffffffffff","cnt":"22"},{"value":"dollars","cnt":"21"},{"value":"6acd2caf","cnt":"20"},{"value":"S.A.O","cnt":"20"},{"value":"12DOGE","cnt":"19"},{"value":"FF0000","cnt":"18"},{"value":"233333","cnt":"18"},{"value":"wwwww","cnt":"18"},{"value":"ffffffffffffffff","cnt":"17"},{"value":"3e1f4e11","cnt":"17"},{"value":"FFFFFFFFFFFFF","cnt":"17"},{"value":"Da219f1c","cnt":"16"},{"value":"yoooooooooooooooooooooooo","cnt":"16"},{"value":"whosyourdaddy","cnt":"15"},{"value":"aaaaaaa","cnt":"15"},{"value":"2012.","cnt":"13"},{"value":"AAAAAAAAA","cnt":"13"},{"value":"11111","cnt":"13"},{"value":"oooooooooo","cnt":"13"},{"value":"SYDSYDSYD","cnt":"13"},{"value":"wocao","cnt":"12"},{"value":"aaaaaaaaaaaa","cnt":"12"},{"value":"2222222222","cnt":"12"},{"value":"12GOD","cnt":"12"},{"value":"daddy","cnt":"12"},{"value":"GARRY","cnt":"12"},{"value":"00FF00","cnt":"12"}]}</value>
+  </data>
+  <data name="bilibilihtml" xml:space="preserve">
+    <value>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+&lt;title&gt;AcPlay&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;embed height="100%" width="100%" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"  AllowScriptAccess="always" rel="noreferrer" flashvars="cid={VIDEOID}" src="{PLAYER}" type="application/x-shockwave-flash" allowfullscreen="true" quality="high" allowFullscreenInteractive="true" wmode="direct"&gt;&lt;/embed&gt;
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="bilibilimember" xml:space="preserve">
+    <value>&lt;ip&gt;127.0.0.1&lt;/ip&gt;
+&lt;country&gt;LAC&lt;/country&gt;
+&lt;login&gt;true&lt;/login&gt;
+&lt;name&gt;LACPlayer [本地]&lt;/name&gt;
+&lt;user&gt;10000&lt;/user&gt;
+&lt;scores&gt;0&lt;/scores&gt;
+&lt;money&gt;0&lt;/money&gt;
+&lt;face&gt;&lt;/face&gt;
+&lt;pwd&gt;00000000&lt;/pwd&gt;
+&lt;isadmin&gt;false&lt;/isadmin&gt;
+&lt;permission&gt;10000,1001&lt;/permission&gt;
+&lt;rank&gt;10000&lt;/rank&gt;
+&lt;level&gt;普通会员&lt;/level&gt;
+&lt;shot&gt;false&lt;/shot&gt;
+&lt;chatid&gt;10000&lt;/chatid&gt;
+&lt;vtype&gt;sina&lt;/vtype&gt;
+&lt;aid&gt;10000&lt;/aid&gt;
+&lt;typeid&gt;22&lt;/typeid&gt;
+&lt;pid&gt;1&lt;/pid&gt;
+&lt;click&gt;1&lt;/click&gt;
+&lt;favourites&gt;0&lt;/favourites&gt;
+&lt;credits&gt;0&lt;/credits&gt;
+&lt;coins&gt;0&lt;/coins&gt;
+&lt;fw_click&gt;1&lt;/fw_click&gt;
+&lt;duration&gt;0:00&lt;/duration&gt;
+&lt;arctype&gt;Original&lt;/arctype&gt;
+&lt;danmu&gt;1&lt;/danmu&gt;
+&lt;bottom&gt;0&lt;/bottom&gt;
+&lt;sinapi&gt;1&lt;/sinapi&gt;
+&lt;acceptguest&gt;true&lt;/acceptguest&gt;
+&lt;acceptaccel&gt;true&lt;/acceptaccel&gt;
+&lt;rgg img="" rggnum="0" url="" c="0" /&gt;
+&lt;server&gt;chat.bilibili.com&lt;/server&gt;</value>
+  </data>
+  <data name="bilibilimsg" xml:space="preserve">
+    <value>&lt;msg&gt;
+&lt;item bgcolor="#CCCCCC" tooltip="点击反馈意见"&gt;&lt;![CDATA[
+&lt;a href="http://acplay.loushao.net/" target="_blank"&gt;&lt;font color="#ffffff"&gt;反馈意见&lt;/font&gt;&lt;/a&gt;
+]]&gt;&lt;/item&gt;
+&lt;/msg&gt;</value>
+  </data>
+  <data name="bilibilipad" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+ &lt;PAD&gt;
+&lt;!-- &lt;scroll constv="true" velocity="0.35" /&gt; --&gt;
+&lt;rgg img="http://localhost5/blank.swf" rggnum="1" url="" c="1" /&gt;
+&lt;scroll constv="false" delay="4000" /&gt;
+  &lt;fade delay="3500" alphaTo="1" /&gt;
+  &lt;pool capacity="0" /&gt;
+  &lt;keywords&gt; 
+  &lt;/keywords&gt;
+&lt;/PAD&gt;</value>
+  </data>
+  <data name="bilibiliplaytag" xml:space="preserve">
+    <value>[]</value>
+  </data>
+  <data name="bilibilirolldate" xml:space="preserve">
+    <value>[]</value>
+  </data>
+  <data name="crossdomain" xml:space="preserve">
+    <value>&lt;?xml version="1.0"?&gt;
+&lt;cross-domain-policy&gt;
+  &lt;allow-access-from domain="*" /&gt;
+&lt;/cross-domain-policy&gt;</value>
+  </data>
+</root>

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDown", "AcDown\AcDown.csproj", "{BCFD1289-87EC-49DC-BB85-30274BC1F546}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownInterface", "AcDownInterface\AcDownInterface.csproj", "{AAB36442-C5D7-4580-A18A-62B6EB537F62}"
@@ -11,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownCore", "AcDownCore\Ac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownDownloader", "AcDownDownloader\AcDownDownloader.csproj", "{43875C56-4142-4E71-8CC6-49BFC2C903C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcPlay", "AcPlay\AcPlay.csproj", "{C0017FE4-9708-46F7-9D56-71340E2C181B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcPlayControls", "AcPlayControls\AcPlayControls.csproj", "{C0017FE4-9708-46F7-9D56-71340E2C181B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlvCombine", "FlvCombine\FlvCombine.csproj", "{362A456F-8367-43EF-950D-5A2CDD502B92}"
 EndProject
@@ -31,9 +33,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingEveryday", "BingEveryda
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCombineInstaller", "VideoCombineInstaller\VideoCombineInstaller.csproj", "{7FDA5619-461A-4272-9078-3B354A27238E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcPlay", "AcPlay\AcPlay.csproj", "{C8E7E270-1775-491B-B5E2-E38C022E1FAB}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs18
 		SccLocalPath0 = .
@@ -52,26 +56,29 @@ Global
 		SccProjectUniqueName5 = AcDownDownloader\\AcDownDownloader.csproj
 		SccProjectName5 = AcDownDownloader
 		SccLocalPath5 = AcDownDownloader
-		SccProjectUniqueName6 = AcPlay\\AcPlay.csproj
-		SccProjectName6 = AcPlay
-		SccLocalPath6 = AcPlay
-		SccProjectUniqueName7 = FlvCombine\\FlvCombine.csproj
-		SccProjectName7 = FlvCombine
-		SccLocalPath7 = FlvCombine
-		SccProjectUniqueName8 = SampleDownloaderVB\\SampleDownloaderVB.vbproj
-		SccProjectTopLevelParentUniqueName8 = AcDown.sln
-		SccProjectName8 = SampleDownloaderVB
-		SccLocalPath8 = SampleDownloaderVB
-		SccProjectUniqueName9 = Release\\Release.csproj
-		SccProjectName9 = Release
-		SccLocalPath9 = Release
-		SccProjectUniqueName10 = BingEveryday\\BingEveryday.csproj
-		SccProjectTopLevelParentUniqueName10 = AcDown.sln
-		SccProjectName10 = BingEveryday
-		SccLocalPath10 = BingEveryday
-		SccProjectUniqueName11 = VideoCombineInstaller\\VideoCombineInstaller.csproj
-		SccProjectName11 = VideoCombineInstaller
-		SccLocalPath11 = VideoCombineInstaller
+		SccProjectUniqueName6 = FlvCombine\\FlvCombine.csproj
+		SccProjectName6 = FlvCombine
+		SccLocalPath6 = FlvCombine
+		SccProjectUniqueName7 = SampleDownloaderVB\\SampleDownloaderVB.vbproj
+		SccProjectTopLevelParentUniqueName7 = AcDown.sln
+		SccProjectName7 = SampleDownloaderVB
+		SccLocalPath7 = SampleDownloaderVB
+		SccProjectUniqueName8 = Release\\Release.csproj
+		SccProjectName8 = Release
+		SccLocalPath8 = Release
+		SccProjectUniqueName9 = BingEveryday\\BingEveryday.csproj
+		SccProjectTopLevelParentUniqueName9 = AcDown.sln
+		SccProjectName9 = BingEveryday
+		SccLocalPath9 = BingEveryday
+		SccProjectUniqueName10 = VideoCombineInstaller\\VideoCombineInstaller.csproj
+		SccProjectName10 = VideoCombineInstaller
+		SccLocalPath10 = VideoCombineInstaller
+		SccProjectUniqueName11 = AcPlayControls\\AcPlayControls.csproj
+		SccProjectName11 = AcPlayControls
+		SccLocalPath11 = AcPlayControls
+		SccProjectUniqueName12 = AcPlay\\AcPlay.csproj
+		SccProjectName12 = AcPlay
+		SccLocalPath12 = AcPlay
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +150,14 @@ Global
 		{7FDA5619-461A-4272-9078-3B354A27238E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FDA5619-461A-4272-9078-3B354A27238E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FDA5619-461A-4272-9078-3B354A27238E}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Debug|x86.ActiveCfg = Debug|x86
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Debug|x86.Build.0 = Debug|x86
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Release|x86.ActiveCfg = Release|x86
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
