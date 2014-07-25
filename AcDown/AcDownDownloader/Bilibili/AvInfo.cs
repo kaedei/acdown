@@ -35,7 +35,7 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 		public string coins { get; set; }
 		public string spid { get; set; }
 		public string src { get; set; }
-		public int cid { get; set; }
+		public string cid { get; set; }
 		public string partname { get; set; }
 		public string offsite { get; set; }
 	}
