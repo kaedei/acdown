@@ -232,8 +232,23 @@ namespace Kaedei.AcDown.Downloader
 					viewSrc = LoginApi(url, apiAddress);
 				}
 
-				var avInfo = JsonConvert.DeserializeObject<AvInfo>(viewSrc);
-				
+				AvInfo avInfo;
+				try
+				{
+					//解析JSON
+					avInfo = JsonConvert.DeserializeObject<AvInfo>(viewSrc);
+				}
+				catch
+				{
+					//由于接口原因，有时候会返回XML格式（呵呵
+					var viewDoc = new XmlDocument();
+					viewDoc.LoadXml(viewSrc);
+					avInfo = new AvInfo();
+					avInfo.title = viewDoc.SelectSingleNode(@"/info/title").InnerText.Replace("&amp;", "&");
+					avInfo.partname = viewDoc.SelectSingleNode(@"/info/partname").InnerText.Replace("&amp;", "&");
+					avInfo.cid = Regex.Match(viewSrc, @"(?<=\<cid\>)\d+(?=\</cid\>)", RegexOptions.IgnoreCase).Value;
+				}
+
 				//视频标题和子标题
 				string title = avInfo.title ?? "";
 				string stitle = avInfo.partname ?? "";
@@ -254,7 +269,7 @@ namespace Kaedei.AcDown.Downloader
 				Info.SubFilePath.Clear();
 
 				//CID
-				Settings["chatid"] = avInfo.cid.ToString();
+				Settings["chatid"] = avInfo.cid;
 				
 				//下载弹幕
 				DownloadComment(title, stitle, Settings["chatid"]);

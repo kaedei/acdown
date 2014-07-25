@@ -279,6 +279,16 @@ namespace Kaedei.AcDown.Downloader
 					//	pr = parserTudou.Parse(new ParseRequest() {Id = m_sourceId, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer});
 					//	break;
 					case "youku": //优酷视频
+					{
+						var parserFlvcd = new FlvcdParser();
+						pr = parserFlvcd.Parse(new ParseRequest
+						{
+							Id = @"http://v.youku.com/v_show/id_" + m_sourceId + ".html",
+							Proxy = Info.Proxy,
+							AutoAnswers = Info.AutoAnswer
+						});
+						break;
+					}
 					case "tudou": //土豆视频
 					{
 						//累觉不爱
