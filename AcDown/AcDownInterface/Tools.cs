@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
@@ -158,6 +159,29 @@ namespace Kaedei.AcDown.Interface
 		{
 			string temp = Convert.ToBase64String(Encoding.UTF8.GetBytes(normalString));
 			return temp.Replace('+', '*').Replace('/', '-').Replace('=', '.');
+		}
+
+		/// <summary>
+		/// 算出一个字符串的MD5
+		/// </summary>
+		public static string GetStringHash(string content)
+		{
+			var sb = new StringBuilder(32);
+			var md5 = new MD5CryptoServiceProvider();
+
+			var fileContent = Encoding.UTF8.GetBytes(content);
+
+			byte[] hash = md5.ComputeHash(fileContent);
+
+			foreach (byte b in hash)
+			{
+				int i = Convert.ToInt32(b);
+				int j = i >> 4;
+				sb.Append(Convert.ToString(j, 16));
+				j = ((i << 4) & 0x00ff) >> 4;
+				sb.Append(Convert.ToString(j, 16));
+			}
+			return sb.ToString();
 		}
 	}
 }
