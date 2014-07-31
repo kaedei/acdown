@@ -19,8 +19,10 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 			ParseResult pr = new ParseResult();
 
 			//合并完整url
-
-			string url = @"http://interface.bilibili.com/playurl?cid=" + request.Id;
+			//这里使用标准方法调用Bilibili API
+			string url = @"http://interface.bilibili.com/playurl?appkey=876fe0ebd0e67a0f&cid=" + request.Id +
+						"&ts=1406821992&sign=" +
+						Tools.GetStringHash("appkey=876fe0ebd0e67a0f&cid=" + request.Id + "&ts=1406821992f487b808dc82abb7464a00935d4bb247");
 			string source = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
 			//视频总长度
 			var totallength = Regex.Match(source, @"<timelength>(?<timelength>\d+)</timelength>").Groups["timelength"];

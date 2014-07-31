@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using Kaedei.AcDown.Interface;
-using System.Xml.Serialization;
-using System.IO;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Kaedei.AcDown.Interface
@@ -31,11 +26,13 @@ namespace Kaedei.AcDown.Interface
 			 * 
 			 * 把这个算法拿出去用的都要打PP！
 			 */
-			var ran = new Random(Environment.TickCount).Next(0, 1000);
-			var key = WhereIsTheKey(request.Id, "0", ran);
-
+			//var ran = new Random(Environment.TickCount).Next(0, 1000);
+			//var key = WhereIsTheKey(request.Id, "0", ran);
+			var key = GenerateKey(request.Id + "footstone");
 			//合并完整url
-			string url = @"http://v.iask.com/v_play.php?vid=" + request.Id + "&ran=" + ran + "&p=i&k=" + key;
+			//string url = @"http://v.iask.com/v_play.php?vid=" + request.Id + "&ran=" + ran + "&p=i&k=" + key;
+			string url =
+				@"http://2dland.vipsinaapp.com/video.php?action=xml&type=xina&vid="+request.Id+"&key=" + key;
 			string source = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
 			//视频总长度
 			string totallength = Regex.Match(source, @"<timelength>(?<timelength>\d+)</timelength>").Groups["timelength"].Value;
@@ -66,23 +63,12 @@ namespace Kaedei.AcDown.Interface
 			return pr;
 		}
 
-		private string WhereIsTheKey(string vid, string time, int ran)
-		{
-			//前方神秘代码出没
-			return GetStringHash(vid + "Z6prk18aWxP278cVAH" + time + ran).Substring(0, 16) + time;
-		}
-
-
-		/// <summary>
-		/// 算出一个字符串的MD5
-		/// </summary>
-		string GetStringHash(string content)
+		private string GenerateKey(string id)
 		{
 			var sb = new StringBuilder(32);
 			var md5 = new MD5CryptoServiceProvider();
-
-			var fileContent = Encoding.UTF8.GetBytes(content);
-
+			
+			byte[] fileContent = Encoding.UTF8.GetBytes(id);
 			byte[] hash = md5.ComputeHash(fileContent);
 
 			foreach (byte b in hash)
@@ -93,8 +79,16 @@ namespace Kaedei.AcDown.Interface
 				j = ((i << 4) & 0x00ff) >> 4;
 				sb.Append(Convert.ToString(j, 16));
 			}
-			return sb.ToString();
+			return sb.ToString().ToLower();
 		}
+
+		private string WhereIsTheKey(string vid, string time, int ran)
+		{
+			//前方神秘代码出没
+			return Tools.GetStringHash(vid + "Z6prk18aWxP278cVAH" + time + ran).Substring(0, 16) + time;
+		}
+
+
 	}
 
 }
