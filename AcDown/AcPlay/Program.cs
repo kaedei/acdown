@@ -39,6 +39,13 @@ namespace Kaedei.AcPlay
 					AcPlayConfiguration.Config = (AcPlayConfiguration)tempConfig;
 					AcPlayConfiguration.Config.StartupPath = Path.GetDirectoryName(arg);
 				}
+
+				if (AcPlayConfiguration.Config.PlayerName.Equals("acfun", StringComparison.CurrentCultureIgnoreCase))
+				{
+					AcPlayConfiguration.Config.PlayerName = "bilibili";
+					AcPlayConfiguration.Config.PlayerUrl = "http://static.hdslb.com/play.swf";
+
+				}
 			}
 			catch
 			{

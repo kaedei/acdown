@@ -12,8 +12,8 @@ namespace Kaedei.AcPlay.Formatter
 	{
 		public StandardItem[] Format(string input)
 		{
-			List<StandardItem> items = new List<StandardItem>();
-			Regex r = new Regex(@"{""c"":( |)""(?<c>.+?)"",( |)""m"":( |)""(?<m>.+?)""}", RegexOptions.Singleline);
+			var items = new List<StandardItem>();
+			Regex r = new Regex("{\"c\": ?\"(?<c>.+?)\",\"m\": ?\"(?<m>.+?)\",\"score\":.+?}", RegexOptions.Singleline);
 			MatchCollection mc = r.Matches(input);
 			foreach (Match m in mc)
 			{
@@ -27,7 +27,7 @@ namespace Kaedei.AcPlay.Formatter
 				item.mode = Int64.Parse(cs[2]);
 				item.size = Int64.Parse(cs[3]);
 				item.uid = cs[4];
-				item.stamp = Double.Parse(cs[5]);
+				item.stamp = Double.Parse(cs[6]);
 
 				//转换unicode
 				item.message = Convert(m.Groups["m"].Value);

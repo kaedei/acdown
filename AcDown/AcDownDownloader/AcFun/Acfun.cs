@@ -18,7 +18,7 @@ namespace Kaedei.AcDown.Downloader
 	/// <summary>
 	/// AcFun下载支持插件
 	/// </summary>
-	[AcDownPluginInformation("AcfunDownloader", "Acfun下载插件", "Kaedei", "4.5.6.722", "Acfun下载插件",
+	[AcDownPluginInformation("AcfunDownloader", "Acfun下载插件", "Kaedei", "4.5.6.803", "Acfun下载插件",
 		"http://blog.sina.com.cn/kaedei")]
 	public class AcFunPlugin : IPlugin
 	{
@@ -239,14 +239,13 @@ namespace Kaedei.AcDown.Downloader
 				//弹幕Id
 				m_danmakuId = Regex.Match(videoInfo, @"(?<=""danmakuId"":"")\w+", RegexOptions.IgnoreCase).Value;
 				//下载弹幕
-				DownloadSubtitle();
+				DownloadSubtitle("", m_currentPartVideoId);
 			}
 			else //外链视频
 			{
 				var playerMatch = Regex.Match(src, @"autocompletion_player\('?(?<vid>\w+)'?,'(?<source>\w+)");
 				m_sourceType = playerMatch.Groups["source"].Value;
 				m_sourceId = playerMatch.Groups["vid"].Value;
-
 				DownloadSubtitle(m_sourceType, m_sourceId);
 			}
 
@@ -471,8 +470,8 @@ namespace Kaedei.AcDown.Downloader
 			{
 				//下载字幕文件
 				string commentString = Network.GetHtmlSource(subUrl, Encoding.UTF8, Info.Proxy);
-				commentString = commentString.Replace("],[],[", ",").Trim();
-				commentString = commentString.Substring(1, commentString.Length - 2); //将弹幕修正为站内视频的格式
+				commentString = commentString.Replace("],[],[", ",")
+					.Replace("[[,", "[[").Replace("[[", "[").Replace("]]", "]"); //将弹幕修正为以前的格式
 				//保存文件
 				File.WriteAllText(filename, commentString);
 			}
