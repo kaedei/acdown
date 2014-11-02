@@ -63,5 +63,15 @@ namespace Kaedei.AcPlay
 			}
 
 		}
+
+		/// <summary>
+		/// 移除缓存文件
+		/// </summary>
+		public void RemoveCache()
+		{
+			string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				"Kaedei" + Path.DirectorySeparatorChar + "AcPlay" + Path.DirectorySeparatorChar + "Cache");
+			Directory.Delete(folder, true);
+		}
 	}
 }
