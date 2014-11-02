@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDown", "AcDown\AcDown.csproj", "{BCFD1289-87EC-49DC-BB85-30274BC1F546}"
 EndProject
@@ -14,6 +14,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcDownDownloader", "AcDownDownloader\AcDownDownloader.csproj", "{43875C56-4142-4E71-8CC6-49BFC2C903C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcPlayControls", "AcPlayControls\AcPlayControls.csproj", "{C0017FE4-9708-46F7-9D56-71340E2C181B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C8E7E270-1775-491B-B5E2-E38C022E1FAB} = {C8E7E270-1775-491B-B5E2-E38C022E1FAB}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlvCombine", "FlvCombine\FlvCombine.csproj", "{362A456F-8367-43EF-950D-5A2CDD502B92}"
 EndProject

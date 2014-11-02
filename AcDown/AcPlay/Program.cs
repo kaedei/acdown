@@ -38,6 +38,7 @@ namespace Kaedei.AcPlay
 					object tempConfig = serializer.Deserialize(fs);
 					AcPlayConfiguration.Config = (AcPlayConfiguration)tempConfig;
 					AcPlayConfiguration.Config.StartupPath = Path.GetDirectoryName(arg);
+					AcPlayConfiguration.Config.ProxyServerPort = new Random().Next(20000, 30000);
 				}
 
 				if (AcPlayConfiguration.Config.PlayerName.Equals("acfun", StringComparison.CurrentCultureIgnoreCase))

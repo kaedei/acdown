@@ -39,6 +39,10 @@ namespace Kaedei.AcDown.Interface
 		/// 指定特殊配置
 		/// </summary>
 		public Dictionary<string, string> SpecificConfiguration = new Dictionary<string, string>();
+		/// <summary>
+		/// Cookie容器
+		/// </summary>
+		public CookieContainer CookieContainer = null;
 	}
 
 	/// <summary>
