@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Kaedei.AcDown.Interface.UI;
 
 namespace Kaedei.AcDown.Interface.Forms
@@ -72,6 +73,7 @@ namespace Kaedei.AcDown.Interface.Forms
 		private void btnOK_Click(object sender, EventArgs e)
 		{
 			s[0] = ((KeyValueItem)combo.SelectedItem).Key;
+			this._isClosing = true;
 			this.Close();
 		}
 
@@ -82,6 +84,8 @@ namespace Kaedei.AcDown.Interface.Forms
 
 		private string formtitle;
 		private int countdown = GlobalSettings.GetSettings().ToolFormTimeout;
+		private bool _isClosing = false;
+
 		private void tmr_Tick(object sender, EventArgs e)
 		{
 			countdown--;
@@ -90,6 +94,11 @@ namespace Kaedei.AcDown.Interface.Forms
 			{
 				btnOK_Click(sender, EventArgs.Empty);
 			}
+		}
+
+		private void FormSingleSelect_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
+		{
+			e.Cancel = e.CloseReason == CloseReason.UserClosing && !_isClosing;
 		}
 	}//end class
 

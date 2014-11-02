@@ -27,7 +27,7 @@ namespace Kaedei.AcPlay.Formatter
 				item.mode = Int64.Parse(cs[2]);
 				item.size = Int64.Parse(cs[3]);
 				item.uid = cs[4];
-				item.stamp = Double.Parse(cs[6]);
+				item.stamp = Double.Parse(cs[5]);
 
 				//转换unicode
 				item.message = Convert(m.Groups["m"].Value);

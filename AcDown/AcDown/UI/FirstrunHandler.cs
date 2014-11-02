@@ -49,6 +49,16 @@ namespace Kaedei.AcDown.UI
 			}
 			catch { }
 
+			//删除临时文件
+			try
+			{
+				var acplayhelper = new AcPlay.AcPlayHelper();
+				acplayhelper.RemoveCache();
+			}
+			catch
+			{
+			}
+
 			try
 			{
 				//注册.acplay关联
