@@ -1,4 +1,5 @@
-﻿using Kaedei.AcDown.Interface;
+﻿using System.Net;
+using Kaedei.AcDown.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,7 +24,11 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 			string url = @"http://interface.bilibili.com/playurl?appkey=876fe0ebd0e67a0f&cid=" + request.Id +
 						"&ts=1406821992&sign=" +
 						Tools.GetStringHash("appkey=876fe0ebd0e67a0f&cid=" + request.Id + "&ts=1406821992f487b808dc82abb7464a00935d4bb247");
-			string source = Network.GetHtmlSource(url, Encoding.UTF8, request.Proxy);
+			var httpRequest = (HttpWebRequest) WebRequest.Create(url);
+			httpRequest.Proxy = request.Proxy;
+			httpRequest.CookieContainer = request.CookieContainer;
+
+			string source = Network.GetHtmlSource(httpRequest, Encoding.UTF8);
 			//视频总长度
 			var totallength = Regex.Match(source, @"<timelength>(?<timelength>\d+)</timelength>").Groups["timelength"];
 			if (totallength != null) pr.SpecificResult.Add("totallength", totallength.Value);

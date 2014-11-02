@@ -115,7 +115,7 @@ namespace Kaedei.AcDown.Downloader
 	/// </summary>
 	public class BilibiliDownloader : CommonDownloader
 	{
-
+		private CookieContainer m_cookieContainer;
 		/// <summary>
 		/// 下载视频
 		/// </summary>
@@ -229,7 +229,7 @@ namespace Kaedei.AcDown.Downloader
 				//登录获取API结果
 				if (viewSrc.Contains("no perm error"))
 				{
-					viewSrc = LoginApi(url, apiAddress);
+					viewSrc = LoginApi(url, apiAddress, out m_cookieContainer);
 				}
 
 				AvInfo avInfo;
@@ -289,7 +289,8 @@ namespace Kaedei.AcDown.Downloader
 						{
 							Id = Settings["chatid"],
 							Proxy = Info.Proxy,
-							AutoAnswers = Info.AutoAnswer
+							AutoAnswers = Info.AutoAnswer,
+							CookieContainer = m_cookieContainer
 						};
 					pr = new BilibiliInterfaceParser().Parse(prRequest);
 					videos = pr.ToArray();
@@ -431,7 +432,7 @@ namespace Kaedei.AcDown.Downloader
 			return true;
 		}
 
-		private string LoginApi(string url, string apiAddress)
+		private string LoginApi(string url, string apiAddress, out CookieContainer loginPageCookieContainer)
 		{
 			string xmlSrc;
 			var LOGIN_PAGE = "https://secure.bilibili.com/login";
@@ -441,7 +442,7 @@ namespace Kaedei.AcDown.Downloader
 			loginPageRequest.Referer = @"http://www.bilibili.com/";
 			loginPageRequest.UserAgent = @"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0";
 			loginPageRequest.Accept = @"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-			CookieContainer loginPageCookieContainer;
+
 			string loginPageCookie;
 			using (var resp = loginPageRequest.GetResponse())
 			{

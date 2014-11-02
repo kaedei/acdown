@@ -46,14 +46,25 @@ namespace Kaedei.AcPlay.Redirector
 					});
 			}
 			//flash player
-			if (url.Contains("play.swf")
-				&& File.Exists(Path.Combine(Application.StartupPath, @"Cache\play.swf")))
+			if (url.Contains("play.swf"))
 			{
+				string swfFile = Path.Combine(Application.StartupPath, @"Cache\play.swf");
+				if (!Directory.Exists(Path.GetDirectoryName(swfFile)))
+				{
+					Directory.CreateDirectory(Path.GetDirectoryName(swfFile));
+				}
+				if (!File.Exists(swfFile))
+				{
+					//download swf file
+					var wc = new WebClient();
+					wc.DownloadFile(AcPlayConfiguration.Config.PlayerUrl, swfFile);
+				}
 				return response.SendFile(new FileResponse()
-					{
-						FilePath = Path.Combine(Application.StartupPath, @"Cache\play.swf")
-					});
+				{
+					FilePath = swfFile
+				});
 			}
+				
 			//Pad.xml
 			if (url.Contains("pad.xml"))
 			{
