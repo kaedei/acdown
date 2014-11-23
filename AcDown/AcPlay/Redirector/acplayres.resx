@@ -215,7 +215,10 @@
   <data name="bilibilimsg" xml:space="preserve">
     <value>&lt;msg&gt;
 &lt;item bgcolor="#CCCCCC" tooltip="点击反馈意见"&gt;&lt;![CDATA[
-&lt;a href="http://acplay.loushao.net/" target="_blank"&gt;&lt;font color="#ffffff"&gt;反馈意见&lt;/font&gt;&lt;/a&gt;
+&lt;a href="http://blog.sina.com.cn/s/blog_58c506600101g83n.html" target="_blank"&gt;&lt;font color="#ffffff"&gt;反馈意见&lt;/font&gt;&lt;/a&gt;
+]]&gt;&lt;/item&gt;
+&lt;item bgcolor="#CCCCCC" tooltip="弹弹play"&gt;&lt;![CDATA[
+&lt;a href="http://www.dandanplay.com/" target="_blank"&gt;&lt;font color="#ffffff"&gt;弹弹play - 本地视频弹幕播放器&lt;/font&gt;&lt;/a&gt;
 ]]&gt;&lt;/item&gt;
 &lt;/msg&gt;</value>
   </data>
