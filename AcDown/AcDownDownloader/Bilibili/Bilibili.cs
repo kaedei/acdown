@@ -18,13 +18,14 @@ using Newtonsoft.Json;
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.5.6.722", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.5.8.1123", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 		//地址解析正则表达式
 		public static Regex RegexBili = new Regex(@"(http://www\.bilibili\.(tv|com)/video\/)?av(?<id>[0-9]+)(/index_(?<page>[0-9]+)\.html)?", RegexOptions.IgnoreCase);
 		public static Regex RegexAcg = new Regex(@"(http://acg\.tv/)?av(?<id>[0-9]+)(,(?<page>[0-9]+))?", RegexOptions.IgnoreCase);
-		public static String AppKey = @"876fe0ebd0e67a0f";
+		public const String AppKey = @"876fe0ebd0e67a0f";
+		public const String AppSecret = @"f487b808dc82abb7464a00935d4bb247";
 
 		public BilibiliPlugin()
 		{
@@ -154,6 +155,7 @@ namespace Kaedei.AcDown.Downloader
 			if (!mAVNumber.Success) mAVNumber = BilibiliPlugin.RegexAcg.Match(Info.Url);
 			Settings["AVNumber"] = mAVNumber.Groups["id"].Value;
 			Settings["AVSubNumber"] = mAVNumber.Groups["page"].Value;
+			Settings["AVSubNumber"] = string.IsNullOrEmpty(Settings["AVSubNumber"]) ? "1" : Settings["AVSubNumber"];
 			//设置自定义文件名
 			Settings["CustomFileName"] = BilibiliPlugin.DefaultFileNameFormat;
 			if (Info.BasePlugin.Configuration.ContainsKey("CustomFileName"))
@@ -219,9 +221,21 @@ namespace Kaedei.AcDown.Downloader
 				}
 
 				//获取视频信息API
-				var apiAddress = @"http://api.bilibili.cn/view?type=xml&appkey=" + BilibiliPlugin.AppKey + "&id=" +
-				                 Settings["AVNumber"] + "&page=" + Settings["AVSubNumber"];
-				var webrequest = (HttpWebRequest) WebRequest.Create(apiAddress);
+				var ts = Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
+				var apiAddress = string.Format(@"http://api.bilibili.cn/view?appkey={0}&ts={1}&id={2}&page={3}",
+					BilibiliPlugin.AppKey,
+					ts,
+					Settings["AVNumber"],
+					Settings["AVSubNumber"]);
+					//AcDown所使用的AppKey是旧AppKey，权限比新申请的要高，而且不需要加上sign验证
+					//如果将来要使用sign验证的话可以使用下面的代码来算出sign
+					//但是这段代码目前加上后还是不能正确工作的状态，不知道为什么
+					//Tools.GetStringHash("appkey=" + BilibiliPlugin.AppKey +
+					//					"&id=" + Settings["AVNumber"] +
+					//					"&page=" + Settings["AVSubNumber"] +
+					//					"&ts=" + ts +
+					//					BilibiliPlugin.AppSecret));
+				var webrequest = (HttpWebRequest)WebRequest.Create(apiAddress);
 				webrequest.Accept = @"application/json";
 				webrequest.UserAgent = "AcDown/" + Application.ProductVersion + " (kaedei@foxmail.com)";
 				webrequest.Proxy = Info.Proxy;
@@ -240,7 +254,7 @@ namespace Kaedei.AcDown.Downloader
 				}
 				catch
 				{
-					//由于接口原因，有时候会返回XML格式（呵呵
+					//由于接口原因，有时候虽然请求了json但是会返回XML格式（呃
 					var viewDoc = new XmlDocument();
 					viewDoc.LoadXml(viewSrc);
 					avInfo = new AvInfo();
@@ -270,7 +284,7 @@ namespace Kaedei.AcDown.Downloader
 
 				//CID
 				Settings["chatid"] = avInfo.cid;
-				
+
 				//下载弹幕
 				DownloadComment(title, stitle, Settings["chatid"]);
 
@@ -437,7 +451,7 @@ namespace Kaedei.AcDown.Downloader
 			string xmlSrc;
 			var LOGIN_PAGE = "https://secure.bilibili.com/login";
 			//获取登录页Cookie
-			var loginPageRequest = (HttpWebRequest) WebRequest.Create(LOGIN_PAGE);
+			var loginPageRequest = (HttpWebRequest)WebRequest.Create(LOGIN_PAGE);
 			loginPageRequest.Proxy = Info.Proxy;
 			loginPageRequest.Referer = @"http://www.bilibili.com/";
 			loginPageRequest.UserAgent = @"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0";
@@ -463,9 +477,9 @@ namespace Kaedei.AcDown.Downloader
 				loginInfo.Password = Settings["Password"];
 
 			var captchaUrl = @"https://secure.bilibili.com/captcha?r=" +
-			                 new Random(Environment.TickCount).NextDouble().ToString();
+							 new Random(Environment.TickCount).NextDouble().ToString();
 			var captchaFile = Path.GetTempFileName() + ".png";
-			var captchaClient = new WebClient {Proxy = Info.Proxy};
+			var captchaClient = new WebClient { Proxy = Info.Proxy };
 			captchaClient.Headers.Add(HttpRequestHeader.Cookie, loginPageCookie);
 			captchaClient.DownloadFile(captchaUrl, captchaFile);
 			loginInfo = ToolForm.CreateLoginForm(loginInfo, @"https://secure.bilibili.com/register", captchaFile);
@@ -476,11 +490,11 @@ namespace Kaedei.AcDown.Downloader
 
 
 			string postString = @"act=login&gourl=http%%3A%%2F%%2Fbilibili.com%%2F&userid=" + loginInfo.Username + "&pwd=" +
-			                    loginInfo.Password +
-			                    "&vdcode=" + loginInfo.Captcha.ToUpper() + "&keeptime=2592000";
+								loginInfo.Password +
+								"&vdcode=" + loginInfo.Captcha.ToUpper() + "&keeptime=2592000";
 			byte[] data = Encoding.UTF8.GetBytes(postString);
 
-			var loginRequest = (HttpWebRequest) WebRequest.Create(@"https://secure.bilibili.com/login");
+			var loginRequest = (HttpWebRequest)WebRequest.Create(@"https://secure.bilibili.com/login");
 			loginRequest.Proxy = Info.Proxy;
 			loginRequest.Method = "POST";
 			loginRequest.Referer = "https://secure.bilibili.com/login";
@@ -500,10 +514,10 @@ namespace Kaedei.AcDown.Downloader
 			loginRequest.GetResponse().Close();
 			var cookies = loginRequest.CookieContainer.GetCookieHeader(new Uri(LOGIN_PAGE));
 
-			var client = new WebClient {Proxy = Info.Proxy};
+			var client = new WebClient { Proxy = Info.Proxy };
 			client.Headers.Add(HttpRequestHeader.Cookie, cookies);
 
-			var apiRequest = (HttpWebRequest) WebRequest.Create(apiAddress);
+			var apiRequest = (HttpWebRequest)WebRequest.Create(apiAddress);
 			apiRequest.Proxy = Info.Proxy;
 			apiRequest.Headers.Add(HttpRequestHeader.Cookie, cookies);
 			xmlSrc = Network.GetHtmlSource(apiRequest, Encoding.UTF8);
@@ -530,7 +544,7 @@ namespace Kaedei.AcDown.Downloader
 						HttpServerPort = 7776,
 						ProxyServerPort = 7777,
 						Videos = new Video[Info.FilePath.Count],
-					    WebUrl = Info.Url
+						WebUrl = Info.Url
 					};
 				//视频
 				for (int i = 0; i < Info.FilePath.Count; i++)

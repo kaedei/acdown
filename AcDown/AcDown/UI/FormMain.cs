@@ -866,16 +866,16 @@ namespace Kaedei.AcDown.UI
 				switch (CoreManager.ConfigManager.Settings.SearchQuery)
 				{
 					case "Acfun站内搜索":
-						q = @"http://www.acfun.tv/search.aspx?q=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+						q = @"http://www.acfun.tv/search/#query=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "Bilibili站内搜索":
-						q = @"http://www.bilibili.tv/search?keyword=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+						q = @"http://www.bilibili.com/search?keyword=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
-					case "土豆网":
-						q = @"http://so.tudou.com/nisearch/%TEST%/".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+					case "搜酷":
+						q = @"http://www.soku.com/t/nisearch/%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
-					case "优酷搜索(搜酷)":
-						q = @"http://www.soku.com/search_video/q_%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
+					case "吐槽":
+						q = @"http://www.tucao.cc/index.php?m=search&c=index&a=init2&catid=&order=&username=&tag=&q=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text));
 						break;
 					case "漫画搜索(爱漫画)":
 						q = @"http://www.imanhua.com/v2/user/search.aspx?key=%TEST%".Replace("%TEST%", Tools.UrlEncode(txtSearch.Text, Encoding.GetEncoding("GB2312")));

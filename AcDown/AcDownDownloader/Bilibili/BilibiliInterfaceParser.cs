@@ -21,10 +21,16 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 
 			//合并完整url
 			//这里使用标准方法调用Bilibili API
-			string url = @"http://interface.bilibili.com/playurl?appkey=876fe0ebd0e67a0f&cid=" + request.Id +
-						"&ts=1406821992&sign=" +
-						Tools.GetStringHash("appkey=876fe0ebd0e67a0f&cid=" + request.Id + "&ts=1406821992f487b808dc82abb7464a00935d4bb247");
-			var httpRequest = (HttpWebRequest) WebRequest.Create(url);
+			var ts = Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
+			string url = string.Format(@"http://interface.bilibili.com/playurl?appkey={0}&cid={1}&ts={2}&sign={3}",
+							BilibiliPlugin.AppKey,
+							request.Id,
+							ts,
+							Tools.GetStringHash("appkey=" + BilibiliPlugin.AppKey +
+												"&cid=" + request.Id +
+												"&ts=" + ts +
+												BilibiliPlugin.AppSecret));
+			var httpRequest = (HttpWebRequest)WebRequest.Create(url);
 			httpRequest.Proxy = request.Proxy;
 			httpRequest.CookieContainer = request.CookieContainer;
 
