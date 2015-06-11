@@ -6,7 +6,7 @@ using Kaedei.AcDown.Interface;
 
 namespace Kaedei.AcDown.Downloader
 {
-	[AcDownPluginInformation("TucaoDownloader", "吐槽网下载插件", "Kaedei", "4.4.1.427", "吐槽网下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("TucaoDownloader", "吐槽网下载插件", "Kaedei", "4.6.0.611", "吐槽网下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class TucaoPlugin : IPlugin
 	{
 		public TucaoPlugin()
@@ -53,23 +53,20 @@ namespace Kaedei.AcDown.Downloader
 		}
 
 		/// <summary>
-		/// 规则为 tucao + 视频ID
-		/// 如 "tucao99999"
+		/// 规则为 tucao + 视频ID + # + 分段id 。
+		/// 如 "tucao99999#1"
 		/// </summary>
-		/// <param name="url"></param>
-		/// <returns></returns>
 		public string GetHash(string url)
 		{
-			Regex r = new Regex(@"http://www\.tucao\.cc/play/(?<id>.+)");
+			Regex r = new Regex(@"tucao\.cc/play/h(?<hid>\d+)(?:/#(?<partId>\d+))?");
 			Match m = r.Match(url);
 			if (m.Success)
 			{
-				return "tucao" + m.Groups["id"].Value;
+				return string.Format("tucao{0}#{1}", m.Groups["hid"].Value, (m.Groups["partId"].Success
+						? m.Groups["partId"].Value
+						: "1"));
 			}
-			else
-			{
-				return null;
-			}
+			return null;
 		}
 
 		public Dictionary<string, object> Feature { get; private set; }

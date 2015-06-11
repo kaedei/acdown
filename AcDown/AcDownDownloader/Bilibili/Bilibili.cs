@@ -14,11 +14,12 @@ using Kaedei.AcDown.Interface.Downloader;
 using Kaedei.AcDown.Downloader.Bilibili;
 using System.Xml;
 using Newtonsoft.Json;
+using Video = Kaedei.AcDown.Interface.AcPlay.Video;
 
 namespace Kaedei.AcDown.Downloader
 {
 
-	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.5.8.1123", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
+	[AcDownPluginInformation("BilibiliDownloader", "Bilibili下载插件", "Kaedei", "4.6.0.611", "BiliBili下载插件", "http://blog.sina.com.cn/kaedei")]
 	public class BilibiliPlugin : IPlugin
 	{
 		//地址解析正则表达式
@@ -181,7 +182,7 @@ namespace Kaedei.AcDown.Downloader
 					string src = Network.GetHtmlSource(url, Encoding.UTF8, Info.Proxy);
 					string subtitle = "";
 					//取得子标题
-					Regex rSubTitle = new Regex(@"<option value='(?<part>.+?\.html)'(| selected)>(?<content>.+?)</option>");
+					Regex rSubTitle = new Regex(@"<option value='(?<part>.+?\.html)'( selected)?>(?<content>.+?)</option>");
 					MatchCollection mSubTitles = rSubTitle.Matches(src);
 
 					//如果存在下拉列表框

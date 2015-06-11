@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="Bilibili\Bilibili.cs" />
     <Compile Include="Bilibili\BilibiliInterfaceParser.cs" />
+    <Compile Include="Bilibili\Video.cs" />
     <Compile Include="CustomFileNameHelper.cs" />
     <Compile Include="Flvcd\FlvcdDownloader.cs" />
     <Compile Include="Flvcd\FlvcdPlugin.cs" />
@@ -82,7 +83,10 @@
     <Compile Include="SfAcg\SfAcgPlugin.cs" />
     <Compile Include="Tieba\TiebaAlbum.cs" />
     <Compile Include="Tucao\TucaoDownloader.cs" />
+    <Compile Include="Tucao\TucaoInterfaceParser.cs" />
     <Compile Include="Tucao\TucaoPlugin.cs" />
+    <Compile Include="Tucao\TucaoVideoInfo.cs" />
+    <Compile Include="Tucao\Video.cs" />
     <Compile Include="Tudou\Tudou.cs" />
     <Compile Include="Xiami\XiamiDownloader.cs" />
     <Compile Include="Xiami\XiamiPlugin.cs" />
