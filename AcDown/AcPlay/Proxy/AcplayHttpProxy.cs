@@ -1,6 +1,7 @@
 ﻿using Kaedei.AcPlay.Diagnostics;
 using Kaedei.AcPlay.Redirector;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -53,7 +54,7 @@ namespace Kaedei.AcPlay.Proxy
 				if (result.RequestHandled) return;
 
 				//get response
-				HttpWebRequest request =null;
+				HttpWebRequest request = null;
 				if (result.HandledRequest == null)
 				{
 					request = (HttpWebRequest)WebRequest.Create(context.Request.RawUrl);
@@ -61,8 +62,18 @@ namespace Kaedei.AcPlay.Proxy
 					{
 						try
 						{
-							if (key.Equals("Host", StringComparison.CurrentCultureIgnoreCase)) continue;
-							if (key.Equals("Content-Length", StringComparison.CurrentCultureIgnoreCase)) continue;
+							if (new List<string>
+								{
+									"host",
+									"content-length",
+									"expires",
+									"cache-control",
+									"last-modified",
+									"if-modified-since",
+									"etag",
+									"if-none-match"
+								}.Contains(key.ToLower()))
+								continue; //Disable cache
 							request.Headers.Add(key, context.Request.Headers[key]);
 						}
 						catch { }
