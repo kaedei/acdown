@@ -1,17 +1,4 @@
-﻿#region File Information
-// ********************
-// AvInfo.cs
-// Solution:	AcDown
-// Project:	AcDownDownloader
-// 
-// Created At: 2014-07-22 17:46
-// Created User: 徐青枫
-// 
-// 
-// 
-// ********************
-#endregion
-namespace Kaedei.AcDown.Downloader.Bilibili
+﻿namespace Kaedei.AcDown.Downloader.Bilibili
 {
 	public class AvInfo
 	{

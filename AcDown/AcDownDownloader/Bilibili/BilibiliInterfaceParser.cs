@@ -2,8 +2,10 @@
 using Kaedei.AcDown.Interface;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 namespace Kaedei.AcDown.Downloader.Bilibili
 {
@@ -35,33 +37,30 @@ namespace Kaedei.AcDown.Downloader.Bilibili
 			httpRequest.CookieContainer = request.CookieContainer;
 
 			string source = Network.GetHtmlSource(httpRequest, Encoding.UTF8);
+
+			Video videoInfo;
+			var serializer = new XmlSerializer(typeof(Video));
+			using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(source)))
+			{
+				videoInfo = (Video) serializer.Deserialize(ms);
+			}
+
 			//视频总长度
-			var totallength = Regex.Match(source, @"<timelength>(?<timelength>\d+)</timelength>").Groups["timelength"];
-			if (totallength != null) pr.SpecificResult.Add("totallength", totallength.Value);
-			//Framecount
-			var framecount = Regex.Match(source, @"<framecount>(?<framecount>\d+)</framecount>").Groups["framecount"];
-			if (framecount != null) pr.SpecificResult.Add("framecount", framecount.Value);
+			var totallength = videoInfo.Timelength;
+			if (totallength != null) pr.SpecificResult.Add("totallength", totallength);
 			//src
-			var src = Regex.Match(source, @"<src>(?<src>\d+)</src>").Groups["src"];
-			if (src != null) pr.SpecificResult.Add("src", src.Value);
-			//vstr
-			var vstr = Regex.Match(source, @"(?<=<vstr><!\[CDATA\[)\w+");
-			if (vstr.Success) pr.SpecificResult.Add("vstr", vstr.Value);
+			var src = videoInfo.Src;
+			if (src != null) pr.SpecificResult.Add("src", src);
 
 			//视频信息
-			Regex r = new Regex(@"<durl>.+?<order>(?<order>\d+)</order>.+?<length>(?<length>\d+)</length>.+?<url><!\[CDATA\[(?<url>.+?)\]\]></url>.+?</durl>", RegexOptions.Singleline);
-			MatchCollection matches = r.Matches(source);
-			if (matches.Count <= 0)
+			foreach (var durl in videoInfo.Durl)
 			{
-				throw new Exception("BiliBili Interface Parser Error: " + url);
-			}
-			foreach (Match item in matches)
-			{
-				var pri = new ParseResultItem();
-				string real = item.Groups["url"].Value;
-				pri.RealAddress = real;
-				pri.Information.Add("order", item.Groups["order"].Value);
-				pri.Information.Add("length", item.Groups["length"].Value);
+				var pri = new ParseResultItem()
+				{
+					RealAddress = durl.Url
+				};
+				pri.Information.Add("order", durl.Order);
+				pri.Information.Add("length", durl.Length);
 				pr.Items.Add(pri);
 			}
 			//返回结果

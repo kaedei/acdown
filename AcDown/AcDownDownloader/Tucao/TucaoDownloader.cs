@@ -6,7 +6,10 @@ using System.Text.RegularExpressions;
 using System.IO;
 using Kaedei.AcDown.Interface.Forms;
 using System.Net;
+using System.Security.Cryptography;
+using Kaedei.AcDown.Downloader.Tucao;
 using Kaedei.AcDown.Interface.Downloader;
+using Newtonsoft.Json;
 
 namespace Kaedei.AcDown.Downloader
 {
@@ -15,120 +18,55 @@ namespace Kaedei.AcDown.Downloader
 	/// </summary>
 	public class TucaoDownloader : CommonDownloader
 	{
+		private const string API_KEY = "25tids8f1ew1821ed";
 		//下载视频
 		public override bool Download()
 		{
 			//开始下载
-			delegates.TipText(new ParaTipText(this.Info, "正在分析视频地址"));
-
-			string url = Info.Url;
-			//视频地址数组
-			string[] videos = null;
-
-			//取得网页源文件
-			string src = Network.GetHtmlSource(url, Encoding.UTF8, Info.Proxy);
-
-			//视频id
-			string id = "";
-			//type值
-			string type = "";
-			//子标题
-			string subtitle = "";
-			//player id
-			string playerId = "";
-			//选择的视频（下拉列表）
-			int selectedvideo = 0;
-
+			TipText("正在分析视频地址");
+			
 			//清空地址
 			Info.FilePath.Clear();
 
-			//取得视频标题
-			Regex rTitle = new Regex(@"<title>(?<title>.*)</title>");
-			Match mTitle = rTitle.Match(src);
+			//从url中获得hid和partId
+			var urlMatch = Regex.Match(Info.Url, @"tucao\.cc/play/h(?<hid>\d+)(?:/#(?<partId>\d+))?", RegexOptions.IgnoreCase);
+			int hid = int.Parse(urlMatch.Groups["hid"].Value);
+			int partId = int.Parse(urlMatch.Groups["partId"].Success ? urlMatch.Groups["partId"].Value : "1");
 
-			//取得PlayerID值
-			Regex rPlayerid = new Regex(@"playerID=(?<playerid>[0-9-]+)");
-			Match mPlayerid = rPlayerid.Match(src);
-			playerId = mPlayerid.Groups["playerid"].Value;
+			//取得视频信息
+			var videoInfo = JsonConvert.DeserializeObject<TucaoVideoInfo>(
+				Network.GetHtmlSource(string.Format(@"http://www.tucao.cc/api_v2/view.php?hid={0}&apikey={1}", hid, API_KEY),
+					Encoding.UTF8));
 
-			////分析id和视频存放站点(type)
-			////取得"mplayer块的源代码
-			//Regex rEmbed = new Regex(@"<div id=""mplayer"">.+?</embed>", RegexOptions.Singleline);
-			//Match mEmbed = rEmbed.Match(src);
-			//string embedSrc = mEmbed.Value;
+			var currentPart = videoInfo.result.video[partId - 1];
+			string title = videoInfo.result.title;
+			string subtitle = currentPart.title;
+			if (title.Equals(subtitle))
+				subtitle = "";
 
-			////取得id值
-			//Regex rId = new Regex(@"\w+id=(?<id>\w+)");
-			//MatchCollection mIds = rId.Matches(embedSrc);
-
-			////取得type值
-			//Regex rType = new Regex(@"type=(?<type>\w+)");
-			//MatchCollection mTypes = rType.Matches(embedSrc);
-
-			//取得所有子标题
-			Regex rSubTitle = new Regex(@"type=(?<type>\w+)&vid=(?<vid>\d+)\|(?<subtitle>.*?)(\*\*|</li>)");
-			MatchCollection mSubTitles = rSubTitle.Matches(src);
-
-			if (mSubTitles.Count > 1) //如果数量大于一个
-			{
-				//定义字典
-				var dict = new Dictionary<string, string>();
-				for (int i = 0; i < mSubTitles.Count; i++)
-				{
-					dict.Add(i.ToString(), (i + 1).ToString() + "、" + mSubTitles[i].Groups["subtitle"].Value);
-				}
-				//用户选择下载哪一个视频
-				selectedvideo = int.Parse(ToolForm.CreateSingleSelectForm("请选择视频：", dict, "0", Info.AutoAnswer, "tucao"));
-				id = mSubTitles[selectedvideo].Groups["vid"].Value;
-				type = mSubTitles[selectedvideo].Groups["type"].Value;
-				subtitle = mSubTitles[selectedvideo].Groups["subtitle"].Value;
-			}
-			else
-			{
-				id = mSubTitles[0].Groups["vid"].Value;
-				type = mSubTitles[0].Groups["type"].Value;
-			}
-
-			//设置标题
-			string title = mTitle.Groups["title"].Value.Replace("- 吐槽 - tucao.cc", "");
 			if (!string.IsNullOrEmpty(subtitle)) //如果存在子标题（视频为合集）
 			{
 				//更改标题
 				title = title + " - " + subtitle;
 				//更改URL防止hash时出错
-				Info.Url = Info.Url + "#" + subtitle;
+				Info.Url = Info.Url + "#" + partId;
 
 			}
+
 			//过滤非法字符
 			Info.Title = title;
 			title = Tools.InvalidCharacterFilter(title, "");
 
+
+			//视频地址数组
+			string[] videos = null;
+
 			//如果允许下载视频
 			if ((Info.DownloadTypes & DownloadType.Video) != 0)
 			{
-				//检查外链
-				switch (type)
-				{
-					case "qq": //QQ视频
-						//解析视频
-						QQVideoParser parserQQ = new QQVideoParser();
-						videos = parserQQ.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
-						break;
-					case "youku": //优酷视频
-						//解析视频
-						YoukuParser parserYouKu = new YoukuParser();
-						videos = parserYouKu.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
-						break;
-					case "tudou": //土豆视频
-						//解析视频
-						TudouParser parserTudou = new TudouParser();
-						videos = parserTudou.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
-						break;
-					case "sina": //新浪视频
-						SinaVideoParser parserSina = new SinaVideoParser();
-						videos = parserSina.Parse(new ParseRequest() { Id = id, Proxy = Info.Proxy, AutoAnswers = Info.AutoAnswer }).ToArray();
-						break;
-				}
+				//获取视频地址
+				var video = new TucaoInterfaceParser().Parse(currentPart.type, currentPart.vid, Info.Proxy);
+				videos = video.ToArray();
 
 				//下载视频
 				//确定视频共有几个段落
@@ -210,7 +148,7 @@ namespace Kaedei.AcDown.Downloader
 				} //end for
 			}
 			//下载弹幕
-			if (((Info.DownloadTypes & DownloadType.Subtitle) != 0) && !string.IsNullOrEmpty(playerId))
+			if (((Info.DownloadTypes & DownloadType.Subtitle) != 0))
 			{
 				//----------下载字幕-----------
 				delegates.TipText(new ParaTipText(this.Info, "正在下载字幕文件"));
@@ -218,7 +156,9 @@ namespace Kaedei.AcDown.Downloader
 				string subfile = Path.Combine(Info.SaveDirectory.ToString(), title + ".xml");
 				Info.SubFilePath.Add(subfile);
 				//取得字幕文件(on)地址
-				string subUrl = "http://www.tucao.cc/index.php?m=comment&c=mukio&a=init&type=" + type + "&playerID=" + playerId + "~" + selectedvideo.ToString() + "&r=0.09502756828442216";
+				string subUrl =
+					string.Format("http://www.tucao.cc/index.php?m=mukio&c=index&a=init&playerID=11-{0}-1-{1}&r=0.5134681154294", hid,
+						partId);
 				//下载字幕文件
 				try
 				{
